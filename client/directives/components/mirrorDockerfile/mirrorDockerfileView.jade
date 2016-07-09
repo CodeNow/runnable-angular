@@ -1,5 +1,5 @@
 .spinner-wrapper.spinner-md.in(
-  ng-if = "$root.isLoading.mirrorDockerfile"
+  ng-if = "fromTool && $root.isLoading.mirrorDockerfile"
   ng-include = "'spinner'"
 )
 

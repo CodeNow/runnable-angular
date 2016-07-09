@@ -5,6 +5,7 @@ require('app')
 
 function MirrorDockerfileController(
   $rootScope,
+  $timeout,
   errs,
   fetchRepoDockerfiles,
   keypather,
@@ -41,6 +42,12 @@ function MirrorDockerfileController(
       newDockerfilePath = '/' + newDockerfilePath;
       MDC.newDockerfilePaths.push(newDockerfilePath);
       return MDC.fetchRepoDockerfiles()
+        .then(function (dockerfiles) {
+          return $timeout(angular.noop)
+            .then(function () {
+              return dockerfiles;
+            });
+        })
         .then(function (dockerfiles) {
           MDC.state.dockerfile = dockerfiles.find(function (dockerfile) {
             return dockerfile.path === newDockerfilePath;
