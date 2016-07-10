@@ -71,11 +71,18 @@
           xlink:href = "#icons-check"
         )
 
-small.grid-block.align-center.small.text-gray.padding-xxs(
-  ng-hide = "MDC.fromTool && $root.isLoading.mirrorDockerfile"
-  ng-class = "{'justify-center': MDC.fromTool}"
+small.grid-block.align-center.justify-center.small.text-gray.padding-xxs(
+  ng-click = "state.showAddDockerfile = true"
+  ng-hide = "MDC.fromTool && $root.isLoading.mirrorDockerfile || state.showAddDockerfile"
 ) Don’t see your Dockerfile?
+  //- ng-if = "!state.showAddDockerfile"
   button.btn.btn-xs.white.btn-add-dockerfile(
     ng-click = "MDC.addDockerfileModal()"
     type = "button"
   ) Add Dockerfile…
+
+form.well.gray.padding-sm.well-add-dockerfile(
+  name = "dockerfilePathForm"
+  ng-if = "state.showAddDockerfile"
+  ng-include = "'addDockerfileView'"
+)

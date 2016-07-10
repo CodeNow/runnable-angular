@@ -66,7 +66,7 @@ function MirrorDockerfileController(
     return ModalService.showModal({
       controller: 'AddDockerfileModalController',
       controllerAs: 'MC',
-      templateUrl: 'addDockerfileModalView',
+      templateUrl: 'addDockerfileModal',
       inputs: {
         branchName: branch,
         fullRepo: fullname

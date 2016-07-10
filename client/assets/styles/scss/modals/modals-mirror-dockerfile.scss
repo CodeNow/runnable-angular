@@ -84,4 +84,32 @@
   .btn-add-dockerfile {
     margin-left: 9px;
   }
+
+  // add custom dockerfile
+  .well-add-dockerfile {
+    background: $gray-lightest;
+    border-radius: $input-border-radius-lg;
+    position: relative;
+
+    .icons-close {
+      color: $gray-light;
+      cursor: pointer;
+      pointer-events: auto;
+      position: absolute;
+      right: 15px;
+      top: 15px;
+
+      &:hover {
+        color: $red;
+      }
+
+      &:active {
+        color: $red-dark;
+      }
+    }
+
+    .white {
+      margin-left: 6px;
+    }
+  }
 }

@@ -191,7 +191,7 @@ describe('MirrorDockerfileController'.bold.underline.blue, function () {
       sinon.assert.calledWith(showModalStub, {
         controller: 'AddDockerfileModalController',
         controllerAs: 'MC',
-        templateUrl: 'addDockerfileModalView',
+        templateUrl: 'addDockerfileModal',
         inputs: {
           branchName: branch.attrs.name,
           fullRepo: repo.attrs.full_name
