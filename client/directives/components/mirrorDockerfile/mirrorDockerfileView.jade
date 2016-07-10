@@ -9,7 +9,7 @@
 )
   p.p.text-center We couldn’t find a Dockerfile in this repository.
 
-.grid-content.list.list-bordered(
+.grid-content.shrink.list.list-bordered(
   ng-if = "!MDC.fromTool && !$root.isLoading.mirrorDockerfile"
 )
   //- add .disabled class to the not selected item if loading
@@ -36,7 +36,7 @@
           xlink:href = "#icons-check"
         )
 
-.grid-content.list.list-bordered(
+.grid-content.shrink.list.list-bordered(
   ng-if = "!$root.isLoading.mirrorDockerfile && MDC.state.repo.dockerfiles.length > 0"
 )
   //- 'thisDockerfile' should be the name of the Dockerfile (ie. 'Dockerfile.prod', or 'Dockerfile.staging') to suppot multiple dockerfiles

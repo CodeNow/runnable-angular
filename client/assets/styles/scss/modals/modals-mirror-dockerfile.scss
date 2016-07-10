@@ -122,7 +122,14 @@
     }
 
     .white {
+      flex: 0 0 auto; // safari cuts off button without this
       margin-left: 6px;
     }
   }
+}
+
+// the edit version
+.popover-fixed .well.well-add-dockerfile {
+  background: $gray-lighterest;
+  margin-top: 0;
 }
