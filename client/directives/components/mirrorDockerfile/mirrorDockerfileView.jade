@@ -1,16 +1,16 @@
 .spinner-wrapper.spinner-md.in(
-  ng-if = "fromTool && $root.isLoading.mirrorDockerfile"
+  ng-if = "MDC.fromTool && $root.isLoading.mirrorDockerfile"
   ng-include = "'spinner'"
 )
 
 //- empty state
 .grid-content.well.empty.gray(
-  ng-if = "fromTool && !$root.isLoading.mirrorDockerfile && MDC.state.repo.dockerfiles.length === 0"
+  ng-if = "MDC.fromTool && !$root.isLoading.mirrorDockerfile && MDC.state.repo.dockerfiles.length === 0"
 )
   p.p.text-center We couldn’t find a Dockerfile in this repository.
 
 .grid-content.list.list-bordered(
-  ng-if = "!fromTool && !$root.isLoading.mirrorDockerfile"
+  ng-if = "!MDC.fromTool && !$root.isLoading.mirrorDockerfile"
 )
   //- add .disabled class to the not selected item if loading
   label.grid-block.list-item(
@@ -72,8 +72,7 @@
         )
 
 small.grid-block.align-center.small.text-gray.padding-xxs(
-  ng-if = "!fromTool"
-  ng-class = "{'justify-center': fromTool && !$root.isLoading.mirrorDockerfile}"
+  ng-class = "{'justify-center': MDC.fromTool && !$root.isLoading.mirrorDockerfile}"
 ) Don’t see your Dockerfile?
   button.btn.btn-xs.white.btn-add-dockerfile(
     ng-click = "MDC.addDockerfileModal()"
