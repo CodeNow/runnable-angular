@@ -1,5 +1,5 @@
 svg.iconnables.icons-close(
-  ng-click = "MC.cancel()"
+  ng-click = "viewState.showAddDockerfile = false"
 )
   use(
     xlink:href = "#icons-close"
@@ -9,21 +9,24 @@ label.clearfix(
   for = "add-dockerfile-input"
 )
   .label-col Dockerfile Path
-.label-row
+form.label-row(
+  name = "dockerfilePathForm"
+)
   input.input.input-sm.input-validate(
     autocomplete = "off"
-    branch-name = "MC.branchName"
+    branch-name = "branchName"
     dockerfile-exists-validator
-    full-repo = "MC.fullRepo"
+    full-repo = "fullRepo"
     id = "add-dockerfile-input"
-    ng-model = "MC.savedValue"
-    ng-model-options = "{ debounce: { 'default': 500, 'blur': 0 } }"
-    spellcheck = "false"
+    ng-model = "newDockerfile"
+    ng-model-options = "{ debounce: { 'default': 100, 'blur': 0 } }"
+    value = ""
     required
+    spellcheck = "false"
   )
   button.btn.btn-sm.white.float-right(
-    ng-disabled = "!MC.savedValue && (dockerfilePathForm.$pending || dockerfilePathForm.$invalid)"
-    ng-click = "MC.confirm(MC.savedValue)"
+    ng-disabled = "!newDockerfile && (dockerfilePathForm.$pending || dockerfilePathForm.$invalid)"
+    ng-click = "addDockerfileFomPath(newDockerfile)"
   )
     .spinner-wrapper.spinner-sm.spinner-gray.in(
       ng-if = "dockerfilePathForm.$pending"
