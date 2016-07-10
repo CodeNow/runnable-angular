@@ -72,7 +72,8 @@
         )
 
 small.grid-block.align-center.small.text-gray.padding-xxs(
-  ng-class = "{'justify-center': MDC.fromTool && !$root.isLoading.mirrorDockerfile}"
+  ng-hide = "MDC.fromTool && $root.isLoading.mirrorDockerfile"
+  ng-class = "{'justify-center': MDC.fromTool}"
 ) Don’t see your Dockerfile?
   button.btn.btn-xs.white.btn-add-dockerfile(
     ng-click = "MDC.addDockerfileModal()"
