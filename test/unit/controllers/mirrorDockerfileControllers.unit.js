@@ -41,10 +41,7 @@ describe('MirrorDockerfileController'.bold.underline.blue, function () {
           showModal: showModalStub
         };
       });
-
-      closeSpy = sinon.stub();
-      $provide.value('close', closeSpy);
-   });
+    });
 
     angular.mock.inject(function (
       _$controller_,

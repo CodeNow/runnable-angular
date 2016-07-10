@@ -7,10 +7,9 @@ require('app')
  * This controller is for a modal that displays the MirroringDockerfile component.  This modal just
  * wraps that component, and returns the selected dockerfile in the close
  *
- * @param close
- * @param repo
- * @param branchName
- * @constructor
+ * @param {Function}   close      - close fn for the modal
+ * @param {Repository} repo       - api-client model which will hold the dockerfiles
+ * @param {String}     branchName - name of the branch that will be used
  */
 function ChooseDockerfileModalController(
   close,

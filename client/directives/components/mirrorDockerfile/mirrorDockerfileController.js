@@ -47,6 +47,8 @@ function MirrorDockerfileController(
       }
       return MDC.fetchRepoDockerfiles()
         .then(function (dockerfiles) {
+          // I'm sorry this is here, because it's terrible.  This is so the panel length will update
+          // and fix it's height.  I'm pretty sure it's some issue with animated-panel
           return $timeout(angular.noop)
             .then(function () {
               return dockerfiles;
