@@ -1,0 +1,55 @@
+.modal-backdrop
+  .modal-dialog.modal-sm.modal-add-dockerfile
+    header.modal-header
+      h1.modal-heading Add Dockerfile
+      svg.iconnables.icons-close
+        use(
+          xlink:href = "#icons-close"
+        )
+    section.modal-body
+      svg.iconnables.icons-close(
+        ng-click = "MC.cancel()"
+      )
+        use(
+          xlink:href = "#icons-close"
+        )
+      form.modal-form(
+        name = "dockerfilePathForm"
+      )
+        label.label.clearfix
+          .label-col Dockerfile Path
+          .input-col.input-prefix.input-prefix-monospace
+            //- disable while loading
+            .input-spinner
+              input.input.input-sm.input-validate(
+                autocomplete = "off"
+                branch-name = "MC.branchName"
+                dockerfile-exists-validator
+                full-repo = "MC.fullRepo"
+                ng-model = "MC.savedValue"
+                ng-model-options = "{ debounce: { 'default': 500, 'blur': 0 } }"
+                spellcheck = "false"
+                required
+              )
+              .spinner-wrapper.spinner-sm.spinner-gray.in(
+                ng-if = "dockerfilePathForm.$pending"
+                ng-include = "'spinner'"
+              )
+            .invalid-message.text-center.padding-xs(
+              ng-if = "dockerfilePathForm.$invalid && !dockerfilePathForm.$pristine"
+            ) We couldn’t find a Dockerfile at that path.
+            small.small.text-gray Specify the relative path to your Dockerfile in your repository (e.g. if your Dockerfile is in a root folder named “config”, your path would be “config/Dockerfile”).
+
+    footer.modal-footer.clearfix
+      button.btn.btn-md.gray.btn-cancel.float-left(
+        ng-click = "MC.cancel()"
+      ) Cancel
+      //- add spinner and disable when loading
+      button.btn.btn-md.green.float-right(
+        ng-disabled = "!MC.savedValue && (dockerfilePathForm.$pending || dockerfilePathForm.$invalid)"
+        ng-click = "MC.confirm(MC.savedValue)"
+      )
+        //- .spinner-wrapper.spinner-sm.spinner-white.in(
+        //-   ng-include = "'spinner'"
+        //- )
+        span Add Dockerfile

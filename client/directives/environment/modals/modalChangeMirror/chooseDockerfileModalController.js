@@ -3,12 +3,15 @@
 require('app')
   .controller('ChooseDockerfileModalController', ChooseDockerfileModalController);
 
+/**
+ * This controller is for a modal that displays the MirroringDockerfile component.  This modal just
+ * wraps that component, and returns the selected dockerfile in the close
+ *
+ * @param {Function}   close      - close fn for the modal
+ * @param {Repository} repo       - api-client model which will hold the dockerfiles
+ * @param {String}     branchName - name of the branch that will be used
+ */
 function ChooseDockerfileModalController(
-  $rootScope,
-  errs,
-  fetchRepoDockerfiles,
-  keypather,
-  loading,
   close,
   repo,
   branchName
@@ -21,23 +24,9 @@ function ChooseDockerfileModalController(
     name: 'ChooseDockerfileModal',
     state: {
       repo: repo
-    }
+    },
+    branchName: branchName
   });
-  loading.reset(CDMC.name);
-
-  loading(CDMC.name, true);
-  var oauthName = keypather.get($rootScope, 'dataApp.data.activeAccount.oauthName()');
-  var name = keypather.get(repo, 'attrs.name');
-  var fullname = keypather.get(repo, 'attrs.full_name') || (oauthName + '/' + name);
-  var defaultBranch = keypather.get(repo, 'attrs.default_branch');
-  fetchRepoDockerfiles(fullname, branchName || defaultBranch)
-    .then(function (dockerfiles) {
-      CDMC.state.repo.dockerfiles = dockerfiles;
-    })
-    .catch(errs.handler)
-    .finally(function () {
-      loading(CDMC.name, false);
-    });
 
   CDMC.cancel = close.bind(null, false);
 

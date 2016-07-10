@@ -153,6 +153,9 @@ function NewContainerModalController(
   };
 
   NCMC.setRepo = function (repo, goToPanelCb, createContainerDirectly) {
+    if (repo.attrs.full_name === keypather.get(NCMC, 'state.repo.attrs.full_name')) {
+      return goToPanelCb('dockerfileMirroring');
+    }
     repo.loading = true;
     NCMC.state.repo = repo;
     loading(NCMC.name + 'SingleRepo', true);
@@ -172,9 +175,6 @@ function NewContainerModalController(
         }
         loading(NCMC.name + 'SingleRepo', false);
         repo.loading = false;
-        if (dockerfiles.length === 0) {
-          return goToPanelCb('nameContainer');
-        }
         repo.dockerfiles = dockerfiles;
         NCMC.state.dockerfile = null;
         return goToPanelCb('dockerfileMirroring');
@@ -192,7 +192,7 @@ function NewContainerModalController(
           NCMC.newRepositoryContainer(repoBuildAndBranch);
         }
       })
-     .finally(function () {
+      .finally(function () {
         loading(NCMC.name + 'SingleRepo', false);
       });
   };
