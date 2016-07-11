@@ -71,7 +71,7 @@ function fetchDockerfileForContextVersion (
     if (buildDockerfilePath && repoFullName) {
       var branchName = keypather.get(acv, 'attrs.branch');
       // Get everything before the last '/' and add a '/' at the end
-      var result = /^([^\/]*)\/([^\/]*)$/.exec(buildDockerfilePath);
+      var result = /^(\/?[^\/]*)\/([^\/]*)$/.exec(buildDockerfilePath);
       if (result.length < 3) {
         throw new Error('BuilddockerfilePath is invalid');
       }
