@@ -1,0 +1,23 @@
+.grid-content.img.icons-calendar
+  svg(viewBox='0 0 38.5 36.75')
+    path(opacity='0.12', fill='#231F20', d='M36.5,36.75h-33c-1.105,0-2-0.895-2-2v-29c0-1.105,0.895-2,2-2h33c1.105,0,2,0.895,2,2v29C38.5,35.855,37.605,36.75,36.5,36.75z')
+    path(fill='#FFFFFF', stroke='#52306C', stroke-miterlimit='10', d='M35.5,35.75h-33c-1.105,0-2-0.895-2-2v-29c0-1.105,0.895-2,2-2h33c1.105,0,2,0.895,2,2v29C37.5,34.855,36.605,35.75,35.5,35.75z')
+    rect(x='0.5', y='4.125', opacity='0.12', fill='#231F20', width='37', height='11')
+    path(fill='#F25058', stroke='#52306C', stroke-miterlimit='10', d='M35.5,2.75h-33c-1.105,0-2,0.895-2,2v9h37v-9C37.5,3.645,36.605,2.75,35.5,2.75z')
+    path(opacity='0.12', fill='#231F20', d='M14.75,7.25v-5c0-0.828-0.672-1.5-1.5-1.5c-0.828,0-1.5,0.672-1.5,1.5v5c0,0.828,0.672,1.5,1.5,1.5C14.078,8.75,14.75,8.078,14.75,7.25z')
+    path(opacity='0.12', fill='#231F20', d='M28.25,7.25v-5c0-0.828-0.672-1.5-1.5-1.5c-0.828,0-1.5,0.672-1.5,1.5v5c0,0.828,0.672,1.5,1.5,1.5C27.578,8.75,28.25,8.078,28.25,7.25z')
+    circle(fill='#52306C', cx='12.25', cy='7.51', r='2.5')
+    circle(fill='#52306C', cx='25.75', cy='7.51', r='2.5')
+    path(fill='#D5D5D5', stroke='#52306C', stroke-width='0.5', stroke-linecap='round', stroke-miterlimit='10', d='M13.75,6.75v-5c0-0.828-0.672-1.5-1.5-1.5c-0.828,0-1.5,0.672-1.5,1.5v5c0,0.828,0.672,1.5,1.5,1.5C13.078,8.25,13.75,7.578,13.75,6.75z')
+    path(fill='#D5D5D5', stroke='#52306C', stroke-width='0.5', stroke-linecap='round', stroke-miterlimit='10', d='M27.25,6.75v-5c0-0.828-0.672-1.5-1.5-1.5c-0.828,0-1.5,0.672-1.5,1.5v5c0,0.828,0.672,1.5,1.5,1.5C26.578,8.25,27.25,7.578,27.25,6.75z')
+  h2.h2.text-center 12
+h3.grid-content.h3.text-center You’re on our trial plan!
+p.grid-content.p.text-center You have&#32;
+  strong.strong 12 days
+  | &#32;left in your trial. Your plan is limited to 2 repositories, but you can upgrade to add unlimited repositories.
+button.grid-content.btn.btn-md.green(
+  ng-click = "\
+    $root.featureFlags.trialFooter = true;\
+    goToPanel('changePlanForm');\
+  "
+) Upgrade Plan

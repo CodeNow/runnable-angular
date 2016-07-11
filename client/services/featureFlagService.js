@@ -13,6 +13,7 @@ function featureFlags(
     autoWhitelist: false,
     backup: false,
     billing: false,
+    billingDiscounted: false,
     cardStatus: false,
     connections: false,
     dockerfileMirroringMultiple: false,
@@ -44,6 +45,7 @@ function featureFlags(
     testingFeature: false,
     themeToggle: false, // toggles the button that toggles theme
     trial: false,
+    trialFooter: false,
     updatedSlackValidation: true,
     webhooks: false,
     welcomeBack: false,

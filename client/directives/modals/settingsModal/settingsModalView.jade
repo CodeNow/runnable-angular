@@ -1,9 +1,17 @@
 .modal-backdrop.in
-  .modal-dialog.modal-md.modal-settings
+  .modal-dialog.modal-md.modal-settings(
+    ng-init = "$root.featureFlags.trialFooter = false"
+  )
     header.grid-block.vertical.align-center.modal-header
       .container-title-wrapper
         .server-status-card-pop-over.no-touching
           .container-title CodeNow Settings
+      svg.iconnables.icons-close(
+        ng-click = "SEMC.close()"
+      )
+        use(
+          xlink:href = "#icons-close"
+        )
 
       .row.modal-tabs.tabs-all.grid-block.clearfix
         button.btn.btn-radio.grid-block.vertical(
@@ -59,7 +67,9 @@
         ng-if = "SEMC.currentTab === 'slackIntegration'"
       )
 
-    footer.modal-footer.clearfix
+    footer.modal-footer.clearfix.js-animate(
+      ng-if = "!$root.featureFlags.trialFooter"
+    )
       button.btn.btn-md.white.float-right(
         ng-click = "SEMC.close()"
         type = "button"

@@ -14,8 +14,8 @@
   z-index: $z-modal;
 
   @include media(lg) {
-    padding-bottom: 60px;
-    padding-top: 60px;
+    padding-bottom: 30px;
+    padding-top: 30px;
   }
 
   @media (max-height: $screen-xs), (max-width: $screen-sm) {
@@ -388,7 +388,7 @@
       margin-top: 15px;
     }
 
-    + .well {
+    + .well:last-child {
       margin-top: 0;
     }
   }
@@ -410,6 +410,39 @@
   flex: 0 0 auto;
   padding: 12px 15px;
   z-index: 1; // footer overlaps body
+
+  &.js-animate {
+    overflow: hidden;
+    transition: .3s;
+  }
+
+  &.ng-enter {
+    border-width: 0;
+    max-height: 0;
+    opacity: 0;
+    padding: 0 15px;
+  }
+
+  &.ng-enter-active {
+    border-width: 1px;
+    max-height: 67px;
+    opacity: 1;
+    padding: 12px 15px;
+  }
+
+  &.ng-leave {
+    border-width: 1px;
+    max-height: 67px;
+    opacity: 1;
+    padding: 12px 15px;
+  }
+
+  &.ng-leave-active {
+    border-width: 0;
+    max-height: 0;
+    opacity: 0;
+    padding: 0 15px;
+  }
 
   .btn-group,
   .btn {

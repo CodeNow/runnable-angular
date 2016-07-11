@@ -71,6 +71,10 @@ h4 {
   font-style: normal; // remove italics if em
 }
 
+.strike {
+  text-decoration: line-through;
+}
+
 .hr {
   background: rgba($black,.1);
   border: 0;
@@ -174,6 +178,10 @@ a {
 
 .text-purple {
   color: $purple;
+}
+
+.text-red {
+  color: $red;
 }
 
 // block quote
