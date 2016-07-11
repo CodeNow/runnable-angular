@@ -83,7 +83,10 @@ form.padding-md
 
 footer.modal-footer.clearfix
   button.btn.btn-md.gray.btn-cancel.float-left(
-    ng-click = "goToPanel('billingForm', 'back')"
+    ng-click = "\
+      $root.featureFlags.trialFooter = false;\
+      goToPanel('billingForm', 'back');\
+    "
     ng-if = "!$root.featureFlags.trial"
     type = "button"
   ) Cancel
