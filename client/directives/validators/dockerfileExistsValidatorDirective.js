@@ -24,7 +24,12 @@ function dockerfileExistsValidator(
           return $q.reject(new Error('dockerfileExistsValidator is missing scope values'));
         }
         return fetchRepoDockerfile($scope.fullRepo, $scope.branchName, modelValue)
-          .then(doesDockerfileExist);
+          .then(doesDockerfileExist)
+          .then(function (dockerfile) {
+            if (!dockerfile) {
+              return $q.reject('file doesn\'t exist');
+            }
+          });
       };
     }
   };

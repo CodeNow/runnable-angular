@@ -63,7 +63,7 @@ describe('MirrorDockerfileController'.bold.underline.blue, function () {
 
     laterController.instance.repo = opts.repo;
     laterController.instance.branchName =  opts.branch;
-    laterController.instance.state =  opts.branch;
+    laterController.instance.state =  opts.state || {};
 
     MDC = laterController();
     return done();
@@ -176,33 +176,6 @@ describe('MirrorDockerfileController'.bold.underline.blue, function () {
         expect(MDC.newDockerfilePaths).to.deep.equal([dockerfile.path]);
         expect(MDC.repo.dockerfiles).to.deep.equal([dockerfile]);
       });
-    });
-  });
-  describe('addDockerfileModal', function () {
-    beforeEach(initState.bind(null, {}));
-    beforeEach(function () {
-      sinon.stub(MDC, 'addDockerfileFromPath').returns();
-    });
-    it('should create a modal', function () {
-      MDC.addDockerfileModal();
-      $scope.$digest();
-
-      sinon.assert.calledOnce(showModalStub);
-      sinon.assert.calledWith(showModalStub, {
-        controller: 'AddDockerfileModalController',
-        controllerAs: 'MC',
-        templateUrl: 'addDockerfileModalView',
-        inputs: {
-          branchName: branch.attrs.name,
-          fullRepo: repo.attrs.full_name
-        }
-      });
-    });
-    it('should call addDockerfileFromPath after the modal closes', function () {
-      MDC.addDockerfileModal();
-      $scope.$digest();
-
-      sinon.assert.calledOnce(MDC.addDockerfileFromPath);
     });
   });
   describe('addDockerfileFromPath', function () {
