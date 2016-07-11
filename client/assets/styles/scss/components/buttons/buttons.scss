@@ -270,7 +270,7 @@
     &:active,
     &.active,
     &.active:hover {
-      background: $white;
+      background: lighten($purple-lightest,6%);
       border-color: $purple-light;
       color: $purple-light;
     }
@@ -421,6 +421,7 @@
       &:active,
       &.active,
       &.active:hover {
+        background: lighten($purple-lightest,6%);
         border-color: $purple-light;
         color: $purple-light;
 
