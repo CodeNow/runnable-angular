@@ -11,6 +11,7 @@
           ng-class = "{\
             'active': SEMC.currentTab === 'billing',\
             'badge': $root.featureFlags.billing || $root.featureFlags.trial,\
+            'badge-orange': $root.featureFlags.billing && $root.featureFlags.trial,\
             'badge-red': $root.featureFlags.billing && !$root.featureFlags.trial\
           }"
           ng-click = "SEMC.currentTab = 'billing'"

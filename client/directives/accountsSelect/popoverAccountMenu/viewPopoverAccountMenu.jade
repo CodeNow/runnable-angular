@@ -40,10 +40,10 @@
               | Billing
 
               //- add .red class once trial is down to 5 days (show as badge on gravatar)
-              btn.btn-xxs.btn-badge.anchor-right(
+              btn.btn-xxs.btn-badge.anchor-right.orange(
                 ng-if = "$root.featureFlags.trial"
                 title = "12 days left in your trial"
-              ) 12 Days
+              ) 12 Days Left
             li.list-item.popover-list-item(
               ng-click = "actions.openSettingsModal('teamManagement')"
             )
