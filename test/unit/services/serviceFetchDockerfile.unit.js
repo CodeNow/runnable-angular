@@ -168,12 +168,12 @@ describe('serviceFetchDockerfile'.bold.underline.blue, function () {
     });
     it('should return false when not found', function () {
       var res = doesDockerfileExist({ message: 'not found' });
-      expect(res).to.equal(null);
+      expect(res).to.equal(undefined);
       $rootScope.$digest();
     });
     it('should return false when given null', function () {
       var res = doesDockerfileExist();
-      expect(res).to.equal(null);
+      expect(res).to.equal(undefined);
       $rootScope.$digest();
     });
     it('should return false when given null', function () {

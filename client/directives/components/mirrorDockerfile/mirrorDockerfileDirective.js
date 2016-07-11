@@ -23,6 +23,9 @@ function mirrorDockerfileDirective(
     link: function ($scope) {
       loading.reset('mirrorDockerfile');
       $scope.dockerfile = {};
+      $scope.viewState = {
+        showAddDockerfile: false
+      };
       $scope.$watch('MDC.repo.attrs.name', function () {
         $scope.MDC.resetDockerfilePaths();
         loading('mirrorDockerfile', true);

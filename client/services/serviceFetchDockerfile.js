@@ -47,7 +47,7 @@ function fetchRepoDockerfiles(
 function doesDockerfileExist() {
   return function (file) {
     if (!file || (file.message && file.message.match(/not.found/i))) {
-      return null;
+      return undefined;
     }
     // GH doesnt return the '/' when returning a path
     file.path = '/' + file.path;
