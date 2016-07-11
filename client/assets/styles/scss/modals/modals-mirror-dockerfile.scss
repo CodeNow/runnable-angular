@@ -23,7 +23,8 @@
   }
 
   //- empty state
-  .empty {
+  .gray.empty {
+    background: $gray-lighterest;
     border-radius: $input-border-radius-lg;
     display: flex;
     justify-content: center;
@@ -131,5 +132,4 @@
 // the edit version
 .popover-fixed .well.well-add-dockerfile {
   background: $gray-lighterest;
-  margin-top: 0;
 }

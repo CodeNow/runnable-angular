@@ -11,9 +11,12 @@
   }
 
   &.gray {
-    background: $gray-lighterest;
     border-color: $gray-lighter;
     font-weight: $weight-normal; // override .gray
+
+    .modal-body & {
+      background: $gray-lightest;
+    }
   }
 
   // code sample
