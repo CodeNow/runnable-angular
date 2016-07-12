@@ -1,8 +1,12 @@
 .form-plan {
 
-  @include media(xxs) {
-    > .padding-md {
+  > .padding-md {
+    @include media(xxs) {
       padding: 15px;
+    }
+
+    @include media(xxxs) {
+      padding: 0;
     }
   }
 
@@ -14,6 +18,14 @@
 
       &.padding-sm {
         padding: 9px;
+      }
+    }
+
+    @include media(xxxs) {
+      font-size: 14px;
+
+      &.padding-sm {
+        padding: 6px;
       }
     }
 
@@ -47,6 +59,11 @@
       position: relative;
       width: 80px;
 
+      @include media(xxxs) {
+        height: 70px;
+        width: 75px;
+      }
+
       &.current::after {
         bottom: 0;
         color: $gray;
@@ -60,6 +77,11 @@
         right: 0;
         text-align: center;
         width: 78px;
+
+        @include media(xxxs) {
+          font-size: 10px;
+          width: 73px;
+        }
       }
     }
 
@@ -71,6 +93,11 @@
     .btn-add {
       border-radius: 50%;
       top: 0;
+
+      @include media(xxxs) {
+        height: 21px;
+        width: 21px;
+      }
     }
   }
 

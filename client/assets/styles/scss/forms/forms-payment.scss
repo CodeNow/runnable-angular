@@ -1,8 +1,12 @@
 .form-payment {
 
-  @include media(xxs) {
-    > .padding-md {
+  > .padding-md {
+    @include media(xxs) {
       padding: 15px;
+    }
+
+    @include media(xxxs) {
+      padding: 0;
     }
   }
 

@@ -32,6 +32,10 @@
     @include media(xxs) {
       margin-right: 9px;
     }
+
+    @include media(xxxs) {
+      margin-right: 6px;
+    }
   }
 
   .well-summary {
@@ -54,6 +58,10 @@
 
       @include media(xxs) {
         margin-right: 9px;
+      }
+
+      @include media(xxxs) {
+        margin-right: 6px;
       }
     }
 
