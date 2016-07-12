@@ -13,7 +13,7 @@
     - orange when build is updating or has failed
     - green if build is successfully built
     * Orange is currently not used; will be re-enabled when API opens up that event
-  .notification.notification-lg.top-right.js-animate(
+  .grid-block.notification.top-right.padding-sm.js-animate(
     ng-class = "{\
       'green': dataInstance.data.showUpdatedMessage,\
       'orange': dataInstance.data.showUpdatingMessage || dataInstance.data.instance.isMigrating()\

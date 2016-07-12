@@ -17,6 +17,7 @@ function featureFlags(
     cardStatus: false,
     connections: false,
     dockerfileMirroringMultiple: false,
+    dismissNotifications: false, // dismissing create/delete notifications
     editAnyInstance: false,
     emptyFolder: false, // shows empty folder markup
     fullScreen: false,  // toggles full screen
@@ -47,6 +48,7 @@ function featureFlags(
     trial: false,
     trialFooter: false,
     updatedSlackValidation: true,
+    undoDelete: false, // undo delete configuration
     webhooks: false,
     welcomeBack: false,
     whitelist: true,

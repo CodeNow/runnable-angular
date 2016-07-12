@@ -1,6 +1,14 @@
 .notification {
+  border-radius: $input-border-radius-lg;
+  border-width: 1px;
+  box-shadow: 0 1px 3px rgba($black,.15);
+  font-weight: $weight-normal;
   position: fixed;
   z-index: $z-alert;
+
+  &:active {
+    box-shadow: 0 1px 3px rgba($black,.15);
+  }
 
   // default animations
   &.ng-enter {
@@ -13,31 +21,29 @@
 
   // sizes
   &.notification-sm {
-    border-radius: $input-border-radius;
-    height: $input-sm;
-    line-height: $input-sm;
-    padding: 0 15px;
-  }
-
-  &.notification-md {
-    border-radius: $input-border-radius;
     height: $input-md;
-    line-height: $input-md;
+    line-height: $input-md - 2px;
     padding: 0 15px;
-  }
 
-  &.notification-lg {
-    border-radius: $input-border-radius-lg;
-    border-width: 1px;
-    max-width: 420px;
-    min-width: 345px;
-    padding: 15px 45px 15px 54px;
+    // close
+    .icons-close {
+      border: 1px solid transparent;
+      border-radius: $input-border-radius;
+      height: 15px;
+      width: 15px;
+
+      &:hover,
+      &:active {
+        background: $red;
+        color: $white;
+      }
+    }
   }
 
   // position
   &.top-left {
-    left: 6px;
-    top: 18px;
+    left: 15px;
+    top: 15px;
 
     // override default
     &.ng-enter {
@@ -46,8 +52,8 @@
   }
 
   &.top-right {
-    right: 16px;
-    top: 18px;
+    right: 15px;
+    top: 15px;
 
     // override default
     &.ng-enter {
@@ -56,8 +62,8 @@
   }
 
   &.bottom-right {
-    bottom: 6px;
-    right: 16px;
+    bottom: 15px;
+    right: 15px;
 
     // override default
     &.ng-enter {
@@ -66,8 +72,8 @@
   }
 
   &.bottom-left {
-    bottom: 6px;
-    left: 6px;
+    bottom: 15px;
+    left: 15px;
 
     // override default
     &.ng-enter {
@@ -75,133 +81,69 @@
     }
   }
 
-  // colors
-  &.green,
-  &.orange {
-    box-shadow: 0 2px 6px rgba($black,.2);
+  // green
+  &.green .icons-check {
+    background: $green-darker;
+    border-radius: 50%;
   }
 
-  &.green {
-    background: #64cc7a;
+  // red
+  &.red {
+    background: $red;
+    color: $white;
 
-    .btn-close:hover {
-      background: $green-dark;
-    }
-
-    .btn-close:active {
-      background: $green-darker;
-    }
-  }
-
-  &.orange {
-    background: $orange-light;
-
-    .anchor-left {
-      color: $orange;
-    }
-
-    .btn-close:hover {
-      background: $orange;
-    }
-
-    .btn-close:active {
-      background: $orange-dark;
+    .icons-trash {
+      background: $red-darker;
+      border-radius: 50%;
+      padding: 1px;
     }
   }
 
   // anchor for gravatar/icons
   .anchor-left {
-    left: 15px;
-    position: absolute;
-    top: 15px;
+    margin-right: 15px;
+
+    .gravatar {
+      border-radius: $input-border-radius;
+    }
+  }
+
+  // undo
+  .link-undo {
+    margin: 0 9px;
+  }
+
+  // close
+  .icons-close {
+    cursor: pointer;
+    margin-left: 15px;
+    pointer-events: auto;
+
+    &:hover {
+      color: $red;
+    }
+
+    &:active {
+      color: $red-dark;
+    }
+  }
+
+  // text area
+  > .grid-block.vertical {
+    max-width: 360px;
+    min-width: 300px;
   }
 
   // title
   .h4 {
-    font-size: 17px;
-    line-height: 1.4;
-    margin-bottom: 3px;
-  }
+    line-height: 24px; // icon height
 
-  // small
-  .small {
-    font-size: 15px;
-    line-height: 1.2;
-
-    &.link {
-      display: block;
-      margin-top: 9px;
+    + .small {
+      margin-top: 3px;
     }
   }
 
-  .icons-link-external {
-    height: 13px;
-    top: 3px;
-  }
-
-  // link
-  .link {
-    color: $white;
-    display: inline-block;
-
-    &.icons-intercom {
-      display: inline-block; // override .small.link
-      margin-left: 18px;
-
-      &::after {
-        left: -24px;
-        position: absolute;
-        top: 3px;
-      }
-    }
-  }
-
-  // close button
-  .btn-close {
-    height: 21px;
-    position: absolute;
-    right: 15px;
-    top: 15px;
-    width: 21px;
-  }
-
-  .icons-close {
-    left: 0;
-    position: absolute;
-    top: 0;
-  }
-
-  // success animation
-  .btn-state {
-    background: $white;
-    border-radius: 50%;
-    height: 15px;
-    left: -6px;
-    line-height: 1;
-    position: absolute;
-    top: 16px;
-    width: 15px;
-
-    .iconnables {
-      animation: scale-in-bounce .3s ease-in;
-      height: 15px;
-      width: 15px;
-    }
-
-    .icons-check {
-      color: $green;
-    }
-  }
-
-  // nag
-  .p {
-    border-top: 2px solid rgba($white,.3);
-    font-size: 15px;
-    margin-top: 12px;
-    padding-top: 6px;
-
-    .btn {
-      margin-left: 3px;
-    }
+  .small + .small {
+    margin-top: 3px;
   }
 }
