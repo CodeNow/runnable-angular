@@ -26,7 +26,7 @@
             //- $root.featureFlags.billing
             li.list-item.popover-list-item(
               data-badge-count = "!"
-              internal-modal-helper = "settingsModalView"
+              ng-click = "actions.openSettingsModal('billing')"
               ng-class = "{\
                 'badge': !$root.featureFlags.trial,\
                 'badge-red': !$root.featureFlags.trial\
