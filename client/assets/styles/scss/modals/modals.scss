@@ -147,29 +147,18 @@
   position: absolute;
   top: 18px;
   z-index: 2; // fix overlap with container-title-wrapper
+}
 
-  &.icons-arrow-backward {
-    left: 15px;
+.modal-header > .icons-close,
+.modal-body > .icons-close {
+  right: 15px;
 
-    &:hover {
-      color: $gray;
-    }
-
-    &:active {
-      color: $purple-light;
-    }
+  &:hover {
+    color: $red;
   }
 
-  &.icons-close {
-    right: 15px;
-
-    &:hover {
-      color: $red;
-    }
-
-    &:active {
-      color: $red-dark;
-    }
+  &:active {
+    color: $red-dark;
   }
 }
 
@@ -182,6 +171,18 @@
   min-height: 60px;
   padding: 0 15px;
   text-align: center;
+
+  > .icons-arrow-backward {
+    left: 15px;
+
+    &:hover {
+      color: $gray;
+    }
+
+    &:active {
+      color: $purple-light;
+    }
+  }
 
   // text
   .modal-heading {
