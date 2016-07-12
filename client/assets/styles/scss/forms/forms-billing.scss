@@ -2,6 +2,12 @@
 .modal-form.form-billing {
   padding: 0;
 
+  @include media(xxxs) {
+    .animated-panel > .padding-sm {
+      padding: 0;
+    }
+  }
+
   // plan summary & payment summary
   .well {
     border: 1px solid $gray-lighter;

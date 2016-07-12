@@ -1,5 +1,6 @@
 .form-payment {
 
+  &.padding-md,
   > .padding-md {
     @include media(xxs) {
       padding: 15px;
