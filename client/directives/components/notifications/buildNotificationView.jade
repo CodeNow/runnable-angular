@@ -16,3 +16,13 @@ img.grid-block.shrink.anchor-left(
       ng-href = "{{dataInstance.data.commit.attrs.html_url}}"
       target = "_blank"
     ) {{dataInstance.data.commit.attrs.sha | limitTo:7}}
+
+svg.iconnables.icons-close(
+  ng-click = "\
+    dataInstance.data.showUpdatedMessage = false;\
+    dataInstance.data.showUpdatingMessage = false;\
+  "
+)
+  use(
+    xlink:href = "#icons-close"
+  )

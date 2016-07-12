@@ -1,24 +1,14 @@
 .grid-block(
+  ng-if = "dataInstance.data.instance.isMigrating() && !$root.featureFlags.trialEnding"
   ng-include = "'migrationNotificationView'"
-  ng-if = "dataInstance.data.instance.isMigrating()"
 )
 
 .grid-block(
+  ng-if = "!dataInstance.data.instance.isMigrating() && !$root.featureFlags.trialEnding"
   ng-include = "'buildNotificationView'"
-  ng-if = "!dataInstance.data.instance.isMigrating()"
 )
 
-.grid-block(
-  ng-include = "'migrationNotificationView'"
-  ng-if = "$root.featureFlags.trialEnding"
+.grid-block.vertical(
+  ng-if = "!dataInstance.data.instance.isMigrating() && $root.featureFlags.trialEnding"
+  ng-include = "'trialEndingNotificationView'"
 )
-
-svg.iconnables.icons-close(
-  ng-click = "\
-    dataInstance.data.showUpdatedMessage = false;\
-    dataInstance.data.showUpdatingMessage = false;\
-  "
-)
-  use(
-    xlink:href = "#icons-close"
-  )
