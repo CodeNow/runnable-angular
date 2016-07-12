@@ -163,7 +163,7 @@ function SetupMirrorServerModalController(
     // Wait until all changes to the context version have been resolved before
     // creating a build with that context version
     return loadingPromises.finished(SMC.name)
-     .then(function () {
+      .then(function () {
         if (SMC.state.acv.attrs.branch !== SMC.state.branch.attrs.name) {
           return promisify(SMC.state.acv, 'update')({
             repo: SMC.state.repo.attrs.full_name,

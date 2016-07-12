@@ -11,9 +11,12 @@
         )
 
     .grid-block.vertical.modal-body(
-      ng-init = "dockerfile.selection = null"
-      ng-include = "'mirrorDockerfileView'"
-      onload = "fromTool = true"
+      branch-name = "MC.branchName"
+      from-tool = "true"
+      mirror-dockerfile
+      name = "MC.name"
+      repo = "MC.state.repo"
+      state = "MC.state"
     )
     footer.modal-footer.clearfix
       button.btn.btn-md.white.float-left(

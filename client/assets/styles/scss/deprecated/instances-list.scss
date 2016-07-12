@@ -1,6 +1,7 @@
 .list-instances.deprecated {
 
   .list-clusters-heading {
+    overflow: hidden;
     padding: 0 7px 0 29px;
 
     .icons-gear {
@@ -74,9 +75,14 @@
       border-radius: $input-border-radius;
       padding: 0;
 
+      &:hover {
+        border-color: rgba($black,.15);
+      }
+
       .a-sref {
         border-radius: 0;
         margin-bottom: 0;
+        overflow: hidden;
         padding-right: 9px;
       }
 
