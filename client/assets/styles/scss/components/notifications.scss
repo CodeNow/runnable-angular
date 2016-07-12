@@ -103,7 +103,7 @@
   .anchor-left {
     margin-right: 15px;
 
-    .gravatar {
+    &.gravatar {
       border-radius: $input-border-radius;
     }
   }
