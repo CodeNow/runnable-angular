@@ -1,0 +1,41 @@
+svg.iconnables.icons-close(
+  ng-click = "viewState.showAddDockerfile = false"
+)
+  use(
+    xlink:href = "#icons-close"
+  )
+
+label.clearfix(
+  for = "add-dockerfile-input"
+)
+  .label-col Dockerfile Path
+form.label-row(
+  name = "dockerfilePathForm"
+)
+  input.input.input-sm.input-validate(
+    autocomplete = "off"
+    branch-name = "branchName"
+    dockerfile-exists-validator
+    full-repo = "fullRepo"
+    id = "add-dockerfile-input"
+    ng-model = "newDockerfile"
+    ng-model-options = "{ debounce: { 'default': 100, 'blur': 0 } }"
+    value = ""
+    required
+    spellcheck = "false"
+  )
+  button.btn.btn-sm.white.float-right(
+    ng-disabled = "!newDockerfile && (dockerfilePathForm.$pending || dockerfilePathForm.$invalid)"
+    ng-click = "addDockerfileFomPath(newDockerfile)"
+  )
+    .spinner-wrapper.spinner-sm.spinner-gray.in(
+      ng-if = "dockerfilePathForm.$pending"
+      ng-include = "'spinner'"
+    )
+    span Add Dockerfile
+
+.invalid-message(
+  ng-if = "dockerfilePathForm.$invalid && !dockerfilePathForm.$pristine"
+) We couldn’t find a Dockerfile at that path.
+
+small.grid-block.padding-xxs.small Specify the relative path to your Dockerfile in your repository (e.g. if your Dockerfile is in a root folder named “config”, your path would be “config/Dockerfile”).

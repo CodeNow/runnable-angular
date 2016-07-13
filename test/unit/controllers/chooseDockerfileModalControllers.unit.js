@@ -124,11 +124,6 @@ describe('chooseDockerfileModalController'.bold.underline.blue, function () {
       it('should set the repo to the state', function () {
          expect(CDMC.state.repo).to.equal(repo);
       });
-
-      it('should fetch the dockerfile', function () {
-        sinon.assert.calledOnce(fetchRepoDockerfilesStub);
-        sinon.assert.calledWith(fetchRepoDockerfilesStub, repo.attrs.full_name);
-      });
     });
   });
 

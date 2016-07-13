@@ -9,6 +9,19 @@
     width: 370px;
   }
 
+  // fix animated panel not being verticall responsive
+  .modal-body {
+    max-height: calc(100vh - 300px);
+
+    @include media(lg) {
+      max-height: calc(100vh - 240px);
+    }
+
+    @media (max-height: $screen-xs), (max-width: $screen-sm) {
+      max-height: calc(100vh - 157px); // (.modal-header height + .modal-backdrop padding-top/bottom)
+    }
+  }
+
   //- empty state
   .empty {
     border-radius: $input-border-radius-lg;
@@ -80,4 +93,43 @@
   .text-left {
     direction: rtl;
   }
+
+  .btn-add-dockerfile {
+    margin-left: 9px;
+  }
+
+  // add custom dockerfile
+  .well-add-dockerfile {
+    background: $gray-lightest;
+    border-radius: $input-border-radius-lg;
+    position: relative;
+
+    .icons-close {
+      color: $gray-light;
+      cursor: pointer;
+      pointer-events: auto;
+      position: absolute;
+      right: 15px;
+      top: 15px;
+
+      &:hover {
+        color: $red;
+      }
+
+      &:active {
+        color: $red-dark;
+      }
+    }
+
+    .white {
+      flex: 0 0 auto; // safari cuts off button without this
+      margin-left: 6px;
+    }
+  }
+}
+
+// the edit version
+.popover-fixed .well.well-add-dockerfile {
+  background: $gray-lighterest;
+  margin-top: 0;
 }

@@ -320,13 +320,16 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         }
       },
       getRepoName: sinon.stub().returns('mainRepo'),
+      hasDockerfileMirroring: sinon.stub().returns(false),
       on: sinon.stub()
     };
     instances = [
       mockInstance,
       {
+        hasDockerfileMirroring: sinon.stub().returns(false),
         getRepoName: sinon.stub().returns(mocks.repoList[0].full_name.split('/')[1])
       }, {
+        hasDockerfileMirroring: sinon.stub().returns(false),
         getRepoName: sinon.spy(),
         attrs: {
           name: 'foo'

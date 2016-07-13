@@ -1,6 +1,6 @@
 .modal-backdrop.in
   .modal-dialog.modal-lg
-    animated-panel-container
+    animated-panel-container.modal-servers
       animated-panel.grid-block.vertical.modal-server-select(
         default = "true"
         name = "containerSelection"
@@ -70,7 +70,11 @@
             )
 
         .grid-block.vertical.modal-body(
-          ng-include = "'mirrorDockerfileView'"
+          branch-name = "MC.state.repo.attrs.default_branch"
+          mirror-dockerfile
+          name = "MC.name"
+          repo = "MC.state.repo"
+          state = "MC.state"
         )
 
         .modal-footer.clearfix
@@ -98,7 +102,7 @@
       )
         header.modal-header
           svg.iconnables.icons-arrow-backward(
-            ng-click = "!$root.isLoading[MC.name + 'SingleRepo'] && goToPanel('containerSelection', 'back')"
+            ng-click = "!$root.isLoading[MC.name + 'SingleRepo'] && goToPanel('dockerfileMirroring', 'back')"
           )
             use(
               xlink:href = "#icons-arrow-down"
@@ -151,7 +155,7 @@
 
         footer.modal-footer.clearfix
           button.btn.btn-md.gray.btn-cancel.float-left(
-            ng-click = "MC.actions.cancel()"
+            ng-click = "MC.close()"
           ) Cancel
           button.btn.btn-md.green.float-right(
             ng-disabled = "!MC.name.length || MC.nameForm.$invalid || $root.isLoading[MC.name + 'SingleRepo']"

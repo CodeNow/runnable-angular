@@ -24,6 +24,59 @@ describe('serviceFetchDockerfile'.bold.underline.blue, function () {
     return $httpStub;
   };
 
+  describe('fetchRepoDockerfile', function () {
+    var fetchRepoDockerfile;
+    beforeEach(function () {
+      angular.mock.module('app');
+      angular.mock.module(function ($provide) {
+        $provide.factory('$http', httpFactory);
+        $provide.value('configAPIHost', configAPIHost);
+      });
+      angular.mock.inject(function (
+        _$q_,
+        _$rootScope_,
+        _fetchRepoDockerfile_,
+        _configAPIHost_
+      ) {
+        $q = _$q_;
+        $rootScope = _$rootScope_;
+        fetchRepoDockerfile = _fetchRepoDockerfile_;
+        configAPIHost = _configAPIHost_;
+      });
+    });
+
+    it('should fetch the contents for a file', function () {
+      var path = '/Dockerfile';
+      var branch = 'staging';
+      fetchRepoDockerfile('thejsj/hello', branch, path);
+      $rootScope.$digest();
+      sinon.assert.calledOnce($httpStub);
+      sinon.assert.calledWith($httpStub, {
+        method: 'get',
+        url: configAPIHost + '/github/repos/thejsj/hello/contents/Dockerfile?ref=staging'
+      });
+    });
+
+    it('should work when the result is null', function (done) {
+      $httpStub.returns($q.when());
+
+      var path = '/Dockerfile';
+      var branch = 'staging';
+      fetchRepoDockerfile('thejsj/hello', branch, path)
+        .then(function (res) {
+          sinon.assert.calledOnce($httpStub);
+          sinon.assert.calledWith($httpStub, {
+            method: 'get',
+            url: configAPIHost + '/github/repos/thejsj/hello/contents/Dockerfile?ref=staging'
+          });
+          expect(res).to.deep.equal(null);
+          done();
+        });
+      $rootScope.$digest();
+    });
+
+  });
+
   describe('fetchRepoDockerfiles', function () {
     var fetchRepoDockerfiles;
     beforeEach(function () {
@@ -46,9 +99,9 @@ describe('serviceFetchDockerfile'.bold.underline.blue, function () {
     });
 
     it('should fetch the contents for a file', function () {
-      var path = '/Dockerfile';
+      var paths = ['/Dockerfile'];
       var branch = 'staging';
-      fetchRepoDockerfiles('thejsj/hello', branch, path);
+      fetchRepoDockerfiles('thejsj/hello', branch, paths);
       $rootScope.$digest();
       sinon.assert.calledOnce($httpStub);
       sinon.assert.calledWith($httpStub, {
@@ -57,43 +110,77 @@ describe('serviceFetchDockerfile'.bold.underline.blue, function () {
       });
     });
 
-    it('should return an empty list if nothing is found', function () {
-      $httpStub.returns($q.when({ data: { message: 'not found' }}));
-
-      var path = '/Dockerfile';
+    it('should fetch the contents of all given files', function () {
+      var paths = ['/Dockerfile', '/asd/asdasd'];
       var branch = 'staging';
-      var res;
-      fetchRepoDockerfiles('thejsj/hello', branch, path)
-        .then(function (_res) {
-          res = _res;
-        });
+      fetchRepoDockerfiles('thejsj/hello', branch, paths);
       $rootScope.$digest();
-      sinon.assert.calledOnce($httpStub);
+      sinon.assert.calledTwice($httpStub);
       sinon.assert.calledWith($httpStub, {
         method: 'get',
         url: configAPIHost + '/github/repos/thejsj/hello/contents/Dockerfile?ref=staging'
       });
-      expect(res).to.deep.equal([]);
+      sinon.assert.calledWith($httpStub, {
+        method: 'get',
+        url: configAPIHost + '/github/repos/thejsj/hello/contents/asd/asdasd?ref=staging'
+      });
     });
 
-    it('should automatically add a / at the end', function () {
-      var path = 'hello/world';
-      $httpStub.returns($q.when({ data: { path: path }}));
+    it('should automatically add a / at the end', function (done) {
+      var paths = ['hello/world'];
+      $httpStub.returns($q.when({ data: { path: paths[0] }}));
 
       var branch = 'staging';
-      var res;
-      fetchRepoDockerfiles('thejsj/hello', branch, path)
-        .then(function (_res) {
-          res = _res;
+      fetchRepoDockerfiles('thejsj/hello', branch, paths)
+        .then(function (res) {
+          sinon.assert.calledOnce($httpStub);
+          sinon.assert.calledWith($httpStub, {
+            method: 'get',
+            url: configAPIHost + '/github/repos/thejsj/hello/contents/hello/world?ref=staging'
+          });
+          expect(res).to.have.length(1);
+          expect(res[0].path).to.equal('/' + paths[0]);
+          done();
         });
       $rootScope.$digest();
-      sinon.assert.calledOnce($httpStub);
-      sinon.assert.calledWith($httpStub, {
-        method: 'get',
-        url: configAPIHost + '/github/repos/thejsj/hello/contents/Dockerfile?ref=staging'
+    });
+  });
+
+  describe('doesDockerfileExist', function () {
+    var doesDockerfileExist;
+    beforeEach(function () {
+      angular.mock.module('app');
+      angular.mock.module(function ($provide) {
+        $provide.factory('$http', httpFactory);
+        $provide.value('configAPIHost', configAPIHost);
       });
-      expect(res).to.have.lengthOf(1);
-      expect(res[0].path).to.equal('/' + path);
+      angular.mock.inject(function (
+        _$q_,
+        _$rootScope_,
+        _doesDockerfileExist_,
+        _configAPIHost_
+      ) {
+        $q = _$q_;
+        $rootScope = _$rootScope_;
+        doesDockerfileExist = _doesDockerfileExist_;
+        configAPIHost = _configAPIHost_;
+      });
+    });
+    it('should return false when not found', function () {
+      var res = doesDockerfileExist({ message: 'not found' });
+      expect(res).to.equal(undefined);
+      $rootScope.$digest();
+    });
+    it('should return false when given null', function () {
+      var res = doesDockerfileExist();
+      expect(res).to.equal(undefined);
+      $rootScope.$digest();
+    });
+    it('should return false when given null', function () {
+      var fakeFile = { data: { path: 'asdasd' }};
+      var res = doesDockerfileExist(fakeFile);
+      expect(res).to.equal(fakeFile);
+      $rootScope.$digest();
     });
   });
 
@@ -139,6 +226,4 @@ describe('serviceFetchDockerfile'.bold.underline.blue, function () {
       });
     });
   });
-
-
 });
