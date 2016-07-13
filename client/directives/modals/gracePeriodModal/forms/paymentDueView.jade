@@ -8,7 +8,7 @@ h1.h1.text-center.padding-sm Money please.
           name = "changePaymentForm"
         )
           .grid-block.vertical.padding-md
-            p.grid-content.p.text-center Your payment method has expired. Update your payment method to continue using Runnable.
+            p.grid-content.p.text-center Your payment method has {{cardExpired ? 'expired' : 'been declined' }}. Update your payment method to continue using Runnable.
             small.grid-content.small.text-center.text-gray
               strong.strong Note:&#32;
               //- number of hours should vary to show how much time is left
