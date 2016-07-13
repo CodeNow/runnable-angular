@@ -1,0 +1,110 @@
+.form-plan {
+
+  > .padding-md {
+    @include media(xxs) {
+      padding: 15px;
+    }
+
+    @include media(xxxs) {
+      padding: 0;
+    }
+  }
+
+  .well-plan {
+    font-size: 18px;
+
+    @include media(xxs) {
+      font-size: 16px;
+
+      &.padding-sm {
+        padding: 9px;
+      }
+    }
+
+    @include media(xxxs) {
+      font-size: 14px;
+
+      &.padding-sm {
+        padding: 6px;
+      }
+    }
+
+    &:hover:not(.disabled),
+    &:active:not(.disabled),
+    &.active:not(.disabled) {
+      background: $white;
+      border-color: $green;
+      box-shadow: inset 0 0 0 1px $green;
+      cursor: pointer;
+    }
+
+    &.active .white {
+      animation: rainbow 1s infinite linear;
+      background-image: linear-gradient(135deg,$purple 0%,$blue 12.5%,$green 25%,$orange 37.5%,$red 50%,$purple 62.5%,$blue 75%,$green 87.5%,$orange 100%);
+      background-size: 400% 100%;
+      border-color: $white;
+
+      &.current::after {
+        color: $white;
+        font-weight: $weight-bold;
+      }
+    }
+
+    &.not-allowed {
+      cursor: not-allowed;
+    }
+
+    .white {
+      height: 75px;
+      position: relative;
+      width: 80px;
+
+      @include media(xxxs) {
+        height: 70px;
+        width: 75px;
+      }
+
+      &.current::after {
+        bottom: 0;
+        color: $gray;
+        content: 'Current Plan';
+        display: block;
+        font-size: 11px;
+        font-weight: $weight-light;
+        left: 0;
+        line-height: $input-xxs;
+        position: absolute;
+        right: 0;
+        text-align: center;
+        width: 78px;
+
+        @include media(xxxs) {
+          font-size: 10px;
+          width: 73px;
+        }
+      }
+    }
+
+    // 3 users minimum text
+    .text-gray:last-child {
+      margin-top: 6px;
+    }
+
+    .btn-add {
+      border-radius: 50%;
+      top: 0;
+
+      @include media(xxxs) {
+        height: 21px;
+        width: 21px;
+      }
+    }
+  }
+
+  .icons-link-external {
+    height: 12px;
+    margin-left: 3px;
+    top: 1px;
+    width: 12px;
+  }
+}

@@ -1,0 +1,19 @@
+.grid-block.align-center.vertical.padding-md
+  img.grid-content.img(
+    height = "200"
+    src = "/build/images/runnabear-jumping.png"
+    width = "250"
+  )
+  h3.grid-content.h3.text-center Thank you!
+  p.grid-content.p.text-center Your payment has been submitted and you’ve been charged $299.70. You’ll receive a receipt via email.
+  //- if submitting payment info for the trial plan
+  //- p.grid-content.p.text-center Your payment method has been submitted. We won’t charge you until your trial is over.
+
+footer.modal-footer.clearfix
+  button.btn.btn-md.btn-block.white(
+    ng-click = "\
+      $root.featureFlags.trial = false;\
+      $root.featureFlags.trialFooter = false;\
+    "
+    type = "button"
+  ) Billing Overview

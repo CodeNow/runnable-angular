@@ -531,3 +531,32 @@
     width: 18px;
   }
 }
+
+// add button
+.btn-add {
+  background: $white;
+  border: 1px solid $gray-lighter;
+  color: $gray-light;
+  line-height: initial;
+  overflow: hidden;
+  padding: 3px;
+  transition: none;
+
+  &.btn-sm {
+    right: 15px;
+    top: 15px;
+    width: $input-sm;
+  }
+
+  &.btn-xs {
+    right: 6px;
+    top: 6px;
+    width: $input-xs;
+  }
+
+  &.active {
+    background: $green;
+    border-color: $green;
+    color: $white;
+  }
+}

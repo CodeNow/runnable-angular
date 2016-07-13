@@ -1,0 +1,118 @@
+//- changing plans
+.padding-md
+  label.grid-block.align-center.well.well-plan.padding-sm(
+    ng-class = "{'active': model.plan === 'limited' || !$root.featureFlags.trial}"
+  )
+    //- add .current class for current plan
+    .grid-block.align-center.justify-center.shrink.white.current 🙂
+    .grid-block.vertical
+      .grid-block.p.strong 2 Repo
+        span.hidden-xxs sitory
+        | &nbsp;Limit
+      .grid-block.vertical.p(
+        ng-class = "{'discounted': $root.featureFlags.billingDiscounted}"
+      )
+        .grid-block
+          .strong {{$root.featureFlags.billingDiscounted ? '$4.97' : '$9.95'}}
+          span /user/month
+        .small(
+          ng-if = "$root.featureFlags.billingDiscounted"
+        )
+          span.strike.text-red $9.95
+          span.text-gray &#32;50% Off
+      .grid-content.p.small.text-gray 3 user minimum.
+    input.checkbox.hidden(
+      name = "plan"
+      ng-model = "model.plan"
+      value = "limited"
+      type = "radio"
+    )
+    button.grid-block.shrink.btn.btn-xs.btn-icon.btn-add(
+      ng-class = "{'active': model.plan === 'limited' || !$root.featureFlags.trial}"
+    )
+      svg.iconnables.icons-check
+        use(
+          xlink:href = "#icons-check"
+        )
+
+  label.grid-block.align-center.well.well-plan.padding-sm(
+    ng-class = "{\
+      'active': model.plan === 'unlimited',\
+      'disabled not-allowed': !$root.featureFlags.trial\
+    }"
+  )
+    .grid-block.align-center.justify-center.shrink.white 😄
+    .grid-block.vertical
+      .grid-block.p.strong Unlimited Repos
+        span.hidden-xxs itories
+      .grid-block.vertical.p(
+        ng-class = "{'discounted': $root.featureFlags.billingDiscounted}"
+      )
+        .grid-block
+          .strong {{$root.featureFlags.billingDiscounted ? '$24.97' : '$49.95'}}
+          span /user/month
+        .small(
+          ng-if = "$root.featureFlags.billingDiscounted"
+        )
+          span.strike.text-red $49.95
+          span.text-gray &#32;50% Off
+      .grid-content.p.small.text-gray 3 user minimum.
+    input.checkbox.hidden(
+      name = "plan"
+      ng-disabled = "!$root.featureFlags.trial"
+      ng-model = "model.plan"
+      value = "unlimited"
+      type = "radio"
+    )
+    button.grid-block.shrink.btn.btn-xs.btn-icon.btn-add(
+      ng-class = "{'active': model.plan === 'unlimited'}"
+    )
+      svg.iconnables.icons-check
+        use(
+          xlink:href = "#icons-check"
+        )
+
+  p.grid-content.p.text-gray.text-center.padding-sm(
+    ng-if = "!$root.featureFlags.trial"
+  ) Please&#32;
+    a.link(
+      href = "mailto: billing@runnable.com"
+    ) contact us
+    | &#32;to make changes to your plan.
+
+  //- 3 users is the minimum amount
+  p.grid-content.p.text-gray.text-center.padding-sm
+    span(
+      ng-if = "$root.featureFlags.trial"
+    ) {{model.plan === 'limited' && $root.featureFlags.trial ? 'After your trial, you’ll be charged for ' : 'You’ll be charged for '}}
+      strong.strong 6 users
+      | .&#32;
+    | We’ll automatically prorate additional users at the end of the billing period.&#32;
+    a.link(
+      href = "#"
+      target = "_blank"
+    ) Details
+
+footer.modal-footer.clearfix
+  button.btn.btn-md.gray.btn-cancel.float-left(
+    ng-if = "!$root.featureFlags.trial"
+    ng-click = "\
+      $root.featureFlags.trialFooter = false;\
+      goToPanel('billingForm', 'back');\
+    "
+  ) Cancel
+
+  //- disabled if no plan is selected
+  button.btn.btn-md.white.float-right(
+    ng-click = "goToPanel('changePaymentForm')"
+    ng-if = "$root.featureFlags.trial"
+    type = "button"
+  ) Next: Payment
+  button.btn.btn-md.gray.btn-cancel.float-right(
+    ng-click = "\
+      $root.featureFlags.trialFooter = false;\
+      goToPanel('trialForm', 'back');\
+      model.plan = null;\
+    "
+    ng-if = "$root.featureFlags.trial"
+  ) Back

@@ -1,0 +1,105 @@
+// billing form
+.modal-form.form-billing {
+  padding: 0;
+
+  @include media(xxxs) {
+    .animated-panel > .padding-sm {
+      padding: 0;
+    }
+  }
+
+  // plan summary & payment summary
+  .well {
+    border: 1px solid $gray-lighter;
+    border-radius: $input-border-radius-lg;
+
+    + .well {
+      margin-top: 15px;
+    }
+  }
+
+  .well-plan,
+  .well-summary {
+    background: $white;
+
+    &.flash {
+      animation: flash 5s ease-out;
+    }
+  }
+
+  .well-plan .white {
+    background: $white;
+    border: 1px solid $gray-lighter;
+    border-radius: $input-border-radius-lg;
+    font-size: 30px;
+    margin-right: 15px;
+    position: relative;
+
+    @include media(xxs) {
+      margin-right: 9px;
+    }
+
+    @include media(xxxs) {
+      margin-right: 6px;
+    }
+  }
+
+  .well-summary {
+    font-size: 16px;
+    padding-right: 15px;
+
+    @include media(xxs) {
+      font-size: 14px;
+      padding-right: 9px;
+    }
+
+    .white {
+      background-image: linear-gradient(135deg,$purple 0%,$blue 12.5%,$green 25%,$orange 37.5%,$red 50%,$purple 62.5%,$blue 75%,$green 87.5%,$orange 100%);
+      background-size: 400% 100%;
+      border: 0;
+      border-radius: $input-border-radius-lg 0 0 $input-border-radius-lg;
+      height: 45px;
+      margin-right: 15px;
+      width: 45px;
+
+      @include media(xxs) {
+        margin-right: 9px;
+      }
+
+      @include media(xxxs) {
+        margin-right: 6px;
+      }
+    }
+
+    .text-gray {
+      margin-top: 6px;
+    }
+
+    // cc icon
+    .img {
+      margin-right: 4px;
+      position: relative;
+      top: 4px;
+    }
+  }
+}
+
+// payment history
+.table-billing {
+  color: $gray-dark;
+  font-size: 15px;
+  white-space: nowrap;
+
+  .cell {
+
+    // cost
+    &:first-child {
+      flex: 0 0 auto;
+    }
+
+    // date
+    &:last-child {
+      max-width: 105px;
+    }
+  }
+}

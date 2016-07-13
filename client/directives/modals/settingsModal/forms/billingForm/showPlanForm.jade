@@ -1,0 +1,25 @@
+.clearfix
+  .label-col.full-width Current Plan
+
+label.grid-block.align-center.well.well-plan.well-summary.disabled(
+  ng-include = "'planSummaryView'"
+)
+
+label.grid-block.align-center.padding-xs.well.well-plan.well-summary.disabled(
+  ng-if = "$root.featureFlags.billingDiscounted"
+  ng-include = "'discountView'"
+  ng-init = "state.hasDuration = true"
+)
+
+.grid-block.align-center.justify-justified.padding-xxs
+  a.link.small View all plans
+    svg.iconnables.icons-link-external
+      use(
+        xlink:href = "#icons-link-external"
+      )
+  button.btn.btn-xs.white(
+    ng-click = "\
+      $root.featureFlags.trialFooter = true;\
+      goToPanel('changePlanForm');\
+    "
+  ) Change Plan

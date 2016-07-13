@@ -1,0 +1,112 @@
+form.padding-md
+
+  label.grid-block.align-center.well.well-plan.well-summary.disabled(
+    ng-if = "$root.featureFlags.trial"
+    ng-include = "'planSummaryView'"
+  )
+
+  label.grid-block.align-center.padding-xs.well.well-plan.well-summary.disabled(
+    ng-if = "$root.featureFlags.trial && $root.featureFlags.billingDiscounted"
+    ng-include = "'discountView'"
+  )
+
+  //- limit all fields to numbers only
+  //- add .invalid class for errors from stripe
+  .grid-block.vertical.well.gray.padding-sm.well-payment
+    //- p.red.small.text-center Your card was declined!
+    label.grid-block.vertical.label-payment.label-cc
+      .small Card Number
+      //- add .visa, .mastercard, .amex, .jcb to show cc type
+      input.grid-content.input.input-md.input-cc.input-validate(
+        autocomplete = "cc-number"
+        inputmode = "numeric"
+        maxlength = "16"
+        ng-class = "{'amex': ccNumber.length === 16}"
+        ng-model = "ccNumber"
+        required
+        spellcheck = "false"
+      )
+    .grid-block
+      label.grid-block.vertical.label-payment.label-expiry
+        .small Expiry
+        //- auto insert " / " after last 2nd number (with the spaces)
+          - pressing delete immediately after " / " should delete " / " AND the preceeding number
+        input.input.input-md.input-exp.input-validate(
+          autocomplete = "cc-exp"
+          inputmode = "numeric"
+          maxlength = "7"
+          placeholder = "MM/YY"
+          required
+          spellcheck = "false"
+        )
+
+      label.grid-block.vertical.label-payment.label-security
+        .small CVC
+        input.input.input-md.input-cvc.input-validate(
+          autocomplete = "cc-csc"
+          inputmode = "numeric"
+          maxlength = "4"
+          required
+          spellcheck = "false"
+        )
+
+      label.grid-block.vertical.label-payment.label-zip
+        .small Zip Code
+        input.input.input-md.input-zip.input-validate(
+          inputmode = "numeric"
+          maxlength = "5"
+          required
+          spellcheck = "false"
+        )
+
+    //- alt text if on the limited plan
+    .grid-block.well.padding-xxs.small.justify-center(
+      ng-if = "$root.featureFlags.trial"
+    )
+      | You will be charged $299.70 for 6 users.
+      //- | You will not be charged until your trial ends.
+
+  //- 3 users is the minimum amount
+  p.grid-content.p.text-gray.text-center.padding-sm(
+    ng-if = "$root.featureFlags.trial"
+  ) We’ll automatically prorate users at the end of the billing period.&#32;
+    a.link(
+      href = "#"
+      target = "_blank"
+    ) Details
+
+  p.grid-content.p.text-gray.text-center.padding-sm(
+    ng-if = "!$root.featureFlags.trial"
+  ) Your payment changes will be applied to your next billing date on July 24
+    sup th
+    | , 2016.
+
+footer.modal-footer.clearfix
+  button.btn.btn-md.gray.btn-cancel.float-left(
+    ng-click = "goToPanel('billingForm', 'back')"
+    ng-if = "!$root.featureFlags.trial"
+    type = "button"
+  ) Cancel
+  button.btn.btn-md.green.float-right(
+    ng-if = "!$root.featureFlags.trial"
+  )
+    //- .spinner-wrapper.spinner-sm.spinner-white.in(
+    //-   ng-include = "'spinner'"
+    //- )
+    span Update Payment
+
+  //- disable while loading
+  button.btn.btn-md.green.float-right(
+    ng-click = "goToPanel('confirmationForm')"
+    ng-if = "$root.featureFlags.trial"
+    type = "button"
+  )
+    //- .spinner-wrapper.spinner-sm.spinner-white.in(
+    //-   ng-include = "'spinner'"
+    //- )
+    span Submit Payment
+  button.btn.btn-md.gray.btn-cancel.float-right(
+    ng-click = "goToPanel('changePlanForm', 'back')"
+    ng-if = "$root.featureFlags.trial"
+    type = "button"
+  ) Back
