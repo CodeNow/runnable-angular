@@ -84,8 +84,17 @@
   p.grid-content.p.text-gray.text-center.padding-sm
     span(
       ng-if = "$root.featureFlags.trial"
-    ) {{model.plan === 'limited' && $root.featureFlags.trial ? 'After your trial, you’ll be charged for ' : 'You’ll be charged for '}}
-      strong.strong 6 users
+    ) {{model.plan === 'limited' && $root.featureFlags.trial && !state.fromTrialEnd ? 'After your trial, you’ll be charged for ' : 'You’ll be charged for '}}
+      strong.strong(
+        ng-if = "!state.fromTrialEnd"
+      ) 6 users
+      //- this isn't aligning properly for some type of reason
+      strong.strong.link(
+        ng-if = "state.fromTrialEnd"
+        pop-over
+        pop-over-options = "{\"bottom\":-290,\"centered\":true}"
+        pop-over-template = "teamManagementPopoverView"
+      ) 6 users
       | .&#32;
     | We’ll automatically prorate additional users at the end of the billing period.&#32;
     a.link(
