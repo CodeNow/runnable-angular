@@ -102,7 +102,7 @@
       )
         header.modal-header
           svg.iconnables.icons-arrow-backward(
-            ng-click = "!$root.isLoading[MC.name + 'SingleRepo'] && goToPanel('dockerfileMirroring', 'back')"
+            ng-click = "!$root.isLoading[MC.name + 'SingleRepo'] && goToPanel(MC.state.templateSource ? 'containerSelection' : 'dockerfileMirroring', 'back')"
           )
             use(
               xlink:href = "#icons-arrow-down"

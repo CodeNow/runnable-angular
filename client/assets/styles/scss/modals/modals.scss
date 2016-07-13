@@ -147,29 +147,18 @@
   position: absolute;
   top: 18px;
   z-index: 2; // fix overlap with container-title-wrapper
+}
 
-  &.icons-arrow-backward {
-    left: 15px;
+.modal-header > .icons-close,
+.modal-body > .icons-close {
+  right: 15px;
 
-    &:hover {
-      color: $gray;
-    }
-
-    &:active {
-      color: $purple-light;
-    }
+  &:hover {
+    color: $red;
   }
 
-  &.icons-close {
-    right: 15px;
-
-    &:hover {
-      color: $red;
-    }
-
-    &:active {
-      color: $red-dark;
-    }
+  &:active {
+    color: $red-dark;
   }
 }
 
@@ -182,6 +171,18 @@
   min-height: 60px;
   padding: 0 15px;
   text-align: center;
+
+  > .icons-arrow-backward {
+    left: 15px;
+
+    &:hover {
+      color: $gray;
+    }
+
+    &:active {
+      color: $purple-light;
+    }
+  }
 
   // text
   .modal-heading {
@@ -410,6 +411,33 @@
   flex: 0 0 auto;
   padding: 12px 15px;
   z-index: 1; // footer overlaps body
+
+  @include media(xxxs) {
+    display: flex;
+    flex-direction: column;
+
+    // override spacing
+    .btn.btn.float-right + .float-right {
+      margin-right: 0;
+      margin-top: 6px;
+    }
+
+    .btn-cancel + .green {
+      margin-bottom: 6px;
+    }
+
+    .green {
+      order: 0;
+    }
+
+    .white {
+      order: 1;
+    }
+
+    .btn-cancel {
+      order: 2;
+    }
+  }
 
   &.js-animate {
     overflow: hidden;
