@@ -8,10 +8,14 @@
   p.grid-content.p.text-center Your payment has been submitted and you've been charged $299.70. You’ll receive an receipt via email.
 
 footer.modal-footer.clearfix
+  button.btn.btn-md.btn-block.green(
+    ng-if = "state.fromGracePeriod"
+  ) Go to your sandbox!
   button.btn.btn-md.btn-block.white(
     ng-click = "\
       $root.featureFlags.trial = false;\
       $root.featureFlags.trialFooter = false;\
     "
+    ng-if = "!state.fromGracePeriod"
     type = "button"
   ) Billing Overview

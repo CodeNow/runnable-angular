@@ -22,6 +22,8 @@ function featureFlags(
     emptyFolder: false, // shows empty folder markup
     fullScreen: false,  // toggles full screen
     fullScreenToggle: false,  // toggles the button that toggles full screen
+    gracePeriod: false, // if user enters the grace period during the preview
+    gracePeriodPayment: false, // if the user enters the grace period because of a payment error
     hostnameNotifications: false,
     hostnameTool: false,
     imAfraidOfTheDark: false, // toggles theme
@@ -51,7 +53,6 @@ function featureFlags(
     updatedSlackValidation: true,
     undoDelete: false, // undo delete configuration
     webhooks: false,
-    welcomeBack: false,
     whitelist: true,
     whitelistIpFiltering: false
   };

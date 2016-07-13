@@ -1,0 +1,59 @@
+//- note: this is a modal, but it doesn't have to be when implemented!
+//- if this goes in as a separate page, just remove the .modal-backdrop.in classes
+.modal-backdrop.in.modal-blackout
+
+  .welcome.welcome-back(
+    ng-if = "!$root.featureFlags.gracePeriodPayment"
+  )
+    h1.h1.text-center.padding-sm Welcome back!
+    img.img.runnabear(
+      height = "130"
+      src = "/build/images/runnabear-waving-3.png"
+      width = "230"
+    )
+    .modal-dialog.modal-welcome
+      section.modal-body
+        p.p.padding-xs We’ve temporarily&#32;
+          span(
+            title = "paws’d"
+          ) paused&#32;
+          | your containers due to inactivity. Give us the go ahead and we’ll get you back up and running.
+      footer.grid-block.vertical.modal-footer
+        button.grid-content.btn.btn-md.green.icons-intercom(
+          ng-click = "WBC.openIntercom()"
+        ) Chat Now
+        a.grid-content.link.text-gray.text-center(
+          href = "mailto:support@runnable.com?subject=I’m back! Please get my sandbox back up and running."
+        ) Email Support
+
+  .welcome.welcome-back(
+    ng-if = "$root.featureFlags.gracePeriodPayment"
+  )
+    h1.h1.text-center.padding-sm Money please.
+    .modal-dialog.modal-md
+      .modal-body
+        .modal-form.form-billing
+          animated-panel-container
+            animated-panel(
+              default = "true"
+              name = "changePaymentForm"
+            )
+              .grid-block.vertical.padding-md
+                p.grid-content.p.text-center Your payment method has expired. Update your payment method to continue using Runnable.
+                small.grid-content.small.text-center.text-gray
+                  strong.strong Note:&#32;
+                  | Your containers will be paused in 72 hours if we cannot process a payment method.
+              hr.hr
+              .grid-block.vertical.form-payment.fade(
+                ng-class = "{'in': isActivePanel()}"
+                ng-include = "'changePaymentForm'"
+                ng-init = "state.fromGracePeriod = true"
+              )
+            animated-panel(
+              name = "confirmationForm"
+            )
+              .grid-block.vertical.fade(
+                ng-class = "{'in': isActivePanel()}"
+                ng-include = "'confirmationForm'"
+                ng-init = "state.fromGracePeriod = true"
+              )

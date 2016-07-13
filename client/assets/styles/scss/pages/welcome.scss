@@ -1,5 +1,6 @@
 .welcome {
   padding-top: 96px;
+  width: 100%;
 
   @include media(lg) {
     padding-top: 51px; // matches marketing
@@ -13,27 +14,34 @@
     position: absolute;
     right: 0;
     z-index: 1;
+
+    + .modal-dialog {
+      margin-top: 105px;
+    }
   }
 
   // modal
   .modal-dialog {
     color: $gray-dark;
-    flex: 0 0 auto;
-    margin: 105px auto 30px;
-    max-height: none;
-    max-width: 480px;
+    margin: 30px auto;
 
-    @include media(xxs) {
-      width: auto;
+    &.modal-welcome {
+      flex: 0 0 auto;
+      max-height: none;
+      max-width: 480px;
+
+      @include media(xxs) {
+        width: auto;
+      }
+
+      .modal-body {
+        flex: 0 0 auto;
+      }
+
+      .p {
+        text-align: center;
+      }
     }
-  }
-
-  .modal-body {
-    flex: 0 0 auto;
-  }
-
-  .p {
-    text-align: center;
   }
 }
 

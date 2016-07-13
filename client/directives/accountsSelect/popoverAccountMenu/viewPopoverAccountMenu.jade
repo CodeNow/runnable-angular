@@ -203,7 +203,7 @@
             style = "display: block; padding: 0 39px 0 15px;"
           ) {{flag}}
             .toggle-wrapper(
-              ng-if = "flag !== 'welcomeBack'"
+              ng-if = "flag !== 'gracePeriod'"
               style = "position: absolute; right: 12px; top: 11px;"
             )
               input.toggle-input(
@@ -213,7 +213,7 @@
               )
               .toggle-group.toggle-xs
             button.btn.btn-xs.gray(
-              internal-modal-helper = "welcomeBackModalView"
-              ng-if = "flag === 'welcomeBack'"
+              internal-modal-helper = "gracePeriodModalView"
+              ng-if = "flag === 'gracePeriod'"
               style = "position: absolute; right: 9px; top: 6px;"
             ) Go
