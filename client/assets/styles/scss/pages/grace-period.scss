@@ -1,3 +1,4 @@
+.grace-period,
 .welcome {
   padding-top: 96px;
   width: 100%;
@@ -24,28 +25,10 @@
   .modal-dialog {
     color: $gray-dark;
     margin: 30px auto;
-
-    &.modal-welcome {
-      flex: 0 0 auto;
-      max-height: none;
-      max-width: 480px;
-
-      @include media(xxs) {
-        width: auto;
-      }
-
-      .modal-body {
-        flex: 0 0 auto;
-      }
-
-      .p {
-        text-align: center;
-      }
-    }
   }
 }
 
-.panel-orgs {
+.modal-orgs {
 
   .empty .h3 {
     margin-bottom: 15px;
@@ -98,7 +81,22 @@
   }
 }
 
-.welcome-back {
+.modal-welcome {
+  flex: 0 0 auto;
+  max-height: none;
+  max-width: 480px;
+
+  @include media(xxs) {
+    width: auto;
+  }
+
+  .modal-body {
+    flex: 0 0 auto;
+  }
+
+  .p {
+    text-align: center;
+  }
 
   .link {
     margin-bottom: 15px;

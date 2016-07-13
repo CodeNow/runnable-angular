@@ -1,18 +1,18 @@
-//- note: this is a modal, but it doesn't have to be when implemented!
-//- if this goes in as a separate page, just remove the .modal-backdrop.in classes
-.modal-backdrop.in.modal-blackout
+.modal-backdrop.in(
+  ng-class = "{'modal-blackout': !$root.featureFlags.gracePeriodPayment && !$root.featureFlags.gracePeriodTrial}"
+)
 
-  .welcome.welcome-back(
+  .grace-period(
     ng-if = "!$root.featureFlags.gracePeriodPayment && !$root.featureFlags.gracePeriodTrial"
     ng-include = "'pausedSandboxView'"
   )
 
-  .welcome.welcome-back(
+  .grace-period(
     ng-if = "$root.featureFlags.gracePeriodPayment"
     ng-include = "'paymentDueView'"
   )
 
-  .welcome.welcome-back(
+  .grace-period(
     ng-if = "$root.featureFlags.gracePeriodTrial"
     ng-include = "'trialEndView'"
   )
