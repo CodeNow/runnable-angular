@@ -154,15 +154,11 @@
                 width = "24"
               )
               | {{account.oauthName()}}
-          a.btn.btn-sm.gray(
-            href = "/welcome"
-            ng-if = "$root.featureFlags.teamManagementAdvanced"
-          )
-            svg.iconnables.icons-round.icons-add.float-left
-              use(
-                xlink:href = "#icons-add"
-              )
-            | Create New Team
+            li.list-item.padding-xxs
+              a.btn.btn-sm.gray.btn-block(
+                href = "/orgSelect"
+                ng-if = "$root.featureFlags.autoWhitelist"
+              ) Add Organization
 
     animated-panel(
       name = "featureFlags"
