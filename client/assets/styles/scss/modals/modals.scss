@@ -410,6 +410,33 @@
   padding: 12px 15px;
   z-index: 1; // footer overlaps body
 
+  @include media(xxxs) {
+    display: flex;
+    flex-direction: column;
+
+    // override spacing
+    .btn.btn.float-right + .float-right {
+      margin-right: 0;
+      margin-top: 6px;
+    }
+
+    .btn-cancel + .green {
+      margin-bottom: 6px;
+    }
+
+    .green {
+      order: 0;
+    }
+
+    .white {
+      order: 1;
+    }
+
+    .btn-cancel {
+      order: 2;
+    }
+  }
+
   &.js-animate {
     overflow: hidden;
     transition: .3s;
