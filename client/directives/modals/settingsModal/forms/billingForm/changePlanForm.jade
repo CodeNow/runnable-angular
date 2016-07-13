@@ -114,5 +114,5 @@ footer.modal-footer.clearfix
       goToPanel('trialForm', 'back');\
       model.plan = null;\
     "
-    ng-if = "$root.featureFlags.trial"
+    ng-if = "$root.featureFlags.trial && !state.fromTrialEnd"
   ) Back

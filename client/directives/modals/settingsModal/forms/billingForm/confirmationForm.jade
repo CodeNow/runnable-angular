@@ -9,13 +9,13 @@
 
 footer.modal-footer.clearfix
   button.btn.btn-md.btn-block.green(
-    ng-if = "state.fromGracePeriod"
+    ng-if = "state.fromPaymentDue || state.fromTrialEnd"
   ) Go to your sandbox!
   button.btn.btn-md.btn-block.white(
     ng-click = "\
       $root.featureFlags.trial = false;\
       $root.featureFlags.trialFooter = false;\
     "
-    ng-if = "!state.fromGracePeriod"
+    ng-if = "!state.fromPaymentDue && !state.fromTrialEnd"
     type = "button"
   ) Billing Overview

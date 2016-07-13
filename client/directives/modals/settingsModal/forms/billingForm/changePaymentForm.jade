@@ -101,10 +101,13 @@ footer.modal-footer.clearfix
   //- disable while loading
   button.btn.btn-md.green.float-right(
     ng-class = "{\
-      'btn-block': state.fromGracePeriod,\
-      'float-right': !state.fromGracePeriod\
+      'btn-block': state.fromPaymentDue,\
+      'float-right': !state.fromPaymentDue\
     }"
-    ng-click = "goToPanel('confirmationForm')"
+    ng-click = "\
+      $root.featureFlag.gracePeriodTrialConfirm = true;\
+      goToPanel('confirmationForm');\
+    "
     ng-if = "$root.featureFlags.trial"
     type = "button"
   )
@@ -114,6 +117,6 @@ footer.modal-footer.clearfix
     span Submit Payment
   button.btn.btn-md.gray.btn-cancel.float-right(
     ng-click = "goToPanel('changePlanForm', 'back')"
-    ng-if = "$root.featureFlags.trial && !state.fromGracePeriod"
+    ng-if = "$root.featureFlags.trial && !state.fromPaymentDue"
     type = "button"
   ) Back

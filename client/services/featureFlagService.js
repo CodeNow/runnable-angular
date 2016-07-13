@@ -24,6 +24,8 @@ function featureFlags(
     fullScreenToggle: false,  // toggles the button that toggles full screen
     gracePeriod: false, // if user enters the grace period during the preview
     gracePeriodPayment: false, // if the user enters the grace period because of a payment error
+    gracePeriodTrial: false, // if the user enters the grace period because of trial expiring
+    gracePeriodTrialConfirm: false, // hides trial text on payment
     hostnameNotifications: false,
     hostnameTool: false,
     imAfraidOfTheDark: false, // toggles theme
