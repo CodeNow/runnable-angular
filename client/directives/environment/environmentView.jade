@@ -20,7 +20,7 @@
     )
   span {{alert.text}}
   a.link.small.link-undo(
-   ng-if = "$root.featureFlags.undoDelete"
+    ng-if = "$root.featureFlags.undoDelete"
   ) Undo
   svg.iconnables.icons-close(
     ng-if = "$root.featureFlags.dismissNotifications"
