@@ -24,6 +24,10 @@
         background-image: linear-gradient(135deg,$purple 0%,$blue 12.5%,$green 25%,$orange 37.5%,$red 50%,$purple 62.5%,$blue 75%,$green 87.5%,$orange 100%);
         background-size: 400% 100%;
         border-color: $white;
+
+        &::after {
+          color: $white;
+        }
       }
 
       .btn {
