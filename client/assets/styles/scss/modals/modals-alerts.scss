@@ -12,6 +12,10 @@
     font-size: 18px;
   }
 
+  .well {
+    background: $gray-lighterest;
+  }
+
   .p + .p,
   .p + .well,
   .well + .well {

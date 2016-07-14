@@ -1,0 +1,18 @@
+.modal-backdrop.in(
+  ng-class = "{'modal-blackout': !$root.featureFlags.gracePeriodPayment && !$root.featureFlags.gracePeriodTrial}"
+)
+
+  .grace-period(
+    ng-if = "!$root.featureFlags.gracePeriodPayment && !$root.featureFlags.gracePeriodTrial"
+    ng-include = "'pausedSandboxView'"
+  )
+
+  .grace-period(
+    ng-if = "$root.featureFlags.gracePeriodPayment"
+    ng-include = "'paymentDueView'"
+  )
+
+  .grace-period(
+    ng-if = "$root.featureFlags.gracePeriodTrial"
+    ng-include = "'trialEndView'"
+  )

@@ -11,7 +11,9 @@
 
     //- for existing team
     .label
-      .clearfix
+      .clearfix(
+        ng-if = "!state.fromTrialEnd"
+      )
         .label-col.full-width Teammates
           a.small.link.float-right(
             ng-click = "TMMC.openInvitationModal()"
@@ -22,6 +24,10 @@
                 xlink:href = "#icons-team-invite"
               )
             | Invite…
+
+      .p.text-gray.text-center.padding-xs(
+        ng-if = "state.fromTrialEnd"
+      ) We’ll only create or update containers for the selected users.
 
       ol.list.list-bordered.list-teammates
         li.list-item(
@@ -34,10 +40,16 @@
           )
           .username.text-overflow {{teammate.login}}
           .small.text-overflow {{teammate.email.length ? teammate.email : "—" }}
-          .btn-wrapper
+          label.btn-wrapper
+            input(
+              checked
+              ng-if = "state.fromTrialEnd"
+              type = "checkbox"
+            )
+
             button.btn.btn-xs.white.btn-permission(
               ng-class = "{'active': permissionsPopover.data.show}"
-              ng-if = "$root.featureFlags.teamManagementAdvanced"
+              ng-if = "$root.featureFlags.teamManagementAdvanced && !state.fromTrialEnd"
               pop-over
               pop-over-active = "permissionsPopover.data.show"
               pop-over-options = "{\"right\":0,\"top\":35}"
@@ -51,7 +63,7 @@
 
             button.btn.btn-xs.white.float-right(
               ng-class = "{'active': teammateOptionsPopover.data.show}"
-              ng-if = "$root.featureFlags.teamManagement"
+              ng-if = "$root.featureFlags.teamManagement && !state.fromTrialEnd"
               pop-over
               pop-over-active = "teammateOptionsPopover.data.show"
               pop-over-options = "{\"right\":0,\"top\":35}"
@@ -64,7 +76,7 @@
 
     //- pending invites
     .label(
-      ng-if ="TMMC.members.invited.length > 0"
+      ng-if ="TMMC.members.invited.length > 0 && !state.fromTrialEnd"
     )
       .clearfix
         .label-col.full-width Pending Invites

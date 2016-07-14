@@ -74,12 +74,7 @@
     margin: 0 3px;
     width: 15px;
 
-    &:hover {
-      background: $red;
-      border-color: $purple-darkest;
-      color: $white;
-    }
-
+    &:hover,
     &:active {
       background: $red;
       border-color: $purple-darkest;

@@ -2,7 +2,7 @@
 .layout-navigation {
   backface-visibility: hidden; // http://benfrain.com/improving-css-performance-fixed-position-elements/
   background: $purple-light;
-  border-right: 1px solid $purple;
+  border-right: 1px solid $purple-dark;
   height: 100vh;
   position: fixed;
   top: 0;

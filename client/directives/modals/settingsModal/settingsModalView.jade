@@ -19,6 +19,7 @@
           ng-class = "{\
             'active': SEMC.currentTab === 'billing',\
             'badge': $root.featureFlags.billing || $root.featureFlags.trial,\
+            'badge-orange': $root.featureFlags.billing && $root.featureFlags.trial,\
             'badge-red': $root.featureFlags.billing && !$root.featureFlags.trial\
           }"
           ng-click = "SEMC.currentTab = 'billing'"
@@ -31,7 +32,10 @@
           .btn-text.grid-content Billing
         button.btn.btn-radio.grid-block.vertical(
           ng-class = "{'active': SEMC.currentTab === 'teamManagement'}"
-          ng-click = "SEMC.currentTab = 'teamManagement'"
+          ng-click = "\
+            $root.featureFlags.trialFooter = false;\
+            SEMC.currentTab = 'teamManagement';\
+          "
         )
           svg.iconnables.grid-content
             use(
@@ -40,7 +44,10 @@
           .btn-text.grid-content Teammates
         button.btn.btn-radio.grid-block.vertical(
           ng-class = "{'active': SEMC.currentTab === 'slackIntegration'}"
-          ng-click = "SEMC.currentTab = 'slackIntegration'"
+          ng-click = "\
+            $root.featureFlags.trialFooter = false;\
+            SEMC.currentTab = 'slackIntegration';\
+          "
           ng-show = "$root.featureFlags.updatedSlackValidation"
         )
           img.img.iconnables.grid-content(

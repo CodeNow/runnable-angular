@@ -5,7 +5,7 @@ div(
   ng-class = "{\
     'badge': $root.featureFlags.billing || $root.featureFlags.trial,\
     'badge-red': $root.featureFlags.billing && !$root.featureFlags.trial,\
-    'badge-gray': $root.featureFlags.trial,\
+    'badge-orange': $root.featureFlags.trial,\
     'no-touching': data.accountsDisabled()\
   }"
   ng-show = "data.activeAccount"

@@ -81,6 +81,7 @@
 // components specific
 @import "components/lists-teammates";
 @import "components/new-user-prompt";
+@import "components/notifications-trial";
 
 // external components
 @import "components/external/ace-theme";
@@ -161,6 +162,7 @@
 @import "popover/popover-primary-options";
 @import "popover/popover-rename";
 @import "popover/popover-rules";
+@import "popover/popover-team-management";
 @import "popover/popover-user";
 @import "popover/popover-validation";
 
@@ -181,8 +183,8 @@
 @import "layout/environment-footer";
 
 // pages
+@import "pages/grace-period";
 @import "pages/server-selection";
-@import "pages/welcome";
 
 //deprecated
 @import "deprecated/btn-auto-deploy";

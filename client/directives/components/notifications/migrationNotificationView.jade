@@ -1,0 +1,12 @@
+svg.grid-block.shrink.anchor-left.iconnables.icons-alert
+  use(
+    xlink:href = "#icons-alert-alt"
+  )
+
+.grid-block.vertical
+  h4.h4.text-overflow Container Temporarily Unavailable
+  .small We’re migrating your container to another server. You can rebuild your container to migrate immediately.
+  //- should open intercom link
+  a.small.link.icons-intercom(
+    ng-if = "$root.featureFlags.intercomOnMigration"
+  ) Chat with us if you keep having issues.

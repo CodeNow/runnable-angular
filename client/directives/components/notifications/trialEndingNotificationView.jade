@@ -1,0 +1,51 @@
+svg.iconnables.icons-close(
+  ng-click = "$root.featureFlags.trialEnding = false"
+)
+  use(
+    xlink:href = "#icons-close"
+  )
+
+.grid-block.vertical.padding-sm
+  //- number of days/hours should vary to show how much time is left
+  h4.grid-content.h4.text-center Your trial ends in 3 days.
+  p.grid-content.p.text-center Upgrade to make sure your team has uninterrupted access to their sandbox.
+
+.grid-block.vertical.form-plan
+  label.grid-block.align-center.well.well-plan.padding-xs
+    .grid-block.align-center.justify-center.shrink.white.current 🙂
+    .grid-block.vertical
+      .grid-block.p.strong 2 Repo
+        span.hidden-xxs sitory
+        | &nbsp;Limit
+      .grid-block.vertical.p(
+        ng-class = "{'discounted': $root.featureFlags.billingDiscounted}"
+      )
+        .grid-block
+          .strong {{$root.featureFlags.billingDiscounted ? '$4.97' : '$9.95'}}
+          span /user/month
+        .small(
+          ng-if = "$root.featureFlags.billingDiscounted"
+        )
+          span.strike.text-red $9.95
+          span.text-gray &#32;50% Off
+      .grid-content.p.small.text-gray 3 user minimum.
+    button.grid-block.shrink.btn.btn-xs.hidden-xxxs Upgrade
+
+  label.grid-block.align-center.well.well-plan.padding-xs
+    .grid-block.align-center.justify-center.shrink.white 😄
+    .grid-block.vertical
+      .grid-block.p.strong Unlimited Repos
+        span.hidden-xxs itories
+      .grid-block.vertical.p(
+        ng-class = "{'discounted': $root.featureFlags.billingDiscounted}"
+      )
+        .grid-block
+          .strong {{$root.featureFlags.billingDiscounted ? '$24.97' : '$49.95'}}
+          span /user/month
+        .small(
+          ng-if = "$root.featureFlags.billingDiscounted"
+        )
+          span.strike.text-red $49.95
+          span.text-gray &#32;50% Off
+      .grid-content.p.small.text-gray 3 user minimum.
+    button.grid-block.shrink.btn.btn-xs.hidden-xxxs Upgrade

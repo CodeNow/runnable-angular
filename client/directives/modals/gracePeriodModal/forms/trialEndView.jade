@@ -1,0 +1,40 @@
+h1.h1.text-center.padding-sm Thanks for trying Runnable!
+.modal-dialog.modal-md
+  .modal-body
+    .grid-block.vertical.padding-md(
+      ng-if = "!$root.featureFlag.gracePeriodTrialConfirm"
+    )
+      p.grid-content.p.text-center Choose a plan to continue using Runnable.
+      small.grid-content.small.text-center.text-gray
+        strong.strong Note:&#32;
+        //- number of hours should vary to show how much time is left
+        | Your containers will be paused in 72 hours if we cannot process a payment method.
+    hr.hr(
+      ng-if = "!$root.featureFlag.gracePeriodTrialConfirm"
+    )
+    .modal-form.form-billing
+      animated-panel-container
+        animated-panel(
+          default = "true"
+          name = "changePlanForm"
+        )
+          .grid-block.vertical.form-plan.fade(
+            ng-class = "{'in': isActivePanel()}"
+            ng-include = "'changePlanForm'"
+            ng-init = "state.fromTrialEnd = true"
+          )
+        animated-panel(
+          name = "changePaymentForm"
+        )
+          .grid-block.vertical.form-payment.fade(
+            ng-class = "{'in': isActivePanel()}"
+            ng-include = "'changePaymentForm'"
+          )
+        animated-panel(
+          name = "confirmationForm"
+        )
+          .grid-block.vertical.fade(
+            ng-class = "{'in': isActivePanel()}"
+            ng-include = "'confirmationForm'"
+            ng-init = "state.fromTrialEnd = true"
+          )

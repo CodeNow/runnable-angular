@@ -1,71 +1,14 @@
-.anchor-left
-  img.gravatar(
-    height = "27"
-    ng-src = "{{dataInstance.data.commit.attrs.author.avatar_url}}"
-    ng-if = "!dataInstance.data.instance.isMigrating()"
-    width = "27"
-  )
-  .btn.btn-xxs.btn-icon.btn-state.no-touching(
-    ng-if = "!dataInstance.data.instance.isMigrating()"
-  )
-    //- if updated
-    svg.iconnables.icons-check(
-      ng-if = "dataInstance.data.showUpdatedMessage"
-    )
-      use(
-        xlink:href = "#icons-fat-check"
-      )
-
-    //- if updating
-    svg.iconnables(
-      ng-if = "dataInstance.data.showUpdatingMessage"
-    )
-      use(
-        xlink:href = "#icons-alert-round"
-      )
-
-  svg.iconnables.icons-alert(
-    ng-if = "dataInstance.data.instance.isMigrating()"
-  )
-    use(
-      xlink:href = "#icons-alert-alt"
-    )
-
-h4.h4.text-overflow(
-  ng-if = "dataInstance.data.instance.isMigrating()"
-) Container Temporarily Unavailable
-
-.small(
-  ng-if = "dataInstance.data.instance.isMigrating()"
-) We’re migrating your container to another server. You can rebuild your container to migrate immediately.
-
-//- should open intercom link
-a.small.link.icons-intercom(
-  ng-if = "dataInstance.data.instance.isMigrating() && $root.featureFlags.intercomOnMigration"
-) Get in touch if you keep having issues.
-
-h4.h4.text-overflow(
-  ng-if = "!dataInstance.data.instance.isMigrating()"
-  title = "{{dataInstance.data.instance.getRepoAndBranchName()}}"
-) {{dataInstance.data.showUpdatedMessage ? 'Deployed' : 'Building' }}&#32;
-  span.strong {{dataInstance.data.instance.getMasterPodName()}}
-  span(
-    ng-if = "dataInstance.data.instance.getBranchName()"
-  ) /{{dataInstance.data.instance.getBranchName()}}
-
-.small(
-  ng-if = "!dataInstance.data.instance.isMigrating()"
-) {{dataInstance.data.commit.attrs.author.login}} pushed&#32;
-  a.link(
-    ng-href = "{{dataInstance.data.commit.attrs.html_url}}"
-    target = "_blank"
-  ) {{dataInstance.data.commit.attrs.sha | limitTo:7}}
-
-button.btn.btn-md.btn-icon.btn-close(
-  ng-if = "!dataInstance.data.instance.isMigrating()"
-  ng-click = "dataInstance.data.showUpdatedMessage = false; dataInstance.data.showUpdatingMessage = false"
+.grid-block(
+  ng-if = "dataInstance.data.instance.isMigrating() && !$root.featureFlags.trialEnding"
+  ng-include = "'migrationNotificationView'"
 )
-  svg.iconnables.icons-close
-    use(
-      xlink:href = "#icons-close"
-    )
+
+.grid-block(
+  ng-if = "!dataInstance.data.instance.isMigrating() && !$root.featureFlags.trialEnding"
+  ng-include = "'buildNotificationView'"
+)
+
+.grid-block.vertical(
+  ng-if = "!dataInstance.data.instance.isMigrating() && $root.featureFlags.trialEnding"
+  ng-include = "'trialEndingNotificationView'"
+)
