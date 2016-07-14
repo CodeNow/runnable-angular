@@ -7,6 +7,7 @@ h1.h1.text-center.padding-sm Thanks for trying Runnable!
       p.grid-content.p.text-center Choose a plan to continue using Runnable.
       small.grid-content.small.text-center.text-gray
         strong.strong Note:&#32;
+        //- number of hours should vary to show how much time is left
         | Your containers will be paused in 72 hours if we cannot process a payment method.
     hr.hr(
       ng-if = "!$root.featureFlag.gracePeriodTrialConfirm"
