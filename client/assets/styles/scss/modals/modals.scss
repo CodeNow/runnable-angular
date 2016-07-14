@@ -383,14 +383,14 @@
 
     &:first-child {
       margin-bottom: 15px;
+
+      + .well:last-child {
+        margin-top: 0;
+      }
     }
 
     &:last-child {
       margin-top: 15px;
-    }
-
-    + .well:last-child {
-      margin-top: 0;
     }
   }
 
