@@ -32,6 +32,7 @@ function BranchCommitSelectorController(
 
   BCSC.selectCommit = function (commit) {
     if (BCSC.data.useLatest) { return; }
+    if (BCSC.isAutoDeployOn() || BCSC.isLastestCommit()) { return; }
     BCSC.data.commit = commit;
     $scope.$emit('commit::selected', commit);
   };
