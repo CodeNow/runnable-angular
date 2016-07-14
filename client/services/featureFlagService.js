@@ -17,7 +17,6 @@ function featureFlags(
     cardStatus: false,
     connections: false,
     dockerfileMirroringMultiple: false,
-    dismissNotifications: false, // dismissing create/delete notifications
     editAnyInstance: false,
     emptyFolder: false, // shows empty folder markup
     fullScreen: false,  // toggles full screen
