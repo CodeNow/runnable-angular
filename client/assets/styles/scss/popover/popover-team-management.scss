@@ -1,0 +1,32 @@
+.popover-team-management {
+  max-height: 360px;
+  max-width: none;
+  width: 360px;
+
+  .popover-content {
+    max-height: 345px;
+    overflow: auto;
+
+    @include media(xs) {
+      padding: 12px; // .padding-xs
+    }
+  }
+
+  .modal-form {
+    width: 100%;
+  }
+
+  .list-teammates {
+    background: $gray-lighterest;
+    margin-top: 15px;
+
+    .text-overflow {
+      padding-right: 21px;
+    }
+  }
+
+  .btn-wrapper {
+    height: 100%;
+    line-height: 56px;
+  }
+}

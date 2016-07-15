@@ -58,6 +58,7 @@ $red: #f25058;
 $red-light: #ef737f;
 $red-lighter: #fde6e9;
 $red-dark: #e62932; // desaturate(darken($red,10),7);
+$red-darker: darken($red-dark,10%);
 
 $blue: #0ca6f2; // previously #2ab0f6;
 $blue-light: #8bd5f9; // previously #86cff6;

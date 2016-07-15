@@ -1,0 +1,29 @@
+h1.h1.text-center.padding-sm Money please.
+.modal-dialog.modal-md
+  .modal-body
+    .modal-form.form-billing
+      animated-panel-container
+        animated-panel(
+          default = "true"
+          name = "changePaymentForm"
+        )
+          .grid-block.vertical.padding-md
+            p.grid-content.p.text-center Your payment method has {{cardExpired ? 'expired' : 'been declined' }}. Update your payment method to continue using Runnable.
+            small.grid-content.small.text-center.text-gray
+              strong.strong Note:&#32;
+              //- number of hours should vary to show how much time is left
+              | Your containers will be paused in 72 hours if we cannot process a payment method.
+          hr.hr
+          .grid-block.vertical.form-payment.fade(
+            ng-class = "{'in': isActivePanel()}"
+            ng-include = "'changePaymentForm'"
+            ng-init = "state.fromPaymentDue = true"
+          )
+        animated-panel(
+          name = "confirmationForm"
+        )
+          .grid-block.vertical.fade(
+            ng-class = "{'in': isActivePanel()}"
+            ng-include = "'confirmationForm'"
+            ng-init = "state.fromPaymentDue = true"
+          )

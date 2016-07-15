@@ -1,19 +1,27 @@
 //- new alerts
-.notification.notification-sm.environment-notification.js-animate(
+.grid-block.align-center.notification.notification-sm.js-animate.top-right(
   ng-class = "{\
     'green': alert.type === 'success',\
     'red': alert.type === 'deleted'\
   }"
   ng-if = "alert"
 )
-  svg.iconnables.icons-check.float-left
+  svg.anchor-left.iconnables.icons-check(
+    ng-if = "alert.type === 'success'"
+  )
     use(
       xlink:href = "#icons-check"
     )
+  svg.anchor-left.iconnables.icons-trash(
+    ng-if = "alert.type === 'deleted'"
+  )
+    use(
+      xlink:href = "#icons-trash"
+    )
   span {{alert.text}}
-  //- a.link(
-  //-  ng-if = "$root.featureFlags.undoDelete
-  //- ) Undo
+  a.link.small.link-undo(
+    ng-if = "$root.featureFlags.undoDelete"
+  ) Undo
 
 //- environment page
 .environment-wrapper

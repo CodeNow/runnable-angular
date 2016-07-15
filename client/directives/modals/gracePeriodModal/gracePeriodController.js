@@ -1,15 +1,15 @@
 'use strict';
 
 require('app')
-  .controller('WelcomeBackController', WelcomeBackController);
+  .controller('GracePeriodController', GracePeriodController);
 
-function WelcomeBackController(
+function GracePeriodController(
   $rootScope
 ) {
   var WBC = this;
 
   $rootScope.dataApp = {
-    welcomeBack: true
+    gracePeriod: true
   };
   WBC.openIntercom = function () {
     window.Intercom(

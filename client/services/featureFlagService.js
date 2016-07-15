@@ -21,6 +21,10 @@ function featureFlags(
     emptyFolder: false, // shows empty folder markup
     fullScreen: false,  // toggles full screen
     fullScreenToggle: false,  // toggles the button that toggles full screen
+    gracePeriod: false, // if user enters the grace period during the preview
+    gracePeriodPayment: false, // if the user enters the grace period because of a payment error
+    gracePeriodTrial: false, // if the user enters the grace period because of trial expiring
+    gracePeriodTrialConfirm: false, // hides trial text on payment
     hostnameNotifications: false,
     hostnameTool: false,
     imAfraidOfTheDark: false, // toggles theme
@@ -44,11 +48,12 @@ function featureFlags(
     teamManagementAdvanced: false, // changes text from org to team in account menu
     testingFeature: false,
     themeToggle: false, // toggles the button that toggles theme
-    trial: false,
-    trialFooter: false,
+    trial: false, // sets account to trial mode
+    trialEnding: false, // shows notification when trial is ending
+    trialFooter: false, // toggles the footer in the trial/payments flow
     updatedSlackValidation: true,
+    undoDelete: false, // undo delete configuration
     webhooks: false,
-    welcomeBack: false,
     whitelist: true,
     whitelistIpFiltering: false
   };
