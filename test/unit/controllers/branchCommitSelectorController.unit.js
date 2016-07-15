@@ -193,7 +193,7 @@ describe('branchCommitSelectorController'.bold.underline.blue, function () {
         sinon.assert.notCalled(commitSelectedSpy);
       });
 
-      it('should set the commit', function (done) {
+      it('should set the commit', function () {
         var initialCommit = {
           foo: 'bar'
         };
@@ -208,7 +208,7 @@ describe('branchCommitSelectorController'.bold.underline.blue, function () {
         $scope.$digest();
         expect(branchCommitSelectorController.data.commit, 'data.commit').to.equal(fakeCommit);
         sinon.assert.calledOnce(commitSelectedSpy);
-        sinon.assert.calledWith(commitSelectedSpy, fakeCommit);
+        sinon.assert.calledWith(commitSelectedSpy, sinon.match.object, fakeCommit);
       });
     });
 
