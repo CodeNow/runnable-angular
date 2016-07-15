@@ -6,11 +6,13 @@ var GithubOrgCollection = require('@runnable/api-client/lib/collections/github-o
 require('app')
   // User + Orgs
   .factory('fetchUser', fetchUser)
+  .factory('fetchWhitelistedOrgsForDockCreated', fetchWhitelistedOrgsForDockCreated)
   .factory('fetchWhitelistedOrgs', fetchWhitelistedOrgs)
   .factory('fetchWhitelists', fetchWhitelists)
   .factory('fetchGithubOrgId', fetchGithubOrgId)
   .factory('fetchOrgRegisteredMembers', fetchOrgRegisteredMembers)
   .factory('fetchOrgMembers', fetchOrgMembers)
+  .factory('fetchGrantedGithubOrgs', fetchGrantedGithubOrgs)
   .factory('fetchOrgTeammateInvitations', fetchOrgTeammateInvitations)
   // All whitelisted usernames must be in lowercase
   .value('manuallyWhitelistedUsers', ['jdloft', 'hellorunnable', 'evandrozanatta', 'rsandor'])
@@ -55,11 +57,11 @@ function fetchUser(
       })
       .catch(function (err) {
         // Catch an unauth'd request and send 'em back
-        if (keypather.get(err, 'data.statusCode') === 401) {
-           $window.location = apiConfig.corporateUrl;
-          // Return a never completing function since we are redirecting!
-          return $q(angular.noop);
-        }
+        //if (keypather.get(err, 'data.statusCode') === 401) {
+        //   $window.location = apiConfig.corporateUrl;
+        //  // Return a never completing function since we are redirecting!
+        //  return $q(angular.noop);
+        //}
         // Allow other .catch blocks to grab it
         return $q.reject(err);
       });
@@ -67,11 +69,19 @@ function fetchUser(
 }
 
 function fetchWhitelistedOrgs(
-  fetchUser,
-  fetchWhitelists,
+  fetchWhitelistedOrgsForDockCreated,
   memoize
 ) {
   return memoize(function () {
+    return fetchWhitelistedOrgsForDockCreated();
+  });
+}
+
+function fetchWhitelistedOrgsForDockCreated(
+  fetchUser,
+  fetchWhitelists
+) {
+  return function () {
     return fetchUser()
       .then(function (user) {
         return fetchWhitelists()
@@ -79,10 +89,10 @@ function fetchWhitelistedOrgs(
             var githubOrgs = userWhitelists.map(function (userWhitelistModel) {
               return userWhitelistModel.attrs.org;
             });
-            return new GithubOrgCollection(githubOrgs, { client: user.client });
+            return new GithubOrgCollection(githubOrgs, {client: user.client});
           });
       });
-  });
+  };
 }
 
 function fetchWhitelists(
@@ -436,6 +446,18 @@ function fetchGitHubMembers(
     });
   });
   return _fetchGitHubMembers;
+}
+
+function fetchGrantedGithubOrgs(
+  fetchUser,
+  promisify
+) {
+  return function () {
+    return fetchUser()
+      .then(function (user) {
+        return promisify(user, 'fetchGithubOrgs')();
+      });
+  };
 }
 
 /**

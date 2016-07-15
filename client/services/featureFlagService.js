@@ -10,7 +10,7 @@ function featureFlags(
     allowIsolatedUpdate: false,
     autoIsolation: false,
     autoIsolationSetup: false,
-    autoWhitelist: false,
+    autoWhitelist: true,
     backup: false,
     billing: false,
     billingDiscounted: false,

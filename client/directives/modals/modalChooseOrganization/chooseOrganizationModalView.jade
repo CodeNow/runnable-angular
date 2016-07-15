@@ -8,6 +8,7 @@
   .modal-dialog.panel-orgs
     animated-panel-container
       animated-panel.modal-body.grid-block.vertical.padding-sm(
+        ng-init = "actions.initCheckForDockCreated(goToPanel)"
         default = "true"
         name = "orgSelection"
       )
@@ -35,7 +36,7 @@
           ng-if = "!$root.featureFlags.autoWhitelist"
         )
           label.grid-block.align-center.list-item.btn.white(
-            ng-click = "actions.selectAccount(org)"
+            ng-click = "actions.selectAccount(data.selectedOrgName)"
             ng-repeat = "org in data.allAccounts"
             title = "{{org.oauthName()}}"
           )
@@ -46,14 +47,15 @@
             )
             span.grid-block.text-left.text-overflow {{org.oauthName()}}
 
-        .grid-block.list.fade(
+        form.grid-block.list.fade(
+          name = "data.orgSelectorForm"
           ng-class = "{'in': isActivePanel()}"
           ng-if = "$root.featureFlags.autoWhitelist"
         )
           //- add .active class if this org is selected
           //- add [disabled] property when loading NOT class!
           label.grid-block.align-center.list-item.btn.white(
-            ng-class = "{'active': isSelected}"
+            ng-class = "{'active': org.oauthName() === data.selectedOrgName}"
             ng-repeat = "org in data.allAccounts"
             title = "{{org.oauthName()}}"
           )
@@ -64,8 +66,8 @@
             )
             span.grid-block.text-left.text-overflow {{org.oauthName()}}
             input.checkbox.hidden(
-              name = "org"
-              ng-model = "org"
+              ng-model = "data.selectedOrgName"
+              value = "{{org.oauthName()}}"
               type = "radio"
             )
             button.btn.btn-xs.btn-icon.btn-add.no-touching
@@ -84,7 +86,8 @@
 
           //- disabled until an org is selected
           button.grid-block.align-center.justify-center.btn.btn-md.green(
-            ng-click = "goToPanel('dockLoading')"
+            ng-click = "actions.createOrCheckDock(data.selectedOrgName, goToPanel)"
+            ng-disabled = "data.orgSelectorForm.$pristine"
           )
             //- show when loading
             //- .spinner-wrapper.spinner-white.spinner-sm(
@@ -100,7 +103,7 @@
         )
           //- dock spinning up
           h3.h3.text-center.padding-xs We’re spinning up a Sandbox for you.
-          p.p.padding-xs It’ll just take a few minutes! When we’re ready, this page will update and we’ll send an email to kahn@gmail.com.
+          p.p.padding-xs It’ll just take a few minutes! When we’re ready, this page will update and we’ll send an email to {{ data.user.email }}.
           a.link(
             ng-click = "goToPanel('dockLoaded')"
           ) Test next
@@ -118,4 +121,6 @@
         footer.grid-block.vertical.modal-footer.fade(
           ng-class = "{'in': isActivePanel()}"
         )
-          button.grid-block.align-center.justify-center.btn.btn-md.green Go to your sandbox!
+          button.grid-block.align-center.justify-center.btn.btn-md.green(
+            ng-click = "actions.selectAccount(data.selectedOrgName)"
+          ) Go to your sandbox!
