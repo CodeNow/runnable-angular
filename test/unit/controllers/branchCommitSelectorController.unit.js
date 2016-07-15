@@ -4,7 +4,6 @@ describe('branchCommitSelectorController'.bold.underline.blue, function () {
   var $scope;
   var $rootScope;
   var keypather;
-  var $elScope;
   var $controller;
   var $q;
   var branchCommitSelectorController;
@@ -142,44 +141,75 @@ describe('branchCommitSelectorController'.bold.underline.blue, function () {
       $rootScope.$destroy();
     });
 
-    it('should not set the commit when isLatest is true', function () {
-      var fakeCommit = {
-        asdasd: 'asdasd'
-      };
-      branchCommitSelectorController.data = {
-        useLatest: true,
-        branch: ctx.branch
-      };
-      $scope.$digest();
-
-      expect(branchCommitSelectorController.isLatestCommit(), 'useLatest').to.be.true;
-
-      branchCommitSelectorController.selectCommit(fakeCommit);
-      $scope.$digest();
-      expect(branchCommitSelectorController.isLatestCommit(), 'useLatest').to.be.true;
-      expect(branchCommitSelectorController.data.useLatest, 'data.useLatest').to.be.true;
-      expect(branchCommitSelectorController.data.commit, 'data.commit').to.not.equal(fakeCommit);
-      $rootScope.$destroy();
-    });
-
-    it('should set the commit', function (done) {
-      var fakeCommit = {
-        asdasd: 'asdasd'
-      };
-      $rootScope.$on('commit::selected', function (event, commit) {
-        expect(commit, 'data.commit').to.equal(fakeCommit);
-        done();
+    describe('selectCommit', function () {
+      var commitSelectedSpy;
+      var stopListeningToCommitSelected;
+      beforeEach(function () {
+        sinon.stub(branchCommitSelectorController, 'isAutoDeployOn').returns(false);
+        sinon.stub(branchCommitSelectorController, 'isLatestCommit').returns(false);
+        commitSelectedSpy = sinon.spy();
+        stopListeningToCommitSelected = $rootScope.$on('commit::selected', commitSelectedSpy);
       });
-      branchCommitSelectorController.data = {
-        useLatest: false,
-        branch: ctx.branch
-      };
-      $scope.$digest();
 
-      branchCommitSelectorController.selectCommit(fakeCommit);
-      $scope.$digest();
-      expect(branchCommitSelectorController.data.commit, 'data.commit').to.equal(fakeCommit);
-      $rootScope.$destroy();
+      afterEach(function () {
+        branchCommitSelectorController.isAutoDeployOn.restore();
+        branchCommitSelectorController.isLatestCommit.restore();
+        stopListeningToCommitSelected();
+      });
+
+      it('should not set the commit when isLatestCommit is true', function () {
+        var initialCommit = {
+          foo: 'bar'
+        };
+        branchCommitSelectorController.data = {
+          commit: initialCommit
+        };
+        $scope.$digest();
+        branchCommitSelectorController.isLatestCommit.returns(true);
+        var fakeCommit = {
+          asdasd: 'asdasd'
+        };
+        branchCommitSelectorController.selectCommit(fakeCommit);
+        $scope.$digest();
+        expect(branchCommitSelectorController.data.commit, 'data.commit').to.equal(initialCommit);
+        sinon.assert.notCalled(commitSelectedSpy);
+      });
+
+      it('should not set the commit when isAutoDeployOn is true', function () {
+        var initialCommit = {
+          foo: 'bar'
+        };
+        branchCommitSelectorController.data = {
+          commit: initialCommit
+        };
+        $scope.$digest();
+        branchCommitSelectorController.isAutoDeployOn.returns(true);
+        var fakeCommit = {
+          asdasd: 'asdasd'
+        };
+        branchCommitSelectorController.selectCommit(fakeCommit);
+        $scope.$digest();
+        expect(branchCommitSelectorController.data.commit, 'data.commit').to.equal(initialCommit);
+        sinon.assert.notCalled(commitSelectedSpy);
+      });
+
+      it('should set the commit', function (done) {
+        var initialCommit = {
+          foo: 'bar'
+        };
+        branchCommitSelectorController.data = {
+          commit: initialCommit
+        };
+        $scope.$digest();
+        var fakeCommit = {
+          asdasd: 'asdasd'
+        };
+        branchCommitSelectorController.selectCommit(fakeCommit);
+        $scope.$digest();
+        expect(branchCommitSelectorController.data.commit, 'data.commit').to.equal(fakeCommit);
+        sinon.assert.calledOnce(commitSelectedSpy);
+        sinon.assert.calledWith(commitSelectedSpy, fakeCommit);
+      });
     });
 
     describe('isAutoDeployOn', function () {
