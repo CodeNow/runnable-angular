@@ -8,11 +8,10 @@
   .modal-dialog.modal-lg.modal-orgs
     animated-panel-container
       animated-panel.modal-body.grid-block.vertical.padding-sm(
-        ng-init = "actions.initCheckForDockCreated(goToPanel)"
         default = "true"
         name = "orgSelection"
       )
-        p.p.padding-xs.fade(
+        p.p.padding-xs.text-center.fade(
           ng-class = "{'in': isActivePanel()}"
         ) Choose an organization for your Sandbox. If you don’t see your organization,&#32;
           a.link(
@@ -22,7 +21,9 @@
           | .
 
         //- empty state
-        //- .empty.well.gray.padding-lg
+        .empty.well.gray.padding-lg(
+          ng-if = "!data.allAccounts.length"
+        )
           h3.h3.empty.text-center We couldn’t find your organizations.
           small.small.empty.text-center
             a.link(
@@ -33,7 +34,7 @@
 
 
         .grid-block.list(
-          ng-if = "!$root.featureFlags.autoWhitelist"
+          ng-if = "!$root.featureFlags.autoWhitelist && data.allAccounts.length"
         )
           label.grid-block.align-center.list-item.btn.white(
             ng-click = "actions.selectAccount(data.selectedOrgName)"
@@ -50,7 +51,7 @@
         form.grid-block.list.fade(
           name = "data.orgSelectorForm"
           ng-class = "{'in': isActivePanel()}"
-          ng-if = "$root.featureFlags.autoWhitelist"
+          ng-if = "$root.featureFlags.autoWhitelist && data.allAccounts.length"
         )
           //- add .active class if this org is selected
           //- add [disabled] property when loading NOT class!
@@ -79,7 +80,7 @@
         //- hide the footer if no orgs are found
         footer.grid-block.vertical.modal-footer.fade(
           ng-class = "{'in': isActivePanel()}"
-          ng-if = "$root.featureFlags.autoWhitelist"
+          ng-if = "$root.featureFlags.autoWhitelist && data.allAccounts.length"
         )
           //- show this button when done waiting
           //- button.grid-block.align-center.justify-center.btn.btn-md.green Go to your sandbox!
@@ -90,9 +91,10 @@
             ng-disabled = "data.orgSelectorForm.$pristine"
           )
             //- show when loading
-            //- .spinner-wrapper.spinner-white.spinner-sm(
-            //-   ng-include = "'spinner'"
-            //- )
+            .spinner-wrapper.spinner-white.spinner-sm(
+              ng-if = "$root.isLoading.chooseOrg"
+              ng-include = "'spinner'"
+            )
             | Create Sandbox
 
       animated-panel.grid-block.vertical.padding-sm(
@@ -103,7 +105,7 @@
         )
           //- dock spinning up
           h3.h3.text-center.padding-xs We’re spinning up a Sandbox for you.
-          p.p.padding-xs It’ll just take a few minutes! When we’re ready, this page will update and we’ll send an email to {{ data.user.email }}.
+          p.p.padding-xs.text-center It’ll just take a few minutes! When we’re ready, this page will update and we’ll send an email to {{ data.user.email }}.
           a.link(
             ng-click = "goToPanel('dockLoaded')"
           ) Test next
@@ -115,7 +117,7 @@
         )
           //- dock spun up
           h3.h3.text-center.padding-xs Thanks for waiting!
-          p.p.padding-xs Your sandbox is ready.
+          p.p.padding-xs.text-center Your sandbox is ready.
 
         //- show this button when done waiting
         footer.grid-block.vertical.modal-footer.fade(

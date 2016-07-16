@@ -69,9 +69,8 @@ module.exports = [
       user: function (fetchUser) {
         return fetchUser();
       },
-      whitelistedOrgs: function (fetchWhitelistedOrgs) {
-        return fetchWhitelistedOrgs()
-          .catch(angular.noop);
+      whitelistedOrgs: function (fetchWhitelistForDockCreated) {
+        return fetchWhitelistForDockCreated();
       }
     }
   }, {

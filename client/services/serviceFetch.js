@@ -6,7 +6,7 @@ var GithubOrgCollection = require('@runnable/api-client/lib/collections/github-o
 require('app')
   // User + Orgs
   .factory('fetchUser', fetchUser)
-  .factory('fetchWhitelistedOrgsForDockCreated', fetchWhitelistedOrgsForDockCreated)
+  .factory('fetchWhitelistForDockCreated', fetchWhitelistForDockCreated)
   .factory('fetchWhitelistedOrgs', fetchWhitelistedOrgs)
   .factory('fetchWhitelists', fetchWhitelists)
   .factory('fetchGithubOrgId', fetchGithubOrgId)
@@ -69,19 +69,11 @@ function fetchUser(
 }
 
 function fetchWhitelistedOrgs(
-  fetchWhitelistedOrgsForDockCreated,
+  fetchUser,
+  fetchWhitelists,
   memoize
 ) {
   return memoize(function () {
-    return fetchWhitelistedOrgsForDockCreated();
-  });
-}
-
-function fetchWhitelistedOrgsForDockCreated(
-  fetchUser,
-  fetchWhitelists
-) {
-  return function () {
     return fetchUser()
       .then(function (user) {
         return fetchWhitelists()
@@ -90,6 +82,23 @@ function fetchWhitelistedOrgsForDockCreated(
               return userWhitelistModel.attrs.org;
             });
             return new GithubOrgCollection(githubOrgs, {client: user.client});
+          });
+      });
+  });
+}
+
+function fetchWhitelistForDockCreated(
+  fetchUser,
+  promisify
+) {
+  return function () {
+    return fetchUser()
+      .then(function (user) {
+        return promisify(user, 'fetchUserWhitelists', true)()
+          .then(function (res) {
+            return res.models.filter(function (userWhiteListModel) {
+              return !!userWhiteListModel.attrs.org;
+            });
           });
       });
   };
