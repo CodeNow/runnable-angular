@@ -22,21 +22,13 @@ module.exports = [
     state: 'index',
     abstract: false,
     url: '^/',
-    templateUrl: 'viewOrgSelect',
-    controller: 'indexController',
+    templateUrl: 'viewBaseLayout',
+    controller: 'IndexController',
     controllerAs: 'COS',
     resolve: {
-      user: function ($q, fetchUser, getFirstDockStartedOrg, keypather, $state) {
-        return $q.all({
-          firstDock: getFirstDockStartedOrg(),
-          user: fetchUser()
-        })
-          .then(function (results) {
-            if (!results.firstDock) {
-              // No org has been set up, so go to org-select
-              $state.go('orgSelect', { notify: true });
-            }
-            var user = results.user;
+      user: function ($state, fetchUser, keypather) {
+        return fetchUser()
+          .then(function (user) {
             var prevLocation = keypather.get(user, 'attrs.userOptions.uiState.previousLocation.org');
             var prevInstance = keypather.get(user, 'attrs.userOptions.uiState.previousLocation.instance');
             if (prevLocation) {
@@ -52,6 +44,15 @@ module.exports = [
               }
             }
             return user;
+          });
+      },
+      getFirstDockStartedOrg: function ($state, getFirstDockStartedOrg) {
+        getFirstDockStartedOrg()
+          .then(function (firstDock) {
+            if (!firstDock) {
+              // No org has been set up, so go to org-select
+              $state.go('orgSelect');
+            }
           });
       }
     }

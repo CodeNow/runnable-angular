@@ -1,10 +1,9 @@
 'use strict';
 
 require('app')
-  .controller('indexController', indexController);
+  .controller('IndexController', IndexController);
 
-
-function indexController(
+function IndexController(
   $rootScope,
   $scope,
   $state,
@@ -22,7 +21,6 @@ function indexController(
   $timeout(function () {
     $ocLazyLoad.load('ui.ace');
   }, 10000);
-
 
   var dataApp = $rootScope.dataApp = $scope.dataApp = {
     data: {

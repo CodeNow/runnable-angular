@@ -43,6 +43,7 @@ function fetchUser(
   $q,
   $window,
   apiClientBridge,
+  featureFlags,
   keypather,
   memoize,
   promisify,
@@ -50,18 +51,18 @@ function fetchUser(
 ) {
   return memoize(function () {
     return promisify(apiClientBridge, 'fetchUser')('me')
-      .then(function (_user) {
-        _user.createSocket();
-        report.setUser(_user);
-        return _user;
+      .then(function (user) {
+        user.createSocket();
+        report.setUser(user);
+        return user;
       })
       .catch(function (err) {
         // Catch an unauth'd request and send 'em back
-        //if (keypather.get(err, 'data.statusCode') === 401) {
-        //   $window.location = apiConfig.corporateUrl;
-        //  // Return a never completing function since we are redirecting!
-        //  return $q(angular.noop);
-        //}
+        if (!featureFlags.flags.autoWhitelist && keypather.get(err, 'data.statusCode') === 401) {
+          $window.location = apiConfig.corporateUrl;
+          // Return a never completing function since we are redirecting!
+          return $q(angular.noop);
+        }
         // Allow other .catch blocks to grab it
         return $q.reject(err);
       });
