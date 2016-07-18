@@ -49,7 +49,6 @@ function ChooseOrganizationModalController(
         return;
       }
       loading('chooseOrg', true);
-      console.log('asdasd', selectedOrgName);
       return COMC.fetchUpdatedWhitelistedOrg(selectedOrgName)
         .then(function (foundWhitelistedOrg) {
           if (foundWhitelistedOrg) {
@@ -103,7 +102,6 @@ function ChooseOrganizationModalController(
     COMC.pollingInterval = $interval(function () {
       COMC.fetchUpdatedWhitelistedOrg(whitelistedDock.attrs.name)
         .then(function (updatedOrg) {
-          console.log('hey');
           if (keypather.get(updatedOrg, 'attrs.firstDockCreated')) {
             COMC.cancelPolling();
             return goToPanelCb('dockLoaded');
