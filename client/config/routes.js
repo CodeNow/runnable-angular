@@ -22,14 +22,11 @@ module.exports = [
     state: 'index',
     abstract: false,
     url: '^/',
-    templateUrl: 'viewOrgSelect',
-    controller: 'ControllerOrgSelect',
+    templateUrl: 'viewBaseLayout',
+    controller: 'IndexController',
     controllerAs: 'COS',
     resolve: {
-      orgs: function (fetchWhitelistedOrgs, user) {
-        return fetchWhitelistedOrgs();
-      },
-      user: function (fetchUser, keypather, $state) {
+      user: function ($state, fetchUser, keypather) {
         return fetchUser()
           .then(function (user) {
             var prevLocation = keypather.get(user, 'attrs.userOptions.uiState.previousLocation.org');
@@ -45,6 +42,8 @@ module.exports = [
                   userName: prevLocation
                 });
               }
+            } else {
+              $state.go('orgSelect');
             }
             return user;
           });
@@ -55,11 +54,17 @@ module.exports = [
     abstract: false,
     url: '^/orgSelect',
     templateUrl: 'viewOrgSelect',
-    controller: 'ControllerOrgSelect',
+    controller: 'ChooseOrganizationModalController',
     controllerAs: 'COS',
     resolve: {
-      orgs: function (fetchWhitelistedOrgs) {
-        return fetchWhitelistedOrgs();
+      grantedOrgs: function (fetchGrantedGithubOrgs) {
+        return fetchGrantedGithubOrgs();
+      },
+      user: function (fetchUser) {
+        return fetchUser();
+      },
+      whitelistedOrgs: function (fetchWhitelistForDockCreated) {
+        return fetchWhitelistForDockCreated();
       }
     }
   }, {
@@ -94,14 +99,19 @@ module.exports = [
     controller: 'ControllerApp',
     controllerAs: 'CA',
     resolve: {
-      user: function (fetchUser, manuallyWhitelistedUsers) {
-        var userFetch = fetchUser()
+      user: function ($q, $state, $timeout, fetchUser, manuallyWhitelistedUsers) {
+        return fetchUser()
           .then(function (user) {
             var userName = user.oauthName().toLowerCase();
             user.isManuallyWhitelisted = manuallyWhitelistedUsers.includes(userName);
             return user;
+          })
+          .catch(function () {
+            return $timeout(function () {
+              $state.go('orgSelect');
+              return $q.reject(new Error('User Unauthorized for Organization'));
+            });
           });
-        return userFetch;
       },
       whitelists: function (fetchWhitelists) {
         return fetchWhitelists();

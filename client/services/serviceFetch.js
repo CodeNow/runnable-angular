@@ -6,11 +6,13 @@ var GithubOrgCollection = require('@runnable/api-client/lib/collections/github-o
 require('app')
   // User + Orgs
   .factory('fetchUser', fetchUser)
+  .factory('fetchWhitelistForDockCreated', fetchWhitelistForDockCreated)
   .factory('fetchWhitelistedOrgs', fetchWhitelistedOrgs)
   .factory('fetchWhitelists', fetchWhitelists)
   .factory('fetchGithubOrgId', fetchGithubOrgId)
   .factory('fetchOrgRegisteredMembers', fetchOrgRegisteredMembers)
   .factory('fetchOrgMembers', fetchOrgMembers)
+  .factory('fetchGrantedGithubOrgs', fetchGrantedGithubOrgs)
   .factory('fetchOrgTeammateInvitations', fetchOrgTeammateInvitations)
   // All whitelisted usernames must be in lowercase
   .value('manuallyWhitelistedUsers', ['jdloft', 'hellorunnable', 'evandrozanatta', 'rsandor'])
@@ -48,15 +50,15 @@ function fetchUser(
 ) {
   return memoize(function () {
     return promisify(apiClientBridge, 'fetchUser')('me')
-      .then(function (_user) {
-        _user.createSocket();
-        report.setUser(_user);
-        return _user;
+      .then(function (user) {
+        user.createSocket();
+        report.setUser(user);
+        return user;
       })
       .catch(function (err) {
         // Catch an unauth'd request and send 'em back
         if (keypather.get(err, 'data.statusCode') === 401) {
-           $window.location = apiConfig.corporateUrl;
+          $window.location = apiConfig.corporateUrl;
           // Return a never completing function since we are redirecting!
           return $q(angular.noop);
         }
@@ -79,27 +81,49 @@ function fetchWhitelistedOrgs(
             var githubOrgs = userWhitelists.map(function (userWhitelistModel) {
               return userWhitelistModel.attrs.org;
             });
-            return new GithubOrgCollection(githubOrgs, { client: user.client });
+            return new GithubOrgCollection(githubOrgs, {client: user.client});
           });
       });
   });
 }
 
-function fetchWhitelists(
+/**
+ * Fetches the orgs that have been whitelisted for our api
+ * (This version  does not cache, and should only be used by the org select)
+ * @param fetchUser
+ * @param promisify
+ * @returns {*}
+ */
+function fetchWhitelistForDockCreated(
   fetchUser,
-  memoize,
   promisify
 ) {
-  return memoize(function () {
+  return function () {
     return fetchUser()
       .then(function (user) {
-        return promisify(user, 'fetchUserWhitelists')();
+        return promisify(user, 'fetchUserWhitelists', true)();
       })
       .then(function (res) {
         return res.models.filter(function (userWhiteListModel) {
           return !!userWhiteListModel.attrs.org;
         });
       });
+  };
+}
+
+/**
+ * Fetches the orgs that have been whitelisted for our api
+ * (This version uses memoize for caching)
+ * @param fetchWhitelistForDockCreated
+ * @param memoize
+ * @returns {*}
+ */
+function fetchWhitelists(
+  fetchWhitelistForDockCreated,
+  memoize
+) {
+  return memoize(function () {
+    return fetchWhitelistForDockCreated();
   });
 }
 
@@ -436,6 +460,24 @@ function fetchGitHubMembers(
     });
   });
   return _fetchGitHubMembers;
+}
+
+/**
+ * Makes a github request for orgs, which should only return orgs that have granted us access
+ * @param fetchUser
+ * @param promisify
+ * @returns {Function}
+ */
+function fetchGrantedGithubOrgs(
+  fetchUser,
+  promisify
+) {
+  return function () {
+    return fetchUser()
+      .then(function (user) {
+        return promisify(user, 'fetchGithubOrgs')();
+      });
+  };
 }
 
 /**
