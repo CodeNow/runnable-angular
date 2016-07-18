@@ -38,7 +38,7 @@
         )
           label.grid-block.align-center.list-item.btn.white(
             ng-click = "actions.selectAccount(data.selectedOrgName)"
-            ng-repeat = "org in data.allAccounts"
+            ng-repeat = "org in data.whitelistedOrgs"
             title = "{{org.oauthName()}}"
           )
             img.grid-block.shrink(

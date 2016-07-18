@@ -124,8 +124,7 @@ module.exports = [
         return fetchWhitelists();
       },
       orgs: function (fetchWhitelistedOrgs) {
-        return fetchWhitelistedOrgs()
-          .catch(angular.noop);
+        return fetchWhitelistedOrgs();
       },
       activeAccount: function (
         $q,

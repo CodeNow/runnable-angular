@@ -4,7 +4,6 @@ require('app')
   .controller('ChooseOrganizationModalController', ChooseOrganizationModalController);
 function ChooseOrganizationModalController(
   $interval,
-  $q,
   $rootScope,
   $scope,
   $state,
@@ -18,73 +17,24 @@ function ChooseOrganizationModalController(
   user,
   whitelistedOrgs
 ) {
-  var COS = this;
-  COS.user = user;
+  var COMC = this;
+  COMC.user = user;
   loading.reset('chooseOrg');
   $rootScope.featureFlags = featureFlags.flags;
-  if (!$rootScope.featureFlags.autoWhitelist) {
-    this.allAccounts = whitelistedOrgs;
-  } else {
-    this.allAccounts = grantedOrgs.models;
-  }
+  COMC.allAccounts = grantedOrgs.models;
+  COMC.whitelistedOrgs = whitelistedOrgs;
 
-  COS.cancelPolling = function () {
-    if (COS.pollingInterval) {
-      $interval.cancel(COS.pollingInterval);
-    }
-  };
-  COS.pollForDockCreated = function (whitelistedDock, goToPanelCb) {
-    COS.cancelPolling();
-    if (keypather.get(whitelistedDock, 'attrs.firstDockCreated')) {
-      return goToPanelCb('dockLoaded');
-    }
-    goToPanelCb('dockLoading');
-
-    COS.pollingInterval = $interval(function () {
-      COS.fetchUpdatedWhitelistedOrg(whitelistedDock.attrs.name)
-        .then(function (updatedOrg) {
-          if (keypather.get(updatedOrg, 'attrs.firstDockCreated')) {
-            COS.cancelPolling();
-            return goToPanelCb('dockLoaded');
-          }
-        });
-    }, 1000);
-  };
-
-  COS.getFirstDockOrg = function () {
-    return whitelistedOrgs.find(function (org) {
-      return keypather.get(org, 'attrs.firstDockCreated');
-    });
-  };
-  COS.matchWhitelistedOrgByName = function (selectedOrgName) {
-    return whitelistedOrgs.find(function (org) {
-      return selectedOrgName.toLowerCase() === org.attrs.name.toLowerCase();
-    });
-  };
-  COS.getSelectedOrg = function (selectedOrgName) {
-    return COS.allAccounts.find(function (org) {
-      return selectedOrgName === org.oauthName();
-    });
-  };
-
-  COS.fetchUpdatedWhitelistedOrg = function (selectedOrgName) {
+  COMC.fetchUpdatedWhitelistedOrg = function (selectedOrgName) {
     return fetchWhitelistForDockCreated()
       .then(function (res) {
-        whitelistedOrgs = res;
-        return COS.matchWhitelistedOrgByName(selectedOrgName);
+        COMC.whitelistedOrgs = res;
+        return COMC.matchWhitelistedOrgByName(selectedOrgName);
       });
-  };
-
-  COS.getDockStatusPage = function (foundWhitelistedOrg) {
-    if (keypather.get(foundWhitelistedOrg, 'attrs.firstDockCreated')) {
-      return 'dockLoaded';
-    }
-    return 'dockLoading';
   };
 
   $scope.actions = {
     selectAccount: function (selectedOrgName) {
-      var selectedOrg = selectedOrgName ? COS.getSelectedOrg(selectedOrgName) : COS.getFirstDockOrg();
+      var selectedOrg = COMC.getSelectedOrg(selectedOrgName);
       if (!selectedOrg) {
         return;
       }
@@ -94,32 +44,72 @@ function ChooseOrganizationModalController(
       });
     },
     createOrCheckDock: function (selectedOrgName, goToPanelCb) {
-      loading('chooseOrg', true);
-      var selectedOrg = COS.getSelectedOrg(selectedOrgName);
+      var selectedOrg = COMC.getSelectedOrg(selectedOrgName);
       if (!selectedOrg) {
         return;
       }
-      return COS.fetchUpdatedWhitelistedOrg(selectedOrgName)
+      loading('chooseOrg', true);
+      console.log('asdasd', selectedOrgName);
+      return COMC.fetchUpdatedWhitelistedOrg(selectedOrgName)
         .then(function (foundWhitelistedOrg) {
           if (foundWhitelistedOrg) {
             return foundWhitelistedOrg;
           }
           return createNewSandboxForUserService(selectedOrgName)
             .then(function () {
-              return COS.fetchUpdatedWhitelistedOrg(selectedOrgName);
+              return COMC.fetchUpdatedWhitelistedOrg(selectedOrgName);
             });
         })
         .then(function (org) {
-          COS.pollForDockCreated(org, goToPanelCb);
+          COMC.pollForDockCreated(org, goToPanelCb);
         })
-        .catch(function (err) {
-          errs.handler(err);
-          return $q.reject(err);
-        })
+        .catch(errs.handler)
         .finally(function () {
           loading('chooseOrg', false);
         });
     }
+  };
+
+  // Searching methods
+  COMC.getFirstDockOrg = function () {
+    return COMC.whitelistedOrgs.find(function (org) {
+      return keypather.get(org, 'attrs.firstDockCreated');
+    });
+  };
+  COMC.matchWhitelistedOrgByName = function (selectedOrgName) {
+    return COMC.whitelistedOrgs.find(function (org) {
+      return selectedOrgName.toLowerCase() === org.attrs.name.toLowerCase();
+    });
+  };
+  COMC.getSelectedOrg = function (selectedOrgName) {
+    return COMC.allAccounts.find(function (org) {
+      return selectedOrgName.toLowerCase() === org.oauthName().toLowerCase();
+    });
+  };
+
+  // Polling stuff
+  COMC.cancelPolling = function () {
+    if (COMC.pollingInterval) {
+      $interval.cancel(COMC.pollingInterval);
+    }
+  };
+  COMC.pollForDockCreated = function (whitelistedDock, goToPanelCb) {
+    COMC.cancelPolling();
+    if (keypather.get(whitelistedDock, 'attrs.firstDockCreated')) {
+      return goToPanelCb('dockLoaded');
+    }
+    goToPanelCb('dockLoading');
+
+    COMC.pollingInterval = $interval(function () {
+      COMC.fetchUpdatedWhitelistedOrg(whitelistedDock.attrs.name)
+        .then(function (updatedOrg) {
+          console.log('hey');
+          if (keypather.get(updatedOrg, 'attrs.firstDockCreated')) {
+            COMC.cancelPolling();
+            return goToPanelCb('dockLoaded');
+          }
+        });
+    }, 1000);
   };
 
   // Since this is a root route, it needs this stuff

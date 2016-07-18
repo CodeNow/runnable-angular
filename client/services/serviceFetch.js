@@ -88,6 +88,13 @@ function fetchWhitelistedOrgs(
   });
 }
 
+/**
+ * Fetches the orgs that have been whitelisted for our api
+ * (This version  does not cache, and should only be used by the org select)
+ * @param fetchUser
+ * @param promisify
+ * @returns {*}
+ */
 function fetchWhitelistForDockCreated(
   fetchUser,
   promisify
@@ -95,31 +102,29 @@ function fetchWhitelistForDockCreated(
   return function () {
     return fetchUser()
       .then(function (user) {
-        return promisify(user, 'fetchUserWhitelists', true)()
-          .then(function (res) {
-            return res.models.filter(function (userWhiteListModel) {
-              return !!userWhiteListModel.attrs.org;
-            });
-          });
-      });
-  };
-}
-
-function fetchWhitelists(
-  fetchUser,
-  memoize,
-  promisify
-) {
-  return memoize(function () {
-    return fetchUser()
-      .then(function (user) {
-        return promisify(user, 'fetchUserWhitelists')();
+        return promisify(user, 'fetchUserWhitelists', true)();
       })
       .then(function (res) {
         return res.models.filter(function (userWhiteListModel) {
           return !!userWhiteListModel.attrs.org;
         });
       });
+  };
+}
+
+/**
+ * Fetches the orgs that have been whitelisted for our api
+ * (This version uses memoize for caching)
+ * @param fetchWhitelistForDockCreated
+ * @param memoize
+ * @returns {*}
+ */
+function fetchWhitelists(
+  fetchWhitelistForDockCreated,
+  memoize
+) {
+  return memoize(function () {
+    return fetchWhitelistForDockCreated();
   });
 }
 
@@ -458,6 +463,12 @@ function fetchGitHubMembers(
   return _fetchGitHubMembers;
 }
 
+/**
+ * Makes a github request for orgs, which should only return orgs that have granted us access
+ * @param fetchUser
+ * @param promisify
+ * @returns {Function}
+ */
 function fetchGrantedGithubOrgs(
   fetchUser,
   promisify

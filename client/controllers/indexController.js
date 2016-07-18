@@ -4,6 +4,7 @@ require('app')
   .controller('IndexController', IndexController);
 
 function IndexController(
+  $ocLazyLoad,
   $rootScope,
   $scope,
   $state,
@@ -14,8 +15,7 @@ function IndexController(
   configLoginURL,
   debounce,
   errs,
-  featureFlags,
-  $ocLazyLoad
+  featureFlags
 ) {
   // Load ace after 5 seconds. Should improve user experience overall..
   $timeout(function () {
