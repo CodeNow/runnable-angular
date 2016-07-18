@@ -37,8 +37,9 @@
           ng-if = "!$root.featureFlags.autoWhitelist && data.allAccounts.length"
         )
           label.grid-block.align-center.list-item.btn.white(
-            ng-click = "actions.selectAccount(data.selectedOrgName)"
-            ng-repeat = "org in data.whitelistedOrgs"
+            ng-click = "actions.selectAccount(org.oauthName())"
+            ng-repeat = "org in data.allAccounts"
+            ng-if = "data.matchWhitelistedOrgByName(org.oauthName()) "
             title = "{{org.oauthName()}}"
           )
             img.grid-block.shrink(
