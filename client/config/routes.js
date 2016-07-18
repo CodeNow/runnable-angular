@@ -42,17 +42,10 @@ module.exports = [
                   userName: prevLocation
                 });
               }
-            }
-            return user;
-          });
-      },
-      doesOrgHaveStartedDock: function ($state, doesOrgHaveStartedDock) {
-        doesOrgHaveStartedDock()
-          .then(function (firstDock) {
-            if (!firstDock) {
-              // No org has been set up, so go to org-select
+            } else {
               $state.go('orgSelect');
             }
+            return user;
           });
       }
     }
