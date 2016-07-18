@@ -1,11 +1,13 @@
 //- show highest priority badge
 //- if on a trial: show number of days left in trial as badge
 div(
-  ng-attr-data-badge-count = "{{$root.featureFlags.trial ? '12' : '!'}}"
+  ng-attr-data-badge-count = "\
+    {{$root.featureFlags.trial ? '12' : ''}}\
+    {{$root.featureFlags.billingExpired ? '!' : ''}}\
+  "
   ng-class = "{\
-    'badge': $root.featureFlags.billing || $root.featureFlags.trial,\
-    'badge-red': $root.featureFlags.billing && !$root.featureFlags.trial,\
-    'badge-orange': $root.featureFlags.trial,\
+    'badge': $root.featureFlags.billingExpired || $root.featureFlags.trial,\
+    'badge-orange': $root.featureFlags.trial || $root.featureFlags.billingExpired,\
     'no-touching': data.accountsDisabled()\
   }"
   ng-show = "data.activeAccount"
