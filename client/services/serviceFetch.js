@@ -43,7 +43,6 @@ function fetchUser(
   $q,
   $window,
   apiClientBridge,
-  featureFlags,
   keypather,
   memoize,
   promisify,
@@ -58,7 +57,7 @@ function fetchUser(
       })
       .catch(function (err) {
         // Catch an unauth'd request and send 'em back
-        if (!featureFlags.flags.autoWhitelist && keypather.get(err, 'data.statusCode') === 401) {
+        if (keypather.get(err, 'data.statusCode') === 401) {
           $window.location = apiConfig.corporateUrl;
           // Return a never completing function since we are redirecting!
           return $q(angular.noop);
