@@ -23,7 +23,7 @@ var codenowWhitelistedOrg;
 var createdDockOrg;
 var COMC;
 
-describe.only('ChooseOrganizationModalController', function () {
+describe('ChooseOrganizationModalController', function () {
 
   function initialize() {
     codenowWhitelistedOrg = {
