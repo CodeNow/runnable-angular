@@ -46,8 +46,8 @@ module.exports = [
             return user;
           });
       },
-      getFirstDockStartedOrg: function ($state, getFirstDockStartedOrg) {
-        getFirstDockStartedOrg()
+      doesOrgHaveStartedDock: function ($state, doesOrgHaveStartedDock) {
+        doesOrgHaveStartedDock()
           .then(function (firstDock) {
             if (!firstDock) {
               // No org has been set up, so go to org-select

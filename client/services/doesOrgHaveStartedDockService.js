@@ -1,9 +1,9 @@
 'use strict';
 
 require('app')
-  .factory('getFirstDockStartedOrg', getFirstDockStartedOrg);
+  .factory('doesOrgHaveStartedDock', doesOrgHaveStartedDock);
 
-function getFirstDockStartedOrg(
+function doesOrgHaveStartedDock(
   fetchWhitelistedOrgsForDockCreated,
   keypather
 ) {
