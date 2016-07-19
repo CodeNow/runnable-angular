@@ -42,10 +42,9 @@ function ChooseOrganizationModalController(
       if (!selectedOrg) {
         return;
       }
-      $scope.$emit('close-modal');
       $state.go('base.instances', {
         userName: selectedOrg.oauthName()
-      });
+      }, {}, { reload: true });
     },
     createOrCheckDock: function (selectedOrgName, goToPanelCb) {
       var selectedOrg = COMC.getSelectedOrg(selectedOrgName);
