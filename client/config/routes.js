@@ -56,6 +56,10 @@ module.exports = [
     templateUrl: 'viewOrgSelect',
     controller: 'ChooseOrganizationModalController',
     controllerAs: 'COS',
+    onExit: function ($rootScope) {
+      $rootScope.$broadcast('app-document-click');
+      $rootScope.$broadcast('close-modal');
+    },
     resolve: {
       grantedOrgs: function (fetchGrantedGithubOrgs) {
         return fetchGrantedGithubOrgs();

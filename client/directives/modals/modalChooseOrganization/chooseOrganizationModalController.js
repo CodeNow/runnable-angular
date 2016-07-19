@@ -24,6 +24,10 @@ function ChooseOrganizationModalController(
   COMC.allAccounts = grantedOrgs.models;
   COMC.whitelistedOrgs = whitelistedOrgs;
 
+  // otherwise the user can clear away the model
+  // this will be re-added when they transition to something else
+  keypather.set($rootScope, 'dataApp.documentKeydownEventHandler', null);
+
   COMC.fetchUpdatedWhitelistedOrg = function (selectedOrgName) {
     return fetchWhitelistForDockCreated()
       .then(function (res) {

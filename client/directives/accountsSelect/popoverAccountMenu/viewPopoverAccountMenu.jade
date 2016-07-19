@@ -154,7 +154,8 @@
               | {{account.oauthName()}}
             li.list-item.padding-xxs
               a.btn.btn-sm.gray.btn-block(
-                href = "/orgSelect"
+                ui-sref = "orgSelect"
+                ui-sref-opts = "{reload: true}"
                 ng-if = "$root.featureFlags.autoWhitelist"
               ) Add Organization
 
