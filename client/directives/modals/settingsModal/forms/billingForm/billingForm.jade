@@ -57,6 +57,10 @@
         ng-class = "{'in': isActivePanel()}"
         ng-include = "'historyForm'"
       )
+      .grid-block.vertical.label.padding-sm.fade(
+        ng-class = "{'in': isActivePanel()}"
+        ng-include = "'disableOrgForm'"
+      )
     animated-panel(
       name = "changePlanForm"
     )
