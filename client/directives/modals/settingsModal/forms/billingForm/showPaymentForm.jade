@@ -1,7 +1,12 @@
 .clearfix
   .label-col.full-width Payment Info
+    btn.btn-xxs.btn-badge.anchor-right.orange.float-right(
+      ng-if = "$root.featureFlags.billingExpired"
+    ) Card Expired
 //- add .flash on update to indicate updated
-label.grid-block.align-center.well.well-summary.padding-sm
+label.grid-block.align-center.well.well-summary.padding-sm(
+  ng-class = "{'invalid': $root.featureFlags.billingExpired}"
+)
   .grid-block.vertical
     .p.small Added by:
     .p.strong sundippatel

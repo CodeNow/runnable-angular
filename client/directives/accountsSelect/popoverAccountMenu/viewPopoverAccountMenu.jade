@@ -25,12 +25,7 @@
             //- *****************
             //- $root.featureFlags.billing
             li.list-item.popover-list-item(
-              data-badge-count = "!"
               ng-click = "actions.openSettingsModal('billing')"
-              ng-class = "{\
-                'badge': !$root.featureFlags.trial,\
-                'badge-red': !$root.featureFlags.trial\
-              }"
               ng-if = "$root.featureFlags.billing"
             )
               svg.iconnables
@@ -38,12 +33,15 @@
                   xlink:href = "#icons-billing"
                 )
               | Billing
-
-              //- add .red class once trial is down to 5 days (show as badge on gravatar)
               btn.btn-xxs.btn-badge.anchor-right.orange(
-                ng-if = "$root.featureFlags.trial"
-                title = "12 days left in your trial"
-              ) 12 Days Left
+                ng-if = "$root.featureFlags.trial || $root.featureFlags.billingExpired"
+                title = "\
+                  {{$root.featureFlags.trial ? '12 days left in your trial' : ''}}\
+                  {{$root.featureFlags.billingExpired ? 'Your card has expired' : ''}}\
+                "
+              )
+                | {{$root.featureFlags.trial ? '12 Days Left' : ''}}
+                | {{$root.featureFlags.billingExpired ? 'Card Expired' : ''}}
             li.list-item.popover-list-item(
               ng-click = "actions.openSettingsModal('teamManagement')"
             )
