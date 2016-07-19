@@ -5,7 +5,12 @@
     src = "/build/images/runnabear-waving-3.png"
     width = "230"
   )
-  .modal-dialog.modal-lg.modal-orgs
+  .modal-dialog.modal-orgs(
+    ng-class = "{\
+      'modal-lg': data.allAccounts.length > 1,\
+      'modal-sm': data.allAccounts.length <= 1\
+    }"
+  )
     animated-panel-container
       animated-panel.modal-body.grid-block.vertical.padding-sm(
         default = "true"
