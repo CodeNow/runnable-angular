@@ -38,12 +38,8 @@ function ChooseOrganizationModalController(
 
   $scope.actions = {
     selectAccount: function (selectedOrgName) {
-      var selectedOrg = COMC.getSelectedOrg(selectedOrgName);
-      if (!selectedOrg) {
-        return;
-      }
       $state.go('base.instances', {
-        userName: selectedOrg.oauthName()
+        userName: selectedOrgName
       }, {}, { reload: true });
     },
     createOrCheckDock: function (selectedOrgName, goToPanelCb) {

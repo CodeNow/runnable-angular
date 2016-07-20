@@ -98,7 +98,7 @@
           )
             //- show when loading
             .spinner-wrapper.spinner-white.spinner-sm(
-              ng-if = "$root.isLoading.chooseOrg"
+              ng-if = "!data.selectedOrgName"
               ng-include = "'spinner'"
             )
             | Create Sandbox
