@@ -9,15 +9,12 @@
 
   // runnabear
   .runnabear {
-    display: block;
-    left: 0;
     margin: -13px auto 0;
-    position: absolute;
-    right: 0;
+    position: relative;
     z-index: 1;
 
     + .modal-dialog {
-      margin-top: 105px;
+      margin-top: -12px;
     }
   }
 
@@ -28,8 +25,8 @@
   }
 }
 
-.welcome .animated-panel-container {
-  overflow: visible; // crappy fix for animated panel not wanting to be larger than viewport height
+.welcome {
+  max-height: 100vh;
 }
 
 .modal-orgs {
