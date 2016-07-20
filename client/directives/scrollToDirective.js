@@ -7,6 +7,9 @@ function scrollTo(
 ) {
   return {
     restrict: 'A',
+    scope: {
+      scrollOffset: '=',
+    },
     link: function ($scope, elem, attrs) {
       $timeout(function () {
         var scrollOffset = attrs.scrollOffset || 0;
