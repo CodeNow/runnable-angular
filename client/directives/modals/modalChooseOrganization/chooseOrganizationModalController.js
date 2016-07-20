@@ -38,12 +38,8 @@ function ChooseOrganizationModalController(
 
   $scope.actions = {
     selectAccount: function (selectedOrgName) {
-      var selectedOrg = COMC.getSelectedOrg(selectedOrgName);
-      if (!selectedOrg) {
-        return;
-      }
       $state.go('base.instances', {
-        userName: selectedOrg.oauthName()
+        userName: selectedOrgName
       }, {}, { reload: true });
     },
     createOrCheckDock: function (selectedOrgName, goToPanelCb) {
@@ -59,11 +55,11 @@ function ChooseOrganizationModalController(
           }
           return createNewSandboxForUserService(selectedOrgName)
             .then(function () {
-              return COMC.fetchUpdatedWhitelistedOrg(selectedOrgName);
+              return null;
             });
         })
         .then(function (org) {
-          COMC.pollForDockCreated(org, goToPanelCb);
+          COMC.pollForDockCreated(org, selectedOrgName, goToPanelCb);
         })
         .catch(errs.handler)
         .finally(function () {
@@ -95,7 +91,7 @@ function ChooseOrganizationModalController(
       $interval.cancel(COMC.pollingInterval);
     }
   };
-  COMC.pollForDockCreated = function (whitelistedDock, goToPanelCb) {
+  COMC.pollForDockCreated = function (whitelistedDock, selectedOrgName, goToPanelCb) {
     COMC.cancelPolling();
     if (keypather.get(whitelistedDock, 'attrs.firstDockCreated')) {
       return goToPanelCb('dockLoaded');
@@ -103,7 +99,7 @@ function ChooseOrganizationModalController(
     goToPanelCb('dockLoading');
 
     COMC.pollingInterval = $interval(function () {
-      COMC.fetchUpdatedWhitelistedOrg(whitelistedDock.attrs.name)
+      COMC.fetchUpdatedWhitelistedOrg(selectedOrgName)
         .then(function (updatedOrg) {
           if (keypather.get(updatedOrg, 'attrs.firstDockCreated')) {
             COMC.cancelPolling();
