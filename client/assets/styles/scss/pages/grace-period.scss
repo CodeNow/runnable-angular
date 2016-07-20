@@ -28,6 +28,10 @@
   }
 }
 
+.welcome .animated-panel-container {
+  overflow: visible; // crappy fix for animated panel not wanting to be larger than viewport height
+}
+
 .modal-orgs {
 
   .empty .h3 {
