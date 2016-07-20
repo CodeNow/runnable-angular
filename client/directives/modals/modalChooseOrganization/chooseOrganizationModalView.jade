@@ -1,11 +1,11 @@
-.welcome
-  h1.h1.text-center.strong.padding-sm Welcome to Runnable!
+.modal-backdrop.welcome
+  h1.grid-block.shrink.h1.text-center.strong.padding-sm Welcome to Runnable!
   img.img.runnabear(
     height = "130"
     src = "/build/images/runnabear-waving-3.png"
     width = "230"
   )
-  .modal-dialog.modal-orgs(
+  .grid-block.shrink.modal-dialog.modal-orgs(
     ng-class = "{\
       'modal-lg': data.allAccounts.length > 1,\
       'modal-sm': data.allAccounts.length <= 1\
