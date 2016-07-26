@@ -38,7 +38,7 @@
   label.grid-block.align-center.well.well-plan.padding-sm(
     ng-class = "{\
       'active': model.plan === 'unlimited',\
-      'disabled not-allowed': !$root.featureFlags.trial\
+      'disabled not-allowed': !$root.featureFlags.trial && !$root.featureFlags.billingChangePlan\
     }"
   )
     .grid-block.align-center.justify-center.shrink.white 😄
@@ -59,7 +59,7 @@
       .grid-content.p.small.text-gray 3 user minimum.
     input.checkbox.hidden(
       name = "plan"
-      ng-disabled = "!$root.featureFlags.trial"
+      ng-disabled = "!$root.featureFlags.trial && !$root.featureFlags.billingChangePlan"
       ng-model = "model.plan"
       value = "unlimited"
       type = "radio"
@@ -73,7 +73,7 @@
         )
 
   p.grid-content.p.text-gray.text-center.padding-sm(
-    ng-if = "!$root.featureFlags.trial"
+    ng-if = "!$root.featureFlags.trial && !$root.featureFlags.billingChangePlan"
   ) Please&#32;
     a.link(
       href = "mailto: billing@runnable.com"
@@ -81,7 +81,9 @@
     | &#32;to make changes to your plan.
 
   //- 3 users is the minimum amount
-  p.grid-content.p.text-gray.text-center.padding-sm
+  p.grid-content.p.text-gray.text-center.padding-sm(
+    ng-if = "!$root.featureFlags.billingChangePlan"
+  )
     span(
       ng-if = "$root.featureFlags.trial"
     ) {{model.plan === 'limited' && $root.featureFlags.trial && !state.fromTrialEnd ? 'After your trial, you’ll be charged for ' : 'You’ll be charged for '}}
@@ -102,21 +104,51 @@
       target = "_blank"
     ) Details
 
+  p.grid-content.p.text-gray.text-center.padding-sm(
+    ng-if = "$root.featureFlags.billingChangePlan"
+  ) You will be charged&#32;
+    strong $219.70
+    | &#32;for 6 users for the remainder of the billing period. Your next billing date is July 24
+    sup th
+    | , 2016.
+    //- | You will be credited &#32;
+    //- strong $91.70
+    //- | &#32;for 6 users. Your next billing date is July 24
+    //- sup th
+    //- | , 2016.
+
+  p.grid-content.p.text-gray.text-center.padding-sm(
+    ng-if = "!$root.featureFlags.trial && !$root.featureFlags.billingChangePlan"
+  ) Your payment changes will be applied to your next billing date on July 24
+    sup th
+    | , 2016.
+
 footer.modal-footer.clearfix
+
+  //- from billing overview buttons:
+  //- disable if plan hasn't been changed
+  button.btn.btn-md.green.float-right(
+    ng-click = "goToPanel('billingForm', 'back')"
+    ng-if = "!$root.featureFlags.trial && $root.featureFlags.billingChangePlan"
+    type = "button"
+  ) Change Plan
+
   button.btn.btn-md.gray.btn-cancel.float-left(
-    ng-if = "!$root.featureFlags.trial"
     ng-click = "\
       $root.featureFlags.trialFooter = false;\
       goToPanel('billingForm', 'back');\
     "
+    ng-if = "!$root.featureFlags.trial"
   ) Cancel
 
+  //- from trial buttons:
   //- disabled if no plan is selected
   button.btn.btn-md.white.float-right(
     ng-click = "goToPanel('changePaymentForm')"
     ng-if = "$root.featureFlags.trial"
     type = "button"
   ) Next: Payment
+
   button.btn.btn-md.gray.btn-cancel.float-right(
     ng-click = "\
       $root.featureFlags.trialFooter = false;\
