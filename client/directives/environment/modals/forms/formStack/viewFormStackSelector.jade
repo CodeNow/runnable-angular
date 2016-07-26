@@ -5,6 +5,16 @@
   .btn-group.btn-group-stacks(
     ng-if = "isNewContainer && $root.featureFlags.newVerificationFlowStackSelector"
   )
+    label.btn.btn-radio.white
+      img.iconnables(
+        height = "24"
+        src = "/build/images/logos/logo-icon-java.svg"
+        width = "24"
+      )
+      | Java
+      input.input-radio(
+        type = "radio"
+      )
     label.btn.btn-radio.white(
       ng-repeat = "framework in stacks track by framework.key"
       ng-class = "{\
@@ -22,10 +32,10 @@
       | {{framework.name}}
       input.input-radio(
         name = "state.selectedStack"
-        ng-model = "temp.stackKey"
-        type = "radio"
-        ng-value = "framework.key"
         ng-disabled = "saving"
+        ng-model = "temp.stackKey"
+        ng-value = "framework.key"
+        type = "radio"
       )
 
   fancy-select.btn-sm.white(
