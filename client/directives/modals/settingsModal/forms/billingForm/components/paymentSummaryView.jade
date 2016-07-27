@@ -1,0 +1,23 @@
+span(
+  ng-if = "$root.featureFlags.trial"
+) At your current usage, you’ll be charged&#32;
+  strong {{$root.featureFlags.billingDiscounted ? '$147' : '$294'}} for 6 users
+  | &#32;when your trial ends.
+
+span(
+  ng-if = "!state.hasPaid && !$root.featureFlags.trial"
+) At your current usage, your next bill would be&#32;
+  strong {{$root.featureFlags.billingDiscounted ? '$147' : '$294'}} for 6 users
+  | .
+
+span(
+  ng-if = "state.hasPaid && !$root.featureFlags.trial"
+) You’ve been charged&#32;
+  strong {{$root.featureFlags.billingDiscounted ? '$147' : '$294'}}
+  | &#32;for 6 users for the remainder of the billing period.
+
+span(
+  ng-if = "state.showNext"
+) &#32;Your {{$root.featureFlags.trial ? 'first' : 'next'}} billing date is July&nbsp;24
+  sup th
+  | ,&nbsp;2016.

@@ -1,34 +1,39 @@
 //- changing plans
-.padding-md
+.padding-md(
+  ng-init = "model.plan = (!$root.featureFlags.trial) ? 'premium' : null"
+)
   label.grid-block.align-center.well.well-plan.padding-sm(
-    ng-class = "{'active': model.plan === 'limited' || !$root.featureFlags.trial}"
+    ng-class = "{\
+      'active': (model.plan === 'starter'),\
+      'disabled not-allowed': !$root.featureFlags.trial && !$root.featureFlags.billingChangePlan\
+    }"
   )
     //- add .current class for current plan
-    .grid-block.align-center.justify-center.shrink.white.current 🙂
+    .grid-block.align-center.justify-center.shrink.white 🚲
     .grid-block.vertical
-      .grid-block.p.strong 2 Repo
-        span.hidden-xxs sitory
-        | &nbsp;Limit
+      .grid-block.p.strong 2 Config
+        span.hidden-xxs uration
       .grid-block.vertical.p(
         ng-class = "{'discounted': $root.featureFlags.billingDiscounted}"
       )
         .grid-block
-          .strong {{$root.featureFlags.billingDiscounted ? '$4.97' : '$9.95'}}
+          .strong {{$root.featureFlags.billingDiscounted ? '$4.50' : '$9'}}
           span /user/month
         .small(
           ng-if = "$root.featureFlags.billingDiscounted"
         )
-          span.strike.text-red $9.95
+          span.strike.text-red $9
           span.text-gray &#32;50% Off
       .grid-content.p.small.text-gray 3 user minimum.
     input.checkbox.hidden(
       name = "plan"
+      ng-disabled = "!$root.featureFlags.trial && !$root.featureFlags.billingChangePlan"
       ng-model = "model.plan"
-      value = "limited"
+      value = "starter"
       type = "radio"
     )
     button.grid-block.shrink.btn.btn-xs.btn-icon.btn-add(
-      ng-class = "{'active': model.plan === 'limited' || !$root.featureFlags.trial}"
+      ng-class = "{'active': (model.plan === 'starter')}"
     )
       svg.iconnables.icons-check
         use(
@@ -37,35 +42,72 @@
 
   label.grid-block.align-center.well.well-plan.padding-sm(
     ng-class = "{\
-      'active': model.plan === 'unlimited',\
+      'active': (model.plan === 'standard'),\
       'disabled not-allowed': !$root.featureFlags.trial && !$root.featureFlags.billingChangePlan\
     }"
   )
-    .grid-block.align-center.justify-center.shrink.white 😄
+    //- add .current class for current plan
+    .grid-block.align-center.justify-center.shrink.white 🚗
     .grid-block.vertical
-      .grid-block.p.strong Unlimited Repos
-        span.hidden-xxs itories
+      .grid-block.p.strong 7 Config
+        span.hidden-xxs uration
       .grid-block.vertical.p(
         ng-class = "{'discounted': $root.featureFlags.billingDiscounted}"
       )
         .grid-block
-          .strong {{$root.featureFlags.billingDiscounted ? '$24.97' : '$49.95'}}
+          .strong {{$root.featureFlags.billingDiscounted ? '$14.50' : '$29'}}
           span /user/month
         .small(
           ng-if = "$root.featureFlags.billingDiscounted"
         )
-          span.strike.text-red $49.95
+          span.strike.text-red $29
           span.text-gray &#32;50% Off
       .grid-content.p.small.text-gray 3 user minimum.
     input.checkbox.hidden(
       name = "plan"
       ng-disabled = "!$root.featureFlags.trial && !$root.featureFlags.billingChangePlan"
       ng-model = "model.plan"
-      value = "unlimited"
+      value = "standard"
       type = "radio"
     )
     button.grid-block.shrink.btn.btn-xs.btn-icon.btn-add(
-      ng-class = "{'active': model.plan === 'unlimited'}"
+      ng-class = "{'active': (model.plan === 'standard')}"
+    )
+      svg.iconnables.icons-check
+        use(
+          xlink:href = "#icons-check"
+        )
+
+
+  label.grid-block.align-center.well.well-plan.padding-sm(
+    ng-class = "{'active': model.plan === 'premium'}"
+  )
+    .grid-block.align-center.justify-center.shrink.white(
+      ng-class = "{'current': !$root.featureFlags.trial}"
+    ) ✈️
+    .grid-block.vertical
+      .grid-block.p.strong 15 Config
+        span.hidden-xxs uration
+      .grid-block.vertical.p(
+        ng-class = "{'discounted': $root.featureFlags.billingDiscounted}"
+      )
+        .grid-block
+          .strong {{$root.featureFlags.billingDiscounted ? '$24.50' : '$49'}}
+          span /user/month
+        .small(
+          ng-if = "$root.featureFlags.billingDiscounted"
+        )
+          span.strike.text-red $49
+          span.text-gray &#32;50% Off
+      .grid-content.p.small.text-gray 3 user minimum.
+    input.checkbox.hidden(
+      name = "plan"
+      ng-model = "model.plan"
+      value = "premium"
+      type = "radio"
+    )
+    button.grid-block.shrink.btn.btn-xs.btn-icon.btn-add(
+      ng-class = "{'active': model.plan === 'premium'}"
     )
       svg.iconnables.icons-check
         use(
@@ -80,55 +122,20 @@
     ) contact us
     | &#32;to make changes to your plan.
 
-  //- 3 users is the minimum amount
   p.grid-content.p.text-gray.text-center.padding-sm(
-    ng-if = "!$root.featureFlags.billingChangePlan"
+    ng-include = "'paymentSummaryView'"
+    ng-init = "\
+      state.hasPaid = false;\
+      state.showNext = true;\
+    "
   )
-    span(
-      ng-if = "$root.featureFlags.trial"
-    ) {{model.plan === 'limited' && $root.featureFlags.trial && !state.fromTrialEnd ? 'After your trial, you’ll be charged for ' : 'You’ll be charged for '}}
-      strong.strong(
-        ng-if = "!state.fromTrialEnd"
-      ) 6 users
-      //- this isn't aligning properly for some type of reason
-      strong.strong.link(
-        ng-if = "state.fromTrialEnd"
-        pop-over
-        pop-over-options = "{\"bottom\":-290,\"centered\":true}"
-        pop-over-template = "teamManagementPopoverView"
-      ) 6 users
-      | .&#32;
-    | We’ll automatically prorate additional users at the end of the billing period.&#32;
-    a.link(
-      href = "#"
-      target = "_blank"
-    ) Details
-
-  p.grid-content.p.text-gray.text-center.padding-sm(
-    ng-if = "$root.featureFlags.billingChangePlan"
-  ) You will be charged&#32;
-    strong $219.70
-    | &#32;for 6 users for the remainder of the billing period. Your next billing date is July 24
-    sup th
-    | , 2016.
-    //- | You will be credited &#32;
-    //- strong $91.70
-    //- | &#32;for 6 users. Your next billing date is July 24
-    //- sup th
-    //- | , 2016.
-
-  p.grid-content.p.text-gray.text-center.padding-sm(
-    ng-if = "!$root.featureFlags.trial && !$root.featureFlags.billingChangePlan"
-  ) Your payment changes will be applied to your next billing date on July 24
-    sup th
-    | , 2016.
 
 footer.modal-footer.clearfix
 
   //- from billing overview buttons:
   //- disable if plan hasn't been changed
   button.btn.btn-md.green.float-right(
-    ng-click = "goToPanel('billingForm', 'back')"
+    ng-click = "goToPanel('confirmationForm')"
     ng-if = "!$root.featureFlags.trial && $root.featureFlags.billingChangePlan"
     type = "button"
   ) Change Plan

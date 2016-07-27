@@ -59,12 +59,14 @@ form.padding-md
           spellcheck = "false"
         )
 
-    //- alt text if on the limited plan
-    .grid-block.well.padding-xxs.small.justify-center(
+    .grid-block.well.padding-xxs.small.justify-center.text-center(
       ng-if = "$root.featureFlags.trial"
+      ng-include = "'paymentSummaryView'"
+      ng-init = "\
+        state.hasPaid = false;\
+        state.showNext = false;\
+      "
     )
-      | You will be charged $299.70 for 6 users.
-      //- | You will not be charged until your trial ends.
 
   //- 3 users is the minimum amount
   p.grid-content.p.text-gray.text-center.padding-sm(
