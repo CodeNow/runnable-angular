@@ -93,6 +93,7 @@ footer.modal-footer.clearfix
     type = "button"
   ) Cancel
   button.btn.btn-md.green.float-right(
+    ng-click = "goToPanel('billingForm', 'back')"
     ng-if = "!$root.featureFlags.trial"
   )
     //- .spinner-wrapper.spinner-sm.spinner-white.in(

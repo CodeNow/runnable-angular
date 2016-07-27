@@ -27,6 +27,7 @@ footer.modal-footer.clearfix
     ng-click = "\
       $root.featureFlags.trial = false;\
       $root.featureFlags.trialFooter = false;\
+      goToPanel('billingForm', 'back');\
     "
     ng-if = "!state.fromPaymentDue && !state.fromTrialEnd"
     type = "button"
