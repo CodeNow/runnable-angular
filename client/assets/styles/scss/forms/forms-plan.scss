@@ -12,6 +12,7 @@
 
   .well-plan {
     font-size: 18px;
+    position: relative;
 
     @include media(xxs) {
       font-size: 16px;
@@ -36,6 +37,33 @@
       border-color: $green;
       box-shadow: inset 0 0 0 1px $green;
       cursor: pointer;
+    }
+
+    &.blackout {
+
+      &::after {
+        align-items: center;
+        background: $gray-lightest;
+        border-radius: $input-border-radius-lg;
+        bottom: 0;
+        color: $gray;
+        content: 'Delete some configs before selecting this plan.';
+        display: flex;
+        font-size: 14px;
+        justify-content: center;
+        left: 0;
+        opacity: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        transform: scale3d(1.1,1.1,1);
+        transition: opacity .15s ease-in-out, transform .15s ease-in-out;
+      }
+
+      &:hover::after {
+        opacity: 1;
+        transform: scale3d(1,1,1);
+      }
     }
 
     &.active .white {

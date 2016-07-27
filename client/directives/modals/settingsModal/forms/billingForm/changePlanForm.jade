@@ -5,7 +5,8 @@
   label.grid-block.align-center.well.well-plan.padding-sm(
     ng-class = "{\
       'active': (model.plan === 'starter'),\
-      'disabled not-allowed': !$root.featureFlags.trial && !$root.featureFlags.billingChangePlan\
+      'disabled not-allowed': !$root.featureFlags.trial && !$root.featureFlags.billingChangePlan,\
+      'disabled blackout': !$root.featureFlags.trial && $root.featureFlags.billingChangePlan,\
     }"
   )
     //- add .current class for current plan
@@ -27,7 +28,7 @@
       .grid-content.p.small.text-gray 3 user minimum.
     input.checkbox.hidden(
       name = "plan"
-      ng-disabled = "!$root.featureFlags.trial && !$root.featureFlags.billingChangePlan"
+      ng-disabled = "(!$root.featureFlags.trial && !$root.featureFlags.billingChangePlan) || (!$root.featureFlags.trial && $root.featureFlags.billingChangePlan)"
       ng-model = "model.plan"
       value = "starter"
       type = "radio"
