@@ -1,126 +1,103 @@
 //- changing plans
 .padding-md(
-  ng-init = "model.plan = (!$root.featureFlags.trial) ? 'premium' : null"
+  ng-init = "modal.configurations = 5"
 )
-  label.grid-block.align-center.well.well-plan.padding-sm(
+
+  .clearfix
+    .label-col.full-width Configurations Used
+  //- .used-n where n is the number of configs
+  .meter(
     ng-class = "{\
-      'active': (model.plan === 'starter'),\
-      'disabled not-allowed': !$root.featureFlags.trial && !$root.featureFlags.billingChangePlan,\
-      'disabled blackout': !$root.featureFlags.trial && $root.featureFlags.billingChangePlan,\
+      'preview-used-2': state.previewStarter,\
+      'used-5': modal.configurations === 5,\
+      'preview-used-7': state.previewStandard,\
+      'preview-used-15': state.previewPlus\
     }"
   )
-    //- add .current class for current plan
-    .grid-block.align-center.justify-center.shrink.white 🚲
-    .grid-block.vertical
-      .grid-block.p.strong 2 Config
-        span.hidden-xxs uration
-      .grid-block.vertical.p(
-        ng-class = "{'discounted': $root.featureFlags.billingDiscounted}"
+    .current-plan
+    .ticks
+      .tick
+      .tick(
+        ng-class = "{'expand': state.previewStarter}"
       )
-        .grid-block
-          .strong {{$root.featureFlags.billingDiscounted ? '$4.50' : '$9'}}
-          span /user/month
-        .small(
-          ng-if = "$root.featureFlags.billingDiscounted"
-        )
-          span.strike.text-red $9
-          span.text-gray &#32;50% Off
-      .grid-content.p.small.text-gray 3 user minimum.
-    input.checkbox.hidden(
-      name = "plan"
-      ng-disabled = "(!$root.featureFlags.trial && !$root.featureFlags.billingChangePlan) || (!$root.featureFlags.trial && $root.featureFlags.billingChangePlan)"
-      ng-model = "model.plan"
-      value = "starter"
-      type = "radio"
-    )
-    button.grid-block.shrink.btn.btn-xs.btn-icon.btn-add(
-      ng-class = "{'active': (model.plan === 'starter')}"
-    )
-      svg.iconnables.icons-check
-        use(
-          xlink:href = "#icons-check"
-        )
+      .tick
+      .tick
+      .tick
+      .tick
+      .tick(
+        ng-class = "{'expand': state.previewStandard}"
+      )
+      .tick
+      .tick
+      .tick
+      .tick
+      .tick
+      .tick
+      .tick
 
-  label.grid-block.align-center.well.well-plan.padding-sm(
-    ng-class = "{\
-      'active': (model.plan === 'standard'),\
-      'disabled not-allowed': !$root.featureFlags.trial && !$root.featureFlags.billingChangePlan\
-    }"
+  .grid-block.align-center
+    .grid-block.vertical.align-center.card.card-plan.disabled.padding-sm.text-center(
+      ng-class = "{'active': modal.configurations <= 2}"
+      ng-mouseenter = "state.previewStarter = true"
+      ng-mouseleave = "state.previewStarter = false"
+    )
+      h3.grid-content.shrink.h3 Starter
+      .grid-block.shrink.vertical.price
+        .grid-block.justify-center.h1(
+          ng-class = "{'red': $root.featureFlags.billingDiscounted}"
+        )
+          sup.sup $
+          | {{$root.featureFlags.billingDiscounted ? '4.50' : '9'}}
+        small.grid-block.vertical.small.text-gray per user
+          br
+          | per month
+      .grid-content.shrink.small Up to&#32;
+        strong.strong 2
+        | &#32; configurations.
+
+    .grid-block.vertical.align-center.card.card-plan.disabled.padding-sm.text-center(
+      ng-class = "{'active': modal.configurations >= 3}"
+      ng-mouseenter = "state.previewStandard = true"
+      ng-mouseleave = "state.previewStandard = false"
+    )
+      h3.grid-content.shrink.h3 Standard
+      .grid-block.shrink.vertical.price
+        .grid-block.justify-center.h1(
+          ng-class = "{'red': $root.featureFlags.billingDiscounted}"
+        )
+          sup.sup $
+          | {{$root.featureFlags.billingDiscounted ? '14.50' : '29'}}
+        small.grid-block.vertical.small.text-gray per user
+          br
+          | per month
+      .grid-content.shrink.small Up to&#32;
+        strong.strong 7
+        | &#32; configurations.
+
+    .grid-block.vertical.align-center.card.card-plan.disabled.padding-sm.text-center(
+      ng-class = "{'active': modal.configurations >= 15}"
+      ng-mouseenter = "state.previewPlus = true"
+      ng-mouseleave = "state.previewPlus = false"
+    )
+      h3.grid-content.shrink.h3 Plus
+      .grid-block.shrink.vertical.price
+        .grid-block.justify-center.h1(
+          ng-class = "{'red': $root.featureFlags.billingDiscounted}"
+        )
+          sup.sup $
+          | {{$root.featureFlags.billingDiscounted ? '24.50' : '49'}}
+        small.grid-block.vertical.small.text-gray per user
+          br
+          | per month
+      .grid-content.shrink.small Up to&#32;
+        strong.strong 15
+        | &#32; configurations.
+
+  label.grid-block.align-center.padding-xs.well.well-plan.well-summary.disabled(
+    ng-if = "$root.featureFlags.billingDiscounted"
+    ng-include = "'discountView'"
+    ng-init = "state.hasDuration = true"
   )
-    //- add .current class for current plan
-    .grid-block.align-center.justify-center.shrink.white 🚗
-    .grid-block.vertical
-      .grid-block.p.strong 7 Config
-        span.hidden-xxs uration
-      .grid-block.vertical.p(
-        ng-class = "{'discounted': $root.featureFlags.billingDiscounted}"
-      )
-        .grid-block
-          .strong {{$root.featureFlags.billingDiscounted ? '$14.50' : '$29'}}
-          span /user/month
-        .small(
-          ng-if = "$root.featureFlags.billingDiscounted"
-        )
-          span.strike.text-red $29
-          span.text-gray &#32;50% Off
-      .grid-content.p.small.text-gray 3 user minimum.
-    input.checkbox.hidden(
-      name = "plan"
-      ng-disabled = "!$root.featureFlags.trial && !$root.featureFlags.billingChangePlan"
-      ng-model = "model.plan"
-      value = "standard"
-      type = "radio"
-    )
-    button.grid-block.shrink.btn.btn-xs.btn-icon.btn-add(
-      ng-class = "{'active': (model.plan === 'standard')}"
-    )
-      svg.iconnables.icons-check
-        use(
-          xlink:href = "#icons-check"
-        )
-
-  label.grid-block.align-center.well.well-plan.padding-sm(
-    ng-class = "{'active': model.plan === 'premium'}"
-  )
-    .grid-block.align-center.justify-center.shrink.white(
-      ng-class = "{'current': !$root.featureFlags.trial}"
-    ) ✈️
-    .grid-block.vertical
-      .grid-block.p.strong 15 Config
-        span.hidden-xxs uration
-      .grid-block.vertical.p(
-        ng-class = "{'discounted': $root.featureFlags.billingDiscounted}"
-      )
-        .grid-block
-          .strong {{$root.featureFlags.billingDiscounted ? '$24.50' : '$49'}}
-          span /user/month
-        .small(
-          ng-if = "$root.featureFlags.billingDiscounted"
-        )
-          span.strike.text-red $49
-          span.text-gray &#32;50% Off
-      .grid-content.p.small.text-gray 3 user minimum.
-    input.checkbox.hidden(
-      name = "plan"
-      ng-model = "model.plan"
-      value = "premium"
-      type = "radio"
-    )
-    button.grid-block.shrink.btn.btn-xs.btn-icon.btn-add(
-      ng-class = "{'active': model.plan === 'premium'}"
-    )
-      svg.iconnables.icons-check
-        use(
-          xlink:href = "#icons-check"
-        )
-
-  p.grid-content.p.text-gray.text-center.padding-sm(
-    ng-if = "!$root.featureFlags.trial && !$root.featureFlags.billingChangePlan"
-  ) Please&#32;
-    a.link(
-      href = "mailto: billing@runnable.com"
-    ) contact us
-    | &#32;to make changes to your plan.
 
   p.grid-content.p.text-gray.text-center.padding-sm(
     ng-include = "'paymentSummaryView'"
@@ -160,7 +137,7 @@ footer.modal-footer.clearfix
     ng-click = "\
       $root.featureFlags.trialFooter = false;\
       goToPanel('trialForm', 'back');\
-      model.plan = null;\
+      modal.configurations = null;\
     "
     ng-if = "$root.featureFlags.trial && !state.fromTrialEnd"
   ) Back
