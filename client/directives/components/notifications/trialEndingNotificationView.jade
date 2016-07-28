@@ -12,40 +12,58 @@ svg.iconnables.icons-close(
 
 .grid-block.vertical.form-plan
   label.grid-block.align-center.well.well-plan.padding-xs
-    .grid-block.align-center.justify-center.shrink.white.current 🙂
+    .grid-block.align-center.justify-center.shrink.white 🚲
     .grid-block.vertical
-      .grid-block.p.strong 2 Repo
-        span.hidden-xxs sitory
-        | &nbsp;Limit
+      .grid-block.p.strong 2 Config
+        span.hidden-xxs uration
       .grid-block.vertical.p(
         ng-class = "{'discounted': $root.featureFlags.billingDiscounted}"
       )
         .grid-block
-          .strong {{$root.featureFlags.billingDiscounted ? '$4.97' : '$9.95'}}
+          .strong {{$root.featureFlags.billingDiscounted ? '$4.50' : '$9'}}
           span /user/month
         .small(
           ng-if = "$root.featureFlags.billingDiscounted"
         )
-          span.strike.text-red $9.95
+          span.strike.text-red $9
           span.text-gray &#32;50% Off
       .grid-content.p.small.text-gray 3 user minimum.
     button.grid-block.shrink.btn.btn-xs.hidden-xxxs Upgrade
 
   label.grid-block.align-center.well.well-plan.padding-xs
-    .grid-block.align-center.justify-center.shrink.white 😄
+    .grid-block.align-center.justify-center.shrink.white 🚗
     .grid-block.vertical
-      .grid-block.p.strong Unlimited Repos
-        span.hidden-xxs itories
+      .grid-block.p.strong 7 Config
+        span.hidden-xxs uration
       .grid-block.vertical.p(
         ng-class = "{'discounted': $root.featureFlags.billingDiscounted}"
       )
         .grid-block
-          .strong {{$root.featureFlags.billingDiscounted ? '$24.97' : '$49.95'}}
+          .strong {{$root.featureFlags.billingDiscounted ? '$14.50' : '$29'}}
           span /user/month
         .small(
           ng-if = "$root.featureFlags.billingDiscounted"
         )
-          span.strike.text-red $49.95
+          span.strike.text-red $29
+          span.text-gray &#32;50% Off
+      .grid-content.p.small.text-gray 3 user minimum.
+    button.grid-block.shrink.btn.btn-xs.hidden-xxxs Upgrade
+
+  label.grid-block.align-center.well.well-plan.padding-xs
+    .grid-block.align-center.justify-center.shrink.white ✈️
+    .grid-block.vertical
+      .grid-block.p.strong 15 Config
+        span.hidden-xxs uration
+      .grid-block.vertical.p(
+        ng-class = "{'discounted': $root.featureFlags.billingDiscounted}"
+      )
+        .grid-block
+          .strong {{$root.featureFlags.billingDiscounted ? '$24.50' : '$49'}}
+          span /user/month
+        .small(
+          ng-if = "$root.featureFlags.billingDiscounted"
+        )
+          span.strike.text-red $49
           span.text-gray &#32;50% Off
       .grid-content.p.small.text-gray 3 user minimum.
     button.grid-block.shrink.btn.btn-xs.hidden-xxxs Upgrade

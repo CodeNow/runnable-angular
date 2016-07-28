@@ -1,11 +1,6 @@
 .grace-period,
 .welcome {
-  padding-top: 96px;
   width: 100%;
-
-  @include media(lg) {
-    padding-top: 51px; // matches marketing
-  }
 
   // runnabear
   .runnabear {
@@ -27,6 +22,11 @@
 
 .welcome {
   max-height: 100vh;
+  padding-top: 96px;
+
+  @include media(lg) {
+    padding-top: 51px; // matches marketing
+  }
 }
 
 .modal-orgs {
