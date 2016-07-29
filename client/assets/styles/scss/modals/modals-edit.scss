@@ -332,10 +332,9 @@
 // stack button
 .btn-group-stacks {
   display: flex;
-  margin-bottom: 15px;
-  margin-left: -1px; // line up with version button
   flex-wrap: wrap;
   margin-bottom: 30px;
+  margin-left: -1px; // line up with version button
 
   @include media(xs) {
     margin-left: 0; // reset
@@ -344,12 +343,11 @@
 
   > .btn {
     border-color: $gray-lighter;
-    flex: 1 1 auto;
+    flex: 0 1 25%;
     font-size: 13px;
     height: 90px;
     line-height: normal; // reset
     padding: 0;
-    flex: 0 1 25%;
 
     &:first-child {
       border-radius: $input-border-radius 0 0;
