@@ -9,8 +9,9 @@ function scrollTo(
     restrict: 'A',
     link: function ($scope, elem, attrs) {
       $timeout(function () {
-        var scrollOffset = attrs.scrollOffset || 0;
-        var scrollSpeed = attrs.scrollSpeed || 300;
+        // converts string to integer
+        var scrollOffset = +attrs.scrollOffset || 0;
+        var scrollSpeed = +attrs.scrollSpeed || 300;
         if (attrs.scrollTo) {
           var scrollTarget = elem[0].querySelector(attrs.scrollTo);
           if (scrollTarget) {
