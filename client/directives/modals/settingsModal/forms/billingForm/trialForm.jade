@@ -29,7 +29,7 @@
 
 
 .grid-block.btn-wrapper(
-  ng-if = "$root.featureFlags.trialEnding"
+  ng-if = "$root.featureFlags.trialEnding && state.fromNotification"
 )
   button.grid-content.btn.btn-block.btn-sm.white View Details
   button.grid-content.btn.btn-block.btn-sm.green Add Payment
