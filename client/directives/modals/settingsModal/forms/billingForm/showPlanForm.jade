@@ -1,7 +1,7 @@
 .clearfix
   .label-col.full-width Current Plan
 
-label.grid-block.align-center.well.well-plan.well-summary.disabled(
+label.grid-block.align-center.well.well-plan.well-summary.disabled.padding-xxs(
   ng-include = "'planSummaryView'"
 )
 
@@ -11,15 +11,10 @@ label.grid-block.align-center.padding-xs.well.well-plan.well-summary.disabled(
   ng-init = "state.hasDuration = true"
 )
 
-.grid-block.align-center.justify-justified.padding-xxs
-  a.link.small View all plans
-    svg.iconnables.icons-link-external
-      use(
-        xlink:href = "#icons-link-external"
-      )
+.grid-block.align-center.justify-right.padding-xxs
   button.btn.btn-xs.white(
     ng-click = "\
       $root.featureFlags.trialFooter = true;\
-      goToPanel('changePlanForm');\
+      goToPanel('planStatusForm');\
     "
-  ) Change Plan
+  ) View Details

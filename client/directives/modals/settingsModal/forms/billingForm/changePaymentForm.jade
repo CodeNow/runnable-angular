@@ -1,6 +1,6 @@
 form.padding-md
 
-  label.grid-block.align-center.well.well-plan.well-summary.disabled(
+  label.grid-block.align-center.well.well-plan.well-summary.disabled.padding-xxs(
     ng-if = "$root.featureFlags.trial"
     ng-include = "'planSummaryView'"
   )
@@ -119,7 +119,10 @@ footer.modal-footer.clearfix
     //- )
     span Submit Payment
   button.btn.btn-md.gray.btn-cancel.float-right(
-    ng-click = "goToPanel('changePlanForm', 'back')"
+    ng-click = "\
+      $root.featureFlags.trialFooter = false;\
+      goToPanel('trialForm', 'back');\
+    "
     ng-if = "$root.featureFlags.trial && !state.fromPaymentDue"
     type = "button"
   ) Back

@@ -11,7 +11,6 @@
   //- h3.grid-content.h3.text-center Your plan has been downgraded.
 
   p.grid-content.p.text-center.text-gray(
-    ng-if = "$root.featureFlags.billingChangePlan"
     ng-include = "'paymentSummaryView'"
     ng-init = "\
       state.hasPaid = false;\

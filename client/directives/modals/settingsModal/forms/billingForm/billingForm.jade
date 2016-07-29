@@ -12,16 +12,13 @@
       default = "true"
       name = "trialForm"
     )
-      .grid-block.vertical.form-trial.padding-md.fade(
+      .grid-block.vertical.align-center.form-trial.padding-md.fade(
         ng-class = "{'in': isActivePanel()}"
         ng-include = "'trialForm'"
       )
-    animated-panel(
-      name = "changePlanForm"
-    )
       .grid-block.vertical.form-plan.fade(
         ng-class = "{'in': isActivePanel()}"
-        ng-include = "'changePlanForm'"
+        ng-include = "'planStatusForm'"
       )
     animated-panel(
       name = "changePaymentForm"
@@ -62,11 +59,11 @@
         ng-include = "'disableOrgForm'"
       )
     animated-panel(
-      name = "changePlanForm"
+      name = "planStatusForm"
     )
       .grid-block.vertical.form-plan.fade(
         ng-class = "{'in': isActivePanel()}"
-        ng-include = "'changePlanForm'"
+        ng-include = "'planStatusForm'"
       )
     animated-panel(
       name = "changePaymentForm"

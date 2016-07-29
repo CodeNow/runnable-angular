@@ -29,6 +29,17 @@
 
         .current-plan {
           left: $configs;
+
+          &::after {
+            @if $i < 2 {
+              left: -15px;
+            } @else if $i > 13 {
+              left: auto;
+              right: -15px;
+            } @else {
+              left: -62px;
+            }
+          }
         }
       }
 
@@ -103,13 +114,13 @@
         border-radius: $input-border-radius;
         bottom: -$input-xs - 6px;
         color: $white;
-        content: 'You';
+        content: 'Current Usage';
         display: block;
         height: $input-xs;
-        left: -20px;
+        left: -15px;
         position: absolute;
         text-align: center;
-        width: 40px;
+        width: 124px;
       }
     }
 

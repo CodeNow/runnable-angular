@@ -379,7 +379,7 @@
   }
 
   // modal description
-  .well {
+  .well:not(.ignore-margin) {
 
     &:first-child {
       margin-bottom: 15px;

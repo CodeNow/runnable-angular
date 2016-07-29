@@ -16,11 +16,11 @@ h1.h1.text-center.padding-sm Thanks for trying Runnable!
       animated-panel-container
         animated-panel(
           default = "true"
-          name = "changePlanForm"
+          name = "planStatusForm"
         )
           .grid-block.vertical.form-plan.fade(
             ng-class = "{'in': isActivePanel()}"
-            ng-include = "'changePlanForm'"
+            ng-include = "'planStatusForm'"
             ng-init = "state.fromTrialEnd = true"
           )
         animated-panel(
