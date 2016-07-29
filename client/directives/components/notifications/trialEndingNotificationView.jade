@@ -5,65 +5,7 @@ svg.iconnables.icons-close(
     xlink:href = "#icons-close"
   )
 
-.grid-block.vertical.padding-sm
-  //- number of days/hours should vary to show how much time is left
-  h4.grid-content.h4.text-center Your trial ends in 3 days.
-  p.grid-content.p.text-center Upgrade to make sure your team has uninterrupted access to their sandbox.
-
-.grid-block.vertical.form-plan
-  label.grid-block.align-center.well.well-plan.padding-xs
-    .grid-block.align-center.justify-center.shrink.white 🚲
-    .grid-block.vertical
-      .grid-block.p.strong 2 Config
-        span.hidden-xxs uration
-      .grid-block.vertical.p(
-        ng-class = "{'discounted': $root.featureFlags.billingDiscounted}"
-      )
-        .grid-block
-          .strong {{$root.featureFlags.billingDiscounted ? '$4.50' : '$9'}}
-          span /user/month
-        .small(
-          ng-if = "$root.featureFlags.billingDiscounted"
-        )
-          span.strike.text-red $9
-          span.text-gray &#32;50% Off
-      .grid-content.p.small.text-gray 3 user minimum.
-    button.grid-block.shrink.btn.btn-xs.hidden-xxxs Upgrade
-
-  label.grid-block.align-center.well.well-plan.padding-xs
-    .grid-block.align-center.justify-center.shrink.white 🚗
-    .grid-block.vertical
-      .grid-block.p.strong 7 Config
-        span.hidden-xxs uration
-      .grid-block.vertical.p(
-        ng-class = "{'discounted': $root.featureFlags.billingDiscounted}"
-      )
-        .grid-block
-          .strong {{$root.featureFlags.billingDiscounted ? '$14.50' : '$29'}}
-          span /user/month
-        .small(
-          ng-if = "$root.featureFlags.billingDiscounted"
-        )
-          span.strike.text-red $29
-          span.text-gray &#32;50% Off
-      .grid-content.p.small.text-gray 3 user minimum.
-    button.grid-block.shrink.btn.btn-xs.hidden-xxxs Upgrade
-
-  label.grid-block.align-center.well.well-plan.padding-xs
-    .grid-block.align-center.justify-center.shrink.white ✈️
-    .grid-block.vertical
-      .grid-block.p.strong 15 Config
-        span.hidden-xxs uration
-      .grid-block.vertical.p(
-        ng-class = "{'discounted': $root.featureFlags.billingDiscounted}"
-      )
-        .grid-block
-          .strong {{$root.featureFlags.billingDiscounted ? '$24.50' : '$49'}}
-          span /user/month
-        .small(
-          ng-if = "$root.featureFlags.billingDiscounted"
-        )
-          span.strike.text-red $49
-          span.text-gray &#32;50% Off
-      .grid-content.p.small.text-gray 3 user minimum.
-    button.grid-block.shrink.btn.btn-xs.hidden-xxxs Upgrade
+.grid-block.vertical.align-center.form-trial.padding-md(
+  ng-include = "'trialForm'"
+  ng-init = "state.fromNotification = true"
+)

@@ -15,6 +15,7 @@
       .grid-block.vertical.align-center.form-trial.padding-md.fade(
         ng-class = "{'in': isActivePanel()}"
         ng-include = "'trialForm'"
+        ng-init = "state.fromModal = true"
       )
       .grid-block.vertical.form-plan.fade(
         ng-class = "{'in': isActivePanel()}"
