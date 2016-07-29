@@ -73,6 +73,7 @@
       .grid-block.vertical.form-payment.fade(
         ng-class = "{'in': isActivePanel()}"
         ng-include = "'changePaymentForm'"
+        ng-init = "state.changingPayment = true"
       )
     animated-panel(
       name = "confirmationForm"

@@ -95,7 +95,7 @@
   label.grid-block.align-center.padding-xs.well.well-plan.well-summary.disabled(
     ng-if = "$root.featureFlags.billingDiscounted"
     ng-include = "'discountView'"
-    ng-init = "state.hasDuration = true"
+    ng-init = "state.hasDuration = (!$root.featureFlags.trial) ? 'true' : ''"
   )
 
   p.grid-content.p.text-gray.text-center.padding-sm(

@@ -1,12 +1,12 @@
 form.padding-md
 
   label.grid-block.align-center.well.well-plan.well-summary.disabled.padding-xxs(
-    ng-if = "$root.featureFlags.trial"
+    ng-if = "!state.changingPayment"
     ng-include = "'planSummaryView'"
   )
 
   label.grid-block.align-center.padding-xs.well.well-plan.well-summary.disabled(
-    ng-if = "$root.featureFlags.trial && $root.featureFlags.billingDiscounted"
+    ng-if = "!state.changingPayment && $root.featureFlags.billingDiscounted"
     ng-include = "'discountView'"
   )
 
@@ -107,10 +107,7 @@ footer.modal-footer.clearfix
       'btn-block': state.fromPaymentDue,\
       'float-right': !state.fromPaymentDue\
     }"
-    ng-click = "\
-      $root.featureFlag.gracePeriodTrialConfirm = true;\
-      goToPanel('confirmationForm');\
-    "
+    ng-click = "goToPanel('confirmationForm')"
     ng-if = "$root.featureFlags.trial"
     type = "button"
   )

@@ -238,6 +238,7 @@
 
     .red {
       font-size: 27px;
+      overflow: hidden;
 
       @include media(xs) {
         font-size: 21px;
