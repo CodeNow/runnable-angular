@@ -40,7 +40,8 @@
                   {{$root.featureFlags.billingExpired ? 'Your card has expired' : ''}}\
                 "
               )
-                | {{$root.featureFlags.trial ? '12 Days Left' : ''}}
+                | {{$root.featureFlags.trial && !$root.featureFlags.trialEnding ? '12 days left' : ''}}
+                | {{$root.featureFlags.trial && $root.featureFlags.trialEnding ? '3 days left' : ''}}
                 | {{$root.featureFlags.billingExpired ? 'Card Expired' : ''}}
             li.list-item.popover-list-item(
               ng-click = "actions.openSettingsModal('teamManagement')"
