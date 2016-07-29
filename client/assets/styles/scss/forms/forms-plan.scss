@@ -49,9 +49,9 @@
           content: '#{$i}';
 
           @if $i <= 9 {
-            left: -5px;
+            left: calc(#{$configs} - 4px);
           } @else if $i >= 10 {
-            left: -8px;
+            left: calc(#{$configs} - 8px);
           }
         }
       }
@@ -159,20 +159,24 @@
 
   // config ticks
   .tick {
-    background: rgba($black,.1);
-    height: $input-xxs;
-    position: absolute;
-    top: 9px;
-    transition: background .3s ease-in-out, transform .3s ease-in-out;
-    width: 1px;
 
     @for $i from 1 to 15 {
-      &:nth-child(#{$i}) {
+      &:nth-child(#{$i})::before {
         left: $i * 6.66%;
       }
     }
 
-    &.expand {
+    &::before {
+      background: rgba($black,.1);
+      content: '';
+      height: $input-xxs;
+      position: absolute;
+      top: 9px;
+      transition: background .3s ease-in-out, transform .3s ease-in-out;
+      width: 1px;
+    }
+
+    &.expand::before {
       background: rgba($black,.2);
       transform: scale3d(1,3,1);
     }
@@ -180,7 +184,8 @@
     // current plan label
     &::after {
       @extend %tick-label;
-      top: -30px;
+      background: $gray-lighterest;
+      top: -21px;
     }
   }
 
