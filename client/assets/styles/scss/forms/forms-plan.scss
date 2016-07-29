@@ -39,7 +39,7 @@
               left: auto;
               right: -15px;
             } @else {
-              left: -62px;
+              left: -52px;
             }
           }
         }
@@ -117,15 +117,17 @@
     &::after {
       background: $gray-dark;
       border-radius: $input-border-radius;
-      bottom: -$input-xs - 6px;
+      bottom: -27px;
       color: $white;
       content: 'Current Usage';
       display: block;
-      height: $input-xs;
+      font-size: 13px;
+      height: 21px;
       left: -15px;
+      line-height: 21px;
       position: absolute;
       text-align: center;
-      width: 124px;
+      width: 104px;
     }
   }
 
