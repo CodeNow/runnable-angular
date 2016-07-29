@@ -5,10 +5,14 @@
     src = "/build/images/runnabear-jumping.png"
     width = "250"
   )
+
   h3.grid-content.h3.text-center Your plan has been upgraded!
 
   //- if downgrading (don't show the image):
   //- h3.grid-content.h3.text-center Your plan has been downgraded.
+
+  //- if submitting payment after a billing issue:
+  //- h3.grid-content.h3.text-center Thanks!
 
   p.grid-content.p.text-center.text-gray(
     ng-include = "'paymentSummaryView'"

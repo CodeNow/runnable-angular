@@ -60,7 +60,7 @@ form.padding-md
         )
 
     .grid-block.well.padding-xxs.small.justify-center.text-center(
-      ng-if = "$root.featureFlags.trial"
+      ng-if = "$root.featureFlags.trial || state.fromPaymentDue"
       ng-include = "'paymentSummaryView'"
       ng-init = "\
         state.hasPaid = false;\
@@ -78,7 +78,7 @@ form.padding-md
     ) Details
 
   p.grid-content.p.text-gray.text-center.padding-sm(
-    ng-if = "!$root.featureFlags.trial"
+    ng-if = "!$root.featureFlags.trial && !state.fromPaymentDue"
   ) Your payment changes will be applied to your next billing date on July 24
     sup th
     | , 2016.
