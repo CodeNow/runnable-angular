@@ -3,13 +3,13 @@ span(
 ) At your current usage, you’ll be charged for the&#32;
   strong Standard
   | &#32;plan @&#32;
-  strong {{$root.featureFlags.billingDiscounted ? '$147' : '$294'}} for 6 users
+  strong {{$root.featureFlags.billingDiscounted ? '$87' : '$174'}} for 6 users
   | &#32;when your trial ends.
 
 span(
   ng-if = "(!state.hasPaid && !state.fromPaymentDue) && !$root.featureFlags.trial"
 ) At your current usage, your next bill would be&#32;
-  strong {{$root.featureFlags.billingDiscounted ? '$147' : '$294'}} for 6 users
+  strong {{$root.featureFlags.billingDiscounted ? '$87' : '$174'}} for 6 users
   | .
 
 span(
@@ -17,12 +17,12 @@ span(
 ) At your current usage, you’ll be charged for the&#32;
   strong Standard
   | &#32;plan @&#32;
-  strong {{$root.featureFlags.billingDiscounted ? '$147' : '$294'}} for 6 users.
+  strong {{$root.featureFlags.billingDiscounted ? '$87' : '$174'}} for 6 users.
 
 span(
   ng-if = "state.hasPaid && !$root.featureFlags.trial"
 ) You’ve been charged&#32;
-  strong {{$root.featureFlags.billingDiscounted ? '$147' : '$294'}}
+  strong {{$root.featureFlags.billingDiscounted ? '$87' : '$174'}}
   | &#32;for 6 users for the remainder of the billing period.
 
 span(

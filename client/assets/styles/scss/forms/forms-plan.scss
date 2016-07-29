@@ -222,16 +222,37 @@
     .h3 {
       font-size: 16px;
     }
+  }
 
-    .price {
-      border-bottom: 1px solid $gray-lighter;
-      border-top: 1px solid $gray-lighter;
-      margin: 9px 0;
-      padding: 6px;
-      width: 100%;
+  .price {
+    border-bottom: 1px solid $gray-lighter;
+    border-top: 1px solid $gray-lighter;
+    margin: 9px 0;
+    padding: 6px;
+    white-space: nowrap;
+    width: 100%;
 
-      .h1 {
-        line-height: 1;
+    .h1 {
+      line-height: 1;
+    }
+
+    .red {
+      font-size: 27px;
+
+      @include media(xs) {
+        font-size: 21px;
+      }
+
+      @include media(xxs) {
+        font-size: 18px;
+      }
+
+      .sup {
+        top: 9px;
+
+        @include media(xxs) {
+          top: 7px;
+        }
       }
     }
 
@@ -239,5 +260,10 @@
       font-size: 15px;
       top: 12px;
     }
+  }
+
+  // discount well
+  .well-plan {
+    margin-top: 15px;
   }
 }
