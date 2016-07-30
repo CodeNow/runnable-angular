@@ -42,8 +42,11 @@
     )
       h3.grid-content.shrink.h3 Starter
       .grid-block.shrink.vertical.price
+        .grid-block.strike(
+          ng-if = "$root.featureFlags.billingDiscounted"
+        ) $9
         .grid-block.justify-center.h1(
-          ng-class = "{'red': $root.featureFlags.billingDiscounted}"
+          ng-class = "{'discounted': $root.featureFlags.billingDiscounted}"
         )
           sup.sup $
           | {{$root.featureFlags.billingDiscounted ? '4.50' : '9'}}
@@ -61,8 +64,11 @@
     )
       h3.grid-content.shrink.h3 Standard
       .grid-block.shrink.vertical.price
+        .grid-block.strike(
+          ng-if = "$root.featureFlags.billingDiscounted"
+        ) $29
         .grid-block.justify-center.h1(
-          ng-class = "{'red': $root.featureFlags.billingDiscounted}"
+          ng-class = "{'discounted': $root.featureFlags.billingDiscounted}"
         )
           sup.sup $
           | {{$root.featureFlags.billingDiscounted ? '14.50' : '29'}}
@@ -80,8 +86,11 @@
     )
       h3.grid-content.shrink.h3 Plus
       .grid-block.shrink.vertical.price
+        .grid-block.strike(
+          ng-if = "$root.featureFlags.billingDiscounted"
+        ) $49
         .grid-block.justify-center.h1(
-          ng-class = "{'red': $root.featureFlags.billingDiscounted}"
+          ng-class = "{'discounted': $root.featureFlags.billingDiscounted}"
         )
           sup.sup $
           | {{$root.featureFlags.billingDiscounted ? '24.50' : '49'}}
