@@ -28,6 +28,35 @@
     padding: 0 15px;
     width: auto;
 
+    &.plan-changed {
+      animation: fade-in .3s ease-out forwards;
+      height: auto;
+      width: 240px;
+
+      .grid-block:last-child {
+        border-top: 1px solid rgba($white,.3);
+        line-height: 1.2;
+        padding-bottom: 15px;
+        padding-top: 15px;
+      }
+
+      .btn.green {
+        background: transparent;
+        border: 1px solid $white;
+        color: $white;
+        display: table;
+        margin: 9px auto 0;
+
+        &:hover {
+          background: rgba($white,.1);
+        }
+
+        &:active {
+          background: rgba($white,.2);
+        }
+      }
+    }
+
     // close
     .icons-close {
       border: 1px solid transparent;

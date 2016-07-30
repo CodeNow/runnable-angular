@@ -1,27 +1,40 @@
 //- new alerts
-.grid-block.align-center.notification.notification-sm.js-animate.top-right(
+.grid-block.vertical.notification.notification-sm.js-animate.top-right.green(
   ng-class = "{\
     'green': alert.type === 'success',\
-    'red': alert.type === 'deleted'\
+    'red': alert.type === 'deleted',\
+    'plan-changed text-center': $root.featureFlags.billingPlanChangedNotification\
   }"
   ng-if = "alert"
 )
-  svg.anchor-left.iconnables.icons-check(
-    ng-if = "alert.type === 'success'"
+  .grid-block.align-center(
+    ng-class = "{'justify-center': $root.featureFlags.billingPlanChangedNotification}"
   )
-    use(
-      xlink:href = "#icons-check"
+    svg.anchor-left.iconnables.icons-check(
+      ng-if = "alert.type === 'success'"
     )
-  svg.anchor-left.iconnables.icons-trash(
-    ng-if = "alert.type === 'deleted'"
+      use(
+        xlink:href = "#icons-check"
+      )
+    svg.anchor-left.iconnables.icons-trash(
+      ng-if = "alert.type === 'deleted'"
+    )
+      use(
+        xlink:href = "#icons-trash"
+      )
+    span {{alert.text}}
+    a.link.small.link-undo(
+      ng-if = "$root.featureFlags.undoDelete"
+    ) Undo
+  .grid-block.vertical(
+    ng-if = "$root.featureFlags.billingPlanChangedNotification"
   )
-    use(
-      xlink:href = "#icons-trash"
-    )
-  span {{alert.text}}
-  a.link.small.link-undo(
-    ng-if = "$root.featureFlags.undoDelete"
-  ) Undo
+    small.small You’ve been bumped into the next plan for&#32;
+      strong.strong free
+      | &#32;until your next billing period.&#32;
+      //- to billing tab
+      a.link Plan Details
+    button.btn.btn-xs.green Got it, thanks!
 
 //- environment page
 .environment-wrapper
