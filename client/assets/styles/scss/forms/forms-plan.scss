@@ -10,6 +10,12 @@
     }
   }
 
+  .label-col {
+    @include media(xs) {
+      text-align: center;
+    }
+  }
+
   .meter {
     background: $gray-lightest;
     border: 1px solid $gray-lighter;
@@ -90,6 +96,15 @@
       transition: width .3s ease-in-out;
       width: 0;
     }
+
+
+    // plan wrapper
+    + .grid-block {
+      @include media(xxs) {
+        align-items: stretch;
+        flex-flow: column;
+      }
+    }
   }
 
   // current plan tooltip
@@ -146,6 +161,10 @@
     &::after {
       @extend %tick-label;
       top: -21px;
+
+      @include media(xxs) {
+        display: none;
+      }
     }
 
     &::before {
@@ -198,6 +217,10 @@
 
     &:nth-child(2) {
       margin: 0 6px;
+
+      @include media(xxs) {
+        margin: 6px 0;
+      }
     }
 
     &:hover,
@@ -233,6 +256,14 @@
     padding: 6px;
     white-space: nowrap;
     width: 100%;
+
+    @include media(xxs) {
+      flex-direction: row;
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 150px;
+      text-align: left;
+    }
 
     .h1 {
       line-height: 1;
