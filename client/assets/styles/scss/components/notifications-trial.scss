@@ -1,5 +1,11 @@
 .notification-trial {
 
+  .form-trial {
+    @include media(xxs) {
+      padding: 30px 0 0;
+    }
+  }
+
   .icons-close {
     color: $gray-light;
     position: absolute;

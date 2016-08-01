@@ -22,6 +22,10 @@
   .popover-content {
     min-height: 298px; // calc(450px - 122px);
     padding: 15px;
+
+    @media (max-height: 500px) {
+      min-height: 0;
+    }
   }
 
   .list-servers {

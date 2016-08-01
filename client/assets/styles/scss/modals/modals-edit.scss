@@ -193,12 +193,12 @@
 
   // ace container
   .ace-container {
+    min-height: 210px;
     position: relative;
 
     // translation rules
     &.ace-ignored-files {
       border-radius: $input-border-radius;
-      min-height: 210px;
     }
 
     .spinner-wrapper {
@@ -240,6 +240,18 @@
 
       &.text-save-build {
         width: 143px;
+      }
+
+      &.text-save,
+      &.text-save-build {
+        @include media(xxxs) {
+          text-align: center;
+          width: auto;
+
+          .float-left {
+            float: none;
+          }
+        }
       }
     }
 
@@ -461,4 +473,5 @@
 // modal-logs
 .modal-logs {
   flex: 1 1 0;
+  min-height: 210px;
 }

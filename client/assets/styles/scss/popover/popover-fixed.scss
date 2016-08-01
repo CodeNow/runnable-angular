@@ -13,6 +13,7 @@
 
   @media (max-height: 500px) {
     max-height: calc(100vh - 45px);
+    min-height: 0 !important;
     top: 30px !important;
   }
 
