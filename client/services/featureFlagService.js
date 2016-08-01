@@ -15,6 +15,7 @@ function featureFlags(
     billing: false,
     billingDiscounted: false,
     billingExpired: false,
+    billingPlanChangedNotification: false, // if plan changes because of container created
     cardStatus: false,
     connections: false,
     dockerfileMirroringMultiple: false,
