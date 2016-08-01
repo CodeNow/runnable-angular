@@ -26,4 +26,12 @@
     height: 18px;
     width: 18px;
   }
+
+  .modal-footer {
+    @include media(xxxs) {
+      .float-left + .float-right {
+        margin-top: 6px;
+      }
+    }
+  }
 }
