@@ -1,12 +1,12 @@
 form.padding-md
 
-  label.grid-block.align-center.well.well-plan.well-summary.disabled(
-    ng-if = "$root.featureFlags.trial"
+  label.grid-block.align-center.well.well-plan.well-summary.disabled.padding-xxs(
+    ng-if = "!state.changingPayment"
     ng-include = "'planSummaryView'"
   )
 
   label.grid-block.align-center.padding-xs.well.well-plan.well-summary.disabled(
-    ng-if = "$root.featureFlags.trial && $root.featureFlags.billingDiscounted"
+    ng-if = "!state.changingPayment && $root.featureFlags.billingDiscounted"
     ng-include = "'discountView'"
   )
 
@@ -59,24 +59,26 @@ form.padding-md
           spellcheck = "false"
         )
 
-    //- alt text if on the limited plan
-    .grid-block.well.padding-xxs.small.justify-center(
-      ng-if = "$root.featureFlags.trial"
+    .grid-block.well.padding-xxs.small.justify-center.text-center(
+      ng-if = "$root.featureFlags.trial || state.fromPaymentDue"
+      ng-include = "'paymentSummaryView'"
+      ng-init = "\
+        state.hasPaid = false;\
+        state.showNext = false;\
+      "
     )
-      | You will be charged $299.70 for 6 users.
-      //- | You will not be charged until your trial ends.
 
   //- 3 users is the minimum amount
   p.grid-content.p.text-gray.text-center.padding-sm(
     ng-if = "$root.featureFlags.trial"
-  ) We’ll automatically prorate users at the end of the billing period.&#32;
+  ) We prorate your account for users added in the middle of a billing period.&#32;
     a.link(
       href = "#"
       target = "_blank"
     ) Details
 
   p.grid-content.p.text-gray.text-center.padding-sm(
-    ng-if = "!$root.featureFlags.trial"
+    ng-if = "!$root.featureFlags.trial && !state.fromPaymentDue"
   ) Your payment changes will be applied to your next billing date on July 24
     sup th
     | , 2016.
@@ -91,6 +93,7 @@ footer.modal-footer.clearfix
     type = "button"
   ) Cancel
   button.btn.btn-md.green.float-right(
+    ng-click = "goToPanel('billingForm', 'back')"
     ng-if = "!$root.featureFlags.trial"
   )
     //- .spinner-wrapper.spinner-sm.spinner-white.in(
@@ -104,10 +107,7 @@ footer.modal-footer.clearfix
       'btn-block': state.fromPaymentDue,\
       'float-right': !state.fromPaymentDue\
     }"
-    ng-click = "\
-      $root.featureFlag.gracePeriodTrialConfirm = true;\
-      goToPanel('confirmationForm');\
-    "
+    ng-click = "goToPanel('confirmationForm')"
     ng-if = "$root.featureFlags.trial"
     type = "button"
   )
@@ -116,7 +116,10 @@ footer.modal-footer.clearfix
     //- )
     span Submit Payment
   button.btn.btn-md.gray.btn-cancel.float-right(
-    ng-click = "goToPanel('changePlanForm', 'back')"
+    ng-click = "\
+      $root.featureFlags.trialFooter = false;\
+      goToPanel('trialForm', 'back');\
+    "
     ng-if = "$root.featureFlags.trial && !state.fromPaymentDue"
     type = "button"
   ) Back

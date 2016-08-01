@@ -1,0 +1,137 @@
+//- changing plans
+.padding-md(
+  ng-init = "modal.configurations = 5"
+)
+  .clearfix
+    .label-col.full-width.text-center Configurations Used
+  //- .used-n where n is the number of configs
+  .meter(
+    ng-class = "{\
+      'preview-used-2': state.previewStarter,\
+      'used-5': modal.configurations === 5,\
+      'preview-used-7': state.previewStandard,\
+      'preview-used-15': state.previewPlus\
+    }"
+  )
+    .current-plan
+    .ticks
+      .tick
+      .tick(
+        ng-class = "{'expand': state.previewStarter}"
+      )
+      .tick
+      .tick
+      .tick
+      .tick
+      .tick(
+        ng-class = "{'expand': state.previewStandard}"
+      )
+      .tick
+      .tick
+      .tick
+      .tick
+      .tick
+      .tick
+      .tick
+
+  .grid-block.align-center
+    .grid-block.vertical.align-center.card.card-plan.disabled.padding-sm.text-center(
+      ng-class = "{'active': modal.configurations <= 2}"
+      ng-mouseenter = "state.previewStarter = true"
+      ng-mouseleave = "state.previewStarter = false"
+    )
+      h3.grid-content.shrink.h3 Starter
+      .grid-block.shrink.vertical.price
+        .grid-block.strike(
+          ng-if = "$root.featureFlags.billingDiscounted"
+        ) $9
+        .grid-block.justify-center.h1(
+          ng-class = "{'discounted': $root.featureFlags.billingDiscounted}"
+        )
+          sup.sup $
+          | {{$root.featureFlags.billingDiscounted ? '4.50' : '9'}}
+        small.grid-block.vertical.small.text-gray per user
+          br
+          | per month
+      .grid-content.shrink.small Up to&#32;
+        strong.strong 2
+        | &#32; configurations.
+
+    .grid-block.vertical.align-center.card.card-plan.disabled.padding-sm.text-center(
+      ng-class = "{'active': modal.configurations >= 3}"
+      ng-mouseenter = "state.previewStandard = true"
+      ng-mouseleave = "state.previewStandard = false"
+    )
+      h3.grid-content.shrink.h3 Standard
+      .grid-block.shrink.vertical.price
+        .grid-block.strike(
+          ng-if = "$root.featureFlags.billingDiscounted"
+        ) $29
+        .grid-block.justify-center.h1(
+          ng-class = "{'discounted': $root.featureFlags.billingDiscounted}"
+        )
+          sup.sup $
+          | {{$root.featureFlags.billingDiscounted ? '14.50' : '29'}}
+        small.grid-block.vertical.small.text-gray per user
+          br
+          | per month
+      .grid-content.shrink.small Up to&#32;
+        strong.strong 7
+        | &#32; configurations.
+
+    .grid-block.vertical.align-center.card.card-plan.disabled.padding-sm.text-center(
+      ng-class = "{'active': modal.configurations >= 15}"
+      ng-mouseenter = "state.previewPlus = true"
+      ng-mouseleave = "state.previewPlus = false"
+    )
+      h3.grid-content.shrink.h3 Plus
+      .grid-block.shrink.vertical.price
+        .grid-block.strike(
+          ng-if = "$root.featureFlags.billingDiscounted"
+        ) $49
+        .grid-block.justify-center.h1(
+          ng-class = "{'discounted': $root.featureFlags.billingDiscounted}"
+        )
+          sup.sup $
+          | {{$root.featureFlags.billingDiscounted ? '24.50' : '49'}}
+        small.grid-block.vertical.small.text-gray per user
+          br
+          | per month
+      .grid-content.shrink.small Up to&#32;
+        strong.strong 15
+        | &#32; configurations.
+
+  label.grid-block.align-center.padding-xs.well.well-plan.well-summary.disabled(
+    ng-if = "$root.featureFlags.billingDiscounted"
+    ng-include = "'discountView'"
+    ng-init = "state.hasDuration = (!$root.featureFlags.trial) ? 'true' : ''"
+  )
+
+  p.grid-content.p.text-gray.text-center.padding-sm(
+    ng-include = "'paymentSummaryView'"
+    ng-init = "\
+      state.hasPaid = false;\
+      state.showNext = true;\
+    "
+  )
+
+  .grid-block.justify-center
+    button.grid-block.shrink.btn.btn-md.green(
+      ng-click = "\
+        $root.featureFlags.trialFooter = true;\
+        goToPanel('changePaymentForm');\
+      "
+      ng-if = "$root.featureFlags.trial"
+      type = "button"
+    ) Add Payment Method
+
+footer.modal-footer.clearfix(
+  ng-if = "!$root.featureFlags.trial"
+)
+  button.btn.btn-md.gray.btn-cancel.float-left(
+    ng-click = "\
+      $root.featureFlags.trialFooter = false;\
+      goToPanel('billingForm', 'back');\
+    "
+    ng-if = "!$root.featureFlags.trial"
+  ) Back
