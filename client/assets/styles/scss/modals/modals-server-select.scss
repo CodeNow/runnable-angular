@@ -95,18 +95,6 @@
     }
   }
 
-  .modal-body {
-    max-height: calc(100vh - 300px);
-
-    @include media(lg) {
-      max-height: calc(100vh - 240px);
-    }
-
-    @media (max-height: $screen-xs), (max-width: $screen-sm) {
-      max-height: calc(100vh - 157px); // (.modal-header height + .modal-backdrop padding-top/bottom)
-    }
-  }
-
   // sort and search
   .list-header {
     align-items: center;

@@ -39,9 +39,9 @@
   border: $input-border-radius solid $gray-lighter;
   border-radius: $input-border-radius-lg;
   display: flex;
-  flex: 0 1 auto;
+  flex: 0 0 auto;
   flex-direction: column;
-  max-height: 100%;
+  margin-bottom: 15px;
   min-width: 360px;
   position: relative;
   transition: max-width .3s ease-in-out;
@@ -54,16 +54,9 @@
     min-width: 100%;
   }
 
-  // scroll backdrop
-  &.noscroll {
-    display: block;
-    margin-bottom: 15px;
-    max-height: none;
-  }
-
   // expands modal
   &.xl {
-    flex: 1 1 auto;
+    flex: 1 0 auto;
   }
 
   // sizes
