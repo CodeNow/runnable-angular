@@ -33,7 +33,7 @@ module.exports = angular.module('app', [
   require('angular-credit-cards')
 ])
   .config(function ($ocLazyLoadProvider, stripeProvider) {
-    stripeProvider.setPublishableKey('my_key');
+    stripeProvider.setPublishableKey('pk_test_sHr5tQaPtgwiE2cpW6dQkzi8');
     $ocLazyLoadProvider.config({
       debug: false,
       modules: [{

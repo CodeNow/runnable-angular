@@ -11,11 +11,11 @@ function ChangePaymentFormController(
   this.updating = this.updating === 'true'; //Coerce the value to a boolean
 
   CPFC.card = {
-    number: "6492085184484882",
+    number: '4242424242424242',
     exp_month: 12,
     exp_year: 2032,
     cvc: '123',
-    zip: '12312'
+    address_zip: '12312'
   };
 
   var messageConversion = {
@@ -32,7 +32,7 @@ function ChangePaymentFormController(
       loading('savePayment', true);
       return stripe.card.createToken(CPFC.card)
         .then(function (res) {
-          console.log(res);
+          console.log('TODO: Send id to API', res.id);
           CPFC.save();
         })
         .catch(function (err) {
