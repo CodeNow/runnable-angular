@@ -16,7 +16,10 @@ form.padding-md(
   //- limit all fields to numbers only
   //- add .invalid class for errors from stripe
   .grid-block.vertical.well.gray.padding-sm.well-payment
-    //- p.red.small.text-center Your card was declined!
+    p.red.small.text-center(
+      ng-if = "CPFC.error"
+      ng-bind = "CPFC.error"
+    )
     label.grid-block.vertical.label-payment.label-cc
       .small Card Number
       //- add .visa, .mastercard, .amex, .jcb to show cc type
@@ -32,23 +35,45 @@ form.padding-md(
         required
         spellcheck = "false"
       )
-    p(
-      ng-show="paymentForm.cardNumber.$invalid && paymentForm.cardNumber.$ccEagerType"
-    ) Looks like you're typing a {{paymentForm.cardNumber.$ccEagerType}} number!
     .grid-block
       .grid-block.shrink.vertical.label-payment.label-expiry
         .small Expiry
         //- auto insert " / " after last 2nd number (with the spaces)
           - pressing delete immediately after " / " should delete " / " AND the preceeding number
-        input.input.input-md.input-exp.input-validate(
-          autocomplete = "cc-exp"
-          ng-model = "CPFC.card.exp"
-          inputmode = "numeric"
-          maxlength = "7"
-          placeholder = "MM/YY"
-          required
-          spellcheck = "false"
+        .input-group.input-group-md.input-validate.white(
+          ng-class = "{ \
+            'focus': state.isFocused, \
+            'ng-invalid': !isCCExpValid(), \
+            'ng-valid': isCCExpValid() \
+          }"
+          cc-exp
         )
+          input.input.input-md.input-exp.text-center(
+            autocomplete = "cc-exp-month"
+            cc-exp-month
+            inputmode = "numeric"
+            name = "ccExpMonth"
+            ng-blur = "state.isFocused = false"
+            ng-focus = "state.isFocused = true"
+            ng-model = "CPFC.card.exp_month"
+            placeholder = "MM"
+            required
+            spellcheck = "false"
+          )
+          span.span /
+          input.input.input-md.input-exp.text-center(
+            autocomplete = "cc-exp-year"
+            cc-exp-year
+            full-year
+            inputmode = "numeric"
+            name = "ccExpYear"
+            ng-blur = "state.isFocused = false"
+            ng-focus = "state.isFocused = true"
+            ng-model = "CPFC.card.exp_year"
+            placeholder = "YYYY"
+            required
+            spellcheck = "false"
+          )
 
 
       label.grid-block.vertical.label-payment.label-security
@@ -71,6 +96,7 @@ form.padding-md(
           maxlength = "5"
           required
           spellcheck = "false"
+          ng-pattern="/^[0-9]{5}$/"
         )
 
     .grid-block.well.padding-xxs.small.justify-center.text-center(
@@ -106,6 +132,7 @@ footer.modal-footer.clearfix
 
   button.btn.btn-md.green.float-right(
     ng-click = "CPFC.actions.save()"
+    ng-disabled="paymentForm.$invalid"
     ng-if = "CPFC.updating"
   )
     //- .spinner-wrapper.spinner-sm.spinner-white.in(
@@ -120,6 +147,7 @@ footer.modal-footer.clearfix
       'float-right': !state.fromPaymentDue\
     }"
     ng-click = "CPFC.actions.save()"
+    ng-disabled="paymentForm.$invalid"
     ng-if = "!CPFC.updating"
     type = "button"
   )

@@ -24,6 +24,14 @@ function changePaymentForm() {
       $scope.getCardClass = function () {
         return typeMapping[$scope.paymentForm.cardNumber.$ccEagerType];
       };
+      $scope.isCCExpValid = function () {
+        if (!$scope.paymentForm.ccExpMonth.$touched && !$scope.paymentForm.ccExpYear.$touched) {
+          return true;
+        }
+        return $scope.paymentForm.ccExpMonth.$valid &&
+          $scope.paymentForm.ccExpYear.$valid &&
+          !$scope.paymentForm.$error.ccExp;
+      };
     }
   };
 }
