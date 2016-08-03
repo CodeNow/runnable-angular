@@ -18,3 +18,7 @@ img.grid-block.img.runnabear(
     a.grid-content.link.text-gray.text-center(
       href = "mailto:support@runnable.com?subject=I’m back! Please get my sandbox back up and running."
     ) Email Support
+.grid-block.justify-center.modal-outer-footer(
+  ng-if = "$root.featureFlags.gracePeriodFooter"
+  ng-include = "'gracePeriodFooterView'"
+)

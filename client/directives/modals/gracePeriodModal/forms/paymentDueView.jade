@@ -27,3 +27,7 @@ h1.h1.text-center.padding-sm Uh oh.
             ng-include = "'confirmationForm'"
             ng-init = "state.fromPaymentDue = true"
           )
+.grid-block.justify-center.modal-outer-footer(
+  ng-if = "$root.featureFlags.gracePeriodFooter"
+  ng-include = "'gracePeriodFooterView'"
+)
