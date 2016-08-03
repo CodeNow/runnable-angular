@@ -34,3 +34,7 @@ h1.h1.text-center.padding-sm Thanks for trying Runnable!
               state.hasPaid = true;\
             "
           )
+.grid-block.justify-center.modal-outer-footer(
+  ng-if = "$root.featureFlags.gracePeriodFooter"
+  ng-include = "'gracePeriodFooterView'"
+)

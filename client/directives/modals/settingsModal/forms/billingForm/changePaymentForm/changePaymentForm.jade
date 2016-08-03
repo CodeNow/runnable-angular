@@ -36,7 +36,7 @@ form.padding-md(
       ng-show="paymentForm.cardNumber.$invalid && paymentForm.cardNumber.$ccEagerType"
     ) Looks like you're typing a {{paymentForm.cardNumber.$ccEagerType}} number!
     .grid-block
-      label.grid-block.vertical.label-payment.label-expiry
+      .grid-block.shrink.vertical.label-payment.label-expiry
         .small Expiry
         //- auto insert " / " after last 2nd number (with the spaces)
           - pressing delete immediately after " / " should delete " / " AND the preceeding number

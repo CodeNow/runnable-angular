@@ -1,131 +1,130 @@
-.grid-block.vertical.welcome
-  h1.grid-block.justify-center.shrink.h1.text-center.strong.padding-sm Welcome to Runnable!
-  img.grid-block.shrink.img.runnabear(
-    height = "130"
-    src = "/build/images/runnabear-waving-3.png"
-    width = "230"
-  )
-  .grid-block.shrink.modal-dialog.modal-orgs(
-    ng-class = "{\
-      'modal-lg': data.allAccounts.length > 1,\
-      'modal-sm': data.allAccounts.length <= 1\
-    }"
-  )
-    animated-panel-container
-      animated-panel.modal-body.grid-block.vertical.padding-sm(
-        default = "true"
-        name = "orgSelection"
-      )
-        p.p.padding-xs.text-center.fade(
-          ng-class = "{'in': isActivePanel()}"
-        ) Choose an organization for your Sandbox. If you don’t see your organization,&#32;
-          a.link(
-            href = "https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9"
-            target = "_blank"
-          ) check if you’ve granted access
-          | .
-
-        //- empty state
-        .empty.well.gray.padding-lg(
-          ng-if = "!data.allAccounts.length"
+.modal-backdrop
+  .welcome
+    h1.grid-block.justify-center.shrink.h1.text-center.strong.padding-sm Welcome to Runnable!
+    img.grid-block.shrink.img.runnabear(
+      height = "130"
+      src = "/build/images/runnabear-waving-3.png"
+      width = "230"
+    )
+    .grid-block.shrink.modal-dialog.modal-orgs(
+      ng-class = "{\
+        'modal-lg': data.allAccounts.length > 1,\
+        'modal-sm': data.allAccounts.length <= 1\
+      }"
+    )
+      animated-panel-container
+        animated-panel.modal-body.grid-block.vertical.padding-sm(
+          default = "true"
+          name = "orgSelection"
         )
-          h3.h3.empty.text-center We couldn’t find your organizations.
-          small.small.empty.text-center
+          p.p.padding-xs.text-center.fade(
+            ng-class = "{'in': isActivePanel()}"
+          ) Choose an organization for your Sandbox. If you don’t see your organization,&#32;
             a.link(
               href = "https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9"
               target = "_blank"
-            ) Check if you’ve granted access
-            | &#32;to your organization on GitHub. If you don’t have permission to grant access, you’ll have to wait for your admin to give the go ahead.
+            ) check if you’ve granted access
+            | .
 
-
-        .grid-block.list(
-          ng-if = "!$root.featureFlags.autoWhitelist && data.allAccounts.length"
-        )
-          label.grid-block.align-center.list-item.btn.white(
-            ng-click = "actions.selectAccount(org.oauthName())"
-            ng-repeat = "org in data.allAccounts"
-            ng-if = "data.matchWhitelistedOrgByName(org.oauthName()) "
-            title = "{{org.oauthName()}}"
+          //- empty state
+          .empty.well.gray.padding-lg(
+            ng-if = "!data.allAccounts.length"
           )
-            img.grid-block.shrink(
-              height = "24"
-              ng-src = "{{org.gravitar()}}"
-              width = "24"
-            )
-            span.grid-block.text-left.text-overflow {{org.oauthName()}}
+            h3.h3.empty.text-center We couldn’t find your organizations.
+            small.small.empty.text-center
+              a.link(
+                href = "https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9"
+                target = "_blank"
+              ) Check if you’ve granted access
+              | &#32;to your organization on GitHub. If you don’t have permission to grant access, you’ll have to wait for your admin to give the go ahead.
 
-        form.grid-block.list.fade(
-          name = "data.orgSelectorForm"
-          ng-class = "{'in': isActivePanel()}"
-          ng-if = "$root.featureFlags.autoWhitelist && data.allAccounts.length"
-        )
-          //- add .active class if this org is selected
-          //- add [disabled] property when loading NOT class!
-          label.grid-block.align-center.list-item.btn.white(
-            ng-class = "{'active': org.oauthName() === data.selectedOrgName}"
-            ng-repeat = "org in data.allAccounts"
-            title = "{{org.oauthName()}}"
+
+          .grid-block.list(
+            ng-if = "!$root.featureFlags.autoWhitelist && data.allAccounts.length"
           )
-            img.grid-block.shrink(
-              height = "24"
-              ng-src = "{{org.gravitar()}}"
-              width = "24"
+            label.grid-block.align-center.list-item.btn.white(
+              ng-click = "actions.selectAccount(org.oauthName())"
+              ng-repeat = "org in data.allAccounts"
+              ng-if = "data.matchWhitelistedOrgByName(org.oauthName()) "
+              title = "{{org.oauthName()}}"
             )
-            span.grid-block.text-left.text-overflow {{org.oauthName()}}
-            input.checkbox.hidden(
-              ng-model = "data.selectedOrgName"
-              value = "{{org.oauthName()}}"
-              type = "radio"
-            )
-            button.btn.btn-xs.btn-icon.btn-add.no-touching
-              svg.iconnables.icons-check
-                use(
-                  xlink:href = "#icons-check"
-                )
+              img.grid-block.shrink(
+                height = "24"
+                ng-src = "{{org.gravitar()}}"
+                width = "24"
+              )
+              span.grid-block.text-left.text-overflow {{org.oauthName()}}
 
-        //- hide the footer if no orgs are found
-        footer.grid-block.vertical.modal-footer.fade(
-          ng-class = "{'in': isActivePanel()}"
-          ng-if = "$root.featureFlags.autoWhitelist && data.allAccounts.length"
+          form.grid-block.list.fade(
+            name = "data.orgSelectorForm"
+            ng-class = "{'in': isActivePanel()}"
+            ng-if = "$root.featureFlags.autoWhitelist && data.allAccounts.length"
+          )
+            //- add .active class if this org is selected
+            //- add [disabled] property when loading NOT class!
+            label.grid-block.align-center.list-item.btn.white(
+              ng-class = "{'active': org.oauthName() === data.selectedOrgName}"
+              ng-repeat = "org in data.allAccounts"
+              title = "{{org.oauthName()}}"
+            )
+              img.grid-block.shrink(
+                height = "24"
+                ng-src = "{{org.gravitar()}}"
+                width = "24"
+              )
+              span.grid-block.text-left.text-overflow {{org.oauthName()}}
+              input.checkbox.hidden(
+                ng-model = "data.selectedOrgName"
+                value = "{{org.oauthName()}}"
+                type = "radio"
+              )
+              button.btn.btn-xs.btn-icon.btn-add.no-touching
+                svg.iconnables.icons-check
+                  use(
+                    xlink:href = "#icons-check"
+                  )
+
+          //- hide the footer if no orgs are found
+          footer.grid-block.vertical.modal-footer.fade(
+            ng-class = "{'in': isActivePanel()}"
+            ng-if = "$root.featureFlags.autoWhitelist && data.allAccounts.length"
+          )
+            //- show this button when done waiting
+            //- button.grid-block.align-center.justify-center.btn.btn-md.green Go to your sandbox!
+
+            //- disabled until an org is selected
+            button.grid-block.align-center.justify-center.btn.btn-md.green(
+              ng-click = "actions.createOrCheckDock(data.selectedOrgName, goToPanel)"
+              ng-disabled = "!data.selectedOrgName"
+            ) Create Sandbox
+
+        animated-panel.grid-block.vertical.padding-sm(
+          name = "dockLoading"
         )
+          .padding-sm.fade(
+            ng-class = "{'in': isActivePanel()}"
+          )
+            //- dock spinning up
+            h3.h3.text-center.padding-xs We’re spinning up a Sandbox for you.
+            p.p.padding-xs.text-center It’ll take about 10 minutes, we’ll update this page when it’s ready.
+        animated-panel.grid-block.vertical(
+          name = "dockLoaded"
+        )
+          .padding-sm.fade(
+            ng-class = "{'in': isActivePanel()}"
+          )
+            //- dock spun up
+            h3.h3.text-center.padding-xs Thanks for waiting!
+            p.p.padding-xs.text-center Your sandbox is ready.
+
           //- show this button when done waiting
-          //- button.grid-block.align-center.justify-center.btn.btn-md.green Go to your sandbox!
-
-          //- disabled until an org is selected
-          button.grid-block.align-center.justify-center.btn.btn-md.green(
-            ng-click = "actions.createOrCheckDock(data.selectedOrgName, goToPanel)"
-            ng-disabled = "data.orgSelectorForm.$pristine"
+          footer.grid-block.vertical.modal-footer.fade(
+            ng-class = "{'in': isActivePanel()}"
           )
-            //- show when loading
-            .spinner-wrapper.spinner-white.spinner-sm(
-              ng-if = "!data.selectedOrgName"
-              ng-include = "'spinner'"
-            )
-            | Create Sandbox
-
-      animated-panel.grid-block.vertical.padding-sm(
-        name = "dockLoading"
-      )
-        .padding-sm.fade(
-          ng-class = "{'in': isActivePanel()}"
-        )
-          //- dock spinning up
-          h3.h3.text-center.padding-xs We’re spinning up a Sandbox for you.
-          p.p.padding-xs.text-center It’ll just take a few minutes! This page will update when it’s ready.
-      animated-panel.grid-block.vertical(
-        name = "dockLoaded"
-      )
-        .padding-sm.fade(
-          ng-class = "{'in': isActivePanel()}"
-        )
-          //- dock spun up
-          h3.h3.text-center.padding-xs Thanks for waiting!
-          p.p.padding-xs.text-center Your sandbox is ready.
-
-        //- show this button when done waiting
-        footer.grid-block.vertical.modal-footer.fade(
-          ng-class = "{'in': isActivePanel()}"
-        )
-          button.grid-block.align-center.justify-center.btn.btn-md.green(
-            ng-click = "actions.selectAccount(data.selectedOrgName)"
-          ) Go to your sandbox!
+            button.grid-block.align-center.justify-center.btn.btn-md.green(
+              ng-click = "actions.selectAccount(data.selectedOrgName)"
+            ) Go to your sandbox!
+    .grid-block.justify-center.modal-outer-footer(
+      ng-if = "$root.featureFlags.gracePeriodFooter"
+      ng-include = "'gracePeriodFooterView'"
+    )
