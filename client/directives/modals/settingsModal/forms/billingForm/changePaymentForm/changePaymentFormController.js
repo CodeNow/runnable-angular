@@ -4,7 +4,8 @@ require('app')
   .controller('ChangePaymentFormController', ChangePaymentFormController);
 
 function ChangePaymentFormController(
-  stripe
+  stripe,
+  loading
 ) {
   var CPFC = this;
   this.updating = this.updating === 'true'; //Coerce the value to a boolean
@@ -27,7 +28,8 @@ function ChangePaymentFormController(
 
   CPFC.actions = {
     save: function () {
-      console.log('Save card', CPFC.card);
+      loading.reset('savePayment');
+      loading('savePayment', true);
       return stripe.card.createToken(CPFC.card)
         .then(function (res) {
           console.log(res);
@@ -39,6 +41,9 @@ function ChangePaymentFormController(
           } else {
             CPFC.error = messageConversion[err.type];
           }
+        })
+        .finally(function () {
+          loading('savePayment', false);
         });
     },
     back: function () {
