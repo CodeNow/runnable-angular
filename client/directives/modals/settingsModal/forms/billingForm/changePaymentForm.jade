@@ -27,18 +27,34 @@ form.padding-md
         spellcheck = "false"
       )
     .grid-block
-      label.grid-block.vertical.label-payment.label-expiry
+      .grid-block.shrink.vertical.label-payment.label-expiry
         .small Expiry
         //- auto insert " / " after last 2nd number (with the spaces)
           - pressing delete immediately after " / " should delete " / " AND the preceeding number
-        input.input.input-md.input-exp.input-validate(
-          autocomplete = "cc-exp"
-          inputmode = "numeric"
-          maxlength = "7"
-          placeholder = "MM/YY"
-          required
-          spellcheck = "false"
+        .input-group.input-group-md.input-validate.white(
+          ng-class = "{'focus': state.isFocused}"
         )
+          input.input.input-md.input-exp.text-center(
+            autocomplete = "cc-exp-month"
+            inputmode = "numeric"
+            maxlength = "2"
+            ng-blur = "state.isFocused = false"
+            ng-focus = "state.isFocused = true"
+            placeholder = "MM"
+            required
+            spellcheck = "false"
+          )
+          span.span /
+          input.input.input-md.input-exp.text-center(
+            autocomplete = "cc-exp-year"
+            inputmode = "numeric"
+            maxlength = "4"
+            ng-blur = "state.isFocused = false"
+            ng-focus = "state.isFocused = true"
+            placeholder = "YYYY"
+            required
+            spellcheck = "false"
+          )
 
       label.grid-block.vertical.label-payment.label-security
         .small CVC
