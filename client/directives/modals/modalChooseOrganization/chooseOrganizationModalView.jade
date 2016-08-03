@@ -95,14 +95,8 @@
             //- disabled until an org is selected
             button.grid-block.align-center.justify-center.btn.btn-md.green(
               ng-click = "actions.createOrCheckDock(data.selectedOrgName, goToPanel)"
-              ng-disabled = "data.orgSelectorForm.$pristine"
-            )
-              //- show when loading
-              .spinner-wrapper.spinner-white.spinner-sm(
-                ng-if = "!data.selectedOrgName"
-                ng-include = "'spinner'"
-              )
-              | Create Sandbox
+              ng-disabled = "!data.selectedOrgName"
+            ) Create Sandbox
 
         animated-panel.grid-block.vertical.padding-sm(
           name = "dockLoading"
