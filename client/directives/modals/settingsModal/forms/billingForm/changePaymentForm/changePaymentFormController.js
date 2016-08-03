@@ -19,11 +19,11 @@ function ChangePaymentFormController(
   };
 
   var messageConversion = {
-    api_connection_error: 'Unable to communicate with payment provider. Please try again later.',
-    api_error: 'There was an issue when trying to save your card. Please try again later.',
-    authentication_error: 'Ooops, there was an issue trying to save your information. We are on the case. Please try again later.',
-    invalid_request_error: 'There was an issue trying to save your information. We are on the case. Please try again later.',
-    rate_limit_error: 'We are currently being rate limited, please try again later.'
+    api_connection_error: 'We\'re having trouble connecting to our payment processor. Please try again.',
+    api_error: 'Uh oh. Our payment processor is having trouble saving your card. Please try again.',
+    authentication_error: 'Uh oh. We\'re having trouble saving your info. Please contact support.',
+    invalid_request_error: 'Uh oh. We\'re having trouble saving your info. Please contact support.',
+    rate_limit_error: 'We\'re currently being rate limited by our payment processor. Please try again'
   };
 
   CPFC.actions = {
