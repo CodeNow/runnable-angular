@@ -62,10 +62,9 @@
 
     section.modal-body.js-animate
 
-      //- This will replaced by a directive when implemented
       div(
         ng-if = "SEMC.currentTab === 'billing'"
-        ng-include = "'billingForm'"
+        billing-form
       )
 
       team-management-form(

@@ -37,6 +37,12 @@ html(
       name = "apple-mobile-web-app-title"
     )
 
+    //- Stripe JS
+    script(
+      type = "text/javascript"
+      src = "https://js.stripe.com/v2/"
+    )
+
     //- segment
     if env === 'production'
       script.
@@ -44,7 +50,7 @@ html(
         analytics.load("fxTY7pKf5m9VtepmIUtNSLbe8jM8muvt");
         analytics.track('Logged in');
         }}();
-    
+
     if env !== 'development'
       script.
         window._trackJs = {

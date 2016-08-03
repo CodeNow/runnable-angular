@@ -28,9 +28,12 @@ module.exports = angular.module('app', [
   'angular-clipboard',
   require('angular-q-promisify'),
   'vs-repeat',
-  'luegg.directives' // Scroll-glue
+  'luegg.directives', // Scroll-glue
+  require('angular-stripe'),
+  require('angular-credit-cards')
 ])
-  .config(function ($ocLazyLoadProvider) {
+  .config(function ($ocLazyLoadProvider, stripeProvider) {
+    stripeProvider.setPublishableKey('my_key');
     $ocLazyLoadProvider.config({
       debug: false,
       modules: [{

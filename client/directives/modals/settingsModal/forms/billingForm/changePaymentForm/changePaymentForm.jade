@@ -1,4 +1,7 @@
-form.padding-md
+form.padding-md(
+  novalidate
+  name = "paymentForm"
+)
 
   label.grid-block.align-center.well.well-plan.well-summary.disabled.padding-xxs(
     ng-if = "!state.changingPayment"
@@ -18,14 +21,20 @@ form.padding-md
       .small Card Number
       //- add .visa, .mastercard, .amex, .jcb to show cc type
       input.grid-content.input.input-md.input-cc.input-validate(
+        cc-number
+        cc-format
+        cc-type
+        cc-eager-type
         autocomplete = "cc-number"
-        inputmode = "numeric"
-        maxlength = "16"
-        ng-class = "{'amex': ccNumber.length === 16}"
-        ng-model = "ccNumber"
+        ng-class = "getCardClass()"
+        ng-model = "CPFC.card.number"
+        name = "cardNumber"
         required
         spellcheck = "false"
       )
+    p(
+      ng-show="paymentForm.cardNumber.$invalid && paymentForm.cardNumber.$ccEagerType"
+    ) Looks like you're typing a {{paymentForm.cardNumber.$ccEagerType}} number!
     .grid-block
       label.grid-block.vertical.label-payment.label-expiry
         .small Expiry
@@ -33,6 +42,7 @@ form.padding-md
           - pressing delete immediately after " / " should delete " / " AND the preceeding number
         input.input.input-md.input-exp.input-validate(
           autocomplete = "cc-exp"
+          ng-model = "CPFC.card.exp"
           inputmode = "numeric"
           maxlength = "7"
           placeholder = "MM/YY"
@@ -40,12 +50,15 @@ form.padding-md
           spellcheck = "false"
         )
 
+
       label.grid-block.vertical.label-payment.label-security
         .small CVC
         input.input.input-md.input-cvc.input-validate(
+          cc-cvc
+          ng-model = "CPFC.card.cvc"
+          type = "text"
           autocomplete = "cc-csc"
           inputmode = "numeric"
-          maxlength = "4"
           required
           spellcheck = "false"
         )
@@ -53,6 +66,7 @@ form.padding-md
       label.grid-block.vertical.label-payment.label-zip
         .small Zip Code
         input.input.input-md.input-zip.input-validate(
+          ng-model = "CPFC.card.zip"
           inputmode = "numeric"
           maxlength = "5"
           required
@@ -85,16 +99,14 @@ form.padding-md
 
 footer.modal-footer.clearfix
   button.btn.btn-md.gray.btn-cancel.float-left(
-    ng-click = "\
-      $root.featureFlags.trialFooter = false;\
-      goToPanel('billingForm', 'back');\
-    "
-    ng-if = "!$root.featureFlags.trial"
+    ng-click = "CPFC.actions.cancel()"
+    ng-if = "CPFC.cancel"
     type = "button"
   ) Cancel
+
   button.btn.btn-md.green.float-right(
-    ng-click = "goToPanel('billingForm', 'back')"
-    ng-if = "!$root.featureFlags.trial"
+    ng-click = "CPFC.actions.save()"
+    ng-if = "CPFC.updating"
   )
     //- .spinner-wrapper.spinner-sm.spinner-white.in(
     //-   ng-include = "'spinner'"
@@ -107,19 +119,17 @@ footer.modal-footer.clearfix
       'btn-block': state.fromPaymentDue,\
       'float-right': !state.fromPaymentDue\
     }"
-    ng-click = "goToPanel('confirmationForm')"
-    ng-if = "$root.featureFlags.trial"
+    ng-click = "CPFC.actions.save()"
+    ng-if = "!CPFC.updating"
     type = "button"
   )
     //- .spinner-wrapper.spinner-sm.spinner-white.in(
     //-   ng-include = "'spinner'"
     //- )
     span Submit Payment
+
   button.btn.btn-md.gray.btn-cancel.float-right(
-    ng-click = "\
-      $root.featureFlags.trialFooter = false;\
-      goToPanel('trialForm', 'back');\
-    "
-    ng-if = "$root.featureFlags.trial && !state.fromPaymentDue"
+    ng-click = "CPFC.actions.back()"
+    ng-if = "CPFC.back"
     type = "button"
   ) Back
