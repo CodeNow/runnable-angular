@@ -27,8 +27,6 @@ window.runnable = new (require('@runnable/api-client'))(window.host, {
   userContentDomain: window.userContentDomain
 });
 
-window.Stripe = {};
-
 Error.prototype.stack = 'Phantom does not have stack support on errors.';
 
 

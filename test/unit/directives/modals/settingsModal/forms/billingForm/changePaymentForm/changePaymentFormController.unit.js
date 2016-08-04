@@ -10,10 +10,10 @@ describe('ChangePaymentFormController'.bold.underline.blue, function () {
   var stripeCreateTokenStub;
   var loadingStub;
 
-  function setup() {
+  beforeEach(function () {
     angular.mock.module('app', function ($provide) {
       $provide.factory('stripe', function ($q) {
-        stripeCreateTokenStub = sinon.stub().returns($q.resolve({id: 123}));
+        stripeCreateTokenStub = sinon.stub().returns($q.when({id: 123}));
         return {
           card: {
             createToken: stripeCreateTokenStub
@@ -37,21 +37,15 @@ describe('ChangePaymentFormController'.bold.underline.blue, function () {
     var laterController = $controller('ChangePaymentFormController', {
       $scope: $scope
     }, true);
-    laterController.updating = 'true';
-    laterController.back = sinon.spy();
-    laterController.cancel = sinon.spy();
-    laterController.save = sinon.spy();
+    laterController.instance.updating = 'true';
+    laterController.instance.back = sinon.spy();
+    laterController.instance.cancel = sinon.spy();
+    laterController.instance.save = sinon.spy();
     CPFC = laterController();
-  }
+  });
 
-  describe('Init', function () {
-    beforeEach(function () {
-      setup();
-    });
-
-    it('should coerce the updating field to a boolean', function () {
-      expect(CPFC.updating).to.equal(false);
-    });
+  it('should coerce the updating field to a boolean', function () {
+    expect(CPFC.updating).to.equal(true);
   });
 
   describe('actions', function () {
