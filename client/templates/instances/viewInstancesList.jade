@@ -20,21 +20,6 @@
         ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:false | orderBy: ['attrs.name'] as nonRepoInstances track by masterInstance.attrs.name"
       )
 
-//- empty state
-.grid-block.align-center.well.padding-sm.vertical.text-center(
-  ng-if = "$root.featureFlags.autoIsolationSetup"
-)
-  svg.grid-content.icons-branch
-    use(
-      xlink:href = "#icons-branch-burst"
-    )
-  .grid-content.small Branches appear below, organized by repository. Use the + buttons to add branches.
-  button.btn.btn-icon.btn-xs
-    svg.iconnables.icons-close.float-left
-      use(
-        xlink:href = "#icons-close"
-      )
-
 //- branch clusters
 .list-clusters(
   ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"

@@ -4,9 +4,18 @@
   ng-include = "'spinner'"
 )
 
-//- there are two of these........
+//- there are two of these…
+.grid-block.justify-center.align-center.instance-wrapper.empty(
+  ng-if = "!isLoading.main && $root.featureFlags.aha"
+)
+  .modal-dialog.modal-sm
+    .modal-body.grid-block.vertical.padding-sm
+      .grid-block.align-center.aha-guide(
+        ng-include = "'ahaGuideView'"
+      )
+
 .instance-wrapper(
-  ng-if = "!isLoading.main"
+  ng-if = "!isLoading.main && !$root.featureFlags.aha"
 )
 
   //- show if server build is being swapped out

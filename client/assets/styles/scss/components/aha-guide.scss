@@ -1,0 +1,52 @@
+.aha-guide {
+  color: $gray;
+  overflow: hidden;
+
+  // anchor image
+  > .aha-meter {
+    border-radius: 50%;
+    height: $input-md;
+    margin-right: 15px;
+    padding: $input-border;
+    position: relative;
+    width: $input-md;
+
+    $step: 12; // step of % for created classes
+    $loops: round(100 / $step);
+    $increment: 360 / $loops;
+    $half: round($loops / 2);
+
+    @for $i from 0 through $loops {
+      &.aha-meter-#{$i * $step} {
+        @if $i < $half {
+          $nextdeg: 90deg + ($increment * $i);
+          background-image: linear-gradient(90deg, $gray-lightest 50%, transparent 50%, transparent), linear-gradient($nextdeg, $green 50%, $gray-lightest 50%, $gray-lightest);
+        } @else {
+          $nextdeg: -90deg + ($increment * ($i - $half));
+          background-image: linear-gradient($nextdeg, $green 50%, transparent 50%, transparent), linear-gradient(270deg, $green 50%, $gray-lightest 50%, $gray-lightest);
+        }
+      }
+    }
+
+    .iconnables {
+      background: $white;
+      border-radius: 50%;
+      height: 100%;
+      padding: 6px;
+      width: 100%;
+    }
+  }
+
+  // menu
+  .btn-menu {
+    background: transparent;
+    border-color: transparent;
+    color: $gray;
+    margin-left: 30px;
+
+    .iconnables {
+      height: 100%;
+      width: 15px;
+    }
+  }
+}

@@ -7,6 +7,11 @@
   overflow-x: auto;
   position: relative;
 
+  &.empty {
+    background-color: $gray-lightest;
+    background-image: url(/build/images/confetti.png);
+  }
+
   > .instance-wrapper {
     min-width: 600px;
   }
