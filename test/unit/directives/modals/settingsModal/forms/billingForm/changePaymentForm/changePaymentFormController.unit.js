@@ -37,15 +37,11 @@ describe('ChangePaymentFormController'.bold.underline.blue, function () {
     var laterController = $controller('ChangePaymentFormController', {
       $scope: $scope
     }, true);
-    laterController.instance.updating = 'true';
+    laterController.instance.updating = true;
     laterController.instance.back = sinon.spy();
     laterController.instance.cancel = sinon.spy();
     laterController.instance.save = sinon.spy();
     CPFC = laterController();
-  });
-
-  it('should coerce the updating field to a boolean', function () {
-    expect(CPFC.updating).to.equal(true);
   });
 
   describe('actions', function () {

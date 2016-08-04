@@ -8,7 +8,6 @@ function ChangePaymentFormController(
   loading
 ) {
   var CPFC = this;
-  this.updating = this.updating === 'true'; //Coerce the value to a boolean
 
   CPFC.card = {
     number: '4242424242424242',

@@ -12,7 +12,7 @@ function changePaymentForm() {
       back: '=?',
       cancel: '=?',
       save: '=',
-      updating: '@'
+      updating: '='
     },
     link: function ($scope) {
       var typeMapping = {
