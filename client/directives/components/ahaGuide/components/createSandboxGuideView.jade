@@ -1,0 +1,12 @@
+.grid-block.shrink.aha-meter(
+  ng-class = "{\
+    'aha-meter-50': $root.featureFlags.aha0,\
+    'aha-meter-100': $root.featureFlags.aha1 || $root.featureFlags.aha2 || $root.featureFlags.aha3\
+  }"
+)
+  svg.iconnables
+.grid-block.vertical
+  p.p.strong Create your Sandbox
+  small.small(
+    ng-if = "!state.sidebar"
+  ) Choose an organization to create your sandbox.

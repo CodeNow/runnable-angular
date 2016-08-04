@@ -1,0 +1,15 @@
+.grid-block.shrink.aha-meter(
+  ng-class = "{\
+    'aha-meter-33': $root.featureFlags.aha2,\
+    'aha-meter-100': $root.featureFlags.aha3\
+  }"
+)
+  svg.iconnables
+    use(
+      xlink:href = "#icons-octicons-branch"
+    )
+.grid-block.vertical
+  p.p.strong Add a Branch
+  small.small(
+    ng-if = "!state.sidebar"
+  ) You can start adding branches by clicking the + button next to the name of the repository.

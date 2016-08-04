@@ -10,6 +10,7 @@
   &.empty {
     background-color: $gray-lightest;
     background-image: url(/build/images/confetti.png);
+    flex-direction: row;
   }
 
   > .instance-wrapper {

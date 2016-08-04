@@ -4,65 +4,76 @@
   ng-include = "'spinner'"
 )
 
-//- there are two of these…
-.grid-block.justify-center.align-center.instance-wrapper.empty(
-  ng-if = "!isLoading.main && $root.featureFlags.aha"
+.instance-wrapper(
+  ng-class = "{'grid-block justify-center align-center': $root.featureFlags.aha && $root.featureFlags.aha2}"
+  ng-if = "!isLoading.main"
 )
-  .modal-dialog.modal-sm
+
+  .modal-dialog.modal-sm(
+    ng-if = "$root.featureFlags.aha && $root.featureFlags.aha2"
+  )
     .modal-body.grid-block.vertical.padding-sm
       .grid-block.align-center.aha-guide(
         ng-include = "'ahaGuideView'"
+        ng-init = "\
+          state.showDetails = true;\
+          state.showMenu = true;\
+          state.showStep = 2;\
+        "
       )
 
-.instance-wrapper(
-  ng-if = "!isLoading.main && !$root.featureFlags.aha"
-)
-
-  //- show if server build is being swapped out
-    - orange when build is updating or has failed
-    - green if build is successfully built
-    * Orange is currently not used; will be re-enabled when API opens up that event
-  .grid-block.notification.top-right.padding-sm.js-animate(
-    ng-class = "{\
-      'green': dataInstance.data.showUpdatedMessage,\
-      'orange': dataInstance.data.showUpdatingMessage || dataInstance.data.instance.isMigrating()\
-    }"
-    ng-if = "(dataInstance.data.showUpdatingMessage || dataInstance.data.showUpdatedMessage) || dataInstance.data.instance.isMigrating()"
-    ng-include = "'viewNotifications'"
+  div(
+    ng-if = "!$root.featureFlags.aha"
   )
-
-  header.instance-header(
-    instance = "dataInstance.data.instance"
-    instance-header
-    open-items = "dataInstance.data.openItems"
-    saving = "dataInstance.data.saving"
-  )
-
-  .instance-body
-    //- sidebar with repositories and urls
-    section.sidebar.instance-sidebar.load
-
-      section.sidebar-section.repository-section(
-        instance = "dataInstance.data.instance"
-        ng-if = "dataInstance.data.instance.contextVersion.getMainAppCodeVersion()"
-        repo-list
-      )
-
-      section.sidebar-section.explorer-section(
-        edit-explorer = "false"
-        explorer
-        explorer-title = "File Explorer"
-        file-model = "dataInstance.data.instance.containers.models[0]"
-        instance = "dataInstance.data.instance"
-        open-items = "dataInstance.data.openItems"
-        root-dir = "dataInstance.data.instance.containers.models[0].rootDir"
-      )
-
-    //- in / out control presence of header-bar
-    section.views(
-      active-panel
-      build = "dataInstance.data.instance.build"
-      instance = "dataInstance.data.instance"
-      ng-class = "{'full-screen': $root.featureFlags.fullScreen}"
-      open-items = "dataInstance.data.openItems"
+    //- show if server build is being swapped out
+      - orange when build is updating or has failed
+      - green if build is successfully built
+      * Orange is currently not used; will be re-enabled when API opens up that event
+    .grid-block.notification.top-right.padding-sm.js-animate(
+      ng-class = "{\
+        'green': dataInstance.data.showUpdatedMessage,\
+        'orange': dataInstance.data.showUpdatingMessage || dataInstance.data.instance.isMigrating()\
+      }"
+      ng-if = "(dataInstance.data.showUpdatingMessage || dataInstance.data.showUpdatedMessage) || dataInstance.data.instance.isMigrating()"
+      ng-include = "'viewNotifications'"
     )
+
+    header.instance-header(
+      instance = "dataInstance.data.instance"
+      instance-header
+      open-items = "dataInstance.data.openItems"
+      saving = "dataInstance.data.saving"
+    )
+
+    .instance-body
+      //- sidebar with repositories and urls
+      section.sidebar.instance-sidebar.load
+
+        section.sidebar-section.repository-section(
+          instance = "dataInstance.data.instance"
+          ng-if = "dataInstance.data.instance.contextVersion.getMainAppCodeVersion()"
+          repo-list
+        )
+
+        section.sidebar-section.explorer-section(
+          edit-explorer = "false"
+          explorer
+          explorer-title = "File Explorer"
+          file-model = "dataInstance.data.instance.containers.models[0]"
+          instance = "dataInstance.data.instance"
+          open-items = "dataInstance.data.openItems"
+          root-dir = "dataInstance.data.instance.containers.models[0].rootDir"
+        )
+
+      //- in / out control presence of header-bar
+      section.views(
+        active-panel
+        build = "dataInstance.data.instance.build"
+        instance = "dataInstance.data.instance"
+        ng-class = "{'full-screen': $root.featureFlags.fullScreen}"
+        open-items = "dataInstance.data.openItems"
+      )
+
+.grid-block.vertical.aha-sidebar.padding-sm(
+  ng-include = "'ahaSidebarView'"
+)

@@ -1,0 +1,28 @@
+.aha-sidebar {
+  background: $gray-lightest;
+  border-left: 1px solid $gray-lighter;
+  flex: 0 0 390px;
+  height: 100vh;
+  position: absolute;
+  right: 0;
+  top: 0;
+
+  .aha-guide {
+    background: $gray-lighterest;
+    border: 1px solid $gray-lighter;
+    border-radius: $input-border-radius-lg;
+
+    + .aha-guide {
+      margin-top: 15px;
+    }
+  }
+}
+
+// if viewing sidebar during an empty instance state
+.instance-wrapper.empty {
+  flex-direction: row;
+
+  .aha-sidebar {
+    position: relative;
+  }
+}

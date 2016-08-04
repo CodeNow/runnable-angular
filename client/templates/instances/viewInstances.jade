@@ -18,6 +18,7 @@
     ng-include = "'spinner'"
   )
 
-.instance-wrapper(
+.instance-wrapper.align-start(
+  ng-class = "{'empty': $root.featureFlags.aha && $root.featureFlags.aha2}"
   ui-view
 )

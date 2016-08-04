@@ -1,0 +1,12 @@
+.grid-block.shrink.aha-meter(
+  ng-class = "{\
+    'aha-meter-13': $root.featureFlags.aha1,\
+    'aha-meter-100': $root.featureFlags.aha2 || $root.featureFlags.aha3\
+  }"
+)
+  svg.iconnables
+.grid-block.vertical
+  p.p.strong Add your Project
+  small.small(
+    ng-if = "!state.sidebar"
+  ) Create a configuration to start adding a project.
