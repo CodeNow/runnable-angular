@@ -19,8 +19,8 @@
       )
       .grid-block.vertical.form-plan.fade(
         ng-class = "{'in': isActivePanel()}"
-        ng-include = "'planStatusForm'"
         ng-init = "state.hasDuration = false"
+        plan-status-form
       )
     animated-panel(
       name = "changePaymentForm"
@@ -65,7 +65,7 @@
     )
       .grid-block.vertical.form-plan.fade(
         ng-class = "{'in': isActivePanel()}"
-        ng-include = "'planStatusForm'"
+        plan-status-form
       )
     animated-panel(
       name = "changePaymentForm"

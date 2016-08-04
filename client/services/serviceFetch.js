@@ -37,7 +37,8 @@ require('app')
   // Settings
   .factory('verifySlackAPITokenAndFetchMembers', verifySlackAPITokenAndFetchMembers)
   .factory('fetchSettings', fetchSettings)
-  .factory('integrationsCache', integrationsCache);
+  .factory('integrationsCache', integrationsCache)
+  .factory('fetchCurrentPlan', fetchCurrentPlan);
 
 function fetchUser(
   $q,
@@ -859,5 +860,14 @@ function fetchStackData(
             }
           });
       });
+  };
+}
+function fetchCurrentPlan(
+  $q
+) {
+  return function () {
+    return $q.when({
+      id: 'plus'
+    });
   };
 }
