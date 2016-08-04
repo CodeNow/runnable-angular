@@ -27,41 +27,41 @@ describe('changePaymentFormDirective'.bold.underline.blue, function () {
 
   describe('getCardClass', function () {
     it('should return a mapped version of the card class', function () {
-      keypather.set($scope, 'paymentForm.cardNumber.$ccEagerType', 'American Express');
-      expect($scope.getCardClass()).to.equal('amex');
+      keypather.set($elScope, 'paymentForm.cardNumber.$ccEagerType', 'American Express');
+      expect($elScope.getCardClass()).to.equal('amex');
     });
 
     it('should return nothing if the card class does not exist', function () {
-      keypather.delete($scope, 'paymentForm.cardNumber.$ccEagerType');
-      expect($scope.getCardClass()).to.equal(undefined);
+      keypather.del($elScope, 'paymentForm.cardNumber.$ccEagerType');
+      expect($elScope.getCardClass()).to.equal(undefined);
     });
   });
   describe('isCCExpValid', function () {
     it('should return true if nothing has been touched', function () {
-      keypather.set($scope, 'paymentForm.ccExpMonth.$touched', false);
-      keypather.set($scope, 'paymentForm.ccExpYear.$touched', false);
-      expect($scope.isCCExpValid()).to.equal(true);
+      keypather.set($elScope, 'paymentForm.ccExpMonth.$touched', false);
+      keypather.set($elScope, 'paymentForm.ccExpYear.$touched', false);
+      expect($elScope.isCCExpValid()).to.equal(true);
     });
 
     it('should return false if the exp month is invalid', function () {
-      keypather.set($scope, 'paymentForm.ccExpMonth.$touched', true);
-      keypather.set($scope, 'paymentForm.ccExpMonth.$valid', false);
-      expect($scope.isCCExpValid()).to.equal(false);
+      keypather.set($elScope, 'paymentForm.ccExpMonth.$touched', true);
+      keypather.set($elScope, 'paymentForm.ccExpMonth.$valid', false);
+      expect($elScope.isCCExpValid()).to.equal(false);
     });
 
     it('should return false if the exp year is invalid', function () {
-      keypather.set($scope, 'paymentForm.ccExpYear.$touched', true);
-      keypather.set($scope, 'paymentForm.ccExpYear.$valid', false);
-      expect($scope.isCCExpValid()).to.equal(false);
+      keypather.set($elScope, 'paymentForm.ccExpYear.$touched', true);
+      keypather.set($elScope, 'paymentForm.ccExpYear.$valid', false);
+      expect($elScope.isCCExpValid()).to.equal(false);
     });
 
     it('should return false if the expiration as a whole is invalid', function () {
-      keypather.set($scope, 'paymentForm.ccExpYear.$touched', true);
-      keypather.set($scope, 'paymentForm.ccExpYear.$valid', true);
-      keypather.set($scope, 'paymentForm.ccExpMonth.$touched', true);
-      keypather.set($scope, 'paymentForm.ccExpMonth.$valid', true);
-      keypather.set($scope, 'paymentForm.$error.ccExp', 'CC exp has an error');
-      expect($scope.isCCExpValid()).to.equal(false);
+      keypather.set($elScope, 'paymentForm.ccExpYear.$touched', true);
+      keypather.set($elScope, 'paymentForm.ccExpYear.$valid', true);
+      keypather.set($elScope, 'paymentForm.ccExpMonth.$touched', true);
+      keypather.set($elScope, 'paymentForm.ccExpMonth.$valid', true);
+      keypather.set($elScope, 'paymentForm.$error.ccExp', 'CC exp has an error');
+      expect($elScope.isCCExpValid()).to.equal(false);
     });
   });
 });
