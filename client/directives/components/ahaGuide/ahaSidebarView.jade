@@ -1,3 +1,10 @@
+.grid-block.shrink.align-center.justify-right
+  svg.iconnables.icons-close(
+    ng-click = "$root.featureFlags.ahaSidebar = false"
+  )
+    use(
+      xlink:href = "#icons-close"
+    )
 .grid-block.shrink.align-center.padding-sm.aha-guide(
   ng-include = "'ahaGuideView'"
   ng-repeat = "milestones in [1,2,3,4]"

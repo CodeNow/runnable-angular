@@ -11,7 +11,7 @@
   font-size: 24px;
   font-weight: $weight-normal;
   line-height: $input-lg;
-  padding: 0 72px; // for text-overflow, must be even so that text is centered properly
+  padding: 0 12px; // for text-overflow, must be even so that text is centered properly
   position: relative;
   text-align: center;
   width: 100%;
@@ -19,9 +19,7 @@
   .header-btn-group {
     align-items: center;
     height: $input-lg;
-    left: 12px;
     overflow: hidden; // fix scroll bar appearing in firefox
-    position: absolute;
 
     .btn {
       color: $gray-light;
@@ -73,13 +71,6 @@
     line-height: 1;
     position: relative;
     top: -3px;
-  }
-
-  // isolation badge
-  .btn-badge {
-    position: absolute;
-    right: 12px;
-    top: 15px;
   }
 
   // save button in debug

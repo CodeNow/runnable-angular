@@ -43,7 +43,7 @@
     ng-include = "'newUserPrompt'"
   )
 
-  header.environment-header.clearfix(
+  header.grid-block.align-center.environment-header(
     ng-include = "'viewEnvironmentHeader'"
     ng-init = "state.helpButton = {active: false}"
   )
@@ -103,3 +103,8 @@
         )
       | Invite a teammate
     | &#32;to help you set up your stack.
+
+.grid-block.vertical.aha-sidebar.padding-sm.js-animate(
+  ng-include = "'ahaSidebarView'"
+  ng-if = "$root.featureFlags.aha && $root.featureFlags.ahaSidebar"
+)

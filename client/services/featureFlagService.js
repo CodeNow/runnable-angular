@@ -12,6 +12,7 @@ function featureFlags(
     aha1: false, // step 2: working repo config
     aha2: false, // step 3: add branch
     aha3: false, // step 4: runnabot
+    ahaSidebar: false, // toggle sidebar
     allowIsolatedUpdate: false,
     autoIsolation: false,
     autoIsolationSetup: false,

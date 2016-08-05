@@ -5,5 +5,7 @@
   .arrow.white
   .popover-content
     ul.list.popover-list
-      li.list-item.popover-list-item View All
+      li.list-item.popover-list-item(
+        ng-click = "$root.featureFlags.ahaSidebar = true"
+      ) View All
       li.list-item.popover-list-item End Guide

@@ -4,13 +4,13 @@
   ng-include = "'spinner'"
 )
 
-.instance-wrapper(
+.grid-block.vertical(
   ng-class = "{'grid-block justify-center align-center': $root.featureFlags.aha && $root.featureFlags.aha2}"
   ng-if = "!isLoading.main"
 )
 
   .modal-dialog.modal-sm(
-    ng-if = "$root.featureFlags.aha && $root.featureFlags.aha2"
+    ng-if = "$root.featureFlags.aha2"
   )
     .modal-body.grid-block.vertical.padding-sm
       .grid-block.align-center.aha-guide(
@@ -22,8 +22,8 @@
         "
       )
 
-  div(
-    ng-if = "!$root.featureFlags.aha"
+  .grid-block.vertical(
+    ng-if = "!$root.featureFlags.aha2"
   )
     //- show if server build is being swapped out
       - orange when build is updating or has failed
@@ -74,6 +74,7 @@
         open-items = "dataInstance.data.openItems"
       )
 
-.grid-block.vertical.aha-sidebar.padding-sm(
+.grid-block.vertical.aha-sidebar.padding-sm.js-animate(
   ng-include = "'ahaSidebarView'"
+  ng-if = "$root.featureFlags.aha && $root.featureFlags.ahaSidebar"
 )
