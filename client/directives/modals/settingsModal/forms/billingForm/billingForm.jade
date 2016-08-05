@@ -28,8 +28,13 @@
     )
       .grid-block.vertical.form-payment.fade(
         ng-class = "{'in': isActivePanel()}"
-        ng-include = "'changePaymentForm'"
       )
+        div(
+          change-payment-form
+          save = "actions.trial.save"
+          back = "actions.trial.back"
+          updating = "false"
+        )
     animated-panel(
       name = "confirmationForm"
     )
@@ -75,9 +80,13 @@
     )
       .grid-block.vertical.form-payment.fade(
         ng-class = "{'in': isActivePanel()}"
-        ng-include = "'changePaymentForm'"
-        ng-init = "state.changingPayment = true"
       )
+        div(
+          change-payment-form
+          save = "actions.update.save"
+          cancel = "actions.update.cancel"
+          updating = "true"
+        )
     animated-panel(
       ng-if = "!$root.isLoading.billingForm"
       name = "confirmationForm"

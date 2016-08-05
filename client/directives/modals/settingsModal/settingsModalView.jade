@@ -1,7 +1,5 @@
 .modal-backdrop.in
-  .modal-dialog.modal-md.modal-settings(
-    ng-init = "$root.featureFlags.trialFooter = false"
-  )
+  .modal-dialog.modal-md.modal-settings
     header.grid-block.vertical.align-center.modal-header
       .container-title-wrapper
         .server-status-card-pop-over.no-touching
@@ -36,7 +34,7 @@
         button.btn.btn-radio.grid-block.vertical(
           ng-class = "{'active': SEMC.currentTab === 'teamManagement'}"
           ng-click = "\
-            $root.featureFlags.trialFooter = false;\
+            SEMC.showFooter = false;\
             SEMC.currentTab = 'teamManagement';\
           "
         )
@@ -48,7 +46,7 @@
         button.btn.btn-radio.grid-block.vertical(
           ng-class = "{'active': SEMC.currentTab === 'slackIntegration'}"
           ng-click = "\
-            $root.featureFlags.trialFooter = false;\
+            SEMC.showFooter = false;\
             SEMC.currentTab = 'slackIntegration';\
           "
           ng-show = "$root.featureFlags.updatedSlackValidation"
@@ -62,7 +60,6 @@
 
     section.modal-body.js-animate
 
-      //- This will replaced by a directive when implemented
       div(
         ng-if = "SEMC.currentTab === 'billing'"
         ng-include="'billingForm'"
@@ -77,7 +74,7 @@
       )
 
     footer.modal-footer.clearfix.js-animate(
-      ng-if = "!$root.featureFlags.trialFooter"
+      ng-if = "SEMC.showFooter"
     )
       button.btn.btn-md.white.float-right(
         ng-click = "SEMC.close()"

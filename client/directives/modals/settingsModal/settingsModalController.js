@@ -15,4 +15,5 @@ function SettingsModalController(
     currentTab: tab,
     close: close
   });
+  SEMC.showFooter = true;
 }
