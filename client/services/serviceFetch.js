@@ -38,7 +38,10 @@ require('app')
   .factory('verifySlackAPITokenAndFetchMembers', verifySlackAPITokenAndFetchMembers)
   .factory('fetchSettings', fetchSettings)
   .factory('integrationsCache', integrationsCache)
-  .factory('fetchCurrentPlan', fetchCurrentPlan);
+  // Billing
+  .factory('fetchPlan', fetchPlan)
+  .factory('fetchInvoices', fetchInvoices)
+  .factory('fetchPaymentMethod', fetchPaymentMethod);
 
 function fetchUser(
   $q,
@@ -862,12 +865,53 @@ function fetchStackData(
       });
   };
 }
-function fetchCurrentPlan(
-  $q
+
+function fetchPlan(
+  $http,
+  memoize,
+  configAPIHost
 ) {
-  return function () {
-    return $q.when({
-      id: 'plus'
-    });
-  };
+  return memoize(function (teamName) {
+    return $http({
+      method: 'get',
+      url: configAPIHost + '/billing/' + teamName + '/plan'
+    })
+      .then(function (res) {
+        return res.data;
+      });
+  });
 }
+
+function fetchInvoices(
+  $http,
+  memoize,
+  configAPIHost
+) {
+  return memoize(function (teamName) {
+    return $http({
+      method: 'get',
+      url: configAPIHost + '/billing/' + teamName + '/invoices'
+    })
+      .then(function (res) {
+        return res.data;
+      });
+  });
+}
+
+function fetchPaymentMethod(
+  $http,
+  memoize,
+  configAPIHost
+) {
+  return memoize(function (teamName) {
+    return $http({
+      method: 'get',
+      url: configAPIHost + '/billing/' + teamName + '/payment-method'
+    })
+      .then(function (res) {
+        return res.data;
+      });
+  });
+}
+
+

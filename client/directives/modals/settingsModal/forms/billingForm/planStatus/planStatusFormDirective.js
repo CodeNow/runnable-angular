@@ -6,7 +6,7 @@ function planStatusForm(
   billingPlans,
   keypather,
   fetchInstancesByPod,
-  fetchCurrentPlan
+  fetchPlan
 ) {
   return {
     restrict: 'A',
@@ -20,9 +20,9 @@ function planStatusForm(
       $scope.plans = billingPlans;
 
       // Populate current plan
-      fetchCurrentPlan()
-        .then(function (currentPlan) {
-          $scope.state.plan = currentPlan;
+      fetchPlan()
+        .then(function (plan) {
+          $scope.state.plan = plan.next.plan;
         });
 
       // Populate number of configurations
