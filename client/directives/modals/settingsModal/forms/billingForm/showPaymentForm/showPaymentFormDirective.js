@@ -4,15 +4,20 @@ require('app').directive('showPaymentForm', showPaymentForm);
 
 function showPaymentForm(
   fetchPaymentMethod,
-  keypather
+  keypather,
+  loading
 ) {
   return {
     restrict: 'A',
     templateUrl: 'showPaymentForm',
     link: function ($scope, element) {
+      loading('billingForm', true);
       fetchPaymentMethod()
         .then(function (paymentMethod) {
           $scope.paymentMethod = paymentMethod;
+        })
+        .finally(function () {
+          loading('billingForm', false);
         });
 
       $scope.getPaymentImage = function () {
