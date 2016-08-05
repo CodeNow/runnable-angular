@@ -23,7 +23,7 @@ describe('planSummaryDirective'.bold.underline.blue, function () {
     };
     angular.mock.module('app', function ($provide) {
       $provide.factory('fetchPlan', function ($q) {
-        fetchPlanStub = sinon.stub().returns($q.resolve(mockPlan));
+        fetchPlanStub = sinon.stub().returns($q.when(mockPlan));
         return fetchPlanStub;
       });
       loadingStub = sinon.stub();

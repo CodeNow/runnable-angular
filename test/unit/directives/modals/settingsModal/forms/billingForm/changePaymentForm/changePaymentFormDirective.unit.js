@@ -4,9 +4,10 @@ var $scope;
 var $elScope;
 var keypather;
 
-describe('changePaymentFormDirective'.bold.underline.blue, function () {
+describe.only('changePaymentFormDirective'.bold.underline.blue, function () {
   beforeEach(function () {
-    angular.mock.module('app', function ($provide) {});
+    window.helpers.killDirective('planSummary');
+    angular.mock.module('app', function ($provide) { });
     angular.mock.inject(function (
       $compile,
       $rootScope,
