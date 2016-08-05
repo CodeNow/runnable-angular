@@ -233,7 +233,7 @@ require('app')
 
         $scope.getFlattenedSelectedStacks = function (selectedStack) {
           if (selectedStack) {
-            var flattened = selectedStack.name + ' v' + selectedStack.selectedVersion;
+            var flattened = selectedStack.name + selectedStack.selectedVersion;
             if (selectedStack.dependencies) {
               selectedStack.dependencies.forEach(function (dep) {
                 flattened += ', ' + $scope.getFlattenedSelectedStacks(dep);
