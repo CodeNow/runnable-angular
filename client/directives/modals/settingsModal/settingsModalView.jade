@@ -65,7 +65,7 @@
       //- This will replaced by a directive when implemented
       div(
         ng-if = "SEMC.currentTab === 'billing'"
-        billing-form
+        ng-include="'billingForm'"
       )
 
       team-management-form(
