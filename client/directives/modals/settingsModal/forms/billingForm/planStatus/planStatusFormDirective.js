@@ -61,7 +61,7 @@ function planStatusForm(
        * @returns {String} String to be displayed that shows our current plan
        */
       $scope.calculatePlanAmount = function (planName) {
-        var costPerUser = billingPlans[planName].costPerUser;
+        var costPerUser = keypather.get(billingPlans[planName], 'costPerUser');
         if ($scope.state.discounted) {
           return (costPerUser * 0.5).toFixed(2);
         }
