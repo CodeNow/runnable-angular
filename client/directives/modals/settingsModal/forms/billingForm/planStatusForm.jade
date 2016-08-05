@@ -118,7 +118,7 @@
   .grid-block.justify-center
     button.grid-block.shrink.btn.btn-md.green(
       ng-click = "\
-        $root.featureFlags.trialFooter = true;\
+        SEMC.showFooter = false;\
         goToPanel('changePaymentForm');\
       "
       ng-if = "$root.featureFlags.trial"
@@ -130,7 +130,7 @@ footer.modal-footer.clearfix(
 )
   button.btn.btn-md.gray.btn-cancel.float-left(
     ng-click = "\
-      $root.featureFlags.trialFooter = false;\
+      SEMC.showFooter = true;\
       goToPanel('billingForm', 'back');\
     "
     ng-if = "!$root.featureFlags.trial"
