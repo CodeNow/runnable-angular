@@ -4,7 +4,6 @@ require('app').directive('billingHistoryForm', billingHistoryForm);
 
 function billingHistoryForm(
   fetchInvoices,
-  keypather,
   moment
 ) {
   return {

@@ -1,12 +1,13 @@
 .modal-form.form-billing
 
-  //- .spinner-wrapper.spinner-md.spinner-gray.in(
-  //-   ng-include = "'spinner'"
-  //- )
+  .spinner-wrapper.spinner-md.spinner-gray.in(
+    ng-include = "'spinner'"
+    ng-if = "$root.isLoading.billingForm"
+  )
 
   //- billing form empty state
   animated-panel-container(
-    ng-if = "$root.featureFlags.trial"
+    ng-if = "!$root.isLoading.billingForm && $root.featureFlags.trial"
   )
     animated-panel(
       default = "true"
@@ -38,7 +39,7 @@
       )
 
   animated-panel-container(
-    ng-if = "!$root.featureFlags.trial"
+    ng-if = "!$root.isLoading.billingForm && !$root.featureFlags.trial"
   )
     animated-panel(
       default = "true"
@@ -61,6 +62,7 @@
         ng-include = "'disableOrgForm'"
       )
     animated-panel(
+      ng-if = "!$root.isLoading.billingForm"
       name = "planStatusForm"
     )
       .grid-block.vertical.form-plan.fade(
@@ -68,6 +70,7 @@
         plan-status-form
       )
     animated-panel(
+      ng-if = "!$root.isLoading.billingForm"
       name = "changePaymentForm"
     )
       .grid-block.vertical.form-payment.fade(
@@ -76,6 +79,7 @@
         ng-init = "state.changingPayment = true"
       )
     animated-panel(
+      ng-if = "!$root.isLoading.billingForm"
       name = "confirmationForm"
     )
       .grid-block.vertical.form-plan.fade(
