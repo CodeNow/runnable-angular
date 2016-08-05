@@ -24,7 +24,7 @@ footer.modal-footer.clearfix
   button.btn.btn-md.btn-block.white(
     ng-click = "\
       $root.featureFlags.trial = false;\
-      $root.featureFlags.trialFooter = false;\
+      SEMC.showFooter = true;\
       goToPanel('billingForm', 'back');\
     "
     ng-if = "!state.fromPaymentDue && !state.fromTrialEnd"

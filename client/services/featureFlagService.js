@@ -52,7 +52,6 @@ function featureFlags(
     themeToggle: false, // toggles the button that toggles theme
     trial: false, // sets account to trial mode
     trialEnding: false, // shows notification when trial is ending
-    trialFooter: false, // toggles the footer in the trial/payments flow
     updatedSlackValidation: true,
     undoDelete: false, // undo delete configuration
     webhooks: false,
