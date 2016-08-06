@@ -868,9 +868,10 @@ function fetchStackData(
 
 function fetchPlan(
   $http,
+  memoize,
   configAPIHost
 ) {
-  return function (teamName) {
+  return memoize(function (teamName) {
     return $http({
       method: 'get',
       url: configAPIHost + '/billing/' + teamName + '/plan'
@@ -878,14 +879,15 @@ function fetchPlan(
       .then(function (res) {
         return res.data;
       });
-  };
+  });
 }
 
 function fetchInvoices(
   $http,
+  memoize,
   configAPIHost
 ) {
-  return function (teamName) {
+  return memoize(function (teamName) {
     return $http({
       method: 'get',
       url: configAPIHost + '/billing/' + teamName + '/invoices'
@@ -893,14 +895,15 @@ function fetchInvoices(
       .then(function (res) {
         return res.data;
       });
-  };
+  });
 }
 
 function fetchPaymentMethod(
   $http,
+  memoize,
   configAPIHost
 ) {
-  return function (teamName) {
+  return memoize(function (teamName) {
     return $http({
       method: 'get',
       url: configAPIHost + '/billing/' + teamName + '/payment-method'
@@ -908,7 +911,7 @@ function fetchPaymentMethod(
       .then(function (res) {
         return res.data;
       });
-  };
+  });
 }
 
 
