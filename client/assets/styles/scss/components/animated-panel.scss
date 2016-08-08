@@ -19,13 +19,21 @@
 }
 
 .animated-panel {
-  left: 0;
-  position: absolute;
-  top: 0;
   width: 100%;
+  position: absolute;
+
+  &.in {
+    position: relative;
+  }
+
+  &.actively-animating {
+    left: 0;
+    position: absolute;
+    top: 0;
+  }
 
   &.animated {
-    transition: transform .3s ease-in-out;
+    transition: transform 1s ease-in-out;
   }
 
   &.out {
@@ -38,5 +46,23 @@
 
   &.in {
     transform: translate3d(0,0,0);
+  }
+}
+
+.slidyThingy {
+  height: 0px;
+  animation-duration: 5s;
+  animation-name: bounce;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@keyframes bounce {
+  from {
+    height: 0px;
+  }
+
+  to {
+    height: 400px;
   }
 }
