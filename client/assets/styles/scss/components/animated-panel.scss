@@ -48,21 +48,3 @@
     transform: translate3d(0,0,0);
   }
 }
-
-.slidyThingy {
-  height: 0px;
-  animation-duration: 5s;
-  animation-name: bounce;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-}
-
-@keyframes bounce {
-  from {
-    height: 0px;
-  }
-
-  to {
-    height: 400px;
-  }
-}
