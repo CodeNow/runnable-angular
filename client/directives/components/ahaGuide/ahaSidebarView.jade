@@ -5,17 +5,18 @@
     use(
       xlink:href = "#icons-close"
     )
-.grid-block.shrink.align-center.padding-sm.aha-guide(
-  ng-include = "'ahaGuideView'"
-  ng-repeat = "milestones in [1,2,3,4]"
-  ng-init = "\
-    state.currentStep = \
-      ($root.featureFlags.aha0 ? '0' : '')\
-      ($root.featureFlags.aha1 ? '1' : '')\
-      ($root.featureFlags.aha2 ? '2' : '')\
-      ($root.featureFlags.aha3 ? '3' : '')\
-    ;\
-    state.sidebar = true;\
-    state.showStep = $index;\
-  "
-)
+.grid-block.vertical
+  .grid-block.shrink.align-center.padding-sm.aha-guide(
+    ng-include = "'ahaGuideView'"
+    ng-repeat = "milestones in [1,2,3,4]"
+    ng-init = "\
+      state.currentStep = \
+        ($root.featureFlags.aha0 ? '0' : '')\
+        ($root.featureFlags.aha1 ? '1' : '')\
+        ($root.featureFlags.aha2 ? '2' : '')\
+        ($root.featureFlags.aha3 ? '3' : '')\
+      ;\
+      state.sidebar = true;\
+      state.showStep = $index;\
+    "
+  )

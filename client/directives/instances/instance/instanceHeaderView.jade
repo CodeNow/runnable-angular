@@ -46,16 +46,6 @@
         ng-repeat = "(key, value) in instance.containers.models[0].attrs.ports"
       ) {{key}}:{{value[0].HostPort}} |&#32;
 
-
-  button.grid-block.shrink.btn.btn-sm.gray.btn-aha(
-    ng-click = "$root.featureFlags.ahaSidebar = true"
-    ng-if = "$root.featureFlags.aha"
-  )
-    svg.iconnables
-      use(
-        xlink:href = "#icons-help"
-        )
-
 //- properties of container
 .instance-header-properties
 

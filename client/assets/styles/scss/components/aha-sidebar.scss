@@ -40,9 +40,18 @@
   }
 
   .aha-guide {
+    animation: slide-left .3s ease-in-out forwards;
     background: $gray-lighterest;
     border: 1px solid $gray-lighter;
     border-radius: $input-border-radius-lg;
+    opacity: 0;
+    transform: translate3d(100%,0,0);
+
+    @for $i from 1 to 5 {
+      &:nth-child(#{$i}) {
+        animation-delay: ($i * .05s);
+      }
+    }
 
     + .aha-guide {
       margin-top: 15px;

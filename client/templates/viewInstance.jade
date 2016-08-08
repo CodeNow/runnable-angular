@@ -5,9 +5,19 @@
 )
 
 .grid-block.vertical(
-  ng-class = "{'grid-block justify-center align-center': $root.featureFlags.aha && $root.featureFlags.aha2}"
+  ng-class = "{'justify-center align-center': $root.featureFlags.aha && $root.featureFlags.aha2}"
   ng-if = "!isLoading.main"
 )
+
+  button.grid-block.shrink.btn.btn-sm.gray.btn-aha(
+    ng-click = "$root.featureFlags.ahaSidebar = true"
+    ng-if = "$root.featureFlags.aha"
+  )
+    svg.iconnables
+      use(
+        xlink:href = "#icons-help"
+        )
+
 
   .modal-dialog.modal-sm(
     ng-if = "$root.featureFlags.aha2"
