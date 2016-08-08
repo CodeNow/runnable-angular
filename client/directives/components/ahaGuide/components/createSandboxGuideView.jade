@@ -5,8 +5,15 @@
   }"
 )
   svg.iconnables
+    use(
+      ng-if = "$root.featureFlags.aha1 || $root.featureFlags.aha2 || $root.featureFlags.aha3"
+      xlink:href = "#icons-check"
+    )
 .grid-block.vertical
   p.p.strong Create your Sandbox
-  small.small(
-    ng-if = "!state.sidebar"
-  ) Choose an organization to create your sandbox.
+  p(
+    ng-class = "{\
+      'p': !state.sidebar,\
+      'small': state.sidebar\
+    }"
+  ) {{state.sidebar ? 'This is the first step to success.' : 'Choose an organization to create your sandbox.'}}

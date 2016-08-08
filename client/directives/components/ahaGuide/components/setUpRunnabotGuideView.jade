@@ -1,7 +1,17 @@
 .grid-block.shrink.aha-meter
   svg.iconnables
+    use(
+      xlink:href = "#icons-runnabot"
+    )
+    //- if complete
+    //- use(
+    //-   xlink:href = "#icons-check"
+    //- )
 .grid-block.vertical
   p.p.strong Set Up Runnabot
-  small.small(
-    ng-if = "!state.sidebar"
-  ) Set up auto-branching before configuring Runnabot.
+  p(
+    ng-class = "{\
+      'p': !state.sidebar,\
+      'small': state.sidebar\
+    }"
+  ) {{state.sidebar ? 'Receive notifications on pull requests when your container is ready.' : 'Set up auto-branching before configuring Runnabot.'}}
