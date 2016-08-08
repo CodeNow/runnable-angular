@@ -81,14 +81,14 @@
     fancy-option(
       ng-repeat = "version in $parent.state.selectedStack.versions | filter: $parent.state.selectedStack.suggestedVersion"
       value = "version"
-    ) v{{$parent.version}}
+    ) {{$parent.version}}
     li.divider(
       ng-if = "$parent.state.selectedStack.suggestedVersion"
     )
     fancy-option(
       ng-repeat = "version in $parent.state.selectedStack.versions | filter: '!'+ $parent.state.selectedStack.suggestedVersion"
       value = "version"
-    ) v{{$parent.version}}
+    ) {{$parent.version}}
 
 .input-col(
   ng-repeat = "depStack in state.selectedStack.dependencies"
@@ -109,11 +109,11 @@
     fancy-option(
       ng-repeat = "version in $parent.depStack.versions | filter: $parent.depStack.suggestedVersion"
       value = "version"
-    ) v{{$parent.version}}
+    ) {{$parent.version}}
     li.divider(
       ng-if = "$parent.depStack.suggestedVersion"
     )
     fancy-option(
       ng-repeat = "version in $parent.depStack.versions | filter: '!'+ $parent.depStack.suggestedVersion"
       value = "version"
-    ) v{{$parent.version}}
+    ) {{$parent.version}}

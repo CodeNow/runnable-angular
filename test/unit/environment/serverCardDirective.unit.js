@@ -123,7 +123,7 @@ describe('serverCardDirective'.bold.underline.blue, function () {
 
       var result = $elScope.getFlattenedSelectedStacks(railsInfo);
 
-      expect(result).to.equal('Rails v0.1, Ruby v0.2');
+      expect(result).to.equal('Rails 0.1, Ruby 0.2');
 
     });
 
