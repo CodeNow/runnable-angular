@@ -44,16 +44,25 @@ describe('animatedPanelContainerDirective'.bold.underline.blue, function() {
         offsetHeight: 11,
         offsetWidth: 12
       }], true);
+      $elScope.goToPanel('panel-name', 'back');
       $elScope.$digest();
       var size = $elScope.getAnimatedPanelStyle();
       expect(size.height).to.equal('11px');
       expect(size.width).to.equal('12px');
     });
+    it('should return relative if not actively animating', function () {
+      $elScope.registerPanel('panel-name', [{
+        offsetHeight: 11,
+        offsetWidth: 12
+      }], true);
+      $elScope.$digest();
+      var style = $elScope.getAnimatedPanelStyle();
+      expect(style.position).to.equal('relative');
+    });
   });
 
   describe('getPanelClass', function () {
     it('should return the right classes for a panel that is active', function () {
-
       $elScope.registerPanel('panel-name', [{
         offsetHeight: 11,
         offsetWidth: 12
@@ -75,20 +84,6 @@ describe('animatedPanelContainerDirective'.bold.underline.blue, function() {
       expect(classes.out, 'out').to.be.ok;
       expect(classes.animated, 'animated').to.not.be.ok;
       expect(classes.back, 'back').to.not.be.ok;
-    });
-
-    it('should return the right classes for a panel that is out when reversed', function () {
-      $elScope.registerPanel('panel-name', [{
-        offsetHeight: 11,
-        offsetWidth: 12
-      }], false);
-      $elScope.goToPanel('panel-name', 'back');
-      $elScope.$digest();
-      var classes = $elScope.getPanelClass('panel-name');
-      expect(classes.in, 'in').to.not.be.ok;
-      expect(classes.out, 'out').to.be.ok;
-      expect(classes.animated, 'animated').to.not.be.ok;
-      expect(classes.back, 'back').to.be.ok;
     });
 
     it('should reverse the direction if the panel is currently leaving', function () {
