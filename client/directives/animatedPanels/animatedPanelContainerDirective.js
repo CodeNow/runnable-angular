@@ -47,7 +47,7 @@ function animatedPanelContainer(
                 $timeout.cancel(activelyAnimatingTimeout);
                 activelyAnimatingTimeout = $timeout(function () {
                   activelyAnimating = false;
-                }, 1000);
+                }, 300);
               }
               $scope.activePanel = panelName;
             });
