@@ -7,7 +7,7 @@
 
   //- billing form empty state
   animated-panel-container(
-    ng-if = "!$root.isLoading.billingForm && $root.featureFlags.trial"
+    ng-if = "$root.featureFlags.trial"
   )
     animated-panel(
       default = "true"
@@ -17,11 +17,13 @@
         ng-class = "{'in': isActivePanel()}"
         ng-include = "'trialForm'"
         ng-init = "state.fromModal = true"
+        ng-show = "!$root.isLoading.billingForm"
       )
       .grid-block.vertical.form-plan.fade(
         ng-class = "{'in': isActivePanel()}"
         ng-init = "state.hasDuration = false"
         plan-status-form
+        ng-show = "!$root.isLoading.billingForm"
       )
     animated-panel(
       name = "changePaymentForm"
@@ -44,7 +46,8 @@
       )
 
   animated-panel-container(
-    ng-if = "!$root.isLoading.billingForm && !$root.featureFlags.trial"
+    ng-if = "!$root.featureFlags.trial"
+    ng-show = "!$root.isLoading.billingForm"
   )
     animated-panel(
       default = "true"
@@ -67,7 +70,6 @@
         ng-include = "'disableOrgForm'"
       )
     animated-panel(
-      ng-if = "!$root.isLoading.billingForm"
       name = "planStatusForm"
     )
       .grid-block.vertical.form-plan.fade(
@@ -75,7 +77,6 @@
         plan-status-form
       )
     animated-panel(
-      ng-if = "!$root.isLoading.billingForm"
       name = "changePaymentForm"
     )
       .grid-block.vertical.form-payment.fade(
@@ -88,7 +89,6 @@
           updating = "true"
         )
     animated-panel(
-      ng-if = "!$root.isLoading.billingForm"
       name = "confirmationForm"
     )
       .grid-block.vertical.form-plan.fade(

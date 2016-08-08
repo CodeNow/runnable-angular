@@ -9,14 +9,14 @@
     .ticks
       .tick
       .tick(
-        ng-class = "{'expand': state.preview === 'starter'}"
+        ng-class = "{'expand': preview === 'starter'}"
       )
       .tick
       .tick
       .tick
       .tick
       .tick(
-        ng-class = "{'expand': state.preview === 'standard'}"
+        ng-class = "{'expand': preview === 'standard'}"
       )
       .tick
       .tick
@@ -28,20 +28,20 @@
 
   .grid-block.align-center
     .grid-block.vertical.align-center.card.card-plan.disabled.padding-sm.text-center(
-      ng-class = "{'active': state.plan.id === 'starter'}"
-      ng-mouseenter = "state.preview = 'starter'"
-      ng-mouseleave = "state.preview = ''"
+      ng-class = "{'active': PSFC.plan.id === 'starter'}"
+      ng-mouseenter = "preview = 'starter'"
+      ng-mouseleave = "preview = ''"
     )
       h3.grid-content.shrink.h3 Starter
       .grid-block.shrink.vertical.price
         .grid-block.strike(
-          ng-if = "state.discounted"
+          ng-if = "PSFC.discounted"
         ) ${{plans.starter.costPerUser}}
         .grid-block.justify-center.h1(
-          ng-class = "{'discounted': state.discounted}"
+          ng-class = "{'discounted': PSFC.discounted}"
         )
           sup.sup $
-          | {{calculatePlanAmount('starter')}}
+          | {{PSFC.calculatePlanAmount('starter')}}
         small.grid-block.vertical.small.text-gray per user
           br
           | per month
@@ -50,20 +50,20 @@
         | &#32; configurations.
 
     .grid-block.vertical.align-center.card.card-plan.disabled.padding-sm.text-center(
-      ng-class = "{'active': state.plan.id === 'standard'}"
-      ng-mouseenter = "state.preview = 'standard'"
-      ng-mouseleave = "state.preview = ''"
+      ng-class = "{'active': PSFC.plan.id === 'standard'}"
+      ng-mouseenter = "preview = 'standard'"
+      ng-mouseleave = "preview = ''"
     )
       h3.grid-content.shrink.h3 Standard
       .grid-block.shrink.vertical.price
         .grid-block.strike(
-          ng-if = "state.discounted"
+          ng-if = "PSFC.discounted"
         ) ${{plans.standard.costPerUser}}
         .grid-block.justify-center.h1(
-          ng-class = "{'discounted': state.discounted}"
+          ng-class = "{'discounted': PSFC.discounted}"
         )
           sup.sup $
-          | {{calculatePlanAmount('standard')}}
+          | {{PSFC.calculatePlanAmount('standard')}}
         small.grid-block.vertical.small.text-gray per user
           br
           | per month
@@ -72,20 +72,20 @@
         | &#32; configurations.
 
     .grid-block.vertical.align-center.card.card-plan.disabled.padding-sm.text-center(
-      ng-class = "{'active': state.plan.id === 'plus'}"
-      ng-mouseenter = "state.preview = 'plus'"
-      ng-mouseleave = "state.preview = ''"
+      ng-class = "{'active': PSFC.plan.id === 'plus'}"
+      ng-mouseenter = "preview = 'plus'"
+      ng-mouseleave = "preview = ''"
     )
       h3.grid-content.shrink.h3 Plus
       .grid-block.shrink.vertical.price
         .grid-block.strike(
-          ng-if = "state.discounted"
+          ng-if = "PSFC.discounted"
         ) ${{plans.plus.costPerUser}}
         .grid-block.justify-center.h1(
-          ng-class = "{'discounted': state.discounted}"
+          ng-class = "{'discounted': PSFC.discounted}"
         )
           sup.sup $
-          | {{calculatePlanAmount('plus')}}
+          | {{PSFC.calculatePlanAmount('plus')}}
         small.grid-block.vertical.small.text-gray per user
           br
           | per month
@@ -94,7 +94,7 @@
         | &#32; configurations.
 
   label.grid-block.align-center.padding-xs.well.well-plan.well-summary.disabled(
-    ng-if = "state.discounted"
+    ng-if = "PSFC.discounted"
     ng-include = "'discountView'"
     ng-init = "state.hasDuration = (!$root.featureFlags.trial) ? 'true' : ''"
   )
