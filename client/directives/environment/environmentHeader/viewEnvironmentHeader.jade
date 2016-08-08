@@ -60,10 +60,12 @@ button.grid-block.shrink.btn.btn-md.green(
   | Add Configuration
 
 button.grid-block.shrink.btn.btn-sm.gray.btn-aha(
-    ng-click = "$root.featureFlags.ahaSidebar = true"
-    ng-if = "$root.featureFlags.aha"
-  )
-    svg.iconnables
-      use(
-        xlink:href = "#icons-help"
-        )
+  ng-click = "$root.featureFlags.ahaSidebar = true"
+  ng-if = "$root.featureFlags.aha"
+  tooltip = "Setup Guide"
+  tooltip-options = "{\"class\":\"left\",\"right\":42,\"top\":0}"
+)
+  svg.iconnables
+    use(
+      xlink:href = "#icons-help"
+      )
