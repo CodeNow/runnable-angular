@@ -19,14 +19,10 @@
 }
 
 .animated-panel {
-  width: 100%;
   position: absolute;
+  width: 100%;
 
-  &.in {
-    position: relative;
-  }
-
-  &.actively-animating {
+  &.animating {
     left: 0;
     position: absolute;
     top: 0;
@@ -45,6 +41,7 @@
   }
 
   &.in {
+    position: relative;
     transform: translate3d(0,0,0);
   }
 }

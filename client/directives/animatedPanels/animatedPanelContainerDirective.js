@@ -98,7 +98,7 @@ function animatedPanelContainer(
           in: panelName === $scope.activePanel,
           back: !goingForwards,
           animated: animateOut,
-          'actively-animating': activelyAnimating
+          animating: activelyAnimating
         };
       };
 
