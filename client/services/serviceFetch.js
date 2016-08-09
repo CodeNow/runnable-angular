@@ -869,48 +869,57 @@ function fetchStackData(
 function fetchPlan(
   $http,
   memoize,
-  configAPIHost
+  configAPIHost,
+  $state
 ) {
-  return memoize(function (teamName) {
+  return memoize(function () {
     return $http({
       method: 'get',
-      url: configAPIHost + '/billing/' + teamName + '/plan'
+      url: configAPIHost + '/billing/' + $state.params.userName + '/plan'
     })
       .then(function (res) {
         return res.data;
       });
+  }, function () {
+    return $state.params.userName;
   });
 }
 
 function fetchInvoices(
   $http,
   memoize,
-  configAPIHost
+  configAPIHost,
+  $state
 ) {
-  return memoize(function (teamName) {
+  return memoize(function () {
     return $http({
       method: 'get',
-      url: configAPIHost + '/billing/' + teamName + '/invoices'
+      url: configAPIHost + '/billing/' + $state.params.userName + '/invoices'
     })
       .then(function (res) {
         return res.data;
       });
+  }, function () {
+    return $state.params.userName;
   });
 }
 
 function fetchPaymentMethod(
   $http,
   memoize,
-  configAPIHost
+  configAPIHost,
+  $state
 ) {
-  return memoize(function (teamName) {
+  return memoize(function () {
     return $http({
       method: 'get',
-      url: configAPIHost + '/billing/' + teamName + '/payment-method'
+      url: configAPIHost + '/billing/' + $state.params.userName + '/payment-method'
     })
       .then(function (res) {
         return res.data;
       });
+  }, function () {
+    return $state.params.userName;
   });
 }
 
