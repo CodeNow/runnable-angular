@@ -34,7 +34,6 @@
         button.btn.btn-radio.grid-block.vertical(
           ng-class = "{'active': SEMC.currentTab === 'teamManagement'}"
           ng-click = "\
-            SEMC.showFooter = false;\
             SEMC.currentTab = 'teamManagement';\
           "
         )
@@ -46,7 +45,6 @@
         button.btn.btn-radio.grid-block.vertical(
           ng-class = "{'active': SEMC.currentTab === 'slackIntegration'}"
           ng-click = "\
-            SEMC.showFooter = false;\
             SEMC.currentTab = 'slackIntegration';\
           "
           ng-show = "$root.featureFlags.updatedSlackValidation"
