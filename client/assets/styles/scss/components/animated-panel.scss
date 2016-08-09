@@ -22,7 +22,7 @@
   position: absolute;
   width: 100%;
 
-  &.animating {
+  &.animating, &.animating.in {
     left: 0;
     position: absolute;
     top: 0;
