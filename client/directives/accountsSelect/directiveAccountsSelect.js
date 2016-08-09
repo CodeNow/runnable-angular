@@ -15,8 +15,9 @@ function accountsSelect (
   configEnvironment,
   errs,
   keypather,
-  promisify,
-  ModalService
+  ModalService,
+  moment,
+  promisify
 ) {
   return {
     restrict: 'A',
@@ -95,6 +96,26 @@ function accountsSelect (
           $scope.popoverAccountMenu.data.showIntegrations = true;
         }
       });
+
+      $scope.getBadgeCount = function () {
+        if ($scope.data.activeAccount.isInTrial()) {
+          return moment.utc($scope.data.activeAccount.attrs.trialEnd * 1000).diff(moment.utc(), 'days');
+        }
+        if ($scope.data.activeAccount.isInGrace()) {
+          return moment.utc($scope.data.activeAccount.attrs.gracePeriodEnd * 1000).diff(moment.utc(), 'days');
+        }
+        if ($scope.data.activeAccount.graceExpired()) {
+          return '!';
+        }
+        return '';
+      };
+
+      $scope.getClasses = function () {
+        return {
+          badge: !$scope.data.activeAccount.isInActivePeriod(),
+          'badge-orange': !$scope.data.activeAccount.isInActivePeriod()
+        };
+      };
     }
   };
 }
