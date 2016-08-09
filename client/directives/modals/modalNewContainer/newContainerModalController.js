@@ -167,7 +167,6 @@ function NewContainerModalController(
       .then(function (dockerfiles) {
         // TODO: Remove when removing `nameContainer` FF
         if (dockerfiles.length === 0 && createContainerDirectly) {
-          NCMC.state.dockerfile = 'false';
           return NCMC.createBuildAndGoToNewRepoModal(NCMC.state.instanceName, repo)
             .then(function () {
               repo.loading = false;
