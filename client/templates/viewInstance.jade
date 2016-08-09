@@ -4,8 +4,11 @@
   ng-include = "'spinner'"
 )
 
-.grid-block.vertical(
-  ng-class = "{'justify-center align-center': $root.featureFlags.aha && $root.featureFlags.aha2}"
+.grid-block.vertical.instance(
+  ng-class = "{\
+    'justify-center align-center': $root.featureFlags.aha && $root.featureFlags.aha2,\
+    'padding-right': $root.featureFlags.ahaSidebar\
+  }"
   ng-if = "!isLoading.main"
 )
 

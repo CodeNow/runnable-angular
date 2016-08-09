@@ -9,6 +9,14 @@
     background-color: $gray-lightest;
     background-image: url(/build/images/confetti.png);
     flex-direction: row;
+
+    > .instance {
+      transition: padding .3s ease-in-out;
+
+      &.padding-right {
+        padding-right: 390px;
+      }
+    }
   }
 
   > .instance-wrapper {

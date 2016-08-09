@@ -1,5 +1,5 @@
 .aha-sidebar {
-  background: $gray-lightest;
+  background: rgba($white,.9);
   border-left: 1px solid $gray-lighter;
   box-shadow: -1px 0 3px rgba($black,.06);
   flex: 0 0 390px;
@@ -40,7 +40,7 @@
   }
 
   .aha-guide {
-    animation: slide-left .3s ease-in-out forwards;
+    animation: slide-left .45s ease-in-out forwards;
     background: $gray-lighterest;
     border: 1px solid $gray-lighter;
     border-radius: $input-border-radius-lg;
@@ -56,14 +56,5 @@
     + .aha-guide {
       margin-top: 15px;
     }
-  }
-}
-
-// if viewing sidebar during an empty instance state
-.instance-wrapper.empty {
-  flex-direction: row;
-
-  .aha-sidebar {
-    position: relative;
   }
 }
