@@ -1,30 +1,22 @@
 //- changing plans
-.padding-md(
-  ng-init = "modal.configurations = 5"
-)
+.padding-md
   .clearfix
     .label-col.full-width.text-center Configurations Used
-  //- .used-n where n is the number of configs
   .meter(
-    ng-class = "{\
-      'preview-used-2': state.previewStarter,\
-      'used-5': modal.configurations === 5,\
-      'preview-used-7': state.previewStandard,\
-      'preview-used-15': state.previewPlus\
-    }"
+    ng-class = "getMeterClass()"
   )
     .current-plan
     .ticks
       .tick
       .tick(
-        ng-class = "{'expand': state.previewStarter}"
+        ng-class = "{'expand': preview === 'starter'}"
       )
       .tick
       .tick
       .tick
       .tick
       .tick(
-        ng-class = "{'expand': state.previewStandard}"
+        ng-class = "{'expand': preview === 'standard'}"
       )
       .tick
       .tick
@@ -36,20 +28,20 @@
 
   .grid-block.align-center
     .grid-block.vertical.align-center.card.card-plan.disabled.padding-sm.text-center(
-      ng-class = "{'active': modal.configurations <= 2}"
-      ng-mouseenter = "state.previewStarter = true"
-      ng-mouseleave = "state.previewStarter = false"
+      ng-class = "{'active': PSFC.plan.id === 'starter'}"
+      ng-mouseenter = "preview = 'starter'"
+      ng-mouseleave = "preview = ''"
     )
       h3.grid-content.shrink.h3 Starter
       .grid-block.shrink.vertical.price
         .grid-block.strike(
-          ng-if = "$root.featureFlags.billingDiscounted"
-        ) $9
+          ng-if = "PSFC.discounted"
+        ) ${{plans.starter.costPerUser}}
         .grid-block.justify-center.h1(
-          ng-class = "{'discounted': $root.featureFlags.billingDiscounted}"
+          ng-class = "{'discounted': PSFC.discounted}"
         )
           sup.sup $
-          | {{$root.featureFlags.billingDiscounted ? '4.50' : '9'}}
+          | {{PSFC.calculatePlanAmount('starter')}}
         small.grid-block.vertical.small.text-gray per user
           br
           | per month
@@ -58,20 +50,20 @@
         | &#32; configurations.
 
     .grid-block.vertical.align-center.card.card-plan.disabled.padding-sm.text-center(
-      ng-class = "{'active': modal.configurations >= 3}"
-      ng-mouseenter = "state.previewStandard = true"
-      ng-mouseleave = "state.previewStandard = false"
+      ng-class = "{'active': PSFC.plan.id === 'standard'}"
+      ng-mouseenter = "preview = 'standard'"
+      ng-mouseleave = "preview = ''"
     )
       h3.grid-content.shrink.h3 Standard
       .grid-block.shrink.vertical.price
         .grid-block.strike(
-          ng-if = "$root.featureFlags.billingDiscounted"
-        ) $29
+          ng-if = "PSFC.discounted"
+        ) ${{plans.standard.costPerUser}}
         .grid-block.justify-center.h1(
-          ng-class = "{'discounted': $root.featureFlags.billingDiscounted}"
+          ng-class = "{'discounted': PSFC.discounted}"
         )
           sup.sup $
-          | {{$root.featureFlags.billingDiscounted ? '14.50' : '29'}}
+          | {{PSFC.calculatePlanAmount('standard')}}
         small.grid-block.vertical.small.text-gray per user
           br
           | per month
@@ -80,20 +72,20 @@
         | &#32; configurations.
 
     .grid-block.vertical.align-center.card.card-plan.disabled.padding-sm.text-center(
-      ng-class = "{'active': modal.configurations >= 15}"
-      ng-mouseenter = "state.previewPlus = true"
-      ng-mouseleave = "state.previewPlus = false"
+      ng-class = "{'active': PSFC.plan.id === 'plus'}"
+      ng-mouseenter = "preview = 'plus'"
+      ng-mouseleave = "preview = ''"
     )
       h3.grid-content.shrink.h3 Plus
       .grid-block.shrink.vertical.price
         .grid-block.strike(
-          ng-if = "$root.featureFlags.billingDiscounted"
-        ) $49
+          ng-if = "PSFC.discounted"
+        ) ${{plans.plus.costPerUser}}
         .grid-block.justify-center.h1(
-          ng-class = "{'discounted': $root.featureFlags.billingDiscounted}"
+          ng-class = "{'discounted': PSFC.discounted}"
         )
           sup.sup $
-          | {{$root.featureFlags.billingDiscounted ? '24.50' : '49'}}
+          | {{PSFC.calculatePlanAmount('plus')}}
         small.grid-block.vertical.small.text-gray per user
           br
           | per month
@@ -102,7 +94,7 @@
         | &#32; configurations.
 
   label.grid-block.align-center.padding-xs.well.well-plan.well-summary.disabled(
-    ng-if = "$root.featureFlags.billingDiscounted"
+    ng-if = "PSFC.discounted"
     ng-include = "'discountView'"
     ng-init = "state.hasDuration = (!$root.featureFlags.trial) ? 'true' : ''"
   )

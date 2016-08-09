@@ -37,7 +37,11 @@ require('app')
   // Settings
   .factory('verifySlackAPITokenAndFetchMembers', verifySlackAPITokenAndFetchMembers)
   .factory('fetchSettings', fetchSettings)
-  .factory('integrationsCache', integrationsCache);
+  .factory('integrationsCache', integrationsCache)
+  // Billing
+  .factory('fetchPlan', fetchPlan)
+  .factory('fetchInvoices', fetchInvoices)
+  .factory('fetchPaymentMethod', fetchPaymentMethod);
 
 function fetchUser(
   $q,
@@ -861,3 +865,62 @@ function fetchStackData(
       });
   };
 }
+
+function fetchPlan(
+  $http,
+  memoize,
+  configAPIHost,
+  $state
+) {
+  return memoize(function () {
+    return $http({
+      method: 'get',
+      url: configAPIHost + '/billing/' + $state.params.userName + '/plan'
+    })
+      .then(function (res) {
+        return res.data;
+      });
+  }, function () {
+    return $state.params.userName;
+  });
+}
+
+function fetchInvoices(
+  $http,
+  memoize,
+  configAPIHost,
+  $state
+) {
+  return memoize(function () {
+    return $http({
+      method: 'get',
+      url: configAPIHost + '/billing/' + $state.params.userName + '/invoices'
+    })
+      .then(function (res) {
+        return res.data;
+      });
+  }, function () {
+    return $state.params.userName;
+  });
+}
+
+function fetchPaymentMethod(
+  $http,
+  memoize,
+  configAPIHost,
+  $state
+) {
+  return memoize(function () {
+    return $http({
+      method: 'get',
+      url: configAPIHost + '/billing/' + $state.params.userName + '/payment-method'
+    })
+      .then(function (res) {
+        return res.data;
+      });
+  }, function () {
+    return $state.params.userName;
+  });
+}
+
+

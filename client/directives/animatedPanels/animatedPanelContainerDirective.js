@@ -70,7 +70,6 @@ function animatedPanelContainer(
         }
       };
 
-
       $scope.getAnimatedPanelStyle = function () {
         var inElement = panelElements[$scope.activePanel];
         if (!inElement || !activelyAnimating) {

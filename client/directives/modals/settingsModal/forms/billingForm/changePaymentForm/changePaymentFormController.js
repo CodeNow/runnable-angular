@@ -10,11 +10,11 @@ function ChangePaymentFormController(
   var CPFC = this;
 
   CPFC.card = {
-    number: '4242424242424242',
-    exp_month: 12,
-    exp_year: 2032,
-    cvc: '123',
-    address_zip: '12312'
+    number: undefined,
+    exp_month: undefined,
+    exp_year: undefined,
+    cvc: undefined,
+    address_zip: undefined
   };
 
   var messageConversion = {

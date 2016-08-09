@@ -1,0 +1,19 @@
+.clearfix
+  .label-col Billing History
+.table.table-billing(
+  ng-if = "invoices.length"
+)
+  .tr.clearfix(
+    ng-repeat = "invoice in invoices"
+  )
+    .cell.monospace ${{invoice.total}}
+    .cell.text-overflow.small Paid by {{invoice.metadata.paidBy}}
+    .cell.monospace.text-right {{getBillingDate(invoice)}}
+
+div(
+  ng-if = "invoices.length === 0"
+) You have no billing history right now.
+
+//- if there's something older to load
+//-.label
+  a.small.link Load Older
