@@ -11,7 +11,6 @@ function MirrorDockerfileController(
   fetchRepoDockerfiles,
   keypather
 ) {
-
   var MDC = this;
   if (!MDC.repo) {
     throw new Error('A repo is required for this controller');
