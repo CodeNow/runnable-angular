@@ -7,6 +7,10 @@ function billingForm() {
     restrict: 'A',
     templateUrl: 'billingForm',
     link: function ($scope, element) {
+      element.on('$destroy', function() {
+        $scope.SEMC.showFooter = true;
+      });
+
       $scope.actions = {
         trial: {
           save: function () {
