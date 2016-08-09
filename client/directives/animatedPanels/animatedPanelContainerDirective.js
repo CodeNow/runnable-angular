@@ -50,7 +50,7 @@ function animatedPanelContainer(
                 }, 300);
               }
               $scope.activePanel = panelName;
-            });
+            }, 0);
           }, 0);
         } else {
           activelyAnimating = false;
@@ -73,13 +73,8 @@ function animatedPanelContainer(
 
       $scope.getAnimatedPanelStyle = function () {
         var inElement = panelElements[$scope.activePanel];
-        if (!inElement) {
+        if (!inElement || !activelyAnimating) {
           return;
-        }
-        if (!activelyAnimating) {
-          return {
-            position: 'relative'
-          };
         }
         return {
           height: inElement[0].offsetHeight + 'px',

@@ -57,7 +57,7 @@ describe('animatedPanelContainerDirective'.bold.underline.blue, function() {
       }], true);
       $elScope.$digest();
       var style = $elScope.getAnimatedPanelStyle();
-      expect(style.position).to.equal('relative');
+      expect(style).to.not.be.ok;
     });
   });
 
