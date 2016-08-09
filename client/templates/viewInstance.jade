@@ -30,11 +30,7 @@
     .modal-body.grid-block.vertical.padding-sm
       .grid-block.align-center.aha-guide(
         ng-include = "'ahaGuideView'"
-        ng-init = "\
-          state.showDetails = true;\
-          state.showMenu = true;\
-          state.showStep = 2;\
-        "
+        ng-init = "state.showStep = 2"
       )
 
   .grid-block.vertical(

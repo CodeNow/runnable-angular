@@ -15,4 +15,6 @@
     )
 .grid-block.vertical
   p.p.strong Add your First Repository
-  p.p Create a configuration to start adding a project.
+  p.p
+    | {{state.showSubStep === 0 ? 'Click ‘Add Configuration’ to start adding your repository.' : ''}}
+    | {{state.showSubStep === 1 ? 'Select a repository to set up.' : ''}}

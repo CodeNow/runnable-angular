@@ -44,6 +44,7 @@
   margin-bottom: 15px;
   min-width: 360px;
   position: relative;
+  transform-origin: 50% 10%;
   transition: max-width .3s ease-in-out;
 
   @include media(sm) {
