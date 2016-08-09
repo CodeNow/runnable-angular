@@ -14,7 +14,6 @@
 )
   //- add .disabled class to the not selected item if loading
   label.grid-block.list-item(
-    ng-class = "{'active': MDC.state.dockerfile === false}"
     ng-disabled = "$root.isLoading[MDC.name + 'SingleRepo']"
   )
     svg.grid-content.shrink.iconnables.icons-dockerfile
@@ -25,8 +24,9 @@
     //- if there is only one, [check] by default
     input.checkbox(
       name = "dockerfile"
-      ng-model = "MDC.state.dockerfile"
       type = "radio"
+      value = "new"
+      ng-model = "MDC.state.configurationMethod"
       ng-disabled = "$root.isLoading[MDC.name + 'SingleRepo']"
     )
     button.btn.btn-xs.btn-icon.btn-add
@@ -41,7 +41,6 @@
   //- 'thisDockerfile' should be the name of the Dockerfile (ie. 'Dockerfile.prod', or 'Dockerfile.staging') to suppot multiple dockerfiles
   //- add .disabled class to the not selected item if loading
   label.grid-block.list-item(
-    ng-class = "{'active': MDC.state.dockerfile === dockerfile}"
     ng-disabled = "$root.isLoading[MDC.name + 'SingleRepo']"
     ng-repeat = "dockerfile in MDC.state.repo.dockerfiles"
   )
@@ -60,9 +59,9 @@
     //- if there is only one, [check] by default
     input.checkbox(
       name = "dockerfile"
-      ng-model = "MDC.state.dockerfile"
       type = "radio"
-      ng-value = "dockerfile"
+      value = "dockerfile"
+      ng-model = "MDC.state.configurationMethod"
     )
     button.btn.btn-xs.btn-icon.btn-add
       svg.iconnables.icons-check
