@@ -115,5 +115,5 @@ p(ng-if = "CIS.getFilteredInstanceList().length < 1") Sorry, no branches found!
     active-account = "CIS.activeAccount"
     instance = "masterInstance"
     instance-navigation
-    ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:false | orderBy: ['attrs.name'] as nonRepoInstances track by masterInstance.attrs.name"
+    ng-repeat = "masterInstance in CIS.getFilteredInstanceList() | instanceHasRepo:false | orderBy: ['attrs.name'] as nonRepoInstances track by masterInstance.attrs.name"
   )
