@@ -1,10 +1,15 @@
-label
+label.grid-block.vertical.label-search
   input.input.input-xs.input-search(
-    placeholder="Filter by container name" 
-    ng-model="CIS.searchBranches"
+    ng-model = "CIS.searchBranches"
+    placeholder = "Filter by name"
     required
     select-on = "showFilter"
+    type = "search"
   )
+
+p.p.text-center.text-gray-light.padding-sm(
+  ng-if = "CIS.getFilteredInstanceList().length < 1"
+) No containers match filter.
 
 //- master cluster
 .list-clusters.master-cluster(
@@ -104,8 +109,6 @@ label
     pop-over-options = "{\"top\":-33,\"left\":215}"
     pop-over-template = "viewMoreContainersPopover"
   ) 8 more…
-  
-p(ng-if = "CIS.getFilteredInstanceList().length < 1") No containers match filter
 
 //- non-repo containers (pre auto-isolation)
 .list-clusters(

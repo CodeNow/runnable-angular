@@ -22,14 +22,10 @@
     }
   }
 
-  input {
-    margin-top: 10px;
-  }
-
-  p {
-    margin-top: 10px;
-    padding: 5px;
-    text-align: center;
+  // search
+  .label-search {
+    border-bottom: 1px solid $gray-lighter;
+    padding: 16px 10px;
   }
 
   // empty state
