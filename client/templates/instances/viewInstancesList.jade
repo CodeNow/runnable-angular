@@ -1,7 +1,6 @@
 label
-  .
   input.input.input-xs.input-search(
-    placeholder="Filter by branch name" 
+    placeholder="Filter by container name" 
     ng-model="CIS.searchBranches"
   )
 
@@ -104,7 +103,7 @@ label
     pop-over-template = "viewMoreContainersPopover"
   ) 8 more…
   
-p(ng-if = "CIS.getFilteredInstanceList().length < 1") Sorry, no branches found!
+p(ng-if = "CIS.getFilteredInstanceList().length < 1") No containers match filter
 
 //- non-repo containers (pre auto-isolation)
 .list-clusters(
