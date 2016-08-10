@@ -1,12 +1,13 @@
 .aha-sidebar {
-  background: rgba($gray-lightest,.95);
-  border-left: 1px solid $gray-lighter;
-  box-shadow: -1px 0 3px rgba($black,.06);
+  background: $white;
+  border: 1px solid $gray-lighter;
+  border-radius: $input-border-radius-lg;
+  box-shadow: 0 1px 3px rgba($black,.06);
   flex: 0 0 390px;
-  height: 100vh;
+  height: calc(100vh - 24px);
   position: absolute;
-  right: 0;
-  top: 0;
+  right: 12px;
+  top: 12px;
   transition: transform .3s ease-in-out;
   width: 390px;
   z-index: $z-views-sidebar;
@@ -51,6 +52,12 @@
       &:nth-child(#{$i}) {
         animation-delay: ($i * .05s);
       }
+    }
+
+    &.complete {
+      background: $green-dark;
+      border-color: $green;
+      color: $white;
     }
 
     + .aha-guide {

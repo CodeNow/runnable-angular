@@ -6,7 +6,9 @@
       xlink:href = "#icons-close"
     )
 .grid-block.vertical
-  .grid-block.shrink.align-center.padding-sm.aha-guide
+  .grid-block.shrink.align-center.padding-sm.aha-guide(
+    ng-class = "{'complete': $root.featureFlags.aha1 || $root.featureFlags.aha2 || $root.featureFlags.aha3}"
+  )
     .grid-block.shrink.aha-meter(
       ng-class = "{\
         'aha-meter-50': $root.featureFlags.aha0,\
@@ -22,7 +24,9 @@
       p.p.strong Create your Sandbox
       p.small This is the first step to success.
 
-  .grid-block.shrink.align-center.padding-sm.aha-guide
+  .grid-block.shrink.align-center.padding-sm.aha-guide(
+    ng-class = "{'complete': $root.featureFlags.aha2 || $root.featureFlags.aha3"
+  )
     .grid-block.shrink.aha-meter(
       ng-class = "{\
         'aha-meter-13': $root.featureFlags.aha1,\
@@ -42,7 +46,9 @@
       p.p.strong Add your First Repository
       p.small Configure your project and get it running!
 
-  .grid-block.shrink.align-center.padding-sm.aha-guide
+  .grid-block.shrink.align-center.padding-sm.aha-guide(
+    ng-class = "{'complete': $root.featureFlags.aha3}"
+  )
     .grid-block.shrink.aha-meter(
       ng-class = "{\
         'aha-meter-33': $root.featureFlags.aha2,\

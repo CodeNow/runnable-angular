@@ -58,7 +58,7 @@
 
 .modal-backdrop .aha-guide {
   animation: fade .15s ease-in-out;
-  background: $white;
+  background: rgba($white,.5);
   border-bottom: 1px solid $gray-lighter;
   height: 105px;
   position: absolute;
