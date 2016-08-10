@@ -34,15 +34,14 @@
                 )
               | Billing
               btn.btn-xxs.btn-badge.anchor-right.orange(
-                ng-if = "$root.featureFlags.trial || $root.featureFlags.billingExpired"
+                ng-if = "data.activeAccount.isInTrial() || data.activeAccount.isInGrace()"
                 title = "\
-                  {{$root.featureFlags.trial ? '12 days left in your trial' : ''}}\
-                  {{$root.featureFlags.billingExpired ? 'Your card has expired' : ''}}\
+                  {{data.activeAccount.isInTrial() ? data.activeAccount.trialRemaining() + ' days left in your trial' : ''}}\
+                  {{$root.featureFlags.billingExpired ? 'There was a problem charging your card' : ''}}\
                 "
               )
-                | {{$root.featureFlags.trial && !$root.featureFlags.trialEnding ? '12 days left' : ''}}
-                | {{$root.featureFlags.trial && $root.featureFlags.trialEnding ? '3 days left' : ''}}
-                | {{$root.featureFlags.billingExpired ? 'Card Expired' : ''}}
+                | {{data.activeAccount.isInTrial() ? data.activeAccount.trialRemaining() + ' days left' : ''}}
+                | {{data.activeAccount.isInGrace() ? 'Bill Overdue' : ''}}
             li.list-item.popover-list-item(
               ng-click = "actions.openSettingsModal('teamManagement')"
             )

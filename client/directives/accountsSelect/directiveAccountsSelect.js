@@ -79,6 +79,7 @@ function accountsSelect (
       };
 
       keypather.set($scope, 'popoverAccountMenu.data.dataModalIntegrations', $scope.data);
+      keypather.set($scope, 'popoverAccountMenu.data.activeAccount', $scope.data.activeAccount);
 
       if (configEnvironment !== 'production') {
         keypather.set($scope, 'popoverAccountMenu.data.inDev', true);
@@ -99,12 +100,12 @@ function accountsSelect (
 
       $scope.getBadgeCount = function () {
         if ($scope.data.activeAccount.isInTrial()) {
-          return moment.utc($scope.data.activeAccount.attrs.trialEnd * 1000).diff(moment.utc(), 'days');
+          return $scope.data.activeAccount.trialRemaining();
         }
         if ($scope.data.activeAccount.isInGrace()) {
-          return moment.utc($scope.data.activeAccount.attrs.gracePeriodEnd * 1000).diff(moment.utc(), 'days');
+          return $scope.data.activeAccount.graceRemaining();
         }
-        if ($scope.data.activeAccount.graceExpired()) {
+        if ($scope.data.activeAccount.isGraceExpired()) {
           return '!';
         }
         return '';

@@ -97,16 +97,22 @@ function fetchWhitelistedOrgs(
           model.attrs.gracePeriodEnd = moment().add('days', 15).utc().unix();
           model.attrs.stripeCustomerId = 1234;
           model.isInTrial = function () {
-            return moment.utc(this.attrs.trialEnd * 1000) > moment().utc();
+            return moment.utc(model.attrs.trialEnd * 1000) > moment().utc();
           };
           model.isInGrace = function () {
-            return !this.isInTrial() && moment.utc(this.attrs.gracePeriodEnd) > moment().utc();
+            return !model.isInTrial() && moment.utc(model.attrs.gracePeriodEnd) > moment().utc();
           };
           model.isInActivePeriod = function () {
-            return moment.utc(this.attrs.activePeriodEnd) > moment().utc();
+            return moment.utc(model.attrs.activePeriodEnd) > moment().utc();
           };
-          model.graceExpired = function () {
-            return !this.isInTrial() && moment.utc(this.attrs.gracePeriodEnd) < moment().utc();
+          model.isGraceExpired = function () {
+            return !model.isInTrial() && moment.utc(model.attrs.gracePeriodEnd) < moment().utc();
+          };
+          model.trialRemaining = function () {
+            return moment.utc(model.attrs.trialEnd * 1000).diff(moment.utc(), 'days');
+          };
+          model.graceRemaining = function () {
+            return moment.utc(model.attrs.gracePeriodEnd * 1000).diff(moment.utc(), 'days');
           };
         });
         return ghOrgCollection;
