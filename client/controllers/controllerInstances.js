@@ -13,13 +13,13 @@ function ControllerInstances(
   setLastOrg,
   errs,
   ModalService,
-
   fetchInstancesByPod,
   activeAccount,
   user
 ) {
   var self = this;
   var userName = $state.params.userName;
+  self.searchBranches = ""
   self.$storage = $localStorage.$default({
     instanceListIsClosed: false
   });
@@ -83,6 +83,25 @@ function ControllerInstances(
       }
     })
     .catch(errs.handler);
+
+  this.getFilteredInstanceList = function () {
+    if (!self.instancesByPod) {
+      return null;
+    }
+    if (self.searchBranches.length === 0) {
+      return self.instancesByPod;
+    }
+    return self.instancesByPod
+      .filter(function (masterPod) {
+        return masterPod.getBranchName().toLowerCase().indexOf(self.searchBranches.toLowerCase()) !== -1 || self.getFilteredChildren(masterPod).length > 0;
+      });
+  };
+
+  this.getFilteredChildren = function (masterPod) {
+    return masterPod.children.models.filter(function (child) {
+      return child.attrs.name.toLowerCase().indexOf(self.searchBranches.toLowerCase()) !== -1;
+    });
+  };
 
   this.editInstance = function (instance) {
     ModalService.showModal({

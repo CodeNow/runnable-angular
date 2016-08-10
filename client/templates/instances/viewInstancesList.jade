@@ -1,7 +1,15 @@
+label
+  .
+  input.input.input-xs.input-search(
+    placeholder="Filter by branch name" 
+    ng-model="CIS.searchBranches"
+  )
+
 //- master cluster
 .list-clusters.master-cluster(
   ng-if = "$root.featureFlags.autoIsolation"
 )
+
   .list-item-cluster
     .grid-block.list-containers.vertical.text-overflow.open
       //- master repository containers
@@ -35,10 +43,13 @@
         xlink:href = "#icons-close"
       )
 
+p(ng-if = "CIS.getFilteredInstanceList().length < 1") Sorry, no branches found!
+
 //- branch clusters
 .list-clusters(
-  ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
+  ng-repeat = "masterInstance in CIS.getFilteredInstanceList() | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
 )
+
   //- cluster list heading
   .grid-block.align-center.list-item-cluster.list-clusters-heading
     //- repository name
@@ -84,7 +95,7 @@
     instance = "childInstance"
     instance-navigation
     master-instance = "masterInstance"
-    ng-repeat = "childInstance in masterInstance.children.models | orderBy: ['attrs.name']"
+    ng-repeat = "childInstance in CIS.getFilteredChildren(masterInstance) | orderBy: ['attrs.name']"
   )
 
   //- nav list filter
