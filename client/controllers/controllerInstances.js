@@ -93,7 +93,7 @@ function ControllerInstances(
     }
     return self.instancesByPod
       .filter(function (masterPod) {
-        return masterPod.getBranchName().toLowerCase().indexOf(self.searchBranches.toLowerCase()) !== -1 || self.getFilteredChildren(masterPod).length > 0;
+        return (masterPod.getBranchName() ? masterPod.getBranchName().toLowerCase().indexOf(self.searchBranches.toLowerCase()) !== -1 : 0) || self.getFilteredChildren(masterPod).length > 0;
       });
   };
 

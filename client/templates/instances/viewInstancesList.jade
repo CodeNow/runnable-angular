@@ -43,8 +43,6 @@ label
         xlink:href = "#icons-close"
       )
 
-p(ng-if = "CIS.getFilteredInstanceList().length < 1") Sorry, no branches found!
-
 //- branch clusters
 .list-clusters(
   ng-repeat = "masterInstance in CIS.getFilteredInstanceList() | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
@@ -105,6 +103,8 @@ p(ng-if = "CIS.getFilteredInstanceList().length < 1") Sorry, no branches found!
     pop-over-options = "{\"top\":-33,\"left\":215}"
     pop-over-template = "viewMoreContainersPopover"
   ) 8 more…
+  
+p(ng-if = "CIS.getFilteredInstanceList().length < 1") Sorry, no branches found!
 
 //- non-repo containers (pre auto-isolation)
 .list-clusters(
