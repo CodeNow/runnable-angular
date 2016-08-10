@@ -88,7 +88,7 @@ function ControllerInstances(
     if (!self.instancesByPod) {
       return null;
     }
-    if (self.searchBranches.length === 0) {
+    if (!self.searchBranches) {
       return self.instancesByPod;
     }
     return self.instancesByPod
@@ -100,8 +100,11 @@ function ControllerInstances(
   };
 
   this.getFilteredChildren = function (masterPod) {
+    if (!self.searchBranches) {
+      return masterPod.children.models;
+    }
     return masterPod.children.models.filter(function (child) {
-      return (child.attrs.name ? child.attrs.name.toLowerCase().indexOf(self.searchBranches.toLowerCase()) !== -1 : 0);
+      return child.attrs.name.toLowerCase().indexOf(self.searchBranches.toLowerCase()) !== -1;
     });
   };
 
