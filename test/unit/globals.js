@@ -105,5 +105,21 @@ window.helpers = {
       augmentCb(event);
     }
     el.dispatchEvent(event);
+  },
+  /**
+   * Prevent a directive from executing
+   * @param {String} directiveName - Name of the directive you don't want to execute, camelCase
+   */
+  killDirective: function (directiveName) {
+    angular.mock.module('app', function ($compileProvider) {
+      $compileProvider.directive(directiveName, function () {
+        return {
+          priority: 9999999,
+          restrict: 'EAC',
+          template: '<div class="mock">This directive was killed with killDirective</div>',
+          terminal: true
+        };
+      });
+    });
   }
 };

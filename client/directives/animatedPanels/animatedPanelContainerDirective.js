@@ -25,21 +25,35 @@ function animatedPanelContainer(
       var isAnimatingForwards = true;
       var animateOut = false;
       var leavingPanel = null;
+      var activelyAnimatingTimeout = false;
+      var activelyAnimating = false;
+
+      var panels = [];
+      var panelElements = {};
+      $scope.activePanel = null;
 
       $scope.goToPanel = function (panelName, style) {
-        isAnimatingForwards = style !== 'back';
         if (panels.includes(panelName)) {
-          animateOut = false;
-          leavingPanel = $scope.activePanel;
-
-          // Quick move our elements to the right spot, then let them animate into place
+          activelyAnimating = true;
           $timeout(function () {
-            if (style !== 'immediate') {
-              animateOut = true;
-            }
-            $scope.activePanel = panelName;
-          });
+            isAnimatingForwards = style !== 'back';
+            animateOut = false;
+            leavingPanel = $scope.activePanel;
+
+            // Quick move our elements to the right spot, then let them animate into place
+            $timeout(function () {
+              if (style !== 'immediate') {
+                animateOut = true;
+                $timeout.cancel(activelyAnimatingTimeout);
+                activelyAnimatingTimeout = $timeout(function () {
+                  activelyAnimating = false;
+                }, 300);
+              }
+              $scope.activePanel = panelName;
+            }, 0);
+          }, 0);
         } else {
+          activelyAnimating = false;
           console.error('Tried going to panel that doesn\'t exist', panelName);
         }
       };
@@ -47,10 +61,6 @@ function animatedPanelContainer(
       $scope.$on('go-to-panel', function (evt, panelName, direction) {
         $scope.goToPanel(panelName, direction);
       });
-
-      var panels = [];
-      var panelElements = {};
-      $scope.activePanel = null;
 
       $scope.registerPanel = function (panelName, panelElement, defaulted) {
         panels.push(panelName);
@@ -60,10 +70,9 @@ function animatedPanelContainer(
         }
       };
 
-
       $scope.getAnimatedPanelStyle = function () {
         var inElement = panelElements[$scope.activePanel];
-        if (!inElement) {
+        if (!inElement || !activelyAnimating) {
           return;
         }
         return {
@@ -82,7 +91,8 @@ function animatedPanelContainer(
           out:  panelName !== $scope.activePanel,
           in: panelName === $scope.activePanel,
           back: !goingForwards,
-          animated: animateOut
+          animated: animateOut,
+          animating: activelyAnimating
         };
       };
 

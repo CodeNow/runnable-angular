@@ -1,8 +1,11 @@
-form.padding-md
+form.padding-md(
+  novalidate
+  name = "paymentForm"
+)
 
   label.grid-block.align-center.well.well-plan.well-summary.disabled.padding-xxs(
     ng-if = "!state.changingPayment"
-    ng-include = "'planSummaryView'"
+    plan-summary
   )
 
   label.grid-block.align-center.padding-xs.well.well-plan.well-summary.disabled(
@@ -13,18 +16,25 @@ form.padding-md
   //- limit all fields to numbers only
   //- add .invalid class for errors from stripe
   .grid-block.vertical.well.gray.padding-sm.well-payment
-    //- p.red.small.text-center Your card was declined!
+    p.red.small.text-center(
+      ng-if = "CPFC.error"
+      ng-bind = "CPFC.error"
+    )
     label.grid-block.vertical.label-payment.label-cc
       .small Card Number
       //- add .visa, .mastercard, .amex, .jcb to show cc type
       input.grid-content.input.input-md.input-cc.input-validate(
+        cc-number
+        cc-format
+        cc-type
+        cc-eager-type
         autocomplete = "cc-number"
-        inputmode = "numeric"
-        maxlength = "16"
-        ng-class = "{'amex': ccNumber.length === 16}"
-        ng-model = "ccNumber"
+        ng-class = "getCardClass()"
+        ng-model = "CPFC.card.number"
+        name = "cardNumber"
         required
         spellcheck = "false"
+        ng-disabled="$root.isLoading.savePayment"
       )
     .grid-block
       .grid-block.shrink.vertical.label-payment.label-expiry
@@ -32,47 +42,67 @@ form.padding-md
         //- auto insert " / " after last 2nd number (with the spaces)
           - pressing delete immediately after " / " should delete " / " AND the preceeding number
         .input-group.input-group-md.input-validate.white(
-          ng-class = "{'focus': state.isFocused}"
+          ng-class = "{ \
+            'focus': state.isFocused, \
+            'ng-invalid': !isCCExpValid(), \
+            'ng-valid': isCCExpValid() \
+          }"
+          cc-exp
+          ng-disabled="$root.isLoading.savePayment"
         )
           input.input.input-md.input-exp.text-center(
             autocomplete = "cc-exp-month"
+            cc-exp-month
             inputmode = "numeric"
-            maxlength = "2"
+            name = "ccExpMonth"
             ng-blur = "state.isFocused = false"
             ng-focus = "state.isFocused = true"
+            ng-model = "CPFC.card.exp_month"
             placeholder = "MM"
             required
             spellcheck = "false"
+            ng-disabled="$root.isLoading.savePayment"
           )
           span.span /
           input.input.input-md.input-exp.text-center(
             autocomplete = "cc-exp-year"
+            cc-exp-year
+            full-year
             inputmode = "numeric"
-            maxlength = "4"
+            name = "ccExpYear"
             ng-blur = "state.isFocused = false"
             ng-focus = "state.isFocused = true"
+            ng-model = "CPFC.card.exp_year"
             placeholder = "YYYY"
             required
             spellcheck = "false"
+            ng-disabled="$root.isLoading.savePayment"
           )
+
 
       label.grid-block.vertical.label-payment.label-security
         .small CVC
         input.input.input-md.input-cvc.input-validate(
+          cc-cvc
+          ng-model = "CPFC.card.cvc"
+          type = "text"
           autocomplete = "cc-csc"
           inputmode = "numeric"
-          maxlength = "4"
           required
           spellcheck = "false"
+          ng-disabled="$root.isLoading.savePayment"
         )
 
       label.grid-block.vertical.label-payment.label-zip
         .small Zip Code
         input.input.input-md.input-zip.input-validate(
+          ng-model = "CPFC.card.address_zip"
           inputmode = "numeric"
           maxlength = "5"
           required
           spellcheck = "false"
+          ng-pattern="/^[0-9]{5}$/"
+          ng-disabled="$root.isLoading.savePayment"
         )
 
     .grid-block.well.padding-xxs.small.justify-center.text-center(
@@ -101,20 +131,21 @@ form.padding-md
 
 footer.modal-footer.clearfix
   button.btn.btn-md.gray.btn-cancel.float-left(
-    ng-click = "\
-      $root.featureFlags.trialFooter = false;\
-      goToPanel('billingForm', 'back');\
-    "
-    ng-if = "!$root.featureFlags.trial"
+    ng-click = "CPFC.actions.cancel()"
+    ng-if = "CPFC.cancel"
     type = "button"
+    ng-disabled="$root.isLoading.savePayment"
   ) Cancel
+
   button.btn.btn-md.green.float-right(
-    ng-click = "goToPanel('billingForm', 'back')"
-    ng-if = "!$root.featureFlags.trial"
+    ng-click = "CPFC.actions.save()"
+    ng-disabled="paymentForm.$invalid || $root.isLoading.savePayment"
+    ng-if = "CPFC.updating"
   )
-    //- .spinner-wrapper.spinner-sm.spinner-white.in(
-    //-   ng-include = "'spinner'"
-    //- )
+    .spinner-wrapper.spinner-sm.spinner-white.in(
+      ng-include = "'spinner'"
+      ng-if = "$root.isLoading.savePayment"
+    )
     span Update Payment
 
   //- disable while loading
@@ -123,19 +154,20 @@ footer.modal-footer.clearfix
       'btn-block': state.fromPaymentDue,\
       'float-right': !state.fromPaymentDue\
     }"
-    ng-click = "goToPanel('confirmationForm')"
-    ng-if = "$root.featureFlags.trial"
+    ng-click = "CPFC.actions.save()"
+    ng-disabled="paymentForm.$invalid || $root.isLoading.savePayment"
+    ng-if = "!CPFC.updating"
     type = "button"
   )
-    //- .spinner-wrapper.spinner-sm.spinner-white.in(
-    //-   ng-include = "'spinner'"
-    //- )
+    .spinner-wrapper.spinner-sm.spinner-white.in(
+      ng-include = "'spinner'"
+      ng-if = "$root.isLoading.savePayment"
+    )
     span Submit Payment
+
   button.btn.btn-md.gray.btn-cancel.float-right(
-    ng-click = "\
-      $root.featureFlags.trialFooter = false;\
-      goToPanel('trialForm', 'back');\
-    "
-    ng-if = "$root.featureFlags.trial && !state.fromPaymentDue"
+    ng-click = "CPFC.actions.back()"
+    ng-if = "CPFC.back"
     type = "button"
+    ng-disabled="$root.isLoading.savePayment"
   ) Back
