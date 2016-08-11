@@ -12,6 +12,14 @@
         'modal-sm': data.allAccounts.length <= 1\
       }"
     )
+      .grid-block.shrink.align-center.justify-center.padding-md.aha-guide(
+        ng-if = "$root.featureFlags.aha"
+        ng-include = "'ahaGuideView'"
+        ng-init = "\
+          state.showStep = 0;\
+          state.showSubStep = 0;\
+        "
+      )
       animated-panel-container
         animated-panel.modal-body.grid-block.vertical.padding-sm(
           default = "true"
@@ -19,6 +27,7 @@
         )
           p.p.padding-xs.text-center.fade(
             ng-class = "{'in': isActivePanel()}"
+            ng-if = "!$root.featureFlags.aha"
           ) Choose an organization for your Sandbox. If you don’t see your organization,&#32;
             a.link(
               href = "https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9"
@@ -38,7 +47,6 @@
               ) Check if you’ve granted access
               | &#32;to your organization on GitHub. If you don’t have permission to grant access, you’ll have to wait for your admin to give the go ahead.
 
-
           .grid-block.list(
             ng-if = "!$root.featureFlags.autoWhitelist && data.allAccounts.length"
           )
@@ -54,6 +62,18 @@
                 width = "24"
               )
               span.grid-block.text-left.text-overflow {{org.oauthName()}}
+
+          .grid-block.shrink.justify-center.align-center.padding-xs.well.gray.aha-tips
+            svg.grid-content.shrink.iconnables
+              use(
+                xlink:href = "#icons-life-preserver"
+              )
+            small.grid-content.small If you don’t see your organization, check if you’ve granted access&#32;
+              a.link(
+                href = "https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9"
+                target = "_blank"
+              ) on Github
+              | .
 
           form.grid-block.list.fade(
             name = "data.orgSelectorForm"
