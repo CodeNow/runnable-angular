@@ -5,7 +5,7 @@
   box-shadow: 0 1px 3px rgba($black,.06);
   flex: 0 0 390px;
   height: calc(100vh - 24px);
-  position: absolute;
+  position: fixed;
   right: 12px;
   top: 12px;
   transition: transform .3s ease-in-out;

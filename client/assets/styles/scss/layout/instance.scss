@@ -11,11 +11,12 @@
     flex-direction: row;
 
     > .instance {
-      transition: padding .3s ease-in-out;
+      min-width: 600px;
+    }
 
-      &.padding-right {
-        padding-right: 390px;
-      }
+    .instance-header {
+      background: transparent;
+      flex: 0 0 60px;
     }
   }
 
