@@ -91,7 +91,7 @@ function ControllerInstances(
     }
     var searchQuery = self.searchBranches.toLowerCase();
     return masterPod.getBranchName().toLowerCase().indexOf(searchQuery) !== -1 ||
-      masterPod.attrs.name.toLowerCase().indexOf(searchQuery) !== -1;
+      masterPod.attrs.lowerName.indexOf(searchQuery) !== -1;
   };
 
   this.getFilteredInstanceList = memoize(function () {
@@ -118,34 +118,32 @@ function ControllerInstances(
     }
     var searchQuery = self.searchBranches.toLowerCase();
     return masterPod.children.models.filter(function (child) {
-      return child.attrs.name.toLowerCase().indexOf(searchQuery) !== -1;
+      return child.attrs.lowerName.indexOf(searchQuery) !== -1;
     });
   };
 
   this.shouldShowChild = function (childInstance) {
-    var filter = self.searchBranches || '';
-    filter = filter.toLowerCase();
-    if (filter.length === 0) {
+    if (!self.searchBranches) {
       return true;
     }
-    return childInstance.attrs.name.toLowerCase().indexOf(filter) !== -1;
+    var searchQuery = self.searchBranches.toLowerCase();
+    return childInstance.attrs.lowerName.indexOf(searchQuery) !== -1;
   };
 
   this.shouldShowParent = function (masterPod) {
-    var filter = self.searchBranches || '';
-    filter = filter.toLowerCase();
-    if (filter.length === 0) {
+    if (!self.searchBranches) {
       return true;
     }
+    var searchQuery = self.searchBranches.toLowerCase();
 
-    var instanceName = masterPod.getBranchName() || masterPod.attrs.name;
-    if (instanceName.indexOf(filter) !== -1) {
+    var instanceName = masterPod.getBranchName() || masterPod.attrs.lowerName;
+    if (instanceName.indexOf(searchQuery) !== -1) {
       return true;
     }
 
     // Find children;
     return !!masterPod.children.models.find(function (child) {
-      return child.attrs.name.toLowerCase().indexOf(filter) !== -1;
+      return child.attrs.lowerName.indexOf(searchQuery) !== -1;
     });
   };
 
