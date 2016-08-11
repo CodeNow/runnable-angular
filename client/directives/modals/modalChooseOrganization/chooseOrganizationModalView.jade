@@ -30,11 +30,11 @@
           p.p.padding-xs.text-center.fade(
             ng-class = "{'in': isActivePanel()}"
             ng-if = "!$root.featureFlags.aha"
-          ) Choose an organization for your Sandbox. If you don’t see your organization,&#32;
+          ) Choose an organization for your Sandbox. If you don’t see your organization, check if you’ve granted access&#32;
             a.link(
               href = "https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9"
               target = "_blank"
-            ) check if you’ve granted access
+            ) on GitHub
             | .
 
           .grid-block.shrink.justify-center.align-center.padding-xs.well.gray.aha-tips.fade(
@@ -49,20 +49,20 @@
               a.link(
                 href = "https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9"
                 target = "_blank"
-              ) on Github
+              ) on GitHub
               | .
 
           //- empty state
           .empty.well.gray.padding-lg(
             ng-if = "!data.allAccounts.length"
           )
-            h3.h3.empty.text-center We couldn’t find your organizations.
-            small.small.empty.text-center
+            h3.h3.empty.text-gray.text-center We couldn’t find any organizations.
+            small.small.empty.text-center Check if you’ve granted access to your organization&#32;
               a.link(
                 href = "https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9"
                 target = "_blank"
-              ) Check if you’ve granted access
-              | &#32;to your organization on GitHub. If you don’t have permission to grant access, you’ll have to wait for your admin to give the go ahead.
+              ) on GitHub
+              | . If you don’t have permission to grant access, you’ll have to ask your admin to give the go ahead.
 
           .grid-block.list.fade(
             ng-class = "{'in': isActivePanel()}"
@@ -115,9 +115,6 @@
             ng-class = "{'in': isActivePanel()}"
             ng-if = "$root.featureFlags.autoWhitelist && data.allAccounts.length"
           )
-            //- show this button when done waiting
-            //- button.grid-block.align-center.justify-center.btn.btn-md.green Go to your sandbox!
-
             //- disabled until an org is selected
             button.grid-block.align-center.justify-center.btn.btn-md.green(
               ng-click = "\
