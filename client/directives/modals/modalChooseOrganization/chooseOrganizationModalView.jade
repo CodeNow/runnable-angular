@@ -127,32 +127,31 @@
               ng-disabled = "!data.selectedOrgName"
             ) Create Sandbox
 
-        animated-panel.grid-block.vertical.padding-lg(
+        animated-panel.grid-block.vertical(
           name = "dockLoading"
         )
-          //- dock spinning up
-          p.p.strong.text-gray.text-center.fade(
-            ng-class = "{'in': isActivePanel()}"
-          ) Hang tight!
-          p.p.text-gray.padding-xs.text-center.fade(
-            ng-class = "{'in': isActivePanel()}"
-          ) We’re spinning up a sandbox for your org. It’ll take about 10 minutes, we’ll update this page when it’s ready.
-          .grid-block.align-center.justify-center.padding-sm.fade(
+          .padding-lg.fade(
             ng-class = "{'in': isActivePanel()}"
           )
-            .spinner-wrapper.spinner-md.spinner-gray(
-              ng-include = "'spinner'"
-            )
-            //- ng-if = "isActivePanel()"
+            //- dock spinning up
+            p.p.strong.text-gray.text-center Hang tight!
+            p.p.text-gray.padding-xs.text-center We’re spinning up a sandbox for your org. It’ll take about&#32;
+              strong.strong 10 minutes
+              | , we’ll update this page when it’s ready.
+            .grid-block.align-center.justify-center.padding-sm
+              .spinner-wrapper.spinner-md.spinner-gray(
+                ng-if = "isActivePanel()"
+                ng-include = "'spinner'"
+              )
         animated-panel.grid-block.vertical(
           name = "dockLoaded"
         )
-          .padding-sm.fade(
+          .padding-lg.fade(
             ng-class = "{'in': isActivePanel()}"
           )
             //- dock spun up
-            h3.h3.text-center.padding-xs Thanks for waiting!
-            p.p.padding-xs.text-center Your sandbox is ready.
+            p.p.strong.text-gray.text-center Thanks for waiting!
+            p.p.text-gray.padding-xs.text-center Your sandbox is ready for you now.
 
           //- show this button when done waiting
           footer.grid-block.vertical.modal-footer.fade(
