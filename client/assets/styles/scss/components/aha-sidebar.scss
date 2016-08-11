@@ -60,6 +60,11 @@
       color: $white;
     }
 
+    &.disabled {
+      border-color: $gray-lightest;
+      color: $gray-light;
+    }
+
     + .aha-guide {
       margin-top: 15px;
     }

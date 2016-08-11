@@ -25,12 +25,15 @@
       p.small This is the first step to success.
 
   .grid-block.shrink.align-center.padding-sm.aha-guide(
-    ng-class = "{'complete': $root.featureFlags.aha2 || $root.featureFlags.aha3}"
+    ng-class = "{\
+      'complete': $root.featureFlags.aha2 || $root.featureFlags.aha3,\
+      'disabled': $root.featureFlags.aha0\
+    }"
   )
     .grid-block.shrink.aha-meter(
       ng-class = "{\
         'aha-meter-13': $root.featureFlags.aha1,\
-        'aha-meter-100': $root.featureFlags.aha2 || $root.featureFlags.aha3\
+        'aha-meter-100': $root.featureFlags.aha0\
       }"
     )
       svg.iconnables
@@ -47,7 +50,10 @@
       p.small Configure your project and get it running!
 
   .grid-block.shrink.align-center.padding-sm.aha-guide(
-    ng-class = "{'complete': $root.featureFlags.aha3}"
+    ng-class = "{\
+      'complete': $root.featureFlags.aha3,\
+      'disabled': $root.featureFlags.aha0 || $root.featureFlags.aha1\
+    }"
   )
     .grid-block.shrink.aha-meter(
       ng-class = "{\
@@ -68,7 +74,9 @@
       p.p.strong Add your First Branch
       p.small Your branches will update on every commit you make.
 
-  .grid-block.shrink.align-center.padding-sm.aha-guide
+  .grid-block.shrink.align-center.padding-sm.aha-guide(
+    ng-class = "{'disabled': $root.featureFlags.aha0 || $root.featureFlags.aha1 || $root.featureFlags.aha2}"
+  )
     .grid-block.shrink.aha-meter(
       ng-class = "{'aha-meter-50': $root.featureFlags.aha3}"
     )
