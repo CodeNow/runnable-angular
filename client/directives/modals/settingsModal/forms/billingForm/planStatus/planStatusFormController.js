@@ -55,7 +55,7 @@ function PlanStatusFormController(
   PSFC.calculatePlanAmount = function (planName) {
     var costPerUser = keypather.get(billingPlans[planName], 'costPerUser');
     if (PSFC.discounted) {
-      return (costPerUser * 0.5).toFixed(2);
+      return costPerUser * 0.5;
     }
     return costPerUser;
   };

@@ -1,6 +1,6 @@
 span(
   ng-if = "!state.fromPaymentDue"
-) At your current usage, you’ll be charged for the {{plan.id}} plan @ ${{calculatePlanPrice() | money}} for {{plan.userCount}} users.
+) At your current usage, you’ll be charged for the {{plan.id}} plan at ${{calculatePlanPrice() | money}} for {{plan.userCount}} users.
   strong.strong(
     ng-if = "$root.featureFlags.trial"
   ) You will not be charged until your trial ends.
@@ -9,16 +9,14 @@ span(
   ng-if = "state.fromPaymentDue && !state.hasPaid"
 ) You’ll be charged&#32;
   strong ${{calculatePlanPrice() | money}}
-  | &#32;for 6 users.
+  | &#32;for {{plan.userCount}} users.
 
 span(
   ng-if = "state.fromPaymentDue && state.hasPaid"
 ) You’ve been charged&#32;
   strong ${{calculatePlanPrice() | money}}
-  | &#32;for 6 users.
+  | &#32;for {{plan.userCount}} users.
 
 span(
   ng-if = "state.showNext"
-) &#32;Your {{activeAccount.isInTrial() ? 'first' : 'next'}} billing date is July&nbsp;24
-  sup th
-  | ,&nbsp;2016.
+) &#32;Your {{activeAccount.isInTrial() ? 'first' : 'next'}} billing date is {{getTrialEndDate()}}.

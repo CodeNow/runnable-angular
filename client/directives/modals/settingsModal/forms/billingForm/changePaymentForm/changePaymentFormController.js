@@ -5,9 +5,11 @@ require('app')
 
 function ChangePaymentFormController(
   stripe,
-  loading
+  loading,
+  $rootScope
 ) {
   var CPFC = this;
+  CPFC.activeAccount = $rootScope.dataApp.data.activeAccount;
 
   CPFC.card = {
     number: undefined,

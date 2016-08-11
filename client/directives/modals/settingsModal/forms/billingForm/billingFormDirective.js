@@ -25,23 +25,12 @@ function billingForm(
           });
       }
       $scope.actions = {
-        trial: {
-          save: function () {
-            $scope.$broadcast('go-to-panel', 'confirmationForm');
-          },
-          back: function () {
-            $scope.SEMC.showFooter = true;
-            $scope.$broadcast('go-to-panel', 'confirmationForm');
-          }
+        save: function () {
+          $scope.$broadcast('go-to-panel', 'confirmationForm');
         },
-        update: {
-          save: function () {
-            $scope.$broadcast('go-to-panel', 'confirmationForm');
-          },
-          cancel: function () {
-            $scope.SEMC.showFooter = true;
-            $scope.$broadcast('go-to-panel', 'billingForm', 'back');
-          }
+        cancel: function () {
+          $scope.SEMC.showFooter = true;
+          $scope.$broadcast('go-to-panel', 'billingForm', 'back');
         }
       };
     }

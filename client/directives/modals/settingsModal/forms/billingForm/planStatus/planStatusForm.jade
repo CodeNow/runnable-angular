@@ -41,7 +41,7 @@
           ng-class = "{'discounted': PSFC.discounted}"
         )
           sup.sup $
-          | {{PSFC.calculatePlanAmount('starter')}}
+          | {{PSFC.calculatePlanAmount('starter')| money}}
         small.grid-block.vertical.small.text-gray per user
           br
           | per month
@@ -63,7 +63,7 @@
           ng-class = "{'discounted': PSFC.discounted}"
         )
           sup.sup $
-          | {{PSFC.calculatePlanAmount('standard')}}
+          | {{PSFC.calculatePlanAmount('standard') | money}}
         small.grid-block.vertical.small.text-gray per user
           br
           | per month
@@ -85,7 +85,7 @@
           ng-class = "{'discounted': PSFC.discounted}"
         )
           sup.sup $
-          | {{PSFC.calculatePlanAmount('plus')}}
+          | {{PSFC.calculatePlanAmount('plus')| money}}
         small.grid-block.vertical.small.text-gray per user
           br
           | per month

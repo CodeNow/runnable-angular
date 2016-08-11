@@ -106,7 +106,7 @@ form.padding-md(
         )
 
     .grid-block.well.padding-xxs.small.justify-center.text-center(
-      ng-if = "$root.featureFlags.trial || state.fromPaymentDue"
+      ng-if = "CPFC.activeAccount.isInTrial() || state.fromPaymentDue"
       payment-summary
       ng-init = "\
         state.hasPaid = false;\
@@ -116,7 +116,7 @@ form.padding-md(
 
   //- 3 users is the minimum amount
   p.grid-content.p.text-gray.text-center.padding-sm(
-    ng-if = "$root.featureFlags.trial"
+    ng-if = "CPFC.activeAccount.isInTrial()"
   ) We prorate your account for users added in the middle of a billing period.&#32;
     a.link(
       href = "#"
@@ -124,7 +124,7 @@ form.padding-md(
     ) Details
 
   p.grid-content.p.text-gray.text-center.padding-sm(
-    ng-if = "!$root.featureFlags.trial && !state.fromPaymentDue"
+    ng-if = "!CPFC.activeAccount.isInTrial() && !state.fromPaymentDue"
   ) Your payment changes will be applied to your next billing date on July 24
     sup th
     | , 2016.

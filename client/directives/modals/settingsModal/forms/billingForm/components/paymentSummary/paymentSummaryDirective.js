@@ -4,17 +4,17 @@ require('app').directive('paymentSummary', paymentSummary);
 
 function paymentSummary(
   fetchPlan,
-  loading
+  loading,
+  moment
 ) {
   return {
     restrict: 'A',
     templateUrl: 'paymentSummaryView',
     link: function ($scope, element) {
-      $scope.activeAccount = $scope.dataApp.data.activeAccount;
+      $scope.activeAccount = $scope.$root.dataApp.data.activeAccount;
       loading('billingForm', true);
       fetchPlan()
         .then(function (plan) {
-          console.log(plan);
           $scope.plan = plan.next.plan;
         })
         .finally(function () {
@@ -26,6 +26,10 @@ function paymentSummary(
           return null;
         }
         return $scope.plan.price * $scope.plan.userCount;
+      };
+
+      $scope.getTrialEndDate = function () {
+        return moment.utc($scope.activeAccount.attrs.trialEnd * 1000).format('MMM Do, YYYY');
       };
     }
   };
