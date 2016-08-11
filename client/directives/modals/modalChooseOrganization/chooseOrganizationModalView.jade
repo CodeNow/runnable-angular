@@ -18,6 +18,7 @@
         ng-init = "\
           state.showStep = 0;\
           state.showSubStep = 0;\
+          state.hideMenu = true;\
         "
       )
       animated-panel-container
@@ -114,7 +115,10 @@
 
             //- disabled until an org is selected
             button.grid-block.align-center.justify-center.btn.btn-md.green(
-              ng-click = "actions.createOrCheckDock(data.selectedOrgName, goToPanel)"
+              ng-click = "\
+                actions.createOrCheckDock(data.selectedOrgName, goToPanel);\
+                state.showSubStep = 1;\
+              "
               ng-disabled = "!data.selectedOrgName"
             ) Create Sandbox
 
