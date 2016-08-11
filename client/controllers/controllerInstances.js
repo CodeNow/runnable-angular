@@ -19,7 +19,7 @@ function ControllerInstances(
 ) {
   var self = this;
   var userName = $state.params.userName;
-  self.searchBranches = null
+  self.searchBranches = null;
   self.$storage = $localStorage.$default({
     instanceListIsClosed: false
   });
