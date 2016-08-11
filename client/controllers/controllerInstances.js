@@ -15,7 +15,8 @@ function ControllerInstances(
   ModalService,
   fetchInstancesByPod,
   activeAccount,
-  user
+  user,
+  memoize
 ) {
   var self = this;
   var userName = $state.params.userName;
@@ -93,7 +94,7 @@ function ControllerInstances(
       masterPod.attrs.name.toLowerCase().indexOf(searchQuery) !== -1;
   };
 
-  this.getFilteredInstanceList = function () {
+  this.getFilteredInstanceList = memoize(function () {
     if (!self.instancesByPod) {
       return null;
     }
@@ -107,7 +108,9 @@ function ControllerInstances(
         return instanceName.toLowerCase().indexOf(searchQuery) !== -1 ||
           self.getFilteredChildren(masterPod).length > 0;
       });
-  };
+  }, function () {
+    return self.searchBranches;
+  });
 
   this.getFilteredChildren = function (masterPod) {
     if (!self.searchBranches) {
@@ -116,6 +119,33 @@ function ControllerInstances(
     var searchQuery = self.searchBranches.toLowerCase();
     return masterPod.children.models.filter(function (child) {
       return child.attrs.name.toLowerCase().indexOf(searchQuery) !== -1;
+    });
+  };
+
+  this.shouldShowChild = function (childInstance) {
+    var filter = self.searchBranches || '';
+    filter = filter.toLowerCase();
+    if (filter.length === 0) {
+      return true;
+    }
+    return childInstance.attrs.name.toLowerCase().indexOf(filter) !== -1;
+  };
+
+  this.shouldShowParent = function (masterPod) {
+    var filter = self.searchBranches || '';
+    filter = filter.toLowerCase();
+    if (filter.length === 0) {
+      return true;
+    }
+
+    var instanceName = masterPod.getBranchName() || masterPod.attrs.name;
+    if (instanceName.indexOf(filter) !== -1) {
+      return true;
+    }
+
+    // Find children;
+    return !!masterPod.children.models.find(function (child) {
+      return child.attrs.name.toLowerCase().indexOf(filter) !== -1;
     });
   };
 
