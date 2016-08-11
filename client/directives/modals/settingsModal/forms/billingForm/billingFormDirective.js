@@ -2,7 +2,10 @@
 
 require('app').directive('billingForm', billingForm);
 
-function billingForm() {
+function billingForm(
+  fetchPaymentMethod,
+  loading
+) {
   return {
     restrict: 'A',
     templateUrl: 'billingForm',
@@ -10,7 +13,17 @@ function billingForm() {
       element.on('$destroy', function() {
         $scope.SEMC.showFooter = true;
       });
-
+      $scope.activeAccount = $scope.dataApp.data.activeAccount;
+      if ($scope.activeAccount.isInTrial()) {
+        loading('billingForm', true);
+        fetchPaymentMethod()
+          .then(function (paymentMethod) {
+            $scope.paymentMethod = paymentMethod;
+          })
+          .finally(function () {
+            loading('billingForm', false);
+          });
+      }
       $scope.actions = {
         trial: {
           save: function () {

@@ -10,7 +10,7 @@
   h3.grid-content.h3.text-center Your payment has been {{$root.featureFlags.trial ? 'added' : 'submitted'}}!
 
   p.grid-content.p.text-center.text-gray(
-    ng-include = "'paymentSummaryView'"
+    payment-summary
     ng-init = "\
       state.hasPaid = true;\
       state.showNext = true;\

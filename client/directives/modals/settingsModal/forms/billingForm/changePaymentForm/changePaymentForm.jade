@@ -107,7 +107,7 @@ form.padding-md(
 
     .grid-block.well.padding-xxs.small.justify-center.text-center(
       ng-if = "$root.featureFlags.trial || state.fromPaymentDue"
-      ng-include = "'paymentSummaryView'"
+      payment-summary
       ng-init = "\
         state.hasPaid = false;\
         state.showNext = false;\

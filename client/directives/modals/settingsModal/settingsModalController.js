@@ -8,7 +8,8 @@ require('app')
  */
 function SettingsModalController(
   tab,
-  close
+  close,
+  $scope
 ) {
   var SEMC = this;
   angular.extend(SEMC, {
@@ -16,4 +17,5 @@ function SettingsModalController(
     close: close
   });
   SEMC.showFooter = true;
+  SEMC.activeAccount = $scope.dataApp.data.activeAccount;
 }

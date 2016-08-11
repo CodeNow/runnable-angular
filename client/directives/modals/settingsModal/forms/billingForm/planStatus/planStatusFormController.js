@@ -5,8 +5,10 @@ require('app')
 
 function PlanStatusFormController(
   $q,
+  $rootScope,
   billingPlans,
   fetchInstancesByPod,
+  fetchPaymentMethod,
   fetchPlan,
   keypather,
   loading
@@ -17,6 +19,18 @@ function PlanStatusFormController(
   PSFC.plan = undefined;
   PSFC.discounted = false;
   PSFC.plans = billingPlans;
+  PSFC.activeAccount = $rootScope.dataApp.data.activeAccount;
+
+  if (PSFC.activeAccount.isInTrial()) {
+    loading('billingForm', true);
+    fetchPaymentMethod()
+      .then(function (paymentMethod) {
+        PSFC.paymentMethod = paymentMethod;
+      })
+      .finally(function () {
+        loading('billingForm', false);
+      });
+  }
 
   loading('billingForm', true);
   $q.all([
