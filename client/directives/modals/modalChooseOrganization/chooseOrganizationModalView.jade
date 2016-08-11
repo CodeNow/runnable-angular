@@ -26,6 +26,7 @@
           default = "true"
           name = "orgSelection"
         )
+
           p.p.padding-xs.text-center.fade(
             ng-class = "{'in': isActivePanel()}"
             ng-if = "!$root.featureFlags.aha"
@@ -35,6 +36,21 @@
               target = "_blank"
             ) check if you’ve granted access
             | .
+
+          .grid-block.shrink.justify-center.align-center.padding-xs.well.gray.aha-tips.fade(
+            ng-class = "{'in': isActivePanel()}"
+            ng-if = "$root.featureFlags.aha && data.allAccounts.length"
+          )
+            svg.grid-content.shrink.iconnables
+              use(
+                xlink:href = "#icons-life-preserver"
+              )
+            small.grid-content.small If you don’t see your organization, check if you’ve granted access&#32;
+              a.link(
+                href = "https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9"
+                target = "_blank"
+              ) on Github
+              | .
 
           //- empty state
           .empty.well.gray.padding-lg(
@@ -48,7 +64,8 @@
               ) Check if you’ve granted access
               | &#32;to your organization on GitHub. If you don’t have permission to grant access, you’ll have to wait for your admin to give the go ahead.
 
-          .grid-block.list(
+          .grid-block.list.fade(
+            ng-class = "{'in': isActivePanel()}"
             ng-if = "!$root.featureFlags.autoWhitelist && data.allAccounts.length"
           )
             label.grid-block.align-center.list-item.btn.white(
@@ -63,18 +80,6 @@
                 width = "24"
               )
               span.grid-block.text-left.text-overflow {{org.oauthName()}}
-
-          .grid-block.shrink.justify-center.align-center.padding-xs.well.gray.aha-tips
-            svg.grid-content.shrink.iconnables
-              use(
-                xlink:href = "#icons-life-preserver"
-              )
-            small.grid-content.small If you don’t see your organization, check if you’ve granted access&#32;
-              a.link(
-                href = "https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9"
-                target = "_blank"
-              ) on Github
-              | .
 
           form.grid-block.list.fade(
             name = "data.orgSelectorForm"
@@ -122,15 +127,23 @@
               ng-disabled = "!data.selectedOrgName"
             ) Create Sandbox
 
-        animated-panel.grid-block.vertical.padding-sm(
+        animated-panel.grid-block.vertical.padding-lg(
           name = "dockLoading"
         )
-          .padding-sm.fade(
+          //- dock spinning up
+          p.p.strong.text-gray.text-center.fade(
+            ng-class = "{'in': isActivePanel()}"
+          ) Hang tight!
+          p.p.text-gray.padding-xs.text-center.fade(
+            ng-class = "{'in': isActivePanel()}"
+          ) We’re spinning up a sandbox for your org. It’ll take about 10 minutes, we’ll update this page when it’s ready.
+          .grid-block.align-center.justify-center.padding-sm.fade(
             ng-class = "{'in': isActivePanel()}"
           )
-            //- dock spinning up
-            h3.h3.text-center.padding-xs We’re spinning up a Sandbox for you.
-            p.p.padding-xs.text-center It’ll take about 10 minutes, we’ll update this page when it’s ready.
+            .spinner-wrapper.spinner-md.spinner-gray(
+              ng-include = "'spinner'"
+            )
+            //- ng-if = "isActivePanel()"
         animated-panel.grid-block.vertical(
           name = "dockLoaded"
         )
