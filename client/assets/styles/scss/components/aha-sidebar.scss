@@ -10,7 +10,7 @@
   top: 12px;
   transition: transform .3s ease-in-out;
   width: 390px;
-  z-index: $z-views-sidebar;
+  z-index: $z-popover;
 
   &.ng-enter {
     transform: translate3d(100%,0,0);

@@ -58,12 +58,14 @@
 
 .modal-backdrop .aha-guide {
   animation: fade .15s ease-in-out;
-  background: rgba($white,.5);
-  border-bottom: 1px solid $gray-lighter;
+  background: $gray-lighterest;
+  border: 1px solid $gray-lighter;
+  border-radius: $input-border-radius-lg;
   height: 105px;
+  max-width: calc(100vw - 30px);
   position: absolute;
-  top: 0;
-  width: 100vw;
+  top: 15px;
+  width: 450px;
 
   @include media(lg) {
     height: 90px;
@@ -72,10 +74,6 @@
   &.fixed {
     position: fixed;
     z-index: $z-modal;
-  }
-
-  > .grid-block {
-    max-width: 510px;
   }
 
   + .modal-dialog {
