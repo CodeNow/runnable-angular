@@ -146,7 +146,7 @@ footer.modal-footer.clearfix
       ng-include = "'spinner'"
       ng-if = "$root.isLoading.savePayment"
     )
-    span Update Payment
+    span Update Payment Method
 
   //- disable while loading
   button.btn.btn-md.green.float-right(
@@ -156,14 +156,31 @@ footer.modal-footer.clearfix
     }"
     ng-click = "CPFC.actions.save()"
     ng-disabled="paymentForm.$invalid || $root.isLoading.savePayment"
-    ng-if = "!CPFC.updating"
+    ng-if = "!CPFC.updating && !(CPFC.activeAccount.isInGrace() || CPFC.activeAccount.isGraceExpired())"
     type = "button"
   )
     .spinner-wrapper.spinner-sm.spinner-white.in(
       ng-include = "'spinner'"
       ng-if = "$root.isLoading.savePayment"
     )
-    span Submit Payment
+    span Add Payment Method
+
+
+  button.btn.btn-md.green.float-right(
+    ng-class = "{\
+        'btn-block': state.fromPaymentDue,\
+        'float-right': !state.fromPaymentDue\
+      }"
+    ng-click = "CPFC.actions.save()"
+    ng-disabled="paymentForm.$invalid || $root.isLoading.savePayment"
+    ng-if = "!CPFC.updating && (CPFC.activeAccount.isInGrace() || CPFC.activeAccount.isGraceExpired())"
+    type = "button"
+  )
+      .spinner-wrapper.spinner-sm.spinner-white.in(
+      ng-include = "'spinner'"
+      ng-if = "$root.isLoading.savePayment"
+      )
+      span Submit Payment
 
   button.btn.btn-md.gray.btn-cancel.float-right(
     ng-click = "CPFC.actions.back()"
