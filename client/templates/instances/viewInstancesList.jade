@@ -90,7 +90,7 @@ p.p.text-center.text-gray-light.padding-sm(
     instance = "masterInstance"
     instance-navigation
     master-instance = "masterInstance"
-    ng-if = "!$root.featureFlags.autoIsolation"
+    ng-if = "!$root.featureFlags.autoIsolation && CIS.filterMasterInstance(masterInstance)"
   )
 
   //- wraps auto-isolated clusters
