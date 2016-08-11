@@ -6,6 +6,10 @@
 )
   svg.iconnables
     use(
+      ng-if = "$root.featureFlags.aha0"
+      xlink:href = "#icons-cog"
+    )
+    use(
       ng-if = "$root.featureFlags.aha1 || $root.featureFlags.aha2 || $root.featureFlags.aha3"
       xlink:href = "#icons-check"
     )
