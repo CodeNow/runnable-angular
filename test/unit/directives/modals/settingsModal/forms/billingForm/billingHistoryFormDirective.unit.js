@@ -4,7 +4,7 @@ var $scope;
 var $elScope;
 var $q;
 
-describe('billingHitoryFormDirective'.bold.underline.blue, function () {
+describe('billingHistoryFormDirective'.bold.underline.blue, function () {
   var fetchInvoicesStub;
   var loadingStub;
   var mockInvoices;

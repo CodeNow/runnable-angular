@@ -5,15 +5,24 @@ var $elScope;
 var keypather;
 
 describe('changePaymentFormDirective'.bold.underline.blue, function () {
+  var fetchPaymentMethodStub;
   beforeEach(function () {
     window.helpers.killDirective('planSummary');
-    angular.mock.module('app', function ($provide) { });
+    angular.mock.module('app', function ($provide) {
+      $provide.factory('fetchPaymentMethod', function ($q) {
+        fetchPaymentMethodStub = sinon.stub().returns($q.when({}));
+        return fetchPaymentMethodStub;
+      });
+    });
     angular.mock.inject(function (
       $compile,
       $rootScope,
       _keypather_
     ) {
       keypather = _keypather_;
+      keypather.set($rootScope, 'dataApp.data.activeAccount', {
+        isInTrial: sinon.stub().returns(true)
+      });
       $scope = $rootScope.$new();
       $scope.save = sinon.stub();
       var tpl = directiveTemplate.attribute('change-payment-form', {

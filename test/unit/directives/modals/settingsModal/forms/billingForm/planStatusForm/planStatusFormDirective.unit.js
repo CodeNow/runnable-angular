@@ -5,6 +5,7 @@ var $scope;
 describe('planStatusFormDirective'.bold.underline.blue, function () {
   var loadingStub;
   var mockBillingPlans;
+  var fetchPaymentMethodStub;
   beforeEach(function () {
     mockBillingPlans = {
       'simplePlan': {
@@ -20,20 +21,31 @@ describe('planStatusFormDirective'.bold.underline.blue, function () {
       $provide.factory('fetchPlan', function ($q) {
         return sinon.stub().returns($q.when({next: {plan: {}}}));
       });
+      $provide.factory('fetchPaymentMethod', function ($q) {
+        fetchPaymentMethodStub = sinon.stub().returns($q.when({}));
+        return fetchPaymentMethodStub;
+      });
       $provide.factory('fetchInstancesByPod', function ($q) {
         return sinon.stub().returns($q.when({models: [{}]}));
       });
     });
     angular.mock.inject(function (
       $compile,
-      $rootScope
+      $rootScope,
+      keypather
     ) {
       $scope = $rootScope.$new();
+      keypather.set($rootScope, 'dataApp.data.activeAccount', {
+        isInTrial: sinon.stub().returns(true)
+      });
       $scope.save = sinon.stub();
       var tpl = directiveTemplate.attribute('plan-status-form');
       $compile(tpl)($scope);
       $scope.PSFC = {
-        configurations: 1
+        configurations: 1,
+        activeAccount: {
+          isInTrial: sinon.stub().returns(true)
+        }
       };
       $scope.$digest();
     });
