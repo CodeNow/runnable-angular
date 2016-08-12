@@ -57,7 +57,7 @@ describe('paymentSummaryDirective'.bold.underline.blue, function () {
     sinon.assert.calledWith(loadingStub, 'billingForm', false);
     sinon.assert.calledOnce(fetchPlanStub);
     sinon.assert.calledOnce(fetchPaymentMethodStub);
-    expect($elScope.plan).to.equal('mockPlanId');
+    expect($elScope.plan).to.equal(mockPlan.next.plan);
     expect($elScope.paymentMethod).to.equal(mockPaymentMethod);
   });
 
@@ -70,7 +70,7 @@ describe('paymentSummaryDirective'.bold.underline.blue, function () {
   describe('getTrialEndDate', function () {
     it('should return the trial end date', function () {
       keypather.set($elScope, 'CPFC.activeAccount.attrs.trialEnd', 1471037046);
-      expect($elScope.getBillingDate()).to.equal('Aug 12th, 2016');
+      expect($elScope.getTrialEndDate()).to.equal('Aug 12th, 2016');
     });
   });
 });
