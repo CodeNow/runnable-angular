@@ -945,8 +945,7 @@ function fetchPaymentMethod(
       url: configAPIHost + '/billing/' + $state.params.userName + '/payment-method'
     })
       .then(function (res) {
-        return null;
-        // return res.data;
+        return res.data;
       });
   }, function () {
     return $state.params.userName;
