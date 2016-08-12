@@ -1,4 +1,4 @@
-button.btn.btn-md.btn-icon.btn-help(
+button.grid-block.shrink.btn.btn-md.btn-icon.btn-help(
   data-badge-count = "{{helpCards.cards.triggered.length}}"
   ng-class = "{\
     'active': state.helpButton.active || !state.helpButton.active && helpCards.cards.triggered.length > 0 && !helpCards.getActiveCard(),\
@@ -6,6 +6,7 @@ button.btn.btn-md.btn-icon.btn-help(
     'badge-blue': helpCards.cards.triggered.length > 0\
   }"
   ng-click = "state.helpButton.active = true"
+  ng-if = "!$root.featureFlags.aha"
   pop-over
   pop-over-actions = "helpPopover.actions"
   pop-over-active = "state.helpButton.active"
@@ -48,7 +49,7 @@ button.btn.btn-md.btn-icon.btn-help(
       )
 
 //- new server button
-button.btn.btn-md.green(
+button.grid-block.shrink.btn.btn-md.green(
   ng-click = "EC.triggerModal.newContainer()"
   ng-class = "{'scale': helpCards.getActiveCard().targets.newContainer}"
 )
@@ -57,3 +58,14 @@ button.btn.btn-md.green(
       xlink:href = "#icons-add"
     )
   | Add Configuration
+
+button.grid-block.shrink.btn.btn-sm.gray.btn-aha(
+  ng-click = "$root.featureFlags.ahaSidebar = true"
+  ng-if = "$root.featureFlags.aha && !$root.featureFlags.ahaSidebar"
+  tooltip = "Setup Guide"
+  tooltip-options = "{\"class\":\"left\",\"right\":42,\"top\":0}"
+)
+  svg.iconnables
+    use(
+      xlink:href = "#icons-help"
+      )

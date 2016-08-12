@@ -1,0 +1,94 @@
+.aha-guide {
+  color: $gray;
+  overflow: hidden;
+
+  // anchor image
+  .aha-meter {
+    background-image: linear-gradient(90deg, $gray-lightest 50%, transparent 50%, transparent), linear-gradient(0deg, $gray-lightest 50%, $gray-lightest 50%, $gray-lightest);
+    border-radius: 50%;
+    height: $input-md;
+    margin-right: 15px;
+    padding: $input-border;
+    position: relative;
+    width: $input-md;
+
+    $step: 1; // step of % for created classes
+    $loops: round(100 / $step);
+    $increment: 360 / $loops;
+    $half: round($loops / 2);
+
+    @for $i from 0 through $loops {
+      &.aha-meter-#{$i * $step} {
+        @if $i < $half {
+          $nextdeg: 90deg + ($increment * $i);
+          background-image: linear-gradient(90deg, $gray-lightest 50%, transparent 50%, transparent), linear-gradient($nextdeg, $green 50%, $gray-lightest 50%, $gray-lightest);
+        } @else {
+          $nextdeg: -90deg + ($increment * ($i - $half));
+          background-image: linear-gradient($nextdeg, $green 50%, transparent 50%, transparent), linear-gradient(270deg, $green 50%, $gray-lightest 50%, $gray-lightest);
+        }
+      }
+    }
+
+    &.aha-meter-100 .iconnables {
+      color: $green;
+    }
+
+    .iconnables {
+      background: $white;
+      border-radius: 50%;
+      height: 100%;
+      padding: 6px;
+      width: 100%;
+    }
+  }
+
+  // menu
+  .btn-menu {
+    background: transparent;
+    border-color: transparent;
+    color: $gray;
+    margin-left: 30px;
+    min-width: 30px;
+
+    .iconnables {
+      height: 100%;
+      width: 15px;
+    }
+  }
+}
+
+.modal-backdrop .aha-guide {
+  animation: fade .15s ease-in-out;
+  background: $gray-lighterest;
+  border: 1px solid $gray-lighter;
+  border-radius: $input-border-radius-lg;
+  height: 105px;
+  left: 0;
+  margin: 0 auto;
+  max-width: calc(100vw - 30px);
+  position: absolute;
+  right: 0;
+  top: 15px;
+  width: 450px;
+
+  @include media(lg) {
+    height: 90px;
+  }
+
+  &.fixed {
+    position: fixed;
+    z-index: $z-modal;
+  }
+
+  + .modal-dialog {
+    margin-top: 30px;
+
+    @include media(lg) {
+      margin-top: 90px;
+    }
+
+    @media (max-height: $screen-xs), (max-width: $screen-sm) {
+      margin-top: 105px;
+    }
+  }
+}
