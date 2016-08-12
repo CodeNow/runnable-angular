@@ -1,12 +1,14 @@
 .grid-block.shrink.aha-meter(
   ng-class = "{\
-    'aha-meter-13': state.showSubStep === 0,\
-    'aha-meter-25': state.showSubStep === 1,\
-    'aha-meter-38': state.showSubStep === 2,\
-    'aha-meter-50': state.showSubStep === 3,\
-    'aha-meter-63': state.showSubStep === 4,\
-    'aha-meter-75': state.showSubStep === 5,\
-    'aha-meter-88': state.showSubStep === 6,\
+    'aha-meter-10': state.showSubStep === 0,\
+    'aha-meter-20': state.showSubStep === 1,\
+    'aha-meter-30': state.showSubStep === 2,\
+    'aha-meter-40': state.showSubStep === 3,\
+    'aha-meter-50': state.showSubStep === 4,\
+    'aha-meter-60': state.showSubStep === 5,\
+    'aha-meter-70': state.showSubStep === 6,\
+    'aha-meter-80': state.showSubStep === 7,\
+    'aha-meter-90': state.showSubStep === 8,\
     'aha-meter-100': $root.featureFlags.aha2 || $root.featureFlags.aha3\
   }"
 )
@@ -36,3 +38,8 @@
     | {{state.showSubStep === 1 ? 'Select a repository to configure.' : ''}}
     | {{state.showSubStep === 2 ? 'How would you like to configure your repo?' : ''}}
     | {{state.showSubStep === 3 ? 'Give your repo a name.' : ''}}
+    | {{state.showSubStep === 4 ? 'Choose stacks.' : ''}}
+    | {{state.showSubStep === 5 ? 'Choose commands and packages.' : ''}}
+    | {{state.showSubStep === 6 ? 'Additional setup.' : ''}}
+    | {{state.showSubStep === 7 ? 'Waiting for your first build.' : ''}}
+    | {{state.showSubStep === 8 ? 'Successful build.' : ''}}

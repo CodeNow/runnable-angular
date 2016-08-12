@@ -1,5 +1,6 @@
 .modal-backdrop.in
   .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
+    ng-if = "$root.featureFlags.aha1"
     ng-include = "'ahaGuideView'"
     ng-init = "\
       state.showStep = 1;\
