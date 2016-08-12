@@ -16,9 +16,6 @@
           ng-class = "{'lg': !$root.featureFlags.aha1}"
           ng-click = "MC.changeTab('nameContainer')"
         )
-          h1.modal-heading.text-overflow(
-            ng-if = "$root.featureFlags.aha1"
-          ) Select Repository
           .grid-block.shrink.btn(
             ng-class = "{'active': MC.state.tabName === 'repos'}"
             ng-click = "MC.changeTab('repos')"
@@ -74,7 +71,9 @@
             use(
               xlink:href = "#icons-arrow-down"
             )
-          h1.modal-heading Choose Configuration
+          h1.modal-heading(
+            ng-if = "!$root.featureFlags.aha1"
+          ) Choose Configuration
           svg.iconnables.icons-close(
             ng-click = "MC.close()"
           )
