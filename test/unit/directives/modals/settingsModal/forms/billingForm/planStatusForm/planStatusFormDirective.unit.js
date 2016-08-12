@@ -36,7 +36,8 @@ describe('planStatusFormDirective'.bold.underline.blue, function () {
     ) {
       $scope = $rootScope.$new();
       keypather.set($rootScope, 'dataApp.data.activeAccount', {
-        isInTrial: sinon.stub().returns(true)
+        isInTrial: sinon.stub().returns(true),
+        trialEnd: 1234
       });
       $scope.save = sinon.stub();
       var tpl = directiveTemplate.attribute('plan-status-form');

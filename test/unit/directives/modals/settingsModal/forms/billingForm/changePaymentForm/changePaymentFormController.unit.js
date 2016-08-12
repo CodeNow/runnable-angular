@@ -45,7 +45,7 @@ describe('ChangePaymentFormController'.bold.underline.blue, function () {
     });
 
     keypather.set($rootScope, 'dataApp.data.activeAccount', {
-      isInTrial: sinon.stub().returns(true)
+      isInTrial: sinon.stub().returns(false)
     });
 
     var laterController = $controller('ChangePaymentFormController', {

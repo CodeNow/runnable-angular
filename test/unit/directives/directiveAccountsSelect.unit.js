@@ -24,7 +24,8 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
       }),
       fetchSettings: sinon.spy(),
       isInTrial: sinon.stub().returns(true),
-      trialRemaining: sinon.stub().returns(2)
+      trialRemaining: sinon.stub().returns(2),
+      isInActivePeriod: sinon.stub().returns(false)
     };
     ctx.fakeOrg1 = {
       attrs: angular.copy(apiMocks.user),

@@ -67,12 +67,13 @@ describe('PlanStatusFormController'.bold.underline.blue, function () {
 
   describe('init', function () {
     it('should fetch data and trigger loading status', function () {
-      sinon.assert.calledTwice(loadingStub);
+      sinon.assert.callCount(loadingStub, 4);
       sinon.assert.calledWith(loadingStub, 'billingForm', true);
       sinon.assert.calledWith(loadingStub, 'billingForm', false);
 
       sinon.assert.calledOnce(fetchPlanStub);
       sinon.assert.calledOnce(fetchInstancesByPodStub);
+      sinon.assert.calledOnce(fetchPaymentMethodStub);
       expect(PSFC.plan).to.equal(mockPlan.next.plan);
       expect(PSFC.configurations).to.equal(1);
       expect(PSFC.plans).to.equal(mockBillingPlans);
