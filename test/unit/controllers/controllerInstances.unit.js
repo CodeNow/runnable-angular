@@ -299,40 +299,60 @@ describe('ControllerInstances'.bold.underline.blue, function () {
   
     });
 
-    it('should only show master when nothing is searched or master is searched', function () {
-      // Test null
+    it('should return instance when nothing is searched', function () {
       CIS.searchBranches = null;
       var result = CIS.filterMasterInstance(masterInstance);
       expect(masterInstance.getBranchName.called).to.deep.equal(false);
       expect(result).to.deep.equal(true);
+    });
 
-      // Test 'asdf'
-      CIS.searchBranches = 'asdf';
+    it('should not return an instance when garbage is searched', function () {
+      CIS.searchBranches = 'as@#!df';
       var result = CIS.filterMasterInstance(masterInstance);
       expect(masterInstance.getBranchName.called).to.deep.equal(true);
       expect(result).to.deep.equal(false);
+    });
 
-      // Test 'mast'
+    it('should return instance when part of master is searched', function () {
       CIS.searchBranches = 'mast';
       var result = CIS.filterMasterInstance(masterInstance);
       expect(masterInstance.getBranchName.called).to.deep.equal(true);
       expect(result).to.deep.equal(true);
-
     });
-    it('should return all instances matching the query', function () {
+
+    it('should return instance when UPPERCASE is used', function () {
+      CIS.searchBranches = 'MASTER';
+      var result = CIS.filterMasterInstance(masterInstance);
+      expect(masterInstance.getBranchName.called).to.deep.equal(true);
+      expect(result).to.deep.equal(true);
+    });
+
+    it('should return all masterInstances', function () {
       CIS.instancesByPod = [ masterInstance, masterInstance2 ];
       
-      // Test null
-      CIS.searchBranches = null
+      CIS.searchBranches = null;
       var results = CIS.getFilteredInstanceList();
       expect(results.length).to.deep.equal(2);
+    });
 
-      // Test FEAT
-      CIS.searchBranches = 'FEAT'
+    it('should return only one masterInstance with a branch containing "feature"', function () {
+      CIS.instancesByPod = [ masterInstance, masterInstance2 ];
+
+      CIS.searchBranches = 'FEAT';
       var results = CIS.getFilteredInstanceList();
       expect(results.length).to.deep.equal(1);
 
     });
+
+    it('should still return only one masterInstance with a branch containing "feature"', function () {
+      CIS.instancesByPod = [ masterInstance, masterInstance2 ];
+
+      CIS.searchBranches = 'feature';
+      var results = CIS.getFilteredInstanceList();
+      expect(results.length).to.deep.equal(1);
+
+    });
+
     it('should only show parents matching the search query', function () {
 
       var searchTerms = [ null, 'DEEZ', 'post', 'FEATURE'];
@@ -359,6 +379,6 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       });
 
       expect(results).to.deep.equal([[true,true],[false,true],[false,false],[true,false]]);
-    })
+    });
   });
 });
