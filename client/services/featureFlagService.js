@@ -18,6 +18,7 @@ function featureFlags(
     autoIsolationSetup: false,
     autoWhitelist: true,
     backup: false,
+    blankDockerfile: false, // allows users to skip the verification flow
     billing: false,
     billingDiscounted: false,
     billingExpired: false,
