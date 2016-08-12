@@ -69,7 +69,7 @@ describe('paymentSummaryDirective'.bold.underline.blue, function () {
 
   describe('getTrialEndDate', function () {
     it('should return the trial end date', function () {
-      keypather.set($elScope, 'CPFC.activeAccount.attrs.trialEnd', 1471037046);
+      keypather.set($elScope, 'activeAccount.attrs.trialEnd', 1471037046);
       expect($elScope.getTrialEndDate()).to.equal('Aug 12th, 2016');
     });
   });
