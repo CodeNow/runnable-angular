@@ -14,6 +14,7 @@ describe('planStatusFormDirective'.bold.underline.blue, function () {
         costPerUser: 20
       }
     };
+    window.helpers.killDirective('paymentSummary');
     angular.mock.module('app', function ($provide) {
       loadingStub = sinon.stub();
       $provide.value('loading', loadingStub);
