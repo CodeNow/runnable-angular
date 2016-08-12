@@ -24,14 +24,15 @@
 .grid-block.vertical
   .grid-block(
     ng-if = "$root.canEditFeatureFlags()"
+    ng-show = "state.showControls"
     style = "position: absolute; right: 12px; top: 6px;"
   )
     a.grid-content.shrink.red.small.link(
       ng-click = "state.showSubStep = state.showSubStep - 1"
-    ) <
+    ) Prev
     a.grid-content.shrink.red.small.link(
       ng-click = "state.showSubStep = state.showSubStep + 1"
-    ) >
+    ) Next
   p.p.strong Add your First Repository
   p.p
     | {{state.showSubStep === 0 ? 'Add your repository by clicking ‘Add Configuration’.' : ''}}
