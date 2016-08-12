@@ -134,12 +134,12 @@
   > .btn:active {
 
     &:not(:first-child):not(:last-child) {
-      border-radius: $input-border-radius-xxs;
+      border-radius: $input-border-radius;
     }
 
     &:first-child:not(:last-child) {
-      border-bottom-right-radius: $input-border-radius-xxs;
-      border-top-right-radius: $input-border-radius-xxs;
+      border-bottom-right-radius: $input-border-radius;
+      border-top-right-radius: $input-border-radius;
 
       &.btn-xs {
         padding-left: 9px;
@@ -147,8 +147,8 @@
     }
 
     &:last-child:not(:first-child) {
-      border-bottom-left-radius: $input-border-radius-xxs;
-      border-top-left-radius: $input-border-radius-xxs;
+      border-bottom-left-radius: $input-border-radius;
+      border-top-left-radius: $input-border-radius;
 
       &.btn-xs {
         padding-right: 9px;

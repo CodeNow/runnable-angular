@@ -21,7 +21,7 @@
       use(
         xlink:href = "#icons-file-new"
       )
-    .grid-content Create a new configuration
+    .grid-content Configure with Runnable
     //- if there is only one, [check] by default
     input.checkbox(
       name = "dockerfile"
@@ -36,6 +36,10 @@
           xlink:href = "#icons-check"
         )
 
+small.small.text-gray.padding-xxs.label-from(
+  ng-if = "!$root.isLoading.mirrorDockerfile && MDC.state.repo.dockerfiles.length > 0"
+) Advanced Configuration
+
 .grid-content.shrink.list.list-bordered(
   ng-if = "$root.featureFlags.blankDockerfile"
 )
@@ -47,7 +51,7 @@
       use(
         xlink:href = "#icons-dockerfile"
       )
-    .grid-content Create from a blank Dockerfile
+    .grid-content Start with a blank Dockerfile
     //- if there is only one, [check] by default
     input.checkbox(
       ng-disabled = "$root.isLoading[MDC.name + 'SingleRepo']"
@@ -81,7 +85,7 @@
         ng-if = "dockerfile.html_url"
         target = "_blank"
         ng-disabled = "$root.isLoading[MDC.name + 'SingleRepo']"
-      ) View on GitHub
+      ) From your Repository on GitHub
     //- if there is only one, [check] by default
     input.checkbox(
       name = "dockerfile"
@@ -95,11 +99,11 @@
           xlink:href = "#icons-check"
         )
 
-small.grid-block.shrink.align-center.justify-center.small.text-gray.padding-xxs(
+small.grid-block.shrink.align-center.small.text-gray.padding-xxs(
   ng-click = "viewState.showAddDockerfile = true"
   ng-hide = "MDC.fromTool && $root.isLoading.mirrorDockerfile || viewState.showAddDockerfile"
 ) Don’t see your repo’s Dockerfile?
-  button.btn.btn-xs.white.btn-add-dockerfile(
+  button.btn.btn-xxs.gray.btn-add-dockerfile(
     ng-click = "MDC.addDockerfileModal()"
     type = "button"
   ) Add Dockerfile…
