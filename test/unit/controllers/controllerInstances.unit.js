@@ -18,6 +18,7 @@ var runnable = window.runnable;
  */
 describe('ControllerInstances'.bold.underline.blue, function () {
   var ctx = {};
+  var CIS;
   function setup(activeAccountUsername, localStorageData) {
     mockFetch.clearDeferer();
     angular.mock.module('app');
@@ -115,7 +116,7 @@ describe('ControllerInstances'.bold.underline.blue, function () {
     }
     $state.params = ctx.stateParams;
     ctx.fakeGo = sinon.stub($state, 'go');
-    var ca = $controller('ControllerInstances', {
+    CIS = $controller('ControllerInstances', {
       '$scope': $scope,
       '$rootScope': $rootScope,
       '$state': $state,
@@ -252,5 +253,112 @@ describe('ControllerInstances'.bold.underline.blue, function () {
         userName: 'org2'
       });
     });
+  });
+  describe('using various searches in the search filter'.blue, function () {
+    var childInstance;
+    var childInstance2;
+    var masterInstance;
+    var masterInstance2;
+
+    beforeEach(function() {    
+      childInstance = {
+        attrs: {
+          name: 'feature-AWESOME',
+          lowerName: 'feature-awesome'
+        }
+      };
+
+      childInstance2 = {
+        attrs: {
+          name: 'deezNutz',
+          lowerName: 'deeznutz'
+        }
+      };
+
+      masterInstance = {
+        getBranchName: sinon.stub().returns('master'),
+        attrs: {
+          name: 'MyFirstNodeAPI',
+          lowerName: 'myfirstnodeapi'
+        },
+        children: {
+          models: [ childInstance, childInstance2 ]
+        }
+      };
+
+      masterInstance2 = {
+        getBranchName: sinon.stub().returns(null),
+        attrs: {
+          name: 'PostgreSQL',
+          lowerName: 'postgresql'
+        },
+        children: {
+          models: []
+        },
+      };
+  
+    });
+
+    it('should only show master when nothing is searched or master is searched', function () {
+      // Test null
+      CIS.searchBranches = null;
+      var result = CIS.filterMasterInstance(masterInstance);
+      expect(masterInstance.getBranchName.called).to.deep.equal(false);
+      expect(result).to.deep.equal(true);
+
+      // Test 'asdf'
+      CIS.searchBranches = 'asdf';
+      var result = CIS.filterMasterInstance(masterInstance);
+      expect(masterInstance.getBranchName.called).to.deep.equal(true);
+      expect(result).to.deep.equal(false);
+
+      // Test 'mast'
+      CIS.searchBranches = 'mast';
+      var result = CIS.filterMasterInstance(masterInstance);
+      expect(masterInstance.getBranchName.called).to.deep.equal(true);
+      expect(result).to.deep.equal(true);
+
+    });
+    it('should return all instances matching the query', function () {
+      CIS.instancesByPod = [ masterInstance, masterInstance2 ];
+      
+      // Test null
+      CIS.searchBranches = null
+      var results = CIS.getFilteredInstanceList();
+      expect(results.length).to.deep.equal(2);
+
+      // Test FEAT
+      CIS.searchBranches = 'FEAT'
+      var results = CIS.getFilteredInstanceList();
+      expect(results.length).to.deep.equal(1);
+
+    });
+    it('should only show parents matching the search query', function () {
+
+      var searchTerms = [ null, 'DEEZ', 'post', 'FEATURE'];
+
+      var results = searchTerms.map(function(search) {
+        CIS.searchBranches = search;
+        return [ CIS.shouldShowParent(masterInstance), CIS.shouldShowParent(masterInstance2)];
+      });
+
+      expect(masterInstance.getBranchName.called).to.deep.equal(true);
+      expect(masterInstance2.getBranchName.called).to.deep.equal(true);
+      expect(results).to.deep.equal([[true,true],[true,false],[false,true],[true,false]]);
+    });
+
+    it('should only show children matching the search query'.green, function () {
+
+      var searchTerms = [ null, 'DEEZ', 'post', 'FEATURE'];
+
+      var results = searchTerms.map(function(search) {
+        CIS.searchBranches = search;
+        return masterInstance.children.models.map(function(child) {
+          return CIS.shouldShowChild(child);
+        });
+      });
+
+      expect(results).to.deep.equal([[true,true],[false,true],[false,false],[true,false]]);
+    })
   });
 });
