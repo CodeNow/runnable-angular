@@ -4,18 +4,27 @@ require('app').directive('paymentSummary', paymentSummary);
 
 function paymentSummary(
   fetchPlan,
+  fetchPaymentMethod,
   loading,
-  moment
+  moment,
+  $q
 ) {
   return {
     restrict: 'A',
     templateUrl: 'paymentSummaryView',
+    scope: {
+      showNext: '='
+    },
     link: function ($scope, element) {
       $scope.activeAccount = $scope.$root.dataApp.data.activeAccount;
       loading('billingForm', true);
-      fetchPlan()
-        .then(function (plan) {
-          $scope.plan = plan.next.plan;
+      $q.all([
+        fetchPaymentMethod(),
+        fetchPlan()
+      ])
+        .then(function (data) {
+          $scope.paymentMethod = data[0];
+          $scope.plan = data[1].next.plan;
         })
         .finally(function () {
           loading('billingForm', false);

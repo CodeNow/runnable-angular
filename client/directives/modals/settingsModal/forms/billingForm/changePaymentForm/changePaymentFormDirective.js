@@ -2,7 +2,9 @@
 
 require('app').directive('changePaymentForm', changePaymentForm);
 
-function changePaymentForm() {
+function changePaymentForm(
+  moment
+) {
   return {
     restrict: 'A',
     templateUrl: 'changePaymentForm',
@@ -31,6 +33,9 @@ function changePaymentForm() {
         return $scope.paymentForm.ccExpMonth.$valid &&
           $scope.paymentForm.ccExpYear.$valid &&
           !$scope.paymentForm.$error.ccExp;
+      };
+      $scope.getBillingDate = function () {
+        return moment.utc($scope.CPFC.activeAccount.attrs.activePeriodEnd * 1000).format('MMM Do, YYYY');
       };
     }
   };
