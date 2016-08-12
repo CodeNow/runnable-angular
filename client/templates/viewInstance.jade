@@ -8,7 +8,9 @@
   ng-if = "!isLoading.main"
 )
 
-  .grid-block.shrink.vertical.instance-header
+  .grid-block.shrink.vertical.instance-header(
+    ng-if = "$root.featureFlags.aha2"
+  )
     button.grid-block.shrink.btn.btn-sm.gray.btn-aha(
       ng-click = "$root.featureFlags.ahaSidebar = true"
       ng-if = "$root.featureFlags.aha && !$root.featureFlags.ahaSidebar"
@@ -20,9 +22,10 @@
           xlink:href = "#icons-help"
           )
 
-  .grid-block.align-center.justify-center
+  .grid-block.align-center.justify-center(
+    ng-if = "$root.featureFlags.aha2"
+  )
     .modal-dialog.modal-sm(
-      ng-if = "$root.featureFlags.aha2"
     )
       .modal-body.grid-block.vertical.padding-sm
         .grid-block.align-center.aha-guide(
