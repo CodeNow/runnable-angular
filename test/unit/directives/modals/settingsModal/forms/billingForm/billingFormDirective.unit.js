@@ -3,7 +3,7 @@
 var $scope;
 var $elScope;
 
-describe.only('billingFormDirective'.bold.underline.blue, function () {
+describe('billingFormDirective'.bold.underline.blue, function () {
   var fetchPaymentMethodStub;
   var loadingStub;
   var mockPaymentMethod;
