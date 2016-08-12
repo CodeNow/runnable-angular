@@ -4,7 +4,8 @@ require('app').directive('billingForm', billingForm);
 
 function billingForm(
   fetchPaymentMethod,
-  loading
+  loading,
+  $rootScope
 ) {
   return {
     restrict: 'A',
@@ -13,7 +14,7 @@ function billingForm(
       element.on('$destroy', function() {
         $scope.SEMC.showFooter = true;
       });
-      $scope.activeAccount = $scope.dataApp.data.activeAccount;
+      $scope.activeAccount = $rootScope.dataApp.data.activeAccount;
       if ($scope.activeAccount.isInTrial()) {
         loading('billingForm', true);
         fetchPaymentMethod()
