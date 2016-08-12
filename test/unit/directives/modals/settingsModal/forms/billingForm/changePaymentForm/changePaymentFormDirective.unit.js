@@ -74,4 +74,11 @@ describe('changePaymentFormDirective'.bold.underline.blue, function () {
       expect($elScope.isCCExpValid()).to.equal(false);
     });
   });
+
+  describe('getBillingDate', function () {
+    it('should return the billing date', function () {
+      keypather.set($elScope, 'CPFC.activeAccount.attrs.activePeriodEnd', 1471037046);
+      expect($elScope.getBillingDate()).to.equal('Aug 12th, 2016');
+    });
+  });
 });
