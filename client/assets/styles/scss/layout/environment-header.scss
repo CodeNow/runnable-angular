@@ -2,10 +2,11 @@
 .environment-header {
   flex: 0 0 auto;
   margin-bottom: 15px;
+  position: relative;
 
   .btn-aha {
-    right: 18px;
-    top: 18px;
+    right: 0;
+    top: 3px;
   }
 
   // new server button
