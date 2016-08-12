@@ -42,6 +42,7 @@ describe('paymentSummaryDirective'.bold.underline.blue, function () {
     ) {
       keypather = _keypather_;
       $scope = $rootScope.$new();
+      keypather.set($rootScope, 'dataApp.data.activeAccount', {});
       $scope.save = sinon.stub();
       var tpl = directiveTemplate.attribute('payment-summary');
       var element = $compile(tpl)($scope);

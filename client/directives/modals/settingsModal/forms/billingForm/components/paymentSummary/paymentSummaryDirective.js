@@ -7,7 +7,8 @@ function paymentSummary(
   fetchPaymentMethod,
   loading,
   moment,
-  $q
+  $q,
+  $rootScope
 ) {
   return {
     restrict: 'A',
@@ -16,7 +17,7 @@ function paymentSummary(
       showNext: '='
     },
     link: function ($scope, element) {
-      $scope.activeAccount = $scope.$root.dataApp.data.activeAccount;
+      $scope.activeAccount = $rootScope.dataApp.data.activeAccount;
       loading('billingForm', true);
       $q.all([
         fetchPaymentMethod(),
