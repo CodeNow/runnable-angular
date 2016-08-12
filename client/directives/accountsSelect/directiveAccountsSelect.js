@@ -16,7 +16,6 @@ function accountsSelect (
   errs,
   keypather,
   ModalService,
-  moment,
   promisify
 ) {
   return {

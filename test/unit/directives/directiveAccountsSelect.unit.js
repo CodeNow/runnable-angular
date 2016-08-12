@@ -1,14 +1,14 @@
 'use strict';
 
 describe('directiveAccountsSelect'.bold.underline.blue, function() {
-  var element;
   var $scope, $elScope;
   var $rootScope;
   var ctx;
   var $timeout;
   var apiMocks = require('../apiMocks/index');
 
-  function makeDefaultScope(addToScope) {
+  beforeEach(function () {
+    ctx = {};
     ctx.fakeuser = {
       attrs: angular.copy(apiMocks.user),
       oauthName: function () {
@@ -25,7 +25,10 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
       fetchSettings: sinon.spy(),
       isInTrial: sinon.stub().returns(true),
       trialRemaining: sinon.stub().returns(2),
-      isInActivePeriod: sinon.stub().returns(false)
+      isInActivePeriod: sinon.stub().returns(false),
+      isInGrace: sinon.stub(),
+      isGraceExpired: sinon.stub(),
+      graceRemaining: sinon.stub()
     };
     ctx.fakeOrg1 = {
       attrs: angular.copy(apiMocks.user),
@@ -45,24 +48,13 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
         return true;
       }
     };
-    var scope =  {
+    var addToScope =  {
       data: {
         activeAccount: ctx.fakeuser,
         orgs: {models: [ctx.fakeOrg1, ctx.fakeOrg2]},
         user: ctx.fakeuser
       }
     };
-
-    if (addToScope) {
-      Object.keys(addToScope).forEach(function (key) {
-        scope[key] = addToScope[key];
-      });
-    }
-    return scope;
-  }
-  function initState (addToScope) {
-    ctx = {};
-    addToScope = makeDefaultScope(addToScope);
 
     angular.mock.module('app');
     ctx.stateMock = {
@@ -99,11 +91,10 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
       $scope.$digest();
     });
     $elScope = ctx.element.isolateScope();
-  }
+  });
 
   describe('directive logic'.bold.blue, function() {
     it('should emit signal and change state on account change', function (done) {
-      initState();
       ctx.stateMock.go = sinon.spy(function (location, state) {
         expect(state).to.deep.equal({
           userName: ctx.fakeOrg1.oauthName()
@@ -122,56 +113,75 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
     });
   });
 
-  // Logic for popover
-  describe.skip('directive logic'.bold.blue, function() {
-    function getAccountSelectorElement() {
-      return ctx.element[0]
-        .querySelector('ol.accounts-group');
-    }
-    function getAccountsGroupItemsList() {
-      return ctx.element[0]
-        .querySelectorAll('li.accounts-group-item');
-    }
-    afterEach(function() {
-      $rootScope.$destroy();
+  describe('getBadgeCount', function () {
+    describe('when in trial', function () {
+      beforeEach(function () {
+        ctx.fakeuser.isInTrial.returns(true);
+        ctx.fakeuser.trialRemaining = sinon.stub().returns(12);
+      });
+      it('should return trial remaining', function () {
+        ctx.fakeuser.isInTrial.reset();
+        ctx.fakeuser.trialRemaining.reset();
+        expect($elScope.getBadgeCount()).to.equal(12);
+        sinon.assert.calledOnce(ctx.fakeuser.isInTrial);
+        sinon.assert.calledOnce(ctx.fakeuser.trialRemaining);
+      });
     });
-    it('should display with an active account', function () {
-      initState();
-      $scope.$digest();
-      expect(ctx.element[0].classList.contains('ng-hide')).to.not.be.ok;
-      expect(getAccountsGroupItemsList().length).to.equal(3);
-      expect(getAccountSelectorElement().classList.contains('in')).to.not.be.ok;
+
+    describe('when in grace', function () {
+      beforeEach(function () {
+        ctx.fakeuser.isInTrial.returns(false);
+        ctx.fakeuser.isInGrace.returns(true);
+        ctx.fakeuser.graceRemaining.returns(2);
+      });
+      it('should return grace remaining', function () {
+        ctx.fakeuser.isInGrace.reset();
+        ctx.fakeuser.graceRemaining.reset();
+        ctx.fakeuser.trialRemaining.reset();
+        expect($elScope.getBadgeCount()).to.equal(2);
+        sinon.assert.calledOnce(ctx.fakeuser.isInGrace);
+        sinon.assert.calledOnce(ctx.fakeuser.graceRemaining);
+        sinon.assert.notCalled(ctx.fakeuser.trialRemaining);
+      });
     });
-    it('shouldn\'t display without an active account', function () {
-      var scope = makeDefaultScope();
-      delete scope.data.activeAccount;
-      initState(scope);
-      $scope.$digest();
-      expect(ctx.element[0].classList.contains('in')).to.be.false;
+
+    describe('when in grace expired', function () {
+      beforeEach(function () {
+        ctx.fakeuser.isInTrial.returns(false);
+        ctx.fakeuser.isInGrace.returns(false);
+        ctx.fakeuser.isGraceExpired.returns(true);
+      });
+      it('should return grace remaining', function () {
+        expect($elScope.getBadgeCount()).to.equal('!');
+      });
     });
-    it('should display selector after click', function () {
-      initState();
-      $rootScope.$digest();
-      window.helpers.click(getAccountSelectorElement());
-      $rootScope.$digest();
-      expect(getAccountSelectorElement().classList.contains('in')).to.be.ok;
-      expect(getAccountsGroupItemsList().length).to.equal(3);
-      window.helpers.click(getAccountSelectorElement());
-      $scope.$digest();
-      expect(getAccountSelectorElement().classList.contains('in')).to.not.be.ok;
-    });
-    it('should be able to select one of the selectors to change the account', function () {
-      initState();
-      $elScope.selectActiveAccount = sinon.spy();
-      $rootScope.$digest();
-      window.helpers.click(getAccountSelectorElement());
-      $rootScope.$digest();
-      expect(getAccountSelectorElement().classList.contains('in')).to.be.ok;
-      expect(getAccountsGroupItemsList().length).to.equal(3);
-      window.helpers.click(getAccountsGroupItemsList()[1]);
-      $scope.$digest();
-      sinon.assert.calledWith($elScope.selectActiveAccount, ctx.fakeOrg1);
+
+    describe('when active', function () {
+      beforeEach(function () {
+        ctx.fakeuser.isInTrial.returns(false);
+        ctx.fakeuser.isInGrace.returns(false);
+        ctx.fakeuser.isGraceExpired.returns(false);
+      });
+      it('should return grace remaining', function () {
+        expect($elScope.getBadgeCount()).to.equal('');
+      });
     });
   });
 
+  describe('getClasses', function () {
+    it('should return false flags when in active period', function () {
+      ctx.fakeuser.isInActivePeriod.returns(true);
+      expect($elScope.getClasses()).to.deep.equal({
+        badge: false,
+        'badge-orange': false
+      });
+    });
+
+    it('should return true flags when not in active period', function () {
+      expect($elScope.getClasses()).to.deep.equal({
+        badge: true,
+        'badge-orange': true
+      });
+    });
+  });
 });
