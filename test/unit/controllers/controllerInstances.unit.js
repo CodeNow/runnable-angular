@@ -259,6 +259,7 @@ describe('ControllerInstances'.bold.underline.blue, function () {
     var childInstance2;
     var masterInstance;
     var masterInstance2;
+    var masterInstance3;
 
     beforeEach(function() {    
       childInstance = {
@@ -322,6 +323,14 @@ describe('ControllerInstances'.bold.underline.blue, function () {
 
     it('should return instance when UPPERCASE is used', function () {
       CIS.searchBranches = 'MASTER';
+      var result = CIS.filterMasterInstance(masterInstance);
+      expect(masterInstance.getBranchName.called).to.deep.equal(true);
+      expect(result).to.deep.equal(true);
+    });
+
+    it('should return instance when branch name is UPPERCASE', function () {
+      masterInstance.getBranchName = sinon.stub().returns('MASTER');
+      CIS.searchBranches = 'master';
       var result = CIS.filterMasterInstance(masterInstance);
       expect(masterInstance.getBranchName.called).to.deep.equal(true);
       expect(result).to.deep.equal(true);
