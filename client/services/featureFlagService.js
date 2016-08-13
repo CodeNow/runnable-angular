@@ -16,7 +16,6 @@ function featureFlags(
     allowIsolatedUpdate: false,
     autoIsolation: false,
     autoIsolationSetup: false,
-    autoWhitelist: false,
     backup: false,
     billing: false,
     billingDiscounted: false,
