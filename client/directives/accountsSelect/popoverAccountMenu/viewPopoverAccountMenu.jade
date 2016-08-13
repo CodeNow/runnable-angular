@@ -63,21 +63,7 @@
             //- $root.featureFlags.billing
             //- *****************
             li.list-item.popover-list-item(
-              modal
-              modal-actions = "actions.actionsModalIntegrations"
-              modal-data = "data.dataModalIntegrations"
-              modal-template = "viewOpenModalIntegrations"
-              ng-if = "!$root.featureFlags.updatedSlackValidation"
-            )
-              img.iconnables(
-                height = "24"
-                src = "/build/images/logos/logo-icon-slack.svg"
-                width = "24"
-              )
-              | Slack Integration
-            li.list-item.popover-list-item(
               ng-click = "actions.openSettingsModal('slackIntegration')"
-              ng-if = "$root.featureFlags.updatedSlackValidation"
             )
               img.iconnables(
                 height = "24"
