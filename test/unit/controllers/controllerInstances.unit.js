@@ -259,7 +259,6 @@ describe('ControllerInstances'.bold.underline.blue, function () {
     var childInstance2;
     var masterInstance;
     var masterInstance2;
-    var masterInstance3;
 
     beforeEach(function() {    
       childInstance = {
