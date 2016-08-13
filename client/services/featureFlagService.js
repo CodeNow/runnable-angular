@@ -46,8 +46,6 @@ function featureFlags(
     nameContainer: true,
     navListFilter: false,
     newUserPrompt: false, // modal for new users
-    newVerificationFlow: true,
-    newVerificationFlowStackSelector: true,
     noBuildLogs: true,
     optionsInModal: false, // allows delete in modal
     renameContainer: false,
