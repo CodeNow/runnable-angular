@@ -61,7 +61,6 @@ function featureFlags(
     updatedSlackValidation: true,
     undoDelete: false, // undo delete configuration
     webhooks: false,
-    whitelist: true,
     whitelistIpFiltering: false
   };
 
