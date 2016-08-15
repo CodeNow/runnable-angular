@@ -18,6 +18,7 @@ var runnable = window.runnable;
  */
 describe('ControllerInstances'.bold.underline.blue, function () {
   var ctx = {};
+  var CIS;
   function setup(activeAccountUsername, localStorageData) {
     mockFetch.clearDeferer();
     angular.mock.module('app');
@@ -115,7 +116,7 @@ describe('ControllerInstances'.bold.underline.blue, function () {
     }
     $state.params = ctx.stateParams;
     ctx.fakeGo = sinon.stub($state, 'go');
-    var ca = $controller('ControllerInstances', {
+    CIS = $controller('ControllerInstances', {
       '$scope': $scope,
       '$rootScope': $rootScope,
       '$state': $state,
@@ -251,6 +252,127 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       sinon.assert.neverCalledWith(ctx.fakeGo, 'instance.new', {
         userName: 'org2'
       });
+    });
+  });
+  
+  describe('using various searches in the search filter'.blue, function () {
+    var childInstance;
+    var childInstance2;
+    var masterInstance;
+    var masterInstance2;
+
+    beforeEach(function () {    
+      childInstance = {
+        attrs: {
+          name: 'feature-AWESOME',
+          lowerName: 'feature-awesome'
+        }
+      };
+      childInstance2 = {
+        attrs: {
+          name: 'deezNutz',
+          lowerName: 'deeznutz'
+        }
+      };
+      masterInstance = {
+        getRepoAndBranchName: sinon.stub().returns('master'),
+        attrs: {
+          name: 'MyFirstNodeAPI',
+          lowerName: 'myfirstnodeapi'
+        },
+        children: {
+          models: [ childInstance, childInstance2 ]
+        }
+      };
+      masterInstance2 = {
+        getRepoAndBranchName: sinon.stub().returns(null),
+        attrs: {
+          name: 'PostgreSQL',
+          lowerName: 'postgresql'
+        },
+        children: {
+          models: []
+        },
+      };
+    });
+
+    it('should return instance when nothing is searched', function () {
+      CIS.searchBranches = null;
+      var result = CIS.filterMasterInstance(masterInstance);
+      expect(masterInstance.getRepoAndBranchName.called).to.deep.equal(false);
+      expect(result).to.deep.equal(true);
+    });
+
+    it('should not return an instance when garbage is searched', function () {
+      CIS.searchBranches = 'as@#!df';
+      var result = CIS.filterMasterInstance(masterInstance);
+      expect(masterInstance.getRepoAndBranchName.called).to.deep.equal(true);
+      expect(result).to.deep.equal(false);
+    });
+
+    it('should return instance when part of master is searched', function () {
+      CIS.searchBranches = 'mast';
+      var result = CIS.filterMasterInstance(masterInstance);
+      expect(masterInstance.getRepoAndBranchName.called).to.deep.equal(true);
+      expect(result).to.deep.equal(true);
+    });
+
+    it('should return instance when UPPERCASE is used', function () {
+      CIS.searchBranches = 'MASTER';
+      var result = CIS.filterMasterInstance(masterInstance);
+      expect(masterInstance.getRepoAndBranchName.called).to.deep.equal(true);
+      expect(result).to.deep.equal(true);
+    });
+
+    it('should return instance when branch name is UPPERCASE', function () {
+      masterInstance.getRepoAndBranchName = sinon.stub().returns('MASTER');
+      CIS.searchBranches = 'master';
+      var result = CIS.filterMasterInstance(masterInstance);
+      expect(masterInstance.getRepoAndBranchName.called).to.deep.equal(true);
+      expect(result).to.deep.equal(true);
+    });
+
+    it('should return all masterInstances', function () {
+      CIS.instancesByPod = [ masterInstance, masterInstance2 ];
+      CIS.searchBranches = null;
+      var results = CIS.getFilteredInstanceList();
+      expect(results.length).to.deep.equal(2);
+    });
+
+    it('should return only one masterInstance with a branch containing "feature"', function () {
+      CIS.instancesByPod = [ masterInstance, masterInstance2 ];
+      CIS.searchBranches = 'FEAT';
+      var results = CIS.getFilteredInstanceList();
+      expect(results.length).to.deep.equal(1);
+    });
+
+    it('should still return only one masterInstance with a branch containing "feature"', function () {
+      CIS.instancesByPod = [ masterInstance, masterInstance2 ];
+      CIS.searchBranches = 'feature';
+      var results = CIS.getFilteredInstanceList();
+      expect(results.length).to.deep.equal(1);
+    });
+
+    it('should only show parents matching the search query', function () {
+      var searchTerms = [ null, 'DEEZ', 'post', 'API'];
+      var results = searchTerms.map(function(search) {
+        CIS.searchBranches = search;
+        return [ CIS.shouldShowParent(masterInstance), CIS.shouldShowParent(masterInstance2)];
+      });
+      expect(masterInstance.getRepoAndBranchName.called).to.deep.equal(true);
+      expect(masterInstance2.getRepoAndBranchName.called).to.deep.equal(true);
+      expect(results).to.deep.equal([[true,true],[true,false],[false,true],[true,false]]);
+    });
+
+    it('should only show children matching the search query'.green, function () {
+      var searchTerms = [ null, 'DEEZ', 'post', 'FEATURE'];
+      var results = searchTerms.map(function(search) {
+        CIS.searchBranches = search;
+        return masterInstance.children.models.map(function(child) {
+          return CIS.shouldShowChild(child);
+        });
+      });
+      expect(results).to.deep.equal([[true,true],[false,true],[false,false],[true,false]]);
     });
   });
 });
