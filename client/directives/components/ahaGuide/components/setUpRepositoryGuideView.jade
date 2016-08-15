@@ -33,7 +33,7 @@
     a.grid-content.shrink.red.small.link(
       ng-click = "state.showSubStep = state.showSubStep + 1"
     ) Next
-  p.p.strong Add your First Repository
+  p.p.small.text-gray-light Add your First Repository
   p.p
     | {{state.showSubStep === 0 ? 'Add your repository by clicking ‘Add Configuration’.' : ''}}
     | {{state.showSubStep === 1 ? 'Select a repository to configure.' : ''}}
@@ -42,5 +42,5 @@
     | {{state.showSubStep === 4 ? 'Choose stacks.' : ''}}
     | {{state.showSubStep === 5 ? 'Choose commands and packages.' : ''}}
     | {{state.showSubStep === 6 ? 'Additional setup.' : ''}}
-    | {{state.showSubStep === 7 ? 'Waiting for your first build.' : ''}}
+    | {{state.showSubStep === 7 ? 'Building your first configuration.' : ''}}
     | {{state.showSubStep === 8 ? 'Successful build.' : ''}}

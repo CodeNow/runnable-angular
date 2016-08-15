@@ -145,11 +145,10 @@ section.modal-body(
 section.modal-body(
   ng-if = "!$root.isLoading[SMC.name]"
 )
-  .modal-form.empty(
+  .grid-block.vertical.modal-form.modal-guide(
+    ng-include = "'guideFormView'"
     ng-show = "SMC.selectedTab === 'default'"
   )
-    h3.h3.empty.text-center Your container is ready to build!
-    small.small.empty.text-center You can use the options above to make additional changes to your configuration.
   .modal-form.form-stack(
     data = "SMC.data"
     is-new-container = "!SMC.instance"
