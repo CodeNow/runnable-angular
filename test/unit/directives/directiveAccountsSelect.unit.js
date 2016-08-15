@@ -128,34 +128,6 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
       });
     });
 
-    describe('when in grace', function () {
-      beforeEach(function () {
-        ctx.fakeuser.isInTrial.returns(false);
-        ctx.fakeuser.isInGrace.returns(true);
-        ctx.fakeuser.graceRemaining.returns(2);
-      });
-      it('should return grace remaining', function () {
-        ctx.fakeuser.isInGrace.reset();
-        ctx.fakeuser.graceRemaining.reset();
-        ctx.fakeuser.trialRemaining.reset();
-        expect($elScope.getBadgeCount()).to.equal(2);
-        sinon.assert.calledOnce(ctx.fakeuser.isInGrace);
-        sinon.assert.calledOnce(ctx.fakeuser.graceRemaining);
-        sinon.assert.notCalled(ctx.fakeuser.trialRemaining);
-      });
-    });
-
-    describe('when in grace expired', function () {
-      beforeEach(function () {
-        ctx.fakeuser.isInTrial.returns(false);
-        ctx.fakeuser.isInGrace.returns(false);
-        ctx.fakeuser.isGraceExpired.returns(true);
-      });
-      it('should return grace remaining', function () {
-        expect($elScope.getBadgeCount()).to.equal('!');
-      });
-    });
-
     describe('when active', function () {
       beforeEach(function () {
         ctx.fakeuser.isInTrial.returns(false);

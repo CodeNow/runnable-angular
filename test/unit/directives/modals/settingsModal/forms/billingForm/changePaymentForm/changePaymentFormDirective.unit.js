@@ -77,7 +77,7 @@ describe('changePaymentFormDirective'.bold.underline.blue, function () {
 
   describe('getBillingDate', function () {
     it('should return the billing date', function () {
-      keypather.set($elScope, 'CPFC.activeAccount.attrs.activePeriodEnd', 1471037046);
+      keypather.set($elScope, 'CPFC.activeAccount.attrs.activePeriodEnd', '2016-08-12T21:24:06.000Z');
       expect($elScope.getBillingDate()).to.equal('Aug 12th, 2016');
     });
   });

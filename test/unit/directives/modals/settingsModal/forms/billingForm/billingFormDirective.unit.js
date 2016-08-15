@@ -1,35 +1,25 @@
 /*global directiveTemplate:true */
 'use strict';
 var $scope;
-var $elScope;
+var $rootScope;
 
 describe('billingFormDirective'.bold.underline.blue, function () {
-  var fetchPaymentMethodStub;
-  var loadingStub;
-  var mockPaymentMethod;
   var broadcastStub;
   beforeEach(function () {
     broadcastStub = sinon.stub();
-    mockPaymentMethod = { id: 'paymentMethod' };
     window.helpers.killDirective('billingHistoryForm');
     window.helpers.killDirective('changePaymentForm');
     window.helpers.killDirective('paymentSummary'); // Included from confirmationForm
     window.helpers.killDirective('planStatusForm');
     window.helpers.killDirective('planSummary');
     window.helpers.killDirective('showPaymentForm');
-    angular.mock.module('app', function ($provide) {
-      $provide.factory('fetchPaymentMethod', function ($q) {
-        fetchPaymentMethodStub = sinon.stub().returns($q.when(mockPaymentMethod));
-        return fetchPaymentMethodStub;
-      });
-      loadingStub = sinon.stub();
-      $provide.value('loading', loadingStub);
-    });
+    angular.mock.module('app');
     angular.mock.inject(function (
       $compile,
-      $rootScope,
+      _$rootScope_,
       keypather
     ) {
+      $rootScope = _$rootScope_;
       $scope = $rootScope.$new();
       $scope.SEMC = {
         showFooter: false
@@ -42,16 +32,12 @@ describe('billingFormDirective'.bold.underline.blue, function () {
       var element = $compile(tpl)($scope);
       $scope.$digest();
       $scope.$broadcast = broadcastStub;
-      $elScope = element.isolateScope();
+      element.isolateScope();
     });
   });
 
-  it('should load payment method and set loading state along the way', function () {
-    sinon.assert.calledTwice(loadingStub);
-    sinon.assert.calledWith(loadingStub, 'billingForm', true);
-    sinon.assert.calledWith(loadingStub, 'billingForm', false);
-    sinon.assert.calledOnce(fetchPaymentMethodStub);
-    expect($scope.paymentMethod).to.equal(mockPaymentMethod);
+  it('should set active account on local scope', function () {
+    expect($scope.activeAccount).to.equal($rootScope.dataApp.data.activeAccount);
   });
 
   describe('actions', function () {

@@ -35,7 +35,7 @@ function changePaymentForm(
           !$scope.paymentForm.$error.ccExp;
       };
       $scope.getBillingDate = function () {
-        return moment.utc($scope.CPFC.activeAccount.attrs.activePeriodEnd * 1000).format('MMM Do, YYYY');
+        return moment($scope.CPFC.activeAccount.attrs.activePeriodEnd).format('MMM Do, YYYY');
       };
     }
   };

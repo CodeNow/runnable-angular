@@ -92,27 +92,28 @@ function fetchWhitelistedOrgs(
       .then(function (ghOrgCollection) {
         ghOrgCollection.models.map(function (model) {
           // All of this should be moved to inside @runnable/api-client
-          model.attrs.trialEnd = moment().add('days', 12).utc().unix();
-          model.attrs.activePeriodEnd = moment().subtract('days', 1).utc().unix();
-          model.attrs.gracePeriodEnd = moment().add('days', 15).utc().unix();
+          model.attrs.trialEnd = moment().add('days', 12).toISOString();
+          model.attrs.activePeriodEnd = moment().subtract('days', 1).toISOString();
+          model.attrs.gracePeriodEnd = moment().add('days', 15).toISOString();
           model.attrs.stripeCustomerId = 1234;
+          model.attrs.hasPaymentMethod = true;
           model.isInTrial = function () {
-            return moment.utc(model.attrs.trialEnd * 1000) > moment().utc();
+            return moment(model.attrs.trialEnd) > moment().utc();
           };
           model.isInGrace = function () {
-            return !model.isInTrial() && moment.utc(model.attrs.gracePeriodEnd) > moment().utc();
+            return !model.isInTrial() && moment(model.attrs.gracePeriodEnd) > moment().utc();
           };
           model.isInActivePeriod = function () {
-            return moment.utc(model.attrs.activePeriodEnd) > moment().utc();
+            return moment(model.attrs.activePeriodEnd) > moment().utc();
           };
           model.isGraceExpired = function () {
             return !model.isInTrial() && moment.utc(model.attrs.gracePeriodEnd) < moment().utc();
           };
           model.trialRemaining = function () {
-            return moment.utc(model.attrs.trialEnd * 1000).diff(moment.utc(), 'days');
+            return moment(model.attrs.trialEnd).diff(moment.utc(), 'days');
           };
           model.graceRemaining = function () {
-            return moment.utc(model.attrs.gracePeriodEnd * 1000).diff(moment.utc(), 'days');
+            return moment(model.attrs.gracePeriodEnd).diff(moment.utc(), 'days');
           };
         });
         return ghOrgCollection;

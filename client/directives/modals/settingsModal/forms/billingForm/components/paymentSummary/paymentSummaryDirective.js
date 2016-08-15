@@ -39,7 +39,7 @@ function paymentSummary(
       };
 
       $scope.getTrialEndDate = function () {
-        return moment.utc($scope.activeAccount.attrs.trialEnd * 1000).format('MMM Do, YYYY');
+        return moment($scope.activeAccount.attrs.trialEnd).format('MMM Do, YYYY');
       };
     }
   };

@@ -101,12 +101,6 @@ function accountsSelect (
         if ($scope.data.activeAccount.isInTrial()) {
           return $scope.data.activeAccount.trialRemaining();
         }
-        if ($scope.data.activeAccount.isInGrace()) {
-          return $scope.data.activeAccount.graceRemaining();
-        }
-        if ($scope.data.activeAccount.isGraceExpired()) {
-          return '!';
-        }
         return '';
       };
 
