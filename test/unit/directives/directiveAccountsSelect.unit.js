@@ -24,11 +24,10 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
       }),
       fetchSettings: sinon.spy(),
       isInTrial: sinon.stub().returns(true),
-      trialRemaining: sinon.stub().returns(2),
+      trialDaysRemaining: sinon.stub().returns(2),
       isInActivePeriod: sinon.stub().returns(false),
       isInGrace: sinon.stub(),
-      isGraceExpired: sinon.stub(),
-      graceRemaining: sinon.stub()
+      isGraceExpired: sinon.stub()
     };
     ctx.fakeuser.attrs.hasPaymentMethod = false;
     ctx.fakeOrg1 = {
@@ -118,14 +117,14 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
     describe('when in trial', function () {
       beforeEach(function () {
         ctx.fakeuser.isInTrial.returns(true);
-        ctx.fakeuser.trialRemaining = sinon.stub().returns(12);
+        ctx.fakeuser.trialDaysRemaining = sinon.stub().returns(12);
       });
       it('should return trial remaining', function () {
         ctx.fakeuser.isInTrial.reset();
-        ctx.fakeuser.trialRemaining.reset();
+        ctx.fakeuser.trialDaysRemaining.reset();
         expect($elScope.getBadgeCount()).to.equal(12);
         sinon.assert.calledOnce(ctx.fakeuser.isInTrial);
-        sinon.assert.calledOnce(ctx.fakeuser.trialRemaining);
+        sinon.assert.calledOnce(ctx.fakeuser.trialDaysRemaining);
       });
       it('should return nothing if payment method is set', function () {
         ctx.fakeuser.attrs.hasPaymentMethod = true;
