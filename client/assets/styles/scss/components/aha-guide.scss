@@ -27,6 +27,16 @@
           background-image: linear-gradient($nextdeg, $green 50%, transparent 50%, transparent), linear-gradient(270deg, $green 50%, $gray-lightest 50%, $gray-lightest);
         }
       }
+
+      &.aha-error.aha-meter-#{$i * $step} {
+        @if $i < $half {
+          $nextdeg: 90deg + ($increment * $i);
+          background-image: linear-gradient(90deg, $gray-lightest 50%, transparent 50%, transparent), linear-gradient($nextdeg, $orange 50%, $gray-lightest 50%, $gray-lightest);
+        } @else {
+          $nextdeg: -90deg + ($increment * ($i - $half));
+          background-image: linear-gradient($nextdeg, $orange 50%, transparent 50%, transparent), linear-gradient(270deg, $orange 50%, $gray-lightest 50%, $gray-lightest);
+        }
+      }
     }
 
     &.aha-meter-100 .iconnables {
@@ -39,6 +49,12 @@
       height: 100%;
       padding: 6px;
       width: 100%;
+    }
+
+    .icons-alert {
+      color: $orange;
+      overflow: visible;
+      padding: 10px 11px 11px;
     }
   }
 

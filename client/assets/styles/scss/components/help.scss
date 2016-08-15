@@ -18,6 +18,7 @@
   border: 0;
   color: $gray-light;
   left: 0;
+  overflow: visible;
   padding: 0 12px;
   position: absolute;
 
@@ -38,6 +39,7 @@
   max-width: none; // overwrites max-width set in popover.scss
   padding-bottom: 26px;
   position: absolute;
+  top: 0;
   transition: none;
   width: 400px;
   z-index: $z-modal-backdrop; // we want these to stay under modals...since they do not get dismissed on modal open

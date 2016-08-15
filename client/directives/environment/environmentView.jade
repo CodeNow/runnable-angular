@@ -50,7 +50,7 @@
     ng-init = "state.helpButton = {active: false}"
   )
 
-  .grid-block.environment-body.clearfix(
+  .grid-block.environment-body.justify-center.clearfix(
     ng-class = "{\
       'align-center justify-center': $root.featureFlags.aha1,\
       'shrink': !$root.featureFlags.aha1\
@@ -114,7 +114,6 @@
               xlink:href = "#icons-life-preserver"
             )
           small.grid-content.small You can see your setup progress by selecting the !? button in the top-right.
-
 
     .card-grid.clearfix(
       ng-if = "!$root.featureFlags.aha1"
