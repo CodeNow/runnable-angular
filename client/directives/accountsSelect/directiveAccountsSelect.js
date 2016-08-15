@@ -99,7 +99,7 @@ function accountsSelect (
 
       $scope.getBadgeCount = function () {
         if ($scope.data.activeAccount.isInTrial() && !$scope.data.activeAccount.attrs.hasPaymentMethod) {
-          return $scope.data.activeAccount.trialRemaining();
+          return $scope.data.activeAccount.trialDaysRemaining();
         }
         return '';
       };
