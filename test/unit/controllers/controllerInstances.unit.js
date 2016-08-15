@@ -276,7 +276,7 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       };
 
       masterInstance = {
-        getBranchName: sinon.stub().returns('master'),
+        getRepoAndBranchName: sinon.stub().returns('master'),
         attrs: {
           name: 'MyFirstNodeAPI',
           lowerName: 'myfirstnodeapi'
@@ -287,7 +287,7 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       };
 
       masterInstance2 = {
-        getBranchName: sinon.stub().returns(null),
+        getRepoAndBranchName: sinon.stub().returns(null),
         attrs: {
           name: 'PostgreSQL',
           lowerName: 'postgresql'
@@ -302,36 +302,36 @@ describe('ControllerInstances'.bold.underline.blue, function () {
     it('should return instance when nothing is searched', function () {
       CIS.searchBranches = null;
       var result = CIS.filterMasterInstance(masterInstance);
-      expect(masterInstance.getBranchName.called).to.deep.equal(false);
+      expect(masterInstance.getRepoAndBranchName.called).to.deep.equal(false);
       expect(result).to.deep.equal(true);
     });
 
     it('should not return an instance when garbage is searched', function () {
       CIS.searchBranches = 'as@#!df';
       var result = CIS.filterMasterInstance(masterInstance);
-      expect(masterInstance.getBranchName.called).to.deep.equal(true);
+      expect(masterInstance.getRepoAndBranchName.called).to.deep.equal(true);
       expect(result).to.deep.equal(false);
     });
 
     it('should return instance when part of master is searched', function () {
       CIS.searchBranches = 'mast';
       var result = CIS.filterMasterInstance(masterInstance);
-      expect(masterInstance.getBranchName.called).to.deep.equal(true);
+      expect(masterInstance.getRepoAndBranchName.called).to.deep.equal(true);
       expect(result).to.deep.equal(true);
     });
 
     it('should return instance when UPPERCASE is used', function () {
       CIS.searchBranches = 'MASTER';
       var result = CIS.filterMasterInstance(masterInstance);
-      expect(masterInstance.getBranchName.called).to.deep.equal(true);
+      expect(masterInstance.getRepoAndBranchName.called).to.deep.equal(true);
       expect(result).to.deep.equal(true);
     });
 
     it('should return instance when branch name is UPPERCASE', function () {
-      masterInstance.getBranchName = sinon.stub().returns('MASTER');
+      masterInstance.getRepoAndBranchName = sinon.stub().returns('MASTER');
       CIS.searchBranches = 'master';
       var result = CIS.filterMasterInstance(masterInstance);
-      expect(masterInstance.getBranchName.called).to.deep.equal(true);
+      expect(masterInstance.getRepoAndBranchName.called).to.deep.equal(true);
       expect(result).to.deep.equal(true);
     });
 
@@ -363,15 +363,15 @@ describe('ControllerInstances'.bold.underline.blue, function () {
 
     it('should only show parents matching the search query', function () {
 
-      var searchTerms = [ null, 'DEEZ', 'post', 'FEATURE'];
+      var searchTerms = [ null, 'DEEZ', 'post', 'API'];
 
       var results = searchTerms.map(function(search) {
         CIS.searchBranches = search;
         return [ CIS.shouldShowParent(masterInstance), CIS.shouldShowParent(masterInstance2)];
       });
 
-      expect(masterInstance.getBranchName.called).to.deep.equal(true);
-      expect(masterInstance2.getBranchName.called).to.deep.equal(true);
+      expect(masterInstance.getRepoAndBranchName.called).to.deep.equal(true);
+      expect(masterInstance2.getRepoAndBranchName.called).to.deep.equal(true);
       expect(results).to.deep.equal([[true,true],[true,false],[false,true],[true,false]]);
     });
 

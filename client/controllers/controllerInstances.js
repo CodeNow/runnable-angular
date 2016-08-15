@@ -15,8 +15,7 @@ function ControllerInstances(
   ModalService,
   fetchInstancesByPod,
   activeAccount,
-  user,
-  memoize
+  user
 ) {
   var self = this;
   var userName = $state.params.userName;
@@ -90,11 +89,11 @@ function ControllerInstances(
       return true;
     }
     var searchQuery = self.searchBranches.toLowerCase();
-    return masterPod.getBranchName().toLowerCase().indexOf(searchQuery) !== -1 ||
-      masterPod.attrs.lowerName.indexOf(searchQuery) !== -1;
+    var instanceName = masterPod.getRepoAndBranchName() + masterPod.attrs.lowerName;
+    return instanceName.toLowerCase().indexOf(searchQuery) !== -1
   };
 
-  this.getFilteredInstanceList = memoize(function () {
+  this.getFilteredInstanceList = function () {
     if (!self.instancesByPod) {
       return null;
     }
@@ -104,13 +103,11 @@ function ControllerInstances(
     var searchQuery = self.searchBranches.toLowerCase();
     return self.instancesByPod
       .filter(function (masterPod) {
-        var instanceName = masterPod.getBranchName() || masterPod.attrs.name;
+        var instanceName = masterPod.getRepoAndBranchName() + masterPod.attrs.lowerName;
         return instanceName.toLowerCase().indexOf(searchQuery) !== -1 ||
           self.getFilteredChildren(masterPod).length > 0;
       });
-  }, function () {
-    return self.searchBranches;
-  });
+  };
 
   this.getFilteredChildren = function (masterPod) {
     if (!self.searchBranches) {
@@ -136,12 +133,11 @@ function ControllerInstances(
     }
     var searchQuery = self.searchBranches.toLowerCase();
 
-    var instanceName = masterPod.getBranchName() || masterPod.attrs.lowerName;
+    var instanceName = masterPod.getRepoAndBranchName() + masterPod.attrs.lowerName;
     if (instanceName.indexOf(searchQuery) !== -1) {
       return true;
     }
 
-    // Find children;
     return !!masterPod.children.models.find(function (child) {
       return child.attrs.lowerName.indexOf(searchQuery) !== -1;
     });
