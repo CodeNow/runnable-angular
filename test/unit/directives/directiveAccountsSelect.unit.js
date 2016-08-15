@@ -30,6 +30,7 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
       isGraceExpired: sinon.stub(),
       graceRemaining: sinon.stub()
     };
+    ctx.fakeuser.attrs.hasPaymentMethod = false;
     ctx.fakeOrg1 = {
       attrs: angular.copy(apiMocks.user),
       oauthName: function () {
@@ -126,13 +127,15 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
         sinon.assert.calledOnce(ctx.fakeuser.isInTrial);
         sinon.assert.calledOnce(ctx.fakeuser.trialRemaining);
       });
+      it('should return nothing if payment method is set', function () {
+        ctx.fakeuser.attrs.hasPaymentMethod = true;
+        expect($elScope.getBadgeCount()).to.equal('');
+      });
     });
 
     describe('when active', function () {
       beforeEach(function () {
         ctx.fakeuser.isInTrial.returns(false);
-        ctx.fakeuser.isInGrace.returns(false);
-        ctx.fakeuser.isGraceExpired.returns(false);
       });
       it('should return grace remaining', function () {
         expect($elScope.getBadgeCount()).to.equal('');
@@ -141,8 +144,8 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
   });
 
   describe('getClasses', function () {
-    it('should return false flags when in active period', function () {
-      ctx.fakeuser.isInActivePeriod.returns(true);
+    it('should return false flags when not in trial', function () {
+      ctx.fakeuser.isInTrial.returns(false);
       expect($elScope.getClasses()).to.deep.equal({
         badge: false,
         'badge-orange': false
@@ -153,6 +156,14 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
       expect($elScope.getClasses()).to.deep.equal({
         badge: true,
         'badge-orange': true
+      });
+    });
+
+    it('should return false flags when payment is set', function () {
+      ctx.fakeuser.attrs.hasPaymentMethod = true;
+      expect($elScope.getClasses()).to.deep.equal({
+        badge: false,
+        'badge-orange': false
       });
     });
   });

@@ -98,7 +98,7 @@ function accountsSelect (
       });
 
       $scope.getBadgeCount = function () {
-        if ($scope.data.activeAccount.isInTrial()) {
+        if ($scope.data.activeAccount.isInTrial() && !$scope.data.activeAccount.attrs.hasPaymentMethod) {
           return $scope.data.activeAccount.trialRemaining();
         }
         return '';
@@ -106,8 +106,8 @@ function accountsSelect (
 
       $scope.getClasses = function () {
         return {
-          badge: !$scope.data.activeAccount.isInActivePeriod(),
-          'badge-orange': !$scope.data.activeAccount.isInActivePeriod()
+          badge: $scope.data.activeAccount.isInTrial() && !$scope.data.activeAccount.attrs.hasPaymentMethod,
+          'badge-orange': $scope.data.activeAccount.isInTrial() && !$scope.data.activeAccount.attrs.hasPaymentMethod
         };
       };
     }
