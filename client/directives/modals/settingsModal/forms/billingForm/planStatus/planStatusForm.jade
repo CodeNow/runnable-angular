@@ -36,7 +36,7 @@
       .grid-block.shrink.vertical.price
         .grid-block.strike(
           ng-if = "PSFC.discounted"
-        ) ${{plans.starter.costPerUser}}
+        ) ${{PSFC.plans.starter.costPerUser}}
         .grid-block.justify-center.h1(
           ng-class = "{'discounted': PSFC.discounted}"
         )
@@ -58,7 +58,7 @@
       .grid-block.shrink.vertical.price
         .grid-block.strike(
           ng-if = "PSFC.discounted"
-        ) ${{plans.standard.costPerUser}}
+        ) ${{PSFC.plans.standard.costPerUser}}
         .grid-block.justify-center.h1(
           ng-class = "{'discounted': PSFC.discounted}"
         )
@@ -80,7 +80,7 @@
       .grid-block.shrink.vertical.price
         .grid-block.strike(
           ng-if = "PSFC.discounted"
-        ) ${{plans.plus.costPerUser}}
+        ) ${{PSFC.plans.plus.costPerUser}}
         .grid-block.justify-center.h1(
           ng-class = "{'discounted': PSFC.discounted}"
         )
