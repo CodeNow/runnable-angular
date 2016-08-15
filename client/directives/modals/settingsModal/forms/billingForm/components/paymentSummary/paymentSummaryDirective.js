@@ -18,6 +18,11 @@ function paymentSummary(
     },
     link: function ($scope, element) {
       $scope.activeAccount = $rootScope.dataApp.data.activeAccount;
+      $scope.planMapping = {
+        'starter': 'Starter',
+        'standard': 'Standard',
+        'plus': 'Plus'
+      };
       loading('billingForm', true);
       $q.all([
         fetchPaymentMethod(),

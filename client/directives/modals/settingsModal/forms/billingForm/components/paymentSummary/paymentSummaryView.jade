@@ -1,6 +1,6 @@
 span(
   ng-if = "!paymentMethod"
-) At your current usage, you’ll be charged for the {{plan.id}} plan at ${{calculatePlanPrice() | money}} for {{plan.userCount}} users.
+) At your current usage, you’ll be charged for the {{planMapping[plan.id]}} plan at ${{calculatePlanPrice() | money}} for {{plan.userCount}} users.
   strong.strong(
     ng-if = "activeAccount.isInTrial()"
   ) &#32;You will not be charged until your trial ends.
