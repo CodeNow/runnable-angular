@@ -13,13 +13,13 @@ function ControllerInstances(
   setLastOrg,
   errs,
   ModalService,
-
   fetchInstancesByPod,
   activeAccount,
   user
 ) {
   var self = this;
   var userName = $state.params.userName;
+  self.searchBranches = null;
   self.$storage = $localStorage.$default({
     instanceListIsClosed: false
   });
@@ -83,6 +83,65 @@ function ControllerInstances(
       }
     })
     .catch(errs.handler);
+
+  this.filterMasterInstance = function (masterPod) {
+    if (!self.searchBranches) {
+      return true;
+    }
+    var searchQuery = self.searchBranches.toLowerCase();
+    var instanceName = masterPod.getRepoAndBranchName() + masterPod.attrs.lowerName;
+    return instanceName.toLowerCase().indexOf(searchQuery) !== -1;
+  };
+
+  this.getFilteredInstanceList = function () {
+    if (!self.instancesByPod) {
+      return null;
+    }
+    if (!self.searchBranches) {
+      return self.instancesByPod;
+    }
+    var searchQuery = self.searchBranches.toLowerCase();
+    return self.instancesByPod
+      .filter(function (masterPod) {
+        var instanceName = masterPod.getRepoAndBranchName() + masterPod.attrs.lowerName;
+        return instanceName.toLowerCase().indexOf(searchQuery) !== -1 ||
+          self.getFilteredChildren(masterPod).length > 0;
+      });
+  };
+
+  this.getFilteredChildren = function (masterPod) {
+    if (!self.searchBranches) {
+      return masterPod.children.models;
+    }
+    var searchQuery = self.searchBranches.toLowerCase();
+    return masterPod.children.models.filter(function (child) {
+      return child.attrs.lowerName.indexOf(searchQuery) !== -1;
+    });
+  };
+
+  this.shouldShowChild = function (childInstance) {
+    if (!self.searchBranches) {
+      return true;
+    }
+    var searchQuery = self.searchBranches.toLowerCase();
+    return childInstance.attrs.lowerName.indexOf(searchQuery) !== -1;
+  };
+
+  this.shouldShowParent = function (masterPod) {
+    if (!self.searchBranches) {
+      return true;
+    }
+    var searchQuery = self.searchBranches.toLowerCase();
+
+    var instanceName = masterPod.getRepoAndBranchName() + masterPod.attrs.lowerName;
+    if (instanceName.indexOf(searchQuery) !== -1) {
+      return true;
+    }
+
+    return !!masterPod.children.models.find(function (child) {
+      return child.attrs.lowerName.indexOf(searchQuery) !== -1;
+    });
+  };
 
   this.editInstance = function (instance) {
     ModalService.showModal({
