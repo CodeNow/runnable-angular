@@ -13,11 +13,11 @@
 
       .row.modal-tabs.tabs-all.grid-block.clearfix
         button.btn.btn-radio.grid-block.vertical(
-          ng-attr-data-badge-count = "{{SEMC.activeAccount.isInTrial() ? SEMC.activeAccount.trialRemaining() : ''}}"
+          ng-attr-data-badge-count = "{{SEMC.activeAccount.isInTrial() && !SEMC.activeAccount.attrs.hasPaymentMethod ? SEMC.activeAccount.trialRemaining() : ''}}"
           ng-class = "{\
             'active': SEMC.currentTab === 'billing',\
-            'badge': SEMC.activeAccount.isInTrial(),\
-            'badge-orange': SEMC.activeAccount.isInTrial(),\
+            'badge': SEMC.activeAccount.isInTrial() && !SEMC.activeAccount.attrs.hasPaymentMethod,\
+            'badge-orange': SEMC.activeAccount.isInTrial() && !SEMC.activeAccount.attrs.hasPaymentMethod,\
           }"
           ng-click = "SEMC.currentTab = 'billing'"
           ng-show = "$root.featureFlags.billing"

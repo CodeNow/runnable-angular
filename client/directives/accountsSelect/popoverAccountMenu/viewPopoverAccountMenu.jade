@@ -34,7 +34,7 @@
                 )
               | Billing
               btn.btn-xxs.btn-badge.anchor-right.orange(
-                ng-if = "data.activeAccount.isInTrial()"
+                ng-if = "data.activeAccount.isInTrial() && !data.activeAccount.attrs.hasPaymentMethod"
                 title = "{{data.activeAccount.trialRemaining() + ' days left in your trial'}}"
               )
                 | {{data.activeAccount.trialRemaining() + ' days left'}}
