@@ -92,9 +92,9 @@ function fetchWhitelistedOrgs(
       .then(function (ghOrgCollection) {
         ghOrgCollection.models.map(function (model) {
           // All of this should be moved to inside @runnable/api-client
-          model.attrs.trialEnd = moment().add('days', 12).toISOString();
-          model.attrs.activePeriodEnd = moment().subtract('days', 1).toISOString();
-          model.attrs.gracePeriodEnd = moment().add('days', 15).toISOString();
+          model.attrs.trialEnd = moment().add(12, 'days').toISOString();
+          model.attrs.activePeriodEnd = moment().subtract(1, 'days').toISOString();
+          model.attrs.gracePeriodEnd = moment().add(15, 'days').toISOString();
           model.attrs.stripeCustomerId = 1234;
           model.attrs.hasPaymentMethod = true;
           model.isInTrial = function () {
