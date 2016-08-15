@@ -90,7 +90,7 @@ function ControllerInstances(
     }
     var searchQuery = self.searchBranches.toLowerCase();
     var instanceName = masterPod.getRepoAndBranchName() + masterPod.attrs.lowerName;
-    return instanceName.toLowerCase().indexOf(searchQuery) !== -1
+    return instanceName.toLowerCase().indexOf(searchQuery) !== -1;
   };
 
   this.getFilteredInstanceList = function () {
