@@ -1,15 +1,16 @@
 'use strict';
 
 require('app')
-  .filter('money', function () {
-    return function formatMoney(money) {
-      if (!money) {
+  .filter('centsToDollars', function () {
+    return function formatMoney(cents) {
+      if (!cents) {
         return '';
       }
+      var dollars = cents / 100;
       var decimalLength = 2;
-      if (money % 1 === 0) {
+      if (dollars % 1 === 0) {
         decimalLength = 0;
       }
-      return money.toFixed(decimalLength);
+      return dollars.toFixed(decimalLength);
     };
   });

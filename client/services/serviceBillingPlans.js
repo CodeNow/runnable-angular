@@ -7,17 +7,17 @@ function billingPlans() {
   return {
     starter: {
       name: 'Starter',
-      costPerUser: 9,
+      costPerUser: 900,
       maxConfigurations: 2
     },
     standard: {
       name: 'Standard',
-      costPerUser: 29,
+      costPerUser: 2900,
       maxConfigurations: 7
     },
     plus: {
       name: 'Plus',
-      costPerUser: 49,
+      costPerUser: 4900,
       maxConfigurations: 15
     }
   };
