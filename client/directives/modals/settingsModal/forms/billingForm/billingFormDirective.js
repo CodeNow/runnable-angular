@@ -14,7 +14,6 @@ function billingForm(
       });
       $scope.$on('changed-animated-panel', function (event, panelName) {
         $scope.SEMC.showFooter = panelName === 'billingForm';
-        console.log('new value', $scope.SEMC.showFooter);
       });
       $scope.$broadcast('go-to-panel', $scope.SEMC.subTab || 'billingForm', 'immediate');
       $scope.activeAccount = $rootScope.dataApp.data.activeAccount;
