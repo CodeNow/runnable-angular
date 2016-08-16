@@ -126,7 +126,10 @@ function ControllerApp(
   };
 
   CA.showTrialEndingNotification = function () {
-    return activeAccount.isInTrial() && activeAccount.trialDaysRemaining() <= 3 && !activeAccount.attrs.hasPaymentMethod && !$localStorage.hasDismissedTrialNotification;
+    return $rootScope.featureFlags.billing &&
+      activeAccount.isInTrial() &&
+      activeAccount.trialDaysRemaining() <= 3 &&
+      !activeAccount.attrs.hasPaymentMethod && !$localStorage.hasDismissedTrialNotification;
   };
 
   CA.closeTrialEndingNotification = function () {
