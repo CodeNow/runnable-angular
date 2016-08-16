@@ -41,7 +41,6 @@ function featureFlags(
     multilineFnR: false,
     multilineStartCmd: false,
     multipleRepositoryContainers: false, // for adding multiple containers with the same repository
-    nameContainer: true,
     navListFilter: false,
     newUserPrompt: false, // modal for new users
     noBuildLogs: true,

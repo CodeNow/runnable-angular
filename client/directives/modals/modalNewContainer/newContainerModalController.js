@@ -167,16 +167,8 @@ function NewContainerModalController(
     NCMC.state.instanceName = NCMC.state.instanceName.replace(/_/g, '-');
     return fetchRepoDockerfiles(fullName, defaultBranch)
       .then(function (dockerfiles) {
-        // TODO: Remove when removing `nameContainer` FF
         if (dockerfiles.length === 0) {
           NCMC.state.configurationMethod = 'new';
-          if (createContainerDirectly) {
-            return NCMC.createBuildAndGoToNewRepoModal(NCMC.state.instanceName, repo)
-              .then(function () {
-                repo.loading = false;
-                loading(NCMC.name + 'SingleRepo', false);
-              });
-          }
         } 
         loading(NCMC.name + 'SingleRepo', false);
         repo.loading = false;

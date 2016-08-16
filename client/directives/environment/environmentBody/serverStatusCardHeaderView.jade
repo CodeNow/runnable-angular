@@ -4,7 +4,7 @@
     'deprecated': !$root.featureFlags.cardStatus,\
     'no-touching': !$root.featureFlags.optionsInModal && inModal\
   }"
-  ng-if = "!$root.featureFlags.nameContainer || !inModal"
+  ng-if = "!inModal"
   pop-over
   pop-over-actions = "popoverServerActions"
   pop-over-active = "popoverServerActions.data.show"
@@ -75,7 +75,7 @@
     'deprecated': !$root.featureFlags.cardStatus,\
     'no-touching': !$root.featureFlags.optionsInModal && inModal\
   }"
-  ng-if = "$root.featureFlags.nameContainer && inModal"
+  ng-if = "inModal"
 )
   //- ***********************************
   //- START !$root.featureFlags.cardStatus
@@ -124,17 +124,4 @@
 
   //- ***********************************
   //- END $root.featureFlags.cardStatus
-  //- ***********************************
-
-  //- ***********************************
-  //- START $root.featureFlags.nameContainer
-  //- ***********************************
-
-  button.btn.btn-xxs.gray(
-    internal-modal-helper = "viewModalRename"
-    ng-if = "inModal && $root.featureFlags.renameContainer"
-  ) Rename
-
-  //- ***********************************
-  //- END $root.featureFlags.nameContainer
   //- ***********************************
