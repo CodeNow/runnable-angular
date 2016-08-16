@@ -26,6 +26,7 @@ function MirrorDockerfileController(
     return keypather.get(MDC.repo, 'attrs.full_name') || (oauthName + '/' + name);
   };
   MDC.branchName = MDC.branchName || keypather.get(MDC.repo, 'attrs.default_branch');
+  MDC.state.configurationMethod = null;
 
   MDC.fetchRepoDockerfiles = function () {
     return fetchRepoDockerfiles(MDC.getFullRepo(), MDC.branchName, MDC.newDockerfilePaths)
