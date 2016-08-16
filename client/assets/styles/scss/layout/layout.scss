@@ -70,6 +70,8 @@
     }
 
     &.disabled {
+      background: none;
+      border-color: transparent;
       cursor: not-allowed;
       opacity: .6;
     }
