@@ -10,6 +10,18 @@ main.layout-main(
 )
 
 .grid-block.notification.top-right.padding-sm.white.js-animate.notification-trial(
-  ng-if = "$root.featureFlags.trialEnding"
-  ng-include = "'viewNotifications'"
+  ng-if = "CA.showTrialEndingNotification()"
 )
+  .grid-block.vertical
+    svg.iconnables.icons-close(
+      ng-click = "CA.closeTrialEndingNotification()"
+    )
+      use(
+        xlink:href = "#icons-close"
+      )
+
+    .grid-block.vertical.align-center.form-trial.padding-md(
+      trial-form
+      from-notification = 'true'
+    )
+

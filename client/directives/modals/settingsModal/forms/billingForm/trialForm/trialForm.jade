@@ -1,7 +1,7 @@
 .grid-block.align-center.well.ignore-margin(
   ng-class = "{\
-    'padding-md': state.fromModal,\
-    'padding-sm': state.fromNotification\
+    'padding-md': fromModal,\
+    'padding-sm': fromNotification\
   }"
 )
   .grid-block.shrink.img.icons-calendar
@@ -29,7 +29,11 @@
 
 
 .grid-block.btn-wrapper(
-  ng-if = "$root.featureFlags.trialEnding && state.fromNotification"
+  ng-if = "activeAccount.isInTrial() && activeAccount.trialDaysRemaining() <= 3 && fromNotification"
 )
-  button.grid-content.btn.btn-block.btn-sm.white View Details
-  button.grid-content.btn.btn-block.btn-sm.green Add Payment
+  button.grid-content.btn.btn-block.btn-sm.white(
+    ng-click = "actions.openSettingsModal('billing')"
+  ) View Details
+  button.grid-content.btn.btn-block.btn-sm.green(
+    ng-click = "actions.openSettingsModal('billing', 'changePaymentForm')"
+  ) Add Payment

@@ -9,13 +9,12 @@
     ng-show = "!$root.isLoading.billingForm"
   )
     animated-panel(
-      default = "true"
       name = "billingForm"
     )
       .grid-block.vertical.align-center.form-trial.padding-md.fade(
         ng-class = "{'in': isActivePanel()}"
-        ng-include = "'trialForm'"
-        ng-init = "state.fromModal = true"
+        trial-form
+        from-modal = 'true'
         ng-if = "activeAccount.isInTrial() && !activeAccount.attrs.hasPaymentMethod"
       )
       .grid-block.vertical.form-plan.fade(

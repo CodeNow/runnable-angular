@@ -106,10 +106,7 @@
 
   .grid-block.justify-center
     button.grid-block.shrink.btn.btn-md.green(
-      ng-click = "\
-        SEMC.showFooter = false;\
-        goToPanel('changePaymentForm');\
-      "
+      ng-click = "goToPanel('changePaymentForm');"
       ng-if = "PSFC.activeAccount.isInTrial()"
       type = "button"
     ) Add Payment Method
@@ -118,8 +115,5 @@ footer.modal-footer.clearfix(
   ng-if = "!PSFC.activeAccount.isInTrial()"
 )
   button.btn.btn-md.gray.btn-cancel.float-left(
-    ng-click = "\
-      SEMC.showFooter = true;\
-      goToPanel('billingForm', 'back');\
-    "
+    ng-click = "goToPanel('billingForm', 'back');"
   ) Back
