@@ -46,7 +46,6 @@ function featureFlags(
     multipleRepositoryContainers: false, // for adding multiple containers with the same repository
     nameContainer: true,
     navListFilter: false,
-    newUserPrompt: false, // modal for new users
     newVerificationFlow: true,
     newVerificationFlowStackSelector: true,
     noBuildLogs: true,
