@@ -79,7 +79,7 @@
       ng-if = "$parent.state.selectedStack.suggestedVersion"
     ) Suggested {{$parent.$parent.state.selectedStack.name}} Version
     fancy-option(
-      ng-repeat = "version in $parent.state.selectedStack.versions | filter: $parent.state.selectedStack.suggestedVersion"
+      ng-repeat = "version in $parent.state.selectedStack.versions | filter: $parent.state.selectedStack.suggestedVersion | limitTo: 1"
       value = "version"
     ) {{$parent.version}}
     li.divider(
@@ -107,7 +107,7 @@
       ng-if = "$parent.depStack.suggestedVersion"
     ) Suggested {{$parent.$parent.depStack.name}} Version
     fancy-option(
-      ng-repeat = "version in $parent.depStack.versions | filter: $parent.depStack.suggestedVersion"
+      ng-repeat = "version in $parent.depStack.versions | filter: $parent.depStack.suggestedVersion | limitTo: 1"
       value = "version"
     ) {{$parent.version}}
     li.divider(
