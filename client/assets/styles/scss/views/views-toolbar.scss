@@ -86,10 +86,11 @@
 
   > .iconnables {
     flex: 0 0 auto;
+    height: 18px;
     margin-right: 6px;
 
-    &.icons-hourglass {
-      height: 18px;
+    &.icons-alert {
+      color: $orange;
     }
   }
 
