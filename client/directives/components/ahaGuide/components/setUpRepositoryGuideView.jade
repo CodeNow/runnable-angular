@@ -78,37 +78,36 @@
     ) Next
   p.p.small.text-gray-light Add your First Repository
   p.p(
-    ng-class = "{'p-slide js-animate': state.showSubStep}"
     ng-if = "state.showSubStep === 0 && !state.showError && !state.showVerification"
   ) Add your repository by clicking ‘Add Configuration’.
-  p.p.p-slide.js-animate(
+  p.p(
     ng-class = "{'p-slide js-animate': state.showSubStep}"
     ng-if = "state.showSubStep === 1 && !state.showError && !state.showVerification"
   ) Select a repository to configure.
-  p.p.p-slide.js-animate(
+  p.p(
     ng-class = "{'p-slide js-animate': state.showSubStep}"
     ng-if = "state.showSubStep === 2 && !state.showError && !state.showVerification"
   ) How would you like to configure your repo?
-  p.p.p-slide.js-animate(
+  p.p(
     ng-class = "{'p-slide js-animate': state.showSubStep}"
     ng-if = "state.showSubStep === 3 && !state.showError && !state.showVerification"
   ) Give your configuration a name.
-  p.p.p-slide.js-animate(
+  p.p(
     ng-class = "{'p-slide js-animate': state.showSubStep}"
     ng-if = "state.showSubStep === 4 && !state.showError && !state.showVerification"
   ) What does your repository run?
-  p.p.p-slide.js-animate(
+  p.p(
     ng-class = "{'p-slide js-animate': state.showSubStep}"
     ng-if = "state.showSubStep === 5 && !state.showError && !state.showVerification"
   ) Choose commands and packages.
-  p.p.p-slide.js-animate(
+  p.p(
     ng-class = "{'p-slide js-animate': state.showSubStep}"
     ng-if = "state.showSubStep === 6 && !state.showError && !state.showVerification"
   )
     | {{!state.fromMirroring ? 'If your app needs additional configuration…' : ''}}
     | {{state.fromMirroring ? 'We‘ve imported your dockerfile, click ‘Save & Build’ to build it!' : ''}}
     //- | FROM BLANK DOCKERFILE: When you‘re done editing your dockerfile, click ‘Save & Build’ to build it!
-  p.p.p-slide.js-animate(
+  p.p(
     ng-class = "{'p-slide js-animate': state.showSubStep}"
     ng-if = "state.showSubStep === 7"
   )
@@ -116,7 +115,7 @@
     | {{state.showVerification ? 'Verifying Configuration…' : ''}}
     | {{state.showErrorType === 'build' && state.showError ? 'Your build failed. Inspect your build logs for more information.' : ''}}
     | {{state.showErrorType === 'CMD' && state.showError ? 'Your container failed to run. Inspect your CMD logs for more information.' : ''}}
-  p.p.p-slide.js-animate(
+  p.p(
     ng-class = "{'p-slide js-animate': state.showSubStep}"
     ng-if = "state.showSubStep === 8 && !state.showError && !state.showVerification"
   ) Your build was good! Click ‘Done’ to move on.

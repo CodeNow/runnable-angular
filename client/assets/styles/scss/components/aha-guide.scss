@@ -125,6 +125,29 @@
       opacity: 0;
       transform: translate3d(-25%,0,0);
     }
+
+    &.reverse {
+
+      &.ng-enter {
+        opacity: 0;
+        transform: translate3d(-25%,0,0);
+      }
+
+      &.ng-enter-active {
+        opacity: 1;
+        transform: translate3d(0,0,0);
+      }
+
+      &.ng-leave {
+        opacity: 1;
+        transform: translate3d(0,0,0);
+      }
+
+      &.ng-leave-active {
+        opacity: 0;
+        transform: translate3d(25%,0,0);
+      }
+    }
   }
 
   // menu
