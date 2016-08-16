@@ -16,7 +16,6 @@ function featureFlags(
     allowIsolatedUpdate: false,
     autoIsolation: false,
     autoIsolationSetup: false,
-    autoWhitelist: true,
     backup: false,
     billing: false,
     billingDiscounted: false,
@@ -39,15 +38,12 @@ function featureFlags(
     intercomOnMigration: false, // adds intercom link to migration message
     internalDebugging: false,
     inviteFlows: false,
-    isolationRepos: true, // for isolation UI
     multilineFnR: false,
     multilineStartCmd: false,
     multipleRepositoryContainers: false, // for adding multiple containers with the same repository
     nameContainer: true,
     navListFilter: false,
     newUserPrompt: false, // modal for new users
-    newVerificationFlow: true,
-    newVerificationFlowStackSelector: true,
     noBuildLogs: true,
     optionsInModal: false, // allows delete in modal
     renameContainer: false,

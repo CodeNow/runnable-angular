@@ -35,6 +35,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      'https://js.stripe.com/v2/stripe-debug.js',
       'unit/globals.js',
       'unit/**/*.unit.js'
     ],

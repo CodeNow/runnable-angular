@@ -29,6 +29,7 @@ function NewContainerModalController(
     state: {
       tabName: 'repos',
       dockerfile: null,
+      configurationMethod: null,
       namesForAllInstances: []
     }
   });
@@ -161,18 +162,22 @@ function NewContainerModalController(
     loading(NCMC.name + 'SingleRepo', true);
     var fullName = keypather.get(repo, 'attrs.full_name');
     var defaultBranch = keypather.get(repo, 'attrs.default_branch');
+    NCMC.state.configurationMethod = null;
     NCMC.state.instanceName = fullName.split('/')[1] || '';
     NCMC.state.instanceName = NCMC.state.instanceName.replace(/_/g, '-');
     return fetchRepoDockerfiles(fullName, defaultBranch)
       .then(function (dockerfiles) {
         // TODO: Remove when removing `nameContainer` FF
-        if (dockerfiles.length === 0 && createContainerDirectly) {
-          return NCMC.createBuildAndGoToNewRepoModal(NCMC.state.instanceName, repo)
-            .then(function () {
-              repo.loading = false;
-              loading(NCMC.name + 'SingleRepo', false);
-            });
-        }
+        if (dockerfiles.length === 0) {
+          NCMC.state.configurationMethod = 'new';
+          if (createContainerDirectly) {
+            return NCMC.createBuildAndGoToNewRepoModal(NCMC.state.instanceName, repo)
+              .then(function () {
+                repo.loading = false;
+                loading(NCMC.name + 'SingleRepo', false);
+              });
+          }
+        } 
         loading(NCMC.name + 'SingleRepo', false);
         repo.loading = false;
         repo.dockerfiles = dockerfiles;
@@ -181,12 +186,12 @@ function NewContainerModalController(
       });
   };
 
-  NCMC.createBuildAndGoToNewRepoModal = function (instanceName, repo, dockerfile) {
+  NCMC.createBuildAndGoToNewRepoModal = function (instanceName, repo, dockerfile, configurationMethod) {
     loading(NCMC.name + 'SingleRepo', true);
     return createNewBuildAndFetchBranch($rootScope.dataApp.data.activeAccount, repo, keypather.get(dockerfile, 'path'))
       .then(function (repoBuildAndBranch) {
         repoBuildAndBranch.instanceName = instanceName;
-        if (dockerfile) {
+        if (configurationMethod === 'dockerfile' && dockerfile) {
           NCMC.newMirrorRepositoryContainer(repoBuildAndBranch);
         } else {
           NCMC.newRepositoryContainer(repoBuildAndBranch);

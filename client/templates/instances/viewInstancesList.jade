@@ -1,7 +1,21 @@
+label.grid-block.vertical.label-search
+  input.input.input-xs.input-search(
+    ng-model = "CIS.searchBranches"
+    placeholder = "Filter by name"
+    required
+    select-on = "showFilter"
+    type = "search"
+  )
+
+p.p.text-center.text-gray-light.padding-sm(
+  ng-if = "CIS.getFilteredInstanceList().length < 1"
+) No containers match filter.
+
 //- master cluster
 .list-clusters.master-cluster(
   ng-if = "$root.featureFlags.autoIsolation"
 )
+
   .list-item-cluster
     .grid-block.list-containers.vertical.text-overflow.open
       //- master repository containers
@@ -22,8 +36,10 @@
 
 //- branch clusters
 .list-clusters(
-  ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
+  ng-repeat = "masterInstance in CIS.instancesByPod | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
+  ng-show = "CIS.shouldShowParent(masterInstance)"
 )
+
   //- cluster list heading
   .grid-block.align-center.list-item-cluster.list-clusters-heading
     //- repository name
@@ -60,7 +76,7 @@
     instance = "masterInstance"
     instance-navigation
     master-instance = "masterInstance"
-    ng-if = "!$root.featureFlags.autoIsolation"
+    ng-if = "!$root.featureFlags.autoIsolation && CIS.filterMasterInstance(masterInstance)"
   )
 
   //- wraps auto-isolated clusters
@@ -70,6 +86,7 @@
     instance-navigation
     master-instance = "masterInstance"
     ng-repeat = "childInstance in masterInstance.children.models | orderBy: ['attrs.name']"
+    ng-show = "CIS.shouldShowChild(childInstance)"
   )
 
   //- nav list filter
@@ -89,5 +106,6 @@
     active-account = "CIS.activeAccount"
     instance = "masterInstance"
     instance-navigation
-    ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:false | orderBy: ['attrs.name'] as nonRepoInstances track by masterInstance.attrs.name"
+    ng-repeat = "masterInstance in CIS.instancesByPod | instanceHasRepo:false | orderBy: ['attrs.name'] as nonRepoInstances track by masterInstance.attrs.name"
+    ng-show = "CIS.shouldShowParent(masterInstance)"
   )

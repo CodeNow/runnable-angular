@@ -19,10 +19,10 @@
         ) {{ICMC.instance.getMasterPodName()}}/{{ICMC.instance.getBranchName()}}.
 
       h4.grid-block.shrink.h4.text-gray.small.padding-xs(
-        ng-if = "$root.featureFlags.isolationRepos && ICMC.repoInstances.length"
+        ng-if = "ICMC.repoInstances.length"
       ) Repository Containers
       .grid-block.vertical.shrink.list.list-bordered(
-        ng-if = "$root.featureFlags.isolationRepos && ICMC.repoInstances.length"
+        ng-if = "ICMC.repoInstances.length"
       )
         .grid-block.align-center.list-item.padding-xs
           label.text-overflow(

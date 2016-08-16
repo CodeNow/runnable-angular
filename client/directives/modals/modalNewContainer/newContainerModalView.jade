@@ -90,7 +90,7 @@
             ng-click = "MC.close()"
           ) Cancel
           button.btn.btn-md.green.float-right(
-            ng-disabled = "$root.isLoading[MC.name + 'SingleRepo'] || MC.state.dockerfile === null"
+            ng-disabled = "$root.isLoading[MC.name + 'SingleRepo'] || MC.state.configurationMethod === null"
             ng-click = "($root.featureFlags.nameContainer) ? goToPanel('nameContainer') : MC.createBuildAndGoToNewRepoModal(MC.state.instanceName, MC.state.repo, MC.state.dockerfile)"
           )
             .spinner-wrapper.spinner-white.spinner-sm.in(
@@ -168,7 +168,7 @@
           button.btn.btn-md.green.float-right(
             ng-disabled = "!MC.name.length || MC.nameForm.$invalid || $root.isLoading[MC.name + 'SingleRepo']"
             ng-click = " \
-              (MC.state.repo) ? MC.createBuildAndGoToNewRepoModal(MC.state.instanceName, MC.state.repo, MC.state.dockerfile) : \
+              (MC.state.repo) ? MC.createBuildAndGoToNewRepoModal(MC.state.instanceName, MC.state.repo, MC.state.dockerfile, MC.state.configurationMethod) : \
               MC.createBuildFromTemplate(MC.state.instanceName, MC.state.templateSource) \
             "
           )

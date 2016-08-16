@@ -188,7 +188,24 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
         sinon.assert.calledOnce(createNewBuildAndFetchBranch);
         sinon.assert.calledWith(createNewBuildAndFetchBranch, activeAccount, repo);
         sinon.assert.calledOnce(NCMC.newRepositoryContainer);
-        sinon.assert.calledOnce(NCMC.newRepositoryContainer, repoBuildAndBranch);
+        sinon.assert.calledWithExactly(NCMC.newRepositoryContainer, repoBuildAndBranch);
+        expect(repoBuildAndBranch.instanceName).to.equal(instanceName);
+      });
+
+      it('should create a mirror repository container when there is a dockerfile', function () {
+        var repo = {};
+        var dockerfile = {};
+        var configurationMethod = 'dockerfile'
+        sinon.stub(NCMC, 'newRepositoryContainer');
+        sinon.stub(NCMC, 'newMirrorRepositoryContainer');
+
+        NCMC.createBuildAndGoToNewRepoModal(instanceName, repo, dockerfile, 'dockerfile');
+        $scope.$digest();
+        sinon.assert.calledOnce(createNewBuildAndFetchBranch);
+        sinon.assert.calledWith(createNewBuildAndFetchBranch, activeAccount, repo);
+        sinon.assert.calledOnce(NCMC.newMirrorRepositoryContainer);
+        sinon.assert.calledWithExactly(NCMC.newMirrorRepositoryContainer, repoBuildAndBranch);
+        sinon.assert.notCalled(NCMC.newRepositoryContainer);
         expect(repoBuildAndBranch.instanceName).to.equal(instanceName);
       });
     });
@@ -276,6 +293,25 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
         expect(repo.dockerfiles).to.have.length(1);
         sinon.assert.calledOnce(stub);
         sinon.assert.calledWith(stub, 'dockerfileMirroring');
+      });
+
+      it('should not call the callback if there is a createContainerDirectly argument', function () {
+        fetchRepoDockerfilesStub.returns($q.when([]));
+        sinon.stub(NCMC, 'createBuildAndGoToNewRepoModal').returns($q.when(true));
+
+        var repo = {
+          attrs: {
+            full_name: 'Hello'
+          }
+        };
+        var stub = sinon.stub();
+        NCMC.setRepo(repo, stub, true);
+        $scope.$digest();
+        expect(NCMC.state.repo).to.equal(repo);
+        sinon.assert.calledOnce(fetchRepoDockerfilesStub);
+        sinon.assert.calledWith(fetchRepoDockerfilesStub, 'Hello');
+        sinon.assert.calledOnce(NCMC.createBuildAndGoToNewRepoModal);
+        sinon.assert.notCalled(stub);
       });
     });
 
