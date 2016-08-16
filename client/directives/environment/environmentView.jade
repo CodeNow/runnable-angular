@@ -37,18 +37,18 @@
     button.btn.btn-xs.green Got it, thanks!
 
 //- environment page
-.grid-block.environment-wrapper
-  .grid-block.vertical.new-user-prompt(
-    ng-if = "$root.featureFlags.newUserPrompt"
-    ng-include = "'newUserPrompt'"
-  )
+.grid-block.environment-wrapper(
+  ng-class = "{'empty': $root.featureFlags.aha && $root.featureFlags.aha1}"
+)
 
   header.grid-block.align-center.environment-header(
     ng-include = "'viewEnvironmentHeader'"
     ng-init = "state.helpButton = {active: false}"
   )
 
-  .environment-body.clearfix
+  .grid-block.environment-body.justify-center.clearfix(
+    ng-class = "{'align-center justify-center': $root.featureFlags.aha1}"
+  )
     .help-container(
       ng-class = "{\
         'fixed': helpUndock,\
@@ -87,7 +87,29 @@
       ng-bind-html = "helpCards.getActiveCard().helpTop"
       ng-if = "helpCards.getActiveCard()"
     )
-    .card-grid.clearfix(
+
+    .modal-dialog.modal-sm(
+      ng-if = "$root.featureFlags.aha1 && !$root.featureFlags.ahaOverview"
+    )
+      .modal-body.grid-block.vertical.padding-sm
+        .grid-block.align-center.aha-guide(
+          ng-include = "'ahaGuideView'"
+          ng-init = "\
+            state.showStep = 1;\
+            state.showSubStep = 0;\
+          "
+        )
+        //- .grid-block.shrink.justify-center.align-center.padding-xs.well.gray.aha-tips.fade(
+        //-   ng-if = "$root.featureFlags.aha1"
+        //- )
+          svg.grid-content.shrink.iconnables
+            use(
+              xlink:href = "#icons-life-preserver"
+            )
+          small.grid-content.small You can see your setup progress by selecting the !? button in the top-right.
+
+    .grid-block.card-grid.clearfix(
+      ng-if = "!$root.featureFlags.aha1"
       ng-include = "'viewCardGrid'"
     )
 

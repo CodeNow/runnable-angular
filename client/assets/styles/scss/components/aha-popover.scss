@@ -1,0 +1,10 @@
+.popover.popover-aha {
+  left: 75px;
+  max-width: none;
+  top: 66px;
+  width: 450px;
+
+  .popover-content {
+    @extend %padding-sm;
+  }
+}

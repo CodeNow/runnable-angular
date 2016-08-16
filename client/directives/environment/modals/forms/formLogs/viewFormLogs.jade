@@ -1,14 +1,19 @@
-//- alert appears during a build failure AND no changes have been made
-.alert.orange(
+.grid-block.shrink.justify-center.align-center.padding-xs.well.gray.aha-tips(
   ng-if = "\
     !$root.isLoading.setupServerModalIsBuilding && \
     !SMC.isDirty() && \
     SMC.instance.status() === 'buildFailed' \
   "
-) Having build problems? Some errors can be resolved by rebuilding the container.
-  button.btn.btn-xxs.orange(
-    ng-click = "SMC.rebuild(true, true)"
-  ) Rebuild Without Cache
+)
+  svg.grid-content.shrink.iconnables
+    use(
+      xlink:href = "#icons-life-preserver"
+    )
+  .grid-content.vertical
+    small.grid-content.small Having build problems? Some errors can be resolved by rebuilding the container.
+    button.btn.btn-xxs.orange(
+      ng-click = "SMC.rebuild(true, true)"
+    ) Rebuild Without Cache
 
 //- tabs
 .btn-group.btn-toggle.btn-toggle-xs(

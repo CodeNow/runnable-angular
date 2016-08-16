@@ -1,8 +1,5 @@
 .modal-backdrop > .aha-guide {
   animation: fade .15s ease-in-out;
-  background: $gray-lighterest;
-  border: 1px solid $gray-lighter;
-  border-radius: $input-border-radius-lg;
   height: 105px;
   left: 0;
   max-width: calc(100vw - 30px);
@@ -33,6 +30,6 @@
   }
 }
 
-.modal-dialog > .aha-guide {
-  border-bottom: 1px solid $gray-lighter;
+.modal-dialog .aha-guide .aha-meter {
+  left: 0;
 }

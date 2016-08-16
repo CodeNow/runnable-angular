@@ -139,12 +139,12 @@
       }
 
       &:first-child {
-        border-radius: $input-border-radius-xxs 0 0 $input-border-radius-xxs;
+        border-radius: $input-border-radius 0 0 $input-border-radius;
         flex: 0 0 90px;
       }
 
       &:last-child {
-        border-radius: 0 $input-border-radius-xxs $input-border-radius-xxs 0;
+        border-radius: 0 $input-border-radius $input-border-radius 0;
         flex: 0 0 90px;
       }
     }

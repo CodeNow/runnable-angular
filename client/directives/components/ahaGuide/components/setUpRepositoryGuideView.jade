@@ -1,20 +1,127 @@
-.grid-block.shrink.aha-meter(
+.grid-block.align-center.shrink.spinner-wrapper.spinner-md.spinner-gray.in.js-animate(
+  ng-if = "state.showVerification"
+  ng-include = "'spinner'"
+)
+
+.grid-block.shrink.aha-meter.js-animate(
   ng-class = "{\
-    'aha-meter-13': $root.featureFlags.aha1,\
+    'aha-error': state.showError,\
+    'aha-meter-10': state.showSubStep === 0,\
+    'aha-meter-20': state.showSubStep === 1,\
+    'aha-meter-30': state.showSubStep === 2,\
+    'aha-meter-40': state.showSubStep === 3,\
+    'aha-meter-50': state.showSubStep === 4,\
+    'aha-meter-60': state.showSubStep === 5,\
+    'aha-meter-70': state.showSubStep === 6,\
+    'aha-meter-80': state.showSubStep === 7,\
+    'aha-meter-90': state.showSubStep === 8,\
     'aha-meter-100': $root.featureFlags.aha2 || $root.featureFlags.aha3\
   }"
+  ng-if = "!state.showVerification"
 )
-  svg.iconnables
+  svg.iconnables(
+    ng-if = "!state.showError"
+  )
     use(
-      ng-if = "$root.featureFlags.aha1 && (!$root.featureFlags.aha2 || !$root.featureFlags.aha3)"
+      ng-if = "$root.featureFlags.aha1 && !$root.featureFlags.aha2 && !$root.featureFlags.aha3 && state.showSubStep != 9"
       xlink:href = "#icons-octicons-repo"
     )
     use(
       ng-if = "$root.featureFlags.aha2 || $root.featureFlags.aha3"
       xlink:href = "#icons-check"
     )
-.grid-block.vertical
-  p.p.strong Add your First Repository
-  p.p
-    | {{state.showSubStep === 0 ? 'Click ‘Add Configuration’ to start adding your repository.' : ''}}
-    | {{state.showSubStep === 1 ? 'Select a repository to set up.' : ''}}
+  svg.iconnables.icons-alert(
+    ng-if = "state.showError"
+  )
+    use(
+      xlink:href = "#icons-alert-alt"
+    )
+
+.grid-block.vertical.aha-text
+  .grid-block(
+    ng-if = "$root.canEditFeatureFlags() && state.showSubStep > 0"
+    ng-show = "state.showControls"
+    style = "position: absolute; right: 0; top: 0;"
+  )
+    a.grid-content.shrink.red.small.link(
+      ng-click = "state.showVerification = !state.showVerification"
+      ng-if = "state.showSubStep === 7"
+    ) Verify
+    a.grid-content.shrink.red.small.link(
+      ng-click = "\
+        state.showError = !state.showError;\
+        state.showErrorType = 'CMD';\
+      "
+      ng-if = "state.showSubStep === 7"
+    ) CMDErr
+    a.grid-content.shrink.red.small.link(
+      ng-click = "\
+        state.showError = !state.showError;\
+        state.showErrorType = 'build';\
+      "
+      ng-if = "state.showSubStep === 7"
+    ) BuildErr
+    a.grid-content.shrink.red.small.link(
+      ng-click = "\
+        $root.featureFlags.aha1 = false;\
+        $root.featureFlags.aha2 = true;\
+      "
+      ng-if = "state.showSubStep === 8"
+    ) NextMile
+    a.grid-content.shrink.red.small.link(
+      ng-click = "state.showSubStep = state.showSubStep - 1"
+      ng-if = "state.showSubStep < 9 && state.showSubStep > 1"
+    ) Prev
+    a.grid-content.shrink.red.small.link(
+      ng-click = "state.showSubStep = state.showSubStep + 1"
+      ng-if = "state.showSubStep < 9"
+    ) Next
+  p.p.small.text-gray-light Add your First Repository
+  p.p(
+    ng-if = "state.showSubStep === 0 && !state.showError && !state.showVerification"
+  ) Add your repository by clicking ‘Add Configuration’.
+  p.p(
+    ng-class = "{'p-slide js-animate': state.showSubStep}"
+    ng-if = "state.showSubStep === 1 && !state.showError && !state.showVerification"
+  ) Select a repository to configure.
+  p.p(
+    ng-class = "{'p-slide js-animate': state.showSubStep}"
+    ng-if = "state.showSubStep === 2 && !state.showError && !state.showVerification"
+  ) How would you like to configure your repo?
+  p.p(
+    ng-class = "{'p-slide js-animate': state.showSubStep}"
+    ng-if = "state.showSubStep === 3 && !state.showError && !state.showVerification"
+  ) Give your configuration a name.
+  p.p(
+    ng-class = "{'p-slide js-animate': state.showSubStep}"
+    ng-if = "state.showSubStep === 4 && !state.showError && !state.showVerification"
+  ) What does your repository run?
+  p.p(
+    ng-class = "{'p-slide js-animate': state.showSubStep}"
+    ng-if = "state.showSubStep === 5 && !state.showError && !state.showVerification"
+  ) Choose commands and packages.
+  p.p(
+    ng-class = "{'p-slide js-animate': state.showSubStep}"
+    ng-if = "state.showSubStep === 6 && !state.showError && !state.showVerification"
+  )
+    | {{!state.fromMirroring ? 'If your app needs additional configuration…' : ''}}
+    | {{state.fromMirroring ? 'We‘ve imported your dockerfile, click ‘Save & Build’ to build it!' : ''}}
+    //- | FROM BLANK DOCKERFILE: When you‘re done editing your dockerfile, click ‘Save & Build’ to build it!
+  p.p(
+    ng-class = "{'p-slide js-animate': state.showSubStep}"
+    ng-if = "state.showSubStep === 7"
+  )
+    | {{!state.showError && !state.showVerification}} Now building. Build time varies depending on your configuration.
+    | {{state.showVerification ? 'Verifying Configuration…' : ''}}
+    | {{state.showErrorType === 'build' && state.showError ? 'Your build failed. Inspect your build logs for more information.' : ''}}
+    | {{state.showErrorType === 'CMD' && state.showError ? 'Your container failed to run. Inspect your CMD logs for more information.' : ''}}
+  p.p(
+    ng-class = "{'p-slide js-animate': state.showSubStep}"
+    ng-if = "state.showSubStep === 8 && !state.showError && !state.showVerification"
+  ) Your build was good! Click ‘Done’ to move on.
+
+  //- in the popover
+  p.p(
+    ng-if = "$root.featureFlags.aha2"
+  ) Add more containers if your project requires it. Once you‘re done, head to your containers to start adding branches.
+

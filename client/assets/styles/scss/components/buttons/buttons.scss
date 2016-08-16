@@ -110,7 +110,6 @@
 // only for inline buttons
 %btn-xxs,
 .btn-xxs {
-  border-radius: $input-border-radius-xxs;
   font-size: 12px;
   height: $input-xxs;
   line-height: $input-line-height-xxs;
@@ -228,6 +227,10 @@
 
   &.reversed {
     letter-spacing: 0;
+  }
+
+  &.btn-xxs {
+    border-width: 1px;
   }
 }
 
