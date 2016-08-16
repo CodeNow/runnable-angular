@@ -1,0 +1,14 @@
+.btn-aha {
+  line-height: 1;
+  padding: 9px;
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  width: $input-sm;
+  z-index: $z-views-sidebar;
+
+  .iconnables {
+    height: 12px;
+    width: 12px;
+  }
+}

@@ -4,7 +4,6 @@
   border-right: 1px solid $gray-lighter;
   color: $gray;
   display: none;
-  float: left;
   font-size: 15px;
   height: 100vh;
   overflow-y: auto;
@@ -14,12 +13,12 @@
 
   &.in {
     display: block;
+  }
 
-    // if nav is open
-    + .instance-wrapper {
-      float: right;
-      width: calc(100% - #{$instance-list-width});
-    }
+  // search
+  .label-search {
+    border-bottom: 1px solid $gray-lighter;
+    padding: 16px 10px;
   }
 
   // empty state

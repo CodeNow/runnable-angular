@@ -1,5 +1,5 @@
 //- instance list
-.list-instances(
+.grid-block.shrink.list-instances(
   ng-class = "{\
     'deprecated': !$root.featureFlags.autoIsolation,\
     'in': !CIS.$storage.instanceListIsClosed\
@@ -10,14 +10,16 @@
   scroll-to = "a.a-sref.active"
 )
 
-.list-instances(
+.grid-block.shrink.list-instances(
   ng-class = "{'in': !CIS.$storage.instanceListIsClosed}"
   ng-if = "!CIS.instancesByPod"
 )
+
   .spinner-wrapper.spinner-md.spinner-gray.spinner-center.in(
     ng-include = "'spinner'"
   )
 
-.instance-wrapper(
+.grid-block.vertical.instance-wrapper(
+  ng-class = "{'empty': $root.featureFlags.aha && $root.featureFlags.aha2}"
   ui-view
 )

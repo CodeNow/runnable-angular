@@ -22,11 +22,14 @@ function MirrorDockerfileController(
 
   var oauthName = keypather.get($rootScope, 'dataApp.data.activeAccount.oauthName()');
   var name = keypather.get(MDC.repo, 'attrs.name');
-  MDC.fullRepo = keypather.get(MDC.repo, 'attrs.full_name') || (oauthName + '/' + name);
+  MDC.getFullRepo = function() {
+    return keypather.get(MDC.repo, 'attrs.full_name') || (oauthName + '/' + name);
+  };
   MDC.branchName = MDC.branchName || keypather.get(MDC.repo, 'attrs.default_branch');
+  MDC.state.configurationMethod = null;
 
   MDC.fetchRepoDockerfiles = function () {
-    return fetchRepoDockerfiles(MDC.fullRepo, MDC.branchName, MDC.newDockerfilePaths)
+    return fetchRepoDockerfiles(MDC.getFullRepo(), MDC.branchName, MDC.newDockerfilePaths)
       .then(function (dockerfiles) {
         // remove any dead paths by replacing them with the results
         MDC.newDockerfilePaths = dockerfiles.map(function (dockerfile) {

@@ -7,10 +7,15 @@ function featureFlags(
   $localStorage
 ) {
   var defaultFeatureFlags = {
+    aha: false,
+    aha0: false, // step 1: create sandbox
+    aha1: false, // step 2: working repo config
+    aha2: false, // step 3: add branch
+    aha3: false, // step 4: runnabot
+    ahaSidebar: false, // toggle sidebar
     allowIsolatedUpdate: false,
     autoIsolation: false,
     autoIsolationSetup: false,
-    autoWhitelist: true,
     backup: false,
     billing: false,
     billingDiscounted: false,
@@ -33,15 +38,13 @@ function featureFlags(
     intercomOnMigration: false, // adds intercom link to migration message
     internalDebugging: false,
     inviteFlows: false,
-    isolationRepos: true, // for isolation UI
     multilineFnR: false,
     multilineStartCmd: false,
     multipleRepositoryContainers: false, // for adding multiple containers with the same repository
     nameContainer: true,
     navListFilter: false,
+    nextPayment: false, // show the next payment date under payment summary
     newUserPrompt: false, // modal for new users
-    newVerificationFlow: true,
-    newVerificationFlowStackSelector: true,
     noBuildLogs: true,
     optionsInModal: false, // allows delete in modal
     renameContainer: false,
@@ -52,7 +55,6 @@ function featureFlags(
     themeToggle: false, // toggles the button that toggles theme
     trial: false, // sets account to trial mode
     trialEnding: false, // shows notification when trial is ending
-    updatedSlackValidation: true,
     undoDelete: false, // undo delete configuration
     webhooks: false,
     whitelist: true,

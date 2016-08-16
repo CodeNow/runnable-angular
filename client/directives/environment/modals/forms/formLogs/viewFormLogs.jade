@@ -1,7 +1,6 @@
 //- alert appears during a build failure AND no changes have been made
 .alert.orange(
   ng-if = "\
-    $root.featureFlags.newVerificationFlow && \
     !$root.isLoading.setupServerModalIsBuilding && \
     !SMC.isDirty() && \
     SMC.instance.status() === 'buildFailed' \

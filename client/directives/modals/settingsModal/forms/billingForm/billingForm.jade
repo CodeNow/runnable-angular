@@ -28,22 +28,22 @@
       .grid-block.vertical.form-plan.label.padding-sm.fade(
         ng-class = "{'in': isActivePanel()}"
         ng-include = "'showPlanForm'"
-        ng-if = "!(activeAccount.isInTrial() && !activeAccount.attrs.hasPaymentMethod)"
+        ng-if = "!activeAccount.isInTrial() || (activeAccount.isInTrial() && activeAccount.attrs.hasPaymentMethod)"
       )
       .grid-block.vertical.label.padding-sm.fade(
         ng-class = "{'in': isActivePanel()}"
         show-payment-form
-        ng-if = "!(activeAccount.isInTrial() && !activeAccount.attrs.hasPaymentMethod)"
+        ng-if = "!activeAccount.isInTrial() || (activeAccount.isInTrial() && activeAccount.attrs.hasPaymentMethod)"
       )
       .grid-block.vertical.label.padding-sm.fade(
         ng-class = "{'in': isActivePanel()}"
         billing-history-form
-        ng-if = "!(activeAccount.isInTrial() && !activeAccount.attrs.hasPaymentMethod)"
+        ng-if = "!activeAccount.isInTrial() || (activeAccount.isInTrial() && activeAccount.attrs.hasPaymentMethod)"
       )
       .grid-block.vertical.label.padding-sm.fade(
         ng-class = "{'in': isActivePanel()}"
         ng-include = "'disableOrgForm'"
-        ng-if = "!(activeAccount.isInTrial() && !activeAccount.attrs.hasPaymentMethod)"
+        ng-if = "!activeAccount.isInTrial() || (activeAccount.isInTrial() && activeAccount.attrs.hasPaymentMethod)"
       )
     animated-panel(
       name = "planStatusForm"
