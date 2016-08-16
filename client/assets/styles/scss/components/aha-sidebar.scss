@@ -41,6 +41,7 @@
   }
 
   .aha-overview {
+    animation: slide-left .45s ease-in-out forwards;
     border-bottom: 1px solid $gray-lightest;
     margin-bottom: 15px;
     padding: 32px 0 42px;

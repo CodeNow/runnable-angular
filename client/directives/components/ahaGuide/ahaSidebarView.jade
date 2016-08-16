@@ -6,18 +6,18 @@
     use(
       xlink:href = "#icons-close"
     )
+.grid-block.vertical.shrink.justify-center.text-center.aha-overview(
+  ng-if = "$root.featureFlags.ahaOverview"
+)
+  .strong Welcome to your Sandbox! 👋
+  | It’ll take a few steps to get everything set up. But don’t worry — we’re here to help!
+  button.btn.btn-sm.green(
+    ng-click = "\
+      $root.featureFlags.ahaOverview = false;\
+      $root.featureFlags.ahaSidebar = false;\
+    "
+  ) Get Started
 .grid-block.vertical
-  .grid-block.vertical.shrink.justify-center.text-center.aha-overview(
-    ng-if = "$root.featureFlags.ahaOverview"
-  )
-    .strong Welcome to your Sandbox! 👋
-    | It’ll take a few steps to get everything set up. But don’t worry — we’re here to help!
-    button.btn.btn-sm.green(
-      ng-click = "\
-        $root.featureFlags.ahaOverview = false;\
-        $root.featureFlags.ahaSidebar = false;\
-      "
-    ) Get Started
   .grid-block.shrink.align-center.padding-sm.aha-guide(
     ng-class = "{'complete': $root.featureFlags.aha1 || $root.featureFlags.aha2 || $root.featureFlags.aha3}"
   )
