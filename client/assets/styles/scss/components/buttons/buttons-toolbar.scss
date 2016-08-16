@@ -2,18 +2,12 @@
 .btn-toolbar {
   border: 1px solid;
   flex: 0 0 auto;
-  font-size: 15px;
+  font-family: $sans-serif; // override monospace fonts inside log header
+  font-size: 14px;
   font-weight: $weight-bold;
-  height: 30px;
-  line-height: 28px;
+  height: $input-xs;
+  line-height: $input-xs - 2px;
   padding: 0 9px;
-
-  .build-log-header & {
-    font-family: $sans-serif; // override monospace fonts inside log header
-    font-size: 13px;
-    height: $input-xs;
-    line-height: $input-xs - 2px;
-  }
 
   &.purple {
     @extend %toolbar-btn-purple;
