@@ -1,16 +1,8 @@
 //- show highest priority badge
 //- if on a trial: show number of days left in trial as badge
 div(
-  ng-attr-data-badge-count = "\
-    {{$root.featureFlags.trial && !$root.featureFlags.trialEnding ? '12' : ''}}\
-    {{$root.featureFlags.trial && $root.featureFlags.trialEnding ? '3' : ''}}\
-    {{$root.featureFlags.billingExpired ? '!' : ''}}\
-  "
-  ng-class = "{\
-    'badge': $root.featureFlags.billingExpired || $root.featureFlags.trial,\
-    'badge-orange': $root.featureFlags.trial || $root.featureFlags.billingExpired,\
-    'no-touching': data.accountsDisabled()\
-  }"
+  ng-attr-data-badge-count = "{{getBadgeCount()}}"
+  ng-class = "getClasses()"
   ng-show = "data.activeAccount"
   pop-over
   pop-over-actions = "popoverAccountMenu.actions"

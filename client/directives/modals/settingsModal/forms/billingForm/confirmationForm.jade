@@ -6,27 +6,22 @@
     width = "250"
   )
 
-  //- 'added' if not charged, 'submitted' if charged
-  h3.grid-content.h3.text-center Your payment has been {{$root.featureFlags.trial ? 'added' : 'submitted'}}!
+  h3.grid-content.h3.text-center {{$root.dataApp.data.activeAccount.isInTrial() ? 'Your payment method has been added' : 'Your payment has been submitted'}}!
 
   p.grid-content.p.text-center.text-gray(
-    ng-include = "'paymentSummaryView'"
-    ng-init = "\
-      state.hasPaid = true;\
-      state.showNext = true;\
-    "
+    payment-summary
+    show-next = "true"
   )
 
 footer.modal-footer.clearfix
   button.btn.btn-md.btn-block.green(
-    ng-if = "state.fromPaymentDue || state.fromTrialEnd"
+    ng-if = "$root.dataApp.data.activeAccount.isInActivePeriod()"
   ) Go to your sandbox!
   button.btn.btn-md.btn-block.white(
     ng-click = "\
-      $root.featureFlags.trial = false;\
       SEMC.showFooter = true;\
       goToPanel('billingForm', 'back');\
     "
-    ng-if = "!state.fromPaymentDue && !state.fromTrialEnd"
+    ng-if = "$root.dataApp.data.activeAccount.isInTrial()"
     type = "button"
   ) Billing Overview

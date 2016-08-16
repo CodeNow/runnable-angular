@@ -4,11 +4,14 @@
 var $controller;
 var $scope;
 var $q;
+var $rootScope;
+var keypather;
 
 describe('ChangePaymentFormController'.bold.underline.blue, function () {
   var CPFC;
   var stripeCreateTokenStub;
   var loadingStub;
+  var fetchPaymentMethodStub;
 
   beforeEach(function () {
     angular.mock.module('app', function ($provide) {
@@ -20,6 +23,10 @@ describe('ChangePaymentFormController'.bold.underline.blue, function () {
           }
         };
       });
+      $provide.factory('fetchPaymentMethod', function ($q) {
+        fetchPaymentMethodStub = sinon.stub().returns($q.when({}));
+        return fetchPaymentMethodStub;
+      });
       loadingStub = sinon.stub();
       loadingStub.reset = sinon.stub();
       $provide.value('loading', loadingStub);
@@ -27,11 +34,18 @@ describe('ChangePaymentFormController'.bold.underline.blue, function () {
     angular.mock.inject(function (
       _$controller_,
       _$rootScope_,
-      _$q_
+      _$q_,
+      _keypather_
     ) {
+      keypather = _keypather_;
+      $rootScope = _$rootScope_;
       $controller = _$controller_;
       $scope = _$rootScope_.$new();
       $q = _$q_;
+    });
+
+    keypather.set($rootScope, 'dataApp.data.activeAccount', {
+      isInTrial: sinon.stub().returns(false)
     });
 
     var laterController = $controller('ChangePaymentFormController', {
