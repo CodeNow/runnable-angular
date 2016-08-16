@@ -5,6 +5,7 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
   var $rootScope;
   var ctx;
   var $timeout;
+  var keypather;
   var apiMocks = require('../apiMocks/index');
 
   beforeEach(function () {
@@ -74,8 +75,15 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
         instanceName: 'instanceName'
       });
     });
-    angular.mock.inject(function($compile, _$rootScope_, _$timeout_){
+    angular.mock.inject(function(
+      $compile,
+      _$rootScope_,
+      _$timeout_,
+      _keypather_
+    ){
+      keypather = _keypather_;
       $rootScope = _$rootScope_;
+      keypather.set($rootScope, 'featureFlags.billing', false);
       $scope = $rootScope.$new();
       $timeout = _$timeout_;
 
@@ -113,56 +121,79 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
     });
   });
 
-  describe('getBadgeCount', function () {
-    describe('when in trial', function () {
-      beforeEach(function () {
-        ctx.fakeuser.isInTrial.returns(true);
-        ctx.fakeuser.trialDaysRemaining = sinon.stub().returns(12);
-      });
-      it('should return trial remaining', function () {
-        ctx.fakeuser.isInTrial.reset();
-        ctx.fakeuser.trialDaysRemaining.reset();
-        expect($elScope.getBadgeCount()).to.equal(12);
-        sinon.assert.calledOnce(ctx.fakeuser.isInTrial);
-        sinon.assert.calledOnce(ctx.fakeuser.trialDaysRemaining);
-      });
-      it('should return nothing if payment method is set', function () {
-        ctx.fakeuser.attrs.hasPaymentMethod = true;
+  describe('without billing feature flag', function () {
+    describe('getBadgeCount', function () {
+      it('should return empty string', function () {
         expect($elScope.getBadgeCount()).to.equal('');
       });
     });
 
-    describe('when active', function () {
-      beforeEach(function () {
-        ctx.fakeuser.isInTrial.returns(false);
-      });
-      it('should return grace remaining', function () {
-        expect($elScope.getBadgeCount()).to.equal('');
+    describe('getClasses', function () {
+      it('should return empty object', function () {
+        expect($elScope.getClasses()).to.deep.equal({});
       });
     });
   });
 
-  describe('getClasses', function () {
-    it('should return false flags when not in trial', function () {
-      ctx.fakeuser.isInTrial.returns(false);
-      expect($elScope.getClasses()).to.deep.equal({
-        badge: false,
-        'badge-orange': false
+  describe('with billing feature flag', function () {
+    beforeEach(function () {
+      keypather.set($rootScope, 'featureFlags.billing', true);
+    });
+
+    describe('getBadgeCount', function () {
+      describe('when in trial', function () {
+        beforeEach(function () {
+          ctx.fakeuser.isInTrial.returns(true);
+          ctx.fakeuser.trialDaysRemaining = sinon.stub().returns(12);
+        });
+
+        it('should return trial remaining', function () {
+          ctx.fakeuser.isInTrial.reset();
+          ctx.fakeuser.trialDaysRemaining.reset();
+          expect($elScope.getBadgeCount()).to.equal(12);
+          sinon.assert.calledOnce(ctx.fakeuser.isInTrial);
+          sinon.assert.calledOnce(ctx.fakeuser.trialDaysRemaining);
+        });
+
+        it('should return nothing if payment method is set', function () {
+          ctx.fakeuser.attrs.hasPaymentMethod = true;
+          expect($elScope.getBadgeCount()).to.equal('');
+        });
+      });
+
+      describe('when active', function () {
+        beforeEach(function () {
+          ctx.fakeuser.isInTrial.returns(false);
+        });
+
+        it('should return grace remaining', function () {
+          expect($elScope.getBadgeCount()).to.equal('');
+        });
       });
     });
 
-    it('should return true flags when not in active period', function () {
-      expect($elScope.getClasses()).to.deep.equal({
-        badge: true,
-        'badge-orange': true
+    describe('getClasses', function () {
+      it('should return false flags when not in trial', function () {
+        ctx.fakeuser.isInTrial.returns(false);
+        expect($elScope.getClasses()).to.deep.equal({
+          badge: false,
+          'badge-orange': false
+        });
       });
-    });
 
-    it('should return false flags when payment is set', function () {
-      ctx.fakeuser.attrs.hasPaymentMethod = true;
-      expect($elScope.getClasses()).to.deep.equal({
-        badge: false,
-        'badge-orange': false
+      it('should return true flags when not in active period', function () {
+        expect($elScope.getClasses()).to.deep.equal({
+          badge: true,
+          'badge-orange': true
+        });
+      });
+
+      it('should return false flags when payment is set', function () {
+        ctx.fakeuser.attrs.hasPaymentMethod = true;
+        expect($elScope.getClasses()).to.deep.equal({
+          badge: false,
+          'badge-orange': false
+        });
       });
     });
   });
