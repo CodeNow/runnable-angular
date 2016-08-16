@@ -4,21 +4,27 @@
       ng-if = "$root.featureFlags.billingExpired"
     ) Card Expired
 //- add .flash on update to indicate updated
-label.grid-block.align-center.well.well-summary.padding-sm(
+label.grid-block.vertical.well.well-summary(
   ng-class = "{'invalid': $root.featureFlags.billingExpired}"
 )
-  .grid-block.vertical
-    .p.small Added by:
-    .p.strong {{paymentMethod.user.githubUsername}}
-  .grid-block.vertical.shrink.text-right
-    .p.small Expires {{paymentMethod.card.exp_month}}/{{paymentMethod.card.exp_year}}
-    .p.small
-      img.img(
-        height = "18"
-        ng-src = "{{getPaymentImage()}}"
-        width = "18"
-      )
-      | {{paymentMethod.card.last4}}
+  .grid-block.align-center.padding-sm
+    .grid-block.vertical
+      .p.small Added by:
+      .p.strong {{paymentMethod.user.githubUsername}}
+    .grid-block.vertical.shrink.text-right
+      .p.small Expires {{paymentMethod.card.exp_month}}/{{paymentMethod.card.exp_year}}
+      .p.small
+        img.img(
+          height = "18"
+          ng-src = "{{getPaymentImage()}}"
+          width = "18"
+        )
+        | {{paymentMethod.card.last4}}
+  .grid-block.shrink.small.well-bottom.padding-sm(
+    ng-if = "$root.featureFlags.nextPayment"
+  ) Next Payment: July 8
+    sup.sup th
+    | , 2016.
 .grid-block.align-center.justify-right.padding-xxs
   button.btn.btn-xs.white(
     ng-click = "goToPanel('changePaymentForm');"

@@ -12,53 +12,62 @@
         'modal-sm': data.allAccounts.length <= 1\
       }"
     )
+      .grid-block.shrink.align-center.justify-center.padding-md.aha-guide(
+        ng-if = "$root.featureFlags.aha"
+        ng-include = "'ahaGuideView'"
+        ng-init = "\
+          state.showStep = 0;\
+          state.showSubStep = 0;\
+          state.hideMenu = true;\
+        "
+      )
       animated-panel-container
         animated-panel.modal-body.grid-block.vertical.padding-sm(
           default = "true"
           name = "orgSelection"
         )
+
           p.p.padding-xs.text-center.fade(
             ng-class = "{'in': isActivePanel()}"
-          ) Choose an organization for your Sandbox. If you don’t see your organization,&#32;
+            ng-if = "!$root.featureFlags.aha"
+          ) Choose an organization for your Sandbox. If you don’t see your organization, check if you’ve granted access&#32;
             a.link(
               href = "https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9"
               target = "_blank"
-            ) check if you’ve granted access
+            ) on GitHub
             | .
+
+          .grid-block.shrink.justify-center.align-center.padding-xs.well.gray.aha-tips.fade(
+            ng-class = "{'in': isActivePanel()}"
+            ng-if = "$root.featureFlags.aha && data.allAccounts.length"
+          )
+            svg.grid-content.shrink.iconnables
+              use(
+                xlink:href = "#icons-life-preserver"
+              )
+            small.grid-content.small If you don’t see your organization, check if you’ve granted access&#32;
+              a.link(
+                href = "https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9"
+                target = "_blank"
+              ) on GitHub
+              | .
 
           //- empty state
           .empty.well.gray.padding-lg(
             ng-if = "!data.allAccounts.length"
           )
-            h3.h3.empty.text-center We couldn’t find your organizations.
-            small.small.empty.text-center
+            h3.h3.empty.text-gray.text-center We couldn’t find any organizations.
+            small.small.empty.text-center Check if you’ve granted access to your organization&#32;
               a.link(
                 href = "https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9"
                 target = "_blank"
-              ) Check if you’ve granted access
-              | &#32;to your organization on GitHub. If you don’t have permission to grant access, you’ll have to wait for your admin to give the go ahead.
-
-
-          .grid-block.list(
-            ng-if = "!$root.featureFlags.autoWhitelist && data.allAccounts.length"
-          )
-            label.grid-block.align-center.list-item.btn.white(
-              ng-click = "actions.selectAccount(org.oauthName())"
-              ng-repeat = "org in data.allAccounts"
-              ng-if = "data.matchWhitelistedOrgByName(org.oauthName()) "
-              title = "{{org.oauthName()}}"
-            )
-              img.grid-block.shrink(
-                height = "24"
-                ng-src = "{{org.gravitar()}}"
-                width = "24"
-              )
-              span.grid-block.text-left.text-overflow {{org.oauthName()}}
+              ) on GitHub
+              | . If you don’t have permission to grant access, you’ll have to ask your admin to give the go ahead.
 
           form.grid-block.list.fade(
             name = "data.orgSelectorForm"
             ng-class = "{'in': isActivePanel()}"
-            ng-if = "$root.featureFlags.autoWhitelist && data.allAccounts.length"
+            ng-if = "data.allAccounts.length"
           )
             //- add .active class if this org is selected
             //- add [disabled] property when loading NOT class!
@@ -87,35 +96,40 @@
           //- hide the footer if no orgs are found
           footer.grid-block.vertical.modal-footer.fade(
             ng-class = "{'in': isActivePanel()}"
-            ng-if = "$root.featureFlags.autoWhitelist && data.allAccounts.length"
+            ng-if = "data.allAccounts.length"
           )
-            //- show this button when done waiting
-            //- button.grid-block.align-center.justify-center.btn.btn-md.green Go to your sandbox!
-
             //- disabled until an org is selected
             button.grid-block.align-center.justify-center.btn.btn-md.green(
-              ng-click = "actions.createOrCheckDock(data.selectedOrgName, goToPanel)"
+              ng-click = "\
+                actions.createOrCheckDock(data.selectedOrgName, goToPanel);\
+                state.showSubStep = 1;\
+              "
               ng-disabled = "!data.selectedOrgName"
             ) Create Sandbox
 
-        animated-panel.grid-block.vertical.padding-sm(
+        animated-panel.modal-body.grid-block.vertical(
           name = "dockLoading"
         )
-          .padding-sm.fade(
+          .padding-md.fade(
             ng-class = "{'in': isActivePanel()}"
           )
             //- dock spinning up
-            h3.h3.text-center.padding-xs We’re spinning up a Sandbox for you.
-            p.p.padding-xs.text-center It’ll take about 10 minutes, we’ll update this page when it’s ready.
-        animated-panel.grid-block.vertical(
+            p.p.text-gray.padding-xs.text-center We’re spinning up a sandbox for your org. It’ll take about&#32;
+              strong.strong 10 minutes
+              | . We’ll email you and update this page when it’s ready.
+            .grid-block.align-center.justify-center.padding-sm
+              .spinner-wrapper.spinner-md.spinner-gray(
+                ng-include = "'spinner'"
+              )
+              //- ng-if = "isActivePanel()"
+        animated-panel.modal-body.grid-block.vertical(
           name = "dockLoaded"
         )
-          .padding-sm.fade(
+          .padding-md.fade(
             ng-class = "{'in': isActivePanel()}"
           )
             //- dock spun up
-            h3.h3.text-center.padding-xs Thanks for waiting!
-            p.p.padding-xs.text-center Your sandbox is ready.
+            p.p.text-gray.padding-xs.text-center Your sandbox is ready for you now.
 
           //- show this button when done waiting
           footer.grid-block.vertical.modal-footer.fade(
@@ -123,7 +137,7 @@
           )
             button.grid-block.align-center.justify-center.btn.btn-md.green(
               ng-click = "actions.selectAccount(data.selectedOrgName)"
-            ) Go to your sandbox!
+            ) Go to your Sandbox!
     .grid-block.justify-center.modal-outer-footer(
       ng-if = "$root.featureFlags.gracePeriodFooter"
       ng-include = "'gracePeriodFooterView'"

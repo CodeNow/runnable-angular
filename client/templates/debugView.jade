@@ -1,19 +1,16 @@
-.instance-header-title.text-overflow
-  span.span {{DC.instance.getRepoName() || DC.instance.attrs.name}}/
-  strong.strong {{DC.instance.getBranchName()}}
-    small.small (Debug)
+.grid-block.align-center.instance-header-title.text-overflow
+  .grid-block.justify-center
+    span.span {{DC.instance.getRepoName() || DC.instance.attrs.name}}/
+    strong.strong {{DC.instance.getBranchName()}}
+      small.small (Debug)
 
-  div.btn-save-wrapper(
+  .grid-block.shrink.btn-save-wrapper(
     hide-restart = "true"
     instance = "DC.instance"
     ng-if = "!$root.featureFlags.saveToolbar && !DC.openItems.isClean()"
     open-items = "DC.openItems"
     save-open-items-button
   )
-
-  button.btn.btn-xs.btn-badge.gray(
-    ng-if = "DC.instance.attrs.isolated"
-  ) Isolated
 
 section.sidebar.instance-sidebar.full-height.load
   .spinner-wrapper.spinner-md.spinner-purple.spinner-backdrop.in(
