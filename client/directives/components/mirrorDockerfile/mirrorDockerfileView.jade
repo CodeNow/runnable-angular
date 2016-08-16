@@ -15,6 +15,7 @@
   //- add .disabled class to the not selected item if loading
   label.grid-block.list-item(
     ng-disabled = "$root.isLoading[MDC.name + 'SingleRepo']"
+    ng-class="{'active': MDC.state.configurationMethod === 'new'}"
   )
     svg.grid-content.shrink.iconnables.icons-dockerfile
       use(
@@ -43,6 +44,7 @@
   label.grid-block.list-item(
     ng-disabled = "$root.isLoading[MDC.name + 'SingleRepo']"
     ng-repeat = "dockerfile in MDC.state.repo.dockerfiles"
+    ng-class="{'active': MDC.state.configurationMethod === 'dockerfile'}"
   )
     svg.grid-content.shrink.iconnables.icons-dockerfile
       use(
