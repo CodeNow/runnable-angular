@@ -14,6 +14,8 @@ var user = require('../apiMocks').user;
 
 describe('controllerApp'.bold.underline.blue, function () {
   var ctx = {};
+  var CA;
+  var mockLocalStorage;
   function createMasterPods() {
     ctx.masterPods = runnable.newInstances(
       [apiMocks.instances.building, apiMocks.instances.runningWithContainers[0]],
@@ -26,6 +28,8 @@ describe('controllerApp'.bold.underline.blue, function () {
     ctx.fetchInstancesByPodMock = new (require('../fixtures/mockFetch'))();
     angular.mock.module('app');
     ctx.fakeuser = new User(angular.copy(apiMocks.user));
+    ctx.fakeuser.trialDaysRemaining = sinon.stub();
+    ctx.fakeuser.isInTrial = sinon.stub();
     ctx.fakeuser.socket = {
       joinOrgRoom: sinon.spy()
     };
@@ -51,6 +55,7 @@ describe('controllerApp'.bold.underline.blue, function () {
       clearErrors: sinon.spy(),
       errors: []
     };
+    mockLocalStorage = {};
     angular.mock.module('app', function ($provide) {
       $provide.factory('fetchInstancesByPod', ctx.fetchInstancesByPodMock.autoTrigger(createMasterPods()));
       $provide.value('$stateParams', ctx.stateParams);
@@ -58,6 +63,7 @@ describe('controllerApp'.bold.underline.blue, function () {
       $provide.value('orgs', ctx.fakeOrgs);
       $provide.value('activeAccount', ctx.fakeuser);
       $provide.value('errs', ctx.fakeErrs);
+      $provide.value('$localStorage', mockLocalStorage);
     });
     angular.mock.inject(function (
       _$controller_,
@@ -75,7 +81,7 @@ describe('controllerApp'.bold.underline.blue, function () {
       sinon.stub($window, 'Intercom', noop);
     }
 
-    var ca = $controller('ControllerApp', {
+    CA = $controller('ControllerApp', {
       '$scope': $scope
     });
     $rootScope.$apply();
@@ -120,6 +126,47 @@ describe('controllerApp'.bold.underline.blue, function () {
 
     it('should join the org room for the user', function () {
       sinon.assert.calledOnce(ctx.fakeuser.socket.joinOrgRoom);
+    });
+  });
+
+  describe('showTrialEndingNotification', function () {
+    beforeEach(function () {
+      keypather.set($rootScope, 'featureFlags.billing', true);
+      mockLocalStorage.hasDismissedTrialNotification = false;
+      ctx.fakeuser.isInTrial.returns(true);
+      ctx.fakeuser.trialDaysRemaining.returns(3);
+    });
+
+    it('should not show if not in trial', function () {
+      ctx.fakeuser.isInTrial.returns(false);
+      expect(CA.showTrialEndingNotification()).to.equal(false);
+    });
+
+    it('should not show if trial ends in more than 3 days', function () {
+      ctx.fakeuser.trialDaysRemaining.returns(4);
+      expect(CA.showTrialEndingNotification()).to.equal(false);
+    });
+
+    it('should not show if billing feature flag is set', function () {
+      keypather.set($rootScope, 'featureFlags.billing', false);
+      expect(CA.showTrialEndingNotification()).to.equal(false);
+    });
+
+    it('should not show if local storage shows its been dismissed', function () {
+      mockLocalStorage.hasDismissedTrialNotification = true;
+      expect(CA.showTrialEndingNotification()).to.equal(false);
+    });
+
+    it('should show if in trial that ends in less or equal to 3 days with feature flag and has not been dismissed', function () {
+      expect(CA.showTrialEndingNotification()).to.equal(true);
+    });
+  });
+
+  describe('closeTrialEndingNotification', function () {
+    it('should set hasDismissedTrialNotification on local storage', function () {
+      mockLocalStorage.hasDismissedTrialNotification = false;
+      CA.closeTrialEndingNotification();
+      expect(mockLocalStorage.hasDismissedTrialNotification).to.equal(true);
     });
   });
 });
