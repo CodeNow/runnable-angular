@@ -104,7 +104,10 @@
   p.p.p-slide.js-animate(
     ng-class = "{'p-slide js-animate': state.showSubStep}"
     ng-if = "state.showSubStep === 6 && !state.showError && !state.showVerification"
-  ) If your app needs additional configuration…
+  )
+    | {{!state.fromMirroring ? 'If your app needs additional configuration…' : ''}}
+    | {{state.fromMirroring ? 'We‘ve imported your dockerfile, click ‘Save & Build’ to build it!' : ''}}
+    //- | FROM BLANK DOCKERFILE: When you‘re done editing your dockerfile, click ‘Save & Build’ to build it!
   p.p.p-slide.js-animate(
     ng-class = "{'p-slide js-animate': state.showSubStep}"
     ng-if = "state.showSubStep === 7"
