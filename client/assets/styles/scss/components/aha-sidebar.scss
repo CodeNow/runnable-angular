@@ -46,7 +46,7 @@
 
   .aha-guide {
     animation: slide-left .45s ease-in-out forwards;
-    background: $gray-lighterest;
+    background: $white;
     border: 1px solid $gray-lighter;
     border-radius: $input-border-radius-lg;
     opacity: 0;
@@ -58,15 +58,14 @@
       }
     }
 
-    &.complete {
-      background: $green-dark;
-      border-color: $green;
-      color: $white;
-    }
-
+    &.complete,
     &.disabled {
-      border-color: $gray-lightest;
-      color: $gray-light;
+      background: $gray-lighterest;
+      color: rgba($gray,.4);
+
+      .iconnables {
+        background: $gray-lighterest;
+      }
     }
 
     + .aha-guide {
