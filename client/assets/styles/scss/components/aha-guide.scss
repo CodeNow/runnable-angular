@@ -3,6 +3,10 @@
   overflow: hidden;
   position: relative;
 
+  > .grid-block {
+    overflow: visible;
+  }
+
   // anchor image
   .spinner-wrapper,
   .aha-meter {
@@ -92,6 +96,35 @@
 
   .aha-text {
     margin-left: $input-md + 15;
+    min-height: $input-md;
+    overflow: visible;
+    position: relative;
+  }
+
+  .p-slide {
+    position: absolute;
+    top: 18px;
+    transition: opacity .15s ease-in-out, transform .3s ease-in-out;
+
+    &.ng-enter {
+      opacity: 0;
+      transform: translate3d(25%,0,0);
+    }
+
+    &.ng-enter-active {
+      opacity: 1;
+      transform: translate3d(0,0,0);
+    }
+
+    &.ng-leave {
+      opacity: 1;
+      transform: translate3d(0,0,0);
+    }
+
+    &.ng-leave-active {
+      opacity: 0;
+      transform: translate3d(-25%,0,0);
+    }
   }
 
   // menu
