@@ -99,6 +99,9 @@ function accountsSelect (
       });
 
       $scope.getBadgeCount = function () {
+        if (!$rootScope.featureFlags.billing) {
+          return '';
+        }
         if ($scope.data.activeAccount.isInTrial() && !$scope.data.activeAccount.attrs.hasPaymentMethod) {
           return $scope.data.activeAccount.trialDaysRemaining();
         }
@@ -106,6 +109,9 @@ function accountsSelect (
       };
 
       $scope.getClasses = function () {
+        if (!$rootScope.featureFlags.billing) {
+          return {};
+        }
         return {
           badge: $scope.data.activeAccount.isInTrial() && !$scope.data.activeAccount.attrs.hasPaymentMethod,
           'badge-orange': $scope.data.activeAccount.isInTrial() && !$scope.data.activeAccount.attrs.hasPaymentMethod
