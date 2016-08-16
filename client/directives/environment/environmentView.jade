@@ -40,10 +40,6 @@
 .grid-block.environment-wrapper(
   ng-class = "{'empty': $root.featureFlags.aha && $root.featureFlags.aha1}"
 )
-  .grid-block.vertical.new-user-prompt(
-    ng-if = "$root.featureFlags.newUserPrompt"
-    ng-include = "'newUserPrompt'"
-  )
 
   header.grid-block.align-center.environment-header(
     ng-include = "'viewEnvironmentHeader'"
@@ -51,10 +47,7 @@
   )
 
   .grid-block.environment-body.justify-center.clearfix(
-    ng-class = "{\
-      'align-center justify-center': $root.featureFlags.aha1,\
-      'shrink': !$root.featureFlags.aha1\
-    }"
+    ng-class = "{'align-center justify-center': $root.featureFlags.aha1}"
   )
     .help-container(
       ng-class = "{\
@@ -115,7 +108,7 @@
             )
           small.grid-content.small You can see your setup progress by selecting the !? button in the top-right.
 
-    .card-grid.clearfix(
+    .grid-block.card-grid.clearfix(
       ng-if = "!$root.featureFlags.aha1"
       ng-include = "'viewCardGrid'"
     )

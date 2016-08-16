@@ -20,7 +20,7 @@
           ng-if = "$root.featureFlags.aha1 || $root.featureFlags.aha2 || $root.featureFlags.aha3"
           xlink:href = "#icons-check"
         )
-    .grid-block.vertical
+    .grid-block.vertical.aha-text
       p.p.strong Create your Sandbox
       p.small This is the first step to success.
 
@@ -32,8 +32,17 @@
   )
     .grid-block.shrink.aha-meter(
       ng-class = "{\
-        'aha-meter-13': $root.featureFlags.aha1,\
-        'aha-meter-100': $root.featureFlags.aha0\
+        'aha-error': state.showError,\
+        'aha-meter-10': state.showSubStep === 0,\
+        'aha-meter-20': state.showSubStep === 1,\
+        'aha-meter-30': state.showSubStep === 2,\
+        'aha-meter-40': state.showSubStep === 3,\
+        'aha-meter-50': state.showSubStep === 4,\
+        'aha-meter-60': state.showSubStep === 5,\
+        'aha-meter-70': state.showSubStep === 6,\
+        'aha-meter-80': state.showSubStep === 7,\
+        'aha-meter-90': state.showSubStep === 8,\
+        'aha-meter-100': $root.featureFlags.aha2 || $root.featureFlags.aha3\
       }"
     )
       svg.iconnables
@@ -45,7 +54,7 @@
           ng-if = "$root.featureFlags.aha2 || $root.featureFlags.aha3"
           xlink:href = "#icons-check"
         )
-    .grid-block.vertical
+    .grid-block.vertical.aha-text
       p.p.strong Add your First Repository
       p.small Configure your project and get it running!
 
@@ -70,7 +79,7 @@
           ng-if = "$root.featureFlags.aha3"
           xlink:href = "#icons-check"
         )
-    .grid-block.vertical
+    .grid-block.vertical.aha-text
       p.p.strong Add your First Branch
       p.small Your branches will update on every commit you make.
 
@@ -88,6 +97,6 @@
         //- use(
         //-   xlink:href = "#icons-check"
         //- )
-    .grid-block.vertical
+    .grid-block.vertical.aha-text
       p.p.strong Set Up Runnabot
       p.small Receive notifications on pull requests when your container is ready.

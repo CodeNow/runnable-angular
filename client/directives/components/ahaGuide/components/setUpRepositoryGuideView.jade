@@ -15,7 +15,7 @@
     'aha-meter-70': state.showSubStep === 6,\
     'aha-meter-80': state.showSubStep === 7,\
     'aha-meter-90': state.showSubStep === 8,\
-    'aha-meter-100': $root.featureFlags.aha2 || $root.featureFlags.aha3 || state.showSubStep === 9\
+    'aha-meter-100': $root.featureFlags.aha2 || $root.featureFlags.aha3\
   }"
   ng-if = "!state.showVerification"
 )
@@ -27,7 +27,7 @@
       xlink:href = "#icons-octicons-repo"
     )
     use(
-      ng-if = "$root.featureFlags.aha2 || $root.featureFlags.aha3 || state.showSubStep === 9"
+      ng-if = "$root.featureFlags.aha2 || $root.featureFlags.aha3"
       xlink:href = "#icons-check"
     )
   svg.iconnables.icons-alert(
@@ -59,13 +59,22 @@
         state.showError = !state.showError;\
         state.showErrorType = 'build';\
       "
-      ng-if = "state.showSubStep === 7 || state.showSubStep === 8"
+      ng-if = "state.showSubStep === 7"
     ) BuildErr
     a.grid-content.shrink.red.small.link(
+      ng-click = "\
+        $root.featureFlags.aha1 = false;\
+        $root.featureFlags.aha2 = true;\
+      "
+      ng-if = "state.showSubStep === 8"
+    ) NextMile
+    a.grid-content.shrink.red.small.link(
       ng-click = "state.showSubStep = state.showSubStep - 1"
+      ng-if = "state.showSubStep < 9"
     ) Prev
     a.grid-content.shrink.red.small.link(
       ng-click = "state.showSubStep = state.showSubStep + 1"
+      ng-if = "state.showSubStep < 9"
     ) Next
   p.p.small.text-gray-light Add your First Repository
   p.p
@@ -78,7 +87,7 @@
     | {{state.showSubStep === 6 && !state.showError && !state.showVerification ? 'If your app needs additional configuration…' : ''}}
     | {{state.showSubStep === 7 && !state.showError && !state.showVerification ? 'Now building. Build time varies depending on your configuration.' : ''}}
     | {{state.showSubStep === 8 && !state.showError && !state.showVerification ? 'Your build was good! Click ‘Done’ to move on.' : ''}}
-    | {{state.showSubStep === 9 && !state.showError && !state.showVerification ? 'Add additional stuff or go to containers.' : ''}}
+    | {{$root.featureFlags.aha2 ? 'Add more containers if your project requires it. Once you‘re done, head to your containers to start adding branches.' : ''}}
     | {{state.showVerification ? 'Verifying Configuration…' : ''}}
     | {{state.showErrorType === 'build' && state.showError ? 'Your build failed. Inspect your build logs for more information.' : ''}}
     | {{state.showErrorType === 'CMD' && state.showError ? 'Your container failed to run. Inspect your CMD logs for more information.' : ''}}
