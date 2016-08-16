@@ -125,3 +125,16 @@
   //- ***********************************
   //- END $root.featureFlags.cardStatus
   //- ***********************************
+
+  //- ***********************************
+  //- START $root.featureFlags.renameContainer
+  //- ***********************************
+
+  button.btn.btn-xxs.gray(
+    internal-modal-helper = "viewModalRename"
+    ng-if = "inModal && $root.featureFlags.renameContainer"
+  ) Rename
+
+  //- ***********************************
+  //- END $root.featureFlags.renameContainer
+  //- ***********************************
