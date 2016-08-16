@@ -41,7 +41,14 @@
   }
 
   .aha-overview {
-    margin-bottom: 45px;
+    border-bottom: 1px solid $gray-lightest;
+    margin-bottom: 15px;
+    padding-bottom: 42px;
+
+    .btn {
+      align-self: center;
+      margin-top: 21px;
+    }
   }
 
   .aha-guide {
