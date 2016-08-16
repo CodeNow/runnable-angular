@@ -1,4 +1,9 @@
-.grid-block.shrink.aha-meter(
+.grid-block.align-center.shrink.spinner-wrapper.spinner-md.spinner-gray.in.js-animate(
+  ng-if = "state.showVerification"
+  ng-include = "'spinner'"
+)
+
+.grid-block.shrink.aha-meter.js-animate(
   ng-class = "{\
     'aha-error': state.showError,\
     'aha-meter-10': state.showSubStep === 0,\
@@ -12,17 +17,18 @@
     'aha-meter-90': state.showSubStep === 8,\
     'aha-meter-100': $root.featureFlags.aha2 || $root.featureFlags.aha3 || state.showSubStep === 9\
   }"
+  ng-if = "!state.showVerification"
 )
   svg.iconnables(
     ng-if = "!state.showError"
   )
     use(
-      ng-if = "$root.featureFlags.aha1 && !$root.featureFlags.aha2 && !$root.featureFlags.aha3"
+      ng-if = "$root.featureFlags.aha1 && !$root.featureFlags.aha2 && !$root.featureFlags.aha3 && state.showSubStep != 9"
       xlink:href = "#icons-octicons-repo"
     )
     use(
-      ng-if = "$root.featureFlags.aha2 || $root.featureFlags.aha3"
-      xlink:href = "#icons-alert"
+      ng-if = "$root.featureFlags.aha2 || $root.featureFlags.aha3 || state.showSubStep === 9"
+      xlink:href = "#icons-check"
     )
   svg.iconnables.icons-alert(
     ng-if = "state.showError"
@@ -30,14 +36,29 @@
     use(
       xlink:href = "#icons-alert-alt"
     )
-.grid-block.vertical
+
+.grid-block.vertical.aha-text
   .grid-block(
     ng-if = "$root.canEditFeatureFlags()"
     ng-show = "state.showControls"
     style = "position: absolute; right: 12px; top: 6px;"
   )
     a.grid-content.shrink.red.small.link(
-      ng-click = "state.showError = !state.showError"
+      ng-click = "state.showVerification = !state.showVerification"
+      ng-if = "state.showSubStep === 7"
+    ) Verify
+    a.grid-content.shrink.red.small.link(
+      ng-click = "\
+        state.showError = !state.showError;\
+        state.showErrorType = 'CMD';\
+      "
+      ng-if = "state.showSubStep === 7"
+    ) CMDErr
+    a.grid-content.shrink.red.small.link(
+      ng-click = "\
+        state.showError = !state.showError;\
+        state.showErrorType = 'build';\
+      "
       ng-if = "state.showSubStep === 7 || state.showSubStep === 8"
     ) BuildErr
     a.grid-content.shrink.red.small.link(
@@ -48,14 +69,16 @@
     ) Next
   p.p.small.text-gray-light Add your First Repository
   p.p
-    | {{state.showSubStep === 0 && !state.showError ? 'Add your repository by clicking ‘Add Configuration’.' : ''}}
-    | {{state.showSubStep === 1 && !state.showError ? 'Select a repository to configure.' : ''}}
-    | {{state.showSubStep === 2 && !state.showError ? 'How would you like to configure your repo?' : ''}}
-    | {{state.showSubStep === 3 && !state.showError ? 'Give your configuration a name.' : ''}}
-    | {{state.showSubStep === 4 && !state.showError ? 'Choose stacks.' : ''}}
-    | {{state.showSubStep === 5 && !state.showError ? 'Choose commands and packages.' : ''}}
-    | {{state.showSubStep === 6 && !state.showError ? 'Additional setup.' : ''}}
-    | {{state.showSubStep === 7 && !state.showError ? 'Now building. Build time varies depending on your configuration.' : ''}}
-    | {{state.showSubStep === 8 && !state.showError ? 'Successful build.' : ''}}
-    | {{state.showSubStep === 9 && !state.showError ? 'Add additional stuff or go to containers.' : ''}}
-    | {{state.showError ? 'Your build failed. Inspect your build logs and try to debug the issue.' : ''}}
+    | {{state.showSubStep === 0 && !state.showError && !state.showVerification ? 'Add your repository by clicking ‘Add Configuration’.' : ''}}
+    | {{state.showSubStep === 1 && !state.showError && !state.showVerification ? 'Select a repository to configure.' : ''}}
+    | {{state.showSubStep === 2 && !state.showError && !state.showVerification ? 'How would you like to configure your repo?' : ''}}
+    | {{state.showSubStep === 3 && !state.showError && !state.showVerification ? 'Give your configuration a name.' : ''}}
+    | {{state.showSubStep === 4 && !state.showError && !state.showVerification ? 'Tell us about your repository.' : ''}}
+    | {{state.showSubStep === 5 && !state.showError && !state.showVerification ? 'Choose commands and packages.' : ''}}
+    | {{state.showSubStep === 6 && !state.showError && !state.showVerification ? 'If your app needs additional configuration…' : ''}}
+    | {{state.showSubStep === 7 && !state.showError && !state.showVerification ? 'Now building. Build time varies depending on your configuration.' : ''}}
+    | {{state.showSubStep === 8 && !state.showError && !state.showVerification ? 'Your build was good! Click ‘Done’ to move on.' : ''}}
+    | {{state.showSubStep === 9 && !state.showError && !state.showVerification ? 'Add additional stuff or go to containers.' : ''}}
+    | {{state.showVerification ? 'Verifying Configuration…' : ''}}
+    | {{state.showErrorType === 'build' && state.showError ? 'Your build failed. Inspect your build logs for more information.' : ''}}
+    | {{state.showErrorType === 'CMD' && state.showError ? 'Your container failed to run. Inspect your CMD logs for more information.' : ''}}
