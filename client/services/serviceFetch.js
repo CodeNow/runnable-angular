@@ -96,7 +96,7 @@ function fetchWhitelistedOrgs(
           model.attrs.activePeriodEnd = moment().subtract(1, 'days').toISOString();
           model.attrs.gracePeriodEnd = moment().add(15, 'days').toISOString();
           model.attrs.stripeCustomerId = 1234;
-          model.attrs.hasPaymentMethod = true;
+          model.attrs.hasPaymentMethod = false;
           model.isInTrial = function () {
             return moment(model.attrs.trialEnd) > moment().utc();
           };
