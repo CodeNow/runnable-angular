@@ -30,6 +30,14 @@
   }
 }
 
-.modal-dialog .aha-guide .aha-meter {
-  left: 0;
+.modal-dialog > .aha-guide {
+  border-bottom: 1px solid $gray-lighter;
+
+  > .grid-block {
+    position: relative;
+  }
+
+  .aha-meter {
+    left: 0;
+  }
 }
