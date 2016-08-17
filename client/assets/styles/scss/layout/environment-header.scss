@@ -5,28 +5,14 @@
   overflow: visible;
   position: relative;
 
-  + .aha-tips {
+  + .aha-guide {
     margin: 0 auto 15px;
+    max-width: 450px;
 
-    // match card width
-    @include media(xxl) {
-      max-width: calc(20% - 12px);
-    }
-
-    @include media(xl) {
-      max-width: calc(25% - 12px);
-    }
-
-    @include media(lg) {
-      max-width: calc(33.333% - 10px);
-    }
-
-    @include media(md) {
-      max-width: calc(50% - 8px);
-    }
-
-    @include media(xs) {
-      max-width: 100%;
+    .p-slide {
+      font-size: 15px;
+      position: relative;
+      top: 0;
     }
   }
 

@@ -46,17 +46,16 @@
     ng-init = "state.helpButton = {active: false}"
   )
 
-  .grid-block.shrink.justify-center.align-center.padding-xs.well.gray.aha-tips(
+  .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
     ng-if = "$root.featureFlags.aha1ExitedEarly"
+    ng-include = "'ahaGuideView'"
+    ng-init = "\
+      state.showStep = 1;\
+      state.showSubStep = 7;\
+      state.showError = true;\
+      state.showErrorType = 'exitedEarly';\
+    "
   )
-    svg.grid-content.shrink.iconnables
-      use(
-        xlink:href = "#icons-alert-alt"
-      )
-    small.grid-content.small Your repository isn‘t running yet! If you ran into configuration issues, check the logs to debug the issue. If you need help setting up,&#32;
-      //- link should open intercom
-      a.link chat with our engineers
-      | .
 
   .grid-block.environment-body.justify-center.clearfix(
     ng-class = "{'align-center justify-center': $root.featureFlags.aha1}"
