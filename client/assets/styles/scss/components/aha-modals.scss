@@ -1,10 +1,10 @@
 .modal-backdrop > .aha-guide {
   animation: fade .15s ease-in-out;
   height: 105px;
-  left: 0;
+  left: auto;
   max-width: calc(100vw - 30px);
   position: absolute;
-  right: 0;
+  right: auto;
   top: 15px;
   width: 450px;
 

@@ -103,6 +103,11 @@ h4 {
   word-wrap: normal;
 }
 
+%sans-serif,
+.sans-serif {
+  font-family: $sans-serif;
+}
+
 // links
 a {
   color: currentColor;

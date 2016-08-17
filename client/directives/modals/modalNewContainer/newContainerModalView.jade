@@ -120,7 +120,9 @@
             use(
               xlink:href = "#icons-arrow-down"
             )
-          h1.modal-heading.text-overflow Container Name
+          h1.modal-heading.text-overflow(
+            ng-if = "!$root.featureFlags.aha1"
+          ) Container Name
           svg.iconnables.icons-close(
             ng-click = "MC.close()"
           )

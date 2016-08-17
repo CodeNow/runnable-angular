@@ -26,10 +26,11 @@
     input.checkbox(
       name = "dockerfile"
       ng-disabled = "$root.isLoading[MDC.name + 'SingleRepo']"
-      ng-model = "MDC.state.dockerfile"
-      ng-value = "false"
+      ng-model = "MDC.state.configurationMethod"
       type = "radio"
+      value = "new"
     )
+
     button.btn.btn-xs.btn-icon.btn-add
       svg.iconnables.icons-check
         use(
@@ -81,17 +82,17 @@ small.small.text-gray.padding-xxs.label-from(
     .grid-content
       div {{ dockerfile.path }}
       a.small.link(
+        ng-disabled = "$root.isLoading[MDC.name + 'SingleRepo']"
         ng-href = "{{ dockerfile.html_url }}"
         ng-if = "dockerfile.html_url"
         target = "_blank"
-        ng-disabled = "$root.isLoading[MDC.name + 'SingleRepo']"
       ) From your Repository on GitHub
     //- if there is only one, [check] by default
     input.checkbox(
       name = "dockerfile"
+      ng-model = "MDC.state.configurationMethod"
       type = "radio"
       value = "dockerfile"
-      ng-model = "MDC.state.configurationMethod"
     )
     button.btn.btn-xs.btn-icon.btn-add
       svg.iconnables.icons-check
@@ -112,6 +113,6 @@ small.grid-block.shrink.align-center.small.text-gray.padding-xxs(
   add-dockerfile
   branch-name = "MDC.branchName"
   full-repo = "MDC.fullRepo"
-  view-state = "viewState"
   ng-if = "viewState.showAddDockerfile"
+  view-state = "viewState"
 )

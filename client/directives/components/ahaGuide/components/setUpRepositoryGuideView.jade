@@ -74,7 +74,7 @@
     ) Prev
     a.grid-content.shrink.red.small.link(
       ng-click = "state.showSubStep = state.showSubStep + 1"
-      ng-if = "state.showSubStep < 9"
+      ng-if = "state.showSubStep < 8"
     ) Next
   p.p.small.text-gray-light Add your First Repository
   p.p(
@@ -111,7 +111,7 @@
     ng-class = "{'p-slide js-animate': state.showSubStep}"
     ng-if = "state.showSubStep === 7"
   )
-    | {{!state.showError && !state.showVerification}} Now building. Build time varies depending on your configuration.
+    | {{!state.showError && !state.showVerification ? 'Now building. Build time varies depending on your configuration.' : ''}}
     | {{state.showVerification ? 'Verifying Configuration…' : ''}}
     | {{state.showErrorType === 'build' && state.showError ? 'Your build failed. Inspect your build logs for more information.' : ''}}
     | {{state.showErrorType === 'CMD' && state.showError ? 'Your container failed to run. Inspect your CMD logs for more information.' : ''}}
@@ -124,4 +124,3 @@
   p.p(
     ng-if = "$root.featureFlags.aha2"
   ) Add more containers if your project requires it. Once you‘re done, head to your containers to start adding branches.
-

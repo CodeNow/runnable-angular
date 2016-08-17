@@ -1,14 +1,14 @@
 // environment body
 .environment-body {
-  flex: 1 1 auto;
+  flex: 1 0 auto;
 }
 
 // card grid
 // max-width on config cards
 .card-grid {
+  flex-wrap: wrap;
 
   .card {
-    float: left;
     height: 461px;
     margin-bottom: 15px;
     min-width: 0;
@@ -24,7 +24,7 @@
     }
 
     @include media(xxl) {
-      width: calc(20% - 12px);
+      flex: 0 0 calc(20% - 12px);
 
       // on the 6th card + 5 thereafter
       &:nth-child(5n+6) {
@@ -33,7 +33,7 @@
     }
 
     @include media(xl) {
-      width: calc(25% - 12px);
+      flex: 0 0 calc(25% - 12px);
 
       // on the 6th card + 5 thereafter
       &:nth-child(5n+6) {
@@ -47,7 +47,7 @@
     }
 
     @include media(lg) {
-      width: calc(33.333% - 10px);
+      flex: 0 0 calc(33.333% - 10px);
 
       // on the 6th card + 5 thereafter
       &:nth-child(5n+6) {
@@ -66,7 +66,7 @@
     }
 
     @include media(md) {
-      width: calc(50% - 8px);
+      flex: 0 0 calc(50% - 8px);
 
       // on the 6th card + 5 thereafter
       &:nth-child(5n+6) {
@@ -90,7 +90,7 @@
     }
 
     @include media(xs) {
-      width: 100%;
+      flex: 0 0 100%;
 
       &:nth-child(5n+6),
       &:nth-child(4n+5),
