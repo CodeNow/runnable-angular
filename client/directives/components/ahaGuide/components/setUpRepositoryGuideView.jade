@@ -115,6 +115,7 @@
     | {{state.showVerification ? 'Verifying Configuration…' : ''}}
     | {{state.showErrorType === 'build' && state.showError ? 'Your build failed. Inspect your build logs for more information.' : ''}}
     | {{state.showErrorType === 'CMD' && state.showError ? 'Your container failed to run. Inspect your CMD logs for more information.' : ''}}
+    //- | IF DETENTION ERROR: Your container is running! But it looks like something is misconfigured.
   p.p(
     ng-class = "{'p-slide js-animate': state.showSubStep}"
     ng-if = "state.showSubStep === 8 && !state.showError && !state.showVerification"
