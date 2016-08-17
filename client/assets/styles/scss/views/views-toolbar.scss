@@ -94,6 +94,11 @@
     }
   }
 
+  .icons-external {
+    height: 12px;
+    top: 2px;
+  }
+
   // path/title
   .p {
     flex: 1 1 auto;
@@ -118,5 +123,22 @@
   // save buttons
   .btn + .btn {
     margin-left: 6px;
+  }
+
+  // url label
+  .label-url {
+    opacity: .5;
+  }
+
+  // web error button
+  .btn-web-state {
+    color: rgba($orange,.75);
+    cursor: default;
+    font-family: $sans-serif;
+
+    .icons-alert {
+      height: 12px;
+      opacity: .9;
+    }
   }
 }

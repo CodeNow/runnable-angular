@@ -43,18 +43,28 @@ pre.pre.log-wrapper(
       'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
       'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
     }"
-    ng-if = "SMC.page === 'run'"
+    ng-if = "SMC.page === 'run' && SMC.showDebugCmd"
     ng-include = "'debugToolbarView'"
-    ng-show = "SMC.showDebugCmd"
   )
+
+  //- webview toolbar
+  .views-toolbar(
+    ng-class = "{\
+      'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
+      'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
+    }"
+    ng-if = "SMC.page === 'run' && !SMC.showDebugCmd && $root.featureFlags.webToolbar"
+    ng-include = "'webViewToolbarView'"
+  )
+
   //- build logs page
   .build-log-wrapper(
     build-logs
-    scroll-glue
     instance = 'SMC.instance'
     ng-if = "SMC.instance"
     ng-show = "SMC.page === 'build'"
     ng-style = "($root.featureFlags.themeToggle || $root.featureFlags.fullScreenToggle) && {'padding-right': '42px'}"
+    scroll-glue
   )
   //- cmd logs page
   .term-js.term-log(

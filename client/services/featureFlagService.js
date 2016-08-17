@@ -61,6 +61,7 @@ function featureFlags(
     updatedSlackValidation: true,
     undoDelete: false, // undo delete configuration
     webhooks: false,
+    webToolbar: false, // show web toolbar in cmd logs
     whitelist: true,
     whitelistIpFiltering: false
   };
