@@ -48,6 +48,7 @@
 
   .grid-block.environment-body.justify-center.clearfix(
     ng-class = "{'align-center justify-center': $root.featureFlags.aha1}"
+    ng-if = "!$root.featureFlags.aha"
   )
     .help-container(
       ng-class = "{\
