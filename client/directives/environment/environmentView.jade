@@ -46,6 +46,17 @@
     ng-init = "state.helpButton = {active: false}"
   )
 
+  .grid-block.shrink.justify-center.align-center.padding-xs.well.gray.aha-tips(
+    ng-if = "$root.featureFlags.aha1ExitedEarly"
+  )
+    svg.grid-content.shrink.iconnables
+      use(
+        xlink:href = "#icons-life-preserver"
+      )
+    small.grid-content.small Your repository isn‘t running yet! If you ran into configuration issues, check the CMD logs to debug the issue. If you need help setting up,&#32;
+      a.link chat with our engineers
+      | .
+
   .grid-block.environment-body.justify-center.clearfix(
     ng-class = "{'align-center justify-center': $root.featureFlags.aha1}"
   )
