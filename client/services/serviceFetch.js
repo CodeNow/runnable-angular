@@ -112,6 +112,9 @@ function fetchWhitelistedOrgs(
           model.trialDaysRemaining = function () {
             return moment(model.attrs.trialEnd).diff(moment.utc(), 'days');
           };
+          model.graceHoursRemaining = function () {
+            return moment(model.attrs.gracePeriodEnd).diff(moment.utc(), 'hours');
+          };
         });
         return ghOrgCollection;
       });

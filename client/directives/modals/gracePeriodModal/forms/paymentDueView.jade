@@ -11,10 +11,11 @@
             )
               .grid-block.vertical.padding-md
                 p.grid-content.p.text-center Your payment method has failed. Update your payment method to continue using Runnable.
-                small.grid-content.small.text-center.text-gray
+                small.grid-content.small.text-center.text-gray(
+                  ng-if = "EAC.activeAccount.isInGrace()"
+                )
                   strong.strong Note:&#32;
-                  //- number of hours should vary to show how much time is left
-                  | Your containers will be paused in 72 hours if we cannot process a payment method.
+                  | Your containers will be paused in {{EAC.activeAccount.graceHoursRemaining()}} hours if we cannot process a payment method.
               hr.hr
               .grid-block.vertical.form-payment.fade(
                 ng-class = "{'in': isActivePanel()}"
