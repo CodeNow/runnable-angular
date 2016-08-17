@@ -5,7 +5,8 @@ require('app')
 
 function ExpiredAccountController(
   close,
-  $rootScope
+  $rootScope,
+  $scope
 ) {
   var EAC = this;
   EAC.close = close;
@@ -18,6 +19,7 @@ function ExpiredAccountController(
       console.log('Prevent close');
     },
     save: function () {
+      $scope.$broadcast('go-to-panel', 'confirmationForm');
       console.log('SAVE');
     }
   };

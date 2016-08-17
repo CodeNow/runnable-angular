@@ -17,13 +17,13 @@
                   | .
                 small.grid-content.small.text-center.text-gray
                   strong.strong Note:&#32;
-                  //- number of hours should vary to show how much time is left
-                  | Your containers will be paused in 72 hours if we cannot process a payment method.
+                  | Your containers will be paused in {{EAC.activeAccount.graceHoursRemaining()}} hours if we cannot process a payment method.
               hr.hr
               .grid-block.vertical.form-payment.fade(
                 ng-class = "{'in': isActivePanel()}"
-                ng-include = "'changePaymentForm'"
-                ng-init = "state.fromPaymentDue = true"
+                change-payment-form
+                save = "EAC.actions.save"
+                updating = "false"
               )
             animated-panel(
               name = "confirmationForm"
@@ -31,10 +31,6 @@
               .grid-block.vertical.fade(
                 ng-class = "{'in': isActivePanel()}"
                 ng-include = "'confirmationForm'"
-                ng-init = "\
-                  state.fromPaymentDue = true;\
-                  state.hasPaid = true;\
-                "
               )
     .grid-block.justify-center.modal-outer-footer(
       grace-period-footer
