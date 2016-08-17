@@ -1353,11 +1353,11 @@ describe('editServerModalController'.bold.underline.blue, function () {
     });
 
     it('should return false for a feature flag that is disabled', function () {
-      SMC.state.advanced = true;
-      keypather.set($rootScope, 'featureFlags.whitelist', true);
-      expect(SMC.isTabVisible('whitelist')).to.equal(true);
-      keypather.set($rootScope, 'featureFlags.whitelist', false);
-      expect(SMC.isTabVisible('whitelist')).to.equal(false);
+      SMC.instance.contextVersion.getMainAppCodeVersion.returns(false);
+      keypather.set($rootScope, 'featureFlags.backup', true);
+      expect(SMC.isTabVisible('backup')).to.equal(true);
+      keypather.set($rootScope, 'featureFlags.backup', false);
+      expect(SMC.isTabVisible('backup')).to.equal(false);
     });
 
     it('should return the correct state when in advanced mode', function () {
