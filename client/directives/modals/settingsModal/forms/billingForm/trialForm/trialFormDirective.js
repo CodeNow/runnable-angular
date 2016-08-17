@@ -5,6 +5,7 @@ require('app').directive('trialForm', trialForm);
 function trialForm(
   $localStorage,
   $rootScope,
+  keypather,
   ModalService
 ) {
   return {
@@ -18,7 +19,7 @@ function trialForm(
       $scope.activeAccount = $rootScope.dataApp.data.activeAccount;
       $scope.actions = {
         openSettingsModal: function (tabName, subTab) {
-          $localStorage.hasDismissedTrialNotification = true;
+          keypather.set($localStorage, 'hasDismissedTrialNotification.' + $scope.activeAccount.attrs.id, true);
           subTab = subTab || '';
           $rootScope.$broadcast('close-popovers');
           ModalService.showModal({
