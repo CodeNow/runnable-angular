@@ -25,10 +25,10 @@
     //- if there is only one, [check] by default
     input.checkbox(
       name = "dockerfile"
+      ng-disabled = "$root.isLoading[MDC.name + 'SingleRepo']"
+      ng-model = "MDC.state.configurationMethod"
       type = "radio"
       value = "new"
-      ng-model = "MDC.state.configurationMethod"
-      ng-disabled = "$root.isLoading[MDC.name + 'SingleRepo']"
     )
     button.btn.btn-xs.btn-icon.btn-add
       svg.iconnables.icons-check
@@ -61,9 +61,9 @@
     //- if there is only one, [check] by default
     input.checkbox(
       name = "dockerfile"
+      ng-model = "MDC.state.configurationMethod"
       type = "radio"
       value = "dockerfile"
-      ng-model = "MDC.state.configurationMethod"
     )
     button.btn.btn-xs.btn-icon.btn-add
       svg.iconnables.icons-check
