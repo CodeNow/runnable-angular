@@ -83,11 +83,6 @@
           ng-bind-html = "helpCards.getActiveCard().helpTop"
         )
 
-    .help-padding.no-touching(
-      ng-bind-html = "helpCards.getActiveCard().helpTop"
-      ng-if = "helpCards.getActiveCard()"
-    )
-
     .modal-dialog.modal-sm(
       ng-if = "$root.featureFlags.aha1"
     )
@@ -109,6 +104,7 @@
           small.grid-content.small You can see your setup progress by selecting the !? button in the top-right.
 
     .grid-block.card-grid.clearfix(
+      ng-class = "{'padding-top': helpCards.getActiveCard().helpTop}"
       ng-if = "!$root.featureFlags.aha1"
       ng-include = "'viewCardGrid'"
     )

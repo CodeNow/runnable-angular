@@ -8,6 +8,10 @@
 .card-grid {
   flex-wrap: wrap;
 
+  &.padding-top {
+    padding-top: 60px;
+  }
+
   .card {
     height: 461px;
     margin-bottom: 15px;
