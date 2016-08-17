@@ -6,7 +6,7 @@
 
 //- aha menu
 .popover.right.in.popover-aha(
-  ng-if = "$root.featureFlags.aha2"
+  ng-if = "$root.featureFlags.aha2 && !$root.featureFlags.aha1ExitedEarly"
   ng-include = "'ahaPopoverView'"
 )
 
@@ -21,7 +21,18 @@ a.a(
   | Configure
 
 a.a.disabled(
-  ng-if = "dataApp.state.includes('base.config') && CA.instancesByPod && !CA.instancesByPod.models.length"
+  ng-if = "$root.featureFlags.aha1ExitedEarly"
+  tooltip = "You don‘t have a running repository yet!"
+  tooltip-options = "{\"class\":\"right\",\"left\":75,\"top\":17}"
+)
+  svg.iconnables.icons-server-dark
+    use(
+      xlink:href = "#icons-server-dark"
+    )
+  | Containers
+
+a.a.disabled(
+  ng-if = "dataApp.state.includes('base.config') && CA.instancesByPod && !CA.instancesByPod.models.length && !$root.featureFlags.aha1ExitedEarly"
   tooltip = "You don’t have any containers yet!"
   tooltip-options = "{\"class\":\"right\",\"left\":75,\"top\":17}"
 )
@@ -32,7 +43,7 @@ a.a.disabled(
   | Containers
 
 a.a(
-  ng-if = "dataApp.state.includes('base.instances') || !CA.instancesByPod || CA.instancesByPod.models.length"
+  ng-if = "(dataApp.state.includes('base.instances') || !CA.instancesByPod || CA.instancesByPod.models.length) && !$root.featureFlags.aha1ExitedEarly"
   ui-sref = "base.instances({ userName: CA.activeAccount.oauthName() })"
   ui-sref-active = "active"
 )
