@@ -21,6 +21,7 @@
   overflow: visible;
   padding: 0 12px;
   position: absolute;
+  top: 0;
 
   &:hover {
     color: lighten($blue,10%);
