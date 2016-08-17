@@ -5,6 +5,17 @@
   overflow: visible;
   position: relative;
 
+  + .aha-guide {
+    margin: 0 auto 15px;
+    max-width: 450px;
+
+    .p-slide {
+      font-size: 15px;
+      position: relative;
+      top: 0;
+    }
+  }
+
   .btn-aha {
     right: 0;
     top: 3px;

@@ -37,10 +37,6 @@
     }
   }
 
-  .spinner-wrapper {
-    // animation: fade
-  }
-
   .aha-meter {
     background-image: linear-gradient(90deg, $gray-lightest 50%, transparent 50%, transparent), linear-gradient(0deg, $gray-lightest 50%, $gray-lightest 50%, $gray-lightest);
     border-radius: 50%;
@@ -163,4 +159,8 @@
       width: 15px;
     }
   }
+}
+
+.aha-tips > .iconnables {
+  margin-left: 6px;
 }

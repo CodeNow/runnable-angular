@@ -115,10 +115,19 @@
     | {{state.showVerification ? 'Verifying Configuration…' : ''}}
     | {{state.showErrorType === 'build' && state.showError ? 'Your build failed. Inspect your build logs for more information.' : ''}}
     | {{state.showErrorType === 'CMD' && state.showError ? 'Your container failed to run. Inspect your CMD logs for more information.' : ''}}
+    //- | IF DETENTION ERROR: Your container is running! But it looks like something is misconfigured.
+    span.span(
+     ng-if = "state.showErrorType === 'exitedEarly'"
+    ) Your repository isn‘t running yet! Check the logs to debug any issues. If you‘re stumped,&#32;
+      //- this link should open in intercom with the prefilled message:
+          "I’m having trouble getting my first container up and running."
+      a.link ask our engineers
+      | !
+
   p.p(
     ng-class = "{'p-slide js-animate': state.showSubStep}"
     ng-if = "state.showSubStep === 8 && !state.showError && !state.showVerification"
-  ) Your build was good! Click ‘Done’ to move on.
+  ) Your build is looking good! Check out its URL and click ‘Done’ if it looks good to you.
 
   //- in the popover
   p.p(

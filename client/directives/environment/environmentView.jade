@@ -46,6 +46,17 @@
     ng-init = "state.helpButton = {active: false}"
   )
 
+  .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
+    ng-if = "$root.featureFlags.aha1ExitedEarly"
+    ng-include = "'ahaGuideView'"
+    ng-init = "\
+      state.showStep = 1;\
+      state.showSubStep = 7;\
+      state.showError = true;\
+      state.showErrorType = 'exitedEarly';\
+    "
+  )
+
   .grid-block.environment-body.justify-center.clearfix(
     ng-class = "{'align-center justify-center': $root.featureFlags.aha1}"
   )
@@ -54,7 +65,7 @@
         'fixed': helpUndock,\
         'top': helpUndock\
       }"
-      ng-if = "helpCards.getActiveCard()"
+      ng-if = "helpCards.getActiveCard() && !$root.featureFlags.aha"
     )
       .help(
         ng-if = "helpCards.getActiveCard().targets.newContainer && state.newServerButton.active"
@@ -83,24 +94,19 @@
           ng-bind-html = "helpCards.getActiveCard().helpTop"
         )
 
-    .help-padding.no-touching(
-      ng-bind-html = "helpCards.getActiveCard().helpTop"
-      ng-if = "helpCards.getActiveCard()"
-    )
-
     .modal-dialog.modal-sm(
       ng-if = "$root.featureFlags.aha1 && !$root.featureFlags.ahaOverview"
     )
-      .modal-body.grid-block.vertical.padding-sm
-        .grid-block.align-center.aha-guide(
-          ng-include = "'ahaGuideView'"
-          ng-init = "\
-            state.showStep = 1;\
-            state.showSubStep = 0;\
-          "
-        )
+      .grid-block.align-center.aha-guide.padding-md(
+        ng-include = "'ahaGuideView'"
+        ng-init = "\
+          state.showStep = 1;\
+          state.showSubStep = 0;\
+        "
+      )
 
     .grid-block.card-grid.clearfix(
+      ng-class = "{'padding-top': helpCards.getActiveCard().helpTop}"
       ng-if = "!$root.featureFlags.aha1"
       ng-include = "'viewCardGrid'"
     )
