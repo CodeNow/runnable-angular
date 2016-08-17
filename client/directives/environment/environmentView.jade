@@ -86,14 +86,14 @@
     .modal-dialog.modal-sm(
       ng-if = "$root.featureFlags.aha1"
     )
+      .grid-block.align-center.aha-guide.padding-md(
+        ng-include = "'ahaGuideView'"
+        ng-init = "\
+          state.showStep = 1;\
+          state.showSubStep = 0;\
+        "
+      )
       .modal-body.grid-block.vertical.padding-sm
-        .grid-block.align-center.aha-guide(
-          ng-include = "'ahaGuideView'"
-          ng-init = "\
-            state.showStep = 1;\
-            state.showSubStep = 0;\
-          "
-        )
         .grid-block.shrink.justify-center.align-center.padding-xs.well.gray.aha-tips.fade(
           ng-if = "$root.featureFlags.aha1"
         )
