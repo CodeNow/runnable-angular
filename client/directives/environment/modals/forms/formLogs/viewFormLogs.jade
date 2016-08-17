@@ -29,6 +29,11 @@
     ng-click = "SMC.page = 'run'"
     ng-disabled = "!SMC.instance.containers.models.length"
   ) CMD Logs
+  button.btn.btn-xs.white(
+    ng-class = "{'active': SMC.page === 'terminal'}"
+    ng-click = "SMC.page = 'terminal'"
+    ng-disabled = "!SMC.instance.containers.models.length"
+  ) Terminal
 
 //- logs
 pre.pre.log-wrapper(
