@@ -132,7 +132,7 @@ describe('controllerApp'.bold.underline.blue, function () {
   describe('showTrialEndingNotification', function () {
     beforeEach(function () {
       keypather.set($rootScope, 'featureFlags.billing', true);
-      mockLocalStorage.hasDismissedTrialNotification = false;
+      mockLocalStorage.hasDismissedTrialNotification[ctx.fakeuser.attrs.id] = false;
       ctx.fakeuser.isInTrial.returns(true);
       ctx.fakeuser.trialDaysRemaining.returns(3);
     });
@@ -153,7 +153,7 @@ describe('controllerApp'.bold.underline.blue, function () {
     });
 
     it('should not show if local storage shows its been dismissed', function () {
-      mockLocalStorage.hasDismissedTrialNotification = true;
+      mockLocalStorage.hasDismissedTrialNotification[ctx.fakeuser.attrs.id] = true;
       expect(CA.showTrialEndingNotification()).to.equal(false);
     });
 
@@ -164,9 +164,9 @@ describe('controllerApp'.bold.underline.blue, function () {
 
   describe('closeTrialEndingNotification', function () {
     it('should set hasDismissedTrialNotification on local storage', function () {
-      mockLocalStorage.hasDismissedTrialNotification = false;
+      mockLocalStorage.hasDismissedTrialNotification[ctx.fakeuser.attrs.id] = false;
       CA.closeTrialEndingNotification();
-      expect(mockLocalStorage.hasDismissedTrialNotification).to.equal(true);
+      expect(mockLocalStorage.hasDismissedTrialNotification[ctx.fakeuser.attrs.id]).to.equal(true);
     });
   });
 });
