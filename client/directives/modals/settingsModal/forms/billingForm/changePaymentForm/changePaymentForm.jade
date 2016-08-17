@@ -135,7 +135,7 @@ footer.modal-footer.clearfix
   button.btn.btn-md.green.float-right(
     ng-click = "CPFC.actions.save()"
     ng-disabled="paymentForm.$invalid || $root.isLoading.savePayment"
-    ng-if = "CPFC.updating"
+    ng-if = "CPFC.updating && !(CPFC.activeAccount.isInGrace() || CPFC.activeAccount.isGraceExpired())"
   )
     .spinner-wrapper.spinner-sm.spinner-white.in(
       ng-include = "'spinner'"
@@ -159,7 +159,7 @@ footer.modal-footer.clearfix
   button.btn.btn-md.green.btn-block(
     ng-click = "CPFC.actions.save()"
     ng-disabled="paymentForm.$invalid || $root.isLoading.savePayment"
-    ng-if = "!CPFC.updating && (CPFC.activeAccount.isInGrace() || CPFC.activeAccount.isGraceExpired())"
+    ng-if = "CPFC.activeAccount.isInGrace() || CPFC.activeAccount.isGraceExpired()"
     type = "button"
   )
       .spinner-wrapper.spinner-sm.spinner-white.in(

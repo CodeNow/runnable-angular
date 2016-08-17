@@ -29,7 +29,6 @@ function featureFlags(
     fullScreen: false,  // toggles full screen
     fullScreenToggle: false,  // toggles the button that toggles full screen
     gracePeriod: false, // if user enters the grace period during the preview
-    gracePeriodFooter: false, // adds footer links for change org and sign out when nav is unavailable
     gracePeriodPayment: false, // if the user enters the grace period because of a payment error
     gracePeriodTrial: false, // if the user enters the grace period because of trial expiring
     hostnameNotifications: false,

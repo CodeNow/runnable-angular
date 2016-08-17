@@ -1,40 +1,42 @@
-h1.h1.text-center.padding-sm Thanks for trying Runnable!
-.modal-dialog.modal-md
-  .modal-body
-    .modal-form.form-billing
-      animated-panel-container
-        animated-panel(
-          default = "true"
-          name = "changePaymentForm"
-        )
-          .grid-block.vertical.padding-md
-            p.grid-content.p.text-center Your trial has ended! We hope you enjoyed using Runnable. Please enter your payment info to continue. Otherwise,&#32;
-              a.link(
-                href = "mailto:support@runnable.com"
-              ) let us know how we can improve
-              | .
-            small.grid-content.small.text-center.text-gray
-              strong.strong Note:&#32;
-              //- number of hours should vary to show how much time is left
-              | Your containers will be paused in 72 hours if we cannot process a payment method.
-          hr.hr
-          .grid-block.vertical.form-payment.fade(
-            ng-class = "{'in': isActivePanel()}"
-            ng-include = "'changePaymentForm'"
-            ng-init = "state.fromPaymentDue = true"
-          )
-        animated-panel(
-          name = "confirmationForm"
-        )
-          .grid-block.vertical.fade(
-            ng-class = "{'in': isActivePanel()}"
-            ng-include = "'confirmationForm'"
-            ng-init = "\
-              state.fromPaymentDue = true;\
-              state.hasPaid = true;\
-            "
-          )
-.grid-block.justify-center.modal-outer-footer(
-  ng-if = "$root.featureFlags.gracePeriodFooter"
-  ng-include = "'gracePeriodFooterView'"
-)
+.modal-backdrop.modal-blackout
+  .grace-period
+    h1.h1.text-center.padding-sm Thanks for trying Runnable!
+    .modal-dialog.modal-md
+      .modal-body
+        .modal-form.form-billing
+          animated-panel-container
+            animated-panel(
+              default = "true"
+              name = "changePaymentForm"
+            )
+              .grid-block.vertical.padding-md
+                p.grid-content.p.text-center Your trial has ended! We hope you enjoyed using Runnable. Please enter your payment info to continue. Otherwise,&#32;
+                  a.link(
+                    href = "mailto:support@runnable.com"
+                  ) let us know how we can improve
+                  | .
+                small.grid-content.small.text-center.text-gray
+                  strong.strong Note:&#32;
+                  //- number of hours should vary to show how much time is left
+                  | Your containers will be paused in 72 hours if we cannot process a payment method.
+              hr.hr
+              .grid-block.vertical.form-payment.fade(
+                ng-class = "{'in': isActivePanel()}"
+                ng-include = "'changePaymentForm'"
+                ng-init = "state.fromPaymentDue = true"
+              )
+            animated-panel(
+              name = "confirmationForm"
+            )
+              .grid-block.vertical.fade(
+                ng-class = "{'in': isActivePanel()}"
+                ng-include = "'confirmationForm'"
+                ng-init = "\
+                  state.fromPaymentDue = true;\
+                  state.hasPaid = true;\
+                "
+              )
+    .grid-block.justify-center.modal-outer-footer(
+      grace-period-footer
+      close = "WBC.close"
+    )

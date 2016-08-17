@@ -139,6 +139,6 @@
               ng-click = "actions.selectAccount(data.selectedOrgName)"
             ) Go to your Sandbox!
     .grid-block.justify-center.modal-outer-footer(
-      ng-if = "$root.featureFlags.gracePeriodFooter"
-      ng-include = "'gracePeriodFooterView'"
+      grace-period-footer
+      hide-choose-org = "true"
     )
