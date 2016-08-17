@@ -56,7 +56,6 @@ function featureFlags(
     trialEnding: false, // shows notification when trial is ending
     undoDelete: false, // undo delete configuration
     webhooks: false,
-    whitelist: true,
     whitelistIpFiltering: false
   };
 
