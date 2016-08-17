@@ -294,25 +294,6 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
         sinon.assert.calledOnce(stub);
         sinon.assert.calledWith(stub, 'dockerfileMirroring');
       });
-
-      it('should not call the callback if there is a createContainerDirectly argument', function () {
-        fetchRepoDockerfilesStub.returns($q.when([]));
-        sinon.stub(NCMC, 'createBuildAndGoToNewRepoModal').returns($q.when(true));
-
-        var repo = {
-          attrs: {
-            full_name: 'Hello'
-          }
-        };
-        var stub = sinon.stub();
-        NCMC.setRepo(repo, stub, true);
-        $scope.$digest();
-        expect(NCMC.state.repo).to.equal(repo);
-        sinon.assert.calledOnce(fetchRepoDockerfilesStub);
-        sinon.assert.calledWith(fetchRepoDockerfilesStub, 'Hello');
-        sinon.assert.calledOnce(NCMC.createBuildAndGoToNewRepoModal);
-        sinon.assert.notCalled(stub);
-      });
     });
 
     describe('isRepoAdded', function () {
