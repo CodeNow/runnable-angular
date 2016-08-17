@@ -15,12 +15,10 @@ function ExpiredAccountController(
 
   EAC.actions = {
     close: function () {
-      close();
-      console.log('Prevent close');
+      // Intentionally left blank, this prevents the modal from being closed
     },
     save: function () {
       $scope.$broadcast('go-to-panel', 'confirmationForm');
-      console.log('SAVE');
     }
   };
 }
