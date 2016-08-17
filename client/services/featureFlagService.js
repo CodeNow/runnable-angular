@@ -40,7 +40,6 @@ function featureFlags(
     multilineFnR: false,
     multilineStartCmd: false,
     multipleRepositoryContainers: false, // for adding multiple containers with the same repository
-    nameContainer: true,
     navListFilter: false,
     nextPayment: false, // show the next payment date under payment summary
     newUserPrompt: false, // modal for new users
@@ -56,7 +55,6 @@ function featureFlags(
     trialEnding: false, // shows notification when trial is ending
     undoDelete: false, // undo delete configuration
     webhooks: false,
-    whitelist: true,
     whitelistIpFiltering: false
   };
 

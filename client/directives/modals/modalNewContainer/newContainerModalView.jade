@@ -91,22 +91,17 @@
           ) Cancel
           button.btn.btn-md.green.float-right(
             ng-disabled = "$root.isLoading[MC.name + 'SingleRepo'] || MC.state.configurationMethod === null"
-            ng-click = "($root.featureFlags.nameContainer) ? goToPanel('nameContainer') : MC.createBuildAndGoToNewRepoModal(MC.state.instanceName, MC.state.repo, MC.state.dockerfile)"
+            ng-click = "goToPanel('nameContainer')"
           )
             .spinner-wrapper.spinner-white.spinner-sm.in(
               ng-include = "'spinner'"
               ng-if = "$root.isLoading[MC.name + 'SingleRepo']"
             )
-            span(
-              ng-if = "!$root.featureFlags.nameContainer"
-            ) Next Step: {{MC.state.dockerfile === false ? 'Configure' : 'Review'}}
-            span(
-              ng-if = "$root.featureFlags.nameContainer"
-            ) Next Step: Naming
+            span() Next Step: Naming
 
       animated-panel.grid-block.vertical.modals-rename(
         name = "nameContainer"
-        ng-if = "(MC.state.repo || MC.state.templateSource) && $root.featureFlags.nameContainer"
+        ng-if = "MC.state.repo || MC.state.templateSource"
       )
         header.modal-header
           svg.iconnables.icons-arrow-backward(
