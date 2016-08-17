@@ -3,8 +3,6 @@
 describe('RepositoryDetailsModalController'.bold.underline.blue, function () {
   var $scope;
   var $rootScope;
-  var keypather;
-  var $elScope;
   var $controller;
   var $q;
   var controller;
@@ -79,11 +77,9 @@ describe('RepositoryDetailsModalController'.bold.underline.blue, function () {
       $compile,
       _$controller_,
       _$rootScope_,
-      _keypather_,
       _$q_
     ) {
       $controller = _$controller_;
-      keypather = _keypather_;
       $rootScope = _$rootScope_;
       $q = _$q_;
 
