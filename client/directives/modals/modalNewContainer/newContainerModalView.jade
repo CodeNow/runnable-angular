@@ -2,10 +2,6 @@
   .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
     ng-if = "$root.featureFlags.aha"
     ng-include = "'ahaGuideView'"
-    ng-init = "\
-      state.showStep = 1;\
-      state.showSubStep = 1;\
-    "
   )
   .modal-dialog.modal-lg
     animated-panel-container.modal-servers
