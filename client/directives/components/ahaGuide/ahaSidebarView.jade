@@ -19,7 +19,7 @@
   ) Get Started
 .grid-block.vertical
   .grid-block.shrink.align-center.padding-sm.aha-guide(
-    ng-class = "{'complete': $root.featureFlags.aha1 || $root.featureFlags.aha2 || $root.featureFlags.aha3}"
+    ng-class = "{'disabled': $root.featureFlags.aha1 || $root.featureFlags.aha2 || $root.featureFlags.aha3}"
   )
     .grid-block.shrink.aha-meter(
       ng-class = "{\
@@ -37,10 +37,7 @@
       p.small This is the first step to success.
 
   .grid-block.shrink.align-center.padding-sm.aha-guide(
-    ng-class = "{\
-      'complete': $root.featureFlags.aha2 || $root.featureFlags.aha3,\
-      'disabled': $root.featureFlags.aha0\
-    }"
+    ng-class = "{'disabled': $root.featureFlags.aha0 || $root.featureFlags.aha2 || $root.featureFlags.aha3}"
   )
     .grid-block.shrink.aha-meter(
       ng-class = "{\
@@ -71,10 +68,7 @@
       p.small Configure your project and get it running!
 
   .grid-block.shrink.align-center.padding-sm.aha-guide(
-    ng-class = "{\
-      'complete': $root.featureFlags.aha3,\
-      'disabled': $root.featureFlags.aha0 || $root.featureFlags.aha1\
-    }"
+    ng-class = "{'disabled': $root.featureFlags.aha0 || $root.featureFlags.aha1 || $root.featureFlags.aha3}"
   )
     .grid-block.shrink.aha-meter(
       ng-class = "{\
