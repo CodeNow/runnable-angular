@@ -64,27 +64,10 @@
               ) on GitHub
               | . If you don’t have permission to grant access, you’ll have to ask your admin to give the go ahead.
 
-          .grid-block.list.fade(
-            ng-class = "{'in': isActivePanel()}"
-            ng-if = "!$root.featureFlags.autoWhitelist && data.allAccounts.length"
-          )
-            label.grid-block.align-center.list-item.btn.white(
-              ng-click = "actions.selectAccount(org.oauthName())"
-              ng-repeat = "org in data.allAccounts"
-              ng-if = "data.matchWhitelistedOrgByName(org.oauthName()) "
-              title = "{{org.oauthName()}}"
-            )
-              img.grid-block.shrink(
-                height = "24"
-                ng-src = "{{org.gravitar()}}"
-                width = "24"
-              )
-              span.grid-block.text-left.text-overflow {{org.oauthName()}}
-
           form.grid-block.list.fade(
             name = "data.orgSelectorForm"
             ng-class = "{'in': isActivePanel()}"
-            ng-if = "$root.featureFlags.autoWhitelist && data.allAccounts.length"
+            ng-if = "data.allAccounts.length"
           )
             //- add .active class if this org is selected
             //- add [disabled] property when loading NOT class!
@@ -113,7 +96,7 @@
           //- hide the footer if no orgs are found
           footer.grid-block.vertical.modal-footer.fade(
             ng-class = "{'in': isActivePanel()}"
-            ng-if = "$root.featureFlags.autoWhitelist && data.allAccounts.length"
+            ng-if = "data.allAccounts.length"
           )
             //- disabled until an org is selected
             button.grid-block.align-center.justify-center.btn.btn-md.green(
@@ -124,30 +107,28 @@
               ng-disabled = "!data.selectedOrgName"
             ) Create Sandbox
 
-        animated-panel.grid-block.vertical(
+        animated-panel.modal-body.grid-block.vertical(
           name = "dockLoading"
         )
-          .padding-lg.fade(
+          .padding-md.fade(
             ng-class = "{'in': isActivePanel()}"
           )
             //- dock spinning up
-            p.p.strong.text-gray.text-center Hang tight!
             p.p.text-gray.padding-xs.text-center We’re spinning up a sandbox for your org. It’ll take about&#32;
               strong.strong 10 minutes
-              | , we’ll update this page when it’s ready.
+              | . We’ll email you and update this page when it’s ready.
             .grid-block.align-center.justify-center.padding-sm
               .spinner-wrapper.spinner-md.spinner-gray(
-                ng-if = "isActivePanel()"
                 ng-include = "'spinner'"
               )
-        animated-panel.grid-block.vertical(
+              //- ng-if = "isActivePanel()"
+        animated-panel.modal-body.grid-block.vertical(
           name = "dockLoaded"
         )
-          .padding-lg.fade(
+          .padding-md.fade(
             ng-class = "{'in': isActivePanel()}"
           )
             //- dock spun up
-            p.p.strong.text-gray.text-center Thanks for waiting!
             p.p.text-gray.padding-xs.text-center Your sandbox is ready for you now.
 
           //- show this button when done waiting
@@ -156,7 +137,7 @@
           )
             button.grid-block.align-center.justify-center.btn.btn-md.green(
               ng-click = "actions.selectAccount(data.selectedOrgName)"
-            ) Go to your sandbox!
+            ) Go to your Sandbox!
     .grid-block.justify-center.modal-outer-footer(
       ng-if = "$root.featureFlags.gracePeriodFooter"
       ng-include = "'gracePeriodFooterView'"

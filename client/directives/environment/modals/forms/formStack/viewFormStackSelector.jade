@@ -3,7 +3,7 @@
 .input-col
   //- If new container
   .btn-group.btn-group-stacks(
-    ng-if = "isNewContainer && $root.featureFlags.newVerificationFlowStackSelector"
+    ng-if = "isNewContainer"
   )
     label.btn.btn-radio.white(
       ng-repeat = "framework in stacks track by framework.key"
@@ -22,15 +22,15 @@
       | {{framework.name}}
       input.input-radio(
         name = "state.selectedStack"
-        ng-model = "temp.stackKey"
-        type = "radio"
-        ng-value = "framework.key"
         ng-disabled = "saving"
+        ng-model = "temp.stackKey"
+        ng-value = "framework.key"
+        type = "radio"
       )
 
   fancy-select.btn-sm.white(
     ng-disabled = "saving"
-    ng-if = "!isNewContainer || !$root.featureFlags.newVerificationFlowStackSelector"
+    ng-if = "!isNewContainer"
     ng-required = "true"
     placeholder = "Select language/framework"
     spinner-flag = "saving"

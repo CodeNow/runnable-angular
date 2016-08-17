@@ -6,7 +6,7 @@
   .tr.clearfix(
     ng-repeat = "invoice in invoices"
   )
-    .cell.monospace ${{invoice.total}}
+    .cell.monospace ${{invoice.total | centsToDollars}}
     .cell.text-overflow.small Paid by {{invoice.metadata.paidBy}}
     .cell.monospace.text-right {{getBillingDate(invoice)}}
 

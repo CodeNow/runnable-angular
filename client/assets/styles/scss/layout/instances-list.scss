@@ -15,6 +15,12 @@
     display: block;
   }
 
+  // search
+  .label-search {
+    border-bottom: 1px solid $gray-lighter;
+    padding: 16px 10px;
+  }
+
   // empty state
   > .well {
     background: $white;

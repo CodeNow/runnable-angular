@@ -1,6 +1,5 @@
 .grid-block.shrink.justify-center.align-center.padding-xs.well.gray.aha-tips(
   ng-if = "\
-    $root.featureFlags.newVerificationFlow && \
     !$root.isLoading.setupServerModalIsBuilding && \
     !SMC.isDirty() && \
     SMC.instance.status() === 'buildFailed' \
