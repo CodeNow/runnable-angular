@@ -34,7 +34,7 @@
 
 // div.modal-dialog
 .modal-dialog {
-  animation: scale-in-modal .15s ease-in-out;
+  animation: scale-in-modal .15s ease-out;
   background: $gray-lighterest;
   border: $input-border-radius solid $gray-lighter;
   border-radius: $input-border-radius-lg;
