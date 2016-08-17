@@ -11,13 +11,14 @@ describe('PlanStatusFormController'.bold.underline.blue, function () {
   var loadingStub;
   var mockPlan;
   var mockBillingPlans;
+  var fetchPaymentMethodStub;
 
   beforeEach(function () {
     mockBillingPlans = {
       'simplePlan': {
         id: 'billingSimplePlan',
         maxConfigurations: 12,
-        costPerUser: 20
+        costPerUser: 19
       }
     };
     mockPlan = {
@@ -36,6 +37,10 @@ describe('PlanStatusFormController'.bold.underline.blue, function () {
         fetchInstancesByPodStub = sinon.stub().returns($q.when({models: [{}]}));
         return fetchInstancesByPodStub;
       });
+      $provide.factory('fetchPaymentMethod', function ($q) {
+        fetchPaymentMethodStub = sinon.stub().returns($q.when({}));
+        return fetchPaymentMethodStub;
+      });
       loadingStub = sinon.stub();
       loadingStub.reset = sinon.stub();
       $provide.value('loading', loadingStub);
@@ -43,8 +48,12 @@ describe('PlanStatusFormController'.bold.underline.blue, function () {
     });
     angular.mock.inject(function (
       _$controller_,
-      $rootScope
+      $rootScope,
+      keypather
     ) {
+      keypather.set($rootScope, 'dataApp.data.activeAccount', {
+        isInTrial: sinon.stub().returns(true)
+      });
       $controller = _$controller_;
       $scope = $rootScope.$new();
     });
@@ -58,12 +67,13 @@ describe('PlanStatusFormController'.bold.underline.blue, function () {
 
   describe('init', function () {
     it('should fetch data and trigger loading status', function () {
-      sinon.assert.calledTwice(loadingStub);
+      sinon.assert.callCount(loadingStub, 4);
       sinon.assert.calledWith(loadingStub, 'billingForm', true);
       sinon.assert.calledWith(loadingStub, 'billingForm', false);
 
       sinon.assert.calledOnce(fetchPlanStub);
       sinon.assert.calledOnce(fetchInstancesByPodStub);
+      sinon.assert.calledOnce(fetchPaymentMethodStub);
       expect(PSFC.plan).to.equal(mockPlan.next.plan);
       expect(PSFC.configurations).to.equal(1);
       expect(PSFC.plans).to.equal(mockBillingPlans);
@@ -73,11 +83,11 @@ describe('PlanStatusFormController'.bold.underline.blue, function () {
   describe('calculatePlanAmount', function () {
     it('calculate the plan amount properly', function () {
       PSFC.discounted = false;
-      expect(PSFC.calculatePlanAmount('simplePlan')).to.equal(20);
+      expect(PSFC.calculatePlanAmount('simplePlan')).to.equal(19);
     });
     it('calculate the plan amount properly when discounted', function () {
       PSFC.discounted = true;
-      expect(PSFC.calculatePlanAmount('simplePlan')).to.equal('10.00');
+      expect(PSFC.calculatePlanAmount('simplePlan')).to.equal(9.50);
     });
   });
 });

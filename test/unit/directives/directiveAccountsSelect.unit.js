@@ -1,14 +1,15 @@
 'use strict';
 
 describe('directiveAccountsSelect'.bold.underline.blue, function() {
-  var element;
   var $scope, $elScope;
   var $rootScope;
   var ctx;
   var $timeout;
+  var keypather;
   var apiMocks = require('../apiMocks/index');
 
-  function makeDefaultScope(addToScope) {
+  beforeEach(function () {
+    ctx = {};
     ctx.fakeuser = {
       attrs: angular.copy(apiMocks.user),
       oauthName: function () {
@@ -22,8 +23,14 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
           update: sinon.spy()
         };
       }),
-      fetchSettings: sinon.spy()
+      fetchSettings: sinon.spy(),
+      isInTrial: sinon.stub().returns(true),
+      trialDaysRemaining: sinon.stub().returns(2),
+      isInActivePeriod: sinon.stub().returns(false),
+      isInGrace: sinon.stub(),
+      isGraceExpired: sinon.stub()
     };
+    ctx.fakeuser.attrs.hasPaymentMethod = false;
     ctx.fakeOrg1 = {
       attrs: angular.copy(apiMocks.user),
       oauthName: function () {
@@ -42,24 +49,13 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
         return true;
       }
     };
-    var scope =  {
+    var addToScope =  {
       data: {
         activeAccount: ctx.fakeuser,
         orgs: {models: [ctx.fakeOrg1, ctx.fakeOrg2]},
         user: ctx.fakeuser
       }
     };
-
-    if (addToScope) {
-      Object.keys(addToScope).forEach(function (key) {
-        scope[key] = addToScope[key];
-      });
-    }
-    return scope;
-  }
-  function initState (addToScope) {
-    ctx = {};
-    addToScope = makeDefaultScope(addToScope);
 
     angular.mock.module('app');
     ctx.stateMock = {
@@ -79,8 +75,15 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
         instanceName: 'instanceName'
       });
     });
-    angular.mock.inject(function($compile, _$rootScope_, _$timeout_){
+    angular.mock.inject(function(
+      $compile,
+      _$rootScope_,
+      _$timeout_,
+      _keypather_
+    ){
+      keypather = _keypather_;
       $rootScope = _$rootScope_;
+      keypather.set($rootScope, 'featureFlags.billing', false);
       $scope = $rootScope.$new();
       $timeout = _$timeout_;
 
@@ -96,11 +99,10 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
       $scope.$digest();
     });
     $elScope = ctx.element.isolateScope();
-  }
+  });
 
   describe('directive logic'.bold.blue, function() {
     it('should emit signal and change state on account change', function (done) {
-      initState();
       ctx.stateMock.go = sinon.spy(function (location, state) {
         expect(state).to.deep.equal({
           userName: ctx.fakeOrg1.oauthName()
@@ -119,56 +121,80 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
     });
   });
 
-  // Logic for popover
-  describe.skip('directive logic'.bold.blue, function() {
-    function getAccountSelectorElement() {
-      return ctx.element[0]
-        .querySelector('ol.accounts-group');
-    }
-    function getAccountsGroupItemsList() {
-      return ctx.element[0]
-        .querySelectorAll('li.accounts-group-item');
-    }
-    afterEach(function() {
-      $rootScope.$destroy();
+  describe('without billing feature flag', function () {
+    describe('getBadgeCount', function () {
+      it('should return empty string', function () {
+        expect($elScope.getBadgeCount()).to.equal('');
+      });
     });
-    it('should display with an active account', function () {
-      initState();
-      $scope.$digest();
-      expect(ctx.element[0].classList.contains('ng-hide')).to.not.be.ok;
-      expect(getAccountsGroupItemsList().length).to.equal(3);
-      expect(getAccountSelectorElement().classList.contains('in')).to.not.be.ok;
-    });
-    it('shouldn\'t display without an active account', function () {
-      var scope = makeDefaultScope();
-      delete scope.data.activeAccount;
-      initState(scope);
-      $scope.$digest();
-      expect(ctx.element[0].classList.contains('in')).to.be.false;
-    });
-    it('should display selector after click', function () {
-      initState();
-      $rootScope.$digest();
-      window.helpers.click(getAccountSelectorElement());
-      $rootScope.$digest();
-      expect(getAccountSelectorElement().classList.contains('in')).to.be.ok;
-      expect(getAccountsGroupItemsList().length).to.equal(3);
-      window.helpers.click(getAccountSelectorElement());
-      $scope.$digest();
-      expect(getAccountSelectorElement().classList.contains('in')).to.not.be.ok;
-    });
-    it('should be able to select one of the selectors to change the account', function () {
-      initState();
-      $elScope.selectActiveAccount = sinon.spy();
-      $rootScope.$digest();
-      window.helpers.click(getAccountSelectorElement());
-      $rootScope.$digest();
-      expect(getAccountSelectorElement().classList.contains('in')).to.be.ok;
-      expect(getAccountsGroupItemsList().length).to.equal(3);
-      window.helpers.click(getAccountsGroupItemsList()[1]);
-      $scope.$digest();
-      sinon.assert.calledWith($elScope.selectActiveAccount, ctx.fakeOrg1);
+
+    describe('getClasses', function () {
+      it('should return empty object', function () {
+        expect($elScope.getClasses()).to.deep.equal({});
+      });
     });
   });
 
+  describe('with billing feature flag', function () {
+    beforeEach(function () {
+      keypather.set($rootScope, 'featureFlags.billing', true);
+    });
+
+    describe('getBadgeCount', function () {
+      describe('when in trial', function () {
+        beforeEach(function () {
+          ctx.fakeuser.isInTrial.returns(true);
+          ctx.fakeuser.trialDaysRemaining = sinon.stub().returns(12);
+        });
+
+        it('should return trial remaining', function () {
+          ctx.fakeuser.isInTrial.reset();
+          ctx.fakeuser.trialDaysRemaining.reset();
+          expect($elScope.getBadgeCount()).to.equal(12);
+          sinon.assert.calledOnce(ctx.fakeuser.isInTrial);
+          sinon.assert.calledOnce(ctx.fakeuser.trialDaysRemaining);
+        });
+
+        it('should return nothing if payment method is set', function () {
+          ctx.fakeuser.attrs.hasPaymentMethod = true;
+          expect($elScope.getBadgeCount()).to.equal('');
+        });
+      });
+
+      describe('when active', function () {
+        beforeEach(function () {
+          ctx.fakeuser.isInTrial.returns(false);
+        });
+
+        it('should return grace remaining', function () {
+          expect($elScope.getBadgeCount()).to.equal('');
+        });
+      });
+    });
+
+    describe('getClasses', function () {
+      it('should return false flags when not in trial', function () {
+        ctx.fakeuser.isInTrial.returns(false);
+        expect($elScope.getClasses()).to.deep.equal({
+          badge: false,
+          'badge-orange': false
+        });
+      });
+
+      it('should return true flags when not in active period', function () {
+        expect($elScope.getClasses()).to.deep.equal({
+          badge: true,
+          'badge-orange': true
+        });
+      });
+
+      it('should return false flags when payment is set', function () {
+        ctx.fakeuser.attrs.hasPaymentMethod = true;
+        expect($elScope.getClasses()).to.deep.equal({
+          badge: false,
+          'badge-orange': false
+        });
+      });
+    });
+  });
 });

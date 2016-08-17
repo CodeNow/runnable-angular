@@ -2,7 +2,9 @@
 
 require('app').directive('billingForm', billingForm);
 
-function billingForm() {
+function billingForm(
+  $rootScope
+) {
   return {
     restrict: 'A',
     templateUrl: 'billingForm',
@@ -10,25 +12,14 @@ function billingForm() {
       element.on('$destroy', function() {
         $scope.SEMC.showFooter = true;
       });
-
+      $scope.activeAccount = $rootScope.dataApp.data.activeAccount;
       $scope.actions = {
-        trial: {
-          save: function () {
-            $scope.$broadcast('go-to-panel', 'confirmationForm');
-          },
-          back: function () {
-            $scope.SEMC.showFooter = true;
-            $scope.$broadcast('go-to-panel', 'confirmationForm');
-          }
+        save: function () {
+          $scope.$broadcast('go-to-panel', 'confirmationForm');
         },
-        update: {
-          save: function () {
-            $scope.$broadcast('go-to-panel', 'confirmationForm');
-          },
-          cancel: function () {
-            $scope.SEMC.showFooter = true;
-            $scope.$broadcast('go-to-panel', 'billingForm', 'back');
-          }
+        cancel: function () {
+          $scope.SEMC.showFooter = true;
+          $scope.$broadcast('go-to-panel', 'billingForm', 'back');
         }
       };
     }

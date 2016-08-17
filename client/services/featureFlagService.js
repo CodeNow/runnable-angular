@@ -41,8 +41,8 @@ function featureFlags(
     multilineFnR: false,
     multilineStartCmd: false,
     multipleRepositoryContainers: false, // for adding multiple containers with the same repository
-    nameContainer: true,
     navListFilter: false,
+    nextPayment: false, // show the next payment date under payment summary
     newUserPrompt: false, // modal for new users
     noBuildLogs: true,
     optionsInModal: false, // allows delete in modal
@@ -54,7 +54,6 @@ function featureFlags(
     themeToggle: false, // toggles the button that toggles theme
     trial: false, // sets account to trial mode
     trialEnding: false, // shows notification when trial is ending
-    updatedSlackValidation: true,
     undoDelete: false, // undo delete configuration
     webhooks: false,
     whitelistIpFiltering: false

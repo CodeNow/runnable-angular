@@ -53,8 +53,8 @@ ul.list.list-servers(
 
   //- add active class when loading
   li.list-item.multi-line.text-overflow(
-    ng-disabled = "(repo.isAdded && !$root.featureFlags.nameContainer) || $root.isLoading[MC.name + 'SingleRepo']"
-    ng-click = "!((repo.isAdded && !$root.featureFlags.nameContainer) || $root.isLoading[MC.name + 'SingleRepo']) && MC.setRepo(repo, goToPanel, !$root.featureFlags.nameContainer)"
+    ng-disabled = "$root.isLoading[MC.name + 'SingleRepo']"
+    ng-click = "!$root.isLoading[MC.name + 'SingleRepo'] && MC.setRepo(repo, goToPanel)"
     ng-repeat = "\
       repo in MC.githubRepos.models | \
       repos: MC.repoFilter | \
@@ -62,7 +62,7 @@ ul.list.list-servers(
     "
     ng-class = "{ \
       'active': repo.loading, \
-      'disabled': (repo.isAdded && !$root.featureFlags.nameContainer) || $root.isLoading[MC.name + 'SingleRepo'] \
+      'disabled': $root.isLoading[MC.name + 'SingleRepo'] \
     }"
   ) {{ repo.attrs.name }}
     .row.row-author(
@@ -96,9 +96,6 @@ ul.list.list-servers(
         )
     button.btn.btn-sm.btn-icon.btn-add(
       ng-if = "!repo.loading"
-      ng-class = "{\
-        'disabled': repo.isAdded && !$root.featureFlags.nameContainer\
-      }"
     )
       svg.iconnables.icons-add
         use(

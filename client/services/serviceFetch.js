@@ -75,7 +75,8 @@ function fetchUser(
 function fetchWhitelistedOrgs(
   fetchUser,
   fetchWhitelists,
-  memoize
+  memoize,
+  moment
 ) {
   return memoize(function () {
     return fetchUser()
@@ -87,6 +88,32 @@ function fetchWhitelistedOrgs(
             });
             return new GithubOrgCollection(githubOrgs, {client: user.client});
           });
+      })
+      .then(function (ghOrgCollection) {
+        ghOrgCollection.models.map(function (model) {
+          // All of this should be moved to inside @runnable/api-client
+          model.attrs.trialEnd = moment().add(12, 'days').toISOString();
+          model.attrs.activePeriodEnd = moment().subtract(1, 'days').toISOString();
+          model.attrs.gracePeriodEnd = moment().add(15, 'days').toISOString();
+          model.attrs.stripeCustomerId = 1234;
+          model.attrs.hasPaymentMethod = false;
+          model.isInTrial = function () {
+            return moment(model.attrs.trialEnd) > moment().utc();
+          };
+          model.isInGrace = function () {
+            return !model.isInTrial() && moment(model.attrs.gracePeriodEnd) > moment().utc();
+          };
+          model.isInActivePeriod = function () {
+            return moment(model.attrs.activePeriodEnd) > moment().utc();
+          };
+          model.isGraceExpired = function () {
+            return !model.isInTrial() && moment.utc(model.attrs.gracePeriodEnd) < moment().utc();
+          };
+          model.trialDaysRemaining = function () {
+            return moment(model.attrs.trialEnd).diff(moment.utc(), 'days');
+          };
+        });
+        return ghOrgCollection;
       });
   });
 }
