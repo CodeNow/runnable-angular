@@ -5,6 +5,8 @@ require('app')
 
 
 function ControllerApp(
+  $localStorage,
+  $ocLazyLoad,
   $rootScope,
   $scope,
   $state,
@@ -15,13 +17,11 @@ function ControllerApp(
   configLoginURL,
   debounce,
   errs,
-  eventTracking,
-  fetchInstancesByPod,
-  pageName,
   featureFlags,
-  $ocLazyLoad,
-  ModalService,
+  fetchInstancesByPod,
   keypather,
+  ModalService,
+  pageName,
 
   user,
   orgs,
@@ -125,5 +125,15 @@ function ControllerApp(
     });
   };
 
+  CA.showTrialEndingNotification = function () {
+    return $rootScope.featureFlags.billing &&
+      activeAccount.isInTrial() &&
+      activeAccount.trialDaysRemaining() <= 3 &&
+      !activeAccount.attrs.hasPaymentMethod && !keypather.get($localStorage, 'hasDismissedTrialNotification.' + activeAccount.attrs.id);
+  };
+
+  CA.closeTrialEndingNotification = function () {
+    keypather.set($localStorage, 'hasDismissedTrialNotification.' + activeAccount.attrs.id, true);
+  };
 
 }

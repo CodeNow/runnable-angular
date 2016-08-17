@@ -18,10 +18,7 @@ footer.modal-footer.clearfix
     ng-if = "$root.dataApp.data.activeAccount.isInActivePeriod()"
   ) Go to your sandbox!
   button.btn.btn-md.btn-block.white(
-    ng-click = "\
-      SEMC.showFooter = true;\
-      goToPanel('billingForm', 'back');\
-    "
+    ng-click = "goToPanel('billingForm', 'back');"
     ng-if = "$root.dataApp.data.activeAccount.isInTrial()"
     type = "button"
   ) Billing Overview

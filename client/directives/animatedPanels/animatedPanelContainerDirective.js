@@ -12,7 +12,7 @@ function animatedPanelContainer(
     transclude: true,
     template: '<div class="animated-panel-container" ng-class="panelClass" ng-style="getAnimatedPanelStyle()"></div>',
     replace: true,
-    link: function ($scope, element, attrs, controller, transcludeFn){
+    link: function ($scope, element, attrs, controller, transcludeFn) {
       $scope.$watch('activePanel', function () {
         $scope.$emit('changed-animated-panel', $scope.activePanel);
       });

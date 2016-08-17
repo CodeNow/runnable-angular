@@ -27,8 +27,5 @@ label.grid-block.vertical.well.well-summary(
     | , 2016.
 .grid-block.align-center.justify-right.padding-xxs
   button.btn.btn-xs.white(
-    ng-click = "\
-      SEMC.showFooter = false;\
-      goToPanel('changePaymentForm');\
-    "
+    ng-click = "goToPanel('changePaymentForm');"
   ) Change Payment

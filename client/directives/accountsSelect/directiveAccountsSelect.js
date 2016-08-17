@@ -54,7 +54,8 @@ function accountsSelect (
               controllerAs: 'SEMC',
               templateUrl: 'settingsModalView',
               inputs: {
-                tab: tabName
+                tab: tabName,
+                subTab: ''
               }
             });
           },
