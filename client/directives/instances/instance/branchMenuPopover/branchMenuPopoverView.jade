@@ -18,8 +18,8 @@
   animated-panel-container.popover-views(
     ng-if = "!$root.featureFlags.autoIsolationSetup"
   )
+    //- this should be the default panel with auto-isolation is implemented
     animated-panel(
-      default = "true"
       name = "branchMenu"
     )
       .popover-view
@@ -62,6 +62,7 @@
                 )
               | Include Containers…
     animated-panel(
+      default = "true"
       name = "addBranch"
     )
       .popover-view.fade(
@@ -71,6 +72,7 @@
           svg.btn.btn-sm.iconnables.icons-arrow-backward(
             ng-class = "{'in': isActivePanel()}"
             ng-click = "goToPanel('branchMenu', 'back');"
+            ng-if = "$root.featureFlags.autoIsolation"
           )
             use(
               xlink:href = "#icons-arrow-down"
