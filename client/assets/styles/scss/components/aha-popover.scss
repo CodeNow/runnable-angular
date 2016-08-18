@@ -4,6 +4,10 @@
   top: 66px;
   width: 450px;
 
+  @include media(xxs) {
+    max-width: calc(100vw - 100px);
+  }
+
   .popover-content {
     @extend %padding-sm;
   }
