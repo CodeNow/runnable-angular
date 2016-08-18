@@ -1,14 +1,25 @@
 'use strict';
 
 describe('directiveAccountsSelect'.bold.underline.blue, function() {
-  var $scope, $elScope;
+  var $elScope;
   var $rootScope;
-  var ctx;
+  var $scope;
   var $timeout;
-  var keypather;
   var apiMocks = require('../apiMocks/index');
+  var ctx;
+  var keypather;
+  var mockCurrentOrg;
 
   beforeEach(function () {
+    mockCurrentOrg = {
+      poppa: {
+        isInTrial: sinon.stub().returns(true),
+        trialDaysRemaining: sinon.stub().returns(2),
+        isInActivePeriod: sinon.stub().returns(false),
+        isInGrace: sinon.stub(),
+        isGraceExpired: sinon.stub()
+      }
+    };
     ctx = {};
     ctx.fakeuser = {
       attrs: angular.copy(apiMocks.user),
@@ -23,12 +34,7 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
           update: sinon.spy()
         };
       }),
-      fetchSettings: sinon.spy(),
-      isInTrial: sinon.stub().returns(true),
-      trialDaysRemaining: sinon.stub().returns(2),
-      isInActivePeriod: sinon.stub().returns(false),
-      isInGrace: sinon.stub(),
-      isGraceExpired: sinon.stub()
+      fetchSettings: sinon.spy()
     };
     ctx.fakeuser.attrs.hasPaymentMethod = false;
     ctx.fakeOrg1 = {
@@ -143,27 +149,27 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
     describe('getBadgeCount', function () {
       describe('when in trial', function () {
         beforeEach(function () {
-          ctx.fakeuser.isInTrial.returns(true);
-          ctx.fakeuser.trialDaysRemaining = sinon.stub().returns(12);
+          mockCurrentOrg.poppa.isInTrial.returns(true);
+          mockCurrentOrg.poppa.trialDaysRemaining = sinon.stub().returns(12);
         });
 
         it('should return trial remaining', function () {
-          ctx.fakeuser.isInTrial.reset();
-          ctx.fakeuser.trialDaysRemaining.reset();
+          mockCurrentOrg.poppa.isInTrial.reset();
+          mockCurrentOrg.poppa.trialDaysRemaining.reset();
           expect($elScope.getBadgeCount()).to.equal(12);
-          sinon.assert.calledOnce(ctx.fakeuser.isInTrial);
-          sinon.assert.calledOnce(ctx.fakeuser.trialDaysRemaining);
+          sinon.assert.calledOnce(mockCurrentOrg.poppa.isInTrial);
+          sinon.assert.calledOnce(mockCurrentOrg.poppa.trialDaysRemaining);
         });
 
         it('should return nothing if payment method is set', function () {
-          ctx.fakeuser.attrs.hasPaymentMethod = true;
+          mockCurrentOrg.poppa.attrs.hasPaymentMethod = true;
           expect($elScope.getBadgeCount()).to.equal('');
         });
       });
 
       describe('when active', function () {
         beforeEach(function () {
-          ctx.fakeuser.isInTrial.returns(false);
+          mockCurrentOrg.poppa.isInTrial.returns(false);
         });
 
         it('should return grace remaining', function () {
@@ -174,7 +180,7 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
 
     describe('getClasses', function () {
       it('should return false flags when not in trial', function () {
-        ctx.fakeuser.isInTrial.returns(false);
+        mockCurrentOrg.poppa.isInTrial.returns(false);
         expect($elScope.getClasses()).to.deep.equal({
           badge: false,
           'badge-orange': false
@@ -189,7 +195,7 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
       });
 
       it('should return false flags when payment is set', function () {
-        ctx.fakeuser.attrs.hasPaymentMethod = true;
+        mockCurrentOrg.poppa.attrs.hasPaymentMethod = true;
         expect($elScope.getClasses()).to.deep.equal({
           badge: false,
           'badge-orange': false
