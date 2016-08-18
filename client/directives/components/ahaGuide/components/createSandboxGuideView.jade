@@ -14,8 +14,8 @@
       ng-if = "$root.featureFlags.aha1 || $root.featureFlags.aha2 || $root.featureFlags.aha3"
       xlink:href = "#icons-check"
     )
-.grid-block.vertical
-  p.p.strong Create your Sandbox
+.grid-block.vertical.aha-text
+  p.p.small.text-gray-light Create your Sandbox
   p.p
     {{state.showSubStep === 0 ? 'Choose an organization to create your sandbox for.' : ''}}
     {{state.showSubStep === 1 ? 'Hang tight!' : ''}}

@@ -1,14 +1,12 @@
 'use strict';
 
-var $controller,
-    $rootScope,
-    $scope,
-    $window;
+var $controller;
+var $rootScope;
+var $scope;
+var $window;
 var keypather;
 
-var User = require('@runnable/api-client/lib/models/user');
 var apiMocks = require('../apiMocks/index');
-var keypather = require('keypather')();
 var User = require('@runnable/api-client/lib/models/user');
 var user = require('../apiMocks').user;
 
@@ -17,6 +15,8 @@ describe('controllerApp'.bold.underline.blue, function () {
   var CA;
   var mockLocalStorage;
   var mockCurrentOrg;
+  var showModalStub;
+  var mockFeatureFlags;
   function createMasterPods() {
     ctx.masterPods = runnable.newInstances(
       [apiMocks.instances.building, apiMocks.instances.runningWithContainers[0]],
@@ -24,7 +24,7 @@ describe('controllerApp'.bold.underline.blue, function () {
     );
     return ctx.masterPods;
   }
-  function setup(stateParams) {
+  function setup(delayStartup) {
     mockCurrentOrg = {
       poppa: {
         trialDaysRemaining: sinon.stub(),
@@ -59,7 +59,7 @@ describe('controllerApp'.bold.underline.blue, function () {
       }
     };
     ctx.fakeOrgs = {models: [ctx.fakeOrg1, ctx.fakeOrg2]};
-    ctx.stateParams = stateParams || {
+    ctx.stateParams = {
       userName: 'username',
       instanceName: 'instancename'
     };
@@ -68,7 +68,13 @@ describe('controllerApp'.bold.underline.blue, function () {
       clearErrors: sinon.spy(),
       errors: []
     };
+    mockFeatureFlags = {
+      flags: {},
+      reset: sinon.stub(),
+      changed: sinon.stub()
+    }
     mockLocalStorage = {};
+    showModalStub = sinon.stub();
     angular.mock.module('app', function ($provide) {
       $provide.factory('fetchInstancesByPod', ctx.fetchInstancesByPodMock.autoTrigger(createMasterPods()));
       $provide.value('$stateParams', ctx.stateParams);
@@ -77,27 +83,36 @@ describe('controllerApp'.bold.underline.blue, function () {
       $provide.value('activeAccount', ctx.fakeuser);
       $provide.value('errs', ctx.fakeErrs);
       $provide.value('$localStorage', mockLocalStorage);
+      $provide.value('ModalService', {
+        showModal: showModalStub
+      });
+      $provide.value('featureFlags', mockFeatureFlags);
       $provide.value('currentOrg', mockCurrentOrg);
     });
     angular.mock.inject(function (
       _$controller_,
       _$rootScope_,
-      _keypather_,
-      _$window_
+      _$window_,
+      _keypather_
     ) {
       $controller = _$controller_;
       $rootScope = _$rootScope_;
-      $scope = $rootScope.$new();
-      keypather = _keypather_;
       $window = _$window_;
+      keypather = _keypather_;
+
+      $scope = $rootScope.$new();
     });
     if ($window.Intercom) {
       sinon.stub($window, 'Intercom', noop);
     }
 
-    CA = $controller('ControllerApp', {
+    var controllerInitFn = $controller('ControllerApp', {
       '$scope': $scope
-    });
+    }, true);
+    if (delayStartup) {
+      return controllerInitFn;
+    }
+    CA = controllerInitFn();
     $rootScope.$apply();
   }
 
@@ -181,6 +196,97 @@ describe('controllerApp'.bold.underline.blue, function () {
       keypather.set(mockLocalStorage, 'hasDismissedTrialNotification.' + mockCurrentOrg.github.attrs.id, false);
       CA.closeTrialEndingNotification();
       expect(mockLocalStorage.hasDismissedTrialNotification[mockCurrentOrg.github.attrs.id]).to.equal(true);
+    });
+  });
+
+  describe('when in grace period', function () {
+    describe('when we have a payment method', function () {
+      beforeEach(function () {
+        var controllerSetupFn = setup(true);
+        mockFeatureFlags.flags.billing = true;
+        ctx.fakeuser.isInGrace.returns(true);
+        ctx.fakeuser.isGraceExpired.returns(false);
+        ctx.fakeuser.attrs.hasPaymentMethod = true;
+        controllerSetupFn();
+        $rootScope.$digest();
+      });
+
+      it('should open the payment due view', function () {
+        sinon.assert.calledOnce(showModalStub);
+        sinon.assert.calledWith(showModalStub, {
+          controller: 'ExpiredAccountController',
+          controllerAs: 'EAC',
+          templateUrl: 'paymentDueView',
+          preventClose: true
+        });
+      });
+    });
+    describe('with no payment method', function () {
+      beforeEach(function () {
+        var controllerSetupFn = setup(true);
+        mockFeatureFlags.flags.billing = true;
+        ctx.fakeuser.isInGrace.returns(true);
+        ctx.fakeuser.isGraceExpired.returns(false);
+        ctx.fakeuser.attrs.hasPaymentMethod = false;
+        controllerSetupFn();
+        $rootScope.$digest();
+      });
+
+      it('should open the trial end view', function () {
+        sinon.assert.calledOnce(showModalStub);
+        sinon.assert.calledWith(showModalStub, {
+          controller: 'ExpiredAccountController',
+          controllerAs: 'EAC',
+          templateUrl: 'trialEndView',
+          preventClose: true
+        });
+      });
+    });
+  });
+
+  describe('when in grace expired', function () {
+    describe('when we have a payment method', function () {
+      beforeEach(function () {
+        var controllerSetupFn = setup(true);
+        mockFeatureFlags.flags.billing = true;
+        ctx.fakeuser.isInGrace.returns(false);
+        ctx.fakeuser.isGraceExpired.returns(true);
+        ctx.fakeuser.attrs.hasPaymentMethod = true;
+        controllerSetupFn();
+        $rootScope.$digest();
+      });
+
+      it('should open the payment due view', function () {
+        sinon.assert.calledOnce(showModalStub);
+        sinon.assert.calledWith(showModalStub, {
+          controller: 'ExpiredAccountController',
+          controllerAs: 'EAC',
+          templateUrl: 'paymentDueView',
+          preventClose: true
+        });
+      });
+    });
+
+    describe('with no payment method', function () {
+      beforeEach(function () {
+        var controllerSetupFn = setup(true);
+        mockFeatureFlags.flags.billing = true;
+        ctx.fakeuser.isInGrace.returns(false);
+        ctx.fakeuser.isGraceExpired.returns(true);
+        ctx.fakeuser.attrs.hasPaymentMethod = false;
+        controllerSetupFn();
+        $rootScope.$digest();
+      });
+
+      it('should open the trial end view', function () {
+        sinon.assert.calledOnce(showModalStub);
+        sinon.assert.calledWith(showModalStub, {
+          controller: 'ExpiredAccountController',
+          controllerAs: 'EAC',
+          templateUrl: 'trialEndView',
+          preventClose: true
+        });
+      });
     });
   });
 });

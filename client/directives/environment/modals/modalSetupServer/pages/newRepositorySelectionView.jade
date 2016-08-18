@@ -22,7 +22,7 @@
   )
 
 //- show this if there are no repositories to add
-.grid-block.well.gray.justify-center(
+.grid-block.well.gray.justify-center.padding-md(
   ng-if = "\
     !$root.isLoading.newContainerModalRepos && \
     MC.githubRepos.models.length === 0 \
@@ -30,13 +30,12 @@
 )
   .p.empty
     .h3.strong Uh oh!
-    | We couldn’t find any repositories for this organization.
-    br
-    | If you think you think this is a mistake,&#32;
+    | We couldn’t find any repositories for this organization. If you think you think this is a mistake,&#32;
     a.link(
       intercom-link
-      intro-message = "This thing wont fetch my Github repos."
+      intro-message = "This thing wont fetch my GitHub repos."
     )
+    | .
 
 //- list of repositories (mock up, we already have a template for this)
 ul.list.list-servers(

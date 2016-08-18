@@ -135,7 +135,7 @@ footer.modal-footer.clearfix
   button.btn.btn-md.green.float-right(
     ng-click = "CPFC.actions.save()"
     ng-disabled="paymentForm.$invalid || $root.isLoading.savePayment"
-    ng-if = "CPFC.updating"
+    ng-if = "CPFC.updating && !(CPFC.currentOrg.poppa.isInGrace() || CPFC.currentOrg.poppa.isGraceExpired())"
   )
     .spinner-wrapper.spinner-sm.spinner-white.in(
       ng-include = "'spinner'"

@@ -1,19 +1,13 @@
 // buttons
 .btn-toolbar {
-  border: $input-border solid;
+  border: 1px solid;
   flex: 0 0 auto;
-  font-size: 15px;
+  font-family: $sans-serif; // override monospace fonts inside log header
+  font-size: 14px;
   font-weight: $weight-bold;
-  height: 30px;
-  line-height: 30px - ($input-border * 2);
+  height: $input-xs;
+  line-height: $input-xs - 2px;
   padding: 0 9px;
-
-  .build-log-header & {
-    font-family: $sans-serif; // override monospace fonts inside log header
-    font-size: 13px;
-    height: $input-xs;
-    line-height: $input-xs - ($input-border * 2);
-  }
 
   &.purple {
     @extend %toolbar-btn-purple;

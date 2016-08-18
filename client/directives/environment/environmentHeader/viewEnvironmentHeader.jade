@@ -50,8 +50,12 @@ button.grid-block.shrink.btn.btn-md.btn-icon.btn-help(
 
 //- new server button
 button.grid-block.shrink.btn.btn-md.green(
+  ng-class = "{\
+    'scale': helpCards.getActiveCard().targets.newContainer,\
+    'scale-in-modal': $root.featureFlags.aha1\
+  }"
   ng-click = "EC.triggerModal.newContainer()"
-  ng-class = "{'scale': helpCards.getActiveCard().targets.newContainer}"
+  ng-if = "!$root.featureFlags.ahaOverview"
 )
   svg.iconnables.icons-add.float-left
     use(
