@@ -133,7 +133,7 @@
   display: flex;
 
   &:first-child {
-    border-radius: $input-border-radius-xxs $input-border-radius-xxs 0 0;
+    border-radius: $input-border-radius $input-border-radius 0 0;
     padding-top: 3px;
 
     &.tr-addition,
@@ -144,7 +144,7 @@
   }
 
   &:last-child {
-    border-radius: 0 0 $input-border-radius-xxs $input-border-radius-xxs;
+    border-radius: 0 0 $input-border-radius $input-border-radius;
     padding-bottom: 3px;
 
     &.tr-addition,
