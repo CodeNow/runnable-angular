@@ -120,9 +120,9 @@ function ControllerApp(
     }
   };
 
-  if ($rootScope.featureFlags.billing && (activeAccount.isInGrace() || activeAccount.isGraceExpired())) {
+  if ($rootScope.featureFlags.billing && (currentOrg.poppa.isInGrace() || currentOrg.poppa.isGraceExpired())) {
     // Determine if it's a trial end or just a normal payment due
-    if (activeAccount.attrs.hasPaymentMethod) {
+    if (currentOrg.poppa.attrs.hasPaymentMethod) {
       ModalService.showModal({
         controller: 'ExpiredAccountController',
         controllerAs: 'EAC',

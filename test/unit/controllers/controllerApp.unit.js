@@ -29,6 +29,8 @@ describe('controllerApp'.bold.underline.blue, function () {
       poppa: {
         trialDaysRemaining: sinon.stub(),
         isInTrial: sinon.stub(),
+        isInGrace: sinon.stub(),
+        isGraceExpired: sinon.stub(),
         attrs: {
           hasPaymentMethod: false
         }
@@ -204,9 +206,9 @@ describe('controllerApp'.bold.underline.blue, function () {
       beforeEach(function () {
         var controllerSetupFn = setup(true);
         mockFeatureFlags.flags.billing = true;
-        ctx.fakeuser.isInGrace.returns(true);
-        ctx.fakeuser.isGraceExpired.returns(false);
-        ctx.fakeuser.attrs.hasPaymentMethod = true;
+        mockCurrentOrg.poppa.isInGrace.returns(true);
+        mockCurrentOrg.poppa.isGraceExpired.returns(false);
+        mockCurrentOrg.poppa.attrs.hasPaymentMethod = true;
         controllerSetupFn();
         $rootScope.$digest();
       });
@@ -225,9 +227,9 @@ describe('controllerApp'.bold.underline.blue, function () {
       beforeEach(function () {
         var controllerSetupFn = setup(true);
         mockFeatureFlags.flags.billing = true;
-        ctx.fakeuser.isInGrace.returns(true);
-        ctx.fakeuser.isGraceExpired.returns(false);
-        ctx.fakeuser.attrs.hasPaymentMethod = false;
+        mockCurrentOrg.poppa.isInGrace.returns(true);
+        mockCurrentOrg.poppa.isGraceExpired.returns(false);
+        mockCurrentOrg.poppa.attrs.hasPaymentMethod = false;
         controllerSetupFn();
         $rootScope.$digest();
       });
@@ -249,9 +251,9 @@ describe('controllerApp'.bold.underline.blue, function () {
       beforeEach(function () {
         var controllerSetupFn = setup(true);
         mockFeatureFlags.flags.billing = true;
-        ctx.fakeuser.isInGrace.returns(false);
-        ctx.fakeuser.isGraceExpired.returns(true);
-        ctx.fakeuser.attrs.hasPaymentMethod = true;
+        mockCurrentOrg.poppa.isInGrace.returns(false);
+        mockCurrentOrg.poppa.isGraceExpired.returns(true);
+        mockCurrentOrg.poppa.attrs.hasPaymentMethod = true;
         controllerSetupFn();
         $rootScope.$digest();
       });
@@ -271,9 +273,9 @@ describe('controllerApp'.bold.underline.blue, function () {
       beforeEach(function () {
         var controllerSetupFn = setup(true);
         mockFeatureFlags.flags.billing = true;
-        ctx.fakeuser.isInGrace.returns(false);
-        ctx.fakeuser.isGraceExpired.returns(true);
-        ctx.fakeuser.attrs.hasPaymentMethod = false;
+        mockCurrentOrg.poppa.isInGrace.returns(false);
+        mockCurrentOrg.poppa.isGraceExpired.returns(true);
+        mockCurrentOrg.poppa.attrs.hasPaymentMethod = false;
         controllerSetupFn();
         $rootScope.$digest();
       });
