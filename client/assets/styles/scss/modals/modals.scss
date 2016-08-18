@@ -472,6 +472,10 @@
     &.text-next {
       padding-right: 6px;
       width: 90px;
+
+      @include media(xxxs) {
+        width: auto;
+      }
     }
 
     &.float-right + .float-right {

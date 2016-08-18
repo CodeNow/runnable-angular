@@ -26,6 +26,13 @@
     display: table;
     margin: 0 auto;
 
+    @include media(xxxs) {
+      font-size: 16px;
+      height: $input-sm;
+      line-height: $input-line-height-sm;
+      margin-top: 8px;
+    }
+
     &.scale {
       animation: scale .4s ease;
     }

@@ -1,6 +1,11 @@
 // environment body
 .environment-body {
   flex: 1 0 auto;
+
+  // aha guide
+  > .modal-dialog {
+    min-width: 0;
+  }
 }
 
 // card grid

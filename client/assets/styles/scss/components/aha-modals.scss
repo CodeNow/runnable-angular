@@ -13,6 +13,10 @@
     height: 90px;
   }
 
+  @include media(xxxs) {
+    top: 0;
+  }
+
   &.fixed {
     position: fixed;
     z-index: $z-modal;

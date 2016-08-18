@@ -3,6 +3,12 @@
   overflow: hidden;
   position: relative;
 
+  &.padding-md {
+    @include media(xxs) {
+      padding: 30px 15px;
+    }
+  }
+
   > .grid-block {
     overflow: visible;
   }
@@ -158,6 +164,10 @@
     color: $gray;
     margin-left: 30px;
     min-width: 30px;
+
+    @include media(xxs) {
+      margin-left: 9px;
+    }
 
     .iconnables {
       height: 100%;
