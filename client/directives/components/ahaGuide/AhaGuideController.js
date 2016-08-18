@@ -8,7 +8,7 @@ function AhaGuideController(
   $rootScope,
   serviceAhaGuide
 ) {
-  
+
   var AHA = this;
 
   // initialize this with the value passed in from the directive
@@ -22,9 +22,12 @@ function AhaGuideController(
     subStep: $scope.subStepIndex,
     hideMenu: true
   };
-  
+
   // get steps from service
   AHA.state.steps = serviceAhaGuide.getSteps();
+
+  // get the bound of the caption array so we know when to stop
+  var captionLimit = AHA.state.steps[AHA.state.mainStep].subStepCaptions.length;
 
   // update steps and initiate digest loop
   function updateStep() {
@@ -39,10 +42,13 @@ function AhaGuideController(
     if (AHA.state.subStep !== undefined) {
       AHA.state.subStep++;
     } else {
-      console.log('reset subStep');
       AHA.state.subStep = 0;
     }
-    if (AHA.state.subStep >= AHA.state.steps[AHA.state.mainStep].subStepCaptions.length) {
+
+    // if either the dockLoaded is fired or we've reached the end
+    if (panel === 'dockLoaded' || AHA.state.subStep >= captionLimit) {
+      AHA.state.subStep = captionLimit - 1;
+      updateStep();
       animatedPanelListener();
       return;
     }
@@ -50,7 +56,6 @@ function AhaGuideController(
   }
 
   var animatedPanelListener = $rootScope.$on('changed-animated-panel', function (e, panel) {
-    console.log(e, panel);
     incrementStep(e, panel);
   })
 

@@ -4,7 +4,7 @@ require('app')
   .factory('serviceAhaGuide', serviceAhaGuide);
 
 function serviceAhaGuide(
-  
+
 ) {
 
   var _steps = [

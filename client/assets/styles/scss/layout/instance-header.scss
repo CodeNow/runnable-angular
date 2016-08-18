@@ -4,26 +4,6 @@
   flex: 0 0 auto;
   position: relative;
   z-index: $z-views-header;
-
-  // add config button
-  button.btn-md.green {
-    display: table;
-    margin: 0 auto;
-    top: 12px;
-
-    &.scale {
-      animation: scale .4s ease;
-    }
-
-    .icons-add {
-      background: $white;
-      border-radius: $input-border-radius;
-      color: $green;
-      height: 18px;
-      margin: 10px 9px 0 0;
-      width: 18px;
-    }
-  }
 }
 
 .instance-header-title {

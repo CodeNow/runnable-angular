@@ -11,17 +11,6 @@
   .grid-block.shrink.vertical.instance-header(
     ng-if = "$root.featureFlags.aha2"
   )
-  
-    //- new server button
-    button.grid-block.shrink.btn.btn-md.green(
-      ng-click = "EC.triggerModal.newContainer()"
-      ng-class = "{'scale': helpCards.getActiveCard().targets.newContainer}"
-    )
-      svg.iconnables.icons-add.float-left
-        use(
-          xlink:href = "#icons-add"
-        )
-      | Add Configuration
 
     button.grid-block.shrink.btn.btn-sm.gray.btn-aha(
       ng-click = "$root.featureFlags.ahaSidebar = true"
