@@ -92,25 +92,28 @@ function fetchWhitelistedOrgs(
       .then(function (ghOrgCollection) {
         ghOrgCollection.models.map(function (model) {
           // All of this should be moved to inside @runnable/api-client
-          model.attrs.trialEnd = moment().add(2, 'days').toISOString();
-          model.attrs.activePeriodEnd = moment().subtract(1, 'days').toISOString();
-          model.attrs.gracePeriodEnd = moment().add(5, 'days').toISOString();
+          model.attrs.trialEnd = moment().subtract(1, 'days').toISOString();
+          model.attrs.activePeriodEnd = moment().subtract(5, 'days').toISOString();
+          model.attrs.gracePeriodEnd = moment().add(2, 'days').toISOString();
           model.attrs.stripeCustomerId = 1234;
           model.attrs.hasPaymentMethod = false;
           model.isInTrial = function () {
             return moment(model.attrs.trialEnd) > moment().utc();
           };
           model.isInGrace = function () {
-            return !model.isInTrial() && moment(model.attrs.gracePeriodEnd) > moment().utc();
+            return !model.isInTrial() && !model.isInActivePeriod() && moment(model.attrs.gracePeriodEnd) > moment().utc();
           };
           model.isInActivePeriod = function () {
             return moment(model.attrs.activePeriodEnd) > moment().utc();
           };
           model.isGraceExpired = function () {
-            return !model.isInTrial() && moment.utc(model.attrs.gracePeriodEnd) < moment().utc();
+            return !model.isInTrial() && !model.isInActivePeriod() && moment.utc(model.attrs.gracePeriodEnd) < moment().utc();
           };
           model.trialDaysRemaining = function () {
             return moment(model.attrs.trialEnd).diff(moment.utc(), 'days');
+          };
+          model.graceHoursRemaining = function () {
+            return moment(model.attrs.gracePeriodEnd).diff(moment.utc(), 'hours');
           };
         });
         return ghOrgCollection;

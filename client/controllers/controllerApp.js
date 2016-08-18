@@ -27,7 +27,7 @@ function ControllerApp(
   orgs,
   activeAccount
 ) {
-  // Load ace after 5 seconds. Should improve user experience overall..
+  // Load ace after 10 seconds. Should improve user experience overall..
   $timeout(function () {
     $ocLazyLoad.load('ui.ace');
   }, 10000);
@@ -118,6 +118,25 @@ function ControllerApp(
       }
     }
   };
+
+  if ($rootScope.featureFlags.billing && (activeAccount.isInGrace() || activeAccount.isGraceExpired())) {
+    // Determine if it's a trial end or just a normal payment due
+    if (activeAccount.attrs.hasPaymentMethod) {
+      ModalService.showModal({
+        controller: 'ExpiredAccountController',
+        controllerAs: 'EAC',
+        templateUrl: 'paymentDueView',
+        preventClose: true
+      });
+    } else {
+      ModalService.showModal({
+        controller: 'ExpiredAccountController',
+        controllerAs: 'EAC',
+        templateUrl: 'trialEndView',
+        preventClose: true
+      });
+    }
+  }
 
   $rootScope.canEditFeatureFlags = function () {
     return !!dataApp.data.allAccounts.find(function (account) {
