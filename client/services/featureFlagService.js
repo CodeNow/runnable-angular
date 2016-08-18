@@ -13,6 +13,7 @@ function featureFlags(
     aha1ExitedEarly: false, // step 2: if the user left the flow before getting a running config
     aha2: false, // step 3: add branch
     aha3: false, // step 4: runnabot
+    ahaOverview: false, // toggle sidebar
     ahaSidebar: false, // toggle sidebar
     allowIsolatedUpdate: false,
     autoIsolation: false,

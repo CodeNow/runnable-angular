@@ -37,6 +37,10 @@
       animation: scale .4s ease;
     }
 
+    &.scale-in-modal {
+      animation: scale-in-modal .15s ease-out;
+    }
+
     .icons-add {
       background: $white;
       border-radius: $input-border-radius;

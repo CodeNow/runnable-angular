@@ -1,13 +1,25 @@
 .grid-block.shrink.align-center.justify-right
   svg.iconnables.icons-close(
     ng-click = "$root.featureFlags.ahaSidebar = false"
+    ng-if = "!$root.featureFlags.ahaOverview"
   )
     use(
       xlink:href = "#icons-close"
     )
+.grid-block.vertical.shrink.justify-center.text-center.aha-overview(
+  ng-if = "$root.featureFlags.ahaOverview"
+)
+  .grid-content.strong Welcome to your Sandbox! 👋
+  | It’ll take a few steps to get everything set up. But don’t worry — we’re here to help!
+  button.grid-content.btn.btn-sm.green(
+    ng-click = "\
+      $root.featureFlags.ahaOverview = false;\
+      $root.featureFlags.ahaSidebar = false;\
+    "
+  ) Get Started
 .grid-block.vertical
   .grid-block.shrink.align-center.padding-sm.aha-guide(
-    ng-class = "{'complete': $root.featureFlags.aha1 || $root.featureFlags.aha2 || $root.featureFlags.aha3}"
+    ng-class = "{'disabled': $root.featureFlags.aha1 || $root.featureFlags.aha2 || $root.featureFlags.aha3}"
   )
     .grid-block.shrink.aha-meter(
       ng-class = "{\
@@ -25,10 +37,7 @@
       p.small This is the first step to success.
 
   .grid-block.shrink.align-center.padding-sm.aha-guide(
-    ng-class = "{\
-      'complete': $root.featureFlags.aha2 || $root.featureFlags.aha3,\
-      'disabled': $root.featureFlags.aha0\
-    }"
+    ng-class = "{'disabled': $root.featureFlags.aha0 || $root.featureFlags.aha2 || $root.featureFlags.aha3}"
   )
     .grid-block.shrink.aha-meter(
       ng-class = "{\
@@ -59,10 +68,7 @@
       p.small Configure your project and get it running!
 
   .grid-block.shrink.align-center.padding-sm.aha-guide(
-    ng-class = "{\
-      'complete': $root.featureFlags.aha3,\
-      'disabled': $root.featureFlags.aha0 || $root.featureFlags.aha1\
-    }"
+    ng-class = "{'disabled': $root.featureFlags.aha0 || $root.featureFlags.aha1 || $root.featureFlags.aha3}"
   )
     .grid-block.shrink.aha-meter(
       ng-class = "{\
