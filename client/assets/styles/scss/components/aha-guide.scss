@@ -3,6 +3,12 @@
   overflow: hidden;
   position: relative;
 
+  &.padding-md {
+    @include media(xxs) {
+      padding: 30px 15px;
+    }
+  }
+
   > .grid-block {
     overflow: visible;
   }
@@ -13,6 +19,7 @@
     height: $input-md;
     left: 15px;
     position: absolute;
+    top: 16px;
     transition: opacity .15s ease-in-out, transform .15s ease-in-out;
     width: $input-md;
 
@@ -35,6 +42,10 @@
       opacity: 1;
       transform: scale3d(1,1,1);
     }
+  }
+
+  .spinner-wrapper {
+    overflow: hidden;
   }
 
   .aha-meter {
@@ -153,6 +164,10 @@
     color: $gray;
     margin-left: 30px;
     min-width: 30px;
+
+    @include media(xxs) {
+      margin-left: 9px;
+    }
 
     .iconnables {
       height: 100%;

@@ -1,6 +1,11 @@
 // environment body
 .environment-body {
   flex: 1 0 auto;
+
+  // aha guide
+  > .modal-dialog {
+    min-width: 0;
+  }
 }
 
 // card grid
@@ -51,7 +56,7 @@
     }
 
     @include media(lg) {
-      flex: 0 0 calc(33.333% - 10px);
+      flex: 0 0 calc(33.333% - 11px);
 
       // on the 6th card + 5 thereafter
       &:nth-child(5n+6) {

@@ -32,6 +32,7 @@
     ng-class = "{'active': SMC.page === 'terminal'}"
     ng-click = "SMC.page = 'terminal'"
     ng-disabled = "!SMC.instance.containers.models.length"
+    ng-if = "$root.featureFlags.configTerminal"
   ) Terminal
 
 //- logs
@@ -57,9 +58,9 @@ pre.pre.log-wrapper(
       'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
       'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
     }"
-    ng-if = "SMC.page === 'run' && !SMC.showDebugCmd && $root.featureFlags.webToolbar"
     ng-include = "'webViewToolbarView'"
   )
+    //- ng-if = "SMC.page === 'run' && !SMC.showDebugCmd && $root.featureFlags.webToolbar"
 
   //- build logs page
   .build-log-wrapper(
