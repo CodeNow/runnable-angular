@@ -43,11 +43,16 @@
 .modal-dialog > .aha-guide {
   border-bottom: 1px solid $gray-lighter;
 
+  &:only-child {
+    border-bottom: 0;
+  }
+
   > .grid-block {
     position: relative;
   }
 
   .aha-meter {
     left: 0;
+    top: 0;
   }
 }
