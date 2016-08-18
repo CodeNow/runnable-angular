@@ -17,7 +17,10 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
         trialDaysRemaining: sinon.stub().returns(2),
         isInActivePeriod: sinon.stub().returns(false),
         isInGrace: sinon.stub(),
-        isGraceExpired: sinon.stub()
+        isGraceExpired: sinon.stub(),
+        attrs: {
+          hasPaymentMethod: false
+        }
       }
     };
     ctx = {};
@@ -36,7 +39,6 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
       }),
       fetchSettings: sinon.spy()
     };
-    ctx.fakeuser.attrs.hasPaymentMethod = false;
     ctx.fakeOrg1 = {
       attrs: angular.copy(apiMocks.user),
       oauthName: function () {
@@ -80,6 +82,7 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
         userName: 'username',
         instanceName: 'instanceName'
       });
+      $provide.value('currentOrg', mockCurrentOrg);
     });
     angular.mock.inject(function(
       $compile,
