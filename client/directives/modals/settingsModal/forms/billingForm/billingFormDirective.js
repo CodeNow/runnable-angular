@@ -3,7 +3,7 @@
 require('app').directive('billingForm', billingForm);
 
 function billingForm(
-  $rootScope
+  currentOrg
 ) {
   return {
     restrict: 'A',
@@ -16,7 +16,7 @@ function billingForm(
         $scope.SEMC.showFooter = panelName === 'billingForm';
       });
       $scope.$broadcast('go-to-panel', $scope.SEMC.subTab || 'billingForm', 'immediate');
-      $scope.activeAccount = $rootScope.dataApp.data.activeAccount;
+      $scope.currentOrg = currentOrg;
       $scope.actions = {
         save: function () {
           $scope.$broadcast('go-to-panel', 'confirmationForm');

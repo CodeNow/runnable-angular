@@ -16,6 +16,7 @@ describe('controllerApp'.bold.underline.blue, function () {
   var ctx = {};
   var CA;
   var mockLocalStorage;
+  var mockCurrentOrg;
   function createMasterPods() {
     ctx.masterPods = runnable.newInstances(
       [apiMocks.instances.building, apiMocks.instances.runningWithContainers[0]],
@@ -23,13 +24,25 @@ describe('controllerApp'.bold.underline.blue, function () {
     );
     return ctx.masterPods;
   }
-  function setup(stateParams, intercom) {
+  function setup(stateParams) {
+    mockCurrentOrg = {
+      poppa: {
+        trialDaysRemaining: sinon.stub(),
+        isInTrial: sinon.stub(),
+        attrs: {
+          hasPaymentMethod: false
+        }
+      },
+      github: {
+        attrs: {
+          id: 'githubId1234'
+        }
+      }
+    };
     ctx = {};
     ctx.fetchInstancesByPodMock = new (require('../fixtures/mockFetch'))();
     angular.mock.module('app');
     ctx.fakeuser = new User(angular.copy(apiMocks.user));
-    ctx.fakeuser.trialDaysRemaining = sinon.stub();
-    ctx.fakeuser.isInTrial = sinon.stub();
     ctx.fakeuser.socket = {
       joinOrgRoom: sinon.spy()
     };
@@ -64,6 +77,7 @@ describe('controllerApp'.bold.underline.blue, function () {
       $provide.value('activeAccount', ctx.fakeuser);
       $provide.value('errs', ctx.fakeErrs);
       $provide.value('$localStorage', mockLocalStorage);
+      $provide.value('currentOrg', mockCurrentOrg);
     });
     angular.mock.inject(function (
       _$controller_,
@@ -132,18 +146,18 @@ describe('controllerApp'.bold.underline.blue, function () {
   describe('showTrialEndingNotification', function () {
     beforeEach(function () {
       keypather.set($rootScope, 'featureFlags.billing', true);
-      keypather.set(mockLocalStorage, 'hasDismissedTrialNotification.' + ctx.fakeuser.attrs.id, false);
-      ctx.fakeuser.isInTrial.returns(true);
-      ctx.fakeuser.trialDaysRemaining.returns(3);
+      keypather.set(mockLocalStorage, 'hasDismissedTrialNotification.' + mockCurrentOrg.github.attrs.id, false);
+      mockCurrentOrg.poppa.isInTrial.returns(true);
+      mockCurrentOrg.poppa.trialDaysRemaining.returns(3);
     });
 
     it('should not show if not in trial', function () {
-      ctx.fakeuser.isInTrial.returns(false);
+      mockCurrentOrg.poppa.isInTrial.returns(false);
       expect(CA.showTrialEndingNotification()).to.equal(false);
     });
 
     it('should not show if trial ends in more than 3 days', function () {
-      ctx.fakeuser.trialDaysRemaining.returns(4);
+      mockCurrentOrg.poppa.trialDaysRemaining.returns(4);
       expect(CA.showTrialEndingNotification()).to.equal(false);
     });
 
@@ -153,7 +167,7 @@ describe('controllerApp'.bold.underline.blue, function () {
     });
 
     it('should not show if local storage shows its been dismissed', function () {
-      keypather.set(mockLocalStorage, 'hasDismissedTrialNotification.' + ctx.fakeuser.attrs.id, true);
+      keypather.set(mockLocalStorage, 'hasDismissedTrialNotification.' + mockCurrentOrg.github.attrs.id, true);
       expect(CA.showTrialEndingNotification()).to.equal(false);
     });
 
@@ -164,9 +178,9 @@ describe('controllerApp'.bold.underline.blue, function () {
 
   describe('closeTrialEndingNotification', function () {
     it('should set hasDismissedTrialNotification on local storage', function () {
-      keypather.set(mockLocalStorage, 'hasDismissedTrialNotification.' + ctx.fakeuser.attrs.id, false);
+      keypather.set(mockLocalStorage, 'hasDismissedTrialNotification.' + mockCurrentOrg.github.attrs.id, false);
       CA.closeTrialEndingNotification();
-      expect(mockLocalStorage.hasDismissedTrialNotification[ctx.fakeuser.attrs.id]).to.equal(true);
+      expect(mockLocalStorage.hasDismissedTrialNotification[mockCurrentOrg.github.attrs.id]).to.equal(true);
     });
   });
 });

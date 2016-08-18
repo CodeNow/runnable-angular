@@ -3,12 +3,12 @@
 require('app').directive('paymentSummary', paymentSummary);
 
 function paymentSummary(
-  fetchPlan,
-  fetchPaymentMethod,
-  loading,
-  moment,
   $q,
-  $rootScope
+  currentOrg,
+  fetchPaymentMethod,
+  fetchPlan,
+  loading,
+  moment
 ) {
   return {
     restrict: 'A',
@@ -16,8 +16,8 @@ function paymentSummary(
     scope: {
       showNext: '='
     },
-    link: function ($scope, element) {
-      $scope.activeAccount = $rootScope.dataApp.data.activeAccount;
+    link: function ($scope) {
+      $scope.currentOrg = currentOrg;
       $scope.planMapping = {
         'starter': 'Starter',
         'standard': 'Standard',
@@ -44,7 +44,7 @@ function paymentSummary(
       };
 
       $scope.getTrialEndDate = function () {
-        return moment($scope.activeAccount.attrs.trialEnd).format('MMM Do, YYYY');
+        return moment(currentOrg.poppa.attrs.trialEnd).format('MMM Do, YYYY');
       };
     }
   };

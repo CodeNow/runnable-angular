@@ -6,12 +6,12 @@ require('app')
 function ChangePaymentFormController(
   stripe,
   loading,
-  $rootScope,
-  fetchPaymentMethod
+  fetchPaymentMethod,
+  currentOrg
 ) {
   var CPFC = this;
-  CPFC.activeAccount = $rootScope.dataApp.data.activeAccount;
-  if (CPFC.activeAccount.isInTrial()) {
+  CPFC.currentOrg = currentOrg;
+  if (currentOrg.poppa.isInTrial()) {
     loading('billingForm', true);
     fetchPaymentMethod()
       .then(function (paymentMethod) {
