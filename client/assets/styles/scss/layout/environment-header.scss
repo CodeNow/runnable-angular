@@ -30,7 +30,6 @@
       font-size: 16px;
       height: $input-sm;
       line-height: $input-line-height-sm;
-      margin-top: 8px;
     }
 
     &.scale {
@@ -44,6 +43,10 @@
       height: 18px;
       margin: 10px 9px 0 0;
       width: 18px;
+
+      @include media(xxxs) {
+        margin-top: 8px;
+      }
     }
   }
 }
