@@ -25,6 +25,7 @@ function featureFlags(
     billingPlanChangedNotification: false, // if plan changes because of container created
     cardStatus: false,
     connections: false,
+    configTerminal: false, // flag for terminal in config view
     dockerfileMirroringMultiple: false,
     editAnyInstance: false,
     emptyFolder: false, // shows empty folder markup
