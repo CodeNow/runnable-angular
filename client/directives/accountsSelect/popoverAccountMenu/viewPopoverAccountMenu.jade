@@ -21,7 +21,7 @@
           ul.list.popover-list(
             ng-if = "data.showIntegrations"
           )
-            li.list-item.popover-list-item.small.disabled {{data.activeAccount.oauthName()}} Settings
+            li.list-item.popover-list-item.small.disabled {{data.currentOrg.github.oauthName()}} Settings
             //- *****************
             //- $root.featureFlags.billing
             li.list-item.popover-list-item(
@@ -34,10 +34,10 @@
                 )
               | Billing
               btn.btn-xxs.btn-badge.anchor-right.orange(
-                ng-if = "data.activeAccount.isInTrial() && !data.activeAccount.attrs.hasPaymentMethod"
-                title = "{{data.activeAccount.trialDaysRemaining() + ' days left in your trial'}}"
+                ng-if = "data.currentOrg.poppa.isInTrial() && !data.currentOrg.poppa.attrs.hasPaymentMethod"
+                title = "{{data.currentOrg.poppa.trialDaysRemaining() + ' days left in your trial'}}"
               )
-                | {{data.activeAccount.trialDaysRemaining() + ' days left'}}
+                | {{data.currentOrg.poppa.trialDaysRemaining() + ' days left'}}
             li.list-item.popover-list-item(
               ng-click = "actions.openSettingsModal('teamManagement')"
             )

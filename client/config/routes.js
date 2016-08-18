@@ -199,8 +199,8 @@ module.exports = [
         activeAccount,
         currentOrg
       ) {
-        currentOrg.whitelist = activeOrg;
-        currentOrg.github = currentOrg;
+        currentOrg.poppa = activeOrg;
+        currentOrg.github = activeAccount;
       }
     }
   }, {
