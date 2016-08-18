@@ -11,6 +11,17 @@ function TermController(
   $timeout,
   WatchOnlyOnce
 ) {
+  if (!$scope.tabItem) {
+    $scope.tabItem = {
+      attrs: {
+        terminalId: null
+      },
+      state: {
+        saveState: function() {return null;}
+      }
+    }
+  }
+  var terminalId = keypather.get($scope.tabItem, 'attrs.terminalId');
   var termOnFn;
   var watchOnlyOnce = new WatchOnlyOnce($scope);
   $scope.termOpts = {

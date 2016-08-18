@@ -23,6 +23,11 @@
     ng-click = "SMC.page = 'run'"
     ng-disabled = "!SMC.instance.containers.models.length"
   ) CMD Logs
+  button.btn.btn-xs.white(
+    ng-class = "{'active': SMC.page === 'terminal'}"
+    ng-click = "SMC.page = 'terminal'"
+    instance = "SMC.instance"
+  ) Terminal
 
 //- logs
 pre.pre.log-wrapper(
@@ -45,7 +50,7 @@ pre.pre.log-wrapper(
   .build-log-wrapper(
     build-logs
     scroll-glue
-    instance = 'SMC.instance'
+    instance = "SMC.instance"
     ng-if = "SMC.instance"
     ng-show = "SMC.page === 'build'"
     ng-style = "($root.featureFlags.themeToggle || $root.featureFlags.fullScreenToggle) && {'padding-right': '42px'}"
@@ -53,10 +58,19 @@ pre.pre.log-wrapper(
   //- cmd logs page
   .term-js.term-log(
     controller = "BoxLogController"
-    instance = 'SMC.instance'
+    instance = "SMC.instance"
     log-term
     ng-if = "SMC.instance.containers.models.length"
     ng-show = "SMC.page === 'run'"
+  )
+  //- terminal
+  .term-js(
+    controller = "TermController"
+    debug-container = "debugContainer"
+    instance = "SMC.instance"
+    tab-item = "item"
+    log-term
+    ng-show = "SMC.page === 'terminal'"
   )
 
   .floating-controls(
