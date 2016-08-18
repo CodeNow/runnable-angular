@@ -21,7 +21,7 @@ a.a(
   | Configure
 
 a.a.disabled(
-  ng-if = "(dataApp.state.includes('base.config') && CA.instancesByPod && !CA.instancesByPod.models.length) || $root.featureFlags.aha1"
+  ng-if = "(dataApp.state.includes('base.config') && CA.instancesByPod && !CA.instancesByPod.models.length) || $root.featureFlags.aha1 || $root.featureFlags.aha1ExitedEarly"
   tooltip = "You don’t have any running containers yet!"
   tooltip-options = "{\"class\":\"right\",\"left\":75,\"top\":17}"
 )
@@ -32,7 +32,7 @@ a.a.disabled(
   | Containers
 
 a.a(
-  ng-if = "(dataApp.state.includes('base.instances') || !CA.instancesByPod || CA.instancesByPod.models.length) && !$root.featureFlags.aha1"
+  ng-if = "(dataApp.state.includes('base.instances') || !CA.instancesByPod || CA.instancesByPod.models.length) && !$root.featureFlags.aha1 && !$root.featureFlags.aha1ExitedEarly"
   ui-sref = "base.instances({ userName: CA.activeAccount.oauthName() })"
   ui-sref-active = "active"
 )

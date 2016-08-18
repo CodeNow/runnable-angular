@@ -9,9 +9,9 @@
 .grid-block.vertical.shrink.justify-center.text-center.aha-overview(
   ng-if = "$root.featureFlags.ahaOverview"
 )
-  .strong Welcome to your Sandbox! 👋
+  .grid-content.strong Welcome to your Sandbox! 👋
   | It’ll take a few steps to get everything set up. But don’t worry — we’re here to help!
-  button.btn.btn-sm.green(
+  button.grid-content.btn.btn-sm.green(
     ng-click = "\
       $root.featureFlags.ahaOverview = false;\
       $root.featureFlags.ahaSidebar = false;\
