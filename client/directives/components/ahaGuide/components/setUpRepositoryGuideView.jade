@@ -1,20 +1,19 @@
 .grid-block.shrink.aha-meter(
   ng-class = "{\
-    'aha-meter-13': $root.featureFlags.aha1,\
+    'aha-meter-13': AHA.state.subStep === 0,\
     'aha-meter-100': $root.featureFlags.aha2 || $root.featureFlags.aha3\
   }"
 )
   svg.iconnables
     use(
-      ng-if = "$root.featureFlags.aha1 && (!$root.featureFlags.aha2 || !$root.featureFlags.aha3)"
+      ng-if = "AHA.state.subStep === 0"
       xlink:href = "#icons-octicons-repo"
     )
     use(
-      ng-if = "$root.featureFlags.aha2 || $root.featureFlags.aha3"
+      ng-if = "AHA.state.subStep > 0"
       xlink:href = "#icons-check"
     )
 .grid-block.vertical
   p.p.strong Add your First Repository
   p.p
-    | {{state.showSubStep === 0 ? 'Click ‘Add Configuration’ to start adding your repository.' : ''}}
-    | {{state.showSubStep === 1 ? 'Select a repository to set up.' : ''}}
+    | {{AHA.state.caption}}

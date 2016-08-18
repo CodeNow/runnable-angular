@@ -1,22 +1,19 @@
 .grid-block.shrink.aha-meter(
   ng-class = "{\
-    'aha-meter-33': $root.featureFlags.aha0 && state.showSubStep === 0,\
-    'aha-meter-66': $root.featureFlags.aha0 && state.showSubStep === 1,\
-    'aha-meter-100': $root.featureFlags.aha1 || $root.featureFlags.aha2 || $root.featureFlags.aha3\
+    'aha-meter-33': $root.featureFlags.aha0 && AHA.state.subStep === 0,\
+    'aha-meter-66': $root.featureFlags.aha0 && AHA.state.subStep === 1,\
+    'aha-meter-100': $root.featureFlags.aha0 && AHA.state.subStep === 2\
   }"
 )
   svg.iconnables
     use(
-      ng-if = "$root.featureFlags.aha0"
+      ng-if = "$root.featureFlags.aha0 && AHA.state.subStep < 2"
       xlink:href = "#icons-cog"
     )
     use(
-      ng-if = "$root.featureFlags.aha1 || $root.featureFlags.aha2 || $root.featureFlags.aha3"
+      ng-if = "$root.featureFlags.aha0 && AHA.state.subStep === 2"
       xlink:href = "#icons-check"
     )
 .grid-block.vertical
-  p.p.strong Create your Sandbox
-  p.p
-    {{state.showSubStep === 0 ? 'Choose an organization to create your sandbox for.' : ''}}
-    {{state.showSubStep === 1 ? 'Hang tight!' : ''}}
-    {{state.showSubStep === 2 ? 'Continue to start configuring your project.' : ''}}
+  p.p.strong {{ AHA.state.title }}
+  p.p {{ AHA.state.caption }}
