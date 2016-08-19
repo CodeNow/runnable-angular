@@ -6,7 +6,13 @@ describe('planStatusFormDirective'.bold.underline.blue, function () {
   var loadingStub;
   var mockBillingPlans;
   var fetchPaymentMethodStub;
+  var mockCurrentOrg;
   beforeEach(function () {
+    mockCurrentOrg = {
+      poppa: {
+        isInTrial: sinon.stub().returns(true)
+      }
+    };
     mockBillingPlans = {
       'simplePlan': {
         id: 'billingSimplePlan',
@@ -19,6 +25,7 @@ describe('planStatusFormDirective'.bold.underline.blue, function () {
       loadingStub = sinon.stub();
       $provide.value('loading', loadingStub);
       $provide.value('billingPlans', mockBillingPlans);
+      $provide.value('currentOrg', mockCurrentOrg);
       $provide.factory('fetchPlan', function ($q) {
         return sinon.stub().returns($q.when({next: {plan: {}}}));
       });
@@ -32,22 +39,15 @@ describe('planStatusFormDirective'.bold.underline.blue, function () {
     });
     angular.mock.inject(function (
       $compile,
-      $rootScope,
-      keypather
+      $rootScope
     ) {
       $scope = $rootScope.$new();
-      keypather.set($rootScope, 'dataApp.data.activeAccount', {
-        isInTrial: sinon.stub().returns(true),
-        trialEnd: 1234
-      });
       $scope.save = sinon.stub();
       var tpl = directiveTemplate.attribute('plan-status-form');
       $compile(tpl)($scope);
       $scope.PSFC = {
         configurations: 1,
-        activeAccount: {
-          isInTrial: sinon.stub().returns(true)
-        }
+        currentOrg: mockCurrentOrg
       };
       $scope.$digest();
     });

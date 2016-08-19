@@ -6,13 +6,23 @@ var keypather;
 
 describe('changePaymentFormDirective'.bold.underline.blue, function () {
   var fetchPaymentMethodStub;
+  var mockCurrentOrg;
   beforeEach(function () {
+    mockCurrentOrg = {
+      poppa: {
+        isInTrial: sinon.stub().returns(true),
+        attrs: {
+          activePeriodEnd: '2016-08-12T21:24:06.000Z'
+        }
+      }
+    };
     window.helpers.killDirective('planSummary');
     angular.mock.module('app', function ($provide) {
       $provide.factory('fetchPaymentMethod', function ($q) {
         fetchPaymentMethodStub = sinon.stub().returns($q.when({}));
         return fetchPaymentMethodStub;
       });
+      $provide.value('currentOrg', mockCurrentOrg);
     });
     angular.mock.inject(function (
       $compile,
@@ -20,9 +30,6 @@ describe('changePaymentFormDirective'.bold.underline.blue, function () {
       _keypather_
     ) {
       keypather = _keypather_;
-      keypather.set($rootScope, 'dataApp.data.activeAccount', {
-        isInTrial: sinon.stub().returns(true)
-      });
       $scope = $rootScope.$new();
       $scope.save = sinon.stub();
       var tpl = directiveTemplate.attribute('change-payment-form', {
@@ -77,7 +84,6 @@ describe('changePaymentFormDirective'.bold.underline.blue, function () {
 
   describe('getBillingDate', function () {
     it('should return the billing date', function () {
-      keypather.set($elScope, 'CPFC.activeAccount.attrs.activePeriodEnd', '2016-08-12T21:24:06.000Z');
       expect($elScope.getBillingDate()).to.equal('Aug 12th, 2016');
     });
   });

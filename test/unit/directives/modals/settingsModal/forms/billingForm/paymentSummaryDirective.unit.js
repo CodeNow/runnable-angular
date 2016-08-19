@@ -10,7 +10,15 @@ describe('paymentSummaryDirective'.bold.underline.blue, function () {
   var mockPlan;
   var mockPaymentMethod;
   var fetchPaymentMethodStub;
+  var mockCurrentOrg;
   beforeEach(function () {
+    mockCurrentOrg = {
+      poppa: {
+        attrs: {
+          trialEnd: '2016-08-12T21:24:06.000Z'
+        }
+      }
+    };
     mockPlan = {
       next: {
         plan: {
@@ -34,6 +42,7 @@ describe('paymentSummaryDirective'.bold.underline.blue, function () {
       });
       loadingStub = sinon.stub();
       $provide.value('loading', loadingStub);
+      $provide.value('currentOrg', mockCurrentOrg);
     });
     angular.mock.inject(function (
       $compile,
@@ -69,7 +78,6 @@ describe('paymentSummaryDirective'.bold.underline.blue, function () {
 
   describe('getTrialEndDate', function () {
     it('should return the trial end date', function () {
-      keypather.set($elScope, 'activeAccount.attrs.trialEnd', '2016-08-12T21:24:06.000Z');
       expect($elScope.getTrialEndDate()).to.equal('Aug 12th, 2016');
     });
   });

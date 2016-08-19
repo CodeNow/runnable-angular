@@ -16,7 +16,8 @@ function accountsSelect (
   errs,
   keypather,
   ModalService,
-  promisify
+  promisify,
+  currentOrg
 ) {
   return {
     restrict: 'A',
@@ -87,6 +88,7 @@ function accountsSelect (
       $scope.$watch('data.activeAccount', function (account) {
         if (!account) { return; }
         keypather.set($scope, 'popoverAccountMenu.data.activeAccount', account);
+        keypather.set($scope, 'popoverAccountMenu.data.currentOrg', currentOrg);
         keypather.set($scope, 'popoverAccountMenu.data.orgs', $scope.data.orgs);
         keypather.set($scope, 'popoverAccountMenu.data.user', $scope.data.user);
 
@@ -102,8 +104,8 @@ function accountsSelect (
         if (!$rootScope.featureFlags.billing) {
           return '';
         }
-        if ($scope.data.activeAccount.isInTrial() && !$scope.data.activeAccount.attrs.hasPaymentMethod) {
-          return $scope.data.activeAccount.trialDaysRemaining();
+        if (currentOrg.poppa.isInTrial() && !currentOrg.poppa.attrs.hasPaymentMethod) {
+          return currentOrg.poppa.trialDaysRemaining();
         }
         return '';
       };
@@ -113,8 +115,8 @@ function accountsSelect (
           return {};
         }
         return {
-          badge: $scope.data.activeAccount.isInTrial() && !$scope.data.activeAccount.attrs.hasPaymentMethod,
-          'badge-orange': $scope.data.activeAccount.isInTrial() && !$scope.data.activeAccount.attrs.hasPaymentMethod
+          badge: currentOrg.poppa.isInTrial() && !currentOrg.poppa.attrs.hasPaymentMethod,
+          'badge-orange': currentOrg.poppa.isInTrial() && !currentOrg.poppa.attrs.hasPaymentMethod
         };
       };
     }

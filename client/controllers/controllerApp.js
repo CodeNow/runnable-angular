@@ -22,6 +22,7 @@ function ControllerApp(
   keypather,
   ModalService,
   pageName,
+  currentOrg,
 
   user,
   orgs,
@@ -119,9 +120,9 @@ function ControllerApp(
     }
   };
 
-  if ($rootScope.featureFlags.billing && (activeAccount.isInGrace() || activeAccount.isGraceExpired())) {
+  if ($rootScope.featureFlags.billing && (currentOrg.poppa.isInGrace() || currentOrg.poppa.isGraceExpired())) {
     // Determine if it's a trial end or just a normal payment due
-    if (activeAccount.attrs.hasPaymentMethod) {
+    if (currentOrg.poppa.attrs.hasPaymentMethod) {
       ModalService.showModal({
         controller: 'ExpiredAccountController',
         controllerAs: 'EAC',
@@ -146,13 +147,13 @@ function ControllerApp(
 
   CA.showTrialEndingNotification = function () {
     return $rootScope.featureFlags.billing &&
-      activeAccount.isInTrial() &&
-      activeAccount.trialDaysRemaining() <= 3 &&
-      !activeAccount.attrs.hasPaymentMethod && !keypather.get($localStorage, 'hasDismissedTrialNotification.' + activeAccount.attrs.id);
+      currentOrg.poppa.isInTrial() &&
+      currentOrg.poppa.trialDaysRemaining() <= 3 &&
+      !currentOrg.poppa.attrs.hasPaymentMethod && !keypather.get($localStorage, 'hasDismissedTrialNotification.' + currentOrg.github.attrs.id);
   };
 
   CA.closeTrialEndingNotification = function () {
-    keypather.set($localStorage, 'hasDismissedTrialNotification.' + activeAccount.attrs.id, true);
+    keypather.set($localStorage, 'hasDismissedTrialNotification.' + currentOrg.github.attrs.id, true);
   };
 
 }

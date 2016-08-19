@@ -6,7 +6,7 @@
     width = "250"
   )
 
-  h3.grid-content.h3.text-center {{$root.dataApp.data.activeAccount.isInTrial() ? 'Your payment method has been added' : 'Your payment has been submitted'}}!
+  h3.grid-content.h3.text-center {{currentOrg.poppa.isInTrial() ? 'Your payment method has been added' : 'Your payment has been submitted'}}!
 
   p.grid-content.p.text-center.text-gray(
     payment-summary
@@ -15,10 +15,10 @@
 
 footer.modal-footer.clearfix
   button.btn.btn-md.btn-block.green(
-    ng-if = "$root.dataApp.data.activeAccount.isInActivePeriod()"
+    ng-if = "currentOrg.poppa.isInActivePeriod()"
   ) Go to your sandbox!
   button.btn.btn-md.btn-block.white(
     ng-click = "goToPanel('billingForm', 'back');"
-    ng-if = "$root.dataApp.data.activeAccount.isInTrial()"
+    ng-if = "currentOrg.poppa.isInTrial()"
     type = "button"
   ) Billing Overview

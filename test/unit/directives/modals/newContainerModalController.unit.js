@@ -7,7 +7,6 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
 
   // Imported Values
   var $controller;
-  var $rootScope;
   var $q;
   var keypather;
 
@@ -29,9 +28,9 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
   var instances;
   var mockInstance;
   var repos;
-  var activeAccount;
   var repoBuildAndBranch;
   var mockSourceInstance;
+  var mockCurrentOrg;
 
   function initState () {
     helpCardsStub = {
@@ -39,6 +38,12 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
     };
     errsStub = {
       handler: sinon.spy()
+    };
+    mockCurrentOrg = {
+      poppa: {},
+      github: {
+        oauthName: sinon.stub().returns('myOauthName')
+      }
     };
 
     angular.mock.module('app');
@@ -88,6 +93,7 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
         };
       });
       $provide.value('close', closeStub);
+      $provide.value('currentOrg', mockCurrentOrg);
       $provide.factory('fetchOwnerRepos', function ($q) {
         runnable.reset(mocks.user);
         repos = runnable.newGithubRepos(
@@ -102,19 +108,14 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
 
     angular.mock.inject(function (
       _$controller_,
-      _$rootScope_,
+      $rootScope,
       _keypather_,
       _$q_
     ) {
       $controller = _$controller_;
-      keypather = _keypather_;
-      $rootScope = _$rootScope_;
       $q = _$q_;
+      keypather = _keypather_;
 
-      activeAccount = {
-        oauthName: sinon.mock().returns('myOauthName')
-      };
-      keypather.set($rootScope, 'dataApp.data.activeAccount', activeAccount);
       $scope = $rootScope.$new();
       NCMC = $controller('NewContainerModalController', {
         $scope: $scope
@@ -186,7 +187,7 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
         NCMC.createBuildAndGoToNewRepoModal(instanceName, repo);
         $scope.$digest();
         sinon.assert.calledOnce(createNewBuildAndFetchBranch);
-        sinon.assert.calledWith(createNewBuildAndFetchBranch, activeAccount, repo);
+        sinon.assert.calledWith(createNewBuildAndFetchBranch, mockCurrentOrg.github, repo);
         sinon.assert.calledOnce(NCMC.newRepositoryContainer);
         sinon.assert.calledWithExactly(NCMC.newRepositoryContainer, repoBuildAndBranch);
         expect(repoBuildAndBranch.instanceName).to.equal(instanceName);
@@ -202,7 +203,7 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
         NCMC.createBuildAndGoToNewRepoModal(instanceName, repo, dockerfile, 'dockerfile');
         $scope.$digest();
         sinon.assert.calledOnce(createNewBuildAndFetchBranch);
-        sinon.assert.calledWith(createNewBuildAndFetchBranch, activeAccount, repo);
+        sinon.assert.calledWith(createNewBuildAndFetchBranch, mockCurrentOrg.github, repo);
         sinon.assert.calledOnce(NCMC.newMirrorRepositoryContainer);
         sinon.assert.calledWithExactly(NCMC.newMirrorRepositoryContainer, repoBuildAndBranch);
         sinon.assert.notCalled(NCMC.newRepositoryContainer);
