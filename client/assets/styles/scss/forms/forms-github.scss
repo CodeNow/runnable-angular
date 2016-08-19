@@ -1,5 +1,17 @@
 .form-github {
 
+  .label-col {
+    @include media(xs) {
+      width: auto;
+    }
+  }
+
+  .input-col {
+    @include media(xs) {
+      padding-right: 15px;
+    }
+  }
+
   .well {
     padding-bottom: 0;
   }
