@@ -45,14 +45,14 @@ a.grid-block.align-center.a-sref(
     ng-if = "$root.featureFlags.addBranches"
   )
     svg.iconnables
-      //- if this container's configuration is *not* modified
       use(
+        ng-if = "$root.featureFlags.addBranches && !INC.instance.attrs.isIsolationGroupMaster"
         xlink:href = "#icons-gear"
       )
-      //- if this container's configuration *is* modified
-      //- use(
-      //-   xlink:href = "#icons-gear-modified"
-      //- )
+      use(
+        ng-if = "$root.featureFlags.addBranches && INC.instance.attrs.isIsolationGroupMaster || INC.instance.attrs.isolated"
+        xlink:href = "#icons-gear-modified"
+      )
 
   //- config button for non-repo containers (pre auto-isolation)
   svg.grid-block.shrink.iconnables.icons-gear(
