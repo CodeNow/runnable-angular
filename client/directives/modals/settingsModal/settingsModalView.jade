@@ -29,9 +29,7 @@
           .btn-text.grid-content Billing
         button.btn.btn-radio.grid-block.vertical(
           ng-class = "{'active': SEMC.currentTab === 'teamManagement'}"
-          ng-click = "\
-            SEMC.currentTab = 'teamManagement';\
-          "
+          ng-click = "SEMC.currentTab = 'teamManagement'"
         )
           svg.iconnables.grid-content
             use(
@@ -39,10 +37,18 @@
             )
           .btn-text.grid-content Teammates
         button.btn.btn-radio.grid-block.vertical(
+          ng-class = "{'active': SEMC.currentTab === 'gitHubIntegration'}"
+          ng-click = "SEMC.currentTab = 'gitHubIntegration'"
+          ng-if = "$root.featureFlags.gitHubIntegration"
+        )
+          svg.iconnables.grid-content
+            use(
+              xlink:href = "#icons-github"
+            )
+          .btn-text.grid-content GitHub Integration
+        button.btn.btn-radio.grid-block.vertical(
           ng-class = "{'active': SEMC.currentTab === 'slackIntegration'}"
-          ng-click = "\
-            SEMC.currentTab = 'slackIntegration';\
-          "
+          ng-click = "SEMC.currentTab = 'slackIntegration'"
         )
           img.img.iconnables.grid-content(
             height = "24"
@@ -60,6 +66,10 @@
 
       team-management-form(
         ng-if = "SEMC.currentTab === 'teamManagement'"
+      )
+
+      div(
+        ng-if = "SEMC.currentTab === 'gitHubIntegration'"
       )
 
       slack-integration-form(

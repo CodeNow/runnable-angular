@@ -32,6 +32,7 @@ function featureFlags(
     emptyFolder: false, // shows empty folder markup
     fullScreen: false,  // toggles full screen
     fullScreenToggle: false,  // toggles the button that toggles full screen
+    gitHubIntegration: false,
     gracePeriod: false, // if user enters the grace period during the preview
     gracePeriodPayment: false, // if the user enters the grace period because of a payment error
     gracePeriodTrial: false, // if the user enters the grace period because of trial expiring
