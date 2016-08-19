@@ -21,6 +21,7 @@ function TermController(
       }
     }
   }
+
   var termOnFn;
   var watchOnlyOnce = new WatchOnlyOnce($scope);
   $scope.termOpts = {

@@ -98,21 +98,28 @@ function serviceAhaGuide(
           className: 'aha-meter-70'
         },
         logs: {
-          caption: 'Now building. Build times varies depending on your configuration',
+          caption: 'Now building. Build time varies depending on your configuration',
           className: 'aha-meter-80'
+        },
+        success: {
+          caption: 'Your build is looking good! Check out its URL and click \'Done\' if it looks good',
+          className: 'aha-meter-90'
         }
- 
       },
+
       buildStatus: {
         running: 'Verifying configuration... ',
+        success: 'Your build is looking good! Check out its URL and click \'Done\' if it looks good',
         faileda: 'Your container failed to run. Inspect your CMD logs for more information.',
         failed: 'Your build failed. Inspect your build logs for more information.'
       },
+
       panelSteps: {
         containerSelection: 1,
         dockerfileMirroring: 2,
         nameContainer: 3
       },
+
       tabSteps: {
         repository: 4,
         commands: 5,
@@ -122,7 +129,8 @@ function serviceAhaGuide(
         files: 6,
         ports: 6,
         translation: 6,
-        logs: 7
+        logs: 7,
+        success: 8
       }
     }
   ]

@@ -10,22 +10,39 @@ function AhaGuideController(
   serviceAhaGuide
 ) {
 
+  // TODO : use the watchonce service where warranted
+
   var AHA = this;
 
   var previousTab;
   var buildLogListener;
 
   var tabListener = $scope.$on('updatedTab', function(event, tabName) {
-    if (tabName === 'logs') {
+    if (AHA.state.subStepIndex > 5) {
       tabListener();
+    } else {
+      updateCaption(tabName);
+    }
+  });
+
+  var alertListener = $scope.$on('alert', function(event, alert) {
+    // alerts on container creation success
+    if (alert.type === 'success') {
+      updateCaption('logs');
+      alertListener();
+
       buildLogListener = $scope.$on('buildStatusUpdated', function(event, buildStatus) {
+        console.log(buildStatus);
         if (buildStatus === 'failed' || buildStatus === 'buildFailed') {
           AHA.state.showError = true;
+          buildLogListener();
+        } else if (buildStatus === 'success') {
+          updateCaption(buildStatus);
+          buildLogListener();
         }
         updateBuildStatus(buildStatus);
-      })
+      });
     }
-    updateCaption(tabName);
   });
 
   AHA.state = {
@@ -54,6 +71,7 @@ function AhaGuideController(
     if (status === 'dockLoaded') {
       $rootScope.animatedPanelListener();
     }
+    AHA.state.subStepIndex++;
     AHA.state.subStep = status;
     AHA.state.caption = currentMilestone.subSteps[status].caption;
     AHA.state.className = currentMilestone.subSteps[status].className
@@ -64,19 +82,8 @@ function AhaGuideController(
     AHA.state.caption = currentMilestone.buildStatus[buildStatus];
   }
 
-  // handle the panel event
-  function incrementStep(panel) {
-    // AHA.state.subStep = currentMilestone.panelSteps[panel];
-    
-    // if (AHA.state.subStep === undefined) {
-    //   AHA.state.subStep = 0;
-    // }
-
-    // if either the dockLoaded is fired or we've reached the end
-    
-    
-  }
-
+  // we need to unregister this animated panel listener if it exists
+  // to avoid duplication 
   if ($rootScope.animatedPanelListener) {
     $rootScope.animatedPanelListener();
   }
