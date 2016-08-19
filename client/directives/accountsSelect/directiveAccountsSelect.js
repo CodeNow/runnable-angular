@@ -15,8 +15,8 @@ function accountsSelect (
   configEnvironment,
   errs,
   keypather,
-  promisify,
-  ModalService
+  ModalService,
+  promisify
 ) {
   return {
     restrict: 'A',
@@ -54,7 +54,8 @@ function accountsSelect (
               controllerAs: 'SEMC',
               templateUrl: 'settingsModalView',
               inputs: {
-                tab: tabName
+                tab: tabName,
+                subTab: ''
               }
             });
           },
@@ -78,6 +79,7 @@ function accountsSelect (
       };
 
       keypather.set($scope, 'popoverAccountMenu.data.dataModalIntegrations', $scope.data);
+      keypather.set($scope, 'popoverAccountMenu.data.activeAccount', $scope.data.activeAccount);
 
       if (configEnvironment !== 'production') {
         keypather.set($scope, 'popoverAccountMenu.data.inDev', true);
@@ -95,6 +97,26 @@ function accountsSelect (
           $scope.popoverAccountMenu.data.showIntegrations = true;
         }
       });
+
+      $scope.getBadgeCount = function () {
+        if (!$rootScope.featureFlags.billing) {
+          return '';
+        }
+        if ($scope.data.activeAccount.isInTrial() && !$scope.data.activeAccount.attrs.hasPaymentMethod) {
+          return $scope.data.activeAccount.trialDaysRemaining();
+        }
+        return '';
+      };
+
+      $scope.getClasses = function () {
+        if (!$rootScope.featureFlags.billing) {
+          return {};
+        }
+        return {
+          badge: $scope.data.activeAccount.isInTrial() && !$scope.data.activeAccount.attrs.hasPaymentMethod,
+          'badge-orange': $scope.data.activeAccount.isInTrial() && !$scope.data.activeAccount.attrs.hasPaymentMethod
+        };
+      };
     }
   };
 }

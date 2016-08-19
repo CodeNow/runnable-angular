@@ -1,6 +1,6 @@
 .modal-backdrop.in
   .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
-    ng-if = "$root.featureFlags.aha"
+    ng-if = "$root.featureFlags.aha1"
     ng-include = "'ahaGuideView'"
     ng-init = "\
       state.showStep = 1;\
@@ -14,11 +14,13 @@
         name = "containerSelection"
       )
         header.modal-header.grid-block.justify-center(
+          ng-class = "{'lg': !$root.featureFlags.aha1}"
           ng-click = "MC.changeTab('nameContainer')"
         )
           .grid-block.shrink.btn(
             ng-class = "{'active': MC.state.tabName === 'repos'}"
             ng-click = "MC.changeTab('repos')"
+            ng-if = "!$root.featureFlags.aha1"
           )
             svg.iconnables.icons-repository.grid-block.shrink
               use(
@@ -34,6 +36,7 @@
               'disabled': $root.isLoading[MC.name + 'SingleRepo'] \
             }"
             ng-click = "!$root.isLoading[MC.name + 'SingleRepo'] && MC.changeTab('services')"
+            ng-if = "!$root.featureFlags.aha1"
           )
             svg.iconnables.icons-template.grid-block.shrink
               use(
@@ -69,7 +72,9 @@
             use(
               xlink:href = "#icons-arrow-down"
             )
-          h1.modal-heading Choose Configuration
+          h1.modal-heading(
+            ng-if = "!$root.featureFlags.aha1"
+          ) Configuration Method
           svg.iconnables.icons-close(
             ng-click = "MC.close()"
           )
@@ -91,22 +96,17 @@
           ) Cancel
           button.btn.btn-md.green.float-right(
             ng-disabled = "$root.isLoading[MC.name + 'SingleRepo'] || MC.state.configurationMethod === null"
-            ng-click = "($root.featureFlags.nameContainer) ? goToPanel('nameContainer') : MC.createBuildAndGoToNewRepoModal(MC.state.instanceName, MC.state.repo, MC.state.dockerfile)"
+            ng-click = "goToPanel('nameContainer')"
           )
             .spinner-wrapper.spinner-white.spinner-sm.in(
               ng-include = "'spinner'"
               ng-if = "$root.isLoading[MC.name + 'SingleRepo']"
             )
-            span(
-              ng-if = "!$root.featureFlags.nameContainer"
-            ) Next Step: {{MC.state.dockerfile === false ? 'Configure' : 'Review'}}
-            span(
-              ng-if = "$root.featureFlags.nameContainer"
-            ) Next Step: Naming
+            span() Next Step: Naming
 
       animated-panel.grid-block.vertical.modals-rename(
         name = "nameContainer"
-        ng-if = "(MC.state.repo || MC.state.templateSource) && $root.featureFlags.nameContainer"
+        ng-if = "MC.state.repo || MC.state.templateSource"
       )
         header.modal-header
           svg.iconnables.icons-arrow-backward(
@@ -115,7 +115,9 @@
             use(
               xlink:href = "#icons-arrow-down"
             )
-          h1.modal-heading.text-overflow Container Name
+          h1.modal-heading.text-overflow(
+            ng-if = "!$root.featureFlags.aha1"
+          ) Container Name
           svg.iconnables.icons-close(
             ng-click = "MC.close()"
           )

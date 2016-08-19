@@ -1,44 +1,45 @@
 /*global expect:true */
 'use strict';
-var mockUserFetch = new (require('../../../fixtures/mockFetch.js'))();
-var apiMocks = require('../../../apiMocks');
-var generateUserObject = apiMocks.generateUserObject;
-var generateTeammateInvitationObject = apiMocks.generateTeammateInvitationObject;
-var generateGithubUserObject = apiMocks.gh.generateGithubUserObject;
-var generateGithubOrgObject = apiMocks.gh.generateGithubOrgObject;
 
 var $rootScope;
 var $controller;
 var $scope;
 var $q;
+var keypather;
 
 describe('SettingsModalController'.bold.underline.blue, function () {
 
   var SEMC;
+  var subTabName = 'SubTab';
   var tabName = 'hello';
   var closeStub = sinon.stub();
 
   beforeEach(function () {
     angular.mock.module('app', function ($provide) {
       $provide.value('tab', tabName);
+      $provide.value('subTab', subTabName);
       $provide.value('close', closeStub);
     });
     angular.mock.inject(function (
       _$controller_,
+      _$q_,
       _$rootScope_,
-      _$q_
+      _keypather_
     ) {
       $controller = _$controller_;
       $rootScope = _$rootScope_;
+      keypather = _keypather_;
       $scope = $rootScope.$new();
       $q = _$q_;
     });
 
+    keypather.set($rootScope, 'dataApp.data.activeAccount', {});
     SEMC = $controller('SettingsModalController', { $scope: $scope }, true)();
   });
 
-  it('should instanstiate the controller correctly', function () {
+  it('should instantiate the controller correctly', function () {
     expect(SEMC.close).to.equal(closeStub);
     expect(SEMC.currentTab).to.equal(tabName);
+    expect(SEMC.subTab).to.equal(subTabName);
   });
 });

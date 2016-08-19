@@ -5,6 +5,8 @@ require('app')
 
 
 function ControllerApp(
+  $localStorage,
+  $ocLazyLoad,
   $rootScope,
   $scope,
   $state,
@@ -15,19 +17,17 @@ function ControllerApp(
   configLoginURL,
   debounce,
   errs,
-  eventTracking,
-  fetchInstancesByPod,
-  pageName,
   featureFlags,
-  $ocLazyLoad,
-  ModalService,
+  fetchInstancesByPod,
   keypather,
+  ModalService,
+  pageName,
 
   user,
   orgs,
   activeAccount
 ) {
-  // Load ace after 5 seconds. Should improve user experience overall..
+  // Load ace after 10 seconds. Should improve user experience overall..
   $timeout(function () {
     $ocLazyLoad.load('ui.ace');
   }, 10000);
@@ -119,11 +119,40 @@ function ControllerApp(
     }
   };
 
+  if ($rootScope.featureFlags.billing && (activeAccount.isInGrace() || activeAccount.isGraceExpired())) {
+    // Determine if it's a trial end or just a normal payment due
+    if (activeAccount.attrs.hasPaymentMethod) {
+      ModalService.showModal({
+        controller: 'ExpiredAccountController',
+        controllerAs: 'EAC',
+        templateUrl: 'paymentDueView',
+        preventClose: true
+      });
+    } else {
+      ModalService.showModal({
+        controller: 'ExpiredAccountController',
+        controllerAs: 'EAC',
+        templateUrl: 'trialEndView',
+        preventClose: true
+      });
+    }
+  }
+
   $rootScope.canEditFeatureFlags = function () {
     return !!dataApp.data.allAccounts.find(function (account) {
       return account.oauthName() === 'CodeNow';
     });
   };
 
+  CA.showTrialEndingNotification = function () {
+    return $rootScope.featureFlags.billing &&
+      activeAccount.isInTrial() &&
+      activeAccount.trialDaysRemaining() <= 3 &&
+      !activeAccount.attrs.hasPaymentMethod && !keypather.get($localStorage, 'hasDismissedTrialNotification.' + activeAccount.attrs.id);
+  };
+
+  CA.closeTrialEndingNotification = function () {
+    keypather.set($localStorage, 'hasDismissedTrialNotification.' + activeAccount.attrs.id, true);
+  };
 
 }

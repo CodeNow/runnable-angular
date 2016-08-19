@@ -36,12 +36,12 @@
       .grid-block.shrink.vertical.price
         .grid-block.strike(
           ng-if = "PSFC.discounted"
-        ) ${{plans.starter.costPerUser}}
+        ) ${{PSFC.plans.starter.costPerUser}}
         .grid-block.justify-center.h1(
           ng-class = "{'discounted': PSFC.discounted}"
         )
           sup.sup $
-          | {{PSFC.calculatePlanAmount('starter')}}
+          | {{PSFC.calculatePlanAmount('starter') | centsToDollars}}
         small.grid-block.vertical.small.text-gray per user
           br
           | per month
@@ -58,12 +58,12 @@
       .grid-block.shrink.vertical.price
         .grid-block.strike(
           ng-if = "PSFC.discounted"
-        ) ${{plans.standard.costPerUser}}
+        ) ${{PSFC.plans.standard.costPerUser}}
         .grid-block.justify-center.h1(
           ng-class = "{'discounted': PSFC.discounted}"
         )
           sup.sup $
-          | {{PSFC.calculatePlanAmount('standard')}}
+          | {{PSFC.calculatePlanAmount('standard') | centsToDollars}}
         small.grid-block.vertical.small.text-gray per user
           br
           | per month
@@ -80,12 +80,12 @@
       .grid-block.shrink.vertical.price
         .grid-block.strike(
           ng-if = "PSFC.discounted"
-        ) ${{plans.plus.costPerUser}}
+        ) ${{PSFC.plans.plus.costPerUser}}
         .grid-block.justify-center.h1(
           ng-class = "{'discounted': PSFC.discounted}"
         )
           sup.sup $
-          | {{PSFC.calculatePlanAmount('plus')}}
+          | {{PSFC.calculatePlanAmount('plus') | centsToDollars}}
         small.grid-block.vertical.small.text-gray per user
           br
           | per month
@@ -96,34 +96,24 @@
   label.grid-block.align-center.padding-xs.well.well-plan.well-summary.disabled(
     ng-if = "PSFC.discounted"
     ng-include = "'discountView'"
-    ng-init = "state.hasDuration = (!$root.featureFlags.trial) ? 'true' : ''"
+    ng-init = "state.hasDuration = (PSFC.activeAccount.isInActivePeriod()) ? 'true' : ''"
   )
 
   p.grid-content.p.text-gray.text-center.padding-sm(
-    ng-include = "'paymentSummaryView'"
-    ng-init = "\
-      state.hasPaid = false;\
-      state.showNext = true;\
-    "
+    payment-summary
+    show-next = "true"
   )
 
   .grid-block.justify-center
     button.grid-block.shrink.btn.btn-md.green(
-      ng-click = "\
-        SEMC.showFooter = false;\
-        goToPanel('changePaymentForm');\
-      "
-      ng-if = "$root.featureFlags.trial"
+      ng-click = "goToPanel('changePaymentForm');"
+      ng-if = "PSFC.activeAccount.isInTrial()"
       type = "button"
     ) Add Payment Method
 
 footer.modal-footer.clearfix(
-  ng-if = "!$root.featureFlags.trial"
+  ng-if = "!PSFC.activeAccount.isInTrial()"
 )
   button.btn.btn-md.gray.btn-cancel.float-left(
-    ng-click = "\
-      SEMC.showFooter = true;\
-      goToPanel('billingForm', 'back');\
-    "
-    ng-if = "!$root.featureFlags.trial"
+    ng-click = "goToPanel('billingForm', 'back');"
   ) Back

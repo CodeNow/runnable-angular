@@ -1,4 +1,12 @@
 .modal-backdrop.in
+  .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
+    ng-if = "$root.featureFlags.aha1"
+    ng-include = "'ahaGuideView'"
+    ng-init = "\
+      state.showStep = 1;\
+      state.showSubStep = 4;\
+    "
+  )
   form.modal-dialog.modal-edit(
     name = "SMC.serverForm"
     ng-if = "SMC.state.repo"

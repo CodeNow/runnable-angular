@@ -1,9 +1,9 @@
 'use strict';
 
 require('app')
-  .controller('GracePeriodController', GracePeriodController);
+  .controller('WelcomeBackController', WelcomeBackController);
 
-function GracePeriodController(
+function WelcomeBackController(
   $rootScope
 ) {
   var WBC = this;

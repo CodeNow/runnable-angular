@@ -2,5 +2,5 @@
   p.strong {{plan.name}} Plan
   small.small Up to {{plan.maxConfigurations}} configurations
 .grid-block.shrink.p.align-baseline
-  .strong ${{plan.costPerUser}}
+  .strong ${{plan.costPerUser | centsToDollars}}
   small.small /user/month

@@ -7,13 +7,17 @@ require('app')
  * @ngInject
  */
 function SettingsModalController(
-  tab,
-  close
+  $rootScope,
+  close,
+  subTab,
+  tab
 ) {
   var SEMC = this;
   angular.extend(SEMC, {
+    close: close,
     currentTab: tab,
-    close: close
+    subTab: subTab
   });
+  SEMC.activeAccount = $rootScope.dataApp.data.activeAccount;
   SEMC.showFooter = true;
 }

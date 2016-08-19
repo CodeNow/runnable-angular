@@ -5,69 +5,45 @@
     ng-if = "$root.isLoading.billingForm"
   )
 
-  //- billing form empty state
   animated-panel-container(
-    ng-if = "$root.featureFlags.trial"
+    ng-show = "!$root.isLoading.billingForm"
   )
     animated-panel(
-      default = "true"
-      name = "trialForm"
+      name = "billingForm"
     )
       .grid-block.vertical.align-center.form-trial.padding-md.fade(
         ng-class = "{'in': isActivePanel()}"
-        ng-include = "'trialForm'"
-        ng-init = "state.fromModal = true"
-        ng-show = "!$root.isLoading.billingForm"
+        trial-form
+        from-modal = 'true'
+        ng-if = "activeAccount.isInTrial() && !activeAccount.attrs.hasPaymentMethod"
       )
       .grid-block.vertical.form-plan.fade(
         ng-class = "{'in': isActivePanel()}"
         ng-init = "state.hasDuration = false"
         plan-status-form
         ng-show = "!$root.isLoading.billingForm"
-      )
-    animated-panel(
-      name = "changePaymentForm"
-    )
-      .grid-block.vertical.form-payment.fade(
-        ng-class = "{'in': isActivePanel()}"
-      )
-        div(
-          change-payment-form
-          save = "actions.trial.save"
-          back = "actions.trial.back"
-          updating = "false"
-        )
-    animated-panel(
-      name = "confirmationForm"
-    )
-      .grid-block.vertical.fade(
-        ng-class = "{'in': isActivePanel()}"
-        ng-include = "'confirmationForm'"
+        ng-if = "activeAccount.isInTrial() && !activeAccount.attrs.hasPaymentMethod"
       )
 
-  animated-panel-container(
-    ng-if = "!$root.featureFlags.trial"
-    ng-show = "!$root.isLoading.billingForm"
-  )
-    animated-panel(
-      default = "true"
-      name = "billingForm"
-    )
       .grid-block.vertical.form-plan.label.padding-sm.fade(
         ng-class = "{'in': isActivePanel()}"
         ng-include = "'showPlanForm'"
+        ng-if = "!activeAccount.isInTrial() || (activeAccount.isInTrial() && activeAccount.attrs.hasPaymentMethod)"
       )
       .grid-block.vertical.label.padding-sm.fade(
         ng-class = "{'in': isActivePanel()}"
         show-payment-form
+        ng-if = "!activeAccount.isInTrial() || (activeAccount.isInTrial() && activeAccount.attrs.hasPaymentMethod)"
       )
       .grid-block.vertical.label.padding-sm.fade(
         ng-class = "{'in': isActivePanel()}"
         billing-history-form
+        ng-if = "!activeAccount.isInTrial() || (activeAccount.isInTrial() && activeAccount.attrs.hasPaymentMethod)"
       )
       .grid-block.vertical.label.padding-sm.fade(
         ng-class = "{'in': isActivePanel()}"
         ng-include = "'disableOrgForm'"
+        ng-if = "!activeAccount.isInTrial() || (activeAccount.isInTrial() && activeAccount.attrs.hasPaymentMethod)"
       )
     animated-panel(
       name = "planStatusForm"
@@ -84,9 +60,9 @@
       )
         div(
           change-payment-form
-          save = "actions.update.save"
-          cancel = "actions.update.cancel"
-          updating = "true"
+          save = "actions.save"
+          cancel = "actions.cancel"
+          updating = "activeAccount.attrs.hasPaymentMethod"
         )
     animated-panel(
       name = "confirmationForm"

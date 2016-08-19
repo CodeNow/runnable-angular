@@ -1,14 +1,9 @@
 .grid-block(
-  ng-if = "dataInstance.data.instance.isMigrating() && !$root.featureFlags.trialEnding"
+  ng-if = "dataInstance.data.instance.isMigrating()"
   ng-include = "'migrationNotificationView'"
 )
 
 .grid-block(
-  ng-if = "!dataInstance.data.instance.isMigrating() && !$root.featureFlags.trialEnding"
+  ng-if = "!dataInstance.data.instance.isMigrating()"
   ng-include = "'buildNotificationView'"
-)
-
-.grid-block.vertical(
-  ng-if = "!dataInstance.data.instance.isMigrating() && $root.featureFlags.trialEnding"
-  ng-include = "'trialEndingNotificationView'"
 )

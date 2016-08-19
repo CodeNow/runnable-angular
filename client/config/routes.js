@@ -75,9 +75,9 @@ module.exports = [
     state: 'paused',
     abstract: false,
     url: '^/paws’d',
-    templateUrl: 'gracePeriodModalView',
-    controller: 'GracePeriodController',
-    controllerAs: 'GPC',
+    templateUrl: 'pausedSandboxView',
+    controller: 'WelcomeBackController',
+    controllerAs: 'WBC',
     resolve: {
       user: function (fetchUser) {
         return fetchUser();

@@ -2,33 +2,27 @@
 
 require('app').directive('billingForm', billingForm);
 
-function billingForm() {
+function billingForm(
+  $rootScope
+) {
   return {
     restrict: 'A',
     templateUrl: 'billingForm',
     link: function ($scope, element) {
-      element.on('$destroy', function() {
+      $scope.$on('$destroy', function () {
         $scope.SEMC.showFooter = true;
       });
-
+      $scope.$on('changed-animated-panel', function (event, panelName) {
+        $scope.SEMC.showFooter = panelName === 'billingForm';
+      });
+      $scope.$broadcast('go-to-panel', $scope.SEMC.subTab || 'billingForm', 'immediate');
+      $scope.activeAccount = $rootScope.dataApp.data.activeAccount;
       $scope.actions = {
-        trial: {
-          save: function () {
-            $scope.$broadcast('go-to-panel', 'confirmationForm');
-          },
-          back: function () {
-            $scope.SEMC.showFooter = true;
-            $scope.$broadcast('go-to-panel', 'confirmationForm');
-          }
+        save: function () {
+          $scope.$broadcast('go-to-panel', 'confirmationForm');
         },
-        update: {
-          save: function () {
-            $scope.$broadcast('go-to-panel', 'confirmationForm');
-          },
-          cancel: function () {
-            $scope.SEMC.showFooter = true;
-            $scope.$broadcast('go-to-panel', 'billingForm', 'back');
-          }
+        cancel: function () {
+          $scope.$broadcast('go-to-panel', 'billingForm', 'back');
         }
       };
     }

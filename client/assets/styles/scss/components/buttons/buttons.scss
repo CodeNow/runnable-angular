@@ -3,7 +3,6 @@
   border: 0;
   border-radius: $input-border-radius;
   cursor: pointer;
-  display: inline-block;
   font-size: 18px;
   font-weight: $weight-normal;
   padding: 0 15px;
@@ -11,6 +10,10 @@
   text-align: center;
   user-select: none;
   white-space: nowrap;
+
+  &:not(.grid-block) {
+    display: inline-block;
+  }
 
   // for <a> elemnts
   &:hover,
@@ -110,7 +113,6 @@
 // only for inline buttons
 %btn-xxs,
 .btn-xxs {
-  border-radius: $input-border-radius-xxs;
   font-size: 12px;
   height: $input-xxs;
   line-height: $input-line-height-xxs;
@@ -228,6 +230,10 @@
 
   &.reversed {
     letter-spacing: 0;
+  }
+
+  &.btn-xxs {
+    border-width: 1px;
   }
 }
 

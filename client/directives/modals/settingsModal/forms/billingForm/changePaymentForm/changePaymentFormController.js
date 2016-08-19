@@ -5,9 +5,22 @@ require('app')
 
 function ChangePaymentFormController(
   stripe,
-  loading
+  loading,
+  $rootScope,
+  fetchPaymentMethod
 ) {
   var CPFC = this;
+  CPFC.activeAccount = $rootScope.dataApp.data.activeAccount;
+  if (CPFC.activeAccount.isInTrial()) {
+    loading('billingForm', true);
+    fetchPaymentMethod()
+      .then(function (paymentMethod) {
+        CPFC.paymentMethod = paymentMethod;
+      })
+      .finally(function () {
+        loading('billingForm', false);
+      });
+  }
 
   CPFC.card = {
     number: undefined,

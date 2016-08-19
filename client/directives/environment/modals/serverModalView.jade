@@ -28,7 +28,7 @@ header.grid-block.vertical.align-center.modal-header
         use(
           xlink:href = "#icons-repository"
         )
-        .btn-text.grid-content Repository
+      .btn-text.grid-content Repository
     button.btn.btn-radio.grid-block.vertical.js-animate(
       ng-class = "{'active': SMC.selectedTab === 'commands'}"
       ng-click = "SMC.changeTab('commands')"
@@ -45,7 +45,7 @@ header.grid-block.vertical.align-center.modal-header
     button.btn.btn-radio.grid-block.vertical.js-animate(
       ng-class = "{'active': SMC.selectedTab === 'whitelist'}"
       ng-click = "SMC.changeTab('whitelist')"
-      ng-if = "SMC.isTabVisible('whitelist') && $root.featureFlags.whitelist"
+      ng-if = "SMC.isTabVisible('whitelist')"
       type = "{{SMC.serverForm.$invalid ? 'submit' : 'button'}}"
     )
       svg.iconnables.grid-content
@@ -144,11 +144,10 @@ section.modal-body(
 section.modal-body(
   ng-if = "!$root.isLoading[SMC.name]"
 )
-  .modal-form.empty(
+  .grid-block.vertical.modal-form.modal-guide(
+    ng-include = "'guideFormView'"
     ng-show = "SMC.selectedTab === 'default'"
   )
-    h3.h3.empty.text-center Your container is ready to build!
-    small.small.empty.text-center You can use the options above to make additional changes to your configuration.
   .modal-form.form-stack(
     data = "SMC.data"
     is-new-container = "!SMC.instance"

@@ -1,6 +1,10 @@
 .modal-servers,
 .modal-servers .animated-panel {
   min-width: 100%; // fix animated panel container
+
+  @include media(xxxs) {
+    max-width: 100%;
+  }
 }
 
 .modal-server-select {
@@ -15,7 +19,7 @@
   }
 
   // header buttons
-  .modal-header {
+  .modal-header.lg {
     align-items: center;
     flex: 0 0 120px;
     overflow: hidden;

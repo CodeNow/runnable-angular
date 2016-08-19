@@ -4,12 +4,12 @@ form.padding-md(
 )
 
   label.grid-block.align-center.well.well-plan.well-summary.disabled.padding-xxs(
-    ng-if = "!state.changingPayment"
+    ng-if = "!CPFC.updating"
     plan-summary
   )
 
   label.grid-block.align-center.padding-xs.well.well-plan.well-summary.disabled(
-    ng-if = "!state.changingPayment && $root.featureFlags.billingDiscounted"
+    ng-if = "!CPFC.updating && $root.featureFlags.billingDiscounted"
     ng-include = "'discountView'"
   )
 
@@ -106,17 +106,14 @@ form.padding-md(
         )
 
     .grid-block.well.padding-xxs.small.justify-center.text-center(
-      ng-if = "$root.featureFlags.trial || state.fromPaymentDue"
-      ng-include = "'paymentSummaryView'"
-      ng-init = "\
-        state.hasPaid = false;\
-        state.showNext = false;\
-      "
+      ng-if = "!CPFC.paymentMethod || !CPFC.activeAccount.isInTrial()"
+      payment-summary
+      show-next = 'false'
     )
 
   //- 3 users is the minimum amount
   p.grid-content.p.text-gray.text-center.padding-sm(
-    ng-if = "$root.featureFlags.trial"
+    ng-if = "!CPFC.activeAccount.isInActivePeriod()"
   ) We prorate your account for users added in the middle of a billing period.&#32;
     a.link(
       href = "#"
@@ -124,10 +121,8 @@ form.padding-md(
     ) Details
 
   p.grid-content.p.text-gray.text-center.padding-sm(
-    ng-if = "!$root.featureFlags.trial && !state.fromPaymentDue"
-  ) Your payment changes will be applied to your next billing date on July 24
-    sup th
-    | , 2016.
+    ng-if = "CPFC.activeAccount.isInActivePeriod()"
+  ) Your payment changes will be applied to your next billing date on {{getBillingDate()}}.
 
 footer.modal-footer.clearfix
   button.btn.btn-md.gray.btn-cancel.float-left(
@@ -140,30 +135,38 @@ footer.modal-footer.clearfix
   button.btn.btn-md.green.float-right(
     ng-click = "CPFC.actions.save()"
     ng-disabled="paymentForm.$invalid || $root.isLoading.savePayment"
-    ng-if = "CPFC.updating"
+    ng-if = "CPFC.updating && !(CPFC.activeAccount.isInGrace() || CPFC.activeAccount.isGraceExpired())"
   )
     .spinner-wrapper.spinner-sm.spinner-white.in(
       ng-include = "'spinner'"
       ng-if = "$root.isLoading.savePayment"
     )
-    span Update Payment
+    span Update Payment Method
 
-  //- disable while loading
   button.btn.btn-md.green.float-right(
-    ng-class = "{\
-      'btn-block': state.fromPaymentDue,\
-      'float-right': !state.fromPaymentDue\
-    }"
     ng-click = "CPFC.actions.save()"
     ng-disabled="paymentForm.$invalid || $root.isLoading.savePayment"
-    ng-if = "!CPFC.updating"
+    ng-if = "!CPFC.updating && !(CPFC.activeAccount.isInGrace() || CPFC.activeAccount.isGraceExpired())"
     type = "button"
   )
     .spinner-wrapper.spinner-sm.spinner-white.in(
       ng-include = "'spinner'"
       ng-if = "$root.isLoading.savePayment"
     )
-    span Submit Payment
+    span Add Payment Method
+
+
+  button.btn.btn-md.green.btn-block(
+    ng-click = "CPFC.actions.save()"
+    ng-disabled="paymentForm.$invalid || $root.isLoading.savePayment"
+    ng-if = "CPFC.activeAccount.isInGrace() || CPFC.activeAccount.isGraceExpired()"
+    type = "button"
+  )
+      .spinner-wrapper.spinner-sm.spinner-white.in(
+        ng-include = "'spinner'"
+        ng-if = "$root.isLoading.savePayment"
+      )
+      span Submit Payment
 
   button.btn.btn-md.gray.btn-cancel.float-right(
     ng-click = "CPFC.actions.back()"
