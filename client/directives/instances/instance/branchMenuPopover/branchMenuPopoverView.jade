@@ -18,7 +18,7 @@
   animated-panel-container.popover-views(
     ng-if = "!$root.featureFlags.autoIsolationSetup"
   )
-    //- this should be the default panel with auto-isolation is implemented
+    //- this should be the default panel when auto-isolation is implemented
     animated-panel(
       name = "branchMenu"
     )
@@ -93,7 +93,22 @@
           .padding-xxs(
             ng-if = "state.branchesLoaded"
           )
-            .well.gray.small.padding-xxs.text-center We auto-add branches when you push to this repo, but you can do it manually here.
+            .grid-block.shrink.align-center.well.gray.padding-xxs(
+              ng-if = "!$root.featureFlags.autoIsolation"
+            )
+              .grid-content
+                .small Automatically add branches as they’re updated on GitHub.
+                button.btn.btn-xs.btn-permissions(
+                  internal-modal-helper = "inviteAdminModalView"
+                  ng-if = "$root.featureFlags.webhooks"
+                  ng-include = "'permissionsButtonView'"
+                )
+              label.grid-content.shrink.toggle-wrapper
+                input.toggle-input(
+                  ng-disabled = "$root.featureFlags.webhooks"
+                  type = "checkbox"
+                )
+                .toggle-group.toggle-sm
             input.input.input-xs.input-search(
               placeholder = "Filter"
               required
