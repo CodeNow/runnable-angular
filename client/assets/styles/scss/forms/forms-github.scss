@@ -1,0 +1,28 @@
+.form-github {
+
+  .well {
+    padding-bottom: 0;
+  }
+
+  .ol {
+    font-size: 14px;
+    list-style-type: decimal;
+    padding-left: 24px;
+
+    + .link {
+      border-top: 1px solid $gray-lighter;
+      line-height: 1.2;
+      margin-top: 15px;
+
+      .iconnables {
+        height: 18px;
+        margin-right: 6px;
+        width: 18px;
+      }
+    }
+  }
+
+  .li + .li {
+    margin-top: 6px;
+  }
+}
