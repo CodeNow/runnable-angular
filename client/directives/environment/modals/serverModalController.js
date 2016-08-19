@@ -507,6 +507,7 @@ function ServerModalController(
   this.getUpdatePromise = this.saveInstanceAndRefreshCards;
 
   this.changeTab = function (tabname) {
+    $rootScope.$broadcast('updatedTab', tabname);
     var SMC = this;
     if (keypather.get(SMC, 'serverForm.$invalid')) {
       if (keypather.get(SMC, 'serverForm.$error.required.length')) {

@@ -1,19 +1,108 @@
-.grid-block.shrink.aha-meter(
-  ng-class = "{\
-    'aha-meter-13': AHA.state.subStep === 0,\
-    'aha-meter-100': $root.featureFlags.aha2 || $root.featureFlags.aha3\
-  }"
+.grid-block.align-center.shrink.spinner-wrapper.spinner-md.spinner-gray.in.js-animate(
+  ng-if = "state.showVerification"
+  ng-include = "'spinner'"
 )
-  svg.iconnables
+
+.grid-block.shrink.aha-meter.js-animate(
+  ng-class = "[{\
+    'aha-error': AHA.state.showError,\
+  },\
+  AHA.state.className\
+  ]"
+  ng-if = "!state.showVerification"
+)
+  svg.iconnables(
+    ng-if = "!AHA.state.showError"
+  )
     use(
-      ng-if = "AHA.state.subStep === 0"
+      ng-if = "$root.featureFlags.aha1 && AHA.state.subStep !== 'logs'"
       xlink:href = "#icons-octicons-repo"
     )
     use(
-      ng-if = "AHA.state.subStep > 0"
+      ng-if = "AHA.state.subStep === 'logs'"
       xlink:href = "#icons-check"
     )
-.grid-block.vertical
-  p.p.strong Add your First Repository
-  p.p
-    | {{AHA.state.caption}}
+  svg.iconnables.icons-alert(
+    ng-if = "AHA.state.showError"
+  )
+    use(
+      xlink:href = "#icons-alert-alt"
+    )
+
+.grid-block.vertical.aha-text
+  .grid-block(
+    ng-if = "$root.canEditFeatureFlags()"
+    ng-show = "state.showControls"
+    style = "position: absolute; right: 0; top: 0;"
+  )
+    a.grid-content.shrink.red.small.link(
+      ng-click = "state.showVerification = !state.showVerification"
+      ng-if = "AHA.state.subStep === 7"
+    ) Verify
+    a.grid-content.shrink.red.small.link(
+      ng-click = "\
+        state.showError = !state.showError;\
+        state.showErrorType = 'CMD';\
+      "
+      ng-if = "AHA.state.subStep === 7"
+    ) CMDErr
+    a.grid-content.shrink.red.small.link(
+      ng-click = "\
+        state.showError = !state.showError;\
+        state.showErrorType = 'build';\
+      "
+      ng-if = "AHA.state.subStep === 7"
+    ) BuildErr
+    a.grid-content.shrink.red.small.link(
+      ng-click = "\
+        $root.featureFlags.aha1 = false;\
+        $root.featureFlags.aha2 = true;\
+      "
+      ng-if = "AHA.state.subStep === 8"
+    ) NextMile
+    a.grid-content.shrink.red.small.link(
+      ng-click = "AHA.state.subStep = AHA.state.subStep - 1"
+      ng-if = "AHA.state.subStep < 9 && AHA.state.subStep > 1"
+    ) Prev
+    a.grid-content.shrink.red.small.link(
+      ng-click = "AHA.state.subStep = AHA.state.subStep + 1"
+      ng-if = "AHA.state.subStep < 8"
+    ) Next
+  p.p.small.text-gray-light {{ AHA.state.title }}
+  p.p(
+    ng-class = "{'p-slide js-animate': AHA.state.subStep}"
+    ng-if = "$root.featureFlags.aha1 && !state.showError && !state.showVerification"
+  ) {{ AHA.state.caption }}
+  p.p(
+    ng-class = "{'p-slide js-animate': AHA.state.subStep}"
+    ng-if = "AHA.state.subStep === 6 && !state.showError && !state.showVerification"
+  )
+    | {{!state.fromMirroring ? 'If your app needs additional configuration…' : ''}}
+    | {{state.fromMirroring ? 'We‘ve imported your dockerfile, click ‘Save & Build’ to build it!' : ''}}
+    //- | FROM BLANK DOCKERFILE: When you‘re done editing your dockerfile, click ‘Save & Build’ to build it!
+  p.p(
+    ng-class = "{'p-slide js-animate': AHA.state.subStep}"
+    ng-if = "AHA.state.subStep === 7"
+  )
+    | {{!state.showError && !state.showVerification ? 'Now building. Build time varies depending on your configuration.' : ''}}
+    | {{state.showVerification ? 'Verifying Configuration…' : ''}}
+    | {{state.showErrorType === 'build' && state.showError ? 'Your build failed. Inspect your build logs for more information.' : ''}}
+    | {{state.showErrorType === 'CMD' && state.showError ? 'Your container failed to run. Inspect your CMD logs for more information.' : ''}}
+    //- | IF DETENTION ERROR: Your container is running! But it looks like something is misconfigured.
+    span.span(
+     ng-if = "state.showErrorType === 'exitedEarly'"
+    ) Your repository isn‘t running yet! Check the logs to debug any issues. If you‘re stumped,&#32;
+      //- this link should open in intercom with the prefilled message:
+          "I’m having trouble getting my first container up and running."
+      a.link ask our engineers
+      | !
+
+  p.p(
+    ng-class = "{'p-slide js-animate': AHA.state.subStep}"
+    ng-if = "AHA.state.subStep === 8 && !state.showError && !state.showVerification"
+  ) Your build is looking good! Check out its URL and click ‘Done’ if it looks good to you.
+
+  //- in the popover
+  p.p(
+    ng-if = "$root.featureFlags.aha2"
+  ) Add more containers if your project requires it. Once you’re done, head to your containers to start adding branches.

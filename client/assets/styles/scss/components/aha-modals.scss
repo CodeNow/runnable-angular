@@ -1,10 +1,8 @@
 .modal-backdrop > .aha-guide {
   animation: fade .15s ease-in-out;
-  background: $gray-lighterest;
-  border: 1px solid $gray-lighter;
-  border-radius: $input-border-radius-lg;
   height: 105px;
   left: 0;
+  margin: 0 auto;
   max-width: calc(100vw - 30px);
   position: absolute;
   right: 0;
@@ -13,6 +11,10 @@
 
   @include media(lg) {
     height: 90px;
+  }
+
+  @include media(xxxs) {
+    top: 0;
   }
 
   &.fixed {
@@ -31,8 +33,26 @@
       margin-top: 105px;
     }
   }
+
+  .spinner-wrapper,
+  .aha-meter {
+    top: 24px;
+  }
 }
 
 .modal-dialog > .aha-guide {
   border-bottom: 1px solid $gray-lighter;
+
+  &:only-child {
+    border-bottom: 0;
+  }
+
+  > .grid-block {
+    position: relative;
+  }
+
+  .aha-meter {
+    left: 0;
+    top: 0;
+  }
 }

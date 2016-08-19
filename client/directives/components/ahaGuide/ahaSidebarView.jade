@@ -1,13 +1,25 @@
 .grid-block.shrink.align-center.justify-right
   svg.iconnables.icons-close(
     ng-click = "$root.featureFlags.ahaSidebar = false"
+    ng-if = "!$root.featureFlags.ahaOverview"
   )
     use(
       xlink:href = "#icons-close"
     )
+.grid-block.vertical.shrink.justify-center.text-center.aha-overview(
+  ng-if = "$root.featureFlags.ahaOverview"
+)
+  .grid-content.strong Welcome to your Sandbox! 👋
+  | It’ll take a few steps to get everything set up. But don’t worry — we’re here to help!
+  button.grid-content.btn.btn-sm.green(
+    ng-click = "\
+      $root.featureFlags.ahaOverview = false;\
+      $root.featureFlags.ahaSidebar = false;\
+    "
+  ) Get Started
 .grid-block.vertical
   .grid-block.shrink.align-center.padding-sm.aha-guide(
-    ng-class = "{'complete': $root.featureFlags.aha1 || $root.featureFlags.aha2 || $root.featureFlags.aha3}"
+    ng-class = "{'disabled': $root.featureFlags.aha1 || $root.featureFlags.aha2 || $root.featureFlags.aha3}"
   )
     .grid-block.shrink.aha-meter(
       ng-class = "{\
@@ -20,40 +32,35 @@
           ng-if = "$root.featureFlags.aha1 || $root.featureFlags.aha2 || $root.featureFlags.aha3"
           xlink:href = "#icons-check"
         )
-    .grid-block.vertical
+    .grid-block.vertical.aha-text
       p.p.strong Create your Sandbox
       p.small This is the first step to success.
 
   .grid-block.shrink.align-center.padding-sm.aha-guide(
-    ng-class = "{\
-      'complete': $root.featureFlags.aha2 || $root.featureFlags.aha3,\
-      'disabled': $root.featureFlags.aha0\
-    }"
+    ng-class = "{'disabled': $root.featureFlags.aha0 || $root.featureFlags.aha2 || $root.featureFlags.aha3}"
   )
     .grid-block.shrink.aha-meter(
-      ng-class = "{\
-        'aha-meter-13': $root.featureFlags.aha1,\
-        'aha-meter-100': $root.featureFlags.aha0\
-      }"
+      ng-class = "[{\
+          'aha-error': state.showError,\
+        },\
+        AHA.state.className\
+        ]"
     )
       svg.iconnables
         use(
-          ng-if = "$root.featureFlags.aha1 && (!$root.featureFlags.aha2 || !$root.featureFlags.aha3)"
+          ng-if = "$root.featureFlags.aha1 && AHA.state.subStep < 9"
           xlink:href = "#icons-octicons-repo"
         )
         use(
-          ng-if = "$root.featureFlags.aha2 || $root.featureFlags.aha3"
+          ng-if = "AHA.state.subStep >= 9"
           xlink:href = "#icons-check"
         )
-    .grid-block.vertical
+    .grid-block.vertical.aha-text
       p.p.strong Add your First Repository
       p.small Configure your project and get it running!
 
   .grid-block.shrink.align-center.padding-sm.aha-guide(
-    ng-class = "{\
-      'complete': $root.featureFlags.aha3,\
-      'disabled': $root.featureFlags.aha0 || $root.featureFlags.aha1\
-    }"
+    ng-class = "{'disabled': $root.featureFlags.aha0 || $root.featureFlags.aha1 || $root.featureFlags.aha3}"
   )
     .grid-block.shrink.aha-meter(
       ng-class = "{\
@@ -70,7 +77,7 @@
           ng-if = "$root.featureFlags.aha3"
           xlink:href = "#icons-check"
         )
-    .grid-block.vertical
+    .grid-block.vertical.aha-text
       p.p.strong Add your First Branch
       p.small Your branches will update on every commit you make.
 
@@ -88,6 +95,6 @@
         //- use(
         //-   xlink:href = "#icons-check"
         //- )
-    .grid-block.vertical
+    .grid-block.vertical.aha-text
       p.p.strong Set Up Runnabot
       p.small Receive notifications on pull requests when your container is ready.

@@ -1,7 +1,9 @@
 .modal-backdrop.in
   .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
-    ng-if = "$root.featureFlags.aha"
-    ng-include = "'ahaGuideView'"
+    ng-if = "$root.featureFlags.aha1"
+    aha-guide-directive
+    step-index = 1
+    sub-step = "containerSelection"
   )
   .modal-dialog.modal-lg
     animated-panel-container.modal-servers
@@ -10,11 +12,13 @@
         name = "containerSelection"
       )
         header.modal-header.grid-block.justify-center(
+          ng-class = "{'lg': !$root.featureFlags.aha1}"
           ng-click = "MC.changeTab('nameContainer')"
         )
           .grid-block.shrink.btn(
             ng-class = "{'active': MC.state.tabName === 'repos'}"
             ng-click = "MC.changeTab('repos')"
+            ng-if = "!$root.featureFlags.aha1"
           )
             svg.iconnables.icons-repository.grid-block.shrink
               use(
@@ -30,6 +34,7 @@
               'disabled': $root.isLoading[MC.name + 'SingleRepo'] \
             }"
             ng-click = "!$root.isLoading[MC.name + 'SingleRepo'] && MC.changeTab('services')"
+            ng-if = "!$root.featureFlags.aha1"
           )
             svg.iconnables.icons-template.grid-block.shrink
               use(
@@ -65,7 +70,9 @@
             use(
               xlink:href = "#icons-arrow-down"
             )
-          h1.modal-heading Choose Configuration
+          h1.modal-heading(
+            ng-if = "!$root.featureFlags.aha1"
+          ) Configuration Method
           svg.iconnables.icons-close(
             ng-click = "MC.close()"
           )
@@ -106,7 +113,9 @@
             use(
               xlink:href = "#icons-arrow-down"
             )
-          h1.modal-heading.text-overflow Container Name
+          h1.modal-heading.text-overflow(
+            ng-if = "!$root.featureFlags.aha1"
+          ) Container Name
           svg.iconnables.icons-close(
             ng-click = "MC.close()"
           )

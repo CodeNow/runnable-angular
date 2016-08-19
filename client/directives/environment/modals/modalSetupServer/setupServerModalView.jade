@@ -1,4 +1,10 @@
 .modal-backdrop.in
+  .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
+    aha-guide-directive
+    ng-if = "$root.featureFlags.aha1"
+    step-index = 1
+    sub-step = "repository"
+  )
   form.modal-dialog.modal-edit(
     name = "SMC.serverForm"
     ng-if = "SMC.state.repo"

@@ -1,0 +1,27 @@
+.popover.popover-aha {
+  left: 75px;
+  max-width: none;
+  top: 66px;
+  width: 450px;
+
+  @include media(xxs) {
+    left: 15px;
+    right: 15px;
+    top: 60px;
+    width: calc(100vw - 30px);
+
+    &.right {
+      margin-left: 0;
+    }
+  }
+
+  .arrow {
+    @include media(xxs) {
+      display: none;
+    }
+  }
+
+  .popover-content {
+    @extend %padding-sm;
+  }
+}

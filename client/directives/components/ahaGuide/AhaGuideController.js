@@ -1,3 +1,4 @@
+
 'use strict';
 
 require('app')
@@ -11,52 +12,74 @@ function AhaGuideController(
 
   var AHA = this;
 
-  // initialize this with the value passed in from the directive
-  $scope.stepIndex = $scope.stepIndex || 0;
-  // this should remain undefined for the first step, which will update when the animated panel loads
-  $scope.subStepIndex = $scope.subStepIndex;
+  var previousTab;
+  var buildLogListener;
 
-  // retain this for now. TODO remove state object
-  AHA.state = $scope.state || {
+  var tabListener = $scope.$on('updatedTab', function(event, tabName) {
+    if (tabName === 'logs') {
+      tabListener();
+      buildLogListener = $scope.$on('buildStatusUpdated', function(event, buildStatus) {
+        if (buildStatus === 'failed' || buildStatus === 'buildFailed') {
+          AHA.state.showError = true;
+        }
+        updateBuildStatus(buildStatus);
+      })
+    }
+    updateCaption(tabName);
+  });
+
+  AHA.state = {
     mainStep: $scope.stepIndex,
-    subStep: $scope.subStepIndex,
+    subStep: $scope.subStep,
     hideMenu: true
   };
 
   // get steps from service
   AHA.state.steps = serviceAhaGuide.getSteps();
 
+  // get the current milestone
+  var currentMilestone = AHA.state.steps[AHA.state.mainStep];
   // get the bound of the caption array so we know when to stop
-  var captionLimit = AHA.state.steps[AHA.state.mainStep].subStepCaptions.length;
+
+  AHA.state.title = currentMilestone.title;
+  AHA.state.caption = currentMilestone.subSteps[AHA.state.subStep].caption;
+  AHA.state.className = currentMilestone.subSteps[AHA.state.subStep].className
 
   // update steps and initiate digest loop
-  function updateStep() {
-    AHA.state.title = AHA.state.steps[AHA.state.mainStep].title;
-    AHA.state.caption = AHA.state.steps[AHA.state.mainStep].subStepCaptions[AHA.state.subStep];
+  function updateCaption(status) {
+    if (status === 'dockLoaded') {
+      $rootScope.animatedPanelListener();
+    }
+    AHA.state.subStep = status;
+    AHA.state.caption = currentMilestone.subSteps[status].caption;
+    AHA.state.className = currentMilestone.subSteps[status].className
   }
 
-  updateStep();
+  function updateBuildStatus(buildStatus) {
+    AHA.state.buildStatus = buildStatus;
+    AHA.state.caption = currentMilestone.buildStatus[buildStatus];
+  }
 
   // handle the panel event
-  function incrementStep(e, panel) {
-    if (AHA.state.subStep !== undefined) {
-      AHA.state.subStep++;
-    } else {
-      AHA.state.subStep = 0;
-    }
+  function incrementStep(panel) {
+    // AHA.state.subStep = currentMilestone.panelSteps[panel];
+    
+    // if (AHA.state.subStep === undefined) {
+    //   AHA.state.subStep = 0;
+    // }
 
     // if either the dockLoaded is fired or we've reached the end
-    if (panel === 'dockLoaded' || AHA.state.subStep >= captionLimit) {
-      AHA.state.subStep = captionLimit - 1;
-      updateStep();
-      animatedPanelListener();
-      return;
-    }
-    updateStep();
+    
+    
   }
 
-  var animatedPanelListener = $rootScope.$on('changed-animated-panel', function (e, panel) {
-    incrementStep(e, panel);
-  })
+  if ($rootScope.animatedPanelListener) {
+    $rootScope.animatedPanelListener();
+  }
+  
+  $rootScope.animatedPanelListener = $rootScope.$on('changed-animated-panel', function (e, panel) {
+    updateCaption(panel);
+  });
 
 };
+
