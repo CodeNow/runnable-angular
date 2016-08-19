@@ -49,6 +49,7 @@
         button.btn.btn-radio.grid-block.vertical(
           ng-class = "{'active': SEMC.currentTab === 'slackIntegration'}"
           ng-click = "SEMC.currentTab = 'slackIntegration'"
+          ng-if = "$root.featureFlags.gitHubIntegration"
         )
           img.img.iconnables.grid-content(
             height = "24"
