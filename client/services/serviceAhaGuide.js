@@ -73,7 +73,7 @@ function serviceAhaGuide(
           caption: 'Choose commands and packages',
           className: 'aha-meter-60'
         },
-        buildFiles: {
+        buildfiles: {
           caption: 'If your app needs additional configuration...',
           className: 'aha-meter-70'
         },

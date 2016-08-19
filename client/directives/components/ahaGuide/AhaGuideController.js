@@ -31,7 +31,8 @@ function AhaGuideController(
   AHA.state = {
     mainStep: $scope.stepIndex,
     subStep: $scope.subStep,
-    hideMenu: true
+    subStepIndex: $scope.subStepIndex,
+    hideMenu: false
   };
 
   // get steps from service
@@ -47,6 +48,9 @@ function AhaGuideController(
 
   // update steps and initiate digest loop
   function updateCaption(status) {
+    if (!currentMilestone.subSteps[status]) {
+      return;
+    }
     if (status === 'dockLoaded') {
       $rootScope.animatedPanelListener();
     }

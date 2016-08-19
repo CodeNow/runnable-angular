@@ -16,7 +16,8 @@ function ahaGuideDirective(
     controllerAs: 'AHA',
     scope: {
       stepIndex: '=',
-      subStep: '@'
+      subStep: '@',
+      subStepIndex: '='
     },
     link: function ($scope, elem, attrs) {
       console.log($scope, elem, attrs);
