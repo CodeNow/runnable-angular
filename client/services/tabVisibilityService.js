@@ -21,7 +21,6 @@ require('app')
       advanced: true,
       basic: true,
       mirror: true,
-      featureFlagName: 'whitelist',
       nonRepo: true,
       step: 3
     },
@@ -47,8 +46,8 @@ require('app')
       step: 3
     },
     buildfiles: {
-      basic: true,
       advanced: true,
+      basic: true,
       mirror: true,
       nonRepo: true,
       step: 3

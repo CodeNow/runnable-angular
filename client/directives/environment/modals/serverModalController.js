@@ -362,7 +362,7 @@ function ServerModalController(
     var SMC = this;
     var errorMessage = '';
     errorMessage += '# There was an error retrieving the Dockerfile from your repo';
-    errorMessage += '# This error occured when disabling mirrorring your Dockerfile';
+    errorMessage += '# This error occured when disabling mirroring your Dockerfile';
     var dockerfileBody = keypather.get(state, 'dockerfile.attrs.body') || errorMessage;
     return loadingPromises.add(SMC.name, promisify(state.contextVersion, 'update')({
       advanced: true,

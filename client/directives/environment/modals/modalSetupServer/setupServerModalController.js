@@ -12,6 +12,7 @@ function SetupServerModalController(
   cardInfoTypes,
   createAndBuildNewContainer,
   createBuildFromContextVersionId,
+  dockerfileType,
   errs,
   eventTracking,
   fetchDockerfileFromSource,
@@ -60,6 +61,7 @@ function SetupServerModalController(
   });
 
   var mainRepoContainerFile = new cardInfoTypes.MainRepository();
+  var isBlankDockerfile = dockerfileType === 'blankDockerfile' ? dockerfileType : false;
   // Set initial state
   angular.extend(SMC, {
     name: 'setupServerModal',
@@ -116,7 +118,7 @@ function SetupServerModalController(
     acv: build.contextVersion.getMainAppCodeVersion(),
     branch: masterBranch,
     repoSelected: true,
-    advanced: false
+    advanced: isBlankDockerfile
   });
   SMC.state.mainRepoContainerFile.name = repo.attrs.name;
   SMC.state.promises.contextVersion = $q.when(SMC.state.contextVersion);
@@ -329,6 +331,9 @@ function SetupServerModalController(
   };
 
   SMC.isPrimaryButtonDisabled = function (serverFormInvalid) {
+    if (SMC.state.advanced === 'blankDockerfile') {
+      return false;
+    }
     return (
       (SMC.state.step === 2 && SMC.repositoryForm && SMC.repositoryForm.$invalid) ||
       $filter('selectedStackInvalid')(SMC.state.selectedStack)
