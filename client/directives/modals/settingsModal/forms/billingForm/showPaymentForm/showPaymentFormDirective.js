@@ -20,6 +20,7 @@ function showPaymentForm(
             $scope.paymentMethod = paymentMethod;
           });
       });
+      loading('billingForm', true);
       fetchPaymentMethod()
         .then(function (paymentMethod) {
           $scope.paymentMethod = paymentMethod;

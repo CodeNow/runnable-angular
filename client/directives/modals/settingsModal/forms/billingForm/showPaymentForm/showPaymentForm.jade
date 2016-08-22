@@ -7,7 +7,7 @@ label.grid-block.vertical.well.well-summary(
   .grid-block.align-center.padding-sm
     .grid-block.vertical
       .p.small Added by:
-      .p.strong {{paymentMethod.user.githubUsername}}
+      .p.strong {{paymentMethod.owner.githubUser.name || paymentMethod.owner.githubUser.login}}
     .grid-block.vertical.shrink.text-right
       .p.small Expires {{paymentMethod.card.expMonth}}/{{paymentMethod.card.expYear}}
       .p.small

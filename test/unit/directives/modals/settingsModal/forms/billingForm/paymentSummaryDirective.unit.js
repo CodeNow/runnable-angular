@@ -21,11 +21,9 @@ describe('paymentSummaryDirective'.bold.underline.blue, function () {
     };
     mockPlan = {
       next: {
-        plan: {
-          id: 'mockPlanId',
-          price: 20,
-          userCount: 3
-        }
+        id: 'mockPlanId',
+        price: 20,
+        userCount: 3
       }
     };
     mockPaymentMethod = {
@@ -66,7 +64,7 @@ describe('paymentSummaryDirective'.bold.underline.blue, function () {
     sinon.assert.calledWith(loadingStub, 'billingForm', false);
     sinon.assert.calledOnce(fetchPlanStub);
     sinon.assert.calledOnce(fetchPaymentMethodStub);
-    expect($elScope.plan).to.equal(mockPlan.next.plan);
+    expect($elScope.plan).to.equal(mockPlan.next);
     expect($elScope.paymentMethod).to.equal(mockPaymentMethod);
   });
 

@@ -4,18 +4,21 @@
 var $controller;
 var $scope;
 var $q;
+var $rootScope;
 
 describe('ChangePaymentFormController'.bold.underline.blue, function () {
   var CPFC;
   var stripeCreateTokenStub;
   var loadingStub;
   var fetchPaymentMethodStub;
+  var savePaymentMethodStub;
   var mockCurrentOrg;
 
   beforeEach(function () {
     mockCurrentOrg = {
       poppa: {
-        isInTrial: sinon.stub().returns(false)
+        isInTrial: sinon.stub().returns(false),
+        id: sinon.stub().returns('1234')
       }
     };
     angular.mock.module('app', function ($provide) {
@@ -29,7 +32,14 @@ describe('ChangePaymentFormController'.bold.underline.blue, function () {
       });
       $provide.factory('fetchPaymentMethod', function ($q) {
         fetchPaymentMethodStub = sinon.stub().returns($q.when({}));
+        fetchPaymentMethodStub.cache = {
+          clear: sinon.stub()
+        };
         return fetchPaymentMethodStub;
+      });
+      $provide.factory('savePaymentMethod', function ($q) {
+        savePaymentMethodStub = sinon.stub().returns($q.when({}));
+        return savePaymentMethodStub;
       });
       loadingStub = sinon.stub();
       loadingStub.reset = sinon.stub();
@@ -37,10 +47,12 @@ describe('ChangePaymentFormController'.bold.underline.blue, function () {
       $provide.value('currentOrg', mockCurrentOrg);
     });
     angular.mock.inject(function (
-      $rootScope,
+      _$rootScope_,
       _$controller_,
       _$q_
     ) {
+      $rootScope = _$rootScope_;
+      sinon.stub($rootScope, '$broadcast');
       $controller = _$controller_;
       $scope = $rootScope.$new();
       $q = _$q_;
@@ -72,6 +84,11 @@ describe('ChangePaymentFormController'.bold.underline.blue, function () {
         sinon.assert.calledWith(loadingStub, 'savePayment', true);
         sinon.assert.calledWith(loadingStub, 'savePayment', false);
         sinon.assert.calledWith(loadingStub.reset, 'savePayment');
+
+        sinon.assert.calledOnce(savePaymentMethodStub);
+        sinon.assert.calledWith(savePaymentMethodStub, 123);
+        sinon.assert.calledOnce(fetchPaymentMethodStub.cache.clear);
+        sinon.assert.calledWith($rootScope.$broadcast, 'updated-payment-method');
       });
 
       it('should handle stripe card errors', function () {

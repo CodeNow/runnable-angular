@@ -13,10 +13,12 @@ describe('changePaymentFormDirective'.bold.underline.blue, function () {
         isInTrial: sinon.stub().returns(true),
         attrs: {
           activePeriodEnd: '2016-08-12T21:24:06.000Z'
-        }
+        },
+        id: sinon.stub().returns(1234)
       }
     };
     window.helpers.killDirective('planSummary');
+    window.helpers.killDirective('paymentSummary');
     angular.mock.module('app', function ($provide) {
       $provide.factory('fetchPaymentMethod', function ($q) {
         fetchPaymentMethodStub = sinon.stub().returns($q.when({}));

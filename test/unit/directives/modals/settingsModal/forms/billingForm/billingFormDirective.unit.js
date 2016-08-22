@@ -16,7 +16,10 @@ describe('billingFormDirective'.bold.underline.blue, function () {
     window.helpers.killDirective('showPaymentForm');
     mockCurrentOrg = {
       poppa: {
-        isInTrial: sinon.stub().returns(true)
+        isInTrial: sinon.stub().returns(true),
+        attrs: {
+          hasPaymentMethod: false
+        }
       }
     };
     angular.mock.module('app', function ($provide) {

@@ -11,9 +11,7 @@ describe('planSummaryDirective'.bold.underline.blue, function () {
   beforeEach(function () {
     mockPlan = {
       next: {
-        plan: {
-          id: 'mockPlanId'
-        }
+        id: 'mockPlanId'
       }
     };
     mockBillingPlans = {

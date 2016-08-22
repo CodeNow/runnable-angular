@@ -7,7 +7,7 @@
     ng-repeat = "invoice in invoices"
   )
     .cell.monospace ${{invoice.total | centsToDollars}}
-    .cell.text-overflow.small Paid by {{invoice.metadata.paidBy}}
+    .cell.text-overflow.small Paid by {{invoice.paidBy.githubUser.name || invoice.paidBy.githubUser.login}}
     .cell.monospace.text-right {{getBillingDate(invoice)}}
 
 div(
