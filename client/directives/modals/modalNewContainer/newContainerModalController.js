@@ -178,17 +178,30 @@ function NewContainerModalController(
       });
   };
 
-  NCMC.createBuildAndGoToNewRepoModal = function (instanceName, repo,
-  dockerfile, configurationMethod) { loading(NCMC.name + 'SingleRepo', true);
-  return createNewBuildAndFetchBranch(currentOrg.github, repo,
-  keypather.get(dockerfile, 'path')) .then(function (repoBuildAndBranch) {
-  repoBuildAndBranch.instanceName = instanceName; if (configurationMethod ===
-  'dockerfile' && dockerfile) {
-  NCMC.newMirrorRepositoryContainer(repoBuildAndBranch); } else if
-  (configurationMethod === 'blankDockerfile') {
-  NCMC.newBlankRepositoryContainer(repoBuildAndBranch); } else {
-  NCMC.newRepositoryContainer(repoBuildAndBranch); } }) .finally(function () {
-  loading(NCMC.name + 'SingleRepo', false); }); };
+  NCMC.createBuildAndGoToNewRepoModal = function (instanceName, repo, dockerfile, configurationMethod) {
+    var dockerfilePath;
+    loading(NCMC.name + 'SingleRepo', true);
+
+    if (configurationMethod === 'dockerfile') {
+      dockerfilePath = keypather.get(dockerfile, 'path');
+    } else {
+      dockerfilePath = '';
+    }
+    return createNewBuildAndFetchBranch(currentOrg.github, repo, dockerfilePath)
+      .then(function (repoBuildAndBranch) {
+        repoBuildAndBranch.instanceName = instanceName;
+        if (configurationMethod === 'dockerfile' && dockerfile) {
+          NCMC.newMirrorRepositoryContainer(repoBuildAndBranch);
+        } else if (configurationMethod === 'blankDockerfile') {
+          NCMC.newBlankRepositoryContainer(repoBuildAndBranch);
+        } else {
+          NCMC.newRepositoryContainer(repoBuildAndBranch);
+        }
+      })
+      .finally(function () {
+        loading(NCMC.name + 'SingleRepo', false);
+      });
+  };
 
   NCMC.createBuildFromTemplate = function (instanceName, sourceInstance) {
     NCMC.close();

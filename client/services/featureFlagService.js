@@ -7,9 +7,9 @@ function featureFlags(
   $localStorage
 ) {
   var defaultFeatureFlags = {
-    aha: true,
-    aha0: true, // step 1: create sandbox
-    aha1: true, // step 2: working repo config
+    aha: false,
+    aha0: false, // step 1: create sandbox
+    aha1: false, // step 2: working repo config
     aha1ExitedEarly: false, // step 2: if the user left the flow before getting a running config
     aha2: false, // step 3: add branch
     aha3: false, // step 4: runnabot
@@ -19,7 +19,7 @@ function featureFlags(
     autoIsolation: false,
     autoIsolationSetup: false,
     backup: false,
-    blankDockerfile: true, // allows users to skip the verification flow
+    blankDockerfile: false, // allows users to skip the verification flow
     billing: false,
     billingDiscounted: false,
     billingExpired: false,

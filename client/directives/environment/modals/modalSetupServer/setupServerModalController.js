@@ -112,13 +112,13 @@ function SetupServerModalController(
 
   // If a repo is passed into this controller, select that repo
   angular.extend(SMC.state, {
-    repo: repo,
+    acv: build.contextVersion.getMainAppCodeVersion(),
+    advanced: isBlankDockerfile,
+    branch: masterBranch,
     build: build,
     contextVersion: build.contextVersion,
-    acv: build.contextVersion.getMainAppCodeVersion(),
-    branch: masterBranch,
-    repoSelected: true,
-    advanced: isBlankDockerfile
+    repo: repo,
+    repoSelected: true
   });
   SMC.state.mainRepoContainerFile.name = repo.attrs.name;
   SMC.state.promises.contextVersion = $q.when(SMC.state.contextVersion);
@@ -237,10 +237,8 @@ function SetupServerModalController(
     var createPromise = loadingPromises.finished(SMC.name)
       .then(function () {
         loadingPromises.clear(SMC.name);
-        if (!SMC.state.advanced) {
+        if (!SMC.state.advanced || SMC.state.advanced === 'blankDockerfile') {
           return updateDockerfileFromState(SMC.state, false, true);
-        } else if (SMC.state.advanced === 'blankDockerfile') {
-          // populateStuff?
         }
         return true;
       })
@@ -254,7 +252,7 @@ function SetupServerModalController(
         }
       })
       .then(function () {
-        return SMC.state; // should have updated dockerfile body //smc.state.dockerfile.attrs.body
+        return SMC.state;
       });
     function instanceSetHandler (instance) {
       if (instance) {
