@@ -40,7 +40,7 @@ function PlanStatusFormController(
     .then(function (results) {
       var plan = results[0];
       var instances = results[1];
-      PSFC.plan = plan.next.plan;
+      PSFC.plan = plan.next;
       PSFC.configurations = instances.models.length;
     })
     .finally(function () {

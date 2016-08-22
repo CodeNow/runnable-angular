@@ -1,8 +1,5 @@
 .clearfix
   .label-col.full-width Payment Info
-    btn.btn-xxs.btn-badge.anchor-right.orange.float-right(
-      ng-if = "$root.featureFlags.billingExpired"
-    ) Card Expired
 //- add .flash on update to indicate updated
 label.grid-block.vertical.well.well-summary(
   ng-class = "{'invalid': $root.featureFlags.billingExpired}"
@@ -12,7 +9,7 @@ label.grid-block.vertical.well.well-summary(
       .p.small Added by:
       .p.strong {{paymentMethod.user.githubUsername}}
     .grid-block.vertical.shrink.text-right
-      .p.small Expires {{paymentMethod.card.exp_month}}/{{paymentMethod.card.exp_year}}
+      .p.small Expires {{paymentMethod.card.expMonth}}/{{paymentMethod.card.expYear}}
       .p.small
         img.img(
           height = "18"

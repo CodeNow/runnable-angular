@@ -30,7 +30,7 @@ function paymentSummary(
       ])
         .then(function (data) {
           $scope.paymentMethod = data[0];
-          $scope.plan = data[1].next.plan;
+          $scope.plan = data[1].next;
         })
         .finally(function () {
           loading('billingForm', false);

@@ -14,7 +14,7 @@ function planSummary(
       loading('billingForm', true);
       fetchPlan()
         .then(function (plan) {
-          $scope.plan = billingPlans[plan.next.plan.id];
+          $scope.plan = billingPlans[plan.next.id];
         })
         .finally(function () {
           loading('billingForm', false);

@@ -15,6 +15,7 @@ function ChangePaymentFormController(
     loading('billingForm', true);
     fetchPaymentMethod()
       .then(function (paymentMethod) {
+        console.log(paymentMethod);
         CPFC.paymentMethod = paymentMethod;
       })
       .finally(function () {

@@ -21,7 +21,7 @@ function billingHistoryForm(
         });
 
       $scope.getBillingDate = function (invoice) {
-        return moment(invoice.period_end * 1000).format('M/D/YYYY');
+        return moment(invoice.periodEnd).format('M/D/YYYY');
       };
     }
   };

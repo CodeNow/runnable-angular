@@ -870,37 +870,44 @@ function fetchPlan(
   $http,
   memoize,
   configAPIHost,
-  $state
+  currentOrg
 ) {
   return memoize(function () {
     return $http({
       method: 'get',
-      url: configAPIHost + '/billing/' + $state.params.userName + '/plan'
+      url: configAPIHost + '/billing/plan',
+      params: {
+        organizationId: currentOrg.poppa.id()
+      }
     })
       .then(function (res) {
         return res.data;
       });
   }, function () {
-    return $state.params.userName;
+    return currentOrg.poppa.id();
   });
 }
 
 function fetchInvoices(
   $http,
-  memoize,
   configAPIHost,
-  $state
+  currentOrg,
+  keypather,
+  memoize
 ) {
   return memoize(function () {
     return $http({
       method: 'get',
-      url: configAPIHost + '/billing/' + $state.params.userName + '/invoices'
+      url: configAPIHost + '/billing/invoices',
+      params: {
+        organizationId: currentOrg.poppa.id()
+      }
     })
       .then(function (res) {
-        return res.data;
+        return keypather.get(res, 'data.invoices');
       });
   }, function () {
-    return $state.params.userName;
+    return currentOrg.poppa.id();
   });
 }
 
@@ -908,19 +915,20 @@ function fetchPaymentMethod(
   $http,
   memoize,
   configAPIHost,
-  $state
+  currentOrg
 ) {
   return memoize(function () {
     return $http({
       method: 'get',
-      url: configAPIHost + '/billing/' + $state.params.userName + '/payment-method'
+      url: configAPIHost + '/billing/payment-method',
+      params: {
+        organizationId: currentOrg.poppa.id()
+      }
     })
       .then(function (res) {
         return res.data;
       });
   }, function () {
-    return $state.params.userName;
+    return currentOrg.poppa.id();
   });
 }
-
-
