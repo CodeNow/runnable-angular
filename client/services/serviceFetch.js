@@ -918,6 +918,7 @@ function fetchPaymentMethod(
   currentOrg
 ) {
   return memoize(function () {
+    console.log('Actually fetching payment method;');
     return $http({
       method: 'get',
       url: configAPIHost + '/billing/payment-method',

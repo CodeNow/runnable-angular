@@ -17,9 +17,14 @@ function billingForm(
       });
       $scope.$broadcast('go-to-panel', $scope.SEMC.subTab || 'billingForm', 'immediate');
       $scope.currentOrg = currentOrg;
+      var startedWithPaymentMethod = currentOrg.poppa.attrs.hasPaymentMethod;
       $scope.actions = {
         save: function () {
-          $scope.$broadcast('go-to-panel', 'confirmationForm');
+          if (startedWithPaymentMethod) {
+            $scope.$broadcast('go-to-panel', 'billingForm', 'back');
+          } else {
+            $scope.$broadcast('go-to-panel', 'confirmationForm');
+          }
         },
         cancel: function () {
           $scope.$broadcast('go-to-panel', 'billingForm', 'back');

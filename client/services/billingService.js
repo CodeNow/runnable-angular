@@ -10,7 +10,7 @@ function savePaymentMethod(
 ) {
   return function (stripeToken) {
     return $http({
-      method: 'get',
+      method: 'post',
       url: configAPIHost + '/billing/payment-method',
       params: {
         organizationId: currentOrg.poppa.id()

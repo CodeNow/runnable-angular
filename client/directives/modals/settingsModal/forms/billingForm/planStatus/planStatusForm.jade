@@ -107,12 +107,12 @@
   .grid-block.justify-center
     button.grid-block.shrink.btn.btn-md.green(
       ng-click = "goToPanel('changePaymentForm');"
-      ng-if = "PSFC.currentOrg.poppa.isInTrial()"
+      ng-if = "!PSFC.currentOrg.poppa.attrs.hasPaymentMethod && PSFC.currentOrg.poppa.isInTrial()"
       type = "button"
     ) Add Payment Method
 
 footer.modal-footer.clearfix(
-  ng-if = "!PSFC.currentOrg.poppa.isInTrial()"
+  ng-if = "PSFC.currentOrg.poppa.attrs.hasPaymentMethod || !PSFC.currentOrg.poppa.isInTrial()"
 )
   button.btn.btn-md.gray.btn-cancel.float-left(
     ng-click = "goToPanel('billingForm', 'back');"

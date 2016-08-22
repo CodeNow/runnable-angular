@@ -2,7 +2,7 @@
   .label-col.full-width Payment Info
 //- add .flash on update to indicate updated
 label.grid-block.vertical.well.well-summary(
-  ng-class = "{'invalid': $root.featureFlags.billingExpired}"
+  ng-class = "{'invalid': $root.featureFlags.billingExpired, flash: hasUpdated}"
 )
   .grid-block.align-center.padding-sm
     .grid-block.vertical

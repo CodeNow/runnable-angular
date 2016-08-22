@@ -3,6 +3,7 @@
 require('app').directive('showPaymentForm', showPaymentForm);
 
 function showPaymentForm(
+  $rootScope,
   fetchPaymentMethod,
   keypather,
   loading
@@ -10,8 +11,15 @@ function showPaymentForm(
   return {
     restrict: 'A',
     templateUrl: 'showPaymentForm',
-    link: function ($scope, element) {
-      loading('billingForm', true);
+    link: function ($scope) {
+      $scope.hasUpdated = false;
+      $rootScope.$on('updated-payment-method', function () {
+        fetchPaymentMethod()
+          .then(function (paymentMethod) {
+            $scope.hasUpdated = true;
+            $scope.paymentMethod = paymentMethod;
+          });
+      });
       fetchPaymentMethod()
         .then(function (paymentMethod) {
           $scope.paymentMethod = paymentMethod;

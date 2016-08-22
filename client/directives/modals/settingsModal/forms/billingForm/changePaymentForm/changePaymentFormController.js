@@ -4,24 +4,15 @@ require('app')
   .controller('ChangePaymentFormController', ChangePaymentFormController);
 
 function ChangePaymentFormController(
-  stripe,
-  loading,
+  $rootScope,
+  currentOrg,
   fetchPaymentMethod,
-  currentOrg
+  loading,
+  savePaymentMethod,
+  stripe
 ) {
   var CPFC = this;
   CPFC.currentOrg = currentOrg;
-  if (currentOrg.poppa.isInTrial()) {
-    loading('billingForm', true);
-    fetchPaymentMethod()
-      .then(function (paymentMethod) {
-        console.log(paymentMethod);
-        CPFC.paymentMethod = paymentMethod;
-      })
-      .finally(function () {
-        loading('billingForm', false);
-      });
-  }
 
   CPFC.card = {
     number: undefined,
@@ -45,8 +36,17 @@ function ChangePaymentFormController(
       loading('savePayment', true);
       return stripe.card.createToken(CPFC.card)
         .then(function (res) {
-          console.log('TODO: Send id to API', res.id);
+          return savePaymentMethod(res.id);
+        })
+        .then(function () {
+          // Not doing an angular timeout because we don't care about the digest.
+          // We want to wait for this form to no longer be visible before we clear it and cause error outlines to show.
+          setTimeout(function () {
+            CPFC.card = {};
+          }, 1000);
+          fetchPaymentMethod.cache.clear();
           CPFC.save();
+          $rootScope.$broadcast('updated-payment-method');
         })
         .catch(function (err) {
           if (err.type === 'card_error') {
