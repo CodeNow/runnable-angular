@@ -69,7 +69,7 @@ describe('PlanStatusFormController'.bold.underline.blue, function () {
 
       sinon.assert.calledOnce(fetchPlanStub);
       sinon.assert.calledOnce(fetchInstancesByPodStub);
-      expect(PSFC.plan).to.equal(mockPlan.next.plan);
+      expect(PSFC.plan).to.equal(mockPlan.next);
       expect(PSFC.configurations).to.equal(1);
       expect(PSFC.plans).to.equal(mockBillingPlans);
     });
