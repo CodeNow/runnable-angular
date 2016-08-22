@@ -868,9 +868,11 @@ function fetchStackData(
 
 function fetchPlan(
   $http,
-  memoize,
   configAPIHost,
-  currentOrg
+  currentOrg,
+  errs,
+  keypather,
+  memoize
 ) {
   return memoize(function () {
     return $http({
@@ -881,8 +883,12 @@ function fetchPlan(
       }
     })
       .then(function (res) {
-        return res.data;
-      });
+        if (res.status === 200) {
+          return res.data;
+        }
+        throw new Error(keypather.get(res, 'data.error'));
+      })
+      .catch(errs.handler);
   }, function () {
     return currentOrg.poppa.id();
   });
@@ -892,6 +898,7 @@ function fetchInvoices(
   $http,
   configAPIHost,
   currentOrg,
+  errs,
   keypather,
   memoize
 ) {
@@ -904,8 +911,15 @@ function fetchInvoices(
       }
     })
       .then(function (res) {
-        return keypather.get(res, 'data.invoices');
-      });
+        if (res.status === 201) {
+          return [];
+        }
+        if (res.status === 200) {
+          return res.data;
+        }
+        throw new Error(keypather.get(res, 'data.error'));
+      })
+      .catch(errs.handler);
   }, function () {
     return currentOrg.poppa.id();
   });
@@ -913,12 +927,13 @@ function fetchInvoices(
 
 function fetchPaymentMethod(
   $http,
-  memoize,
   configAPIHost,
-  currentOrg
+  currentOrg,
+  errs,
+  keypather,
+  memoize
 ) {
   return memoize(function () {
-    console.log('Actually fetching payment method;');
     return $http({
       method: 'get',
       url: configAPIHost + '/billing/payment-method',
@@ -927,8 +942,12 @@ function fetchPaymentMethod(
       }
     })
       .then(function (res) {
-        return res.data;
-      });
+        if (res.status === 200) {
+          return res.data;
+        }
+        throw new Error(keypather.get(res, 'data.error'));
+      })
+      .catch(errs.handler);
   }, function () {
     return currentOrg.poppa.id();
   });

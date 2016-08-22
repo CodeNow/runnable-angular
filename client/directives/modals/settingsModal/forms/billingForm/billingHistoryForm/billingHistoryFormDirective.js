@@ -11,6 +11,7 @@ function billingHistoryForm(
     restrict: 'A',
     templateUrl: 'billingHistoryForm',
     link: function ($scope, element) {
+      $scope.invoices = [];
       loading('billingForm', true);
       fetchInvoices()
         .then(function (invoices) {

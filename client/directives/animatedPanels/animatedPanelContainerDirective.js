@@ -34,23 +34,21 @@ function animatedPanelContainer(
 
       $scope.goToPanel = function (panelName, style) {
         if (panels.includes(panelName)) {
-          activelyAnimating = true;
-          $timeout(function () {
-            isAnimatingForwards = style !== 'back';
-            animateOut = false;
-            leavingPanel = $scope.activePanel;
+          activelyAnimating = style !== 'immediate';
+          isAnimatingForwards = style !== 'back';
+          animateOut = false;
+          leavingPanel = $scope.activePanel;
 
-            // Quick move our elements to the right spot, then let them animate into place
-            $timeout(function () {
-              if (style !== 'immediate') {
-                animateOut = true;
-                $timeout.cancel(activelyAnimatingTimeout);
-                activelyAnimatingTimeout = $timeout(function () {
-                  activelyAnimating = false;
-                }, 300);
-              }
-              $scope.activePanel = panelName;
-            }, 0);
+          // Quick move our elements to the right spot, then let them animate into place
+          $timeout(function () {
+            if (style !== 'immediate') {
+              animateOut = true;
+              $timeout.cancel(activelyAnimatingTimeout);
+              activelyAnimatingTimeout = $timeout(function () {
+                activelyAnimating = false;
+              }, 300);
+            }
+            $scope.activePanel = panelName;
           }, 0);
         } else {
           activelyAnimating = false;

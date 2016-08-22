@@ -6,7 +6,9 @@ require('app')
 function savePaymentMethod(
   $http,
   configAPIHost,
-  currentOrg
+  currentOrg,
+  errs,
+  keypather
 ) {
   return function (stripeToken) {
     return $http({
@@ -20,7 +22,11 @@ function savePaymentMethod(
       }
     })
       .then(function (res) {
-        return res.data;
-      });
+        if (res.status < 300) {
+          return res.data;
+        }
+        throw new Error(keypather.get(res, 'data.error'));
+      })
+      .catch(errs.handler);
   };
 }
