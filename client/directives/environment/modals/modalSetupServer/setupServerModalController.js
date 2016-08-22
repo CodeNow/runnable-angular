@@ -239,6 +239,8 @@ function SetupServerModalController(
         loadingPromises.clear(SMC.name);
         if (!SMC.state.advanced) {
           return updateDockerfileFromState(SMC.state, false, true);
+        } else if (SMC.state.advanced === 'blankDockerfile') {
+          // populateStuff?
         }
         return true;
       })
@@ -252,7 +254,7 @@ function SetupServerModalController(
         }
       })
       .then(function () {
-        return SMC.state;
+        return SMC.state; // should have updated dockerfile body //smc.state.dockerfile.attrs.body
       });
     function instanceSetHandler (instance) {
       if (instance) {

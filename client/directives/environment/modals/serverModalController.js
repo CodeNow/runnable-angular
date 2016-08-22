@@ -42,13 +42,14 @@ function ServerModalController(
   };
 
   this.openDockerfile = function (state, openItems) {
+    // this is where things go wrong, also lines 277
     var SMC = this;
     return fetchDockerfileForContextVersion(state.contextVersion)
       .then(function (dockerfile) {
-        if (keypather.get(SMC, 'instance.hasDockerfileMirroring()') && !SMC.instance.mirroredDockerfile) {
+        if (keypather.get(SMC, 'instance.hasDockerfileMirroring()') && !SMC.instance.mirroredDockerfile && SMC.state.advanced !== 'blankDockerfile') {
           SMC.instance.mirroredDockerfile = dockerfile;
         }
-        if (state.dockerfile) {
+        if (state.dockerfile || SMC.state.advanced === 'blankDockerfile') {
           openItems.remove(state.dockerfile);
         }
         if (dockerfile) {
@@ -95,7 +96,7 @@ function ServerModalController(
         toRedeploy = !toRebuild && rebuildOrRedeploy === 'update';
 
         loadingPromises.clear(SMC.name);
-        if (!SMC.openItems.isClean()) {
+        if (!SMC.openItems.isClean() || SMC.state.advanced === 'blankDockerfile') {
           return SMC.openItems.updateAllFiles();
         }
       })
@@ -272,12 +273,17 @@ function ServerModalController(
   };
 
   this.resetStateContextVersion = function (contextVersion, shouldParseDockerfile) {
+    // also problems here along with lines 45
+    // can check that there is a SMC.state.advanced property which = blankDockerfile
     var SMC = this;
-    if (keypather.get(contextVersion, 'attrs.buildDockerfilePath')) {
+    if (SMC.state.advanced === 'blankDockerfile') {
+
+    } else if (keypather.get(contextVersion, 'attrs.buildDockerfilePath')) {
       SMC.state.advanced = 'isMirroringDockerfile';
     } else {
       SMC.state.advanced = !!keypather.get(contextVersion, 'attrs.advanced');
     }
+
     SMC.state.promises.contextVersion = loadingPromises.start(
       SMC.name,
       promisify(contextVersion, 'deepCopy')()
