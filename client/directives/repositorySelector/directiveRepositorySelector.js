@@ -15,13 +15,14 @@ require('app')
  * gitDataOnly (Optional, this makes it so no destination or build commands will be set, it skips view 2)
  */
 function repositorySelector(
-  errs,
-  promisify,
-  fetchOwnerRepos,
   $rootScope,
+  $timeout,
   cardInfoTypes,
+  currentOrg,
   DirtyChecker,
-  $timeout
+  errs,
+  fetchOwnerRepos,
+  promisify
 ) {
   return {
     restrict: 'A',
@@ -58,7 +59,7 @@ function repositorySelector(
         var Repo = cardInfoTypes.Repository;
         $scope.repoSelector.data = new Repo();
 
-        fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())
+        fetchOwnerRepos(currentOrg.github.oauthName())
           .then(function (repoList) {
             $scope.repoSelector.data.githubRepos = repoList;
           })

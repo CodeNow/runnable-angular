@@ -5,8 +5,8 @@ require('app')
 
 function PlanStatusFormController(
   $q,
-  $rootScope,
   billingPlans,
+  currentOrg,
   fetchInstancesByPod,
   fetchPaymentMethod,
   fetchPlan,
@@ -19,9 +19,9 @@ function PlanStatusFormController(
   PSFC.plan = undefined;
   PSFC.discounted = false;
   PSFC.plans = billingPlans;
-  PSFC.activeAccount = $rootScope.dataApp.data.activeAccount;
+  PSFC.currentOrg = currentOrg;
 
-  if (PSFC.activeAccount.isInTrial()) {
+  if (PSFC.currentOrg.poppa.isInTrial()) {
     loading('billingForm', true);
     fetchPaymentMethod()
       .then(function (paymentMethod) {

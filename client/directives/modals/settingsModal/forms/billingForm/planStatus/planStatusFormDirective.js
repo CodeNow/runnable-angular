@@ -10,7 +10,7 @@ function planStatusForm(
     restrict: 'A',
     templateUrl: 'planStatusForm',
     controller: 'PlanStatusFormController as PSFC',
-    link: function ($scope, element) {
+    link: function ($scope) {
       /**
        * Get the classes for the meter
        * @returns {Object} - Object with keys of class names and true/false for if they should be enabled

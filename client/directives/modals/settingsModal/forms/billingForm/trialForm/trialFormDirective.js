@@ -6,7 +6,8 @@ function trialForm(
   $localStorage,
   $rootScope,
   keypather,
-  ModalService
+  ModalService,
+  currentOrg
 ) {
   return {
     restrict: 'A',
@@ -16,10 +17,10 @@ function trialForm(
       fromModal: '=?'
     },
     link: function ($scope) {
-      $scope.activeAccount = $rootScope.dataApp.data.activeAccount;
+      $scope.currentOrg = currentOrg;
       $scope.actions = {
         openSettingsModal: function (tabName, subTab) {
-          keypather.set($localStorage, 'hasDismissedTrialNotification.' + $scope.activeAccount.attrs.id, true);
+          keypather.set($localStorage, 'hasDismissedTrialNotification.' + currentOrg.github.attrs.id, true);
           subTab = subTab || '';
           $rootScope.$broadcast('close-popovers');
           ModalService.showModal({
