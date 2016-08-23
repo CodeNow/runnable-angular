@@ -46,7 +46,7 @@ describe('billingHistoryFormDirective'.bold.underline.blue, function () {
   });
 
   describe('getBillingDate', function () {
-    var now = new Date('Mon Aug 22 2016 18:14:37 GMT-0700 (PDT)');
+    var now = new Date('Mon Aug 22 2016 9:14:37 GMT-0700 (PDT)');
     it('calculate the billing date properly', function () {
       var results = $scope.getBillingDate({
         periodEnd: now.toUTCString()
