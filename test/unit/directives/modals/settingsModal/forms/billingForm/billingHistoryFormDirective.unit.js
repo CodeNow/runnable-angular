@@ -49,7 +49,7 @@ describe('billingHistoryFormDirective'.bold.underline.blue, function () {
     var now = new Date();
     it('calculate the billing date properly', function () {
       var results = $scope.getBillingDate({
-        period_end: now.getTime() / 1000
+        periodEnd: now.toUTCString()
       });
       expect(results).to.equal((now.getMonth() + 1) + '/' + now.getDate() + '/' + now.getFullYear());
     });
