@@ -6,12 +6,15 @@ function showPaymentForm(
   $rootScope,
   fetchPaymentMethod,
   keypather,
-  loading
+  loading,
+  currentOrg,
+  moment
 ) {
   return {
     restrict: 'A',
     templateUrl: 'showPaymentForm',
     link: function ($scope) {
+      $scope.currentOrg = currentOrg;
       $scope.hasUpdated = false;
       $rootScope.$on('updated-payment-method', function () {
         fetchPaymentMethod()
@@ -41,6 +44,16 @@ function showPaymentForm(
           return '/build/images/logos/credit-cards/logo-cc-' + paymentMapping[brand] + '.svg';
         }
         return '';
+      };
+
+      $scope.getNextPaymentDate = function () {
+        var nextPaymentDate;
+        if (currentOrg.poppa.isInTrial()) {
+          nextPaymentDate = currentOrg.poppa.attrs.trialEnd;
+        } else if (currentOrg.poppa.isInActivePeriod()) {
+          nextPaymentDate = currentOrg.poppa.attrs.activePeriodEnd;
+        }
+        return moment(nextPaymentDate).format('MMM Do, YYYY');
       };
     }
   };

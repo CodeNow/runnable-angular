@@ -1,18 +1,18 @@
 span(
-  ng-if = "!paymentMethod"
+  ng-if = "!isConfirmation && (currentOrg.poppa.isInTrial() || currentOrg.poppa.isInActivePeriod())"
 ) At your current usage, you’ll be charged for the {{planMapping[plan.id]}} plan at ${{calculatePlanPrice() | centsToDollars}} for {{plan.userCount}} users.
   strong.strong(
     ng-if = "currentOrg.poppa.isInTrial()"
   ) &#32;You will not be charged until your trial ends.
 
 span(
-  ng-if = "currentOrg.poppa.isGraceExpired() || currentOrg.poppa.isInGrace() && paymentMethod"
+  ng-if = "currentOrg.poppa.isGraceExpired() || currentOrg.poppa.isInGrace() && currentOrg.poppa.hasPaymentMethod"
 ) You’ll be charged&#32;
   strong ${{calculatePlanPrice() | centsToDollars}}
   | &#32;for {{plan.userCount}} users.
 
 span(
-  ng-if = "currentOrg.poppa.isInActivePeriod() && paymentMethod"
+  ng-if = "isConfirmation && currentOrg.poppa.isInActivePeriod() && paymentMethod"
 ) You’ve been charged&#32;
   strong ${{calculatePlanPrice() | centsToDollars}}
   | &#32;for {{plan.userCount}} users.

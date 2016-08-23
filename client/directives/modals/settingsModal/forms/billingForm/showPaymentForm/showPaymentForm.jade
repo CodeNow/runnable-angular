@@ -1,8 +1,7 @@
 .clearfix
   .label-col.full-width Payment Info
-//- add .flash on update to indicate updated
 label.grid-block.vertical.well.well-summary(
-  ng-class = "{'invalid': $root.featureFlags.billingExpired, flash: hasUpdated}"
+  ng-class = "{flash: hasUpdated}"
 )
   .grid-block.align-center.padding-sm
     .grid-block.vertical
@@ -18,10 +17,8 @@ label.grid-block.vertical.well.well-summary(
         )
         | {{paymentMethod.card.last4}}
   .grid-block.shrink.small.well-bottom.padding-sm(
-    ng-if = "$root.featureFlags.nextPayment"
-  ) Next Payment: July 8
-    sup.sup th
-    | , 2016.
+    ng-if = "currentOrg.poppa.isInTrial() || currentOrg.poppa.isInActivePeriod()"
+  ) Next Payment: {{getNextPaymentDate()}}.
 .grid-block.align-center.justify-right.padding-xxs
   button.btn.btn-xs.white(
     ng-click = "goToPanel('changePaymentForm');"

@@ -5,7 +5,6 @@ require('app').directive('paymentSummary', paymentSummary);
 function paymentSummary(
   $q,
   currentOrg,
-  fetchPaymentMethod,
   fetchPlan,
   loading,
   moment
@@ -14,22 +13,21 @@ function paymentSummary(
     restrict: 'A',
     templateUrl: 'paymentSummaryView',
     scope: {
-      showNext: '='
+      showNext: '=',
+      isConfirmation: '='
     },
     link: function ($scope) {
       $scope.currentOrg = currentOrg;
       $scope.planMapping = {
-        'starter': 'Starter',
-        'standard': 'Standard',
-        'plus': 'Plus'
+        'runnable-starter': 'Starter',
+        'runnable-standard': 'Standard',
+        'runnable-plus': 'Plus'
       };
       loading('billingForm', true);
       $q.all([
-        fetchPaymentMethod(),
         fetchPlan()
       ])
         .then(function (data) {
-          $scope.paymentMethod = data[0];
           $scope.plan = data[1].next;
         })
         .finally(function () {
