@@ -74,10 +74,9 @@ function fetchUser(
 
 function fetchWhitelistedOrgs(
   fetchUser,
-  fetchWhitelists,
-  memoize
+  fetchWhitelists
 ) {
-  return memoize(function () {
+  return function () {
     return fetchUser()
       .then(function (user) {
         return fetchWhitelists()
@@ -88,7 +87,7 @@ function fetchWhitelistedOrgs(
             return new GithubOrgCollection(githubOrgs, {client: user.client});
           });
       });
-  });
+  };
 }
 
 /**
