@@ -153,13 +153,22 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
       describe('when in trial', function () {
         beforeEach(function () {
           mockCurrentOrg.poppa.isInTrial.returns(true);
-          mockCurrentOrg.poppa.trialDaysRemaining = sinon.stub().returns(12);
+          mockCurrentOrg.poppa.trialDaysRemaining = sinon.stub().returns(2);
         });
 
         it('should return trial remaining', function () {
           mockCurrentOrg.poppa.isInTrial.reset();
           mockCurrentOrg.poppa.trialDaysRemaining.reset();
-          expect($elScope.getBadgeCount()).to.equal(12);
+          expect($elScope.getBadgeCount()).to.equal(2);
+          sinon.assert.calledOnce(mockCurrentOrg.poppa.isInTrial);
+          sinon.assert.calledOnce(mockCurrentOrg.poppa.trialDaysRemaining);
+        });
+
+        it('should return nothing if trial is greater than 3 days remaining', function () {
+          mockCurrentOrg.poppa.trialDaysRemaining = sinon.stub().returns(12);
+          mockCurrentOrg.poppa.isInTrial.reset();
+          mockCurrentOrg.poppa.trialDaysRemaining.reset();
+          expect($elScope.getBadgeCount()).to.equal('');
           sinon.assert.calledOnce(mockCurrentOrg.poppa.isInTrial);
           sinon.assert.calledOnce(mockCurrentOrg.poppa.trialDaysRemaining);
         });
