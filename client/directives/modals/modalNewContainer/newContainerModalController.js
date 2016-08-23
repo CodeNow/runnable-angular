@@ -192,10 +192,8 @@ function NewContainerModalController(
         repoBuildAndBranch.instanceName = instanceName;
         if (configurationMethod === 'dockerfile' && dockerfile) {
           NCMC.newMirrorRepositoryContainer(repoBuildAndBranch);
-        } else if (configurationMethod === 'blankDockerfile') {
-          NCMC.newBlankRepositoryContainer(repoBuildAndBranch);
         } else {
-          NCMC.newRepositoryContainer(repoBuildAndBranch);
+          NCMC.newRepositoryContainer(repoBuildAndBranch, configurationMethod);
         }
       })
       .finally(function () {
@@ -209,7 +207,7 @@ function NewContainerModalController(
       .catch(errs.handler);
   };
 
-  NCMC.newRepositoryContainer = function (inputs) {
+  NCMC.newRepositoryContainer = function (inputs, configurationMethod) {
     if (NCMC.state.closed) { return; }
     NCMC.close();
     ModalService.showModal({
@@ -217,7 +215,7 @@ function NewContainerModalController(
       controllerAs: 'SMC',
       templateUrl: 'setupServerModalView',
       inputs: angular.extend({
-        dockerfileType: null,
+        dockerfileType: configurationMethod,
         instanceName: null,
         repo: null,
         build: null,
@@ -225,24 +223,6 @@ function NewContainerModalController(
       }, inputs)
     });
   };
-
-  NCMC.newBlankRepositoryContainer = function(inputs) {
-    if (NCMC.state.closed) { return; }
-    NCMC.close();
-    ModalService.showModal({
-      controller: 'SetupServerModalController',
-      controllerAs: 'SMC',
-      templateUrl: 'setupServerModalView',
-      inputs: angular.extend({
-        dockerfileType: NCMC.state.configurationMethod,
-        instanceName: null,
-        build: null,
-        masterBranch: null,
-        repo: null
-      }, inputs)
-    });
-  };
-
 
   NCMC.newMirrorRepositoryContainer = function (inputs) {
     if (NCMC.state.closed) { return; }

@@ -61,7 +61,6 @@ function SetupServerModalController(
   });
 
   var mainRepoContainerFile = new cardInfoTypes.MainRepository();
-  var isBlankDockerfile = dockerfileType === 'blankDockerfile' ? dockerfileType : false;
   // Set initial state
   angular.extend(SMC, {
     name: 'setupServerModal',
@@ -108,6 +107,14 @@ function SetupServerModalController(
 
   if (!repo || !build || !masterBranch) {
     return errs.handler(new Error('Repo, build, and masterBranch must be set'));
+  }
+
+  // if the blank docker file is chosen, we need to load it because it is already available
+  if (dockerfileType === 'blankDockerfile') {
+    var isBlankDockerfile = dockerfileType;
+    SMC.openDockerfile({contextVersion: build.contextVersion}, SMC.openItems);
+  } else {
+    var isBlankDockerfile = false;
   }
 
   // If a repo is passed into this controller, select that repo

@@ -37,7 +37,6 @@ function fileTreeDir(
     link: function ($scope, element) {
 
       var actions = $scope.actions = {};
-      $scope.data = {};
       var inputElement = element[0].querySelector('input.tree-input');
 
       $scope.editFolderName = false;

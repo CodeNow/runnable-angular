@@ -272,15 +272,14 @@ function ServerModalController(
   };
 
   this.resetStateContextVersion = function (contextVersion, shouldParseDockerfile) {
-    // also problems here along with lines 45
-    // can check that there is a SMC.state.advanced property which = blankDockerfile
     var SMC = this;
-    if (SMC.state.advanced === 'blankDockerfile' || !SMC.state.advanced) {
-      console.log('keep it going');
-    } else if (keypather.get(contextVersion, 'attrs.buildDockerfilePath')) {
-      SMC.state.advanced = 'isMirroringDockerfile';
-    } else {
-      SMC.state.advanced = !!keypather.get(contextVersion, 'attrs.advanced');
+
+    if (SMC.state.advanced !== 'blankDockerfile') {
+      if (keypather.get(contextVersion, 'attrs.buildDockerfilePath')) {
+        SMC.state.advanced = 'isMirroringDockerfile';
+      } else {
+        SMC.state.advanced = !!keypather.get(contextVersion, 'attrs.advanced');
+      }
     }
 
     SMC.state.promises.contextVersion = loadingPromises.start(
