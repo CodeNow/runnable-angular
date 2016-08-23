@@ -1,14 +1,19 @@
-//- alert appears during a build failure AND no changes have been made
-.alert.orange(
+.grid-block.shrink.justify-center.align-center.padding-xs.well.gray.aha-tips(
   ng-if = "\
     !$root.isLoading.setupServerModalIsBuilding && \
     !SMC.isDirty() && \
     SMC.instance.status() === 'buildFailed' \
   "
-) Having build problems? Some errors can be resolved by rebuilding the container.
-  button.btn.btn-xxs.orange(
-    ng-click = "SMC.rebuild(true, true)"
-  ) Rebuild Without Cache
+)
+  svg.grid-content.shrink.iconnables
+    use(
+      xlink:href = "#icons-life-preserver"
+    )
+  .grid-content.vertical
+    small.grid-content.small Having build problems? Some errors can be resolved by rebuilding the container.
+    button.btn.btn-xxs.orange(
+      ng-click = "SMC.rebuild(true, true)"
+    ) Rebuild Without Cache
 
 //- tabs
 .btn-group.btn-toggle.btn-toggle-xs(
@@ -26,7 +31,12 @@
   button.btn.btn-xs.white(
     ng-class = "{'active': SMC.page === 'terminal'}"
     ng-click = "SMC.page = 'terminal'"
+<<<<<<< HEAD
     instance = "SMC.instance"
+=======
+    ng-disabled = "!SMC.instance.containers.models.length"
+    ng-if = "$root.featureFlags.configTerminal"
+>>>>>>> origin/master
   ) Terminal
 
 //- logs
@@ -42,18 +52,28 @@ pre.pre.log-wrapper(
       'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
       'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
     }"
-    ng-if = "SMC.page === 'run'"
+    ng-if = "SMC.page === 'run' && SMC.showDebugCmd"
     ng-include = "'debugToolbarView'"
-    ng-show = "SMC.showDebugCmd"
   )
+
+  //- webview toolbar
+  .views-toolbar(
+    ng-class = "{\
+      'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
+      'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
+    }"
+    ng-include = "'webViewToolbarView'"
+    ng-if = "SMC.page === 'run' && !SMC.showDebugCmd && $root.featureFlags.webToolbar"
+  )
+
   //- build logs page
   .build-log-wrapper(
     build-logs
-    scroll-glue
     instance = "SMC.instance"
     ng-if = "SMC.instance"
     ng-show = "SMC.page === 'build'"
     ng-style = "($root.featureFlags.themeToggle || $root.featureFlags.fullScreenToggle) && {'padding-right': '42px'}"
+    scroll-glue
   )
   //- cmd logs page
   .term-js.term-log(

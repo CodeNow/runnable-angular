@@ -1,7 +1,6 @@
 'use strict';
 
 describe('directiveRepositorySelector'.bold.underline.blue, function () {
-  var element;
   var $scope;
   var $rootScope;
   var keypather;
@@ -10,9 +9,15 @@ describe('directiveRepositorySelector'.bold.underline.blue, function () {
 
   var currentConfig;
   var fetchOwnerRepoStub;
+  var mockCurrentOrg;
 
   var ctx;
   function initState(config) {
+    mockCurrentOrg = {
+      github: {
+        oauthName: sinon.stub().returns('myOauthName')
+      }
+    };
     ctx = {};
     ctx.commits = [
       {
@@ -64,8 +69,8 @@ describe('directiveRepositorySelector'.bold.underline.blue, function () {
       })
     };
 
-    angular.mock.module('app');
-    angular.mock.module(function ($provide) {
+    angular.mock.module('app', function ($provide) {
+      $provide.value('currentOrg', mockCurrentOrg);
       $provide.factory('fetchOwnerRepos', function ($q) {
         runnable.reset(mocks.user);
         fetchOwnerRepoStub = sinon.stub().returns(
@@ -100,7 +105,6 @@ describe('directiveRepositorySelector'.bold.underline.blue, function () {
       $q = _$q_;
       $timeout = _$timeout_;
 
-      keypather.set($rootScope, 'dataApp.data.activeAccount.oauthName', sinon.mock().returns('myOauthName'));
       $scope = $rootScope.$new();
 
       if(!config){
@@ -131,8 +135,7 @@ describe('directiveRepositorySelector'.bold.underline.blue, function () {
         'actions': 'actions',
         'data': 'data'
       });
-      element = $compile(tpl)($scope);
-
+      $compile(tpl)($scope);
       $scope.$digest();
       $timeout.flush();
     });
@@ -144,7 +147,7 @@ describe('directiveRepositorySelector'.bold.underline.blue, function () {
     });
 
     it('should load repo list and default it\'s view to repoSelect', function () {
-      sinon.assert.called($rootScope.dataApp.data.activeAccount.oauthName);
+      sinon.assert.called(mockCurrentOrg.github.oauthName);
       sinon.assert.calledOnce(fetchOwnerRepoStub);
       expect($scope.repoSelector.data.githubRepos.models).to.exist;
 

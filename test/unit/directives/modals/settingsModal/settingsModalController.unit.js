@@ -10,12 +10,14 @@ var keypather;
 describe('SettingsModalController'.bold.underline.blue, function () {
 
   var SEMC;
+  var subTabName = 'SubTab';
   var tabName = 'hello';
   var closeStub = sinon.stub();
 
   beforeEach(function () {
     angular.mock.module('app', function ($provide) {
       $provide.value('tab', tabName);
+      $provide.value('subTab', subTabName);
       $provide.value('close', closeStub);
     });
     angular.mock.inject(function (
@@ -38,5 +40,6 @@ describe('SettingsModalController'.bold.underline.blue, function () {
   it('should instantiate the controller correctly', function () {
     expect(SEMC.close).to.equal(closeStub);
     expect(SEMC.currentTab).to.equal(tabName);
+    expect(SEMC.subTab).to.equal(subTabName);
   });
 });

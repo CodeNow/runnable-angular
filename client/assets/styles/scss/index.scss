@@ -62,6 +62,7 @@
 @import "components/aha-button";
 @import "components/aha-guide";
 @import "components/aha-modals";
+@import "components/aha-popover";
 @import "components/aha-sidebar";
 @import "components/animated-panel";
 @import "components/badges";
@@ -84,7 +85,6 @@
 
 // components specific
 @import "components/lists-teammates";
-@import "components/new-user-prompt";
 @import "components/notifications-trial";
 
 // external components
@@ -133,6 +133,7 @@
 @import "modals/modals-edit-ace";
 @import "modals/modals-edit-dockerfile";
 @import "modals/modals-error";
+@import "modals/modals-guide";
 @import "modals/modals-integrations";
 @import "modals/modals-invite";
 @import "modals/modals-invite-admin";

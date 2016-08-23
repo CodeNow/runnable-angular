@@ -12,8 +12,14 @@ describe('PlanStatusFormController'.bold.underline.blue, function () {
   var mockPlan;
   var mockBillingPlans;
   var fetchPaymentMethodStub;
+  var mockCurrentOrg;
 
   beforeEach(function () {
+    mockCurrentOrg = {
+      poppa: {
+        isInTrial: sinon.stub().returns(true)
+      }
+    };
     mockBillingPlans = {
       'simplePlan': {
         id: 'billingSimplePlan',
@@ -45,15 +51,12 @@ describe('PlanStatusFormController'.bold.underline.blue, function () {
       loadingStub.reset = sinon.stub();
       $provide.value('loading', loadingStub);
       $provide.value('billingPlans', mockBillingPlans);
+      $provide.value('currentOrg', mockCurrentOrg);
     });
     angular.mock.inject(function (
       _$controller_,
-      $rootScope,
-      keypather
+      $rootScope
     ) {
-      keypather.set($rootScope, 'dataApp.data.activeAccount', {
-        isInTrial: sinon.stub().returns(true)
-      });
       $controller = _$controller_;
       $scope = $rootScope.$new();
     });

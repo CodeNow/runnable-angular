@@ -3,4 +3,9 @@
   flex-direction: column;
   min-height: 100%;
   padding: 15px;
+
+  &.empty {
+    background-color: $gray-lightest;
+    background-image: url(/build/images/confetti.png);
+  }
 }

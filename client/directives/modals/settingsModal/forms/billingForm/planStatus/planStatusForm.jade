@@ -96,7 +96,7 @@
   label.grid-block.align-center.padding-xs.well.well-plan.well-summary.disabled(
     ng-if = "PSFC.discounted"
     ng-include = "'discountView'"
-    ng-init = "state.hasDuration = (PSFC.activeAccount.isInActivePeriod()) ? 'true' : ''"
+    ng-init = "state.hasDuration = (PSFC.currentOrg.poppa.isInActivePeriod()) ? 'true' : ''"
   )
 
   p.grid-content.p.text-gray.text-center.padding-sm(
@@ -106,20 +106,14 @@
 
   .grid-block.justify-center
     button.grid-block.shrink.btn.btn-md.green(
-      ng-click = "\
-        SEMC.showFooter = false;\
-        goToPanel('changePaymentForm');\
-      "
-      ng-if = "PSFC.activeAccount.isInTrial()"
+      ng-click = "goToPanel('changePaymentForm');"
+      ng-if = "PSFC.currentOrg.poppa.isInTrial()"
       type = "button"
     ) Add Payment Method
 
 footer.modal-footer.clearfix(
-  ng-if = "!PSFC.activeAccount.isInTrial()"
+  ng-if = "!PSFC.currentOrg.poppa.isInTrial()"
 )
   button.btn.btn-md.gray.btn-cancel.float-left(
-    ng-click = "\
-      SEMC.showFooter = true;\
-      goToPanel('billingForm', 'back');\
-    "
+    ng-click = "goToPanel('billingForm', 'back');"
   ) Back

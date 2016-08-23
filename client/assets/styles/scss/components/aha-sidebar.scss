@@ -12,6 +12,11 @@
   width: 390px;
   z-index: $z-popover;
 
+  @include media(xxxs) {
+    left: 12px;
+    width: auto;
+  }
+
   &.ng-enter {
     transform: translate3d(100%,0,0);
   }
@@ -40,9 +45,20 @@
     }
   }
 
+  .aha-overview {
+    animation: slide-left .45s ease-in-out forwards;
+    border-bottom: 1px solid $gray-lightest;
+    margin-bottom: 15px;
+    padding: 32px 0 42px;
+
+    .btn {
+      align-self: center;
+    }
+  }
+
   .aha-guide {
     animation: slide-left .45s ease-in-out forwards;
-    background: $gray-lighterest;
+    background: $white;
     border: 1px solid $gray-lighter;
     border-radius: $input-border-radius-lg;
     opacity: 0;
@@ -54,15 +70,13 @@
       }
     }
 
-    &.complete {
-      background: $green-dark;
-      border-color: $green;
-      color: $white;
-    }
-
     &.disabled {
-      border-color: $gray-lightest;
-      color: $gray-light;
+      background: $gray-lighterest;
+      color: rgba($gray,.4);
+
+      .iconnables {
+        background: $gray-lighterest;
+      }
     }
 
     + .aha-guide {

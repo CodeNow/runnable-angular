@@ -3,12 +3,14 @@ input,
 textarea {
   cursor: text;
 
+  // scss-lint:disable ImportantRule
   &[disabled] {
     background-color: $gray-lighterest;
     border-color: $gray-lighter !important; // override any validation
-    color: $gray-lighter;
+    color: $gray-light !important;
     cursor: not-allowed;
   }
+  // scss-lint:enable ImportantRule
 }
 
 input {
