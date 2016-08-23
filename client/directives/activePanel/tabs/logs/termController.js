@@ -19,7 +19,7 @@ function TermController(
       state: {
         saveState: function() {return null;}
       }
-    }
+    };
   }
 
   var termOnFn;

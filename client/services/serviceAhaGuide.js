@@ -58,12 +58,12 @@ function serviceAhaGuide(
           caption: 'Select a repository to configure.',
           className: 'aha-meter-20',
           step: 1
-        }, 
+        },
         dockerfileMirroring: {
           caption: 'How would you like to configure your repo?',
           className: 'aha-meter-30',
           step: 2
-        }, 
+        },
         nameContainer: {
           caption: 'Give your configuration a name.',
           className: 'aha-meter-40',
@@ -133,7 +133,7 @@ function serviceAhaGuide(
         failed: 'Your build failed. Inspect your build logs for more information.'
       }
     }
-  ]
+  ];
 
   function getSteps() {
     return _steps;

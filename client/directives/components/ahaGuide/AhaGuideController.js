@@ -58,7 +58,7 @@ function AhaGuideController(
 
   AHA.state.title = currentMilestone.title;
   AHA.state.caption = currentMilestone.subSteps[AHA.state.subStep].caption;
-  AHA.state.className = currentMilestone.subSteps[AHA.state.subStep].className
+  AHA.state.className = currentMilestone.subSteps[AHA.state.subStep].className;
 
   // update steps and initiate digest loop
   function updateCaption(status) {
@@ -71,7 +71,7 @@ function AhaGuideController(
     AHA.state.subStep = status;
     AHA.state.subStepIndex = currentMilestone.subSteps[status].step;
     AHA.state.caption = currentMilestone.subSteps[status].caption;
-    AHA.state.className = currentMilestone.subSteps[status].className
+    AHA.state.className = currentMilestone.subSteps[status].className;
   }
 
   function updateBuildStatus(buildStatus) {
@@ -89,5 +89,5 @@ function AhaGuideController(
     updateCaption(panel);
   });
 
-};
+}
 

@@ -195,7 +195,6 @@ function NewContainerModalController(
       })
       .finally(function () {
         loading(NCMC.name + 'SingleRepo', false);
-        $rootScope.$broadcast('openedRepoModal');
       });
   };
 
