@@ -24,11 +24,9 @@ function paymentSummary(
         'runnable-plus': 'Plus'
       };
       loading('billingForm', true);
-      $q.all([
-        fetchPlan()
-      ])
-        .then(function (data) {
-          $scope.plan = data[1].next;
+      fetchPlan()
+        .then(function (plan) {
+          $scope.plan = plan.next;
         })
         .finally(function () {
           loading('billingForm', false);

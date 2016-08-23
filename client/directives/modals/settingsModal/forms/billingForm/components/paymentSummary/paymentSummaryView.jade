@@ -6,7 +6,7 @@ span(
   ) &#32;You will not be charged until your trial ends.
 
 span(
-  ng-if = "currentOrg.poppa.isGraceExpired() || currentOrg.poppa.isInGrace() && currentOrg.poppa.hasPaymentMethod"
+  ng-if = "currentOrg.poppa.isGraceExpired() || currentOrg.poppa.isInGrace()"
 ) You’ll be charged&#32;
   strong ${{calculatePlanPrice() | centsToDollars}}
   | &#32;for {{plan.userCount}} users.
