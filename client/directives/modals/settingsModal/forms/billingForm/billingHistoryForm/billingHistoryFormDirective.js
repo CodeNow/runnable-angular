@@ -15,7 +15,9 @@ function billingHistoryForm(
       loading('billingForm', true);
       fetchInvoices()
         .then(function (invoices) {
-          $scope.invoices = invoices;
+          $scope.invoices = invoices.filter(function (invoice) {
+            return invoice.total > 0;
+          });
         })
         .finally(function () {
           loading('billingForm', false);
