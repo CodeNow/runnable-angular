@@ -3,7 +3,6 @@
 require('app').directive('paymentSummary', paymentSummary);
 
 function paymentSummary(
-  $q,
   currentOrg,
   fetchPlan,
   loading,

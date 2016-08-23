@@ -8,8 +8,6 @@ describe('paymentSummaryDirective'.bold.underline.blue, function () {
   var fetchPlanStub;
   var loadingStub;
   var mockPlan;
-  var mockPaymentMethod;
-  var fetchPaymentMethodStub;
   var mockCurrentOrg;
   beforeEach(function () {
     mockCurrentOrg = {
@@ -26,17 +24,10 @@ describe('paymentSummaryDirective'.bold.underline.blue, function () {
         userCount: 3
       }
     };
-    mockPaymentMethod = {
-      id: 'mockPaymentMethod'
-    };
     angular.mock.module('app', function ($provide) {
       $provide.factory('fetchPlan', function ($q) {
         fetchPlanStub = sinon.stub().returns($q.when(mockPlan));
         return fetchPlanStub;
-      });
-      $provide.factory('fetchPaymentMethod', function ($q) {
-        fetchPaymentMethodStub = sinon.stub().returns($q.when(mockPaymentMethod));
-        return fetchPaymentMethodStub;
       });
       loadingStub = sinon.stub();
       $provide.value('loading', loadingStub);
@@ -63,9 +54,7 @@ describe('paymentSummaryDirective'.bold.underline.blue, function () {
     sinon.assert.calledWith(loadingStub, 'billingForm', true);
     sinon.assert.calledWith(loadingStub, 'billingForm', false);
     sinon.assert.calledOnce(fetchPlanStub);
-    sinon.assert.calledOnce(fetchPaymentMethodStub);
     expect($elScope.plan).to.equal(mockPlan.next);
-    expect($elScope.paymentMethod).to.equal(mockPaymentMethod);
   });
 
   describe('calculatePlanPrice', function () {

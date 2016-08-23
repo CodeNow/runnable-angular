@@ -22,7 +22,7 @@ function billingHistoryForm(
         });
 
       $scope.getBillingDate = function (invoice) {
-        return moment(invoice.periodEnd).format('M/D/YYYY');
+        return moment(invoice.periodEnd).format('MMM Do, YYYY');
       };
     }
   };
