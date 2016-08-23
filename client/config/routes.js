@@ -79,8 +79,12 @@ module.exports = [
     controller: 'WelcomeBackController',
     controllerAs: 'WBC',
     resolve: {
-      user: function (fetchUser) {
-        return fetchUser();
+      user: function (fetchUser, $rootScope, keypather) {
+        return fetchUser()
+          .then(function (user) {
+            keypather.set($rootScope, 'dataApp.data.user', user);
+            return user;
+          });
       },
       booted: function (eventTracking, user) {
         return eventTracking.boot(user);
