@@ -21,7 +21,7 @@ function TermController(
       }
     }
   }
-  var terminalId = keypather.get($scope.tabItem, 'attrs.terminalId');
+
   var termOnFn;
   var watchOnlyOnce = new WatchOnlyOnce($scope);
   $scope.termOpts = {

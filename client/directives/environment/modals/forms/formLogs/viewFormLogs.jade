@@ -31,12 +31,8 @@
   button.btn.btn-xs.white(
     ng-class = "{'active': SMC.page === 'terminal'}"
     ng-click = "SMC.page = 'terminal'"
-<<<<<<< HEAD
-    instance = "SMC.instance"
-=======
     ng-disabled = "!SMC.instance.containers.models.length"
     ng-if = "$root.featureFlags.configTerminal"
->>>>>>> origin/master
   ) Terminal
 
 //- logs
@@ -88,6 +84,7 @@ pre.pre.log-wrapper(
     controller = "TermController"
     debug-container = "debugContainer"
     instance = "SMC.instance"
+    ng-if = "SMC.instance.containers.models.length"
     tab-item = "item"
     log-term
     ng-show = "SMC.page === 'terminal'"
