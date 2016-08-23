@@ -122,12 +122,11 @@ function fetchWhitelistForDockCreated(
  * @returns {*}
  */
 function fetchWhitelists(
-  fetchWhitelistForDockCreated,
-  memoize
+  fetchWhitelistForDockCreated
 ) {
-  return memoize(function () {
+  return function () {
     return fetchWhitelistForDockCreated();
-  });
+  };
 }
 
 
