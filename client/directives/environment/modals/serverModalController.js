@@ -95,7 +95,7 @@ function ServerModalController(
         toRedeploy = !toRebuild && rebuildOrRedeploy === 'update';
 
         loadingPromises.clear(SMC.name);
-        if (!SMC.openItems.isClean()) {
+        if (!SMC.openItems.isClean() || SMC.state.advanced === 'blankDockerfile') {
           return SMC.openItems.updateAllFiles();
         }
       })
@@ -273,11 +273,15 @@ function ServerModalController(
 
   this.resetStateContextVersion = function (contextVersion, shouldParseDockerfile) {
     var SMC = this;
-    if (keypather.get(contextVersion, 'attrs.buildDockerfilePath')) {
-      SMC.state.advanced = 'isMirroringDockerfile';
-    } else {
-      SMC.state.advanced = !!keypather.get(contextVersion, 'attrs.advanced');
+
+    if (SMC.state.advanced !== 'blankDockerfile') {
+      if (keypather.get(contextVersion, 'attrs.buildDockerfilePath')) {
+        SMC.state.advanced = 'isMirroringDockerfile';
+      } else {
+        SMC.state.advanced = !!keypather.get(contextVersion, 'attrs.advanced');
+      }
     }
+
     SMC.state.promises.contextVersion = loadingPromises.start(
       SMC.name,
       promisify(contextVersion, 'deepCopy')()
@@ -362,7 +366,7 @@ function ServerModalController(
     var SMC = this;
     var errorMessage = '';
     errorMessage += '# There was an error retrieving the Dockerfile from your repo';
-    errorMessage += '# This error occured when disabling mirrorring your Dockerfile';
+    errorMessage += '# This error occured when disabling mirroring your Dockerfile';
     var dockerfileBody = keypather.get(state, 'dockerfile.attrs.body') || errorMessage;
     return loadingPromises.add(SMC.name, promisify(state.contextVersion, 'update')({
       advanced: true,

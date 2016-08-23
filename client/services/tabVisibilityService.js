@@ -46,8 +46,8 @@ require('app')
       step: 3
     },
     buildfiles: {
-      basic: true,
       advanced: true,
+      basic: true,
       mirror: true,
       nonRepo: true,
       step: 3

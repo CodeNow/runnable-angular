@@ -4,8 +4,9 @@
     ng-if = "$root.featureFlags.aha1"
     step-index = 1
     sub-step = "repository"
-    sub-step-index = 4
+    sub-step-index = status.configurationMethod === 'blankDockerfile' ? 6 : 4
   )
+  
   form.modal-dialog.modal-edit(
     name = "SMC.serverForm"
     ng-if = "SMC.state.repo"

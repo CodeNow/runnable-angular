@@ -51,59 +51,78 @@ function serviceAhaGuide(
       subSteps: {
         addRepository: {
           caption: 'Add your repository by clicking \'Add Configuration\'.',
-          className: 'aha-meter-10'
+          className: 'aha-meter-10',
+          step: 0
         },
         containerSelection: {
           caption: 'Select a repository to configure.',
-          className: 'aha-meter-20'
+          className: 'aha-meter-20',
+          step: 1
         }, 
         dockerfileMirroring: {
           caption: 'How would you like to configure your repo?',
-          className: 'aha-meter-30'
+          className: 'aha-meter-30',
+          step: 2
         }, 
         nameContainer: {
           caption: 'Give your configuration a name.',
-          className: 'aha-meter-40'
+          className: 'aha-meter-40',
+          step: 3
         },
         repository: {
           caption: 'What does your repository run?',
-          className: 'aha-meter-50'
+          className: 'aha-meter-50',
+          step: 4
         },
         commands: {
           caption: 'Choose commands and packages',
-          className: 'aha-meter-60'
+          className: 'aha-meter-60',
+          step: 5
         },
         buildfiles: {
           caption: 'If your app needs additional configuration...',
-          className: 'aha-meter-70'
+          className: 'aha-meter-70',
+          step: 6
         },
         default: {
           caption: 'If your app needs additional configuration...',
-          className: 'aha-meter-70'
+          className: 'aha-meter-70',
+          step: 6
         },
         env: {
           caption: 'If your app needs additional configuration...',
-          className: 'aha-meter-70'
+          className: 'aha-meter-70',
+          step: 6
         },
         files: {
           caption: 'If your app needs additional configuration...',
-          className: 'aha-meter-70'
+          className: 'aha-meter-70',
+          step: 6
+        },
+        filesMirror: {
+          caption: 'We\'ve imported your dockerfile, click \'Save & Build\' to build it!',
+          className: 'aha-meter-70',
+          step: 6
         },
         ports: {
           caption: 'If your app needs additional configuration...',
-          className: 'aha-meter-70'
+          className: 'aha-meter-70',
+          step: 6
         },
         translation: {
           caption: 'If your app needs additional configuration...',
-          className: 'aha-meter-70'
+          className: 'aha-meter-70',
+          step: 6
         },
         logs: {
           caption: 'Now building. Build time varies depending on your configuration',
-          className: 'aha-meter-80'
+          className: 'aha-meter-80',
+          step: 7
         },
         success: {
           caption: 'Your build is looking good! Check out its URL and click \'Done\' if it looks good',
-          className: 'aha-meter-90'
+          className: 'aha-meter-90',
+          step: 8
         }
       },
 
@@ -112,25 +131,6 @@ function serviceAhaGuide(
         success: 'Your build is looking good! Check out its URL and click \'Done\' if it looks good',
         faileda: 'Your container failed to run. Inspect your CMD logs for more information.',
         failed: 'Your build failed. Inspect your build logs for more information.'
-      },
-
-      panelSteps: {
-        containerSelection: 1,
-        dockerfileMirroring: 2,
-        nameContainer: 3
-      },
-
-      tabSteps: {
-        repository: 4,
-        commands: 5,
-        buildfiles: 6,
-        default: 6,
-        env: 6,
-        files: 6,
-        ports: 6,
-        translation: 6,
-        logs: 7,
-        success: 8
       }
     }
   ]

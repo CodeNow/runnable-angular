@@ -10,8 +10,6 @@ function AhaGuideController(
   serviceAhaGuide
 ) {
 
-  // TODO : use the watchonce service where warranted
-
   var AHA = this;
 
   var previousTab;
@@ -35,7 +33,6 @@ function AhaGuideController(
         console.log(buildStatus);
         if (buildStatus === 'failed' || buildStatus === 'buildFailed') {
           AHA.state.showError = true;
-          buildLogListener();
         } else if (buildStatus === 'success') {
           updateCaption(buildStatus);
           buildLogListener();
@@ -71,8 +68,8 @@ function AhaGuideController(
     if (status === 'dockLoaded') {
       $rootScope.animatedPanelListener();
     }
-    AHA.state.subStepIndex++;
     AHA.state.subStep = status;
+    AHA.state.subStepIndex = currentMilestone.subSteps[status].step;
     AHA.state.caption = currentMilestone.subSteps[status].caption;
     AHA.state.className = currentMilestone.subSteps[status].className
   }
