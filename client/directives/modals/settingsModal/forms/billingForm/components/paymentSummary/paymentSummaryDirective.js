@@ -38,7 +38,7 @@ function paymentSummary(
         }
         var modifier = 1;
         if ($scope.discounted) {
-          modifier = .5;
+          modifier = 0.5;
         }
         return $scope.plan.price * $scope.plan.userCount * modifier;
       };
