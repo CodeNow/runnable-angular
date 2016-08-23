@@ -437,6 +437,7 @@ module.exports = function(grunt) {
         configObj.socketHost = process.env.API_SOCK_URL || configObj.host;
         configObj.userContentDomain = process.env.USER_CONTENT_DOMAIN || 'runnableapp.com';
         configObj.corporateUrl = process.env.MARKETING_URL || 'https://runnable.io';
+        configObj.stripeToken = process.env.STRIPE_TOKEN || 'pk_test_sHr5tQaPtgwiE2cpW6dQkzi8';
 
         if (configObj.host.charAt(configObj.host.length - 1) === '/') {
           configObj.host = configObj.host.substr(0, configObj.host.length - 1);
