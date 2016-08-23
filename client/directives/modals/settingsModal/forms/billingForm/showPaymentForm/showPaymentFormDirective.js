@@ -16,12 +16,15 @@ function showPaymentForm(
     link: function ($scope) {
       $scope.currentOrg = currentOrg;
       $scope.hasUpdated = false;
-      $rootScope.$on('updated-payment-method', function () {
+      var unregisterListenForUpdatedPaymentMethod = $rootScope.$on('updated-payment-method', function () {
         fetchPaymentMethod()
           .then(function (paymentMethod) {
             $scope.hasUpdated = true;
             $scope.paymentMethod = paymentMethod;
           });
+      });
+      $scope.$on('$destroy', function () {
+        unregisterListenForUpdatedPaymentMethod();
       });
       loading('billingForm', true);
       fetchPaymentMethod()
