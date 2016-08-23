@@ -47,7 +47,7 @@ describe('billingHistoryFormDirective'.bold.underline.blue, function () {
     sinon.assert.calledWith(loadingStub, 'billingForm', true);
     sinon.assert.calledWith(loadingStub, 'billingForm', false);
     sinon.assert.calledOnce(fetchInvoicesStub);
-    expect($scope.invoices).to.equal(mockInvoices);
+    expect($scope.invoices).to.deep.equal([mockInvoices[0]]);
   });
 
   describe('getBillingDate', function () {
