@@ -169,7 +169,7 @@ module.exports = [
             return $q.reject(new Error('User Unauthorized for Organization'));
           });
         }
-        if (!activeOrg.attrs.allowed) {
+        if (!activeOrg.attrs.isActive) {
           // There is a bug in ui-router and a timeout is the workaround
           return $timeout(function () {
             $state.go('paused');
