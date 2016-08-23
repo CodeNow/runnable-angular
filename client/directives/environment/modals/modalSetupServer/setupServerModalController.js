@@ -338,7 +338,7 @@ function SetupServerModalController(
   };
 
   SMC.isPrimaryButtonDisabled = function (serverFormInvalid) {
-    if (SMC.state.advanced === 'blankDockerfile') {
+    if (SMC.state.advanced === 'blankDockerfile' || SMC.state.advanced === 'isMirroringDockerfile') {
       return false;
     }
     return (

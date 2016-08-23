@@ -232,7 +232,6 @@ function NewContainerModalController(
       controllerAs: 'SMC',
       templateUrl: 'setupMirrorServerModalView',
       inputs: angular.extend({
-        dockerfileType: NCMC.state.configurationMethod,
         instanceName: null,
         repo: null,
         build: null,
