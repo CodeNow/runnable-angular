@@ -64,8 +64,12 @@ module.exports = [
       grantedOrgs: function (fetchGrantedGithubOrgs) {
         return fetchGrantedGithubOrgs();
       },
-      user: function (fetchUser) {
-        return fetchUser();
+      user: function (fetchUser, $rootScope, keypather) {
+        return fetchUser()
+          .then(function (user) {
+            keypather.set($rootScope, 'dataApp.data.user', user);
+            return user;
+          });
       },
       whitelistedOrgs: function (fetchWhitelistForDockCreated) {
         return fetchWhitelistForDockCreated();
