@@ -36,7 +36,7 @@ function serviceAhaGuide(
       }
     },
     {
-      title: 'Add your first Repository',
+      title: 'Add your First Repository',
       subStepCaptions: [
         'Add your repository by clicking \'Add Configuration\'.',
         'Select a repository to configure',
@@ -54,7 +54,7 @@ function serviceAhaGuide(
           className: 'aha-meter-10'
         },
         containerSelection: {
-          caption: 'Select a repository to configure',
+          caption: 'Select a repository to configure.',
           className: 'aha-meter-20'
         }, 
         dockerfileMirroring: {

@@ -67,7 +67,7 @@
     ) Next
   p.p.small.text-gray-light {{ AHA.state.title }}
   p.p(
-    ng-class = "{'p-slide js-animate': AHA.state.subStepIndex}"
+    ng-class = "{'p-slide js-animate': AHA.state.subStepIndex > 0}"
     ng-if = "$root.featureFlags.aha1 && !state.showError && !state.showVerification"
   ) {{ AHA.state.caption }}
   p.p(
