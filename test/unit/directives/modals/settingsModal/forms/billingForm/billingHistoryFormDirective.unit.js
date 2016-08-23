@@ -11,7 +11,12 @@ describe('billingHistoryFormDirective'.bold.underline.blue, function () {
   beforeEach(function () {
     mockInvoices = [
       {
-        id: 'invoice1'
+        id: 'invoice1',
+        total: 20
+      },
+      {
+        id: 'invoice2',
+        total: 0
       }
     ];
     angular.mock.module('app', function ($provide) {
