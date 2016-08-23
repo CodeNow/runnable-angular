@@ -864,6 +864,15 @@ function fetchStackData(
   };
 }
 
+function handleHTTPResponse(keypather, defaultValue) {
+  return function (res) {
+    if (res.status >= 300) {
+      throw new Error(keypather.get(res, 'data.error'));
+    }
+    return res.data || defaultValue;
+  };
+}
+
 function fetchPlan(
   $http,
   configAPIHost,
@@ -880,12 +889,7 @@ function fetchPlan(
         organizationId: currentOrg.poppa.id()
       }
     })
-      .then(function (res) {
-        if (res.status === 200) {
-          return res.data;
-        }
-        throw new Error(keypather.get(res, 'data.error'));
-      })
+      .then(handleHTTPResponse(keypather))
       .catch(errs.handler);
   }, function () {
     return currentOrg.poppa.id();
@@ -908,15 +912,7 @@ function fetchInvoices(
         organizationId: currentOrg.poppa.id()
       }
     })
-      .then(function (res) {
-        if (res.status === 201) {
-          return [];
-        }
-        if (res.status === 200) {
-          return res.data;
-        }
-        throw new Error(keypather.get(res, 'data.error'));
-      })
+      .then(handleHTTPResponse(keypather, []))
       .catch(errs.handler);
   }, function () {
     return currentOrg.poppa.id();
@@ -939,12 +935,7 @@ function fetchPaymentMethod(
         organizationId: currentOrg.poppa.id()
       }
     })
-      .then(function (res) {
-        if (res.status === 200) {
-          return res.data;
-        }
-        throw new Error(keypather.get(res, 'data.error'));
-      })
+      .then(handleHTTPResponse(keypather))
       .catch(errs.handler);
   }, function () {
     return currentOrg.poppa.id();
