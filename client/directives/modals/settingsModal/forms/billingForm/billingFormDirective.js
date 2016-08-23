@@ -4,14 +4,20 @@ require('app').directive('billingForm', billingForm);
 
 function billingForm(
   currentOrg,
-  keypather
+  keypather,
+  fetchPaymentMethod,
+  fetchPlan,
+  fetchInvoices
 ) {
   return {
     restrict: 'A',
     templateUrl: 'billingForm',
-    link: function ($scope, element) {
+    link: function ($scope) {
       $scope.$on('$destroy', function () {
         $scope.SEMC.showFooter = true;
+        fetchPaymentMethod.cache.clear();
+        fetchPlan.cache.clear();
+        fetchInvoices.cache.clear();
       });
       $scope.$on('changed-animated-panel', function (event, panelName) {
         $scope.SEMC.showFooter = panelName === 'billingForm';
