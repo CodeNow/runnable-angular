@@ -5,7 +5,6 @@ require('app')
 
 function NewContainerModalController(
   $q,
-  $rootScope,
   $timeout,
   createNewBuildAndFetchBranch,
   createNonRepoInstance,
@@ -19,7 +18,8 @@ function NewContainerModalController(
   keypather,
   loading,
   ModalService,
-  close
+  close,
+  currentOrg
 ) {
   var NCMC = this;
   var helpCard = helpCards.getActiveCard();
@@ -43,7 +43,7 @@ function NewContainerModalController(
   loading(NCMC.name + 'Repos', true);
   $q.all({
     instances: fetchInstancesByPod(),
-    repoList: fetchOwnerRepos($rootScope.dataApp.data.activeAccount.oauthName())
+    repoList: fetchOwnerRepos(currentOrg.github.oauthName())
   })
     .then(function (data) {
       NCMC.instances = data.instances;
@@ -169,7 +169,7 @@ function NewContainerModalController(
       .then(function (dockerfiles) {
         if (dockerfiles.length === 0) {
           NCMC.state.configurationMethod = 'new';
-        } 
+        }
         loading(NCMC.name + 'SingleRepo', false);
         repo.loading = false;
         repo.dockerfiles = dockerfiles;
@@ -180,7 +180,7 @@ function NewContainerModalController(
 
   NCMC.createBuildAndGoToNewRepoModal = function (instanceName, repo, dockerfile, configurationMethod) {
     loading(NCMC.name + 'SingleRepo', true);
-    return createNewBuildAndFetchBranch($rootScope.dataApp.data.activeAccount, repo, keypather.get(dockerfile, 'path'))
+    return createNewBuildAndFetchBranch(currentOrg.github, repo, keypather.get(dockerfile, 'path'))
       .then(function (repoBuildAndBranch) {
         repoBuildAndBranch.instanceName = instanceName;
         if (configurationMethod === 'dockerfile' && dockerfile) {

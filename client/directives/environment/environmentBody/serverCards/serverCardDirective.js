@@ -14,7 +14,8 @@ require('app')
     keypather,
     ModalService,
     parseDockerfileForCardInfoFromInstance,
-    promisify
+    promisify,
+    currentOrg
   ) {
     return {
       restrict: 'A',
@@ -80,7 +81,7 @@ require('app')
         };
         $scope.helpCards = helpCards;
         $scope.server = {};
-        $scope.activeAccount = $rootScope.dataApp.data.activeAccount;
+        $scope.activeAccount = currentOrg.github; // I'm unsure if this is used.
 
         function scrollIntoView() {
           $document.scrollToElement(ele, 100, 200);

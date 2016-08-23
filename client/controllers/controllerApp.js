@@ -22,12 +22,13 @@ function ControllerApp(
   keypather,
   ModalService,
   pageName,
+  currentOrg,
 
   user,
   orgs,
   activeAccount
 ) {
-  // Load ace after 5 seconds. Should improve user experience overall..
+  // Load ace after 10 seconds. Should improve user experience overall..
   $timeout(function () {
     $ocLazyLoad.load('ui.ace');
   }, 10000);
@@ -119,6 +120,25 @@ function ControllerApp(
     }
   };
 
+  if ($rootScope.featureFlags.billing && (currentOrg.poppa.isInGrace() || currentOrg.poppa.isGraceExpired())) {
+    // Determine if it's a trial end or just a normal payment due
+    if (currentOrg.poppa.attrs.hasPaymentMethod) {
+      ModalService.showModal({
+        controller: 'ExpiredAccountController',
+        controllerAs: 'EAC',
+        templateUrl: 'paymentDueView',
+        preventClose: true
+      });
+    } else {
+      ModalService.showModal({
+        controller: 'ExpiredAccountController',
+        controllerAs: 'EAC',
+        templateUrl: 'trialEndView',
+        preventClose: true
+      });
+    }
+  }
+
   $rootScope.canEditFeatureFlags = function () {
     return !!dataApp.data.allAccounts.find(function (account) {
       return account.oauthName() === 'CodeNow';
@@ -127,13 +147,13 @@ function ControllerApp(
 
   CA.showTrialEndingNotification = function () {
     return $rootScope.featureFlags.billing &&
-      activeAccount.isInTrial() &&
-      activeAccount.trialDaysRemaining() <= 3 &&
-      !activeAccount.attrs.hasPaymentMethod && !keypather.get($localStorage, 'hasDismissedTrialNotification.' + activeAccount.attrs.id);
+      currentOrg.poppa.isInTrial() &&
+      currentOrg.poppa.trialDaysRemaining() <= 3 &&
+      !currentOrg.poppa.attrs.hasPaymentMethod && !keypather.get($localStorage, 'hasDismissedTrialNotification.' + currentOrg.github.attrs.id);
   };
 
   CA.closeTrialEndingNotification = function () {
-    keypather.set($localStorage, 'hasDismissedTrialNotification.' + activeAccount.attrs.id, true);
+    keypather.set($localStorage, 'hasDismissedTrialNotification.' + currentOrg.github.attrs.id, true);
   };
 
 }

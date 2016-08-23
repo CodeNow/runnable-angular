@@ -75,9 +75,9 @@ module.exports = [
     state: 'paused',
     abstract: false,
     url: '^/paws’d',
-    templateUrl: 'gracePeriodModalView',
-    controller: 'GracePeriodController',
-    controllerAs: 'GPC',
+    templateUrl: 'pausedSandboxView',
+    controller: 'WelcomeBackController',
+    controllerAs: 'WBC',
     resolve: {
       user: function (fetchUser) {
         return fetchUser();
@@ -123,6 +123,15 @@ module.exports = [
       orgs: function (fetchWhitelistedOrgs) {
         return fetchWhitelistedOrgs();
       },
+      activeOrg: function (
+        $stateParams,
+        whitelists
+      ) {
+        var lowerAccountName = $stateParams.userName.toLowerCase();
+        return whitelists.find(function (whitelist) {
+          return whitelist.attrs.lowerName === lowerAccountName;
+        });
+      },
       activeAccount: function (
         $q,
         $stateParams,
@@ -131,7 +140,8 @@ module.exports = [
         whitelists,
         $timeout,
         user,
-        eventTracking
+        eventTracking,
+        activeOrg
       ) {
         var lowerAccountName = $stateParams.userName.toLowerCase();
         var userName = user.oauthName().toLowerCase();
@@ -151,10 +161,7 @@ module.exports = [
             return $q.reject(new Error('User Unauthorized for Organization'));
           });
         }
-        var foundWhitelist = whitelists.find(function (whitelist) {
-          return whitelist.attrs.lowerName === lowerAccountName;
-        });
-        if (!foundWhitelist.attrs.allowed) {
+        if (!activeOrg.attrs.allowed) {
           // There is a bug in ui-router and a timeout is the workaround
           return $timeout(function () {
             $state.go('paused');
@@ -163,6 +170,14 @@ module.exports = [
         }
         eventTracking.boot(user, {orgName: $stateParams.userName});
         return matchedOrg;
+      },
+      populateCurrentOrgService: function (
+        activeOrg,
+        activeAccount,
+        currentOrg
+      ) {
+        currentOrg.poppa = activeOrg;
+        currentOrg.github = activeAccount;
       }
     }
   }, {
