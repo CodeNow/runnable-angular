@@ -12,7 +12,7 @@ function planSummary(
     templateUrl: 'planSummaryView',
     link: function ($scope) {
       loading('billingForm', true);
-      var isDiscounted
+      var isDiscounted;
       fetchPlan()
         .then(function (plan) {
           isDiscounted = !!plan.discount;
@@ -25,7 +25,7 @@ function planSummary(
       $scope.getCostPerUser = function () {
         var modifier = 1;
         if (isDiscounted) {
-          modifier = .5;
+          modifier = 0.5;
         }
         return $scope.plan.costPerUser * modifier;
       };
