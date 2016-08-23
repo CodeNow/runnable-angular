@@ -3,7 +3,8 @@
 require('app').directive('billingForm', billingForm);
 
 function billingForm(
-  currentOrg
+  currentOrg,
+  keypather
 ) {
   return {
     restrict: 'A',
@@ -17,7 +18,7 @@ function billingForm(
       });
       $scope.$broadcast('go-to-panel', $scope.SEMC.subTab || 'billingForm', 'immediate');
       $scope.currentOrg = currentOrg;
-      var startedWithPaymentMethod = currentOrg.poppa.attrs.hasPaymentMethod;
+      var startedWithPaymentMethod = keypather.get(currentOrg, 'poppa.attrs.hasPaymentMethod');
       $scope.actions = {
         save: function () {
           if (startedWithPaymentMethod) {

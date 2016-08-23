@@ -23,10 +23,10 @@ function animatedPanelContainer(
       }
 
       var isAnimatingForwards = true;
-      var animateOut = false;
+      var isAnimatingOut = false;
       var leavingPanel = null;
       var activelyAnimatingTimeout = false;
-      var activelyAnimating = false;
+      var isActivelyAnimating = false;
 
       var panels = [];
       var panelElements = {};
@@ -34,24 +34,24 @@ function animatedPanelContainer(
 
       $scope.goToPanel = function (panelName, style) {
         if (panels.includes(panelName)) {
-          activelyAnimating = style !== 'immediate';
+          isActivelyAnimating = style !== 'immediate';
           isAnimatingForwards = style !== 'back';
-          animateOut = false;
+          isAnimatingOut = false;
           leavingPanel = $scope.activePanel;
 
           // Quick move our elements to the right spot, then let them animate into place
           $timeout(function () {
             if (style !== 'immediate') {
-              animateOut = true;
+              isAnimatingOut = true;
               $timeout.cancel(activelyAnimatingTimeout);
               activelyAnimatingTimeout = $timeout(function () {
-                activelyAnimating = false;
+                isActivelyAnimating = false;
               }, 300);
             }
             $scope.activePanel = panelName;
           }, 0);
         } else {
-          activelyAnimating = false;
+          isActivelyAnimating = false;
           console.error('Tried going to panel that doesn\'t exist', panelName);
         }
       };
@@ -70,7 +70,7 @@ function animatedPanelContainer(
 
       $scope.getAnimatedPanelStyle = function () {
         var inElement = panelElements[$scope.activePanel];
-        if (!inElement || !activelyAnimating) {
+        if (!inElement || !isActivelyAnimating) {
           return;
         }
         return {
@@ -89,8 +89,8 @@ function animatedPanelContainer(
           out:  panelName !== $scope.activePanel,
           in: panelName === $scope.activePanel,
           back: !goingForwards,
-          animated: animateOut,
-          animating: activelyAnimating
+          animated: isAnimatingOut,
+          animating: isActivelyAnimating
         };
       };
 

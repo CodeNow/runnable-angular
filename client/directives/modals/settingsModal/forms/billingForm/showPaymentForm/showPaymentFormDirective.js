@@ -48,10 +48,10 @@ function showPaymentForm(
 
       $scope.getNextPaymentDate = function () {
         var nextPaymentDate;
-        if (currentOrg.poppa.isInTrial()) {
-          nextPaymentDate = currentOrg.poppa.attrs.trialEnd;
-        } else if (currentOrg.poppa.isInActivePeriod()) {
-          nextPaymentDate = currentOrg.poppa.attrs.activePeriodEnd;
+        if (keypather.get(currentOrg, 'poppa.isInTrial()')) {
+          nextPaymentDate = keypather.get(currentOrg, 'poppa.attrs.trialEnd');
+        } else if (keypather.get(currentOrg, 'poppa.isInActivePeriod()')) {
+          nextPaymentDate = keypather.get(currentOrg, 'poppa.attrs.activePeriodEnd');
         }
         return moment(nextPaymentDate).format('MMM Do, YYYY');
       };
