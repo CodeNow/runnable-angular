@@ -7,6 +7,7 @@ var keypather;
 describe('changePaymentFormDirective'.bold.underline.blue, function () {
   var fetchPaymentMethodStub;
   var mockCurrentOrg;
+  var mockFetchPlan;
   beforeEach(function () {
     mockCurrentOrg = {
       poppa: {
@@ -25,6 +26,10 @@ describe('changePaymentFormDirective'.bold.underline.blue, function () {
         return fetchPaymentMethodStub;
       });
       $provide.value('currentOrg', mockCurrentOrg);
+      $provide.factory('fetchPlan', function ($q) {
+        mockFetchPlan = sinon.stub().returns($q.when({}));
+        return mockFetchPlan;
+      });
     });
     angular.mock.inject(function (
       $compile,

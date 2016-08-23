@@ -12,7 +12,6 @@ function paymentSummary(
     restrict: 'A',
     templateUrl: 'paymentSummaryView',
     scope: {
-      showNext: '=',
       isConfirmation: '='
     },
     link: function ($scope) {

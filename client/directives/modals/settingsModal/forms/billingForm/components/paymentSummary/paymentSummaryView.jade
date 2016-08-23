@@ -16,7 +16,3 @@ span(
 ) You’ve been charged&#32;
   strong ${{calculatePlanPrice() | centsToDollars}}
   | &#32;for {{plan.userCount}} users.
-
-span(
-  ng-if = "showNext"
-) &#32;Your {{currentOrg.poppa.isInTrial() ? 'first' : 'next'}} billing date is {{getTrialEndDate()}}.

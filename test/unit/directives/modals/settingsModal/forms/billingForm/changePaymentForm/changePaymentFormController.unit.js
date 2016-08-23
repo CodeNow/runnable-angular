@@ -13,6 +13,7 @@ describe('ChangePaymentFormController'.bold.underline.blue, function () {
   var fetchPaymentMethodStub;
   var savePaymentMethodStub;
   var mockCurrentOrg;
+  var mockFetchPlan;
 
   beforeEach(function () {
     mockCurrentOrg = {
@@ -29,6 +30,10 @@ describe('ChangePaymentFormController'.bold.underline.blue, function () {
             createToken: stripeCreateTokenStub
           }
         };
+      });
+      $provide.factory('fetchPlan', function ($q) {
+        mockFetchPlan = sinon.stub().returns($q.when({}));
+        return mockFetchPlan;
       });
       $provide.factory('fetchPaymentMethod', function ($q) {
         fetchPaymentMethodStub = sinon.stub().returns($q.when({}));

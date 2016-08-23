@@ -99,11 +99,6 @@
     ng-init = "state.hasDuration = (PSFC.currentOrg.poppa.isInActivePeriod()) ? 'true' : ''"
   )
 
-  p.grid-content.p.text-gray.text-center.padding-sm(
-    payment-summary
-    show-next = "true"
-  )
-
   .grid-block.justify-center
     button.grid-block.shrink.btn.btn-md.green(
       ng-click = "goToPanel('changePaymentForm');"
