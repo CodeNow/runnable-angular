@@ -9,7 +9,8 @@ function ChangePaymentFormController(
   fetchPaymentMethod,
   loading,
   savePaymentMethod,
-  stripe
+  stripe,
+  fetchPlan
 ) {
   var CPFC = this;
   CPFC.currentOrg = currentOrg;
@@ -21,6 +22,11 @@ function ChangePaymentFormController(
     cvc: undefined,
     address_zip: undefined
   };
+
+  fetchPlan()
+    .then(function (plan) {
+      CPFC.plan = plan;
+    });
 
   var messageConversion = {
     api_connection_error: 'We\'re having trouble connecting to our payment processor. Please try again.',

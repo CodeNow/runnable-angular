@@ -30,6 +30,9 @@ function PlanStatusFormController(
       var instances = results[1];
       PSFC.plan = plan.next;
       PSFC.configurations = instances.models.length;
+      if (keypather.get(plan, 'discount')) {
+        PSFC.discounted = true;
+      }
     })
     .finally(function () {
       loading('billingForm', false);

@@ -25,6 +25,7 @@ function paymentSummary(
       loading('billingForm', true);
       fetchPlan()
         .then(function (plan) {
+          $scope.discounted = !!plan.discount;
           $scope.plan = plan.next;
         })
         .finally(function () {
@@ -35,7 +36,11 @@ function paymentSummary(
         if (!$scope.plan) {
           return null;
         }
-        return $scope.plan.price * $scope.plan.userCount;
+        var modifier = 1;
+        if ($scope.discounted) {
+          modifier = .5;
+        }
+        return $scope.plan.price * $scope.plan.userCount * modifier;
       };
 
       $scope.getTrialEndDate = function () {

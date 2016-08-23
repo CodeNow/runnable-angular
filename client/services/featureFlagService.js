@@ -21,8 +21,6 @@ function featureFlags(
     backup: false,
     blankDockerfile: false, // allows users to skip the verification flow
     billing: false,
-    billingDiscounted: false,
-    billingExpired: false,
     billingPlanChangedNotification: false, // if plan changes because of container created
     cardStatus: false,
     connections: false,
@@ -32,9 +30,6 @@ function featureFlags(
     emptyFolder: false, // shows empty folder markup
     fullScreen: false,  // toggles full screen
     fullScreenToggle: false,  // toggles the button that toggles full screen
-    gracePeriod: false, // if user enters the grace period during the preview
-    gracePeriodPayment: false, // if the user enters the grace period because of a payment error
-    gracePeriodTrial: false, // if the user enters the grace period because of trial expiring
     hostnameNotifications: false,
     hostnameTool: false,
     imAfraidOfTheDark: false, // toggles theme
@@ -56,7 +51,6 @@ function featureFlags(
     testingFeature: false,
     themeToggle: false, // toggles the button that toggles theme
     trial: false, // sets account to trial mode
-    trialEnding: false, // shows notification when trial is ending
     undoDelete: false, // undo delete configuration
     webhooks: false,
     webToolbar: false, // webview toolbar
