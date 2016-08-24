@@ -125,35 +125,12 @@ module.exports = [
       },
       activeOrg: function (
         $stateParams,
-        whitelists,
-        moment
+        whitelists
       ) {
         var lowerAccountName = $stateParams.userName.toLowerCase();
-        var activeOrg =  whitelists.find(function (whitelist) {
+        return whitelists.find(function (whitelist) {
           return whitelist.attrs.lowerName === lowerAccountName;
         });
-        // All of this should be moved to inside @runnable/api-client
-        activeOrg.attrs.trialEnd = moment().add(2, 'days').toISOString();
-        activeOrg.attrs.activePeriodEnd = moment().subtract(1, 'days').toISOString();
-        activeOrg.attrs.gracePeriodEnd = moment().add(5, 'days').toISOString();
-        activeOrg.attrs.stripeCustomerId = 1234;
-        activeOrg.attrs.hasPaymentMethod = false;
-        activeOrg.isInTrial = function () {
-          return moment(activeOrg.attrs.trialEnd) > moment().utc();
-        };
-        activeOrg.isInGrace = function () {
-          return !activeOrg.isInTrial() && moment(activeOrg.attrs.gracePeriodEnd) > moment().utc();
-        };
-        activeOrg.isInActivePeriod = function () {
-          return moment(activeOrg.attrs.activePeriodEnd) > moment().utc();
-        };
-        activeOrg.isGraceExpired = function () {
-          return !activeOrg.isInTrial() && moment.utc(activeOrg.attrs.gracePeriodEnd) < moment().utc();
-        };
-        activeOrg.trialDaysRemaining = function () {
-          return moment(activeOrg.attrs.trialEnd).diff(moment.utc(), 'days');
-        };
-        return activeOrg;
       },
       activeAccount: function (
         $q,
