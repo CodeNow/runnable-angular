@@ -7,22 +7,29 @@ var keypather;
 describe('changePaymentFormDirective'.bold.underline.blue, function () {
   var fetchPaymentMethodStub;
   var mockCurrentOrg;
+  var mockFetchPlan;
   beforeEach(function () {
     mockCurrentOrg = {
       poppa: {
         isInTrial: sinon.stub().returns(true),
         attrs: {
           activePeriodEnd: '2016-08-12T21:24:06.000Z'
-        }
+        },
+        id: sinon.stub().returns(1234)
       }
     };
     window.helpers.killDirective('planSummary');
+    window.helpers.killDirective('paymentSummary');
     angular.mock.module('app', function ($provide) {
       $provide.factory('fetchPaymentMethod', function ($q) {
         fetchPaymentMethodStub = sinon.stub().returns($q.when({}));
         return fetchPaymentMethodStub;
       });
       $provide.value('currentOrg', mockCurrentOrg);
+      $provide.factory('fetchPlan', function ($q) {
+        mockFetchPlan = sinon.stub().returns($q.when({}));
+        return mockFetchPlan;
+      });
     });
     angular.mock.inject(function (
       $compile,
@@ -55,27 +62,27 @@ describe('changePaymentFormDirective'.bold.underline.blue, function () {
   });
   describe('isCCExpValid', function () {
     it('should return true if nothing has been touched', function () {
-      keypather.set($elScope, 'paymentForm.ccExpMonth.$touched', false);
-      keypather.set($elScope, 'paymentForm.ccExpYear.$touched', false);
+      keypather.set($elScope, 'paymentForm.ccExpMonth.$dirty', false);
+      keypather.set($elScope, 'paymentForm.ccExpYear.$dirty', false);
       expect($elScope.isCCExpValid()).to.equal(true);
     });
 
     it('should return false if the exp month is invalid', function () {
-      keypather.set($elScope, 'paymentForm.ccExpMonth.$touched', true);
+      keypather.set($elScope, 'paymentForm.ccExpMonth.$dirty', true);
       keypather.set($elScope, 'paymentForm.ccExpMonth.$valid', false);
       expect($elScope.isCCExpValid()).to.equal(false);
     });
 
     it('should return false if the exp year is invalid', function () {
-      keypather.set($elScope, 'paymentForm.ccExpYear.$touched', true);
+      keypather.set($elScope, 'paymentForm.ccExpYear.$dirty', true);
       keypather.set($elScope, 'paymentForm.ccExpYear.$valid', false);
       expect($elScope.isCCExpValid()).to.equal(false);
     });
 
     it('should return false if the expiration as a whole is invalid', function () {
-      keypather.set($elScope, 'paymentForm.ccExpYear.$touched', true);
+      keypather.set($elScope, 'paymentForm.ccExpYear.$dirty', true);
       keypather.set($elScope, 'paymentForm.ccExpYear.$valid', true);
-      keypather.set($elScope, 'paymentForm.ccExpMonth.$touched', true);
+      keypather.set($elScope, 'paymentForm.ccExpMonth.$dirty', true);
       keypather.set($elScope, 'paymentForm.ccExpMonth.$valid', true);
       keypather.set($elScope, 'paymentForm.$error.ccExp', 'CC exp has an error');
       expect($elScope.isCCExpValid()).to.equal(false);

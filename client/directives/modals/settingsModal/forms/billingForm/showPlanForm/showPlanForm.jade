@@ -6,7 +6,7 @@ label.grid-block.align-center.well.well-plan.well-summary.disabled.padding-xxs(
 )
 
 label.grid-block.align-center.padding-xs.well.well-plan.well-summary.disabled(
-  ng-if = "$root.featureFlags.billingDiscounted"
+  ng-if = "discounted"
   ng-include = "'discountView'"
   ng-init = "state.hasDuration = true"
 )

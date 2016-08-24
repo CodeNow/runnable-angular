@@ -1,6 +1,10 @@
-.grid-block.vertical
+.grid-block.vertical(
+  ng-if = 'plan'
+)
   p.strong {{plan.name}} Plan
   small.small Up to {{plan.maxConfigurations}} configurations
-.grid-block.shrink.p.align-baseline
-  .strong ${{plan.costPerUser | centsToDollars}}
+.grid-block.shrink.p.align-baseline(
+  ng-if = 'plan'
+)
+  .strong ${{getCostPerUser() | centsToDollars}}
   small.small /user/month

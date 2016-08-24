@@ -3,7 +3,7 @@
 require('app')
   .filter('centsToDollars', function () {
     return function formatMoney(cents) {
-      if (!cents) {
+      if (typeof cents !== 'number') {
         return '';
       }
       var dollars = cents / 100;

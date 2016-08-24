@@ -8,7 +8,6 @@ function PlanStatusFormController(
   billingPlans,
   currentOrg,
   fetchInstancesByPod,
-  fetchPaymentMethod,
   fetchPlan,
   keypather,
   loading
@@ -21,17 +20,6 @@ function PlanStatusFormController(
   PSFC.plans = billingPlans;
   PSFC.currentOrg = currentOrg;
 
-  if (PSFC.currentOrg.poppa.isInTrial()) {
-    loading('billingForm', true);
-    fetchPaymentMethod()
-      .then(function (paymentMethod) {
-        PSFC.paymentMethod = paymentMethod;
-      })
-      .finally(function () {
-        loading('billingForm', false);
-      });
-  }
-
   loading('billingForm', true);
   $q.all([
     fetchPlan(),
@@ -40,8 +28,11 @@ function PlanStatusFormController(
     .then(function (results) {
       var plan = results[0];
       var instances = results[1];
-      PSFC.plan = plan.next.plan;
+      PSFC.plan = plan.next;
       PSFC.configurations = instances.models.length;
+      if (keypather.get(plan, 'discount')) {
+        PSFC.discounted = true;
+      }
     })
     .finally(function () {
       loading('billingForm', false);

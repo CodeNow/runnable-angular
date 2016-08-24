@@ -7,10 +7,9 @@ function WelcomeBackController(
   $rootScope
 ) {
   var WBC = this;
+  WBC.close = angular.noop;
 
-  $rootScope.dataApp = {
-    gracePeriod: true
-  };
+  $rootScope.dataApp.gracePeriod = true;
   WBC.openIntercom = function () {
     window.Intercom(
       'showNewMessage',

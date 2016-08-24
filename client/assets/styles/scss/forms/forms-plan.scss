@@ -224,7 +224,11 @@
     }
 
     &:hover,
-    &:active,
+    &:active {
+      border-color: $gray-lighter;
+      cursor: default;
+    }
+
     &.active {
       background: $white;
       border-color: $gray-lighter;

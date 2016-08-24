@@ -27,7 +27,7 @@ function changePaymentForm(
         return typeMapping[$scope.paymentForm.cardNumber.$ccEagerType];
       };
       $scope.isCCExpValid = function () {
-        if (!$scope.paymentForm.ccExpMonth.$touched && !$scope.paymentForm.ccExpYear.$touched) {
+        if (!$scope.paymentForm.ccExpMonth.$dirty && !$scope.paymentForm.ccExpYear.$dirty) {
           return true;
         }
         return $scope.paymentForm.ccExpMonth.$valid &&
