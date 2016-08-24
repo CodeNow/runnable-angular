@@ -94,7 +94,6 @@ describe('ChangePaymentFormController'.bold.underline.blue, function () {
         sinon.assert.calledWith(loadingStub, 'savePayment', true);
         sinon.assert.calledWith(loadingStub, 'savePayment', false);
         sinon.assert.calledWith(loadingStub.reset, 'savePayment');
-        sinon.assert.calledOnce(fetchPaymentMethodStub);
         sinon.assert.calledOnce(savePaymentMethodStub);
         sinon.assert.calledWith(savePaymentMethodStub, 123);
         sinon.assert.calledOnce(fetchPaymentMethodStub.cache.clear);
