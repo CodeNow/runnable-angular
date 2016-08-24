@@ -10,7 +10,8 @@ form.padding-md(
 
   label.grid-block.align-center.padding-xs.well.well-plan.well-summary.disabled(
     ng-if = "!CPFC.updating && CPFC.plan.discount"
-    ng-include = "'discountView'"
+    discount-view
+    discount = "CPFC.plan.discount"
   )
 
   //- limit all fields to numbers only

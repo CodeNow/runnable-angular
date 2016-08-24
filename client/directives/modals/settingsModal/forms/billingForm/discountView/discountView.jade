@@ -1,0 +1,5 @@
+.grid-block.small {{discount.coupon.metadata.label}}
+.grid-block.shrink.small {{discount.coupon.percentOff}}% Off, {{getDiscountTime()}}
+  span.hidden-xs(
+    ng-if = "hasDuration"
+  ) &nbsp;Remaining

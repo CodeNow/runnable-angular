@@ -16,7 +16,7 @@ function PlanStatusFormController(
 
   PSFC.configurations = undefined;
   PSFC.plan = undefined;
-  PSFC.discounted = false;
+  PSFC.discount = null;
   PSFC.plans = billingPlans;
   PSFC.currentOrg = currentOrg;
 
@@ -30,9 +30,7 @@ function PlanStatusFormController(
       var instances = results[1];
       PSFC.plan = plan.next;
       PSFC.configurations = instances.models.length;
-      if (keypather.get(plan, 'discount')) {
-        PSFC.discounted = true;
-      }
+      PSFC.discount = plan.discount;
     })
     .finally(function () {
       loading('billingForm', false);
@@ -45,7 +43,7 @@ function PlanStatusFormController(
    */
   PSFC.calculatePlanAmount = function (planName) {
     var costPerUser = keypather.get(billingPlans[planName], 'costPerUser');
-    if (PSFC.discounted) {
+    if (PSFC.discount) {
       return costPerUser * 0.5;
     }
     return costPerUser;

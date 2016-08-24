@@ -6,9 +6,10 @@ label.grid-block.align-center.well.well-plan.well-summary.disabled.padding-xxs(
 )
 
 label.grid-block.align-center.padding-xs.well.well-plan.well-summary.disabled(
-  ng-if = "discounted"
-  ng-include = "'discountView'"
-  ng-init = "state.hasDuration = true"
+  ng-if = "discount"
+  discount-view
+  discount = 'discount'
+  has-duration = 'true'
 )
 
 .grid-block.align-center.justify-right.padding-xxs
