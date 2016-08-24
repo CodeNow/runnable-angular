@@ -15,13 +15,11 @@ function EnvironmentController(
   $state,
   $timeout,
   $window,
-  errs,
   favico,
   fetchUser,
   fetchDockerfileForContextVersion,
   fetchInstancesByPod,
   fetchOrgMembers,
-  fetchOrgTeammateInvitations,
   helpCards,
   keypather,
   ModalService,
@@ -142,14 +140,34 @@ function EnvironmentController(
     $window.removeEventListener('scroll', scrollHelper);
   });
 
-  $scope.alert = null;
+  EC.alert = null;
 
   $scope.$on('alert', function (evt, data) {
-    $scope.alert = data;
-    $timeout(function () {
-      $scope.alert = null;
-    }, 5000);
+    EC.alert = data;
+    if (!data.planChanged) {
+      $timeout(function () {
+        EC.actions.closeAlert();
+      }, 5000);
+    }
   });
+
+  EC.actions = {
+    closeAlert: function () {
+      EC.alert = null;
+    },
+    goToBilling: function () {
+      EC.actions.closeAlert();
+      ModalService.showModal({
+        controller: 'SettingsModalController',
+        controllerAs: 'SEMC',
+        templateUrl: 'settingsModalView',
+        inputs: {
+          tab: 'billing',
+          subTab: 'billingForm'
+        }
+      });
+    }
+  };
 
   $scope.helpPopover = {
     data: $scope.help,
