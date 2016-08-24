@@ -142,14 +142,14 @@ module.exports = [
       },
       activeAccount: function (
         $q,
-        $stateParams,
         $state,
-        orgs,
-        whitelists,
+        $stateParams,
         $timeout,
-        user,
+        activeOrg,
         eventTracking,
-        activeOrg
+        featureFlags,
+        orgs,
+        user
       ) {
         var lowerAccountName = $stateParams.userName.toLowerCase();
         var userName = user.oauthName().toLowerCase();
@@ -169,7 +169,7 @@ module.exports = [
             return $q.reject(new Error('User Unauthorized for Organization'));
           });
         }
-        if (!activeOrg.attrs.isActive) {
+        if ((!featureFlags.flags.billing && !activeOrg.attrs.allowed) || (featureFlags.flags.billing && !activeOrg.attrs.isActive)) {
           // There is a bug in ui-router and a timeout is the workaround
           return $timeout(function () {
             $state.go('paused');
