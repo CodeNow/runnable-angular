@@ -604,7 +604,7 @@ module.exports = function(grunt) {
     'autoprefixer',
     'jade2js',
     'autoBundleDependencies',
-    'generateConfigs:production',
+    'generateConfigs',
     'browserify:once',
     'uglify:app',
     'jade:compile',
