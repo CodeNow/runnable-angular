@@ -15,9 +15,9 @@ function discountView(
     link: function ($scope) {
       $scope.getDiscountTime = function () {
         if ($scope.hasDuration) {
-          return moment($scope.discount.end).from($scope.discount.start, true);
+          return moment($scope.discount.end).fromNow(true) + ' Remaining';
         }
-        return moment($scope.discount.end).fromNow(true);
+        return 'for ' + (moment($scope.discount.end).diff($scope.discount.start, 'months') + 1) + ' months';
       };
     }
   };
