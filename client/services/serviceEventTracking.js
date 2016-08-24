@@ -25,14 +25,9 @@ function EventTracking(
   $stateParams,
   $window,
   assign,
-  keypather,
-  configEnvironment
+  keypather
 ) {
-  if (configEnvironment === 'production') {
-    INTERCOM_APP_ID = 'wqzm3rju'; // production ID
-  } else {
-    INTERCOM_APP_ID = 'xs5g95pd'; // test ID
-  }
+  INTERCOM_APP_ID = process.env.INTERCOM_APP_ID || 'xs5g95pd';
   _keypather = keypather;
   _$location = $location;
 

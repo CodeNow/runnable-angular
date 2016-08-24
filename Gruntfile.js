@@ -287,6 +287,7 @@ module.exports = function(grunt) {
             var locals = {
               version: version,
               env: require('./client/config/json/environment.json').environment,
+              intercom_app_id: process.env.INTERCOM_APP_ID || 'xs5g95pd',
               commitHash: require('./client/config/json/commit.json').commitHash,
               commitTime: require('./client/config/json/commit.json').commitTime,
               apiHost: require('./client/config/json/api.json').host
