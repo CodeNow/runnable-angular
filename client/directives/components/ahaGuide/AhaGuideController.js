@@ -84,6 +84,12 @@ function AhaGuideController(
   if ($rootScope.animatedPanelListener) {
     $rootScope.animatedPanelListener();
   }
+
+  $scope.$on('$destroy', function() {
+    if ($rootScope.animatedPanelListener) {
+      $rootScope.animatedPanelListener();
+    }
+  });
   
   $rootScope.animatedPanelListener = $rootScope.$on('changed-animated-panel', function (e, panel) {
     updateCaption(panel);

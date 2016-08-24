@@ -109,13 +109,6 @@ function SetupServerModalController(
     return errs.handler(new Error('Repo, build, and masterBranch must be set'));
   }
 
-  // if the blank docker file is chosen, we need to load it because it is already available
-  if (dockerfileType === 'blankDockerfile') {
-    SMC.openDockerfile({contextVersion: build.contextVersion}, SMC.openItems);
-  } else {
-    dockerfileType = false;
-  }
-
   // If a repo is passed into this controller, select that repo
   angular.extend(SMC.state, {
     acv: build.contextVersion.getMainAppCodeVersion(),
@@ -126,6 +119,13 @@ function SetupServerModalController(
     repo: repo,
     repoSelected: true
   });
+
+  // if the blank docker file is chosen, we need to load it because it is already available
+  if (dockerfileType === 'blankDockerfile') {
+    SMC.openDockerfile({contextVersion: build.contextVersion}, SMC.openItems);
+    SMC.changeTab('buildfiles');
+  }
+
   SMC.state.mainRepoContainerFile.name = repo.attrs.name;
   SMC.state.promises.contextVersion = $q.when(SMC.state.contextVersion);
 

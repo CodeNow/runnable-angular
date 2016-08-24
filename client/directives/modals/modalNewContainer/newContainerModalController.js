@@ -189,8 +189,10 @@ function NewContainerModalController(
         repoBuildAndBranch.instanceName = instanceName;
         if (configurationMethod === 'dockerfile' && dockerfile) {
           NCMC.newMirrorRepositoryContainer(repoBuildAndBranch);
-        } else {
+        } else if (configurationMethod === 'blankDockerfile'){
           NCMC.newRepositoryContainer(repoBuildAndBranch, configurationMethod);
+        } else {
+          NCMC.newRepositoryContainer(repoBuildAndBranch, false);
         }
       })
       .finally(function () {
