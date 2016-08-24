@@ -14,6 +14,7 @@ describe('ChangePaymentFormController'.bold.underline.blue, function () {
   var savePaymentMethodStub;
   var mockCurrentOrg;
   var mockFetchPlan;
+  var mockFetchWhitelists;
 
   beforeEach(function () {
     mockCurrentOrg = {
@@ -34,6 +35,10 @@ describe('ChangePaymentFormController'.bold.underline.blue, function () {
       $provide.factory('fetchPlan', function ($q) {
         mockFetchPlan = sinon.stub().returns($q.when({}));
         return mockFetchPlan;
+      });
+      $provide.factory('fetchWhitelists', function ($q) {
+        mockFetchWhitelists = sinon.stub().returns($q.when([]));
+        return mockFetchWhitelists;
       });
       $provide.factory('fetchPaymentMethod', function ($q) {
         fetchPaymentMethodStub = sinon.stub().returns($q.when({}));
@@ -89,7 +94,6 @@ describe('ChangePaymentFormController'.bold.underline.blue, function () {
         sinon.assert.calledWith(loadingStub, 'savePayment', true);
         sinon.assert.calledWith(loadingStub, 'savePayment', false);
         sinon.assert.calledWith(loadingStub.reset, 'savePayment');
-
         sinon.assert.calledOnce(savePaymentMethodStub);
         sinon.assert.calledWith(savePaymentMethodStub, 123);
         sinon.assert.calledOnce(fetchPaymentMethodStub.cache.clear);

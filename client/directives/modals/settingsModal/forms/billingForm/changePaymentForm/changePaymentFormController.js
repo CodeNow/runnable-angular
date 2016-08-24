@@ -6,11 +6,13 @@ require('app')
 function ChangePaymentFormController(
   $rootScope,
   currentOrg,
+  errs,
   fetchPaymentMethod,
+  fetchPlan,
+  fetchWhitelists,
   loading,
   savePaymentMethod,
-  stripe,
-  fetchPlan
+  stripe
 ) {
   var CPFC = this;
   CPFC.currentOrg = currentOrg;
@@ -45,6 +47,9 @@ function ChangePaymentFormController(
           return savePaymentMethod(res.id);
         })
         .then(function () {
+          return fetchWhitelists();
+        })
+        .then(function () {
           // Not doing an angular timeout because we don't care about the digest.
           // We want to wait for this form to no longer be visible before we clear it and cause error outlines to show.
           setTimeout(function () {
@@ -59,6 +64,9 @@ function ChangePaymentFormController(
             CPFC.error = err.message;
           } else {
             CPFC.error = messageConversion[err.type];
+          }
+          if (!CPFC.error) {
+            errs.handler(err);
           }
         })
         .finally(function () {
