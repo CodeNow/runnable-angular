@@ -11,7 +11,6 @@ require('app')
 var User = require('@runnable/api-client/lib/models/user');
 var _keypather;
 var _$location;
-var INTERCOM_APP_ID;
 
 /**
  * EventTracking
@@ -25,9 +24,9 @@ function EventTracking(
   $stateParams,
   $window,
   assign,
-  keypather
+  keypather,
+  intercomAppId
 ) {
-  INTERCOM_APP_ID = process.env.INTERCOM_APP_ID || 'xs5g95pd';
   _keypather = keypather;
   _$location = $location;
 
@@ -122,7 +121,7 @@ EventTracking.prototype.boot = function (user, opts) {
     name: user.oauthName(),
     email: user.attrs.email,
     created_at: new Date(user.attrs.created) / 1000 || 0,
-    app_id: INTERCOM_APP_ID
+    app_id: intercomAppId
   };
   if (opts.orgName) {
     data.company = {
