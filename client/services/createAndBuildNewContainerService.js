@@ -28,14 +28,14 @@ function createAndBuildNewContainer(
     // Save this in case it changes
     var cachedActiveAccount = $rootScope.dataApp.data.activeAccount;
     var instance = null;
-    var oldPlan = null;
+    var oldPlanId = null;
     return $q.all({
       masterInstances: fetchInstancesByPod(cachedActiveAccount.oauthName()),
       user: fetchUser(),
       plan: fetchPlan()
     })
       .then(function (response) {
-        oldPlan = response.plan.next.id;
+        oldPlanId = response.plan.next.id;
         var instanceOptions = {
           name: containerName,
           owner: {
@@ -70,7 +70,7 @@ function createAndBuildNewContainer(
             $rootScope.$broadcast('alert', {
               type: 'success',
               text: 'Container Created',
-              newPlan: newPlan.next.id !== oldPlan
+              newPlan: newPlan.next.id !== oldPlanId
             });
           })
           .then(function () {
