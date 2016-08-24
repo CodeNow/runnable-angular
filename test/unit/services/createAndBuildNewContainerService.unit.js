@@ -69,6 +69,9 @@ describe('createAndBuildNewContainer'.bold.underline.blue, function () {
       $provide.factory('createNewInstance', createNewInstanceMock.fetch());
       $provide.factory('fetchPlan', function ($q) {
         mockFetchPlan = sinon.stub().returns($q.when(mockPlan));
+        mockFetchPlan.cache = {
+          clear: sinon.stub()
+        };
         return mockFetchPlan;
       });
       $provide.value('errs', ctx.errs);
@@ -89,6 +92,10 @@ describe('createAndBuildNewContainer'.bold.underline.blue, function () {
   }
 
   describe('success', function () {
+    beforeEach(function () {
+      $rootScope.$broadcast = sinon.stub();
+    });
+
     it('should create a server', function () {
       setup();
       $rootScope.$digest();
@@ -123,9 +130,18 @@ describe('createAndBuildNewContainer'.bold.underline.blue, function () {
       sinon.assert.calledOnce(instances.add);
       sinon.assert.calledOnce(ctx.eventTracking.triggeredBuild);
 
+      mockFetchPlan.reset();
+      mockFetchPlan.returns($q.when({next: {id: '5678'}}));
       createNewInstanceMock.triggerPromise(instance);
       $rootScope.$digest();
       sinon.assert.calledOnce(ctx.helpCards.refreshAllCards);
+      sinon.assert.calledOnce(mockFetchPlan.cache.clear);
+      sinon.assert.calledOnce(mockFetchPlan);
+      sinon.assert.calledWith($rootScope.$broadcast, 'alert', {
+        type: 'success',
+        text: 'Container Created',
+        newPlan: true
+      });
     });
 
     it('should create a server with isolation', function () {
