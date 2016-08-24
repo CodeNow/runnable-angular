@@ -84,6 +84,7 @@ describe('createAndBuildNewContainer'.bold.underline.blue, function () {
     ) {
       $q = _$q_;
       $rootScope = _$rootScope_;
+      $rootScope.$broadcast = sinon.stub();
       createAndBuildNewContainer = _createAndBuildNewContainer_;
       keypather = _keypather_;
     });
@@ -92,10 +93,6 @@ describe('createAndBuildNewContainer'.bold.underline.blue, function () {
   }
 
   describe('success', function () {
-    beforeEach(function () {
-      $rootScope.$broadcast = sinon.stub();
-    });
-
     it('should create a server', function () {
       setup();
       $rootScope.$digest();
