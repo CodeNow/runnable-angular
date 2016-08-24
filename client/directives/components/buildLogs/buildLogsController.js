@@ -39,7 +39,6 @@ function BuildLogsController(
       BLC.buildStatus = 'success';
       BLC.buildLogsRunning = false;
     }
-    $rootScope.$broadcast('buildStatusUpdated', BLC.buildStatus);
   }
 
   var failCount = 0;
@@ -50,7 +49,7 @@ function BuildLogsController(
       stream.end();
     }
     if (BLC.instance) {
-      BLC.instance.off('update', handleUpdate);
+      // BLC.instance.off('update', handleUpdate);
     }
     BLC.buildLogsRunning = false;
   }

@@ -1,7 +1,7 @@
 .modal-backdrop.in
   .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
     aha-guide-directive
-    ng-if = "!SMC.state.advanced"
+    ng-if = "SMC.state.advanced !== 'blankDockerfile'"
     step-index = 1
     sub-step = "repository"
     sub-step-index = 4

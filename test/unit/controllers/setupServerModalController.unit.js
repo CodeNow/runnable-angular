@@ -206,7 +206,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       $scope = $rootScope.$new();
       SMC = $controller('SetupServerModalController', {
         $scope: $scope,
-        dockerfileType: {},
+        dockerfileType: false,
         instanceName: opts.instanceName || instanceName,
         repo: opts.repo || repo,
         build: opts.build || newBuild,

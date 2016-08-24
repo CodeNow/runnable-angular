@@ -20,7 +20,7 @@ function ahaGuideDirective(
       subStepIndex: '='
     },
     link: function ($scope, elem, attrs) {
-      console.log($scope, elem, attrs);
+      // console.log($scope, elem, attrs);
     }
   };
 }

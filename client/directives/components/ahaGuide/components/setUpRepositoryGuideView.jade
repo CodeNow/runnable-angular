@@ -12,11 +12,11 @@
     ng-if = "!AHA.state.showError"
   )
     use(
-      ng-if = "$root.featureFlags.aha1 && AHA.state.subStep !== 'success'"
+      ng-if = "$root.featureFlags.aha1 && AHA.state.subStep !== 'complete'"
       xlink:href = "#icons-octicons-repo"
     )
     use(
-      ng-if = "AHA.state.subStep === 'success'"
+      ng-if = "AHA.state.subStep === 'complete'"
       xlink:href = "#icons-check"
     )
   svg.iconnables.icons-alert(

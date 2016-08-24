@@ -182,6 +182,18 @@ function SetupMirrorServerModalController(
         if (instance) {
           SMC.instance = instance;
           SMC.state.instance = instance;
+          SMC.state.instance.on('update', function() {
+            var buildStatus = SMC.state.instance.status();
+            var containerHostname = SMC.state.instance.getContainerHostname();
+            $rootScope.$broadcast('buildStatusUpdated', {
+              status: buildStatus,
+              containerHostname: containerHostname
+            });
+            if (buildStatus === 'running') {
+              console.log(SMC.page);
+              SMC.page = 'run';
+            }
+          });
           // Reset the opts, in the same way as `EditServerModalController`
           SMC.state.opts  = {
             env: keypather.get(instance, 'attrs.env') || [],

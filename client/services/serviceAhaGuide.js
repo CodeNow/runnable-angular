@@ -123,11 +123,18 @@ function serviceAhaGuide(
           caption: 'Your build is looking good! Check out its URL and click \'Done\' if it looks good',
           className: 'aha-meter-90',
           step: 8
+        },
+        complete: {
+          caption: 'Add more containers if your project requires it. Once you\'re done, head to to your containers to start adding branches.',
+          className: 'aha-meter-100',
+          step: 9
         }
       },
 
       buildStatus: {
-        running: 'Verifying configuration... ',
+        building: 'Now building. Build time varies depending on your configuration',
+        running: 'Verifying configuration... ', 
+        starting: 'Now building. Build time varies depending on your configuration',
         success: 'Your build is looking good! Check out its URL and click \'Done\' if it looks good',
         faileda: 'Your container failed to run. Inspect your CMD logs for more information.',
         failed: 'Your build failed. Inspect your build logs for more information.'

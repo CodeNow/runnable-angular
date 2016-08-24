@@ -7,12 +7,11 @@ require('app')
 function AhaGuideController(
   $scope,
   $rootScope,
+  $timeout,
   serviceAhaGuide
 ) {
 
   var AHA = this;
-
-  var previousTab;
   var buildLogListener;
 
   var tabListener = $scope.$on('updatedTab', function(event, tabName) {
@@ -30,23 +29,18 @@ function AhaGuideController(
       alertListener();
 
       buildLogListener = $scope.$on('buildStatusUpdated', function(event, buildStatus) {
-        console.log(buildStatus);
-        if (buildStatus === 'failed' || buildStatus === 'buildFailed') {
-          AHA.state.showError = true;
-        } else if (buildStatus === 'success') {
-          updateCaption(buildStatus);
-          buildLogListener();
-        }
-        updateBuildStatus(buildStatus);
+        handleBuildUpdate(buildStatus);
       });
     }
   });
 
   AHA.state = {
+    hideMenu: false,
+    isBuildSuccessful: false,
     mainStep: $scope.stepIndex,
     subStep: $scope.subStep,
     subStepIndex: $scope.subStepIndex,
-    hideMenu: false
+    showError: false
   };
 
   // get steps from service
@@ -74,9 +68,43 @@ function AhaGuideController(
     AHA.state.className = currentMilestone.subSteps[status].className;
   }
 
+  function handleBuildUpdate(update) { // building, running, starting
+    console.log(update);
+    var buildStatus = update.status;
+    AHA.state.containerHostname = update.containerHostname;
+    if (buildStatus === 'failed' || buildStatus === 'buildFailed') {
+      AHA.state.showError = true;
+    } else if (buildStatus === 'starting') {
+        addVerificationListeners();
+    }
+    updateBuildStatus(buildStatus);
+  }
+
   function updateBuildStatus(buildStatus) {
     AHA.state.buildStatus = buildStatus;
-    AHA.state.caption = currentMilestone.buildStatus[buildStatus];
+    AHA.state.caption = currentMilestone.buildStatus[buildStatus] || AHA.state.caption;
+    console.log(AHA.state.caption);
+  }
+
+  function addVerificationListeners() {
+    if (!$rootScope.doneListener) {
+      $rootScope.doneListener = $rootScope.$on('close-popovers', function() {
+        $rootScope.doneListener();
+        updateCaption('complete');
+        $rootScope.featureFlags.aha1 = false;
+        $rootScope.featureFlags.aha2 = true;
+      })
+    }
+
+    $timeout(function() {
+      if (AHA.state.showError === false && !AHA.state.isBuildSuccesful) {
+        AHA.state.isBuildSuccessful = true;
+        buildLogListener();
+        updateCaption('success');
+      } else {
+        AHA.state.isBuildSuccessful = false;
+      }
+    }, 5000);
   }
 
   // we need to unregister this animated panel listener if it exists

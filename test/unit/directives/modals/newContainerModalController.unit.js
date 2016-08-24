@@ -183,7 +183,7 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
       it('should create a build and fetch the branch', function () {
         var repo = {};
         var dockerfile = null;
-        var configurationMethod = 'new';
+        var configurationMethod = false;
         sinon.stub(NCMC, 'newRepositoryContainer');
 
         NCMC.createBuildAndGoToNewRepoModal(instanceName, repo, dockerfile, configurationMethod);
