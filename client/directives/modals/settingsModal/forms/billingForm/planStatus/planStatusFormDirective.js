@@ -18,8 +18,7 @@ function planStatusForm(
       $scope.getMeterClass = function () {
         var classes = {};
         if ($scope.PSFC.configurations) {
-          var usedAmount = $scope.PSFC.configurations < 15 ? $scope.PSFC.configurations : 15;
-          classes['used-' + usedAmount] = true;
+          classes['used-' + Math.smaller($scope.PSFC.configurations, 15)] = true;
         }
         if (keypather.get($scope, 'preview.length')) {
           classes['preview-used-' + billingPlans[$scope.preview].maxConfigurations] = true;
