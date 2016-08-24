@@ -13,6 +13,8 @@ var helpCardsMock = require('../apiMocks/HelpCardServiceMock');
 var thisUser = runnable.newUser(apiMocks.user);
 
 describe('createAndBuildNewContainer'.bold.underline.blue, function () {
+  var mockFetchPlan;
+  var mockPlan;
   var ctx = {};
 
   function createMasterPods() {
@@ -49,7 +51,11 @@ describe('createAndBuildNewContainer'.bold.underline.blue, function () {
     ctx.pageNameMock = {
       setTitle: sinon.spy()
     };
-
+    mockPlan = {
+      next: {
+        id: '1234'
+      }
+    };
 
     runnable.reset(apiMocks.user);
     angular.mock.module('app', function ($provide) {
@@ -61,6 +67,10 @@ describe('createAndBuildNewContainer'.bold.underline.blue, function () {
       $provide.factory('helpCards', helpCardsMock.create(ctx));
       $provide.factory('fetchInstancesByPod', fetchInstancesByPodMock.fetch());
       $provide.factory('createNewInstance', createNewInstanceMock.fetch());
+      $provide.factory('fetchPlan', function ($q) {
+        mockFetchPlan = sinon.stub().returns($q.when(mockPlan));
+        return mockFetchPlan;
+      });
       $provide.value('errs', ctx.errs);
     });
     angular.mock.inject(function (

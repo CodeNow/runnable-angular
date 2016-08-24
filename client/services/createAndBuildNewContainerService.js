@@ -16,7 +16,6 @@ function createAndBuildNewContainer(
   $q,
   $rootScope,
   createNewInstance,
-  currentOrg,
   eventTracking,
   fetchInstancesByPod,
   fetchPlan,
