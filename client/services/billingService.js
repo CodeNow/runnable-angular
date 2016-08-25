@@ -5,9 +5,9 @@ require('app')
 
 function savePaymentMethod(
   $http,
+  $q,
   configAPIHost,
   currentOrg,
-  errs,
   keypather
 ) {
 
@@ -15,12 +15,12 @@ function savePaymentMethod(
     var message = keypather.get(resData, 'message');
     if (message && message.match(/StripeCardError/)) {
       var errorMessageParts = message.match(/(StripeCardError)(\:\W)(.*)/);
-      var newErrorMessage = errorMessageParts[3] || 'Unknown card error';
+      var newErrorMessage = keypather.get(errorMessageParts, '[3]') || 'Unknown card error';
       var newError = new Error(newErrorMessage);
       newError.type = 'card_error';
-      throw newError;
+      return $q.reject(newError);
     }
-    return errs.handler(new Error(keypather.get(resData, 'error')));
+    return $q.reject(new Error(keypather.get(resData, 'error')));
   };
 
   return function (stripeToken) {
@@ -34,15 +34,14 @@ function savePaymentMethod(
         stripeToken: stripeToken
       }
     })
-      /**
-       * Catch any errors related to HTTP request, allow certain validation
-       * errors to be thrown
-       */
-      .catch(errs.handler)
       .then(function (res) {
         if (res.status < 300) {
           return res.data;
         }
+        /**
+         * Never catch these errors in this service since we use these errors
+         * in other controllers to catch Stripe errors
+         */
         return coerce400ResponseError(res.data);
       });
   };
