@@ -72,6 +72,22 @@ html(
         src = "https://d2zah9y47r7bi2.cloudfront.net/releases/current/tracker.js"
       )
 
+    //- SiftScience
+    script.
+      (function() {
+        function ls() {
+          var e = document.createElement('script');
+          e.src = 'https://cdn.siftscience.com/s.js';
+          document.body.appendChild(e);
+        }
+        if (window.attachEvent) {
+          window.attachEvent('onload', ls);
+        } else {
+        window.addEventListener('load', ls, false);
+        }
+      })();
+
+
     if env === 'production'
       //- Facebook Events
       script.
