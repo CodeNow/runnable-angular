@@ -17,7 +17,7 @@ function discountView(
         if ($scope.hasDuration) {
           return moment($scope.discount.end).fromNow(true) + ' Remaining';
         }
-        return 'for ' + (moment($scope.discount.end).diff($scope.discount.start, 'months') + 1) + ' months';
+        return 'for ' + $scope.discount.coupon.durationInMonths + ' months';
       };
     }
   };
