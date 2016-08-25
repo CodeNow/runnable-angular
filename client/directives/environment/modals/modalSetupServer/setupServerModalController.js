@@ -33,6 +33,7 @@ function SetupServerModalController(
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
   SMC.helpCards = helpCards;
+  var blankDockerfile = false;
 
   var parentController = $controller('ServerModalController as SMC', { $scope: $scope });
   angular.extend(SMC, {
@@ -111,16 +112,14 @@ function SetupServerModalController(
 
   // if the blank docker file is chosen, we need to load it because it is already available
   if (dockerfileType === 'blankDockerfile') {
-    var isBlankDockerfile = dockerfileType;
+    blankDockerfile = dockerfileType;
     SMC.openDockerfile({contextVersion: build.contextVersion}, SMC.openItems);
-  } else {
-    var isBlankDockerfile = false;
   }
 
   // If a repo is passed into this controller, select that repo
   angular.extend(SMC.state, {
     acv: build.contextVersion.getMainAppCodeVersion(),
-    advanced: isBlankDockerfile,
+    advanced: blankDockerfile,
     branch: masterBranch,
     build: build,
     contextVersion: build.contextVersion,
