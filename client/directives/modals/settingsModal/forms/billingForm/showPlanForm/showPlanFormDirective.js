@@ -13,7 +13,7 @@ function showPlanForm(
       loading('billingForm', true);
       fetchPlan()
         .then(function (plan) {
-          $scope.discounted = !!plan.discount;
+          $scope.discount = plan.discount;
         })
         .finally(function () {
           loading('billingForm', false);

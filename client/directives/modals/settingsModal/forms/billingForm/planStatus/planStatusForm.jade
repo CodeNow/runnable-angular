@@ -35,10 +35,10 @@
       h3.grid-content.shrink.h3 Starter
       .grid-block.shrink.vertical.price
         .grid-block.strike(
-          ng-if = "PSFC.discounted"
+          ng-if = "PSFC.discount"
         ) ${{PSFC.plans['runnable-starter'].costPerUser | centsToDollars}}
         .grid-block.justify-center.h1(
-          ng-class = "{'discounted': PSFC.discounted}"
+          ng-class = "{'discounted': PSFC.discount}"
         )
           sup.sup $
           | {{PSFC.calculatePlanAmount('runnable-starter') | centsToDollars}}
@@ -57,10 +57,10 @@
       h3.grid-content.shrink.h3 Standard
       .grid-block.shrink.vertical.price
         .grid-block.strike(
-          ng-if = "PSFC.discounted"
+          ng-if = "PSFC.discount"
         ) ${{PSFC.plans['runnable-standard'].costPerUser| centsToDollars}}
         .grid-block.justify-center.h1(
-          ng-class = "{'discounted': PSFC.discounted}"
+          ng-class = "{'discounted': PSFC.discount}"
         )
           sup.sup $
           | {{PSFC.calculatePlanAmount('runnable-standard') | centsToDollars}}
@@ -79,10 +79,10 @@
       h3.grid-content.shrink.h3 Plus
       .grid-block.shrink.vertical.price
         .grid-block.strike(
-          ng-if = "PSFC.discounted"
+          ng-if = "PSFC.discount"
         ) ${{PSFC.plans['runnable-plus'].costPerUser| centsToDollars}}
         .grid-block.justify-center.h1(
-          ng-class = "{'discounted': PSFC.discounted}"
+          ng-class = "{'discounted': PSFC.discount}"
         )
           sup.sup $
           | {{PSFC.calculatePlanAmount('runnable-plus') | centsToDollars}}
@@ -94,9 +94,10 @@
         | &#32; configurations.
 
   label.grid-block.align-center.padding-xs.well.well-plan.well-summary.disabled(
-    ng-if = "PSFC.discounted"
-    ng-include = "'discountView'"
+    ng-if = "PSFC.discount"
     ng-init = "state.hasDuration = (PSFC.currentOrg.poppa.isInActivePeriod()) ? 'true' : ''"
+    discount-view
+    discount = "PSFC.discount"
   )
 
   p.grid-content.p.text-gray.text-center.padding-sm Your plan is automatically determined based on number of configurations at the end of each billing cycle.

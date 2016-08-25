@@ -77,11 +77,11 @@ describe('PlanStatusFormController'.bold.underline.blue, function () {
 
   describe('calculatePlanAmount', function () {
     it('calculate the plan amount properly', function () {
-      PSFC.discounted = false;
+      PSFC.discount = false;
       expect(PSFC.calculatePlanAmount('simplePlan')).to.equal(19);
     });
     it('calculate the plan amount properly when discounted', function () {
-      PSFC.discounted = true;
+      PSFC.discount = true;
       expect(PSFC.calculatePlanAmount('simplePlan')).to.equal(9.50);
     });
   });
