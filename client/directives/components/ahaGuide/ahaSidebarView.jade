@@ -1,11 +1,12 @@
 .grid-block.shrink.align-center.justify-right
   svg.iconnables.icons-close(
     ng-click = "$root.featureFlags.ahaSidebar = false"
-    ng-if = "!$root.featureFlags.ahaOverview"
+    ng-if = "!$root.featureFlags.ahaOverview && !$root.featureFlags.aha3"
   )
     use(
       xlink:href = "#icons-close"
     )
+
 .grid-block.vertical.shrink.justify-center.text-center.aha-overview(
   ng-if = "$root.featureFlags.ahaOverview"
 )
@@ -17,6 +18,16 @@
       $root.featureFlags.ahaSidebar = false;\
     "
   ) Get Started
+
+.grid-block.vertical.shrink.justify-center.text-center.aha-overview(
+  ng-if = "$root.featureFlags.aha3"
+)
+  .grid-content.strong Well done!
+  | You’ve finished setting up. Give yourself a pat on the back!
+  button.grid-content.btn.btn-sm.green(
+    ng-click = "$root.featureFlags.ahaRunnabot = true"
+  ) I Feel Great About This
+
 .grid-block.vertical
   .grid-block.shrink.align-center.padding-sm.aha-guide(
     ng-class = "{'disabled': $root.featureFlags.aha1 || $root.featureFlags.aha2 || $root.featureFlags.aha3}"

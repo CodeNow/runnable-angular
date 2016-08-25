@@ -122,13 +122,21 @@
               .spinner-wrapper.spinner-sm.spinner-gray.spinner-center.in(
                 ng-include = "'spinner'"
               )
-            li.list-item.popover-list-item SAN-4377-Cant-add-files
+            li.list-item.popover-list-item(
+              ng-click = "$root.featureFlags.ahaSidebar = true"
+            ) SAN-4377-Cant-add-files
+              //- ng-click = "$root.featureFlags.aha2Complete = true"
               button.btn.btn-xs.btn-icon.btn-add
                 svg.iconnables.icons-add
                   use(
                     xlink:href = "#icons-add"
                   )
-            li.list-item.popover-list-item SAN-4342-auto-isolation-setup
+            li.list-item.popover-list-item(
+              ng-click = "\
+                $root.featureFlags.ahaSidebar = true;\
+                $root.featureFlags.ahaComplete = true;\
+              "
+            ) SAN-4342-auto-isolation-setup
               button.btn.btn-xs.btn-icon.btn-add
                 svg.iconnables.icons-add
                   use(
