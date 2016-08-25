@@ -112,6 +112,18 @@ describe('ChangePaymentFormController'.bold.underline.blue, function () {
         expect(CPFC.error).to.equal('Fake message');
       });
 
+      it('should handle stripe card errors coming from `savePaymentMethod`', function () {
+        var fakeCC = {
+          number: '1234'
+        };
+        savePaymentMethodStub.returns($q.reject({type: 'card_error', message: 'Fake message'}));
+        CPFC.card = fakeCC;
+        CPFC.actions.save();
+        $scope.$digest();
+        sinon.assert.notCalled(CPFC.save);
+        expect(CPFC.error).to.equal('Fake message');
+      });
+
       it('should handle stripe internal errors', function () {
         var fakeCC = {
           number: '1234'
