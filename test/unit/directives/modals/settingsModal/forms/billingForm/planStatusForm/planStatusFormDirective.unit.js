@@ -33,32 +33,26 @@ describe('planStatusFormDirective'.bold.underline.blue, function () {
         fetchPaymentMethodStub = sinon.stub().returns($q.when({}));
         return fetchPaymentMethodStub;
       });
-      $provide.factory('fetchInstancesByPod', function ($q) {
-        return sinon.stub().returns($q.when({models: [{}]}));
+    });
+
+    describe('below 15', function () {
+      it('get the class for the meter', function () {
+        $scope.preview = 'simplePlan';
+        expect($scope.getMeterClass()).to.deep.equal({
+          'used-1': true,
+          'preview-used-9999': true
+        });
       });
     });
-    angular.mock.inject(function (
-      $compile,
-      $rootScope
-    ) {
-      $scope = $rootScope.$new();
-      $scope.save = sinon.stub();
-      var tpl = directiveTemplate.attribute('plan-status-form');
-      $compile(tpl)($scope);
-      $scope.PSFC = {
-        configurations: 1,
-        currentOrg: mockCurrentOrg
-      };
-      $scope.$digest();
-    });
-  });
 
-  describe('getMeterClass', function () {
-    it('get the class for the meter', function () {
-      $scope.preview = 'simplePlan';
-      expect($scope.getMeterClass()).to.deep.equal({
-        'used-1': true,
-        'preview-used-12': true
+    describe('above 15', function () {
+      it('should max out the used to 15', function () {
+        $scope.preview = 'simplePlan';
+        $scope.PSFC.configurations = 100;
+        expect($scope.getMeterClass()).to.deep.equal({
+          'used-15': true,
+          'preview-used-9999': true
+        });
       });
     });
   });

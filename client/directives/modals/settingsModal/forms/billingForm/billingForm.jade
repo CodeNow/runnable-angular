@@ -1,5 +1,4 @@
 .modal-form.form-billing
-
   .spinner-wrapper.spinner-md.spinner-gray.in(
     ng-include = "'spinner'"
     ng-if = "$root.isLoading.billingForm"
@@ -27,7 +26,7 @@
 
       .grid-block.vertical.form-plan.label.padding-sm.fade(
         ng-class = "{'in': isActivePanel()}"
-        ng-include = "'showPlanForm'"
+        show-plan-form
         ng-if = "!currentOrg.poppa.isInTrial() || (currentOrg.poppa.isInTrial() && currentOrg.poppa.attrs.hasPaymentMethod)"
       )
       .grid-block.vertical.label.padding-sm.fade(

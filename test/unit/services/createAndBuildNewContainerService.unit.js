@@ -13,6 +13,8 @@ var helpCardsMock = require('../apiMocks/HelpCardServiceMock');
 var thisUser = runnable.newUser(apiMocks.user);
 
 describe('createAndBuildNewContainer'.bold.underline.blue, function () {
+  var mockFetchPlan;
+  var mockPlan;
   var ctx = {};
 
   function createMasterPods() {
@@ -49,7 +51,11 @@ describe('createAndBuildNewContainer'.bold.underline.blue, function () {
     ctx.pageNameMock = {
       setTitle: sinon.spy()
     };
-
+    mockPlan = {
+      next: {
+        id: '1234'
+      }
+    };
 
     runnable.reset(apiMocks.user);
     angular.mock.module('app', function ($provide) {
@@ -61,6 +67,13 @@ describe('createAndBuildNewContainer'.bold.underline.blue, function () {
       $provide.factory('helpCards', helpCardsMock.create(ctx));
       $provide.factory('fetchInstancesByPod', fetchInstancesByPodMock.fetch());
       $provide.factory('createNewInstance', createNewInstanceMock.fetch());
+      $provide.factory('fetchPlan', function ($q) {
+        mockFetchPlan = sinon.stub().returns($q.when(mockPlan));
+        mockFetchPlan.cache = {
+          clear: sinon.stub()
+        };
+        return mockFetchPlan;
+      });
       $provide.value('errs', ctx.errs);
     });
     angular.mock.inject(function (
@@ -71,6 +84,7 @@ describe('createAndBuildNewContainer'.bold.underline.blue, function () {
     ) {
       $q = _$q_;
       $rootScope = _$rootScope_;
+      $rootScope.$broadcast = sinon.stub();
       createAndBuildNewContainer = _createAndBuildNewContainer_;
       keypather = _keypather_;
     });
@@ -113,9 +127,18 @@ describe('createAndBuildNewContainer'.bold.underline.blue, function () {
       sinon.assert.calledOnce(instances.add);
       sinon.assert.calledOnce(ctx.eventTracking.triggeredBuild);
 
+      mockFetchPlan.reset();
+      mockFetchPlan.returns($q.when({next: {id: '5678'}}));
       createNewInstanceMock.triggerPromise(instance);
       $rootScope.$digest();
       sinon.assert.calledOnce(ctx.helpCards.refreshAllCards);
+      sinon.assert.calledOnce(mockFetchPlan.cache.clear);
+      sinon.assert.calledOnce(mockFetchPlan);
+      sinon.assert.calledWith($rootScope.$broadcast, 'alert', {
+        type: 'success',
+        text: 'Container Created',
+        newPlan: true
+      });
     });
 
     it('should create a server with isolation', function () {
