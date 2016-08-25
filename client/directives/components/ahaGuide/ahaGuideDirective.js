@@ -7,7 +7,7 @@ require('app')
  * @ngInject
  */
 function ahaGuideDirective(
-  $window
+  
 ) {
   return {
     restrict: 'A',

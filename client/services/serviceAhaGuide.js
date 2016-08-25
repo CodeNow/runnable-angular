@@ -4,8 +4,25 @@ require('app')
   .factory('serviceAhaGuide', serviceAhaGuide);
 
 function serviceAhaGuide(
-
+  $http,
+  $localStorage,
+  keypather
 ) {
+
+  var ahaService = this;
+  var ahaMilestonesComplete;
+
+  if (!keypather.get($localStorage, 'ahaMilestonesComplete')) {
+    ahaMilestonesComplete = {
+      aha0: false,
+      aha1: false,
+      aha2: false,
+      aha3: false
+    };
+    keypather.set($localStorage, 'ahaMilestonesComplete', ahaMilestonesComplete);
+  } else {
+    ahaMilestonesComplete = keypather.get($localStorage, 'ahaMilestonesComplete');
+  }
 
   var _steps = [
     {
@@ -125,7 +142,7 @@ function serviceAhaGuide(
           step: 8
         },
         complete: {
-          caption: 'Add more containers if your project requires it. Once you\'re done, head to to your containers to start adding branches.',
+          caption: 'Add more containers if your project requires it. Once you\'re done, head to your containers to start adding branches.',
           className: 'aha-meter-100',
           step: 9
         }
@@ -146,7 +163,37 @@ function serviceAhaGuide(
     return _steps;
   }
 
+  function checkContainerStatus(url) {
+    ahaService.pendingRequest = true;
+    return $http({
+      method: 'GET',
+      url: url
+    })
+      .then(function(data) {
+        ahaService.pendingRequest = false;
+        if (data.statusCode >= 200 && data.statusCode < 300) {
+          return true;
+        }
+        return false;
+       })
+       .catch(function(err) {
+        console.log(err);
+      });
+  }
+
+  function isComplete(step, bool) {
+    if (bool === true) {
+      keypather.set($localStorage, 'ahaMilestonesComplete.' + step, true);
+      keypather.set($localStorage, 'hasDismissedTrialNotification.' + currentOrg.github.attrs.id, true);
+      ahaMilestonesComplete[step] = bool;
+    } else {
+      return keypather.get($localStorage, 'ahaMilestonesComplete.' + step);
+    }
+  }
+
   return {
-    getSteps: getSteps
+    getSteps: getSteps,
+    checkContainerStatus: checkContainerStatus,
+    isComplete: isComplete
   };
 }

@@ -6,8 +6,6 @@
 .grid-block.align-center(
   ng-if = "AHA.state.mainStep === 1"
   ng-include = "'setUpRepositoryGuideView'"
-  ng-mouseenter = "state.showControls = true"
-  ng-mouseleave = "state.showControls = false"
 )
 
 .grid-block.align-center(
@@ -18,6 +16,11 @@
 .grid-block.align-center(
   ng-if = "AHA.state.mainStep === 3"
   ng-include = "'setUpRunnabotGuideView'"
+)
+
+.grid-block.align-center(
+  ng-if = "state.addRepo"
+  ng-include = "'setUpRepositoryGuideView'"
 )
 
 button.btn.btn-xs.white.btn-menu(

@@ -61,6 +61,7 @@ function AhaGuideController(
     }
     if (status === 'dockLoaded') {
       $rootScope.animatedPanelListener();
+      serviceAhaGuide.isComplete('aha0', true);
     }
     AHA.state.subStep = status;
     AHA.state.subStepIndex = currentMilestone.subSteps[status].step;
@@ -68,14 +69,15 @@ function AhaGuideController(
     AHA.state.className = currentMilestone.subSteps[status].className;
   }
 
-  function handleBuildUpdate(update) { // building, running, starting
+  function handleBuildUpdate(update) {
     console.log(update);
     var buildStatus = update.status;
     AHA.state.containerHostname = update.containerHostname;
     if (buildStatus === 'failed' || buildStatus === 'buildFailed') {
       AHA.state.showError = true;
     } else if (buildStatus === 'starting') {
-        addVerificationListeners();
+        AHA.state.showError = false;
+        addVerificationListeners(AHA.state.containerHostname);
     }
     updateBuildStatus(buildStatus);
   }
@@ -86,21 +88,33 @@ function AhaGuideController(
     console.log(AHA.state.caption);
   }
 
-  function addVerificationListeners() {
+  function addVerificationListeners(containerHostname) {
+    var url = 'http://' + containerHostname;
     if (!$rootScope.doneListener) {
       $rootScope.doneListener = $rootScope.$on('close-popovers', function() {
         $rootScope.doneListener();
         updateCaption('complete');
         $rootScope.featureFlags.aha1 = false;
         $rootScope.featureFlags.aha2 = true;
-      })
+      });
     }
 
     $timeout(function() {
+      if (serviceAhaGuide.pendingRequest) {
+        return;
+      } 
       if (AHA.state.showError === false && !AHA.state.isBuildSuccesful) {
         AHA.state.isBuildSuccessful = true;
         buildLogListener();
-        updateCaption('success');
+        serviceAhaGuide.checkContainerStatus(url)
+          .then(function(isRunning) {
+            if (isRunning) {
+              updateCaption('success');
+              serviceAhaGuide.isComplete('aha1', true);
+            } else {
+              AHA.state.showBindingMSG = true;
+            }
+          });
       } else {
         AHA.state.isBuildSuccessful = false;
       }

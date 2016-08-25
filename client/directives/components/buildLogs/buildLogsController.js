@@ -49,7 +49,7 @@ function BuildLogsController(
       stream.end();
     }
     if (BLC.instance) {
-      // BLC.instance.off('update', handleUpdate);
+      BLC.instance.off('update', handleUpdate);
     }
     BLC.buildLogsRunning = false;
   }
