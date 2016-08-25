@@ -10,15 +10,25 @@ function planSummary(
   return {
     restrict: 'A',
     templateUrl: 'planSummaryView',
-    link: function ($scope, element) {
+    link: function ($scope) {
       loading('billingForm', true);
+      var isDiscounted;
       fetchPlan()
         .then(function (plan) {
-          $scope.plan = billingPlans[plan.next.plan.id];
+          isDiscounted = !!plan.discount;
+          $scope.plan = billingPlans[plan.next.id];
         })
         .finally(function () {
           loading('billingForm', false);
         });
+
+      $scope.getCostPerUser = function () {
+        var modifier = 1;
+        if (isDiscounted) {
+          modifier = 0.5;
+        }
+        return $scope.plan.costPerUser * modifier;
+      };
     }
   };
 }

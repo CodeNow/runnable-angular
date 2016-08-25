@@ -5,17 +5,17 @@ require('app')
 
 function billingPlans() {
   return {
-    starter: {
+    'runnable-starter': {
       name: 'Starter',
       costPerUser: 900,
       maxConfigurations: 2
     },
-    standard: {
+    'runnable-standard': {
       name: 'Standard',
       costPerUser: 2900,
       maxConfigurations: 7
     },
-    plus: {
+    'runnable-plus': {
       name: 'Plus',
       costPerUser: 4900,
       maxConfigurations: 15

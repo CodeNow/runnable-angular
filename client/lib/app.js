@@ -13,6 +13,7 @@ require('oclazyload');
 require('angular-clipboard');
 require('angular-vs-repeat');
 require('angularjs-scroll-glue');
+var apiConfig = require('config/api');
 
 module.exports = angular.module('app', [
   'ui.router',
@@ -33,7 +34,7 @@ module.exports = angular.module('app', [
   require('angular-credit-cards')
 ])
   .config(function ($ocLazyLoadProvider, stripeProvider) {
-    stripeProvider.setPublishableKey('pk_test_sHr5tQaPtgwiE2cpW6dQkzi8');
+    stripeProvider.setPublishableKey(apiConfig.stripeToken);
     $ocLazyLoadProvider.config({
       debug: false,
       modules: [{
