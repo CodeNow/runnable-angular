@@ -15,7 +15,7 @@ function discountView(
     link: function ($scope) {
       $scope.getDiscountTime = function () {
         if ($scope.hasDuration) {
-          return moment($scope.discount.end).fromNow(true) + ' Remaining';
+          return moment($scope.discount.end).fromNow(true) + ' remaining';
         }
         return 'for ' + $scope.discount.coupon.durationInMonths + ' months';
       };
