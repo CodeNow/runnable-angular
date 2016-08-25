@@ -13,11 +13,11 @@ function discountView(
       hasDuration: '=?'
     },
     link: function ($scope) {
-      $scope.getDiscountTime = function () {
+      $scope.getDiscountText = function () {
         if ($scope.hasDuration) {
-          return moment($scope.discount.end).fromNow(true) + ' Remaining';
+          return $scope.discount.coupon.percentOff + '% off until ' + moment($scope.discount.end).format('MMM Mo, YYYY');
         }
-        return 'for ' + (moment($scope.discount.end).diff($scope.discount.start, 'months') + 1) + ' months';
+        return $scope.discount.coupon.percentOff + '% off for ' + $scope.discount.coupon.durationInMonths + ' months';
       };
     }
   };
