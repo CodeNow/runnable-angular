@@ -68,15 +68,12 @@
   p.p.small.text-gray-light {{ AHA.state.title }}
   p.p(
     ng-class = "{'p-slide js-animate': AHA.state.subStepIndex > 0}"
-    ng-if = "$root.featureFlags.aha1 && !state.showError && !state.showVerification"
+    ng-if = "$root.featureFlags.aha1 && !$root.ahaGuide.exitedEarly && !state.showError && !state.showVerification"
   ) {{ AHA.state.caption }}
   p.p(
     ng-class = "{'p-slide js-animate': AHA.state.subStepIndex}"
-    ng-if = "AHA.state.subStep === 6 && !state.showError && !state.showVerification"
-  )
-    | {{!state.fromMirroring ? 'If your app needs additional configuration…' : ''}}
-    | {{state.fromMirroring ? 'We‘ve imported your dockerfile, click ‘Save & Build’ to build it!' : ''}}
-    //- | FROM BLANK DOCKERFILE: When you‘re done editing your dockerfile, click ‘Save & Build’ to build it!
+    ng-if = "$root.featureFlags.aha && $root.ahaGuide.exitedEarly && !state.showError && !state.showVerification"
+  ) {{ AHA.state.caption }}
   p.p(
     ng-class = "{'p-slide js-animate': AHA.state.subStepIndex}"
     ng-if = "AHA.state.subStep === 7"

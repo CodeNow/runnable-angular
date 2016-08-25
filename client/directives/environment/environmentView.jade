@@ -42,7 +42,7 @@
 
 //- environment page
 .grid-block.environment-wrapper(
-  ng-class = "{'empty': $root.featureFlags.aha && $root.featureFlags.aha1}"
+  ng-class = "{'empty': $root.featureFlags.aha && $root.featureFlags.aha1 && !$root.ahaGuide.completedMilestones.aha1}"
 )
 
   header.grid-block.align-center.environment-header(
@@ -51,13 +51,12 @@
   )
 
   .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
-    ng-if = "$root.featureFlags.aha1ExitedEarly"
-    ng-include = "'ahaGuideView'"
-    ng-init = "\
-      state.showStep = 1;\
-      state.showSubStep = 7;\
-      state.showError = true;\
-      state.showErrorType = 'exitedEarly';\
+    ng-if = "$root.featureFlags.aha1ExitedEarly && $root.ahaGuide.exitedEarly"
+    aha-guide-directive
+    step-index = 1
+    sub-step = 'exitedEarly'
+    sub-step-index = 7
+    error-state = "true"
     "
   )
 
@@ -99,7 +98,7 @@
         )
 
     .modal-dialog.modal-sm(
-      ng-if = "$root.featureFlags.aha1 && !$root.featureFlags.ahaOverview"
+      ng-if = "$root.featureFlags.aha1 && !$root.ahaGuide.showOverview && !$root.ahaGuide.exitedEarly"
     )
       .grid-block.align-center.aha-guide.padding-md(
         aha-guide-directive
@@ -129,5 +128,5 @@
 
 .grid-block.vertical.aha-sidebar.padding-sm.js-animate(
   aha-sidebar-directive
-  ng-if = "$root.featureFlags.aha && $root.featureFlags.ahaSidebar"
+  ng-if = "$root.featureFlags.aha && $root.featureFlags.ahaSidebar && $root.ahaGuide.showSidebar"
 )

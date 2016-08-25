@@ -11,18 +11,9 @@ function serviceAhaGuide(
 
   var ahaService = this;
   var ahaMilestonesComplete;
+  var _state;
 
-  if (!keypather.get($localStorage, 'ahaMilestonesComplete')) {
-    ahaMilestonesComplete = {
-      aha0: false,
-      aha1: false,
-      aha2: false,
-      aha3: false
-    };
-    keypather.set($localStorage, 'ahaMilestonesComplete', ahaMilestonesComplete);
-  } else {
-    ahaMilestonesComplete = keypather.get($localStorage, 'ahaMilestonesComplete');
-  }
+  ahaMilestonesComplete = getAhaMilestones();
 
   var _steps = [
     {
@@ -136,6 +127,12 @@ function serviceAhaGuide(
           className: 'aha-meter-80',
           step: 7
         },
+        exitedEarly: {
+          caption: 'Your container isn\'t running yet! Check the logs to debug any issues. If you\'re stumped, ask our engineers!',
+          className: 'aha-meter-80',
+          step: 7,
+          errorState: true
+        },
         success: {
           caption: 'Your build is looking good! Check out its URL and click \'Done\' if it looks good',
           className: 'aha-meter-90',
@@ -150,11 +147,11 @@ function serviceAhaGuide(
 
       buildStatus: {
         building: 'Now building. Build time varies depending on your configuration',
-        running: 'Verifying configuration... ', 
+        running: 'Verifying configuration... ',
         starting: 'Now building. Build time varies depending on your configuration',
         success: 'Your build is looking good! Check out its URL and click \'Done\' if it looks good',
-        faileda: 'Your container failed to run. Inspect your CMD logs for more information.',
-        failed: 'Your build failed. Inspect your build logs for more information.'
+        cmdFailed: 'Your container failed to run. Inspect your CMD logs for more information.',
+        buildFailed: 'Your build failed. Inspect your build logs for more information.'
       }
     }
   ];
@@ -171,29 +168,54 @@ function serviceAhaGuide(
     })
       .then(function(data) {
         ahaService.pendingRequest = false;
-        if (data.statusCode >= 200 && data.statusCode < 300) {
+        if (data.status >= 200 && data.status < 300) {
           return true;
         }
         return false;
        })
        .catch(function(err) {
         console.log(err);
+        return new Error(err);
       });
   }
 
   function isComplete(step, bool) {
     if (bool === true) {
-      keypather.set($localStorage, 'ahaMilestonesComplete.' + step, true);
-      keypather.set($localStorage, 'hasDismissedTrialNotification.' + currentOrg.github.attrs.id, true);
+      keypather.set($localStorage, 'completedMilestones.' + step, true);
       ahaMilestonesComplete[step] = bool;
     } else {
-      return keypather.get($localStorage, 'ahaMilestonesComplete.' + step);
+      return keypather.get($localStorage, 'completedMilestones.' + step);
     }
   }
 
+  function getAhaMilestones() {
+    var ahaMilestones = keypather.get($localStorage, 'completedMilestones');
+    if (!ahaMilestones) {
+      ahaMilestones = {
+        aha0: false,
+        aha1: false,
+        aha2: false,
+        aha3: false
+      };
+      keypather.set($localStorage, 'completedMilestones', ahaMilestones);
+    }
+
+    return ahaMilestones;
+  }
+
+  function setState(state) {
+    _state = angular.extend({}, state);
+    return _state;
+  }
+
+  function getState() {
+    return _state;
+  }
+
   return {
-    getSteps: getSteps,
     checkContainerStatus: checkContainerStatus,
+    getAhaMilestones: getAhaMilestones,
+    getSteps: getSteps,
     isComplete: isComplete
   };
 }

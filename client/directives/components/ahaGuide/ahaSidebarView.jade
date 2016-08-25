@@ -1,20 +1,20 @@
 .grid-block.shrink.align-center.justify-right
   svg.iconnables.icons-close(
     ng-click = "$root.featureFlags.ahaSidebar = false"
-    ng-if = "!$root.featureFlags.ahaOverview"
+    ng-if = "!$root.ahaGuide.showOverview"
   )
     use(
       xlink:href = "#icons-close"
     )
 .grid-block.vertical.shrink.justify-center.text-center.aha-overview(
-  ng-if = "$root.featureFlags.ahaOverview"
+  ng-if = "$root.featureFlags.ahaOverview && $root.ahaGuide.showOverview"
 )
   .grid-content.strong Welcome to your Sandbox! 👋
   | It’ll take a few steps to get everything set up. But don’t worry — we’re here to help!
   button.grid-content.btn.btn-sm.green(
     ng-click = "\
-      $root.featureFlags.ahaOverview = false;\
-      $root.featureFlags.ahaSidebar = false;\
+      ASC.toggleOverview();\
+      $root.ahaGuide.completedMilestones.aha1 = false;\
     "
   ) Get Started
 .grid-block.vertical

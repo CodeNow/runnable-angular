@@ -89,6 +89,12 @@ function ControllerApp(
   $rootScope.featureFlags = featureFlags.flags;
   $rootScope.resetFeatureFlags = featureFlags.reset;
   this.featureFlagsChanged = featureFlags.changed;
+  $rootScope.ahaGuide = {
+    completedMilestones: $localStorage.completedMilestones,
+    showSidebar: true,
+    showOverview: true,
+    exitedEarly: false
+  };
 
   $scope.$watch(function () {
     return errs.errors.length;

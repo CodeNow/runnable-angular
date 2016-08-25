@@ -13,9 +13,9 @@ function ahaSidebarDirective(
     restrict: 'A',
     templateUrl: 'ahaSidebarView',
     controller: 'AhaSidebarController',
-    controllerAs: 'ASA',
+    controllerAs: 'ASC',
     link: function ($scope, elem, attrs) {
-      console.log($scope, elem, attrs);
+      // console.log($scope, elem, attrs);
     }
   };
 }
