@@ -150,6 +150,7 @@ function serviceAhaGuide(
         running: 'Verifying configuration... ',
         starting: 'Now building. Build time varies depending on your configuration',
         success: 'Your build is looking good! Check out its URL and click \'Done\' if it looks good',
+        stopped: 'Your container failed to run. Inspect your CMD logs for more information.',
         cmdFailed: 'Your container failed to run. Inspect your CMD logs for more information.',
         buildFailed: 'Your build failed. Inspect your build logs for more information.'
       }

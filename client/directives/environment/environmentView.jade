@@ -109,7 +109,7 @@
 
     .grid-block.card-grid.clearfix(
       ng-class = "{'padding-top': helpCards.getActiveCard().helpTop}"
-      ng-if = "!$root.featureFlags.aha1"
+      ng-if = "!$root.featureFlags.aha1 || $root.ahaGuide.completedMilestones.aha1"
       ng-include = "'viewCardGrid'"
     )
 

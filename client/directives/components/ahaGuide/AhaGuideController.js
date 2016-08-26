@@ -85,6 +85,8 @@ function AhaGuideController(
     } else if (buildStatus === 'starting') {
         AHA.state.showError = false;
         addVerificationListeners(AHA.state.containerHostname);
+    } else if (buildStatus === 'stopped') {
+      AHA.state.showError = true;
     }
     updateBuildStatus(buildStatus);
   }

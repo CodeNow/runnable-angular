@@ -55,7 +55,7 @@ button.grid-block.shrink.btn.btn-md.green(
     'scale-in-modal': $root.featureFlags.aha1\
   }"
   ng-click = "EC.triggerModal.newContainer()"
-  ng-if = "!$root.ahaGuide.showOverview || $root.ahaGuide.completedMilestones.aha1"
+  ng-if = "!$root.featureFlags.aha1 || !$root.ahaGuide.showOverview || $root.ahaGuide.completedMilestones.aha1"
 )
   svg.iconnables.icons-add.float-left
     use(
