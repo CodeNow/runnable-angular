@@ -8,7 +8,7 @@
   )
   .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
     aha-guide-directive
-    ng-if = "SMC.state.advanced === 'blankDockerfile'"
+    ng-if = "$root.featureFlags.aha && $root.featureFlags.aha1 && SMC.state.advanced === 'blankDockerfile'"
     step-index = 1
     sub-step = "buildfiles"
     sub-step-index = 6
