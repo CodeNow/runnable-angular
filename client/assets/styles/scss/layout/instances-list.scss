@@ -90,12 +90,8 @@
 
 // wraps the master cluster and each repository section
 .list-clusters {
+  border-bottom: 1px solid $gray-lighter;
   padding: 15px 0;
-
-  + .list-clusters,
-  .well + & {
-    border-top: 1px solid $gray-lighter;
-  }
 }
 
 .list-clusters-heading {
