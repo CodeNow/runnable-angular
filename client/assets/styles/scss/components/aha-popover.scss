@@ -24,4 +24,15 @@
   .popover-content {
     @extend %padding-sm;
   }
+
+  &.popover-aha-2 {
+    left: -60px;
+    position: relative;
+    top: -30px;
+
+    .arrow {
+      left: auto;
+      right: 110px;
+    }
+  }
 }
