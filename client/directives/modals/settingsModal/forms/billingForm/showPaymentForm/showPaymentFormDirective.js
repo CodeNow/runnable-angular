@@ -39,7 +39,7 @@ function showPaymentForm(
         var paymentMapping = {
           'Amex': 'amex',
           'Visa': 'visa',
-          'Mastercard': 'mastercard',
+          'MasterCard': 'mastercard',
           'JCB': 'jcb'
         };
         var brand = keypather.get($scope, 'paymentMethod.card.brand');

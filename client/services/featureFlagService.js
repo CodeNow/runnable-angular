@@ -20,7 +20,7 @@ function featureFlags(
     autoIsolationSetup: false,
     backup: false,
     blankDockerfile: false, // allows users to skip the verification flow
-    billing: false,
+    billing: true,
     cardStatus: false,
     connections: false,
     configTerminal: false, // flag for terminal in config view
