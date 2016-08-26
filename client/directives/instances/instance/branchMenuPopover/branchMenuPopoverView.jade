@@ -123,7 +123,11 @@
                 ng-include = "'spinner'"
               )
             li.list-item.popover-list-item(
-              ng-click = "$root.featureFlags.ahaSidebar = true"
+              ng-click = "\
+                $root.featureFlags.ahaSidebar = true;\
+                $root.featureFlags.aha2 = false;\
+                $root.featureFlags.aha3 = true;\
+              "
             ) SAN-4377-Cant-add-files
               //- ng-click = "$root.featureFlags.aha2Complete = true"
               button.btn.btn-xs.btn-icon.btn-add
@@ -134,7 +138,8 @@
             li.list-item.popover-list-item(
               ng-click = "\
                 $root.featureFlags.ahaSidebar = true;\
-                $root.featureFlags.ahaComplete = true;\
+                $root.featureFlags.aha2 = false;\
+                $root.featureFlags.aha3 = true;\
               "
             ) SAN-4342-auto-isolation-setup
               button.btn.btn-xs.btn-icon.btn-add
