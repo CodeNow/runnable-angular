@@ -46,14 +46,41 @@
   }
 
   .aha-overview {
-    animation: slide-left .45s ease-in-out forwards;
-    border-bottom: 1px solid $gray-lightest;
-    margin-bottom: 15px;
-    padding: 32px 0 42px;
+
+    .strong {
+      border-bottom: 1px solid $gray-lightest;
+      font-size: 18px;
+      padding: 6px 0 18px;
+    }
+
+    .grid-content + .grid-content {
+      margin-top: 30px;
+    }
 
     .btn {
       align-self: center;
+      margin-top: 15px;
     }
+
+    .btn-bear {
+      margin: 90px 0 15px;
+      position: relative;
+
+      .img {
+        left: 0;
+        margin: 0 auto;
+        pointer-events: none;
+        position: absolute;
+        right: 0;
+        top: -120px;
+      }
+    }
+  }
+
+  .aha-guide-wrapper {
+    border-top: 1px solid $gray-lightest;
+    margin-top: 30px;
+    padding-top: 15px;
   }
 
   .aha-guide {
@@ -80,21 +107,6 @@
     }
 
     + .aha-guide {
-      margin-top: 15px;
-    }
-  }
-
-  .aha-runnabot {
-
-    .grid-content {
-      margin-top: 45px;
-    }
-
-    .img {
-      align-self: center;
-    }
-
-    .link {
       margin-top: 15px;
     }
   }

@@ -28,13 +28,13 @@ animated-panel-container
     .grid-block.vertical.shrink.justify-center.text-center.aha-overview(
       ng-if = "$root.featureFlags.aha3"
     )
-      .grid-content.strong Well done!
-      | You’ve finished setting up. Give yourself a pat on the back!
-      button.grid-content.btn.btn-sm.green(
+      .grid-content.strong You did it!
+      p.p.grid-content You’re all set up and ready to go. Give yourself a pat on the back!
+      button.btn.btn-md.green(
         ng-click = "goToPanel('runnabotStep')"
       ) I Feel Great About This
 
-    .grid-block.vertical
+    .grid-block.vertical.aha-guide-wrapper
       .grid-block.shrink.align-center.padding-sm.aha-guide(
         ng-class = "{'disabled': $root.featureFlags.aha1 || $root.featureFlags.aha2 || $root.featureFlags.aha3}"
       )
@@ -109,27 +109,32 @@ animated-panel-container
   animated-panel(
     name = "runnabotStep"
   )
-    .grid-block.vertical.shrink.justify-center.align-center.text-center.aha-runnabot
-      .grid-content
-        .strong One more thing…
-        | Now you can get super helpful comments
-        br
-        | on your pull requests. Like this one:
-      img.grid-content.img(
-        height = "116"
+    .grid-block.vertical.text-center.aha-overview.aha-runnabot
+      .grid-content.strong Get Runnable on Your PRs
+      p.p.grid-content Now you can get super helpful comments on your pull requests. Like this one:
+      img.img.grid-content(
+        height = "146"
         src = "/build/images/runnabot-comment.png"
-        width = "328"
+        width = "358"
       )
-      .grid-content Just invite Runnabot to your GitHub org.
-        br
-        | This may increase your GitHub bill.&#32;
+      p.p.grid-content All it takes is one click. Note that this may increase your GitHub bill.&#32;
         a.link Details
-      button.grid-content.btn.btn-sm.green(
+      button.btn.btn-md.green.btn-spinner.btn-bear(
+        ng-click = "$root.featureFlags.ahaOverview = false"
+      ) {{runnabot.inviting ? 'Inviting Runnabot' : 'Invite Runnabot to CodeNow'}}
+        img.img(
+          height = "130"
+          src = "/build/images/runnabear-waving-1.png"
+          width = "230"
+        )
+        //- if inviting Runnabot
+        //- .spinner-wrapper.spinner-sm.spinner-white.in(
+        //-   ng-include = "'spinner'"
+        //- )
+      .link.small.text-gray(
         ng-click = "\
-          $root.featureFlags.ahaOverview = false;\
+          $root.featureFlags.aha = false;\
+          $root.featureFlags.aha3 = false;\
           $root.featureFlags.ahaSidebar = false;\
         "
-      ) Invite Runnabot
-      a.link.small.text-gray(
-        ng-click = "$root.featureFlags.ahaSidebar = false"
       ) Not now, thanks
