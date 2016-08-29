@@ -36,7 +36,8 @@
   .icons-close {
     color: $gray;
     cursor: pointer;
-    margin-bottom: 15px;
+    margin-bottom: 18px;
+    margin-top: 3px;
     pointer-events: auto;
 
     &:hover,
@@ -45,26 +46,34 @@
     }
   }
 
+  .h4 {
+    border-bottom: 1px solid $gray-lightest;
+    line-height: 30px;
+    padding-bottom: 15px;
+    position: relative;
+
+    .icons-close {
+      margin-bottom: 0;
+      position: absolute;
+      right: 0;
+    }
+  }
+
+  .img-comment {
+    border-bottom: 1px solid $gray-lightest;
+    height: auto;
+    max-width: 100%;
+    padding-bottom: 18px;
+  }
+
   .aha-overview {
 
-    .h4 {
-      border-bottom: 1px solid $gray-lightest;
-      padding: 6px 0 18px;
-    }
-
     .p {
-      margin: 42px 0;
+      margin: 45px 0;
     }
 
     .small {
-      margin: 9px 0;
-    }
-
-    .img-comment {
-      border-bottom: 1px solid $gray-lightest;
-      height: auto;
-      max-width: 100%;
-      padding-bottom: 24px;
+      margin-top: 15px;
     }
 
     .btn {
@@ -73,7 +82,7 @@
     }
 
     .btn-bear {
-      margin-top: 96px;
+      margin-top: 105px;
       position: relative;
 
       .img {

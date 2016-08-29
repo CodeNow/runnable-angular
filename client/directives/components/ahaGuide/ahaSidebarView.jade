@@ -11,46 +11,14 @@
 .grid-block.vertical.shrink.justify-center.text-center.aha-overview(
   ng-if = "$root.featureFlags.ahaOverview"
 )
-  h4.h4.strong Welcome to your Sandbox! 👋
-  p.p It’ll take a few steps to get everything set up. But don’t worry — we’re here to help!
+  h4.h4.strong Welcome to Runnable! 👋
+  p.p It’ll take a few steps to get your environment set up. But don’t worry — we’re here to help!
     button.grid-content.btn.btn-md.green(
       ng-click = "\
         $root.featureFlags.ahaOverview = false;\
         $root.featureFlags.ahaSidebar = false;\
       "
     ) Get Started
-
-.grid-block.vertical.text-center.aha-overview(
-  ng-if = "$root.featureFlags.aha3"
-)
-  h4.h4.strong You did it!
-  p.p You finished setting up! Now you can get helpful comments from Runnabot on your pull requests, like this one:
-  img.img.img-comment(
-    height = "116"
-    src = "/build/images/runnabot-comment.png"
-    width = "358"
-  )
-  button.btn.btn-md.green.btn-spinner.btn-bear(
-    ng-click = "$root.featureFlags.ahaOverview = false"
-  ) {{runnabot.inviting ? 'Inviting Runnabot' : 'Invite Runnabot to Your Org'}}
-    img.img(
-      height = "130"
-      src = "/build/images/runnabear-waving-1.png"
-      width = "230"
-    )
-    //- if inviting Runnabot
-    //- .spinner-wrapper.spinner-sm.spinner-white.in(
-    //-   ng-include = "'spinner'"
-    //- )
-  .small.text-gray This may affect your GitHub bill.&#32;
-    a.link Details
-  .link.small.text-gray(
-    ng-click = "\
-      $root.featureFlags.aha = false;\
-      $root.featureFlags.aha3 = false;\
-      $root.featureFlags.ahaSidebar = false;\
-    "
-  ) Not now, thanks
 
 .grid-block.vertical.aha-guide-wrapper(
   ng-if = "!$root.featureFlags.aha3"
@@ -125,3 +93,45 @@
     .grid-block.vertical.aha-text
       p.p.strong Add your First Branch
       p.small Your branches will update on every commit you make.
+
+.grid-block.vertical.text-center.aha-overview(
+  ng-if = "$root.featureFlags.aha3"
+)
+  h4.h4.strong One more thing…
+    svg.iconnables.icons-close(
+      ng-click = "\
+        $root.featureFlags.aha = false;\
+        $root.featureFlags.aha3 = false;\
+        $root.featureFlags.ahaSidebar = false;\
+      "
+    )
+      use(
+        xlink:href = "#icons-close"
+      )
+  p.p You finished setting up! Now you can get helpful comments from Runnabot on your pull requests, like this one:
+  img.img.img-comment(
+    height = "116"
+    src = "/build/images/runnabot-comment.png"
+    width = "358"
+  )
+  button.btn.btn-md.green.btn-spinner.btn-bear(
+    ng-click = "$root.featureFlags.ahaOverview = false"
+    ng-class = "{'disabled' : if user isn’t an admin}"
+  ) {{runnabot.inviting ? 'Inviting Runnabot' : 'Invite Runnabot to Your Org'}}
+    img.img(
+      height = "130"
+      src = "/build/images/runnabear-waving-1.png"
+      width = "230"
+    )
+    //- if inviting Runnabot
+    //- .spinner-wrapper.spinner-sm.spinner-white.in(
+    //-   ng-include = "'spinner'"
+    //- )
+
+  //- if the user is an admin
+  .small This may affect your GitHub bill.&#32;
+    a.link Details
+
+  //- if the user is not an admin
+  //- .small Sorry, you need to be an admin of your org to invite Runnabot.&#32;
+    a.link Learn more
