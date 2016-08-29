@@ -97,7 +97,7 @@
 .grid-block.vertical.text-center.aha-overview(
   ng-if = "$root.featureFlags.aha3"
 )
-  h4.h4.strong One more thing…
+  h4.h4.strong You did it!
     svg.iconnables.icons-close(
       ng-click = "\
         $root.featureFlags.aha = false;\
@@ -108,30 +108,25 @@
       use(
         xlink:href = "#icons-close"
       )
-  p.p You finished setting up! Now you can get helpful comments from Runnabot on your pull requests, like this one:
+  p.p Invite Runnabot to your org to get helpful comments on your pull requests:
   img.img.img-comment(
     height = "116"
     src = "/build/images/runnabot-comment.png"
     width = "358"
   )
-  button.btn.btn-md.green.btn-spinner.btn-bear(
+  button.btn.btn-md.green.btn-spinner(
     ng-click = "$root.featureFlags.ahaOverview = false"
-    ng-class = "{'disabled' : if user isn’t an admin}"
-  ) {{runnabot.inviting ? 'Inviting Runnabot' : 'Invite Runnabot to Your Org'}}
-    img.img(
-      height = "130"
-      src = "/build/images/runnabear-waving-1.png"
-      width = "230"
-    )
+    ng-class = "{'disabled' : if user isn’t an admin || if loading}"
+  ) Invite Runnabot
     //- if inviting Runnabot
     //- .spinner-wrapper.spinner-sm.spinner-white.in(
     //-   ng-include = "'spinner'"
     //- )
 
-  //- if the user is an admin
-  .small This may affect your GitHub bill.&#32;
-    a.link Details
-
-  //- if the user is not an admin
-  //- .small Sorry, you need to be an admin of your org to invite Runnabot.&#32;
-    a.link Learn more
+  .small.text-gray
+    //- if the user is an admin:
+    | This may affect your GitHub bill.
+    //- if the user is not an admin:
+    //- | Sorry, you need to be an admin of your org to invite Runnabot.
+    br
+    a.link More about Runnabot

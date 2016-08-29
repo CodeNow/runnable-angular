@@ -60,10 +60,8 @@
   }
 
   .img-comment {
-    border-bottom: 1px solid $gray-lightest;
     height: auto;
     max-width: 100%;
-    padding-bottom: 18px;
   }
 
   .aha-overview {
@@ -79,20 +77,6 @@
     .btn {
       align-self: center;
       margin-top: 18px;
-    }
-
-    .btn-bear {
-      margin-top: 105px;
-      position: relative;
-
-      .img {
-        left: 0;
-        margin: 0 auto;
-        pointer-events: none;
-        position: absolute;
-        right: 0;
-        top: -120px;
-      }
     }
   }
 
