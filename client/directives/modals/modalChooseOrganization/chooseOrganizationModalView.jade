@@ -14,7 +14,7 @@
     )
       .grid-block.shrink.align-center.justify-center.padding-md.aha-guide(
         aha-guide-directive
-        ng-if = "$root.featureFlags.aha && !$root.ahaGuideMilestones.aha0"
+        ng-if = "$root.featureFlags.aha && $root.featureFlags.aha0 && !$root.ahaGuide.completedMilestones.aha0"
         step-index = 0
         sub-step = "orgSelection"
         sub-step-index = 0

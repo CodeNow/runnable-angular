@@ -12,6 +12,9 @@ function AhaGuideController(
 ) {
 
   var AHA = this;
+  if (!$rootScope.ahaGuide) {
+    $rootScope.ahaGuide = {};
+  }
 
   $rootScope.ahaGuide.completedMilestones = serviceAhaGuide.getAhaMilestones();
 
@@ -31,7 +34,8 @@ function AhaGuideController(
     exitedEarlyListener();
     AHA.state.showError = true;
     updateCaption('exitedEarly');
-    $rootScope.featureFlags.aha1 = false;
+    // $rootScope.featureFlags.aha1 = false;
+    $rootScope.ahaGuide.completedMilestones.aha1 = true;
   });
 
   var tabListener = $scope.$on('updatedTab', function(event, tabName) {
@@ -80,13 +84,11 @@ function AhaGuideController(
     console.log(update);
     var buildStatus = update.status;
     AHA.state.containerHostname = update.containerHostname;
-    if (buildStatus === 'buildFailed') {
+    if (buildStatus === 'buildFailed' || buildStatus === 'stopped' || buildStatus === 'crashed') {
       AHA.state.showError = true;
     } else if (buildStatus === 'starting') {
-        AHA.state.showError = false;
-        addVerificationListeners(AHA.state.containerHostname);
-    } else if (buildStatus === 'stopped') {
-      AHA.state.showError = true;
+      AHA.state.showError = false;
+      addVerificationListeners(AHA.state.containerHostname);
     }
     updateBuildStatus(buildStatus);
   }
@@ -101,8 +103,9 @@ function AhaGuideController(
       $rootScope.doneListener = $rootScope.$on('close-popovers', function() {
         $rootScope.doneListener();
         updateCaption('complete');
-        $rootScope.featureFlags.aha1 = false;
-        $rootScope.featureFlags.aha2 = true;
+        $rootScope.ahaGuide.completedMilestones.aha1 = true;
+        $rootScope.ahaGuide.exitedEarly = false;
+        $rootScope.ahaGuide.showPopover = true;
       });
     }
 
@@ -123,10 +126,12 @@ function AhaGuideController(
               updateBuildStatus('cmdFailed');
               AHA.state.showError = true;
               AHA.state.showBindingMSG = true;
+              $rootScope.ahaGuide.showError = AHA.state.showError;
             }
           });
       } else {
         AHA.state.isBuildSuccessful = false;
+        $rootScope.ahaGuide.showError = AHA.state.showError;
       }
     }, 5000);
   }

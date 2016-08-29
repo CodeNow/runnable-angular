@@ -9,31 +9,24 @@ function AhaSidebarController(
   $rootScope,
   serviceAhaGuide
 ) {
-  console.log('instantiated');
+  
   var ASC = this;
-  var showOverview;
   $rootScope.ahaGuide.completedMilestones = serviceAhaGuide.getAhaMilestones();
+  console.log($rootScope.ahaGuide);
 
   ASC.toggleOverview = function() {
-    ASC.state.showOverview = !ASC.state.showOverview;
-    $rootScope.ahaGuide.showOverview = ASC.state.showOverview;
+    $rootScope.ahaGuide.showOverview = !$rootScope.ahaGuide.showOverview;
     ASC.toggleSidebar();
   };
 
   ASC.toggleSidebar = function() {
-    ASC.state.showSidebar = !ASC.state.showSidebar;
-    $rootScope.ahaGuide.showSidebar = ASC.state.showSidebar;
+    $rootScope.ahaGuide.showSidebar = !$rootScope.ahaGuide.showSidebar;
   };
 
-  console.log($rootScope.ahaGuide.completedMilestones);
   if ($rootScope.ahaGuide.completedMilestones.aha1) {
-    showOverview = false;
+    $rootScope.ahaGuide.showOverview = false;
   } else {
-    showOverview = true;
+    $rootScope.ahaGuide.showOverview = true;
   }
-  ASC.state = {
-    showOverview: showOverview,
-    showSidebar: true
-  };
 
 }

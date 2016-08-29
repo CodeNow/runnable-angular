@@ -23,7 +23,6 @@ function ControllerApp(
   ModalService,
   pageName,
   currentOrg,
-
   user,
   orgs,
   activeAccount
@@ -91,9 +90,11 @@ function ControllerApp(
   this.featureFlagsChanged = featureFlags.changed;
   $rootScope.ahaGuide = {
     completedMilestones: $localStorage.completedMilestones,
+    showError: false,
     showSidebar: true,
     showOverview: true,
-    exitedEarly: false
+    exitedEarly: false,
+    showPopover: false
   };
 
   $scope.$watch(function () {

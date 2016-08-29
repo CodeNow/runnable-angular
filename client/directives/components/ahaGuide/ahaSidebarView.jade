@@ -1,6 +1,6 @@
 .grid-block.shrink.align-center.justify-right
   svg.iconnables.icons-close(
-    ng-click = "$root.featureFlags.ahaSidebar = false"
+    ng-click = "$root.ahaGuide.showSidebar = false"
     ng-if = "!$root.ahaGuide.showOverview"
   )
     use(
@@ -19,7 +19,7 @@
   ) Get Started
 .grid-block.vertical
   .grid-block.shrink.align-center.padding-sm.aha-guide(
-    ng-class = "{'disabled': $root.featureFlags.aha1 || $root.featureFlags.aha2 || $root.featureFlags.aha3}"
+    ng-class = "{'disabled': $root.ahaGuide.completedMilestones.aha0}"
   )
     .grid-block.shrink.aha-meter(
       ng-class = "{\
@@ -37,22 +37,22 @@
       p.small This is the first step to success.
 
   .grid-block.shrink.align-center.padding-sm.aha-guide(
-    ng-class = "{'disabled': $root.featureFlags.aha0 || $root.featureFlags.aha2 || $root.featureFlags.aha3}"
+    ng-class = "{'disabled': $root.ahaGuide.completedMilestones.aha1 || !$root.ahaGuide.completedMilestones.aha0}"
   )
     .grid-block.shrink.aha-meter(
-      ng-class = "[{\
-          'aha-error': state.showError,\
-        },\
-        AHA.state.className\
-        ]"
+      ng-class = "{\
+          'aha-error': $root.ahaGuide.showError,\
+          'aha-meter-70': $root.ahaGuide.exitedEarly,\
+          'aha-meter-100': $root.ahaGuide.completedMilestones.aha1,\
+        }"
     )
       svg.iconnables
         use(
-          ng-if = "$root.featureFlags.aha1 && AHA.state.subStep < 9"
+          ng-if = "$root.featureFlags.aha1 && !$root.ahaGuide.completedMilestones.aha1"
           xlink:href = "#icons-octicons-repo"
         )
         use(
-          ng-if = "AHA.state.subStep >= 9"
+          ng-if = "$root.ahaGuide.completedMilestones.aha1"
           xlink:href = "#icons-check"
         )
     .grid-block.vertical.aha-text
@@ -60,7 +60,7 @@
       p.small Configure your project and get it running!
 
   .grid-block.shrink.align-center.padding-sm.aha-guide(
-    ng-class = "{'disabled': $root.featureFlags.aha0 || $root.featureFlags.aha1 || $root.featureFlags.aha3}"
+    ng-class = "{'disabled': $root.ahaGuide.completedMilestones.aha2 || !$root.ahaGuide.completedMilestones.aha1}"
   )
     .grid-block.shrink.aha-meter(
       ng-class = "{\
@@ -82,7 +82,7 @@
       p.small Your branches will update on every commit you make.
 
   .grid-block.shrink.align-center.padding-sm.aha-guide(
-    ng-class = "{'disabled': $root.featureFlags.aha0 || $root.featureFlags.aha1 || $root.featureFlags.aha2}"
+    ng-class = "{'disabled': $root.ahaGuide.completedMilestones.aha3 || !$root.ahaGuide.completedMilestones.aha2}"
   )
     .grid-block.shrink.aha-meter(
       ng-class = "{'aha-meter-50': $root.featureFlags.aha3}"
