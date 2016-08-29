@@ -17,7 +17,7 @@
 footer.modal-footer.clearfix
   button.btn.btn-md.btn-block.green(
     ng-if = "currentOrg.poppa.isInActivePeriod()"
-  ) Go to your sandbox!
+  ) Go to your Environment
   button.btn.btn-md.btn-block.white(
     ng-click = "goToPanel('billingForm', 'back');"
     ng-if = "currentOrg.poppa.isInTrial()"
