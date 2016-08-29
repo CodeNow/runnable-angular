@@ -13,9 +13,11 @@ p.p.text-center.text-gray-light.padding-sm(
 
 //- master cluster
 .list-clusters.master-cluster(
-  ng-if = "$root.featureFlags.autoIsolation"
+  ng-if = "$root.featureFlags.addBranches"
 )
 
+  .grid-block.align-center.list-item-cluster.list-clusters-heading
+    span.grid-content.text-overflow Template Containers
   .list-item-cluster
     .grid-block.list-containers.vertical.text-overflow.open
       //- master repository containers
@@ -43,13 +45,13 @@ p.p.text-center.text-gray-light.padding-sm(
   //- cluster list heading
   .grid-block.align-center.list-item-cluster.list-clusters-heading
     //- repository name
-    span.grid-block.text-overflow(
+    span.grid-content.text-overflow(
       title = "{{masterInstance.getName()}}"
     ) {{masterInstance.getName()}}
     //- '+' button for adding branches and configuring clusters
     button.grid-block.shrink.btn.btn-xs.btn-icon.gray(
       ng-class = "{'active': state.active}"
-      ng-if = "$root.featureFlags.autoIsolation"
+      ng-if = "$root.featureFlags.addBranches"
       pop-over
       pop-over-options = "{\"verticallyCentered\":true,\"left\":24}"
       pop-over-template = "branchMenuPopoverView"
@@ -63,7 +65,7 @@ p.p.text-center.text-gray-light.padding-sm(
     //- repo config button (pre auto-isolation)
     svg.grid-block.shrink.iconnables.icons-gear(
       ng-click = "CIS.editInstance(masterInstance)"
-      ng-if = "!$root.featureFlags.autoIsolation"
+      ng-if = "!$root.featureFlags.addBranches"
       title = "Configure"
     )
       use(
@@ -76,7 +78,7 @@ p.p.text-center.text-gray-light.padding-sm(
     instance = "masterInstance"
     instance-navigation
     master-instance = "masterInstance"
-    ng-if = "!$root.featureFlags.autoIsolation && CIS.filterMasterInstance(masterInstance)"
+    ng-if = "!$root.featureFlags.addBranches && CIS.filterMasterInstance(masterInstance)"
   )
 
   //- wraps auto-isolated clusters
@@ -99,7 +101,7 @@ p.p.text-center.text-gray-light.padding-sm(
 
 //- non-repo containers (pre auto-isolation)
 .list-clusters(
-  ng-if = "!$root.featureFlags.autoIsolation"
+  ng-if = "!$root.featureFlags.addBranches"
   ng-show = "nonRepoInstances.length"
 )
   .list-item-cluster(

@@ -6,10 +6,12 @@
   .popover-content(
     ng-if = "$root.featureFlags.autoIsolation"
   )
-    ul.list.popover-list
-
-      //- if this is a container in the master cluster
-      //- li.list-item.popover-list-item.multi-line
+    ul.list.popover-list(
+      ng-if = "INC.instance.attrs.masterPod"
+    )
+      li.list-item.popover-list-item.multi-line(
+        ng-click = "INC.editInstance($event)"
+      )
         svg.iconnables.icons-gear
           use(
             xlink:href = "#icons-gear"
@@ -17,8 +19,12 @@
         | Configure
         .small Affects all [config-name] containers.
 
-      //- if this is a container that is not part of the master cluster
-      li.list-item.popover-list-item.multi-line
+    ul.list.popover-list(
+      ng-if = "!INC.instance.attrs.masterPod"
+    )
+      li.list-item.popover-list-item.multi-line(
+        ng-click = "INC.editInstance($event)"
+      )
         svg.iconnables.icons-gear
           use(
             xlink:href = "#icons-gear-modified"
@@ -37,11 +43,13 @@
         | Discard Configuration
         .small Restores master configuration.
 
-      //- if this is the primary container of an isolated cluster
-      //- li.list-item.popover-list-item.divider
-      //- li.list-item.popover-list-item(
-      //-   internal-modal-helper = "confirmBranchRemoveView"
-      //- )
+      li.list-item.popover-list-item.divider(
+        ng-if = "INC.instance.attrs.isIsolationGroupMaster"
+      )
+      li.list-item.popover-list-item(
+        internal-modal-helper = "confirmBranchRemoveView"
+        ng-if = "INC.instance.attrs.isIsolationGroupMaster"
+      )
         svg.iconnables
           use(
             xlink:href = "#icons-delete"
@@ -49,7 +57,85 @@
         | Remove Branch
 
   .popover-content(
-    ng-if = "!$root.featureFlags.autoIsolation"
+    ng-if = "$root.featureFlags.addBranches && !$root.featureFlags.autoIsolation"
+  )
+    ul.list.popover-list(
+      ng-if = "INC.instance.attrs.masterPod"
+    )
+      li.list-item.popover-list-item.multi-line(
+        ng-click = "INC.editInstance($event)"
+      )
+        svg.iconnables.icons-gear
+          use(
+            xlink:href = "#icons-gear"
+          )
+        | Configure
+        .small Affects all non-isolated [config-name] containers.
+
+    ul.list.popover-list(
+      ng-if = "!INC.instance.attrs.masterPod"
+    )
+      .well.gray.padding-xs(
+        ng-if = "!INC.instance.attrs.isolated"
+      ) Isolating a branch allows you to…
+        ul.list.list-bulleted
+          li.list-item Create a separate stack of your containers to use with this branch.
+          li.list-item Configure this branch differently from your default.
+      li.list-item.popover-list-item(
+        ng-click = "INC.setupIsolation()"
+        ng-if = "!INC.instance.attrs.isolated"
+      )
+        svg.iconnables.icons-gear
+          use(
+            xlink:href = "#icons-gear-modified"
+          )
+        | Isolate Branch
+        span(
+          ng-if = "INC.shouldShowSetupModal"
+        ) …
+
+      li.list-item.popover-list-item.multi-line(
+        ng-click = "INC.editInstance($event)"
+        ng-if = "INC.instance.attrs.isolated"
+      )
+        svg.iconnables.icons-gear
+          use(
+            xlink:href = "#icons-gear-modified"
+          )
+        | Configure
+        .small Affects only this container.
+
+      li.divider
+      li.list-item.popover-list-item(
+        ng-click = "INC.disableIsolation()"
+        ng-if = "INC.instance.attrs.isIsolationGroupMaster"
+      )
+        svg.iconnables
+          use(
+            xlink:href = "#icons-delete"
+          )
+        | Disable Isolation
+      li.list-item.popover-list-item(
+        ng-click = "INC.deleteContainer()"
+        ng-if = "INC.instance.attrs.isolated && !INC.instance.attrs.isIsolationGroupMaster"
+      )
+        svg.iconnables
+          use(
+            xlink:href = "#icons-isolation-disable"
+          )
+        | Delete Container from Isolation
+      li.list-item.popover-list-item(
+        internal-modal-helper = "confirmBranchRemoveView"
+        ng-if = "!INC.instance.attrs.isolated"
+      )
+        svg.iconnables
+          use(
+            xlink:href = "#icons-delete"
+          )
+        | Delete Branch
+
+  .popover-content(
+    ng-if = "!$root.featureFlags.addBranches && !$root.featureFlags.autoIsolation"
   )
     //- menu items:
       - for an isolated branch:
@@ -62,8 +148,8 @@
         - Configure Container
     ul.list.popover-list
       li.list-item.popover-list-item(
-        ng-if = "INC.instance.attrs.isolated"
         ng-click = "INC.editInstance($event)"
+        ng-if = "INC.instance.attrs.isolated"
       )
         svg.iconnables
           use(
@@ -78,10 +164,7 @@
       )
         p.p Isolating a branch allows you to…
         ul.list.list-bulleted.small
-          //- while we can only isolate with service containers:
-          li.list-item Copy your service containers to use with this branch.
-          //- once we can isolate with service containers and repo containers:
-            - li.list-item Create a separate stack of your containers to use with this branch.
+          li.list-item Create a separate stack of your containers to use with this branch.
           li.list-item Configure this branch differently from your default.
           .btn.btn-sm.btn-block.green(
             ng-click = "INC.setupIsolation()"
@@ -94,8 +177,8 @@
               ng-if = "INC.shouldShowSetupModal"
             ) …
       li.list-item.popover-list-item(
-        ng-if = "INC.instance.attrs.isIsolationGroupMaster"
         ng-click = "INC.disableIsolation()"
+        ng-if = "INC.instance.attrs.isIsolationGroupMaster"
       )
         svg.iconnables
           use(
@@ -103,8 +186,8 @@
           )
         | Disable Isolation
       li.list-item.popover-list-item(
-        ng-if = "INC.instance.attrs.isolated && !INC.instance.attrs.isIsolationGroupMaster"
         ng-click = "INC.deleteContainer()"
+        ng-if = "INC.instance.attrs.isolated && !INC.instance.attrs.isIsolationGroupMaster"
       )
         svg.iconnables
           use(

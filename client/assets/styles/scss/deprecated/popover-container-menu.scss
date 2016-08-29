@@ -1,26 +1,38 @@
 //- ************************
 //- deprecated file, delete with $root.featureFlags.autoIsolation
-.popover-container-menu .disabled {
+.popover-container-menu {
 
-  .p {
-    color: $gray;
+  .well {
     font-size: 13px;
-    font-weight: $weight-bold;
-    margin: 9px 15px 15px;
+    margin-bottom: 6px;
+
+    .list-item {
+      margin-top: 6px;
+    }
   }
 
-  .list {
-    margin: 0 15px;
-    padding: 0;
-  }
+  .disabled {
 
-  .list-item + .list-item {
-    margin-top: 6px;
-  }
+    .p {
+      color: $gray;
+      font-size: 13px;
+      font-weight: $weight-bold;
+      margin: 9px 15px 15px;
+    }
 
-  .btn-block {
-    margin: 15px auto;
-    position: static;
+    .list {
+      margin: 0 15px;
+      padding: 0;
+    }
+
+    .list-item + .list-item {
+      margin-top: 6px;
+    }
+
+    .btn-block {
+      margin: 15px auto;
+      position: static;
+    }
   }
 }
 //- end deprecated file
