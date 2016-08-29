@@ -11,7 +11,12 @@ describe('billingHistoryFormDirective'.bold.underline.blue, function () {
   beforeEach(function () {
     mockInvoices = [
       {
-        id: 'invoice1'
+        id: 'invoice1',
+        total: 20
+      },
+      {
+        id: 'invoice2',
+        total: 0
       }
     ];
     angular.mock.module('app', function ($provide) {
@@ -42,16 +47,16 @@ describe('billingHistoryFormDirective'.bold.underline.blue, function () {
     sinon.assert.calledWith(loadingStub, 'billingForm', true);
     sinon.assert.calledWith(loadingStub, 'billingForm', false);
     sinon.assert.calledOnce(fetchInvoicesStub);
-    expect($scope.invoices).to.equal(mockInvoices);
+    expect($scope.invoices).to.deep.equal([mockInvoices[0]]);
   });
 
   describe('getBillingDate', function () {
-    var now = new Date();
+    var now = new Date('Mon Aug 22 2016 9:14:37 GMT-0700 (PDT)');
     it('calculate the billing date properly', function () {
       var results = $scope.getBillingDate({
-        period_end: now.getTime() / 1000
+        periodEnd: now.toUTCString()
       });
-      expect(results).to.equal((now.getMonth() + 1) + '/' + now.getDate() + '/' + now.getFullYear());
+      expect(results).to.equal('Aug 22nd, 2016');
     });
   });
 });

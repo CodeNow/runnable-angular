@@ -11,7 +11,6 @@ describe('PlanStatusFormController'.bold.underline.blue, function () {
   var loadingStub;
   var mockPlan;
   var mockBillingPlans;
-  var fetchPaymentMethodStub;
   var mockCurrentOrg;
 
   beforeEach(function () {
@@ -29,9 +28,7 @@ describe('PlanStatusFormController'.bold.underline.blue, function () {
     };
     mockPlan = {
       next: {
-        plan: {
-          id: 'simplePlan'
-        }
+        id: 'simplePlan'
       }
     };
     angular.mock.module('app', function ($provide) {
@@ -42,10 +39,6 @@ describe('PlanStatusFormController'.bold.underline.blue, function () {
       $provide.factory('fetchInstancesByPod', function ($q) {
         fetchInstancesByPodStub = sinon.stub().returns($q.when({models: [{}]}));
         return fetchInstancesByPodStub;
-      });
-      $provide.factory('fetchPaymentMethod', function ($q) {
-        fetchPaymentMethodStub = sinon.stub().returns($q.when({}));
-        return fetchPaymentMethodStub;
       });
       loadingStub = sinon.stub();
       loadingStub.reset = sinon.stub();
@@ -70,14 +63,13 @@ describe('PlanStatusFormController'.bold.underline.blue, function () {
 
   describe('init', function () {
     it('should fetch data and trigger loading status', function () {
-      sinon.assert.callCount(loadingStub, 4);
+      sinon.assert.calledTwice(loadingStub);
       sinon.assert.calledWith(loadingStub, 'billingForm', true);
       sinon.assert.calledWith(loadingStub, 'billingForm', false);
 
       sinon.assert.calledOnce(fetchPlanStub);
       sinon.assert.calledOnce(fetchInstancesByPodStub);
-      sinon.assert.calledOnce(fetchPaymentMethodStub);
-      expect(PSFC.plan).to.equal(mockPlan.next.plan);
+      expect(PSFC.plan).to.equal(mockPlan.next);
       expect(PSFC.configurations).to.equal(1);
       expect(PSFC.plans).to.equal(mockBillingPlans);
     });
@@ -85,11 +77,11 @@ describe('PlanStatusFormController'.bold.underline.blue, function () {
 
   describe('calculatePlanAmount', function () {
     it('calculate the plan amount properly', function () {
-      PSFC.discounted = false;
+      PSFC.discount = false;
       expect(PSFC.calculatePlanAmount('simplePlan')).to.equal(19);
     });
     it('calculate the plan amount properly when discounted', function () {
-      PSFC.discounted = true;
+      PSFC.discount = true;
       expect(PSFC.calculatePlanAmount('simplePlan')).to.equal(9.50);
     });
   });

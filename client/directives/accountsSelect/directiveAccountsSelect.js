@@ -105,7 +105,10 @@ function accountsSelect (
           return '';
         }
         if (currentOrg.poppa.isInTrial() && !currentOrg.poppa.attrs.hasPaymentMethod) {
-          return currentOrg.poppa.trialDaysRemaining();
+          var trialRemaining = currentOrg.poppa.trialDaysRemaining();
+          if (trialRemaining <= 3) {
+            return trialRemaining;
+          }
         }
         return '';
       };
@@ -114,9 +117,10 @@ function accountsSelect (
         if (!$rootScope.featureFlags.billing) {
           return {};
         }
+        var showBadge = currentOrg.poppa.isInTrial() && !currentOrg.poppa.attrs.hasPaymentMethod && currentOrg.poppa.trialDaysRemaining() <= 3;
         return {
-          badge: currentOrg.poppa.isInTrial() && !currentOrg.poppa.attrs.hasPaymentMethod,
-          'badge-orange': currentOrg.poppa.isInTrial() && !currentOrg.poppa.attrs.hasPaymentMethod
+          badge: showBadge,
+          'badge-orange': showBadge
         };
       };
     }

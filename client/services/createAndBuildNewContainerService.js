@@ -18,6 +18,7 @@ function createAndBuildNewContainer(
   createNewInstance,
   eventTracking,
   fetchInstancesByPod,
+  fetchPlan,
   fetchUser,
   helpCards
 ) {
@@ -27,11 +28,14 @@ function createAndBuildNewContainer(
     // Save this in case it changes
     var cachedActiveAccount = $rootScope.dataApp.data.activeAccount;
     var instance = null;
+    var oldPlanId = null;
     return $q.all({
       masterInstances: fetchInstancesByPod(cachedActiveAccount.oauthName()),
-      user: fetchUser()
+      user: fetchUser(),
+      plan: fetchPlan()
     })
       .then(function (response) {
+        oldPlanId = response.plan.next.id;
         var instanceOptions = {
           name: containerName,
           owner: {
@@ -47,10 +51,6 @@ function createAndBuildNewContainer(
         return $q.when(createPromiseForState);
       })
       .then(function (newServerModel) {
-        $rootScope.$broadcast('alert', {
-          type: 'success',
-          text: 'Container Created'
-        });
         helpCards.hideActiveCard();
         if (options.isolation) {
           newServerModel.opts.isIsolationGroupMaster = false;
@@ -62,6 +62,20 @@ function createAndBuildNewContainer(
           newServerModel.opts,
           instance
         );
+      })
+      .then(function (instance) {
+        fetchPlan.cache.clear();
+        return fetchPlan()
+          .then(function (newPlan) {
+            $rootScope.$broadcast('alert', {
+              type: 'success',
+              text: 'Container Created',
+              newPlan: newPlan.next.id !== oldPlanId
+            });
+          })
+          .then(function () {
+            return instance;
+          });
       })
       .then(function (instance) {
         helpCards.refreshAllCards();

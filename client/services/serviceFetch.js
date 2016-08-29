@@ -74,10 +74,9 @@ function fetchUser(
 
 function fetchWhitelistedOrgs(
   fetchUser,
-  fetchWhitelists,
-  memoize
+  fetchWhitelists
 ) {
-  return memoize(function () {
+  return function () {
     return fetchUser()
       .then(function (user) {
         return fetchWhitelists()
@@ -88,7 +87,7 @@ function fetchWhitelistedOrgs(
             return new GithubOrgCollection(githubOrgs, {client: user.client});
           });
       });
-  });
+  };
 }
 
 /**
@@ -123,12 +122,11 @@ function fetchWhitelistForDockCreated(
  * @returns {*}
  */
 function fetchWhitelists(
-  fetchWhitelistForDockCreated,
-  memoize
+  fetchWhitelistForDockCreated
 ) {
-  return memoize(function () {
+  return function () {
     return fetchWhitelistForDockCreated();
-  });
+  };
 }
 
 
@@ -866,61 +864,80 @@ function fetchStackData(
   };
 }
 
+function handleHTTPResponse(keypather, defaultValue) {
+  return function (res) {
+    if (res.status >= 300) {
+      throw new Error(keypather.get(res, 'data.error'));
+    }
+    return res.data || defaultValue;
+  };
+}
+
 function fetchPlan(
   $http,
-  memoize,
   configAPIHost,
-  $state
+  currentOrg,
+  errs,
+  keypather,
+  memoize
 ) {
   return memoize(function () {
     return $http({
       method: 'get',
-      url: configAPIHost + '/billing/' + $state.params.userName + '/plan'
+      url: configAPIHost + '/billing/plan',
+      params: {
+        organizationId: currentOrg.poppa.id()
+      }
     })
-      .then(function (res) {
-        return res.data;
-      });
+      .then(handleHTTPResponse(keypather))
+      .catch(errs.handler);
   }, function () {
-    return $state.params.userName;
+    return currentOrg.poppa.id();
   });
 }
 
 function fetchInvoices(
   $http,
-  memoize,
   configAPIHost,
-  $state
+  currentOrg,
+  errs,
+  keypather,
+  memoize
 ) {
   return memoize(function () {
     return $http({
       method: 'get',
-      url: configAPIHost + '/billing/' + $state.params.userName + '/invoices'
+      url: configAPIHost + '/billing/invoices',
+      params: {
+        organizationId: currentOrg.poppa.id()
+      }
     })
-      .then(function (res) {
-        return res.data;
-      });
+      .then(handleHTTPResponse(keypather, []))
+      .catch(errs.handler);
   }, function () {
-    return $state.params.userName;
+    return currentOrg.poppa.id();
   });
 }
 
 function fetchPaymentMethod(
   $http,
-  memoize,
   configAPIHost,
-  $state
+  currentOrg,
+  errs,
+  keypather,
+  memoize
 ) {
   return memoize(function () {
     return $http({
       method: 'get',
-      url: configAPIHost + '/billing/' + $state.params.userName + '/payment-method'
+      url: configAPIHost + '/billing/payment-method',
+      params: {
+        organizationId: currentOrg.poppa.id()
+      }
     })
-      .then(function (res) {
-        return res.data;
-      });
+      .then(handleHTTPResponse(keypather))
+      .catch(errs.handler);
   }, function () {
-    return $state.params.userName;
+    return currentOrg.poppa.id();
   });
 }
-
-

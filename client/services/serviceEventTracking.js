@@ -9,9 +9,11 @@
 require('app')
   .service('eventTracking', EventTracking);
 var User = require('@runnable/api-client/lib/models/user');
+var UUID = require('node-uuid');
 var _keypather;
 var _$location;
 var INTERCOM_APP_ID;
+var SIFT_API_KEY;
 
 /**
  * EventTracking
@@ -26,8 +28,11 @@ function EventTracking(
   $window,
   assign,
   keypather,
-  configEnvironment
+  configEnvironment,
+  siftApiConfig
 ) {
+  SIFT_API_KEY = siftApiConfig;
+
   if (configEnvironment === 'production') {
     INTERCOM_APP_ID = 'wqzm3rju'; // production ID
   } else {
@@ -115,6 +120,18 @@ EventTracking.prototype.boot = function (user, opts) {
   if (user.attrs._beingModerated) {
     user = new User(user.attrs._beingModerated, { noStore: true });
   } else {
+    var session = window.sessionStorage.getItem('sessionId');
+    if (!session) {
+      session = UUID.v4();
+      window.sessionStorage.setItem('sessionId', session);
+    }
+
+    var _sift = window._sift = window._sift || [];
+    _sift.push(['_setAccount', SIFT_API_KEY]);
+    _sift.push(['_setUserId', user.name]);
+    _sift.push(['_setSessionId', session]);
+    _sift.push(['_trackPageview']);
+
     if (this.$window.fbq) {
       this.$window.fbq('track', 'ViewContent', {
         action: 'LoggedIn'
