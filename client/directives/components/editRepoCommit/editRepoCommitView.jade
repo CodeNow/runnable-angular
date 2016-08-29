@@ -3,7 +3,6 @@
   ng-class = "{\
     'grid-block align-center justify-center': !activeCommit.attrs.commit.message,\
     'main-btn': !acv.attrs.additionalRepo,\
-    'deprecated': !acv.attrs.additionalRepo && !$root.featureFlags.testingFeature\
   }"
   ng-click = "actions.openRepoDetailsModal()"
 )
@@ -66,7 +65,7 @@
     //- show alternate text in autoDeployTooltip.jade if disabled
     .btn.btn-xs.btn-auto-deploy(
       ng-class = "{'btn-permissions': autoDeploy()}"
-      ng-if = "!acv.attrs.additionalRepo && $root.featureFlags.testingFeature"
+      ng-if = "!acv.attrs.additionalRepo"
       pop-over
       pop-over-hover-trigger
       pop-over-options = "{\"top\":30,\"centered\":true}"
@@ -83,35 +82,3 @@
           xlink:href = "#icons-alert-alt"
         )
       | {{autoDeploy() ? 'Auto-Deploy Disabled' : 'Auto-Deploying'}}
-
-//- auto-deploy w/o commit syncing
-.btn.btn-sm.btn-auto-deploy-deprecated(
-  ng-if = "!acv.attrs.additionalRepo && !$root.featureFlags.testingFeature"
-)
-  .iconnables.icons-launch.float-left 🚀
-  span.underline.float-left(
-    tooltip = "Automatically rebuild your container when new commits are made."
-    tooltip-options = "{\"class\":\"bottom center text-center tooltip-definition\",\"left\":-85,\"top\":18}"
-  ) Auto-Deploy
-  button.btn.btn-xs.btn-permissions.float-right(
-    internal-modal-helper = "inviteAdminModalView"
-    ng-if = "$root.featureFlags.webhooks"
-  )
-    svg.iconnables.icons-alert.float-left
-      use(
-        xlink:href = "#icons-alert-alt"
-      )
-    | Permissions
-  label.toggle-wrapper.float-right
-    //- this would not be enabled when an webhooks admin is not present
-    input.toggle-input(
-      ng-disabled = "$root.isLoading.autoDeploy || $root.featureFlags.webhooks"
-      ng-false-value = "true"
-      ng-model = "autoDeploy"
-      ng-model-options = "{getterSetter: true}"
-      ng-true-value = "false"
-      type = "checkbox"
-    )
-    .toggle-group.toggle-xs(
-      ng-if = "!$root.featureFlags.webhooks || $root.featureFlags.webhooksAdminPresent"
-    )
