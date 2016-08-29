@@ -68,11 +68,12 @@
       .popover-view.fade(
         ng-class = "{'in': isActivePanel()}"
       )
-        .popover-header
+        .popover-header(
+          ng-if = "$root.featureFlags.autoIsolation"
+        )
           svg.btn.btn-sm.iconnables.icons-arrow-backward(
             ng-class = "{'in': isActivePanel()}"
             ng-click = "goToPanel('branchMenu', 'back');"
-            ng-if = "$root.featureFlags.autoIsolation"
           )
             use(
               xlink:href = "#icons-arrow-down"
