@@ -29,7 +29,7 @@
           use(
             xlink:href = "#icons-gear-modified"
           )
-        | Configure Template
+        | Configure
         .small Affects only this container.
 
       //- if this container has a modified template
@@ -40,8 +40,8 @@
           use(
             xlink:href = "#icons-gear-delete"
           )
-        | Discard Template Changes
-        .small To restore master template
+        | Discard Changes
+        .small To restore template configuration
 
       li.list-item.popover-list-item.divider(
         ng-if = "INC.instance.attrs.isIsolationGroupMaster"
@@ -79,8 +79,8 @@
         ng-if = "!INC.instance.attrs.isolated"
       ) Isolating a branch allows you to…
         ul.list.list-bulleted
-          li.list-item Create a separate stack of your templates to use with this branch.
-          li.list-item Configure this branch independently from your master template.
+          li.list-item Create a separate environment to use with this branch.
+          li.list-item Configure this branch independently from your template.
       li.list-item.popover-list-item(
         ng-click = "INC.setupIsolation()"
         ng-if = "!INC.instance.attrs.isolated"
@@ -102,7 +102,7 @@
           use(
             xlink:href = "#icons-gear-modified"
           )
-        | Configure Template
+        | Configure
         .small Affects only this container.
 
       li.divider
@@ -123,7 +123,7 @@
           use(
             xlink:href = "#icons-isolation-disable"
           )
-        | Delete Template from Isolation
+        | Delete from Isolation
       li.list-item.popover-list-item(
         internal-modal-helper = "confirmBranchRemoveView"
         ng-if = "!INC.instance.attrs.isolated"
@@ -164,8 +164,8 @@
       )
         p.p Isolating a branch allows you to…
         ul.list.list-bulleted.small
-          li.list-item Create a separate stack of your templates to use with this branch.
-          li.list-item Configure this branch independently from your master template.
+          li.list-item Create a separate environment to use with this branch.
+          li.list-item Configure this branch independently from your template.
           .btn.btn-sm.btn-block.green(
             ng-click = "INC.setupIsolation()"
           ) Enter Isolation
@@ -193,7 +193,7 @@
           use(
             xlink:href = "#icons-isolation-disable"
           )
-        | Delete Template from Isolation
+        | Delete from Isolation
 
       //- navListFilter
       li.divider(
