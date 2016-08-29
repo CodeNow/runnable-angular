@@ -112,7 +112,7 @@ function SetupServerModalController(
 
   // if the blank docker file is chosen, we need to load it because it is already available
   if (dockerfileType === 'blankDockerfile') {
-    blankDockerfile = dockerfileType;
+    blankDockerfile = 'blankDockerfile';
     SMC.openDockerfile({contextVersion: build.contextVersion}, SMC.openItems);
   }
 
