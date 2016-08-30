@@ -15,16 +15,6 @@
     }
   }
 
-  .arrow {
-    @include media(xxs) {
-      display: none;
-    }
-  }
-
-  .popover-content {
-    @extend %padding-sm;
-  }
-
   &.popover-add-branches {
     left: -60px;
     position: relative;
@@ -55,5 +45,15 @@
       left: auto;
       right: 110px;
     }
+  }
+
+  .arrow {
+    @include media(xxs) {
+      display: none;
+    }
+  }
+
+  .popover-content {
+    @extend %padding-sm;
   }
 }
