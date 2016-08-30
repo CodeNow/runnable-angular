@@ -47,6 +47,7 @@
     pointer-events: auto;
     position: absolute;
     right: 0;
+    top: 0;
 
     &:hover,
     &:active {
@@ -57,6 +58,10 @@
   .aha-overview {
     border-bottom: 1px solid $gray-lightest;
     margin-bottom: 15px;
+
+    &:last-child {
+      border-bottom: 0;
+    }
 
     .p {
       margin-top: 30px;
