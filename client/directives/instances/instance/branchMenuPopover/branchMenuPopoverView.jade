@@ -2,6 +2,14 @@
   ng-class = "{'in': active}"
   ng-style = "popoverStyle.getStyle()"
 )
+  .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
+    ng-if = "$root.featureFlags.aha2"
+    ng-include = "'ahaGuideView'"
+    ng-init = "\
+      state.showStep = 2;\
+      state.showSubStep = 2;\
+    "
+  )
   .arrow.white
   .grid-block.vertical.popover-content.empty(
     ng-if = "$root.featureFlags.autoIsolationSetup"

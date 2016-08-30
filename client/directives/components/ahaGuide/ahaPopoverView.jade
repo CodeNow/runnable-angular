@@ -8,7 +8,10 @@
   .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
     ng-if = "$root.featureFlags.ahaInContainersView"
     ng-include = "'ahaGuideView'"
-    ng-init = "state.showStep = 2"
+    ng-init = "\
+      state.showStep = 2;\
+      state.showSubStep = 1;\
+    "
   )
 .grid-block.justify-right.popover-footer(
   ng-if = "!$root.featureFlags.ahaInContainersView"
