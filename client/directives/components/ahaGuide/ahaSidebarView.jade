@@ -113,13 +113,13 @@
       use(
         xlink:href = "#icons-close"
       )
-  p.p Invite Runnabot to your org to get helpful comments on your pull requests:
-  img.img.img-comment(
+  p.grid-content.shrink.p Invite Runnabot to your org to get helpful comments on your pull requests:
+  img.grid-content.shrink.img.img-comment(
     height = "116"
     src = "/build/images/runnabot-comment.png"
     width = "358"
   )
-  button.btn.btn-md.green.btn-spinner(
+  button.grid-content.shrink.btn.btn-md.green.btn-spinner(
     ng-click = "$root.featureFlags.ahaOverview = false"
     ng-class = "{'disabled' : if user isn’t an admin || if loading}"
   ) Invite Runnabot
