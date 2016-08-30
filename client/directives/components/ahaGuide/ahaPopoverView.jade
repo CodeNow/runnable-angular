@@ -1,8 +1,16 @@
 .arrow.white
 .popover-content
   .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
+    ng-if = "!$root.featureFlags.ahaInContainersView"
     ng-include = "'ahaGuideView'"
     ng-init = "state.showStep = 1"
   )
-.grid-block.justify-right.popover-footer
+  .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
+    ng-if = "$root.featureFlags.ahaInContainersView"
+    ng-include = "'ahaGuideView'"
+    ng-init = "state.showStep = 2"
+  )
+.grid-block.justify-right.popover-footer(
+  ng-if = "!$root.featureFlags.ahaInContainersView"
+)
   button.grid-block.shrink.btn.btn-sm.green Got It
