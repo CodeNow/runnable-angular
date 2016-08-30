@@ -18,11 +18,6 @@ function serviceAhaGuide(
   var _steps = [
     {
       title: 'Create your Sandbox',
-      subStepCaptions: [
-        'Choose an organization to create your sandbox for.',
-        'Hang tight!',
-        'Continue to start configuring your project.'
-      ],
       subSteps: {
         orgSelection: {
           caption: 'Choose an organization to create your sandbox for.',
@@ -45,17 +40,6 @@ function serviceAhaGuide(
     },
     {
       title: 'Add your First Repository',
-      subStepCaptions: [
-        'Add your repository by clicking \'Add Configuration\'.',
-        'Select a repository to configure',
-        'How would you like to configure your repo?',
-        'Give your configuration a name.',
-        'What does your repository run?',
-        'Choose commands and packages',
-        'If your app needs additional configuration...',
-        'Now building. Build times varies depending on your configuration',
-        'Your build is looking good! Check out its url and click \'Done\' if it looks good to you.'
-      ],
       subSteps: {
         addRepository: {
           caption: 'Add your repository by clicking \'Add Configuration\'.',
@@ -144,7 +128,6 @@ function serviceAhaGuide(
           step: 9
         }
       },
-
       buildStatus: {
         building: 'Now building. Build time varies depending on your configuration',
         running: 'Verifying configuration... ',
@@ -154,6 +137,25 @@ function serviceAhaGuide(
         cmdFailed: 'Your container failed to run. Inspect your CMD logs for more information.',
         crashed: 'Your container failed to run. Inspect your CMD logs for more information.',
         buildFailed: 'Your build failed. Inspect your build logs for more information.'
+      }
+    },
+    {
+      title: 'Add your first branch',
+      subSteps: {
+        addBranch: {
+          caption: 'Almost done! Click the + button next to a repo name to add a branch.',
+          className: 'aha-meter-33'
+        },
+        dockLoading: {
+          caption: 'Hang tight!',
+          className: 'aha-meter-66'
+        },
+        dockLoaded: {
+          caption: 'Continue to start configuring your project.',
+          className: 'aha-meter-100'
+        },
+      },
+      panelSteps: {
       }
     }
   ];

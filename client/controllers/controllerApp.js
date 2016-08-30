@@ -91,11 +91,11 @@ function ControllerApp(
   $rootScope.ahaGuide = {
     completedMilestones: $localStorage.completedMilestones,
     showError: false,
-    showSidebar: true,
-    showOverview: true,
     exitedEarly: false,
     showPopover: false
   };
+  $rootScope.ahaGuide.showOverview = !$rootScope.ahaGuide.completedMilestones.aha1;
+  $rootScope.ahaGuide.showSidebar = !$rootScope.ahaGuide.completedMilestones.aha1;
 
   $scope.$watch(function () {
     return errs.errors.length;

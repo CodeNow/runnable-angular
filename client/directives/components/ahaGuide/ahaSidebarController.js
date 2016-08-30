@@ -22,11 +22,4 @@ function AhaSidebarController(
   ASC.toggleSidebar = function() {
     $rootScope.ahaGuide.showSidebar = !$rootScope.ahaGuide.showSidebar;
   };
-
-  if ($rootScope.ahaGuide.completedMilestones.aha1) {
-    $rootScope.ahaGuide.showOverview = false;
-  } else {
-    $rootScope.ahaGuide.showOverview = true;
-  }
-
 }

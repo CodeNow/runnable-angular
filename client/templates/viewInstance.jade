@@ -24,14 +24,14 @@
           )
 
   .grid-block.align-center.justify-center(
-    ng-if = "$root.featureFlags.aha2"
+    ng-if = "$root.featureFlags.aha2 && !$root.ahaGuide.completedMilestones.aha2"
   )
     .modal-dialog.modal-sm(
     )
       .grid-block.align-center.aha-guide.padding-md(
           aha-guide-directive
-          step-index = 1
-          sub-step = "addRepository"
+          step-index = 2
+          sub-step = "addBranch"
           sub-step-index = 0
         )
 
@@ -89,5 +89,5 @@
 
 .grid-block.vertical.aha-sidebar.padding-sm.js-animate(
   aha-sidebar-directive
-  ng-if = "$root.featureFlags.aha && $root.featureFlags.ahaSidebar"
+  ng-if = "$root.featureFlags.aha && $root.ahaGuide.showSidebar"
 )
