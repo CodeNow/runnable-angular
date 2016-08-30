@@ -17,7 +17,7 @@ p.p.text-center.text-gray-light.padding-sm(
 )
 
   .grid-block.align-center.list-item-cluster.list-clusters-heading
-    span.grid-content.text-overflow Template Containers
+    span.grid-content.text-overflow Templates
   .list-item-cluster
     .grid-block.list-containers.vertical.text-overflow.open
       //- master repository containers
@@ -66,7 +66,7 @@ p.p.text-center.text-gray-light.padding-sm(
     svg.grid-block.shrink.iconnables.icons-gear(
       ng-click = "CIS.editInstance(masterInstance)"
       ng-if = "!$root.featureFlags.addBranches"
-      title = "Configure"
+      title = "Configure Template"
     )
       use(
         xlink:href = "#icons-gear"

@@ -58,7 +58,7 @@ a.grid-block.align-center.a-sref(
   svg.grid-block.shrink.iconnables.icons-gear(
     ng-click="INC.editInstance($event)"
     ng-if = "$root.featureFlags.editAnyInstance || INC.instance.attrs.masterPod && !INC.instance.getBranchName() && !INC.instance.attrs.isolated && !$root.featureFlags.addBranches"
-    title = "Configure"
+    title = "Configure Template"
   )
     use(
       xlink:href = "#icons-gear"

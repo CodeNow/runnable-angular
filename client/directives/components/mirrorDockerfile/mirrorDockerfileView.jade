@@ -21,7 +21,7 @@
       use(
         xlink:href = "#icons-file-new"
       )
-    .grid-content Configure with Runnable
+    .grid-content Set up with Runnable
     //- if there is only one, [check] by default
     input.checkbox(
       name = "dockerfile"
@@ -39,7 +39,7 @@
 
 small.small.text-gray.padding-xxs.label-from(
   ng-if = "!$root.isLoading.mirrorDockerfile && MDC.state.repo.dockerfiles.length > 0"
-) Advanced Configuration
+) Advanced Setup
 
 .grid-content.shrink.list.list-bordered(
   ng-if = "$root.featureFlags.blankDockerfile"
