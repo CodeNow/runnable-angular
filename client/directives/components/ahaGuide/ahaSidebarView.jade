@@ -1,26 +1,30 @@
-.grid-block.shrink.align-center.justify-right(
+.grid-block.shrink(
   ng-if = "!$root.featureFlags.ahaOverview && !$root.featureFlags.aha3"
 )
-  svg.iconnables.icons-close(
-    ng-click = "$root.featureFlags.ahaSidebar = false"
-  )
-    use(
-      xlink:href = "#icons-close"
+  header.grid-block.align-center.justify-center.aha-sidebar-header
+    h4.grid-content.strong.text-center.h4 Setup Guide
+    svg.grid-content.shrink.iconnables.icons-close(
+      ng-click = "$root.featureFlags.ahaSidebar = false"
     )
+      use(
+        xlink:href = "#icons-close"
+      )
 
-.grid-block.vertical.shrink.justify-center.text-center.aha-overview(
+.grid-block.shrink.vertical.aha-overview(
   ng-if = "$root.featureFlags.ahaOverview"
 )
-  h4.h4.strong Welcome to Runnable! 👋
-  p.p It’ll take a few steps to get your environment set up. But don’t worry — we’re here to help!
-    button.grid-content.btn.btn-md.green(
+  header.grid-block.vertical.shrink.align-center.justify-center.aha-sidebar-header
+    h4.grid-content.shrink.h4.text-center Welcome to Runnable! 👋
+  .grid-block.shrink.vertical.padding-sm
+    p.grid-content.shrink.p.text-center It’ll take a few steps to get your environment set up. But don’t worry — we’re here to help!
+    button.grid-content.shrink.btn.btn-md.green(
       ng-click = "\
         $root.featureFlags.ahaOverview = false;\
         $root.featureFlags.ahaSidebar = false;\
       "
     ) Get Started
 
-.grid-block.vertical.aha-guide-wrapper(
+.grid-block.shrink.vertical.aha-guide-wrapper(
   ng-if = "!$root.featureFlags.aha3"
 )
   .grid-block.shrink.align-center.padding-sm.aha-guide(
@@ -97,7 +101,8 @@
 .grid-block.vertical.text-center.aha-overview(
   ng-if = "$root.featureFlags.aha3"
 )
-  h4.h4.strong You did it!
+  header.grid-block.shrink.align-center.justify-center.aha-sidebar-header
+    h4.grid-content.shrink.strong.text-center.h4 You did it!
     svg.iconnables.icons-close(
       ng-click = "\
         $root.featureFlags.aha = false;\

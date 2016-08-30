@@ -33,12 +33,20 @@
     transform: translate3d(100%,0,0);
   }
 
+  .aha-sidebar-header {
+    border-bottom: 1px solid $gray-lightest;
+    height: $input-md;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    position: relative;
+  }
+
   .icons-close {
-    color: $gray;
+    color: $gray-light;
     cursor: pointer;
-    margin-bottom: 18px;
-    margin-top: 3px;
     pointer-events: auto;
+    position: absolute;
+    right: 0;
 
     &:hover,
     &:active {
@@ -46,43 +54,24 @@
     }
   }
 
-  .h4 {
-    border-bottom: 1px solid $gray-lightest;
-    line-height: 30px;
-    padding-bottom: 15px;
-    position: relative;
-
-    .icons-close {
-      margin-bottom: 0;
-      position: absolute;
-      right: 0;
-    }
-  }
-
-  .img-comment {
-    height: auto;
-    max-width: 100%;
-  }
-
   .aha-overview {
+    border-bottom: 1px solid $gray-lightest;
+    margin-bottom: 15px;
 
     .p {
-      margin: 45px 0;
+      margin-top: 30px;
     }
 
-    .small {
-      margin-top: 15px;
+    .img-comment {
+      height: auto;
+      margin: 30px 0;
+      max-width: 100%;
     }
 
     .btn {
       align-self: center;
-      margin-top: 18px;
+      margin-bottom: 30px;
     }
-  }
-
-  .aha-guide-wrapper {
-    border-top: 1px solid $gray-lightest;
-    padding-top: 15px;
   }
 
   .aha-guide {
