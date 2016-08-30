@@ -6,6 +6,8 @@
   .popover-content
     ul.list.popover-list
       li.list-item.popover-list-item(
-        ng-click = "$root.featureFlags.ahaSidebar = true"
+        ng-click = "$root.ahaGuide.showSidebar = true"
       ) View All
-      li.list-item.popover-list-item End Guide
+      li.list-item.popover-list-item(
+      	ng-click = "$root.ahaGuide.completedMilestones.aha1 = true"
+      ) End Guide

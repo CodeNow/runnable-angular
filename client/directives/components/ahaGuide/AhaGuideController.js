@@ -16,6 +16,8 @@ function AhaGuideController(
     $rootScope.ahaGuide = {};
   }
 
+  AHA.exitingEarly = exitingEarly;
+
   $rootScope.ahaGuide.completedMilestones = serviceAhaGuide.getAhaMilestones();
 
   var alertListener = $scope.$on('alert', function(event, alert) {
@@ -31,11 +33,7 @@ function AhaGuideController(
   });
 
   var exitedEarlyListener = $scope.$on('exitedEarly', function() {
-    exitedEarlyListener();
-    AHA.state.showError = true;
-    updateCaption('exitedEarly');
-    // $rootScope.featureFlags.aha1 = false;
-    $rootScope.ahaGuide.completedMilestones.aha1 = true;
+    exitingEarly();
   });
 
   var tabListener = $scope.$on('updatedTab', function(event, tabName) {
@@ -134,6 +132,14 @@ function AhaGuideController(
         $rootScope.ahaGuide.showError = AHA.state.showError;
       }
     }, 5000);
+  }
+
+  function exitingEarly() {
+    console.log('what');
+    exitedEarlyListener();
+    AHA.state.showError = true;
+    updateCaption('exitedEarly');
+    $rootScope.ahaGuide.completedMilestones.aha1 = true;
   }
 
   // we need to unregister this animated panel listener if it exists

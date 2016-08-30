@@ -14,6 +14,7 @@ var scopeVars = {
   noBroadcast: '=? popOverNoBroadcast',
   actions: '=? popOverActions',
   active: '=? popOverActive',
+  func: '=? popOverFunc',
   template: '= popOverTemplate',
   controller: '=? popOverController',
   controllerAs: '@? popOverControllerAs'
