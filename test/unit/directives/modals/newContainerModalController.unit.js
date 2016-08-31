@@ -182,14 +182,16 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
     describe('createBuildAndGoToNewRepoModal', function () {
       it('should create a build and fetch the branch', function () {
         var repo = {};
+        var dockerfile = null;
+        var configurationMethod = 'new';
         sinon.stub(NCMC, 'newRepositoryContainer');
 
-        NCMC.createBuildAndGoToNewRepoModal(instanceName, repo);
+        NCMC.createBuildAndGoToNewRepoModal(instanceName, repo, dockerfile, configurationMethod);
         $scope.$digest();
         sinon.assert.calledOnce(createNewBuildAndFetchBranch);
         sinon.assert.calledWith(createNewBuildAndFetchBranch, mockCurrentOrg.github, repo);
         sinon.assert.calledOnce(NCMC.newRepositoryContainer);
-        sinon.assert.calledWithExactly(NCMC.newRepositoryContainer, repoBuildAndBranch);
+        sinon.assert.calledWithExactly(NCMC.newRepositoryContainer, repoBuildAndBranch, configurationMethod);
         expect(repoBuildAndBranch.instanceName).to.equal(instanceName);
       });
 
@@ -213,8 +215,9 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
 
     describe('newRepositoryContainer', function () {
       it('should close the modal and call the new modal', function () {
+        var dockerfileType = 'blankDockerfile';
         repoBuildAndBranch.instanceName = instanceName;
-        NCMC.newRepositoryContainer(repoBuildAndBranch);
+        NCMC.newRepositoryContainer(repoBuildAndBranch, dockerfileType);
         $scope.$digest();
         sinon.assert.calledOnce(closeStub);
         sinon.assert.calledOnce(showModalStub);
@@ -223,6 +226,7 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
           controllerAs: 'SMC',
           templateUrl: 'setupServerModalView',
           inputs: {
+            dockerfileType: dockerfileType,
             instanceName: instanceName,
             repo: repoBuildAndBranch.repo,
             build: repoBuildAndBranch.build,
