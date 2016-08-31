@@ -96,14 +96,8 @@
     | {{!state.showError ? 'We‘re building! Build time varies depending on your template.' : ''}}
     //- If there's an error (build or cmd):
     | {{state.showError ? 'Looks like there‘s an error! Inspect your logs for debug info.' : ''}}
-    //- | IF DETENTION ERROR: Your container is running! But it looks like something has not been set up correctly.
-    span.span(
-     ng-if = "state.showError"
-    ) Your repository isn‘t running yet! Check the logs to debug any issues. If you‘re stumped,&#32;
-      //- this link should open in intercom with the prefilled message:
-          "I’m having trouble getting my first container up and running."
-      a.link ask our engineers
-      | !
+    //- If detention error:
+    //- | Your container is running! But it looks like something has not been set up correctly.
 
   p.p(
     ng-class = "{'p-slide js-animate': state.showSubStep}"
