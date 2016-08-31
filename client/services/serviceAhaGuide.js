@@ -9,11 +9,7 @@ function serviceAhaGuide(
   keypather
 ) {
 
-  var ahaService = this;
-  var ahaMilestonesComplete;
-  var _state;
-
-  ahaMilestonesComplete = getAhaMilestones();
+  var ahaMilestonesComplete = getAhaMilestones();
 
   var _steps = [
     {
@@ -165,20 +161,17 @@ function serviceAhaGuide(
   }
 
   function checkContainerStatus(url) {
-    ahaService.pendingRequest = true;
     return $http({
       method: 'GET',
       url: url
     })
       .then(function(data) {
-        ahaService.pendingRequest = false;
         if (data.status >= 200 && data.status < 300) {
           return true;
         }
         return false;
        })
        .catch(function(err) {
-        console.log(err);
         return new Error(err);
       });
   }
@@ -205,15 +198,6 @@ function serviceAhaGuide(
     }
 
     return ahaMilestones;
-  }
-
-  function setState(state) {
-    _state = angular.extend({}, state);
-    return _state;
-  }
-
-  function getState() {
-    return _state;
   }
 
   return {

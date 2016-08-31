@@ -79,7 +79,6 @@ function AhaGuideController(
   }
 
   function handleBuildUpdate(update) {
-    console.log(update);
     var buildStatus = update.status;
     AHA.state.containerHostname = update.containerHostname;
     if (buildStatus === 'buildFailed' || buildStatus === 'stopped' || buildStatus === 'crashed') {
@@ -135,7 +134,6 @@ function AhaGuideController(
   }
 
   function exitingEarly() {
-    console.log('what');
     exitedEarlyListener();
     AHA.state.showError = true;
     updateCaption('exitedEarly');

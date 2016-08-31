@@ -15,7 +15,7 @@ function ahaSidebarDirective(
     controller: 'AhaSidebarController',
     controllerAs: 'ASC',
     link: function ($scope, elem, attrs) {
-      // console.log($scope, elem, attrs);
+    
     }
   };
 }

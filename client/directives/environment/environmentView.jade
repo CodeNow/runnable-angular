@@ -98,7 +98,7 @@
         )
 
     .modal-dialog.modal-sm(
-      ng-if = "$root.featureFlags.aha1 && !$root.ahaGuide.completedMilestones.aha1 && !$root.ahaGuide.showOverview && !$root.ahaGuide.exitedEarly"
+      ng-if = "$root.featureFlags.aha1 && !$root.ahaGuide.completedMilestones.aha1 && !$root.ahaGuide.showOverview && !$root.ahaGuide.exitedEarly && !data.instances.models.length"
     )
       .grid-block.align-center.aha-guide.padding-md(
         aha-guide-directive
@@ -109,7 +109,7 @@
 
     .grid-block.card-grid.clearfix(
       ng-class = "{'padding-top': helpCards.getActiveCard().helpTop}"
-      ng-if = "!$root.featureFlags.aha1 || $root.ahaGuide.completedMilestones.aha1"
+      ng-if = "!$root.featureFlags.aha1 || $root.ahaGuide.completedMilestones.aha1 || data.instances.models.length"
       ng-include = "'viewCardGrid'"
     )
 

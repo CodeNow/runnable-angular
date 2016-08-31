@@ -272,7 +272,6 @@ function SetupServerModalController(
             containerHostname: containerHostname
           });
           if (buildStatus === 'running') {
-            console.log(SMC.page);
             SMC.page = 'run';
           }
         });

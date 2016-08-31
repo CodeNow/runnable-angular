@@ -12,7 +12,6 @@ function AhaSidebarController(
   
   var ASC = this;
   $rootScope.ahaGuide.completedMilestones = serviceAhaGuide.getAhaMilestones();
-  console.log($rootScope.ahaGuide);
 
   ASC.toggleOverview = function() {
     $rootScope.ahaGuide.showOverview = !$rootScope.ahaGuide.showOverview;
