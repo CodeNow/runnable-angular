@@ -113,8 +113,7 @@
   )
     | {{!state.showError && !state.showVerification ? 'Now building. Build time varies depending on your template.' : ''}}
     | {{state.showVerification ? 'Verifying Template…' : ''}}
-    | {{state.showErrorType === 'build' && state.showError ? 'Your build failed. Inspect your build logs for more information.' : ''}}
-    | {{state.showErrorType === 'CMD' && state.showError ? 'Your container failed to run. Inspect your CMD logs for more information.' : ''}}
+    | {{state.showErrorType === 'build' || state.showErrorType === 'CMD' && state.showError ? 'Looks like there was an error! Inspect your logs for debug info.' : ''}}
     //- | IF DETENTION ERROR: Your container is running! But it looks like something has not been set up correctly.
     span.span(
      ng-if = "state.showErrorType === 'exitedEarly'"
