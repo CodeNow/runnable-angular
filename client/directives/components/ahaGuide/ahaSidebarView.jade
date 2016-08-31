@@ -119,9 +119,9 @@
     src = "/build/images/runnabot-comment.png"
     width = "358"
   )
+  //- add disabled attr if inviting runnabot, or if user isn't an admin
   button.grid-content.shrink.btn.btn-md.green.btn-spinner(
     ng-click = "$root.featureFlags.ahaOverview = false"
-    ng-class = "{'disabled' : if user isn’t an admin || if loading}"
   ) Invite Runnabot
     //- if inviting Runnabot
     //- .spinner-wrapper.spinner-sm.spinner-white.in(
@@ -132,6 +132,6 @@
     //- if the user is an admin:
     | This may affect your GitHub bill.
     //- if the user is not an admin:
-    //- | Sorry, you need to be an admin of your org to invite Runnabot.
+    //- | Sorry, you’ll need help from an admin of your org to invite Runnabot.
     br
     a.link More about Runnabot
