@@ -15,38 +15,6 @@
     }
   }
 
-  &.popover-add-branches {
-    left: -60px;
-    position: relative;
-    top: -30px;
-    transition: opacity .075s ease-in, transform .075s ease-in;
-
-    &.ng-enter {
-      opacity: 0;
-      transform: scale3d(.9,.9,1);
-    }
-
-    &.ng-enter-active {
-      opacity: 1;
-      transform: scale3d(1,1,1);
-    }
-
-    &.ng-leave {
-      opacity: 1;
-      transform: scale3d(1,1,1);
-    }
-
-    &.ng-leave-active {
-      opacity: 0;
-      transform: scale3d(.9,.9,1);
-    }
-
-    .arrow {
-      left: auto;
-      right: 110px;
-    }
-  }
-
   .arrow {
     @include media(xxs) {
       display: none;
