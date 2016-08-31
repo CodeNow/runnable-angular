@@ -28,7 +28,7 @@
           p.p.padding-xs.text-center.fade(
             ng-class = "{'in': isActivePanel()}"
             ng-if = "!$root.featureFlags.aha"
-          ) Choose an organization for your Sandbox. If you don’t see your organization, check if you’ve granted access&#32;
+          ) Choose an organization to use on Runnable. If you don’t see your organization, check if you’ve granted access&#32;
             a.link(
               href = "https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9"
               target = "_blank"
@@ -102,7 +102,7 @@
                 actions.createOrCheckDock(data.selectedOrgName, goToPanel);\
               "
               ng-disabled = "!data.selectedOrgName"
-            ) Create Sandbox
+            ) Confirm Organization
 
         animated-panel.modal-body.grid-block.vertical(
           name = "dockLoading"
@@ -111,7 +111,7 @@
             ng-class = "{'in': isActivePanel()}"
           )
             //- dock spinning up
-            p.p.text-gray.padding-xs.text-center We’re spinning up a sandbox for your org. It’ll take about&#32;
+            p.p.text-gray.padding-xs.text-center We’re spinning up infrastructure for your org. It’ll take about&#32;
               strong.strong 10 minutes
               | . We’ll email you and update this page when it’s ready.
             .grid-block.align-center.justify-center.padding-sm
@@ -126,7 +126,7 @@
             ng-class = "{'in': isActivePanel()}"
           )
             //- dock spun up
-            p.p.text-gray.padding-xs.text-center Your sandbox is ready for you now.
+            p.p.text-gray.padding-xs.text-center Thanks for waiting, we‘re ready for you now.
 
           //- show this button when done waiting
           footer.grid-block.vertical.modal-footer.fade(
@@ -134,7 +134,7 @@
           )
             button.grid-block.align-center.justify-center.btn.btn-md.green(
               ng-click = "actions.selectAccount(data.selectedOrgName)"
-            ) Go to your Sandbox!
+            ) Go to Runnable
     .grid-block.justify-center.modal-outer-footer(
       grace-period-footer
       hide-choose-org = "true"

@@ -7,6 +7,7 @@ function featureFlags(
   $localStorage
 ) {
   var defaultFeatureFlags = {
+    addBranches: false,
     aha: false,
     aha0: false, // step 1: create sandbox
     aha1: false, // step 2: working repo config

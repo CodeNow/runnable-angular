@@ -2,7 +2,7 @@
 
 require('app')
   .controller('InviteAdminModalController', InviteAdminModalController);
-var DEFAULT_MESSAGE = 'Join my Sandbox on Runnable, where we can run the code in CodeNow\'s repositories on demand.\n\nI need your admin permissions to enable some features. Thanks!';
+var DEFAULT_MESSAGE = 'Join me on Runnable, where we can run the code in CodeNow\'s repositories on demand.\n\nI need your admin permissions to enable some features. Thanks!';
 
 function InviteAdminModalController(
   $state,

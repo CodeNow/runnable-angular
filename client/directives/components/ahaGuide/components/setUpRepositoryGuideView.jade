@@ -78,11 +78,11 @@
     ng-class = "{'p-slide js-animate': AHA.state.subStepIndex}"
     ng-if = "AHA.state.subStep === 7"
   )
-    | {{!state.showError && !state.showVerification ? 'Now building. Build time varies depending on your configuration.' : ''}}
-    | {{state.showVerification ? 'Verifying Configuration…' : ''}}
+    | {{!state.showError && !state.showVerification ? 'Now building. Build time varies depending on your template.' : ''}}
+    | {{state.showVerification ? 'Verifying Template…' : ''}}
     | {{state.showErrorType === 'build' && state.showError ? 'Your build failed. Inspect your build logs for more information.' : ''}}
     | {{state.showErrorType === 'CMD' && state.showError ? 'Your container failed to run. Inspect your CMD logs for more information.' : ''}}
-    //- | IF DETENTION ERROR: Your container is running! But it looks like something is misconfigured.
+    //- | IF DETENTION ERROR: Your container is running! But it looks like something has not been set up correctly.
     span.span(
      ng-if = "state.showErrorType === 'exitedEarly'"
     ) Your repository isn‘t running yet! Check the logs to debug any issues. If you‘re stumped,&#32;
@@ -96,3 +96,7 @@
     ng-if = "AHA.state.subStep === 8 && !state.showError && !state.showVerification"
   ) Your build is looking good! Check out its URL and click ‘Done’ if it looks good to you.
 
+  //- in the popover
+  p.p(
+    ng-if = "$root.featureFlags.aha2"
+  ) Add more templates if your project requires it. Once you’re done, head to your containers to start adding branches.

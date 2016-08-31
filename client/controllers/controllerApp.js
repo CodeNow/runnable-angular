@@ -3,7 +3,6 @@
 require('app')
   .controller('ControllerApp', ControllerApp);
 
-
 function ControllerApp(
   $localStorage,
   $ocLazyLoad,
@@ -89,7 +88,12 @@ function ControllerApp(
   $rootScope.resetFeatureFlags = featureFlags.reset;
   this.featureFlagsChanged = featureFlags.changed;
   $rootScope.ahaGuide = {
-    completedMilestones: $localStorage.completedMilestones,
+    completedMilestones: $localStorage.completedMilestones || {
+      aha1: false,
+      aha2: false,
+      aha3: false,
+      aha4: false
+    },
     showError: false,
     exitedEarly: false,
     showPopover: false
