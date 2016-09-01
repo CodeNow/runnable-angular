@@ -5,15 +5,24 @@ var $controller;
 var $scope;
 var $q;
 var $rootScope;
-var keypather;
 
 describe('ChangePaymentFormController'.bold.underline.blue, function () {
   var CPFC;
   var stripeCreateTokenStub;
   var loadingStub;
   var fetchPaymentMethodStub;
+  var savePaymentMethodStub;
+  var mockCurrentOrg;
+  var mockFetchPlan;
+  var mockFetchWhitelists;
 
   beforeEach(function () {
+    mockCurrentOrg = {
+      poppa: {
+        isInTrial: sinon.stub().returns(false),
+        id: sinon.stub().returns('1234')
+      }
+    };
     angular.mock.module('app', function ($provide) {
       $provide.factory('stripe', function ($q) {
         stripeCreateTokenStub = sinon.stub().returns($q.when({id: 123}));
@@ -23,29 +32,40 @@ describe('ChangePaymentFormController'.bold.underline.blue, function () {
           }
         };
       });
+      $provide.factory('fetchPlan', function ($q) {
+        mockFetchPlan = sinon.stub().returns($q.when({}));
+        return mockFetchPlan;
+      });
+      $provide.factory('fetchWhitelists', function ($q) {
+        mockFetchWhitelists = sinon.stub().returns($q.when([]));
+        return mockFetchWhitelists;
+      });
       $provide.factory('fetchPaymentMethod', function ($q) {
         fetchPaymentMethodStub = sinon.stub().returns($q.when({}));
+        fetchPaymentMethodStub.cache = {
+          clear: sinon.stub()
+        };
         return fetchPaymentMethodStub;
+      });
+      $provide.factory('savePaymentMethod', function ($q) {
+        savePaymentMethodStub = sinon.stub().returns($q.when({}));
+        return savePaymentMethodStub;
       });
       loadingStub = sinon.stub();
       loadingStub.reset = sinon.stub();
       $provide.value('loading', loadingStub);
+      $provide.value('currentOrg', mockCurrentOrg);
     });
     angular.mock.inject(function (
-      _$controller_,
       _$rootScope_,
-      _$q_,
-      _keypather_
+      _$controller_,
+      _$q_
     ) {
-      keypather = _keypather_;
       $rootScope = _$rootScope_;
+      sinon.stub($rootScope, '$broadcast');
       $controller = _$controller_;
-      $scope = _$rootScope_.$new();
+      $scope = $rootScope.$new();
       $q = _$q_;
-    });
-
-    keypather.set($rootScope, 'dataApp.data.activeAccount', {
-      isInTrial: sinon.stub().returns(false)
     });
 
     var laterController = $controller('ChangePaymentFormController', {
@@ -74,6 +94,10 @@ describe('ChangePaymentFormController'.bold.underline.blue, function () {
         sinon.assert.calledWith(loadingStub, 'savePayment', true);
         sinon.assert.calledWith(loadingStub, 'savePayment', false);
         sinon.assert.calledWith(loadingStub.reset, 'savePayment');
+        sinon.assert.calledOnce(savePaymentMethodStub);
+        sinon.assert.calledWith(savePaymentMethodStub, 123);
+        sinon.assert.calledOnce(fetchPaymentMethodStub.cache.clear);
+        sinon.assert.calledWith($rootScope.$broadcast, 'updated-payment-method');
       });
 
       it('should handle stripe card errors', function () {
@@ -81,6 +105,18 @@ describe('ChangePaymentFormController'.bold.underline.blue, function () {
           number: '1234'
         };
         stripeCreateTokenStub.returns($q.reject({type: 'card_error', message: 'Fake message'}));
+        CPFC.card = fakeCC;
+        CPFC.actions.save();
+        $scope.$digest();
+        sinon.assert.notCalled(CPFC.save);
+        expect(CPFC.error).to.equal('Fake message');
+      });
+
+      it('should handle stripe card errors coming from `savePaymentMethod`', function () {
+        var fakeCC = {
+          number: '1234'
+        };
+        savePaymentMethodStub.returns($q.reject({type: 'card_error', message: 'Fake message'}));
         CPFC.card = fakeCC;
         CPFC.actions.save();
         $scope.$digest();

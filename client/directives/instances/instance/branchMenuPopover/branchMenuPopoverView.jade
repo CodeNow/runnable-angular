@@ -2,6 +2,14 @@
   ng-class = "{'in': active}"
   ng-style = "popoverStyle.getStyle()"
 )
+  .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
+    ng-if = "$root.featureFlags.aha2"
+    ng-include = "'ahaGuideView'"
+    ng-init = "\
+      state.showStep = 2;\
+      state.showSubStep = 2;\
+    "
+  )
   .arrow.white
   .grid-block.vertical.popover-content.empty(
     ng-if = "$root.featureFlags.autoIsolationSetup"
@@ -18,8 +26,8 @@
   animated-panel-container.popover-views(
     ng-if = "!$root.featureFlags.autoIsolationSetup"
   )
+    //- this should be the default panel when auto-isolation is implemented
     animated-panel(
-      default = "true"
       name = "branchMenu"
     )
       .popover-view
@@ -62,12 +70,15 @@
                 )
               | Include Containers…
     animated-panel(
+      default = "true"
       name = "addBranch"
     )
       .popover-view.fade(
         ng-class = "{'in': isActivePanel()}"
       )
-        .popover-header
+        .popover-header(
+          ng-if = "$root.featureFlags.autoIsolation"
+        )
           svg.btn.btn-sm.iconnables.icons-arrow-backward(
             ng-class = "{'in': isActivePanel()}"
             ng-click = "goToPanel('branchMenu', 'back');"
@@ -79,9 +90,6 @@
         .popover-content(
           ng-init = "state.branchesLoaded = null"
         )
-          .text-center.text-gray.small.padding-md(
-            ng-if = "branch.length === 0"
-          ) There are no branches to add.
 
           .spinner-wrapper.spinner-sm.spinner-gray.spinner-center.in(
             ng-click = "state.branchesLoaded = true"
@@ -91,11 +99,31 @@
           .padding-xxs(
             ng-if = "state.branchesLoaded"
           )
+            .grid-block.shrink.align-center.well.gray.padding-xxs(
+              ng-if = "!$root.featureFlags.autoIsolation"
+            )
+              .grid-content
+                .small Automatically add branches as they’re updated on GitHub.
+                button.btn.btn-xs.btn-permissions(
+                  internal-modal-helper = "inviteAdminModalView"
+                  ng-if = "$root.featureFlags.webhooks"
+                  ng-include = "'permissionsButtonView'"
+                )
+              label.grid-content.shrink.toggle-wrapper
+                input.toggle-input(
+                  ng-disabled = "$root.featureFlags.webhooks"
+                  type = "checkbox"
+                )
+                .toggle-group.toggle-sm
             input.input.input-xs.input-search(
+              ng-if = "branch.length !== 0"
               placeholder = "Filter"
               required
               type = "search"
             )
+            .text-center.text-gray.small.padding-lg(
+              ng-if = "branch.length === 0"
+            ) There are no branches to add.
           ul.list.popover-list(
             ng-if = "state.branchesLoaded"
           )
@@ -104,20 +132,27 @@
               .spinner-wrapper.spinner-sm.spinner-gray.spinner-center.in(
                 ng-include = "'spinner'"
               )
-            li.list-item.popover-list-item SAN-4377-Cant-add-files
+            li.list-item.popover-list-item(
+              ng-click = "\
+                $root.featureFlags.ahaSidebar = true;\
+                $root.featureFlags.aha2 = false;\
+                $root.featureFlags.aha3 = true;\
+              "
+            ) SAN-4377-Cant-add-files
               button.btn.btn-xs.btn-icon.btn-add
                 svg.iconnables.icons-add
                   use(
                     xlink:href = "#icons-add"
                   )
-            li.list-item.popover-list-item SAN-4342-auto-isolation-setup
+            li.list-item.popover-list-item(
+              ng-click = "\
+                $root.featureFlags.ahaSidebar = true;\
+                $root.featureFlags.aha2 = false;\
+                $root.featureFlags.aha3 = true;\
+              "
+            ) SAN-4342-auto-isolation-setup
               button.btn.btn-xs.btn-icon.btn-add
                 svg.iconnables.icons-add
                   use(
                     xlink:href = "#icons-add"
                   )
-            li.list-item.grid-block.justify-justified.list-pagination(
-            )
-              //- ng-if = "paginated"
-              button.btn.btn-xs.gray.grid-content Last 50
-              button.btn.btn-xs.gray.grid-content Next 50

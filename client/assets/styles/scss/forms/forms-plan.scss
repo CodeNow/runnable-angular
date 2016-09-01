@@ -224,7 +224,11 @@
     }
 
     &:hover,
-    &:active,
+    &:active {
+      border-color: $gray-lighter;
+      cursor: default;
+    }
+
     &.active {
       background: $white;
       border-color: $gray-lighter;
@@ -314,5 +318,10 @@
       font-size: 15px;
       top: 12px;
     }
+  }
+
+  // spacing after plans
+  .plans-wrapper + .well-summary {
+    margin-top: 15px;
   }
 }

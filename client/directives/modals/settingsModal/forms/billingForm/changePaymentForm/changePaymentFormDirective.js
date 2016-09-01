@@ -27,7 +27,7 @@ function changePaymentForm(
         return typeMapping[$scope.paymentForm.cardNumber.$ccEagerType];
       };
       $scope.isCCExpValid = function () {
-        if (!$scope.paymentForm.ccExpMonth.$touched && !$scope.paymentForm.ccExpYear.$touched) {
+        if (!$scope.paymentForm.ccExpMonth.$dirty && !$scope.paymentForm.ccExpYear.$dirty) {
           return true;
         }
         return $scope.paymentForm.ccExpMonth.$valid &&
@@ -35,7 +35,7 @@ function changePaymentForm(
           !$scope.paymentForm.$error.ccExp;
       };
       $scope.getBillingDate = function () {
-        return moment($scope.CPFC.activeAccount.attrs.activePeriodEnd).format('MMM Do, YYYY');
+        return moment($scope.CPFC.currentOrg.poppa.attrs.activePeriodEnd).format('MMM Do, YYYY');
       };
     }
   };

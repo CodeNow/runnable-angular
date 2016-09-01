@@ -130,6 +130,7 @@
 // modal specific
 @import "modals/modals-backup";
 @import "modals/modals-branch-setup";
+@import "modals/modals-confirm-setup";
 @import "modals/modals-edit";
 @import "modals/modals-edit-ace";
 @import "modals/modals-edit-dockerfile";
@@ -156,6 +157,7 @@
 
 // popover specific
 @import "popover/popover-account-menu";
+@import "popover/popover-add-branches";
 @import "popover/popover-add-tab";
 @import "popover/popover-branch-menu";
 @import "popover/popover-card-status";

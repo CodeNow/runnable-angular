@@ -5,10 +5,9 @@ require('app')
 
 function PlanStatusFormController(
   $q,
-  $rootScope,
   billingPlans,
+  currentOrg,
   fetchInstancesByPod,
-  fetchPaymentMethod,
   fetchPlan,
   keypather,
   loading
@@ -17,20 +16,9 @@ function PlanStatusFormController(
 
   PSFC.configurations = undefined;
   PSFC.plan = undefined;
-  PSFC.discounted = false;
+  PSFC.discount = null;
   PSFC.plans = billingPlans;
-  PSFC.activeAccount = $rootScope.dataApp.data.activeAccount;
-
-  if (PSFC.activeAccount.isInTrial()) {
-    loading('billingForm', true);
-    fetchPaymentMethod()
-      .then(function (paymentMethod) {
-        PSFC.paymentMethod = paymentMethod;
-      })
-      .finally(function () {
-        loading('billingForm', false);
-      });
-  }
+  PSFC.currentOrg = currentOrg;
 
   loading('billingForm', true);
   $q.all([
@@ -40,8 +28,9 @@ function PlanStatusFormController(
     .then(function (results) {
       var plan = results[0];
       var instances = results[1];
-      PSFC.plan = plan.next.plan;
+      PSFC.plan = plan.next;
       PSFC.configurations = instances.models.length;
+      PSFC.discount = plan.discount;
     })
     .finally(function () {
       loading('billingForm', false);
@@ -54,7 +43,7 @@ function PlanStatusFormController(
    */
   PSFC.calculatePlanAmount = function (planName) {
     var costPerUser = keypather.get(billingPlans[planName], 'costPerUser');
-    if (PSFC.discounted) {
+    if (PSFC.discount) {
       return costPerUser * 0.5;
     }
     return costPerUser;

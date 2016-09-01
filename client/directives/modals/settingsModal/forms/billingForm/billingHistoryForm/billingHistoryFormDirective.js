@@ -11,17 +11,20 @@ function billingHistoryForm(
     restrict: 'A',
     templateUrl: 'billingHistoryForm',
     link: function ($scope, element) {
+      $scope.invoices = [];
       loading('billingForm', true);
       fetchInvoices()
         .then(function (invoices) {
-          $scope.invoices = invoices;
+          $scope.invoices = invoices.filter(function (invoice) {
+            return invoice.total > 0;
+          });
         })
         .finally(function () {
           loading('billingForm', false);
         });
 
       $scope.getBillingDate = function (invoice) {
-        return moment(invoice.period_end * 1000).format('M/D/YYYY');
+        return moment(invoice.periodEnd).format('MMM Do, YYYY');
       };
     }
   };

@@ -74,11 +74,9 @@ function fetchUser(
 
 function fetchWhitelistedOrgs(
   fetchUser,
-  fetchWhitelists,
-  memoize,
-  moment
+  fetchWhitelists
 ) {
-  return memoize(function () {
+  return function () {
     return fetchUser()
       .then(function (user) {
         return fetchWhitelists()
@@ -88,37 +86,8 @@ function fetchWhitelistedOrgs(
             });
             return new GithubOrgCollection(githubOrgs, {client: user.client});
           });
-      })
-      .then(function (ghOrgCollection) {
-        ghOrgCollection.models.map(function (model) {
-          // All of this should be moved to inside @runnable/api-client
-          model.attrs.trialEnd = moment().subtract(1, 'days').toISOString();
-          model.attrs.activePeriodEnd = moment().subtract(5, 'days').toISOString();
-          model.attrs.gracePeriodEnd = moment().add(2, 'days').toISOString();
-          model.attrs.stripeCustomerId = 1234;
-          model.attrs.hasPaymentMethod = false;
-          model.isInTrial = function () {
-            return moment(model.attrs.trialEnd) > moment().utc();
-          };
-          model.isInGrace = function () {
-            return !model.isInTrial() && !model.isInActivePeriod() && moment(model.attrs.gracePeriodEnd) > moment().utc();
-          };
-          model.isInActivePeriod = function () {
-            return moment(model.attrs.activePeriodEnd) > moment().utc();
-          };
-          model.isGraceExpired = function () {
-            return !model.isInTrial() && !model.isInActivePeriod() && moment.utc(model.attrs.gracePeriodEnd) < moment().utc();
-          };
-          model.trialDaysRemaining = function () {
-            return moment(model.attrs.trialEnd).diff(moment.utc(), 'days');
-          };
-          model.graceHoursRemaining = function () {
-            return moment(model.attrs.gracePeriodEnd).diff(moment.utc(), 'hours');
-          };
-        });
-        return ghOrgCollection;
       });
-  });
+  };
 }
 
 /**
@@ -153,12 +122,11 @@ function fetchWhitelistForDockCreated(
  * @returns {*}
  */
 function fetchWhitelists(
-  fetchWhitelistForDockCreated,
-  memoize
+  fetchWhitelistForDockCreated
 ) {
-  return memoize(function () {
+  return function () {
     return fetchWhitelistForDockCreated();
-  });
+  };
 }
 
 
@@ -896,61 +864,80 @@ function fetchStackData(
   };
 }
 
+function handleHTTPResponse(keypather, defaultValue) {
+  return function (res) {
+    if (res.status >= 300) {
+      throw new Error(keypather.get(res, 'data.error'));
+    }
+    return res.data || defaultValue;
+  };
+}
+
 function fetchPlan(
   $http,
-  memoize,
   configAPIHost,
-  $state
+  currentOrg,
+  errs,
+  keypather,
+  memoize
 ) {
   return memoize(function () {
     return $http({
       method: 'get',
-      url: configAPIHost + '/billing/' + $state.params.userName + '/plan'
+      url: configAPIHost + '/billing/plan',
+      params: {
+        organizationId: currentOrg.poppa.id()
+      }
     })
-      .then(function (res) {
-        return res.data;
-      });
+      .then(handleHTTPResponse(keypather))
+      .catch(errs.handler);
   }, function () {
-    return $state.params.userName;
+    return currentOrg.poppa.id();
   });
 }
 
 function fetchInvoices(
   $http,
-  memoize,
   configAPIHost,
-  $state
+  currentOrg,
+  errs,
+  keypather,
+  memoize
 ) {
   return memoize(function () {
     return $http({
       method: 'get',
-      url: configAPIHost + '/billing/' + $state.params.userName + '/invoices'
+      url: configAPIHost + '/billing/invoices',
+      params: {
+        organizationId: currentOrg.poppa.id()
+      }
     })
-      .then(function (res) {
-        return res.data;
-      });
+      .then(handleHTTPResponse(keypather, []))
+      .catch(errs.handler);
   }, function () {
-    return $state.params.userName;
+    return currentOrg.poppa.id();
   });
 }
 
 function fetchPaymentMethod(
   $http,
-  memoize,
   configAPIHost,
-  $state
+  currentOrg,
+  errs,
+  keypather,
+  memoize
 ) {
   return memoize(function () {
     return $http({
       method: 'get',
-      url: configAPIHost + '/billing/' + $state.params.userName + '/payment-method'
+      url: configAPIHost + '/billing/payment-method',
+      params: {
+        organizationId: currentOrg.poppa.id()
+      }
     })
-      .then(function (res) {
-        return res.data;
-      });
+      .then(handleHTTPResponse(keypather))
+      .catch(errs.handler);
   }, function () {
-    return $state.params.userName;
+    return currentOrg.poppa.id();
   });
 }
-
-

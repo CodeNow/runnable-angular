@@ -1,11 +1,11 @@
 /*global directiveTemplate:true */
 'use strict';
 var $scope;
-var $rootScope;
 var element;
 
 describe('billingFormDirective'.bold.underline.blue, function () {
   var broadcastStub;
+  var mockCurrentOrg;
   beforeEach(function () {
     broadcastStub = sinon.stub();
     window.helpers.killDirective('billingHistoryForm');
@@ -14,20 +14,25 @@ describe('billingFormDirective'.bold.underline.blue, function () {
     window.helpers.killDirective('planStatusForm');
     window.helpers.killDirective('planSummary');
     window.helpers.killDirective('showPaymentForm');
-    angular.mock.module('app');
+    mockCurrentOrg = {
+      poppa: {
+        isInTrial: sinon.stub().returns(true),
+        attrs: {
+          hasPaymentMethod: false
+        }
+      }
+    };
+    angular.mock.module('app', function ($provide) {
+      $provide.value('currentOrg', mockCurrentOrg);
+    });
     angular.mock.inject(function (
       $compile,
-      _$rootScope_,
-      keypather
+      $rootScope
     ) {
-      $rootScope = _$rootScope_;
       $scope = $rootScope.$new();
       $scope.SEMC = {
         showFooter: false
       };
-      keypather.set($rootScope, 'dataApp.data.activeAccount', {
-        isInTrial: sinon.stub().returns(true)
-      });
       $scope.save = sinon.stub();
       var tpl = directiveTemplate.attribute('billing-form');
       element = $compile(tpl)($scope);
@@ -37,8 +42,8 @@ describe('billingFormDirective'.bold.underline.blue, function () {
     });
   });
 
-  it('should set active account on local scope', function () {
-    expect($scope.activeAccount).to.equal($rootScope.dataApp.data.activeAccount);
+  it('should set current org on local scope', function () {
+    expect($scope.currentOrg).to.equal(mockCurrentOrg);
   });
 
   describe('on animated panel change', function () {

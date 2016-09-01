@@ -1,7 +1,7 @@
 //- changing plans
 .padding-md
   .clearfix
-    .label-col.full-width.text-center Configurations Used
+    .label-col.full-width.text-center Templates Used
   .meter(
     ng-class = "getMeterClass()"
   )
@@ -9,14 +9,14 @@
     .ticks
       .tick
       .tick(
-        ng-class = "{'expand': preview === 'starter'}"
+        ng-class = "{'expand': preview === 'runnable-starter'}"
       )
       .tick
       .tick
       .tick
       .tick
       .tick(
-        ng-class = "{'expand': preview === 'standard'}"
+        ng-class = "{'expand': preview === 'runnable-standard'}"
       )
       .tick
       .tick
@@ -26,93 +26,91 @@
       .tick
       .tick
 
-  .grid-block.align-center
+  .grid-block.align-center.plans-wrapper
     .grid-block.vertical.align-center.card.card-plan.disabled.padding-sm.text-center(
-      ng-class = "{'active': PSFC.plan.id === 'starter'}"
-      ng-mouseenter = "preview = 'starter'"
+      ng-class = "{'active': PSFC.plan.id === 'runnable-starter'}"
+      ng-mouseenter = "preview = 'runnable-starter'"
       ng-mouseleave = "preview = ''"
     )
       h3.grid-content.shrink.h3 Starter
       .grid-block.shrink.vertical.price
         .grid-block.strike(
-          ng-if = "PSFC.discounted"
-        ) ${{PSFC.plans.starter.costPerUser}}
+          ng-if = "PSFC.discount"
+        ) ${{PSFC.plans['runnable-starter'].costPerUser | centsToDollars}}
         .grid-block.justify-center.h1(
-          ng-class = "{'discounted': PSFC.discounted}"
+          ng-class = "{'discounted': PSFC.discount}"
         )
           sup.sup $
-          | {{PSFC.calculatePlanAmount('starter') | centsToDollars}}
+          | {{PSFC.calculatePlanAmount('runnable-starter') | centsToDollars}}
         small.grid-block.vertical.small.text-gray per user
           br
           | per month
       .grid-content.shrink.small Up to&#32;
         strong.strong 2
-        | &#32; configurations.
+        | &#32; templates.
 
     .grid-block.vertical.align-center.card.card-plan.disabled.padding-sm.text-center(
-      ng-class = "{'active': PSFC.plan.id === 'standard'}"
-      ng-mouseenter = "preview = 'standard'"
+      ng-class = "{'active': PSFC.plan.id === 'runnable-standard'}"
+      ng-mouseenter = "preview = 'runnable-standard'"
       ng-mouseleave = "preview = ''"
     )
       h3.grid-content.shrink.h3 Standard
       .grid-block.shrink.vertical.price
         .grid-block.strike(
-          ng-if = "PSFC.discounted"
-        ) ${{PSFC.plans.standard.costPerUser}}
+          ng-if = "PSFC.discount"
+        ) ${{PSFC.plans['runnable-standard'].costPerUser| centsToDollars}}
         .grid-block.justify-center.h1(
-          ng-class = "{'discounted': PSFC.discounted}"
+          ng-class = "{'discounted': PSFC.discount}"
         )
           sup.sup $
-          | {{PSFC.calculatePlanAmount('standard') | centsToDollars}}
+          | {{PSFC.calculatePlanAmount('runnable-standard') | centsToDollars}}
         small.grid-block.vertical.small.text-gray per user
           br
           | per month
       .grid-content.shrink.small Up to&#32;
         strong.strong 7
-        | &#32; configurations.
+        | &#32; templates.
 
     .grid-block.vertical.align-center.card.card-plan.disabled.padding-sm.text-center(
-      ng-class = "{'active': PSFC.plan.id === 'plus'}"
-      ng-mouseenter = "preview = 'plus'"
+      ng-class = "{'active': PSFC.plan.id === 'runnable-plus'}"
+      ng-mouseenter = "preview = 'runnable-plus'"
       ng-mouseleave = "preview = ''"
     )
       h3.grid-content.shrink.h3 Plus
       .grid-block.shrink.vertical.price
         .grid-block.strike(
-          ng-if = "PSFC.discounted"
-        ) ${{PSFC.plans.plus.costPerUser}}
+          ng-if = "PSFC.discount"
+        ) ${{PSFC.plans['runnable-plus'].costPerUser| centsToDollars}}
         .grid-block.justify-center.h1(
-          ng-class = "{'discounted': PSFC.discounted}"
+          ng-class = "{'discounted': PSFC.discount}"
         )
           sup.sup $
-          | {{PSFC.calculatePlanAmount('plus') | centsToDollars}}
+          | {{PSFC.calculatePlanAmount('runnable-plus') | centsToDollars}}
         small.grid-block.vertical.small.text-gray per user
           br
           | per month
       .grid-content.shrink.small Up to&#32;
         strong.strong 15
-        | &#32; configurations.
+        | &#32; templates.
 
   label.grid-block.align-center.padding-xs.well.well-plan.well-summary.disabled(
-    ng-if = "PSFC.discounted"
-    ng-include = "'discountView'"
-    ng-init = "state.hasDuration = (PSFC.activeAccount.isInActivePeriod()) ? 'true' : ''"
+    ng-if = "PSFC.discount"
+    ng-init = "state.hasDuration = (PSFC.currentOrg.poppa.isInActivePeriod()) ? 'true' : ''"
+    discount-view
+    discount = "PSFC.discount"
   )
 
-  p.grid-content.p.text-gray.text-center.padding-sm(
-    payment-summary
-    show-next = "true"
-  )
+  p.grid-content.p.text-gray.text-center.padding-sm Your plan is automatically determined based on number of templates at the end of each billing cycle.
 
   .grid-block.justify-center
     button.grid-block.shrink.btn.btn-md.green(
       ng-click = "goToPanel('changePaymentForm');"
-      ng-if = "PSFC.activeAccount.isInTrial()"
+      ng-if = "!PSFC.currentOrg.poppa.attrs.hasPaymentMethod && PSFC.currentOrg.poppa.isInTrial()"
       type = "button"
     ) Add Payment Method
 
 footer.modal-footer.clearfix(
-  ng-if = "!PSFC.activeAccount.isInTrial()"
+  ng-if = "PSFC.currentOrg.poppa.attrs.hasPaymentMethod || !PSFC.currentOrg.poppa.isInTrial()"
 )
   button.btn.btn-md.gray.btn-cancel.float-left(
     ng-click = "goToPanel('billingForm', 'back');"

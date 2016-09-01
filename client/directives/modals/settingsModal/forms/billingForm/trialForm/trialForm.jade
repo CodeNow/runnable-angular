@@ -16,20 +16,20 @@
       circle(fill='#52306C', cx='25.75', cy='7.51', r='2.5')
       path(fill='#D5D5D5', stroke='#52306C', stroke-width='0.5', stroke-linecap='round', stroke-miterlimit='10', d='M13.75,6.75v-5c0-0.828-0.672-1.5-1.5-1.5c-0.828,0-1.5,0.672-1.5,1.5v5c0,0.828,0.672,1.5,1.5,1.5C13.078,8.25,13.75,7.578,13.75,6.75z')
       path(fill='#D5D5D5', stroke='#52306C', stroke-width='0.5', stroke-linecap='round', stroke-miterlimit='10', d='M27.25,6.75v-5c0-0.828-0.672-1.5-1.5-1.5c-0.828,0-1.5,0.672-1.5,1.5v5c0,0.828,0.672,1.5,1.5,1.5C26.578,8.25,27.25,7.578,27.25,6.75z')
-    h2.h2.text-center {{activeAccount.trialDaysRemaining()}}
+    h2.h2.text-center {{currentOrg.poppa.trialDaysRemaining()}}
   p.grid-content.p.text-gray(
-    ng-if = "activeAccount.trialDaysRemaining() > 3"
+    ng-if = "currentOrg.poppa.trialDaysRemaining() > 3"
   ) You have&#32;
-    strong.strong {{activeAccount.trialDaysRemaining()}} days
-    | &#32;left in your trial with unlimited configurations.
+    strong.strong {{currentOrg.poppa.trialDaysRemaining()}} days
+    | &#32;left in your trial with unlimited templates.
 
   p.grid-content.small.text-gray(
-    ng-if = "activeAccount.trialDaysRemaining() <= 3"
-  ) You only have {{activeAccount.trialDaysRemaining()}} days left in your trial! Add your payment info to ensure your team has uninterrupted access to their sandbox.
+    ng-if = "currentOrg.poppa.trialDaysRemaining() <= 3"
+  ) You only have {{currentOrg.poppa.trialDaysRemaining()}} days left in your trial! Add your payment info to ensure your team has uninterrupted access to Runnable.
 
 
 .grid-block.btn-wrapper(
-  ng-if = "activeAccount.isInTrial() && activeAccount.trialDaysRemaining() <= 3 && fromNotification"
+  ng-if = "currentOrg.poppa.isInTrial() && currentOrg.poppa.trialDaysRemaining() <= 3 && fromNotification"
 )
   button.grid-content.btn.btn-block.btn-sm.white(
     ng-click = "actions.openSettingsModal('billing')"

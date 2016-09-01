@@ -8,32 +8,30 @@ describe('paymentSummaryDirective'.bold.underline.blue, function () {
   var fetchPlanStub;
   var loadingStub;
   var mockPlan;
-  var mockPaymentMethod;
-  var fetchPaymentMethodStub;
+  var mockCurrentOrg;
   beforeEach(function () {
-    mockPlan = {
-      next: {
-        plan: {
-          id: 'mockPlanId',
-          price: 20,
-          userCount: 3
+    mockCurrentOrg = {
+      poppa: {
+        attrs: {
+          trialEnd: '2016-08-12T21:24:06.000Z'
         }
       }
     };
-    mockPaymentMethod = {
-      id: 'mockPaymentMethod'
+    mockPlan = {
+      next: {
+        id: 'mockPlanId',
+        price: 20,
+        userCount: 3
+      }
     };
     angular.mock.module('app', function ($provide) {
       $provide.factory('fetchPlan', function ($q) {
         fetchPlanStub = sinon.stub().returns($q.when(mockPlan));
         return fetchPlanStub;
       });
-      $provide.factory('fetchPaymentMethod', function ($q) {
-        fetchPaymentMethodStub = sinon.stub().returns($q.when(mockPaymentMethod));
-        return fetchPaymentMethodStub;
-      });
       loadingStub = sinon.stub();
       $provide.value('loading', loadingStub);
+      $provide.value('currentOrg', mockCurrentOrg);
     });
     angular.mock.inject(function (
       $compile,
@@ -56,9 +54,7 @@ describe('paymentSummaryDirective'.bold.underline.blue, function () {
     sinon.assert.calledWith(loadingStub, 'billingForm', true);
     sinon.assert.calledWith(loadingStub, 'billingForm', false);
     sinon.assert.calledOnce(fetchPlanStub);
-    sinon.assert.calledOnce(fetchPaymentMethodStub);
-    expect($elScope.plan).to.equal(mockPlan.next.plan);
-    expect($elScope.paymentMethod).to.equal(mockPaymentMethod);
+    expect($elScope.plan).to.equal(mockPlan.next);
   });
 
   describe('calculatePlanPrice', function () {
@@ -69,7 +65,6 @@ describe('paymentSummaryDirective'.bold.underline.blue, function () {
 
   describe('getTrialEndDate', function () {
     it('should return the trial end date', function () {
-      keypather.set($elScope, 'activeAccount.attrs.trialEnd', '2016-08-12T21:24:06.000Z');
       expect($elScope.getTrialEndDate()).to.equal('Aug 12th, 2016');
     });
   });

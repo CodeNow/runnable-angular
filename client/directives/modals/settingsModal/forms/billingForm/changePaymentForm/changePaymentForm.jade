@@ -9,8 +9,9 @@ form.padding-md(
   )
 
   label.grid-block.align-center.padding-xs.well.well-plan.well-summary.disabled(
-    ng-if = "!CPFC.updating && $root.featureFlags.billingDiscounted"
-    ng-include = "'discountView'"
+    ng-if = "!CPFC.updating && CPFC.plan.discount"
+    discount-view
+    discount = "CPFC.plan.discount"
   )
 
   //- limit all fields to numbers only
@@ -99,29 +100,26 @@ form.padding-md(
           ng-model = "CPFC.card.address_zip"
           inputmode = "numeric"
           maxlength = "5"
-          required
           spellcheck = "false"
-          ng-pattern="/^[0-9]{5}$/"
           ng-disabled="$root.isLoading.savePayment"
         )
 
     .grid-block.well.padding-xxs.small.justify-center.text-center(
-      ng-if = "!CPFC.paymentMethod || !CPFC.activeAccount.isInTrial()"
       payment-summary
       show-next = 'false'
     )
 
   //- 3 users is the minimum amount
   p.grid-content.p.text-gray.text-center.padding-sm(
-    ng-if = "!CPFC.activeAccount.isInActivePeriod()"
+    ng-if = "!CPFC.currentOrg.poppa.isInActivePeriod()"
   ) We prorate your account for users added in the middle of a billing period.&#32;
     a.link(
-      href = "#"
+      href = "https://support.runnable.com/hc/en-us/articles/212037226"
       target = "_blank"
     ) Details
 
   p.grid-content.p.text-gray.text-center.padding-sm(
-    ng-if = "CPFC.activeAccount.isInActivePeriod()"
+    ng-if = "CPFC.currentOrg.poppa.isInActivePeriod()"
   ) Your payment changes will be applied to your next billing date on {{getBillingDate()}}.
 
 footer.modal-footer.clearfix
@@ -135,7 +133,7 @@ footer.modal-footer.clearfix
   button.btn.btn-md.green.float-right(
     ng-click = "CPFC.actions.save()"
     ng-disabled="paymentForm.$invalid || $root.isLoading.savePayment"
-    ng-if = "CPFC.updating && !(CPFC.activeAccount.isInGrace() || CPFC.activeAccount.isGraceExpired())"
+    ng-if = "CPFC.updating && !(CPFC.currentOrg.poppa.isInGrace() || CPFC.currentOrg.poppa.isGraceExpired())"
   )
     .spinner-wrapper.spinner-sm.spinner-white.in(
       ng-include = "'spinner'"
@@ -146,7 +144,7 @@ footer.modal-footer.clearfix
   button.btn.btn-md.green.float-right(
     ng-click = "CPFC.actions.save()"
     ng-disabled="paymentForm.$invalid || $root.isLoading.savePayment"
-    ng-if = "!CPFC.updating && !(CPFC.activeAccount.isInGrace() || CPFC.activeAccount.isGraceExpired())"
+    ng-if = "!CPFC.updating && !(CPFC.currentOrg.poppa.isInGrace() || CPFC.currentOrg.poppa.isGraceExpired())"
     type = "button"
   )
     .spinner-wrapper.spinner-sm.spinner-white.in(
@@ -159,7 +157,7 @@ footer.modal-footer.clearfix
   button.btn.btn-md.green.btn-block(
     ng-click = "CPFC.actions.save()"
     ng-disabled="paymentForm.$invalid || $root.isLoading.savePayment"
-    ng-if = "CPFC.activeAccount.isInGrace() || CPFC.activeAccount.isGraceExpired()"
+    ng-if = "CPFC.currentOrg.poppa.isInGrace() || CPFC.currentOrg.poppa.isGraceExpired()"
     type = "button"
   )
       .spinner-wrapper.spinner-sm.spinner-white.in(

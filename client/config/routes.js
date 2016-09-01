@@ -64,8 +64,12 @@ module.exports = [
       grantedOrgs: function (fetchGrantedGithubOrgs) {
         return fetchGrantedGithubOrgs();
       },
-      user: function (fetchUser) {
-        return fetchUser();
+      user: function (fetchUser, $rootScope, keypather) {
+        return fetchUser()
+          .then(function (user) {
+            keypather.set($rootScope, 'dataApp.data.user', user);
+            return user;
+          });
       },
       whitelistedOrgs: function (fetchWhitelistForDockCreated) {
         return fetchWhitelistForDockCreated();
@@ -79,8 +83,12 @@ module.exports = [
     controller: 'WelcomeBackController',
     controllerAs: 'WBC',
     resolve: {
-      user: function (fetchUser) {
-        return fetchUser();
+      user: function (fetchUser, $rootScope, keypather) {
+        return fetchUser()
+          .then(function (user) {
+            keypather.set($rootScope, 'dataApp.data.user', user);
+            return user;
+          });
       },
       booted: function (eventTracking, user) {
         return eventTracking.boot(user);
@@ -123,15 +131,25 @@ module.exports = [
       orgs: function (fetchWhitelistedOrgs) {
         return fetchWhitelistedOrgs();
       },
+      activeOrg: function (
+        $stateParams,
+        whitelists
+      ) {
+        var lowerAccountName = $stateParams.userName.toLowerCase();
+        return whitelists.find(function (whitelist) {
+          return whitelist.attrs.lowerName === lowerAccountName;
+        });
+      },
       activeAccount: function (
         $q,
-        $stateParams,
         $state,
-        orgs,
-        whitelists,
+        $stateParams,
         $timeout,
-        user,
-        eventTracking
+        activeOrg,
+        eventTracking,
+        featureFlags,
+        orgs,
+        user
       ) {
         var lowerAccountName = $stateParams.userName.toLowerCase();
         var userName = user.oauthName().toLowerCase();
@@ -151,10 +169,7 @@ module.exports = [
             return $q.reject(new Error('User Unauthorized for Organization'));
           });
         }
-        var foundWhitelist = whitelists.find(function (whitelist) {
-          return whitelist.attrs.lowerName === lowerAccountName;
-        });
-        if (!foundWhitelist.attrs.allowed) {
+        if ((!featureFlags.flags.billing && !activeOrg.attrs.allowed) || (featureFlags.flags.billing && !activeOrg.attrs.isActive)) {
           // There is a bug in ui-router and a timeout is the workaround
           return $timeout(function () {
             $state.go('paused');
@@ -163,6 +178,14 @@ module.exports = [
         }
         eventTracking.boot(user, {orgName: $stateParams.userName});
         return matchedOrg;
+      },
+      populateCurrentOrgService: function (
+        activeOrg,
+        activeAccount,
+        currentOrg
+      ) {
+        currentOrg.poppa = activeOrg;
+        currentOrg.github = activeAccount;
       }
     }
   }, {

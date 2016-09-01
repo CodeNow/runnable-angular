@@ -11,11 +11,11 @@
   )
     p.p(
       ng-if = "!BLC.showNoDockerfileError"
-    ) Sorry, we ran into an issue trying to build your container.
+    ) Sorry, we ran into an issue while building.
     p.p(
       ng-if = "BLC.showNoDockerfileError"
     )
-      | We couldn't find a Dockerfile to build your container with.
+      | We couldn't find a Dockerfile to build.
       | Does it exist in your repository?
     button.btn.btn-sm.purple(
       ng-click = "BLC.actions.rebuildWithoutCache()"

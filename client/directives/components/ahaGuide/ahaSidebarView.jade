@@ -1,23 +1,32 @@
-.grid-block.shrink.align-center.justify-right
-  svg.iconnables.icons-close(
-    ng-click = "$root.featureFlags.ahaSidebar = false"
-    ng-if = "!$root.featureFlags.ahaOverview"
-  )
-    use(
-      xlink:href = "#icons-close"
+.grid-block.shrink(
+  ng-if = "!$root.featureFlags.ahaOverview && !$root.featureFlags.aha3"
+)
+  header.grid-block.align-center.justify-center.aha-sidebar-header
+    h4.grid-content.strong.text-center.h4 Setup Guide
+    svg.grid-content.shrink.iconnables.icons-close(
+      ng-click = "$root.featureFlags.ahaSidebar = false"
     )
-.grid-block.vertical.shrink.justify-center.text-center.aha-overview(
+      use(
+        xlink:href = "#icons-close"
+      )
+
+.grid-block.shrink.vertical.aha-overview(
   ng-if = "$root.featureFlags.ahaOverview"
 )
-  .grid-content.strong Welcome to your Sandbox! 👋
-  | It’ll take a few steps to get everything set up. But don’t worry — we’re here to help!
-  button.grid-content.btn.btn-sm.green(
-    ng-click = "\
-      $root.featureFlags.ahaOverview = false;\
-      $root.featureFlags.ahaSidebar = false;\
-    "
-  ) Get Started
-.grid-block.vertical
+  header.grid-block.vertical.shrink.align-center.justify-center.aha-sidebar-header
+    h4.grid-content.shrink.h4.text-center Let‘s get running! 👋
+  .grid-block.shrink.vertical.padding-sm
+    p.grid-content.shrink.p.text-center It’ll take a few steps to get everything set up. But don’t worry — we’re here to help!
+    button.grid-content.shrink.btn.btn-md.green(
+      ng-click = "\
+        $root.featureFlags.ahaOverview = false;\
+        $root.featureFlags.ahaSidebar = false;\
+      "
+    ) Get Started
+
+.grid-block.shrink.vertical.aha-guide-wrapper(
+  ng-if = "!$root.featureFlags.aha3"
+)
   .grid-block.shrink.align-center.padding-sm.aha-guide(
     ng-class = "{'disabled': $root.featureFlags.aha1 || $root.featureFlags.aha2 || $root.featureFlags.aha3}"
   )
@@ -33,7 +42,7 @@
           xlink:href = "#icons-check"
         )
     .grid-block.vertical.aha-text
-      p.p.strong Create your Sandbox
+      p.p.strong Choose your Organization
       p.small This is the first step to success.
 
   .grid-block.shrink.align-center.padding-sm.aha-guide(
@@ -56,7 +65,7 @@
     )
       svg.iconnables
         use(
-          ng-if = "$root.featureFlags.aha1 && (!$root.featureFlags.aha2 || !$root.featureFlags.aha3)"
+          ng-if = "!$root.featureFlags.aha2 && !$root.featureFlags.aha3"
           xlink:href = "#icons-octicons-repo"
         )
         use(
@@ -64,8 +73,8 @@
           xlink:href = "#icons-check"
         )
     .grid-block.vertical.aha-text
-      p.p.strong Add your First Repository
-      p.small Configure your project and get it running!
+      p.p.strong Create your First Template
+      p.small Set up your project and get it running!
 
   .grid-block.shrink.align-center.padding-sm.aha-guide(
     ng-class = "{'disabled': $root.featureFlags.aha0 || $root.featureFlags.aha1 || $root.featureFlags.aha3}"
@@ -89,20 +98,68 @@
       p.p.strong Add your First Branch
       p.small Your branches will update on every commit you make.
 
-  .grid-block.shrink.align-center.padding-sm.aha-guide(
-    ng-class = "{'disabled': $root.featureFlags.aha0 || $root.featureFlags.aha1 || $root.featureFlags.aha2}"
-  )
-    .grid-block.shrink.aha-meter(
-      ng-class = "{'aha-meter-50': $root.featureFlags.aha3}"
+.grid-block.vertical.align-center.text-center.aha-overview(
+  ng-if = "$root.featureFlags.aha3"
+)
+  header.grid-block.shrink.align-center.justify-center.aha-sidebar-header
+    h4.grid-content.shrink.strong.text-center.h4 You did it!
+    svg.iconnables.icons-close(
+      ng-click = "\
+        $root.featureFlags.aha = false;\
+        $root.featureFlags.aha3 = false;\
+        $root.featureFlags.ahaSidebar = false;\
+      "
     )
-      svg.iconnables
-        use(
-          xlink:href = "#icons-runnabot"
-        )
-        //- if complete
-        //- use(
-        //-   xlink:href = "#icons-check"
-        //- )
-    .grid-block.vertical.aha-text
-      p.p.strong Set Up Runnabot
-      p.small Receive notifications on pull requests when your container is ready.
+      use(
+        xlink:href = "#icons-close"
+      )
+  p.grid-content.shrink.p Now you can invite our bot to your GitHub org to get notifications on your pull requests:
+  img.grid-content.shrink.img.img-comment(
+    alt = "Runnabot sample comment on a GitHub pull request."
+    height = "206"
+    src = "/build/images/runnabot-comment.png"
+    width = "358"
+  )
+  //- add 'disabled' attr if inviting runnabot, or if user isn't an admin
+      hide after successfully inviting runnabot
+  button.grid-content.shrink.btn.btn-md.green(
+    ng-click = "$root.featureFlags.ahaOverview = false"
+  )
+    svg.iconnables.icons-octicons-github
+      use(
+        xlink:href = "#icons-octicons-github"
+      )
+    | Invite Runnabot
+    //- if inviting Runnabot
+    //- .spinner-wrapper.spinner-sm.spinner-white.float-right(
+    //-   ng-include = "'spinner'"
+    //- )
+
+  //- show after successfully inviting runnabot
+  //- .grid-block.shrink.well.gray.padding-sm.runnabot-success
+    img.grid-content.shrink.img(
+      height = "36"
+      src = "/build/images/runnabot-head.png"
+      width = "36"
+    )
+    p.small.text-gray.text-left Nice! Runnabot will join your team soon.
+
+
+  .grid-content.shrink.small(
+    ng-class = "{\
+      'text-gray': !state.adminRequired,\
+      'text-red': state.adminRequired\
+    }"
+    ng-init = "state.adminRequired = false"
+  )
+    //- if the user is an admin:
+    | This may affect your GitHub bill.
+
+    //- if the user is not an admin:
+    //- | Sorry, you’ll need help from an admin
+    //- br
+    //- | of your org to invite Runnabot.
+
+    //- always show this:
+    br
+    a.small.link More about Runnabot

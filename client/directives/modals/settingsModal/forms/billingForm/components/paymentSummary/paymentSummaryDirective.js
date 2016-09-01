@@ -3,34 +3,29 @@
 require('app').directive('paymentSummary', paymentSummary);
 
 function paymentSummary(
+  currentOrg,
   fetchPlan,
-  fetchPaymentMethod,
   loading,
-  moment,
-  $q,
-  $rootScope
+  moment
 ) {
   return {
     restrict: 'A',
     templateUrl: 'paymentSummaryView',
     scope: {
-      showNext: '='
+      isConfirmation: '='
     },
-    link: function ($scope, element) {
-      $scope.activeAccount = $rootScope.dataApp.data.activeAccount;
+    link: function ($scope) {
+      $scope.currentOrg = currentOrg;
       $scope.planMapping = {
-        'starter': 'Starter',
-        'standard': 'Standard',
-        'plus': 'Plus'
+        'runnable-starter': 'Starter',
+        'runnable-standard': 'Standard',
+        'runnable-plus': 'Plus'
       };
       loading('billingForm', true);
-      $q.all([
-        fetchPaymentMethod(),
-        fetchPlan()
-      ])
-        .then(function (data) {
-          $scope.paymentMethod = data[0];
-          $scope.plan = data[1].next.plan;
+      fetchPlan()
+        .then(function (plan) {
+          $scope.discounted = !!plan.discount;
+          $scope.plan = plan.next;
         })
         .finally(function () {
           loading('billingForm', false);
@@ -40,11 +35,15 @@ function paymentSummary(
         if (!$scope.plan) {
           return null;
         }
-        return $scope.plan.price * $scope.plan.userCount;
+        var modifier = 1;
+        if ($scope.discounted) {
+          modifier = 0.5;
+        }
+        return $scope.plan.price * $scope.plan.userCount * modifier;
       };
 
       $scope.getTrialEndDate = function () {
-        return moment($scope.activeAccount.attrs.trialEnd).format('MMM Do, YYYY');
+        return moment(currentOrg.poppa.attrs.trialEnd).format('MMM Do, YYYY');
       };
     }
   };

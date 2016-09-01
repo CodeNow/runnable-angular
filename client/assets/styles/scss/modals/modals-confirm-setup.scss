@@ -1,0 +1,13 @@
+.modal-confirm-setup {
+
+  > .img {
+    height: auto;
+    position: relative;
+    width: 180px;
+    z-index: 1;
+  }
+
+  .modal-dialog {
+    margin-top: -13px;
+  }
+}
