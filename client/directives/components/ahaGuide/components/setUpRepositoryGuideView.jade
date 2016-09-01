@@ -57,29 +57,40 @@
       ng-if = "state.showSubStep < 8"
     ) Next
   p.p.small.text-gray-light Create your First Template
+  //- Step 1:
   p.p(
     ng-if = "state.showSubStep === 0 && !state.showError"
   ) Add a repository by clicking ‘Create Template‘.
+  //- Step 2:
   p.p(
     ng-class = "{'p-slide js-animate': state.showSubStep}"
     ng-if = "state.showSubStep === 1 && !state.showError"
-  ) Select a repository to set up.
+  )
+    //- If no first repo template:
+    | Select a repository to set up.
+    //- If repo template exists:
+    //- | Choose a template to set up.
+  //- Step 3:
   p.p(
     ng-class = "{'p-slide js-animate': state.showSubStep}"
     ng-if = "state.showSubStep === 2 && !state.showError"
   ) How would you like to set up your repo?
+  //- Step 4:
   p.p(
     ng-class = "{'p-slide js-animate': state.showSubStep}"
     ng-if = "state.showSubStep === 3 && !state.showError"
   ) Give your template a name.
+  //- Step 5:
   p.p(
     ng-class = "{'p-slide js-animate': state.showSubStep}"
     ng-if = "state.showSubStep === 4 && !state.showError"
   ) What does your repository run?
+  //- Step 6:
   p.p(
     ng-class = "{'p-slide js-animate': state.showSubStep}"
     ng-if = "state.showSubStep === 5 && !state.showError"
   ) Choose commands and packages.
+  //- Step 7:
   p.p(
     ng-class = "{'p-slide js-animate': state.showSubStep}"
     ng-if = "state.showSubStep === 6 && !state.showError"
@@ -88,23 +99,32 @@
     | {{state.fromMirroring ? 'We‘ve imported your dockerfile, click ‘Save & Build’ to build it!' : ''}}
     //- If the user selected to start with a blank dockerfile:
     //- | When you‘re done editing your dockerfile, click ‘Save & Build’ to build it!
+
+  //- Step 8:
   p.p(
     ng-class = "{'p-slide js-animate': state.showSubStep}"
-    ng-if = "state.showSubStep === 7"
+    ng-if = "state.showSubStep === 7 && !$root.featureFlags.aha1ExitedEarly"
   )
     //- During the build:
     | {{!state.showError ? 'We‘re building! Build time varies depending on your template.' : ''}}
     //- If there's an error (build or cmd):
-    | {{state.showError ? 'Looks like there‘s an error! Inspect your logs for debug info.' : ''}}
+    | {{state.showError ? 'Uh oh, there was a build error! Inspect your logs for debug info.' : ''}}
     //- If detention error:
     //- | Your container is running! But it looks like something has not been set up correctly.
 
+  //- If template repo is deleted:
+  p.p(
+    ng-class = "{'p-slide js-animate': state.showSubStep}"
+    ng-if = "state.showSubStep === 7 && $root.featureFlags.aha1ExitedEarly"
+  ) You‘ve deleted your repository template. Create another one to continue.
+
+  //- Step 9:
   p.p(
     ng-class = "{'p-slide js-animate': state.showSubStep}"
     ng-if = "state.showSubStep === 8 && !state.showError"
   ) Your build is looking good! Check out the URL, then click ‘Done’ if it looks good to you.
 
-  //- in the popover
+  //- Step 10 (in the nav popover):
   p.p(
     ng-if = "$root.featureFlags.aha2"
   ) Add more templates if your project requires it. Once you’re done, head to your containers to start adding branches.
