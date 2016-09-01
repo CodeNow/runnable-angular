@@ -26,7 +26,7 @@
               use(
                 xlink:href = "#icons-new-repository-server"
               )
-            .btn-text.grid-block Create from a repository
+            .btn-text.grid-block Repository Template
           //- disable this button when loading a repository
           .grid-block.shrink.btn(
             ng-disabled = "$root.isLoading[MC.name + 'SingleRepo']"
@@ -42,7 +42,7 @@
               use(
                 xlink:href = "#icons-server-new"
               )
-            .btn-text.grid-block.vertical.text-left Create from a template
+            .btn-text.grid-block.vertical.text-left Non-Repository Template
               small.small For services and databases
           svg.iconnables.icons-close(
             ng-click = "MC.close()"
@@ -74,7 +74,7 @@
             )
           h1.modal-heading(
             ng-if = "!$root.featureFlags.aha1"
-          ) Configuration Method
+          ) Setup Method
           svg.iconnables.icons-close(
             ng-click = "MC.close()"
           )
@@ -155,7 +155,7 @@
                 ul.list.list-bulleted.list-validation
                   li.list-item(
                     ng-class = "{'ng-invalid': MC.nameForm.$error.unique}"
-                  ) Choose a unique name in your Sandbox
+                  ) Choose a unique name for your template
                   li.list-item(
                     ng-class = "{'ng-invalid': MC.nameForm.$error.pattern || MC.nameForm.$error.noDoubleDash}"
                   ) Use letters, numbers, and single hyphens (-)
@@ -174,15 +174,15 @@
               MC.createBuildFromTemplate(MC.state.instanceName, MC.state.templateSource) \
             "
           )
-            //- should say "Next Step: Configure" if a repository container
-            //- should say "Create Container" if its a non-repository container
+            //- should say "Next Step: Setup" if a repository container
+            //- should say "Create Template" if its a non-repository container
             .spinner-wrapper.spinner-white.spinner-sm.in(
               ng-include = "'spinner'"
               ng-if = "$root.isLoading[MC.name + 'SingleRepo']"
             )
             span(
               ng-if = "MC.state.repo"
-            ) Next Step: Configure
+            ) Next Step: Setup
             span(
               ng-if = "MC.state.templateSource"
-            ) Create Container
+            ) Create Template

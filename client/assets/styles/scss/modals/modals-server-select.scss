@@ -33,7 +33,7 @@
 
     .btn {
       align-items: center;
-      border: $input-border solid transparent;
+      border: 1px solid transparent;
       border-radius: $input-border-radius-lg;
       display: flex;
       font-size: 15px;
@@ -49,7 +49,7 @@
       @include media(xxs) {
         flex: 1 1 50%;
         flex-direction: column;
-        height: 96px;
+        height: 94px;
         padding: 15px;
         white-space: normal;
       }
@@ -61,6 +61,7 @@
       &:active,
       &.active {
         border-color: currentColor;
+        box-shadow: inset 0 0 0 1px $purple-light;
         color: $purple;
       }
 

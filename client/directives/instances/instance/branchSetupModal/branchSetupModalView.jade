@@ -45,7 +45,7 @@
           .empty.well.gray.padding-md(
             ng-if = "branches.length === 0"
           )
-            .small.empty.text-center.text-gray We couldn’t find any branches for this container, but you can continue and add branches later.
+            .small.empty.text-center.text-gray We couldn’t find any branches, but you can continue and add branches later.
 
           //- hide this on initial load, but show when paginating
           h4.grid-block.shrink.align-center.h4.text-gray.small.padding-xs
@@ -106,7 +106,7 @@
             )
           h1.modal-heading.fade(
             ng-class = "{'in': isActivePanel()}"
-          ) Select Containers
+          ) Select Templates
           svg.iconnables.icons-close.fade(
             ng-class = "{'in': isActivePanel()}"
           )
@@ -120,7 +120,7 @@
           //- do not show this if there are no containers
           .grid-block.vertical.shrink.text-center.well.gray.small.padding-sm(
             ng-if = "containers.length > 0"
-          ) Select containers from your sandbox to be included with each branch.
+          ) Selected templates will be used to create containers for each branch.
 
           .grid-block.vertical.shrink(
             ng-include = "'branchSetupListView'"
