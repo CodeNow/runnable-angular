@@ -56,10 +56,10 @@
       ng-click = "state.showSubStep = state.showSubStep + 1"
       ng-if = "state.showSubStep < 8"
     ) Next
-  p.p.small.text-gray-light Add your First Repository
+  p.p.small.text-gray-light Create your First Template
   p.p(
     ng-if = "state.showSubStep === 0 && !state.showError"
-  ) Add your repository by clicking ‘Add Template.
+  ) Add a repository by clicking ‘Create Template‘.
   p.p(
     ng-class = "{'p-slide js-animate': state.showSubStep}"
     ng-if = "state.showSubStep === 1 && !state.showError"
