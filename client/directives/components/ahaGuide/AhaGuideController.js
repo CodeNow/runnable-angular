@@ -8,17 +8,15 @@ function AhaGuideController(
   $scope,
   $rootScope,
   $timeout,
-  serviceAhaGuide
+  ahaGuide
 ) {
 
-  var AHA = this;
+  var AGC = this;
   if (!$rootScope.ahaGuide) {
     $rootScope.ahaGuide = {};
   }
 
-  AHA.exitingEarly = exitingEarly;
-
-  $rootScope.ahaGuide.completedMilestones = serviceAhaGuide.getAhaMilestones();
+  AGC.exitingEarly = exitingEarly;
 
   var alertListener = $scope.$on('alert', function(event, alert) {
     // alerts on container creation success
@@ -37,14 +35,14 @@ function AhaGuideController(
   });
 
   var tabListener = $scope.$on('updatedTab', function(event, tabName) {
-    if (AHA.state.subStepIndex > 5) {
+    if (AGC.state.subStepIndex > 5) {
       tabListener();
     } else {
       updateCaption(tabName);
     }
   });
 
-  AHA.state = {
+  AGC.state = {
     hideMenu: false,
     isBuildSuccessful: false,
     mainStep: $scope.stepIndex,
@@ -54,15 +52,15 @@ function AhaGuideController(
   };
 
   // get steps from service
-  AHA.state.steps = serviceAhaGuide.getSteps();
+  AGC.state.steps = ahaGuide.getSteps();
 
   // get the current milestone
-  var currentMilestone = AHA.state.steps[AHA.state.mainStep];
+  var currentMilestone = AGC.state.steps[AGC.state.mainStep];
   // get the bound of the caption array so we know when to stop
 
-  AHA.state.title = currentMilestone.title;
-  AHA.state.caption = currentMilestone.subSteps[AHA.state.subStep].caption;
-  AHA.state.className = currentMilestone.subSteps[AHA.state.subStep].className;
+  AGC.state.title = currentMilestone.title;
+  AGC.state.caption = currentMilestone.subSteps[AGC.state.subStep].caption;
+  AGC.state.className = currentMilestone.subSteps[AGC.state.subStep].className;
 
   // update steps and initiate digest loop
   function updateCaption(status) {
@@ -72,27 +70,28 @@ function AhaGuideController(
     if (status === 'dockLoaded') {
       $rootScope.animatedPanelListener();
     }
-    AHA.state.subStep = status;
-    AHA.state.subStepIndex = currentMilestone.subSteps[status].step;
-    AHA.state.caption = currentMilestone.subSteps[status].caption;
-    AHA.state.className = currentMilestone.subSteps[status].className;
+    AGC.state.subStep = status;
+    AGC.state.subStepIndex = currentMilestone.subSteps[status].step;
+    AGC.state.caption = currentMilestone.subSteps[status].caption;
+    AGC.state.className = currentMilestone.subSteps[status].className;
   }
 
   function handleBuildUpdate(update) {
+    console.log(update);
     var buildStatus = update.status;
-    AHA.state.containerHostname = update.containerHostname;
+    AGC.state.containerHostname = update.containerHostname;
     if (buildStatus === 'buildFailed' || buildStatus === 'stopped' || buildStatus === 'crashed') {
-      AHA.state.showError = true;
+      AGC.state.showError = true;
     } else if (buildStatus === 'starting') {
-      AHA.state.showError = false;
-      addVerificationListeners(AHA.state.containerHostname);
+      AGC.state.showError = false;
+      addVerificationListeners(AGC.state.containerHostname);
     }
     updateBuildStatus(buildStatus);
   }
 
   function updateBuildStatus(buildStatus) {
-    AHA.state.buildStatus = buildStatus;
-    AHA.state.caption = currentMilestone.buildStatus[buildStatus] || AHA.state.caption;
+    AGC.state.buildStatus = buildStatus;
+    AGC.state.caption = currentMilestone.buildStatus[buildStatus] || AGC.state.caption;
   }
 
   function addVerificationListeners(containerHostname) {
@@ -100,42 +99,15 @@ function AhaGuideController(
       $rootScope.doneListener = $rootScope.$on('close-popovers', function() {
         $rootScope.doneListener();
         updateCaption('complete');
-        $rootScope.ahaGuide.completedMilestones.aha1 = true;
-        $rootScope.ahaGuide.exitedEarly = false;
-        $rootScope.ahaGuide.showPopover = true;
+        $rootScope.ahaGuide.ahaGuideToggles.exitedEarly = false;
+        $rootScope.ahaGuide.ahaGuideToggles.showPopover = true;
       });
     }
-
-    var url = 'http://' + containerHostname;
-    $timeout(function() {
-      if (serviceAhaGuide.pendingRequest) {
-        return;
-      }
-      if (AHA.state.showError === false && !AHA.state.isBuildSuccesful) {
-        AHA.state.isBuildSuccessful = true;
-        buildLogListener();
-        serviceAhaGuide.checkContainerStatus(url)
-          .then(function(isRunning) {
-            if (isRunning) {
-              updateCaption('success');
-              $rootScope.ahaGuide.exitedEarly = false;
-            } else {
-              updateBuildStatus('cmdFailed');
-              AHA.state.showError = true;
-              AHA.state.showBindingMSG = true;
-              $rootScope.ahaGuide.showError = AHA.state.showError;
-            }
-          });
-      } else {
-        AHA.state.isBuildSuccessful = false;
-        $rootScope.ahaGuide.showError = AHA.state.showError;
-      }
-    }, 5000);
   }
 
   function exitingEarly() {
     exitedEarlyListener();
-    AHA.state.showError = true;
+    AGC.state.showError = true;
     updateCaption('exitedEarly');
     $rootScope.ahaGuide.completedMilestones.aha1 = true;
   }
@@ -153,15 +125,12 @@ function AhaGuideController(
     if ($rootScope.doneListener) {
       $rootScope.doneListener();
     }
-    if (AHA.state.subStep === 'dockLoaded') {
+    if (AGC.state.subStep === 'dockLoaded') {
       $rootScope.ahaGuide.completedMilestones.aha0 = true;
     }
-    if (AHA.state.subStepIndex === 7 && !AHA.state.isBuildSuccessful) {
-      $rootScope.ahaGuide.exitedEarly = true;
-      $rootScope.ahaGuide.completedMilestones.aha1 = true;
+    if (AGC.state.subStepIndex === 7 && !AGC.state.isBuildSuccessful) {
+      $rootScope.ahaGuide.ahaGuideToggles.exitedEarly = true;
       $rootScope.$broadcast('exitedEarly');
-    } else if (AHA.state.subStep === 'success') {
-      $rootScope.ahaGuide.completedMilestones.aha1 = true;
     }
   });
   

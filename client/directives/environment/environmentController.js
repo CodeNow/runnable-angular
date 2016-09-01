@@ -88,6 +88,9 @@ function EnvironmentController(
   fetchInstancesByPod($state.userName)
     .then(function (instancesCollection) {
       $scope.data.instances = instancesCollection;
+      $rootScope.ahaGuide.ahaGuideToggles.showAha1 = !instancesCollection.models.length;
+      $rootScope.ahaGuide.ahaGuideToggles.showSidebar = !instancesCollection.models.length;
+      $rootScope.ahaGuide.ahaGuideToggles.showOverview = !instancesCollection.models.length;
       // Asynchronously fetch the Dockerfile
       instancesCollection.forEach(function (instance) {
         if (instance.hasDockerfileMirroring()) {

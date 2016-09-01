@@ -13,7 +13,7 @@ function ahaGuideDirective(
     restrict: 'A',
     templateUrl: 'ahaGuideView',
     controller: 'AhaGuideController',
-    controllerAs: 'AHA',
+    controllerAs: 'AGC',
     scope: {
       stepIndex: '=',
       subStep: '@',

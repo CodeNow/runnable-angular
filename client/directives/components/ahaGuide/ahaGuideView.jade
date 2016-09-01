@@ -1,20 +1,20 @@
 .grid-block.align-center(
-  ng-if = "AHA.state.mainStep === 0"
+  ng-if = "AGC.state.mainStep === 0"
   ng-include = "'createSandboxGuideView'"
 )
 
 .grid-block.align-center(
-  ng-if = "AHA.state.mainStep === 1"
+  ng-if = "AGC.state.mainStep === 1"
   ng-include = "'setUpRepositoryGuideView'"
 )
 
 .grid-block.align-center(
-  ng-if = "AHA.state.mainStep === 2"
+  ng-if = "AGC.state.mainStep === 2"
   ng-include = "'addBranchGuideView'"
 )
 
 .grid-block.align-center(
-  ng-if = "AHA.state.mainStep === 3"
+  ng-if = "AGC.state.mainStep === 3"
   ng-include = "'setUpRunnabotGuideView'"
 )
 
@@ -25,12 +25,11 @@
 
 button.btn.btn-xs.white.btn-menu(
   ng-class = "{'active': ahaMenuGuidePopover.data.show}"
-  ng-if = "!AHA.state.hideMenu"
+  ng-if = "!AGC.state.hideMenu"
   pop-over
   pop-over-active = "ahaMenuGuidePopover.data.show"
   pop-over-options = "{\"centered\":true,\"top\":36}"
   pop-over-template = "ahaGuideMenuPopoverView"
-  pop-over-func = "AHA.exitingEarly"
 )
   svg.iconnables
     use(

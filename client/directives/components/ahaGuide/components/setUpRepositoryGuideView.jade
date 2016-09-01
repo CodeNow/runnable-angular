@@ -4,23 +4,23 @@
 )
 
 .grid-block.shrink.aha-meter.js-animate(
-  class = "{{ AHA.state.className }}"
-  ng-class = "{'aha-error': AHA.state.showError}"
+  class = "{{ AGC.state.className }}"
+  ng-class = "{'aha-error': AGC.state.showError}"
   ng-if = "!state.showVerification"
 )
   svg.iconnables(
-    ng-if = "!AHA.state.showError"
+    ng-if = "!AGC.state.showError"
   )
     use(
-      ng-if = "$root.featureFlags.aha1 && AHA.state.subStep !== 'complete'"
+      ng-if = "$root.featureFlags.aha1 && AGC.state.subStep !== 'complete'"
       xlink:href = "#icons-octicons-repo"
     )
     use(
-      ng-if = "AHA.state.subStep === 'complete'"
+      ng-if = "AGC.state.subStep === 'complete'"
       xlink:href = "#icons-check"
     )
   svg.iconnables.icons-alert(
-    ng-if = "AHA.state.showError"
+    ng-if = "AGC.state.showError"
   )
     use(
       xlink:href = "#icons-alert-alt"
@@ -34,49 +34,49 @@
   )
     a.grid-content.shrink.red.small.link(
       ng-click = "state.showVerification = !state.showVerification"
-      ng-if = "AHA.state.subStep === 7"
+      ng-if = "AGC.state.subStep === 7"
     ) Verify
     a.grid-content.shrink.red.small.link(
       ng-click = "\
         state.showError = !state.showError;\
         state.showErrorType = 'CMD';\
       "
-      ng-if = "AHA.state.subStep === 7"
+      ng-if = "AGC.state.subStep === 7"
     ) CMDErr
     a.grid-content.shrink.red.small.link(
       ng-click = "\
         state.showError = !state.showError;\
         state.showErrorType = 'build';\
       "
-      ng-if = "AHA.state.subStep === 7"
+      ng-if = "AGC.state.subStep === 7"
     ) BuildErr
     a.grid-content.shrink.red.small.link(
       ng-click = "\
         $root.featureFlags.aha1 = false;\
         $root.featureFlags.aha2 = true;\
       "
-      ng-if = "AHA.state.subStep === 8"
+      ng-if = "AGC.state.subStep === 8"
     ) NextMile
     a.grid-content.shrink.red.small.link(
-      ng-click = "AHA.state.subStep = AHA.state.subStep - 1"
-      ng-if = "AHA.state.subStep < 9 && AHA.state.subStep > 1"
+      ng-click = "AGC.state.subStep = AGC.state.subStep - 1"
+      ng-if = "AGC.state.subStep < 9 && AGC.state.subStep > 1"
     ) Prev
     a.grid-content.shrink.red.small.link(
-      ng-click = "AHA.state.subStep = AHA.state.subStep + 1"
-      ng-if = "AHA.state.subStep < 8"
+      ng-click = "AGC.state.subStep = AGC.state.subStep + 1"
+      ng-if = "AGC.state.subStep < 8"
     ) Next
-  p.p.small.text-gray-light {{ AHA.state.title }}
+  p.p.small.text-gray-light {{ AGC.state.title }}
   p.p(
-    ng-class = "{'p-slide js-animate': AHA.state.subStepIndex > 0}"
-    ng-if = "$root.featureFlags.aha1 && !$root.ahaGuide.exitedEarly && !state.showError && !state.showVerification"
-  ) {{ AHA.state.caption }}
+    ng-class = "{'p-slide js-animate': AGC.state.subStepIndex > 0}"
+    ng-if = "$root.featureFlags.aha1 && !$root.ahaGuide.ahaGuideToggles.exitedEarly && !state.showError && !state.showVerification"
+  ) {{ AGC.state.caption }}
   p.p(
-    ng-class = "{'p-slide js-animate': AHA.state.subStepIndex}"
-    ng-if = "$root.featureFlags.aha && $root.ahaGuide.exitedEarly && !state.showError && !state.showVerification"
-  ) {{ AHA.state.caption }}
+    ng-class = "{'p-slide js-animate': AGC.state.subStepIndex}"
+    ng-if = "$root.featureFlags.aha && $root.ahaGuide.ahaGuideToggles.exitedEarly && !state.showError && !state.showVerification"
+  ) {{ AGC.state.caption }}
   p.p(
-    ng-class = "{'p-slide js-animate': AHA.state.subStepIndex}"
-    ng-if = "AHA.state.subStep === 7"
+    ng-class = "{'p-slide js-animate': AGC.state.subStepIndex}"
+    ng-if = "AGC.state.subStep === 7"
   )
     | {{!state.showError && !state.showVerification ? 'Now building. Build time varies depending on your template.' : ''}}
     | {{state.showVerification ? 'Verifying Template…' : ''}}
@@ -92,11 +92,6 @@
       | !
 
   p.p(
-    ng-class = "{'p-slide js-animate': AHA.state.subStepIndex}"
-    ng-if = "AHA.state.subStep === 8 && !state.showError && !state.showVerification"
+    ng-class = "{'p-slide js-animate': AGC.state.subStepIndex}"
+    ng-if = "AGC.state.subStep === 8 && !state.showError && !state.showVerification"
   ) Your build is looking good! Check out its URL and click ‘Done’ if it looks good to you.
-
-  //- in the popover
-  p.p(
-    ng-if = "$root.featureFlags.aha2"
-  ) Add more templates if your project requires it. Once you’re done, head to your containers to start adding branches.

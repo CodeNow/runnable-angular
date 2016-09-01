@@ -6,7 +6,7 @@
 
 //- aha menu
 .popover.right.in.popover-aha(
-  ng-if = "$root.featureFlags.aha2 && !$root.ahaGuide.exitedEarly && $root.ahaGuide.showPopover"
+  ng-if = "$root.featureFlags.aha2 && !$root.ahaGuide.ahaGuideToggles.exitedEarly && $root.ahaGuide.ahaGuideToggles.showPopover"
   ng-include = "'ahaPopoverView'"
 )
 
@@ -21,7 +21,7 @@ a.a(
   | Templates
 
 a.a.disabled(
-  ng-if = "(dataApp.state.includes('base.config') && CA.instancesByPod && !CA.instancesByPod.models.length) || !$root.ahaGuide.completedMilestones.aha1 || $root.ahaGuide.exitedEarly"
+  ng-if = "(dataApp.state.includes('base.config') && CA.instancesByPod && !CA.instancesByPod.models.length)"
   tooltip = "You don’t have any running containers yet!"
   tooltip-options = "{\"class\":\"right\",\"left\":75,\"top\":17}"
 )
@@ -32,7 +32,7 @@ a.a.disabled(
   | Containers
 
 a.a(
-  ng-if = "(dataApp.state.includes('base.instances') || !CA.instancesByPod || CA.instancesByPod.models.length) && $root.ahaGuide.completedMilestones.aha1 && !$root.ahaGuide.exitedEarly"
+  ng-if = "(dataApp.state.includes('base.instances') || !CA.instancesByPod || CA.instancesByPod.models.length)"
   ui-sref = "base.instances({ userName: CA.activeAccount.oauthName() })"
   ui-sref-active = "active"
 )

@@ -87,19 +87,37 @@ function ControllerApp(
   $rootScope.featureFlags = featureFlags.flags;
   $rootScope.resetFeatureFlags = featureFlags.reset;
   this.featureFlagsChanged = featureFlags.changed;
-  $rootScope.ahaGuide = {
-    completedMilestones: $localStorage.completedMilestones || {
+  $rootScope.ahaGuide = {};
+  var completedMilestones = keypather.get($localStorage, 'ahaGuide.completedMilestones');
+  var ahaGuideToggles = keypather.get($localStorage, 'ahaGuide.toggles');
+
+  if (!completedMilestones) {
+    completedMilestones = {
       aha1: false,
       aha2: false,
       aha3: false,
       aha4: false
-    },
-    showError: false,
-    exitedEarly: false,
-    showPopover: false
-  };
-  $rootScope.ahaGuide.showOverview = !$rootScope.ahaGuide.completedMilestones.aha1;
-  $rootScope.ahaGuide.showSidebar = !$rootScope.ahaGuide.completedMilestones.aha1;
+    };
+    keypather.set($localStorage, 'ahaGuide.completedMilestones', completedMilestones);
+  }
+
+  if (!ahaGuideToggles) {
+    ahaGuideToggles = {
+      showAha: true,
+      showAha1: false,
+      showAha2: false,
+      showAha3: false,
+      exitedEarly: false,
+      showError: false,
+      showOverview: true,
+      showPopover: false,
+      showSidebar: false
+    };
+    keypather.set($localStorage, 'ahaGuide.ahaGuideToggles', ahaGuideToggles);
+  }
+
+  $rootScope.ahaGuide.completedMilestones = $localStorage.ahaGuide.completedMilestones;
+  $rootScope.ahaGuide.ahaGuideToggles = $localStorage.ahaGuide.ahaGuideToggles;
 
   $scope.$watch(function () {
     return errs.errors.length;

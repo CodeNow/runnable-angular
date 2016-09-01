@@ -1,7 +1,7 @@
 .modal-backdrop.in
   .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
     aha-guide-directive
-    ng-class = "{'p-slide js-animate': AHA.state.subStepIndex > 0}"
+    ng-class = "{'p-slide js-animate': AGC.state.subStepIndex > 0}"
     ng-if = "$root.featureFlags.aha1 && !$root.ahaGuide.completedMilestones.aha1"
     step-index = 1
     sub-step = "containerSelection"

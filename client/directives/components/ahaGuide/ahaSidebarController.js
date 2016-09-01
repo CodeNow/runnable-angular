@@ -7,18 +7,17 @@ require('app')
 function AhaSidebarController(
   $scope,
   $rootScope,
-  serviceAhaGuide
+  ahaGuide
 ) {
   
   var ASC = this;
-  $rootScope.ahaGuide.completedMilestones = serviceAhaGuide.getAhaMilestones();
 
   ASC.toggleOverview = function() {
-    $rootScope.ahaGuide.showOverview = !$rootScope.ahaGuide.showOverview;
+    $rootScope.ahaGuide.ahaGuideToggles.showOverview = !$rootScope.ahaGuide.ahaGuideToggles.showOverview;
     ASC.toggleSidebar();
   };
 
   ASC.toggleSidebar = function() {
-    $rootScope.ahaGuide.showSidebar = !$rootScope.ahaGuide.showSidebar;
+    $rootScope.ahaGuide.ahaGuideToggles.showSidebar = !$rootScope.ahaGuide.ahaGuideToggles.showSidebar;
   };
 }

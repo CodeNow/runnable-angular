@@ -1,15 +1,13 @@
 'use strict';
 
 require('app')
-  .factory('serviceAhaGuide', serviceAhaGuide);
+  .factory('ahaGuide', ahaGuide);
 
-function serviceAhaGuide(
+function ahaGuide(
   $http,
   $localStorage,
   keypather
 ) {
-
-  var ahaMilestonesComplete = getAhaMilestones();
 
   var _steps = [
     {
@@ -126,9 +124,8 @@ function serviceAhaGuide(
       },
       buildStatus: {
         building: 'Now building. Build time varies depending on your configuration',
-        running: 'Verifying configuration... ',
         starting: 'Now building. Build time varies depending on your configuration',
-        success: 'Your build is looking good! Check out its URL and click \'Done\' if it looks good',
+        running: 'Your build is looking good! Check out its URL and click \'Done\' if it looks good',
         stopped: 'Your container failed to run. Inspect your CMD logs for more information.',
         cmdFailed: 'Your container failed to run. Inspect your CMD logs for more information.',
         crashed: 'Your container failed to run. Inspect your CMD logs for more information.',
@@ -176,34 +173,26 @@ function serviceAhaGuide(
       });
   }
 
-  function isComplete(step, bool) {
-    if (bool === true) {
-      keypather.set($localStorage, 'completedMilestones.' + step, true);
-      ahaMilestonesComplete[step] = bool;
-    } else {
-      return keypather.get($localStorage, 'completedMilestones.' + step);
-    }
-  }
-
   function getAhaMilestones() {
-    var ahaMilestones = keypather.get($localStorage, 'completedMilestones');
-    if (!ahaMilestones) {
-      ahaMilestones = {
-        aha0: false,
-        aha1: false,
-        aha2: false,
-        aha3: false
+    var ahaGuideToggles = keypather.get($localStorage, 'ahaGuide.toggles');
+
+    if (!ahaGuideToggles) {
+      ahaGuideToggles = {
+        exitedEarly: false,
+        showError: false,
+        showOverview: false,
+        showPopover: false,
+        showSidebar: false
       };
-      keypather.set($localStorage, 'completedMilestones', ahaMilestones);
+      keypather.set($localStorage, 'ahaGuide.toggles', ahaGuideToggles);
     }
 
-    return ahaMilestones;
+    return completedMilestones;
   }
 
   return {
     checkContainerStatus: checkContainerStatus,
     getAhaMilestones: getAhaMilestones,
-    getSteps: getSteps,
-    isComplete: isComplete
+    getSteps: getSteps
   };
 }
