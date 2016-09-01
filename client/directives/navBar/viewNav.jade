@@ -32,7 +32,7 @@ a.a.disabled(
   | Containers
 
 a.a(
-  ng-if = "(dataApp.state.includes('base.instances') || !CA.instancesByPod || CA.instancesByPod.models.length) && !$root.featureFlags.aha1 && !$root.featureFlags.aha1ExitedEarly"
+  ng-if = "(dataApp.state.includes('base.instances') || !CA.instancesByPod || CA.instancesByPod.models.length) && !$root.featureFlags.aha1 && !$root.featureFlags.aha1ExitedEarly && !$root.featureFlags.aha2"
   ui-sref = "base.instances({ userName: CA.activeAccount.oauthName() })"
   ui-sref-active = "active"
 )
@@ -41,6 +41,17 @@ a.a(
       xlink:href = "#icons-server-dark"
     )
   | Containers
+
+a.a(
+  ng-if = "$root.featureFlags.aha2"
+  internal-modal-helper = "confirmSetupView"
+)
+  svg.iconnables.icons-server-dark
+    use(
+      xlink:href = "#icons-server-dark"
+    )
+  | Containers
+
 
 a.a.btn-docs(
   href = "https://support.runnable.com"
