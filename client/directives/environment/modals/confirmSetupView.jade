@@ -1,0 +1,21 @@
+.modal-backdrop.modal-confirm-setup
+  img.img(
+    src = "/build/images/runnabear-working.png"
+  )
+  .modal-dialog.modal-sm
+    .modal-body
+      svg.iconnables.icons-close(
+        ng-click = "SMC.actions.close()"
+      )
+        use(
+          xlink:href = "#icons-close"
+        )
+      .grid-block.vertical.padding-md
+        h3.grid-content.h3.text-center Is your project running?
+        p.grid-content.p.text-center.text-gray We recommend finishing setup before continuing. If you need help getting your project running,&#32;
+          //- Opens Intercom chat, and starts with "I need help setting up!":
+          a.link chat with our devs
+          | .
+    footer.modal-footer.clearfix
+      button.btn.btn-md.white.float-left Go Back
+      button.btn.btn-md.green.float-right It‘s Running!
