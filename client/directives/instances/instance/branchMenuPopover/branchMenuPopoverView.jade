@@ -123,7 +123,9 @@
             )
             .text-center.text-gray.small.padding-lg(
               ng-if = "branch.length === 0"
-            ) This repository doesn’t have any branches.
+            ) This repository doesn’t have
+              br
+              | any branches.
           ul.list.popover-list(
             ng-if = "state.branchesLoaded"
           )
