@@ -88,8 +88,7 @@
 .list-clusters {
   padding: 15px 0;
 
-  + .list-clusters,
-  .well + & {
+  + .list-clusters {
     border-top: 1px solid $gray-lighter;
   }
 }

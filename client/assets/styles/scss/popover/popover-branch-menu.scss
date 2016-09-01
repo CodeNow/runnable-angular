@@ -1,7 +1,14 @@
 .popover-branch-menu {
   max-width: 330px;
-  min-height: 150px;
+  min-height: 90px;
   width: 100%;
+
+  .aha-guide {
+    border-bottom: 1px solid $gray-lighter;
+    font-size: 15px;
+    margin-top: 6px;
+    padding-bottom: 21px;
+  }
 
   .well {
     margin-bottom: 6px;
