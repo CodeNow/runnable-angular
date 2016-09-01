@@ -75,7 +75,6 @@
     }
 
     .btn {
-      margin-bottom: 30px;
 
       .iconnables {
         height: 21px;
@@ -88,12 +87,15 @@
         float: right;
       }
     }
+
+    // the details text
+    .grid-content.small {
+      margin-top: 15px;
+    }
   }
 
   .runnabot-success {
-    margin: 15px 0 30px;
-    max-width: 180px;
-    padding: 3px 0;
+    max-width: 210px;
 
     .img {
       margin-right: 9px;

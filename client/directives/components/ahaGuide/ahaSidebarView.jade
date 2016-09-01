@@ -135,8 +135,8 @@
     //- )
 
   //- show after successfully inviting runnabot
-  //- .grid-block.runnabot-success.shrink
-    img.img(
+  //- .grid-block.shrink.well.gray.padding-sm.runnabot-success
+    img.grid-content.shrink.img(
       height = "36"
       src = "/build/images/runnabot-head.png"
       width = "36"
@@ -145,7 +145,7 @@
 
 
   //- if the user is an admin:
-  .small.text-gray This may affect your GitHub bill.
+  .grid-content.shrink.small.text-gray This may affect your GitHub bill.
   //- if the user is not an admin:
   //- .small.text-red Sorry, you’ll need help from an admin
     br
