@@ -74,7 +74,6 @@
     }
 
     .btn {
-      align-self: center;
       margin-bottom: 30px;
 
       .iconnables {
@@ -83,6 +82,20 @@
         top: 4px;
         width: 21px;
       }
+
+      .spinner {
+        float: right;
+      }
+    }
+  }
+
+  .runnabot-success {
+    margin: 15px 0 30px;
+    max-width: 180px;
+    padding: 3px 0;
+
+    .img {
+      margin-right: 9px;
     }
   }
 

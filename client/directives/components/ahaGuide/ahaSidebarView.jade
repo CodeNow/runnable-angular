@@ -98,7 +98,7 @@
       p.p.strong Add your First Branch
       p.small Your branches will update on every commit you make.
 
-.grid-block.vertical.text-center.aha-overview(
+.grid-block.vertical.align-center.text-center.aha-overview(
   ng-if = "$root.featureFlags.aha3"
 )
   header.grid-block.shrink.align-center.justify-center.aha-sidebar-header
@@ -119,7 +119,8 @@
     src = "/build/images/runnabot-comment.png"
     width = "358"
   )
-  //- add disabled attr if inviting runnabot, or if user isn't an admin
+  //- add 'disabled' attr if inviting runnabot, or if user isn't an admin
+      hide after successfully inviting runnabot
   button.grid-content.shrink.btn.btn-md.green.btn-spinner(
     ng-click = "$root.featureFlags.ahaOverview = false"
   )
@@ -132,6 +133,16 @@
     //- .spinner-wrapper.spinner-sm.spinner-white.in(
     //-   ng-include = "'spinner'"
     //- )
+
+  //- show after successfully inviting runnabot
+  //- .grid-block.runnabot-success.shrink
+    img.img(
+      height = "36"
+      src = "/build/images/runnabot-head.png"
+      width = "36"
+    )
+    p.small.text-gray.text-left Nice! Runnabot will join your team soon.
+
 
   //- if the user is an admin:
   .small.text-gray This may affect your GitHub bill.
