@@ -133,10 +133,11 @@
     //-   ng-include = "'spinner'"
     //- )
 
-  .small.text-gray
-    //- if the user is an admin:
-    | This may affect your GitHub bill.
-    //- if the user is not an admin:
-    //- | Sorry, you’ll need help from an admin of your org to invite Runnabot.
+  //- if the user is an admin:
+  .small.text-gray This may affect your GitHub bill.
+  //- if the user is not an admin:
+  //- .small.text-red Sorry, you’ll need help from an admin
     br
-    a.link More about Runnabot
+    | of your org to invite Runnabot.
+
+  a.small.text-gray.link More about Runnabot
