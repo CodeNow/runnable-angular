@@ -22,3 +22,9 @@
   p.p(
     ng-if = "state.showSubStep === 2"
   ) Select a branch to add.
+  //- show in the branch menu if the repository has no branches.
+  p.p(
+    ng-if = "state.showSubStep === 3"
+  ) Aw, no branches. Try another repository or&#32;
+    a.link skip this step
+    | .

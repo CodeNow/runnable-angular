@@ -121,9 +121,9 @@
               required
               type = "search"
             )
-          .text-center.text-gray.small.padding-md(
-            ng-if = "branch.length === 0"
-          ) There are no branches to add.
+            .text-center.text-gray.small.padding-lg(
+              ng-if = "branch.length === 0"
+            ) This repository doesn’t have any branches.
           ul.list.popover-list(
             ng-if = "state.branchesLoaded"
           )
