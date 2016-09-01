@@ -30,21 +30,23 @@
 
   .grid-block.shrink.align-center.padding-sm.aha-guide(
     ng-class = "{'disabled': data.instances.models.length}"
+    ng-click = "!data.instances.models.length && ASC.toggleOverview()"
+    ng-class = "{active: !data.instances.models.length}"
   )
     .grid-block.shrink.aha-meter(
       ng-class = "{\
           'aha-error': $root.ahaGuide.ahaGuideToggles.showError,\
           'aha-meter-70': $root.ahaGuide.ahaGuideToggles.exitedEarly,\
-          'aha-meter-100': $root.ahaGuide.completedMilestones.aha1\
+          'aha-meter-100': !$root.ahaGuide.ahaGuideToggles.showAha1\
         }"
     )
       svg.iconnables
         use(
-          ng-if = "$root.featureFlags.aha1 && !$root.ahaGuide.completedMilestones.aha1"
+          ng-if = "$root.ahaGuide.ahaGuideToggles.showAha1"
           xlink:href = "#icons-octicons-repo"
         )
         use(
-          ng-if = "$root.ahaGuide.completedMilestones.aha1"
+          ng-if = "!$root.ahaGuide.ahaGuideToggles.showAha1"
           xlink:href = "#icons-check"
         )
     .grid-block.vertical.aha-text

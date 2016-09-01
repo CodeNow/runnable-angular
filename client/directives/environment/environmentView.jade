@@ -98,7 +98,7 @@
         )
 
     .modal-dialog.modal-sm(
-      ng-if = "$root.featureFlags.aha1 && !$root.ahaGuide.ahaGuideToggles.showOverview && !$root.ahaGuide.ahaGuideToggles.exitedEarly && $root.ahaGuide.ahaGuideToggles.showAha1"
+      ng-if = "$root.featureFlags.aha1 && !$root.ahaGuide.ahaGuideToggles.showOverview && !$root.ahaGuide.ahaGuideToggles.exitedEarly && !data.instances.models.length"
     )
       .grid-block.align-center.aha-guide.padding-md(
         aha-guide-directive

@@ -85,6 +85,10 @@ function AhaGuideController(
     } else if (buildStatus === 'starting') {
       AGC.state.showError = false;
       addVerificationListeners(AGC.state.containerHostname);
+    } else if (buildStatus === 'running') {
+        updateCaption('success');
+        $rootScope.ahaGuide.exitedEarly = false;
+        $root.ahaGuide.ahaGuideToggles.showPopover = true;
     }
     updateBuildStatus(buildStatus);
   }
@@ -101,6 +105,7 @@ function AhaGuideController(
         updateCaption('complete');
         $rootScope.ahaGuide.ahaGuideToggles.exitedEarly = false;
         $rootScope.ahaGuide.ahaGuideToggles.showPopover = true;
+        $rootScope.ahaGuide.ahaGuideToggles.showAha1 = false;
       });
     }
   }
@@ -139,4 +144,3 @@ function AhaGuideController(
   });
 
 }
-

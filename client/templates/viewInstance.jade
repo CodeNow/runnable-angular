@@ -7,36 +7,7 @@
 .grid-block.vertical.instance(
   ng-if = "!isLoading.main"
 )
-
-  .grid-block.shrink.vertical.instance-header(
-    ng-if = "$root.featureFlags.aha2"
-  )
-
-    button.grid-block.shrink.btn.btn-sm.gray.btn-aha(
-      ng-click = "$root.featureFlags.ahaSidebar = true"
-      ng-if = "$root.featureFlags.aha && !$root.featureFlags.ahaSidebar"
-      tooltip = "Setup Guide"
-      tooltip-options = "{\"class\":\"left\",\"right\":42,\"top\":0}"
-    )
-      svg.iconnables
-        use(
-          xlink:href = "#icons-help"
-          )
-
-  .grid-block.align-center.justify-center(
-    ng-if = "$root.featureFlags.aha2 && !$root.ahaGuide.completedMilestones.aha2"
-  )
-    .modal-dialog.modal-sm(
-    )
-      .grid-block.align-center.aha-guide.padding-md(
-          aha-guide-directive
-          step-index = 2
-          sub-step = "addBranch"
-          sub-step-index = 0
-        )
-
   .grid-block.vertical(
-    ng-if = "!$root.featureFlags.aha2"
   )
     //- show if server build is being swapped out
       - orange when build is updating or has failed

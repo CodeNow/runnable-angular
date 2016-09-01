@@ -93,10 +93,10 @@ function ControllerApp(
 
   if (!completedMilestones) {
     completedMilestones = {
+      aha0: false,
       aha1: false,
       aha2: false,
-      aha3: false,
-      aha4: false
+      aha3: false
     };
     keypather.set($localStorage, 'ahaGuide.completedMilestones', completedMilestones);
   }
