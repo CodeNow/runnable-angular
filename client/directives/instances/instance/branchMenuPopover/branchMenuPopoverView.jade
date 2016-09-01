@@ -116,6 +116,7 @@
                 )
                 .toggle-group.toggle-sm
             input.input.input-xs.input-search(
+              ng-if = "branch.length !== 0"
               placeholder = "Filter"
               required
               type = "search"
