@@ -1,25 +1,19 @@
-.list-instances-wrapper {
+// instances list
+.list-instances {
   background: $gray-lighterest;
   border-right: 1px solid $gray-lighter;
   color: $gray;
   display: none;
   font-size: 15px;
   height: 100vh;
-  overflow: visible;
-  width: $instance-list-width;
-
-  &.in {
-    display: flex;
-  }
-}
-
-// instances list
-.list-instances {
-  max-height: 100vh;
   overflow-y: auto;
   padding: 0 12px 45px;
   position: relative;
-  width: 100%;
+  width: $instance-list-width;
+
+  &.in {
+    display: block;
+  }
 
   // search
   .label-search {
@@ -92,8 +86,11 @@
 
 // wraps the master cluster and each repository section
 .list-clusters {
-  border-bottom: 1px solid $gray-lighter;
   padding: 15px 0;
+
+  + .list-clusters {
+    border-top: 1px solid $gray-lighter;
+  }
 }
 
 .list-clusters-heading {
