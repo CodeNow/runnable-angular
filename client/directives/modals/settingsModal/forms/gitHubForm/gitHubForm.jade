@@ -1,35 +1,9 @@
-.modal-form.form-github
+//- If loading:
+//- .modal-form
+  .spinner-wrapper.spinner-md.spinner-gray.in(
+    ng-include = "'spinner'"
+  )
 
-  //- .spinner-wrapper.spinner-md.spinner-gray.in(
-  //-   ng-include = "'spinner'"
-  //- )
-
-  label.label.clearfix
-    .grid-block.align-center
-      .grid-block.shrink.label-col Enable PR Comments
-
-      .grid-block.justify-right.input-col
-        input.toggle-input(
-          type = "checkbox"
-        )
-        .toggle-group.toggle-sm
-    small.small.padding-xxs Runnabot will comment on your pull requests with your container url and status.&#32;
-  .well.gray.padding-sm
-    .label-col.full-width Powering Up Runnabot
-    ol.ol.padding-xxs
-      li.li Go to&#32;
-        a.link(
-          href = "https://github.com/orgs/CodeNow/people"
-          target = "_blank"
-        ) your team on GitHub
-        |, and click on “Invite&nbsp;member”.
-      li.li Look for “Runnabot” and add our bot as a member to your org.
-    a.grid-block.link.small.padding-xxs(
-      href = "https://support.runnable.com/hc/en-us/articles/210294023-How-do-I-invite-Runnabot-to-my-GitHub-Organization-"
-      target = "_blank"
-    )
-      svg.grid-content.shrink.iconnables
-        use(
-          xlink:href = "#icons-life-preserver"
-        )
-      | I need help (with pictures)!
+.modal-form.empty.grid-block.vertical.align-center.form-github(
+  ng-include = "'gitHubIntegrationView'"
+)
