@@ -121,7 +121,7 @@
   )
   //- add 'disabled' attr if inviting runnabot, or if user isn't an admin
       hide after successfully inviting runnabot
-  button.grid-content.shrink.btn.btn-md.green.btn-spinner(
+  button.grid-content.shrink.btn.btn-md.green(
     ng-click = "$root.featureFlags.ahaOverview = false"
   )
     svg.iconnables.icons-octicons-github
@@ -130,7 +130,7 @@
       )
     | Invite Runnabot
     //- if inviting Runnabot
-    //- .spinner-wrapper.spinner-sm.spinner-white.in(
+    //- .spinner-wrapper.spinner-sm.spinner-white.float-right(
     //-   ng-include = "'spinner'"
     //- )
 
