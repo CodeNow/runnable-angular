@@ -91,7 +91,7 @@
           ng-init = "state.branchesLoaded = null"
         )
 
-          .spinner-wrapper.spinner-sm.spinner-gray.spinner-center.in(
+          .spinner-wrapper.spinner-sm.spinner-gray(
             ng-click = "state.branchesLoaded = true"
             ng-if = "!state.branchesLoaded"
             ng-include = "'spinner'"
