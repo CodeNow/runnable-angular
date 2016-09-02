@@ -7,20 +7,11 @@
   flex-direction: column;
   height: 100vh;
   overflow: auto;
-  padding: 90px 15px;
+  padding: 0 15px;
   position: fixed;
   top: 0;
   width: 100vw;
   z-index: $z-modal;
-
-  @include media(lg) {
-    padding-bottom: 30px;
-    padding-top: 30px;
-  }
-
-  @media (max-height: $screen-xs), (max-width: $screen-sm) {
-    padding: 15px;
-  }
 
   &.modal-blackout {
     background: $white;
@@ -41,10 +32,22 @@
   display: flex;
   flex: 0 0 auto;
   flex-direction: column;
+  margin-bottom: 90px;
+  margin-top: 90px;
   min-width: 360px;
   position: relative;
   transform-origin: 50% 10%;
   transition: max-width .3s ease-in-out;
+
+  @include media(lg) {
+    margin-bottom: 30px;
+    margin-top: 30px;
+  }
+
+  @media (max-height: $screen-xs), (max-width: $screen-sm) {
+    margin-bottom: 15px;
+    margin-top: 15px;
+  }
 
   @include media(sm) {
     width: 100%;
