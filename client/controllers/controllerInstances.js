@@ -14,12 +14,16 @@ function ControllerInstances(
   errs,
   ModalService,
   fetchInstancesByPod,
+  fetchOwnerRepos,
   activeAccount,
-  user
+  user,
+  promisify,
+  currentOrg
 ) {
   var self = this;
   var userName = $state.params.userName;
   self.searchBranches = null;
+  self.instanceBranches = null;
   self.$storage = $localStorage.$default({
     instanceListIsClosed: false
   });
@@ -143,6 +147,31 @@ function ControllerInstances(
     });
   };
 
+  this.getReposFromInstance = function(instance) {
+    var branchName;
+    var childInstances = instance.children.models.reduce(function(childHash, child) {
+      branchName = keypather.get(child, 'contextVersion.appCodeVersions.models[0].attrs.branch');
+      childHash[branchName] = branchName;
+      return childHash;
+    }, {});
+    return promisify(currentOrg.github, 'fetchRepo')(instance.getRepoName())
+      .then(function (repo) {
+        return promisify(repo, 'fetchBranches')()
+      })
+      .then(function (branches) {
+        self.instanceBranches = branches.models.filter(function(branch) {
+          branchName = keypather.get(branch, 'attrs.name');
+          return !childInstances[branchName];
+        });
+      });
+  };
+
+  this.forkBranchFromInstance = function(branch, instance) {
+    console.log('branch', branch, '\ninstance', instance);
+    var sha = branch.attrs.commit.sha;
+    promisify(instance, 'fork')(branch.attrs.name, sha);
+  }
+
   this.editInstance = function (instance) {
     ModalService.showModal({
       controller: 'EditServerModalController',
@@ -181,4 +210,9 @@ function ControllerInstances(
     })
       .catch(errs.handler);
   };
+
+  this.setAutofork = function(instance) {
+    console.log(instance);
+    // instance.attrs.shouldNotAutofork = !instance.attrs.shouldNotAutofork;
+  }
 }
