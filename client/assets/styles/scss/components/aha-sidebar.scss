@@ -92,10 +92,47 @@
   }
 
   .runnabot-success {
-    max-width: 210px;
+    background: $white;
+    margin-top: 15px;
+    max-width: 215px;
+    overflow: visible;
+    position: relative;
 
-    .img {
-      margin-right: 9px;
+    .well {
+      border-color: $gray-lighter;
+      position: relative;
+    }
+
+    .arrow::after {
+      border-right-color: $white;
+    }
+
+    .arrow,
+    .arrow::after {
+      border-color: transparent;
+      border-style: solid;
+      position: absolute;
+    }
+
+    .arrow {
+      border-bottom-width: 10px;
+      border-left-width: 0;
+      border-right: 10px solid darken($gray-lighter,5);
+      border-top-width: 10px;
+      left: -10px;
+      margin-top: -10px;
+      top: 50%;
+
+      &::after {
+        border-bottom-width: 9px;
+        border-left-width: 0;
+        border-right: 9px solid $white;
+        border-top-width: 9px;
+        bottom: -9px;
+        content: '';
+        display: block;
+        left: 1px;
+      }
     }
   }
 
