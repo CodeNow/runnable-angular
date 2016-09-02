@@ -9,6 +9,8 @@ function ahaGuide(
   keypather
 ) {
 
+  var _lastStep;
+
   var _steps = [
     {
       title: 'Create your Sandbox',
@@ -126,10 +128,10 @@ function ahaGuide(
         building: 'Now building. Build time varies depending on your configuration',
         starting: 'Now building. Build time varies depending on your configuration',
         running: 'Your build is looking good! Check out its URL and click \'Done\' if it looks good',
-        stopped: 'Your container failed to run. Inspect your CMD logs for more information.',
-        cmdFailed: 'Your container failed to run. Inspect your CMD logs for more information.',
-        crashed: 'Your container failed to run. Inspect your CMD logs for more information.',
-        buildFailed: 'Your build failed. Inspect your build logs for more information.'
+        stopped: 'Your container failed to run. Inspect your logs for more information.',
+        cmdFailed: 'Your container failed to run. Inspect your logs for more information.',
+        crashed: 'Your container failed to run. Inspect your logs for more information.',
+        buildFailed: 'Your container failed to run. Inspect your logs for more information.'
       }
     },
     {
@@ -190,9 +192,19 @@ function ahaGuide(
     return completedMilestones;
   }
 
+  function setLastStep(step) {
+    _lastStep = step;
+  }
+
+  function getLastStep() {
+    return _lastStep;
+  }
+
   return {
     checkContainerStatus: checkContainerStatus,
     getAhaMilestones: getAhaMilestones,
-    getSteps: getSteps
+    getLastStep: getLastStep,
+    getSteps: getSteps,
+    setLastStep: setLastStep
   };
 }

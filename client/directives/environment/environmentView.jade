@@ -42,7 +42,7 @@
 
 //- environment page
 .grid-block.environment-wrapper(
-  ng-class = "{'empty': $root.featureFlags.aha && $root.featureFlags.aha1 && $root.ahaGuide.ahaGuideToggles.showAha1}"
+  ng-class = "{'empty': $root.featureFlags.aha && $root.featureFlags.aha1 && $root.ahaGuide.ahaGuideToggles.showAha1 && !$root.ahaGuide.ahaGuideToggles.exitedEarly}"
 )
 
   header.grid-block.align-center.environment-header(
@@ -61,7 +61,7 @@
   )
 
   .grid-block.environment-body.justify-center.clearfix(
-    ng-class = "{'align-center justify-center': $root.featureFlags.aha1}"
+    ng-class = "{'align-center justify-center': $root.ahaGuide.ahaGuideToggles.showAha1}"
   )
     .help-container(
       ng-class = "{\
@@ -98,7 +98,7 @@
         )
 
     .modal-dialog.modal-sm(
-      ng-if = "$root.featureFlags.aha1 && !$root.ahaGuide.ahaGuideToggles.showOverview && !$root.ahaGuide.ahaGuideToggles.exitedEarly && !data.instances.models.length"
+      ng-if = "$root.featureFlags.aha1 && !$root.ahaGuide.ahaGuideToggles.showOverview && $root.ahaGuide.ahaGuideToggles.showAha1 && !data.instances.models.length"
     )
       .grid-block.align-center.aha-guide.padding-md(
         aha-guide-directive
@@ -109,7 +109,7 @@
 
     .grid-block.card-grid.clearfix(
       ng-class = "{'padding-top': helpCards.getActiveCard().helpTop}"
-      ng-if = "data.instances.models.length"
+      ng-if = "!$root.ahaGuide.ahaGuideToggles.showAha1 || $root.ahaGuide.ahaGuideToggles.exitedEarly"
       ng-include = "'viewCardGrid'"
     )
 

@@ -17,6 +17,7 @@ function AhaGuideController(
   }
 
   AGC.exitingEarly = exitingEarly;
+  AGC.confirmAha1Complete = confirmAha1Complete;
 
   var alertListener = $scope.$on('alert', function(event, alert) {
     // alerts on container creation success
@@ -84,11 +85,12 @@ function AhaGuideController(
       AGC.state.showError = true;
     } else if (buildStatus === 'starting') {
       AGC.state.showError = false;
-      addVerificationListeners(AGC.state.containerHostname);
+      addVerificationListeners();
     } else if (buildStatus === 'running') {
         updateCaption('success');
-        $rootScope.ahaGuide.exitedEarly = false;
-        $root.ahaGuide.ahaGuideToggles.showPopover = true;
+        $rootScope.ahaGuide.ahaGuideToggles.exitedEarly = false;
+        $rootScope.ahaGuide.ahaGuideToggles.showPopover = true;
+        $rootScope.ahaGuide.ahaGuideToggles.showAha1 = false;
     }
     updateBuildStatus(buildStatus);
   }
@@ -98,7 +100,7 @@ function AhaGuideController(
     AGC.state.caption = currentMilestone.buildStatus[buildStatus] || AGC.state.caption;
   }
 
-  function addVerificationListeners(containerHostname) {
+  function addVerificationListeners() {
     if (!$rootScope.doneListener) {
       $rootScope.doneListener = $rootScope.$on('close-popovers', function() {
         $rootScope.doneListener();
@@ -114,7 +116,10 @@ function AhaGuideController(
     exitedEarlyListener();
     AGC.state.showError = true;
     updateCaption('exitedEarly');
-    $rootScope.ahaGuide.completedMilestones.aha1 = true;
+  }
+
+  function confirmAha1Complete() {
+    console.log('confirmed that we\'ve finished the first aha 1');
   }
 
   // we need to unregister this animated panel listener if it exists
@@ -129,9 +134,6 @@ function AhaGuideController(
     }
     if ($rootScope.doneListener) {
       $rootScope.doneListener();
-    }
-    if (AGC.state.subStep === 'dockLoaded') {
-      $rootScope.ahaGuide.completedMilestones.aha0 = true;
     }
     if (AGC.state.subStepIndex === 7 && !AGC.state.isBuildSuccessful) {
       $rootScope.ahaGuide.ahaGuideToggles.exitedEarly = true;

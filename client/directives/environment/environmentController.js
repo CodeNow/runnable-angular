@@ -88,11 +88,16 @@ function EnvironmentController(
   fetchInstancesByPod($state.userName)
     .then(function (instancesCollection) {
       $scope.data.instances = instancesCollection;
-      $rootScope.ahaGuide.ahaGuideToggles.showAha1 = !instancesCollection.models.length;
-      $rootScope.ahaGuide.ahaGuideToggles.showSidebar = !instancesCollection.models.length;
-      $rootScope.ahaGuide.ahaGuideToggles.showOverview = !instancesCollection.models.length;
-      // Asynchronously fetch the Dockerfile
+      $rootScope.ahaGuide.ahaGuideToggles.showAha1 = true;
+      $rootScope.ahaGuide.ahaGuideToggles.showSidebar = true;
+      // Asynchronously fetch the Dockerfile and check for working instances
       instancesCollection.forEach(function (instance) {
+        if (instance.attrs.build.successful && instance.getRepoName()) {
+          $rootScope.ahaGuide.ahaGuideToggles.showAha1 = false;
+          $rootScope.ahaGuide.ahaGuideToggles.showSidebar = false;
+          $rootScope.ahaGuide.ahaGuideToggles.showOverview = false;
+          $rootScope.ahaGuide.ahaGuideToggles.showPopover = true;
+        }
         if (instance.hasDockerfileMirroring()) {
           return fetchDockerfileForContextVersion(instance.contextVersion)
             .then(function (dockerfile) {

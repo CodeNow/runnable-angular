@@ -14,13 +14,13 @@
         name = "containerSelection"
       )
         header.modal-header.grid-block.justify-center(
-          ng-class = "{'lg': !$root.featureFlags.aha1}"
+          ng-class = "{'lg': !$root.ahaGuide.ahaGuideToggles.showAha1}"
           ng-click = "MC.changeTab('nameContainer')"
         )
           .grid-block.shrink.btn(
             ng-class = "{'active': MC.state.tabName === 'repos'}"
             ng-click = "MC.changeTab('repos')"
-            ng-if = "!$root.featureFlags.aha1"
+            ng-if = "!$root.ahaGuide.ahaGuideToggles.showAha1"
           )
             svg.iconnables.icons-repository.grid-block.shrink
               use(
@@ -36,7 +36,7 @@
               'disabled': $root.isLoading[MC.name + 'SingleRepo'] \
             }"
             ng-click = "!$root.isLoading[MC.name + 'SingleRepo'] && MC.changeTab('services')"
-            ng-if = "!$root.featureFlags.aha1"
+            ng-if = "!$root.ahaGuide.ahaGuideToggles.showAha1"
           )
             svg.iconnables.icons-template.grid-block.shrink
               use(

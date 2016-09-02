@@ -104,9 +104,10 @@ function ControllerApp(
   if (!ahaGuideToggles) {
     ahaGuideToggles = {
       showAha: true,
+      showAha0: true,
       showAha1: false,
-      showAha2: false,
-      showAha3: false,
+      showAha2: true,
+      showAha3: true,
       exitedEarly: false,
       showError: false,
       showOverview: true,
