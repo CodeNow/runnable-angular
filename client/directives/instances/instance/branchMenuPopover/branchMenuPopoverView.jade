@@ -109,6 +109,7 @@
                 )
                 .toggle-group.toggle-sm
             input.input.input-xs.input-search(
+              ng-disabled = "!CIS.instanceBranches.length"
               placeholder = "Filter"
               required
               type = "search"
@@ -126,11 +127,17 @@
               ng-repeat = "branch in CIS.instanceBranches"
               ng-click = "CIS.forkBranchFromInstance(branch, instance)"
             ) {{ branch.attrs.name }}
-              button.btn.btn-xs.btn-icon.btn-add
+              button.btn.btn-xs.btn-icon.btn-add(
+                ng-if = "!$root.isLoading['buildingForkedBranch' + branch.attrs.name]"
+              )
                 svg.iconnables.icons-add
                   use(
                     xlink:href = "#icons-add"
                   )
+              .spinner-wrapper.spinner-sm.spinner-gray(
+                ng-if = "$root.isLoading['buildingForkedBranch' + branch.attrs.name]"
+                ng-include = "'spinner'"
+              )
 
             li.list-item.grid-block.justify-justified.list-pagination(
             )

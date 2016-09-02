@@ -127,6 +127,24 @@ function InstanceNavigationController(
       .catch(errs.handler);
   };
 
+  INC.removeBranch = function () {
+    $rootScope.$broadcast('close-popovers');
+    ModalService.showModal({
+      controller: 'ConfirmationModalController',
+      controllerAs: 'CMC',
+      templateUrl: 'confirmBranchRemoveView'
+    })
+      .then(function (modal) {
+        modal.close.then(function (confirmed) {
+          if (confirmed) {
+            promisify(INC.instance, 'destroy')()
+              .catch(errs.handler);
+          }
+        });
+      })
+      .catch(errs.handler);
+  };
+
   this.editInstance = function (event) {
     $rootScope.$broadcast('close-popovers');
     event.stopPropagation();

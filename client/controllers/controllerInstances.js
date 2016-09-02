@@ -12,6 +12,7 @@ function ControllerInstances(
   keypather,
   setLastOrg,
   errs,
+  loading,
   ModalService,
   fetchInstancesByPod,
   fetchOwnerRepos,
@@ -156,7 +157,7 @@ function ControllerInstances(
     }, {});
     return promisify(currentOrg.github, 'fetchRepo')(instance.getRepoName())
       .then(function (repo) {
-        return promisify(repo, 'fetchBranches')()
+        return promisify(repo, 'fetchBranches')();
       })
       .then(function (branches) {
         self.instanceBranches = branches.models.filter(function(branch) {
@@ -167,10 +168,22 @@ function ControllerInstances(
   };
 
   this.forkBranchFromInstance = function(branch, instance) {
-    console.log('branch', branch, '\ninstance', instance);
     var sha = branch.attrs.commit.sha;
-    promisify(instance, 'fork')(branch.attrs.name, sha);
-  }
+    var loadingName = 'buildingForkedBranch' + branch.attrs.name;
+    var index;
+    loading(loadingName, true);
+    promisify(instance, 'fork')(branch.attrs.name, sha)
+      .then(function(result) {
+        loading(loadingName, false);
+        for (var i = 0; i < self.instanceBranches.length; i++) {
+          if (self.instanceBranches[i].attrs.name === branch.attrs.name) {
+            index = i;
+            break;
+          }
+        }
+        self.instanceBranches.splice(index, 1);
+      });
+  };
 
   this.editInstance = function (instance) {
     ModalService.showModal({
@@ -210,9 +223,4 @@ function ControllerInstances(
     })
       .catch(errs.handler);
   };
-
-  this.setAutofork = function(instance) {
-    console.log(instance);
-    // instance.attrs.shouldNotAutofork = !instance.attrs.shouldNotAutofork;
-  }
 }

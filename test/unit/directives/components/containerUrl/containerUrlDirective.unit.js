@@ -8,7 +8,6 @@ var $window;
 var keypather;
 var $q;
 var $elScope;
-var readOnlySwitchController;
 var apiMocks = require('./../../../apiMocks/index');
 
 describe('containerUrlDirective'.bold.underline.blue, function () {
