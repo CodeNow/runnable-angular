@@ -37,8 +37,18 @@
     }
   }
 
-  // pagination
-  .list-pagination {
-    padding: 6px;
+  // loading state
+  .list-item {
+
+    &.disabled {
+      color: $gray-light;
+      cursor: not-allowed;
+    }
+
+    > .spinner-wrapper {
+      position: absolute;
+      right: 10px;
+      top: 10px;
+    }
   }
 }
