@@ -12,6 +12,7 @@ function SetupServerModalController(
   cardInfoTypes,
   createAndBuildNewContainer,
   createBuildFromContextVersionId,
+  dockerfileType,
   errs,
   eventTracking,
   fetchDockerfileFromSource,
@@ -32,6 +33,7 @@ function SetupServerModalController(
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
   SMC.helpCards = helpCards;
+  var blankDockerfile = false;
 
   var parentController = $controller('ServerModalController as SMC', { $scope: $scope });
   angular.extend(SMC, {
@@ -108,15 +110,21 @@ function SetupServerModalController(
     return errs.handler(new Error('Repo, build, and masterBranch must be set'));
   }
 
+  // if the blank docker file is chosen, we need to load it because it is already available
+  if (dockerfileType === 'blankDockerfile') {
+    blankDockerfile = 'blankDockerfile';
+    SMC.openDockerfile({contextVersion: build.contextVersion}, SMC.openItems);
+  }
+
   // If a repo is passed into this controller, select that repo
   angular.extend(SMC.state, {
-    repo: repo,
+    acv: build.contextVersion.getMainAppCodeVersion(),
+    advanced: blankDockerfile,
+    branch: masterBranch,
     build: build,
     contextVersion: build.contextVersion,
-    acv: build.contextVersion.getMainAppCodeVersion(),
-    branch: masterBranch,
-    repoSelected: true,
-    advanced: false
+    repo: repo,
+    repoSelected: true
   });
   SMC.state.mainRepoContainerFile.name = repo.attrs.name;
   SMC.state.promises.contextVersion = $q.when(SMC.state.contextVersion);
@@ -235,7 +243,7 @@ function SetupServerModalController(
     var createPromise = loadingPromises.finished(SMC.name)
       .then(function () {
         loadingPromises.clear(SMC.name);
-        if (!SMC.state.advanced) {
+        if (!SMC.state.advanced || SMC.state.advanced === 'blankDockerfile') {
           return updateDockerfileFromState(SMC.state, false, true);
         }
         return true;
@@ -329,6 +337,9 @@ function SetupServerModalController(
   };
 
   SMC.isPrimaryButtonDisabled = function (serverFormInvalid) {
+    if (SMC.state.advanced === 'blankDockerfile' || SMC.state.advanced === 'isMirroringDockerfile') {
+      return false;
+    }
     return (
       (SMC.state.step === 2 && SMC.repositoryForm && SMC.repositoryForm.$invalid) ||
       $filter('selectedStackInvalid')(SMC.state.selectedStack)

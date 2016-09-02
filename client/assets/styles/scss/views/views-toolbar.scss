@@ -133,9 +133,9 @@
 
   // web error button
   .btn-web-state {
-    color: rgba($orange,.75);
     cursor: default;
     font-family: $sans-serif;
+    opacity: .5;
     padding: 0;
 
     .icons-alert {

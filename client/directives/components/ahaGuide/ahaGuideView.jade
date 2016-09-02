@@ -15,11 +15,6 @@
   ng-include = "'addBranchGuideView'"
 )
 
-.grid-block.align-center(
-  ng-if = "state.showStep === 3"
-  ng-include = "'setUpRunnabotGuideView'"
-)
-
 button.btn.btn-xs.white.btn-menu(
   ng-class = "{'active': ahaMenuGuidePopover.data.show}"
   ng-if = "!state.hideMenu"
