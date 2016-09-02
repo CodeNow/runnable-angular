@@ -223,4 +223,9 @@ function ControllerInstances(
     })
       .catch(errs.handler);
   };
+
+  this.setAutofork = function(instance) {
+    var shouldNotAutofork = instance.attrs.shouldNotAutofork = !instance.attrs.shouldNotAutofork;
+    promisify(instance, 'update')({shouldNotAutofork: shouldNotAutofork});
+  };
 }

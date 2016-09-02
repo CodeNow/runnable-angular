@@ -104,7 +104,9 @@
                 )
               label.grid-content.shrink.toggle-wrapper
                 input.toggle-input(
+                  ng-click = "CIS.setAutofork(instance)"
                   ng-disabled = "$root.featureFlags.webhooks"
+                  ng-checked = "instance.attrs.shouldNotAutofork"
                   type = "checkbox"
                 )
                 .toggle-group.toggle-sm
