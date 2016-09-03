@@ -18,7 +18,7 @@ function AhaSidebarController(
     ASC.toggleSidebar();
   };
 
-  ASC.toggleSidebar = function () {
-    $rootScope.ahaGuide.ahaGuideToggles.showSidebar = !$rootScope.ahaGuide.ahaGuideToggles.showSidebar;
-  };
+  // ASC.toggleSidebar = function () {
+  //   $rootScope.ahaGuide.ahaGuideToggles.showSidebar = !$rootScope.ahaGuide.ahaGuideToggles.showSidebar;
+  // };
 }

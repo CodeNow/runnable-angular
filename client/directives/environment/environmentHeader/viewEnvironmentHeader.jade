@@ -55,7 +55,6 @@ button.grid-block.shrink.btn.btn-md.green(
     'scale-in-modal': $root.featureFlags.aha1\
   }"
   ng-click = "EC.triggerModal.newContainer()"
-  ng-if = "!$root.featureFlags.aha1 || ($root.featureFlags.aha1 && (!$root.ahaGuide.ahaGuideToggles.showOverview || data.instances.models.length))"
 )
   svg.iconnables.icons-add.float-left
     use(
@@ -64,8 +63,8 @@ button.grid-block.shrink.btn.btn-md.green(
   | Create Template
 
 button.grid-block.shrink.btn.btn-sm.gray.btn-aha(
-  ng-click = "$root.ahaGuide.ahaGuideToggles.showSidebar = true"
-  ng-if = "$root.featureFlags.aha && $root.featureFlags.ahaSidebar"
+  ng-click = "EC.toggleSidebar()"
+  ng-if = "$root.featureFlags.aha"
   tooltip = "Setup Guide"
   tooltip-options = "{\"class\":\"left\",\"right\":42,\"top\":0}"
 )

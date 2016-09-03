@@ -15,19 +15,27 @@ function EnvironmentController(
   $state,
   $timeout,
   $window,
+  ahaGuide,
   favico,
-  fetchUser,
   fetchDockerfileForContextVersion,
-  fetchInstancesByPod,
   fetchOrgMembers,
+  fetchUser,
   helpCards,
   keypather,
   ModalService,
-  pageName
+  pageName,
+  instancesByPod
 ) {
   var EC = this;
 
   EC.showInviteButton = false;
+  EC.ahaGuide = ahaGuide;
+  EC.showCreateTemplate = true;
+  EC.showSidebar = false;
+  EC.toggleSidebar = function () {
+    EC.showSidebar = !EC.showSidebar;
+    EC.showCreateTemplate = true;
+  };
 
   var unbindUpdateTeammateInvitation = $rootScope.$on('updateTeammateInvitations', function (event, invitesCreated) {
     if (invitesCreated) {
@@ -85,29 +93,27 @@ function EnvironmentController(
   $scope.data = {
     helpCards: helpCards
   };
-  fetchInstancesByPod($state.userName)
-    .then(function (instancesCollection) {
-      $scope.data.instances = instancesCollection;
-      $rootScope.ahaGuide.ahaGuideToggles.showAha1 = true;
-      $rootScope.ahaGuide.ahaGuideToggles.showSidebar = true;
-      // Asynchronously fetch the Dockerfile and check for working instances
-      instancesCollection.forEach(function (instance) {
-        if (instance.attrs.build.successful && instance.getRepoName()) {
-          $rootScope.ahaGuide.ahaGuideToggles.showAha1 = false;
-          $rootScope.ahaGuide.ahaGuideToggles.showSidebar = false;
-          $rootScope.ahaGuide.ahaGuideToggles.showOverview = false;
-          $rootScope.ahaGuide.ahaGuideToggles.showPopover = true;
-        }
-        if (instance.hasDockerfileMirroring()) {
-          return fetchDockerfileForContextVersion(instance.contextVersion)
-            .then(function (dockerfile) {
-              instance.mirroredDockerfile = dockerfile;
-            });
-        }
-        // Differentiate between non-fetched and non-existing
-        instance.mirroredDockerfile = null;
-      });
-    });
+  $scope.data.instances = instancesByPod;
+
+  if (ahaGuide.getCurrentStep() === ahaGuide.steps.ADD_FIRST_REPO && instancesByPod.models.length === 0) {
+    EC.showCreateTemplate = false;
+    EC.showSidebar = true;
+  }
+
+  // Asynchronously fetch the Dockerfile and check for working instances
+  instancesByPod.forEach(function (instance) {
+    if (instance.attrs.build.successful && instance.getRepoName()) {
+      $rootScope.$emit('launchAhaNavPopover');
+    }
+    if (instance.hasDockerfileMirroring()) {
+      return fetchDockerfileForContextVersion(instance.contextVersion)
+        .then(function (dockerfile) {
+          instance.mirroredDockerfile = dockerfile;
+        });
+    }
+    // Differentiate between non-fetched and non-existing
+    instance.mirroredDockerfile = null;
+  });
 
   $scope.state = {
     validation: {

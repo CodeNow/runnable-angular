@@ -42,12 +42,12 @@
 
 //- environment page
 .grid-block.environment-wrapper(
-  ng-class = "{'empty': $root.featureFlags.aha && $root.featureFlags.aha1 && $root.ahaGuide.ahaGuideToggles.showAha1 && !$root.ahaGuide.ahaGuideToggles.exitedEarly}"
+  ng-class = "{'empty': $root.featureFlags.aha && EC.ahaGuide.isInGuide() && EC.ahaGuide.getCurrentStep() === EC.ahaGuide.steps.ADD_FIRST_REPO && data.instances.models.length === 0}"
 )
-
   header.grid-block.align-center.environment-header(
     ng-include = "'viewEnvironmentHeader'"
     ng-init = "state.helpButton = {active: false}"
+    ng-if = "$root.featureFlags.aha && EC.showCreateTemplate"
   )
 
   .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
@@ -57,11 +57,10 @@
     sub-step = 'exitedEarly'
     sub-step-index = 7
     error-state = "true"
-    "
   )
 
   .grid-block.environment-body.justify-center.clearfix(
-    ng-class = "{'align-center justify-center': $root.ahaGuide.ahaGuideToggles.showAha1}"
+    ng-class = "{'align-center justify-center': EC.showCreateTemplate}"
   )
     .help-container(
       ng-class = "{\
@@ -98,7 +97,7 @@
         )
 
     .modal-dialog.modal-sm(
-      ng-if = "$root.featureFlags.aha1 && !$root.ahaGuide.ahaGuideToggles.showOverview && $root.ahaGuide.ahaGuideToggles.showAha1 && !data.instances.models.length"
+      ng-if = "$root.featureFlags.aha && EC.showCreateTemplate"
     )
       .grid-block.align-center.aha-guide.padding-md(
         aha-guide-directive
@@ -109,7 +108,7 @@
 
     .grid-block.card-grid.clearfix(
       ng-class = "{'padding-top': helpCards.getActiveCard().helpTop}"
-      ng-if = "!$root.ahaGuide.ahaGuideToggles.showAha1 || $root.ahaGuide.ahaGuideToggles.exitedEarly"
+      ng-if = "!$root.featureFlags.aha || data.instances.models.length > 0 || !EC.ahaGuide.isInGuide()"
       ng-include = "'viewCardGrid'"
     )
 
@@ -127,6 +126,7 @@
     | &#32;to help you set up your stack.
 
 .grid-block.vertical.aha-sidebar.padding-sm.js-animate(
-  aha-sidebar-directive
-  ng-if = "$root.featureFlags.aha && $root.featureFlags.ahaSidebar && $root.ahaGuide.ahaGuideToggles.showSidebar"
+  aha-sidebar
+  toggle-sidebar = "EC.toggleSidebar"
+  ng-if = "$root.featureFlags.aha && EC.showSidebar"
 )

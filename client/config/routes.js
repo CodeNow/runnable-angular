@@ -194,7 +194,13 @@ module.exports = [
     url: '^/:userName/configure',
     templateUrl: 'environmentView',
     controller: 'EnvironmentController',
-    controllerAs: 'EC'
+    controllerAs: 'EC',
+    resolve: {
+      instancesByPod: function (fetchInstancesByPod, $stateParams, $state) {
+        $state.params.userName = $stateParams.userName;
+        return fetchInstancesByPod();
+      }
+    }
   }, {
     state: 'base.instances',
     abstract: false,

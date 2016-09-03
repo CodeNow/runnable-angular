@@ -12,7 +12,6 @@ var STEPS = {
 };
 
 function ahaGuide(
-  $http,
   fetchInstancesByPod,
   currentOrg,
   $rootScope
@@ -195,9 +194,15 @@ function ahaGuide(
     return cachedStep;
   }
 
+  function isInGuide() {
+    currentOrg.poppa.hasAha = true;
+    return currentOrg.poppa.hasAha && getCurrentStep() !== STEPS.COMPLETED;
+  }
+
   return {
     stepList: stepList,
     getCurrentStep: getCurrentStep,
-    steps: STEPS
+    steps: STEPS,
+    isInGuide: isInGuide
   };
 }

@@ -1,18 +1,17 @@
 'use strict';
 
 require('app')
-  .directive('ahaSidebarDirective', ahaSidebarDirective);
+  .directive('ahaSidebar', ahaSidebar);
 
-/**
- * @ngInject
- */
-function ahaSidebarDirective(
-
-) {
+function ahaSidebar() {
   return {
     restrict: 'A',
     templateUrl: 'ahaSidebarView',
     controller: 'AhaSidebarController',
-    controllerAs: 'ASC'
+    controllerAs: 'ASC',
+    bindToController: true,
+    scope: {
+      toggleSidebar: '='
+    }
   };
 }
