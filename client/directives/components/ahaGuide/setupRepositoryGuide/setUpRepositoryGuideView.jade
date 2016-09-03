@@ -12,7 +12,7 @@
     ng-if = "!AGC.state.showError"
   )
     use(
-      ng-if = "$root.featureFlags.aha1 && AGC.state.subStep !== 'complete'"
+      ng-if = "ASC.getCurrentStep() === ASC.steps.CHOOSE_ORGANIZATION && AGC.state.subStep !== 'complete'"
       xlink:href = "#icons-octicons-repo"
     )
     use(
@@ -27,52 +27,10 @@
     )
 
 .grid-block.vertical.aha-text
-  .grid-block(
-    ng-if = "$root.canEditFeatureFlags()"
-    ng-show = "state.showControls"
-    style = "position: absolute; right: 0; top: 0;"
-  )
-    a.grid-content.shrink.red.small.link(
-      ng-click = "state.showVerification = !state.showVerification"
-      ng-if = "AGC.state.subStep === 7"
-    ) Verify
-    a.grid-content.shrink.red.small.link(
-      ng-click = "\
-        state.showError = !state.showError;\
-        state.showErrorType = 'CMD';\
-      "
-      ng-if = "AGC.state.subStep === 7"
-    ) CMDErr
-    a.grid-content.shrink.red.small.link(
-      ng-click = "\
-        state.showError = !state.showError;\
-        state.showErrorType = 'build';\
-      "
-      ng-if = "AGC.state.subStep === 7"
-    ) BuildErr
-    a.grid-content.shrink.red.small.link(
-      ng-click = "\
-        $root.featureFlags.aha1 = false;\
-        $root.featureFlags.aha2 = true;\
-      "
-      ng-if = "AGC.state.subStep === 8"
-    ) NextMile
-    a.grid-content.shrink.red.small.link(
-      ng-click = "AGC.state.subStep = AGC.state.subStep - 1"
-      ng-if = "AGC.state.subStep < 9 && AGC.state.subStep > 1"
-    ) Prev
-    a.grid-content.shrink.red.small.link(
-      ng-click = "AGC.state.subStep = AGC.state.subStep + 1"
-      ng-if = "AGC.state.subStep < 8"
-    ) Next
   p.p.small.text-gray-light {{ AGC.state.title }}
   p.p(
-    ng-class = "{'p-slide js-animate': AGC.state.subStepIndex > 0}"
-    ng-if = "$root.featureFlags.aha1 && !$root.ahaGuide.ahaGuideToggles.exitedEarly && !state.showError && !state.showVerification"
-  ) {{ AGC.state.caption }}
-  p.p(
     ng-class = "{'p-slide js-animate': AGC.state.subStepIndex}"
-    ng-if = "$root.featureFlags.aha && $root.ahaGuide.ahaGuideToggles.exitedEarly && !state.showError && !state.showVerification"
+    ng-if = "$root.featureFlags.aha && !state.showError && !state.showVerification"
   ) {{ AGC.state.caption }}
   p.p(
     ng-class = "{'p-slide js-animate': AGC.state.subStepIndex}"

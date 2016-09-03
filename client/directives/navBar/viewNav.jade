@@ -4,9 +4,9 @@
   data = "dataApp.data"
 )
 
-//- aha menu
+//- aha menu --- This should be triggered via an event!
 .popover.right.in.popover-aha(
-  ng-if = "$root.featureFlags.aha2 && !$root.ahaGuide.ahaGuideToggles.exitedEarly && $root.ahaGuide.ahaGuideToggles.showPopover"
+  ng-if = "showAhaNavPopover"
   ng-include = "'ahaPopoverView'"
 )
 

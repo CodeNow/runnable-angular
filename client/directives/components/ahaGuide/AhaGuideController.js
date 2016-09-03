@@ -53,7 +53,7 @@ function AhaGuideController(
   };
 
   // get steps from service
-  AGC.state.steps = ahaGuide.getSteps();
+  AGC.state.steps = ahaGuide.stepList;
 
   // get the current milestone
   var currentMilestone = AGC.state.steps[AGC.state.mainStep];
@@ -123,7 +123,7 @@ function AhaGuideController(
   }
 
   // we need to unregister this animated panel listener if it exists
-  // to avoid duplication 
+  // to avoid duplication
   if ($rootScope.animatedPanelListener) {
     $rootScope.animatedPanelListener();
   }
@@ -140,7 +140,7 @@ function AhaGuideController(
       $rootScope.$broadcast('exitedEarly');
     }
   });
-  
+
   $rootScope.animatedPanelListener = $rootScope.$on('changed-animated-panel', function (e, panel) {
     updateCaption(panel);
   });

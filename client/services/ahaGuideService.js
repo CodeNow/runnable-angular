@@ -3,15 +3,27 @@
 require('app')
   .factory('ahaGuide', ahaGuide);
 
+var STEPS = {
+  CHOOSE_ORGANIZATION: 1,
+  ADD_FIRST_REPO: 2,
+  ADD_FIRST_BRANCH: 3,
+  SETUP_RUNNABOT: 4,
+  COMPLETED: -1
+};
+
 function ahaGuide(
   $http,
-  $localStorage,
-  keypather
+  fetchInstancesByPod,
+  currentOrg,
+  $rootScope
 ) {
+  var instances = [];
+  fetchInstancesByPod()
+    .then(function (instanceByPod) {
+      instances = instanceByPod;
+    });
 
-  var _lastStep;
-
-  var _steps = [
+  var stepList = [
     {
       title: 'Create your Sandbox',
       subSteps: {
@@ -155,56 +167,37 @@ function ahaGuide(
     }
   ];
 
-  function getSteps() {
-    return _steps;
-  }
-
-  function checkContainerStatus(url) {
-    return $http({
-      method: 'GET',
-      url: url
-    })
-      .then(function(data) {
-        if (data.status >= 200 && data.status < 300) {
-          return true;
+  var cachedStep;
+  $rootScope.$watch(function () {
+    cachedStep = null;
+  });
+  function getCurrentStep() {
+    if (!cachedStep) {
+      // Temporarily turning aha on
+      currentOrg.poppa.hasAha = true;
+      currentOrg.poppa.hasConfirmedSetup = false;
+      if (!currentOrg.poppa.hasAha) {
+        cachedStep = STEPS.COMPLETED;
+      } else if (!currentOrg.poppa.hasConfirmedSetup) {
+        cachedStep = STEPS.ADD_FIRST_REPO;
+      } else {
+        // loop over instances and see if any has ever had a branch launched
+        var hasBranchLaunched = instances.models.some(function (instance) {
+          return instance.attrs.hasBranchLaunched;
+        });
+        if (hasBranchLaunched) {
+          cachedStep = STEPS.SETUP_RUNNABOT;
+        } else {
+          cachedStep = STEPS.ADD_FIRST_BRANCH;
         }
-        return false;
-       })
-       .catch(function(err) {
-        return new Error(err);
-      });
-  }
-
-  function getAhaMilestones() {
-    var ahaGuideToggles = keypather.get($localStorage, 'ahaGuide.toggles');
-
-    if (!ahaGuideToggles) {
-      ahaGuideToggles = {
-        exitedEarly: false,
-        showError: false,
-        showOverview: false,
-        showPopover: false,
-        showSidebar: false
-      };
-      keypather.set($localStorage, 'ahaGuide.toggles', ahaGuideToggles);
+      }
     }
-
-    return completedMilestones;
-  }
-
-  function setLastStep(step) {
-    _lastStep = step;
-  }
-
-  function getLastStep() {
-    return _lastStep;
+    return cachedStep;
   }
 
   return {
-    checkContainerStatus: checkContainerStatus,
-    getAhaMilestones: getAhaMilestones,
-    getLastStep: getLastStep,
-    getSteps: getSteps,
-    setLastStep: setLastStep
+    stepList: stepList,
+    getCurrentStep: getCurrentStep,
+    steps: STEPS
   };
 }

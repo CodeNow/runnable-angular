@@ -7,7 +7,7 @@ require('app')
  * @ngInject
  */
 function ahaGuideDirective(
-  
+
 ) {
   return {
     restrict: 'A',
@@ -20,8 +20,6 @@ function ahaGuideDirective(
       subStepIndex: '=',
       errorState: '=?'
     },
-    link: function ($scope, elem, attrs) {
-      
-    }
+    link: function ($scope, elem, attrs) {}
   };
 }

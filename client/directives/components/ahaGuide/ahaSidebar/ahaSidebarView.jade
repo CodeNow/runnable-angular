@@ -1,6 +1,6 @@
 .grid-block.shrink.align-center.justify-right
   svg.iconnables.icons-close(
-    ng-click = "$root.ahaGuide.ahaGuideToggles.showSidebar = false"
+    ng-click = "ASC.toggleSidebar()"
     ng-if = "!$root.ahaGuide.ahaGuideToggles.showOverview || $root.ahaGuide.ahaGuideToggles.showAha1"
   )
     use(
@@ -29,9 +29,10 @@
       p.small This is the first step to success.
 
   .grid-block.shrink.align-center.padding-sm.aha-guide(
-    ng-class = "{'disabled': data.instances.models.length}"
-    ng-click = "!data.instances.models.length && ASC.toggleOverview()"
-    ng-class = "{active: !data.instances.models.length}"
+    ng-class = "{\
+      disabled: ASC.getCurrentStep() < ASC.steps.ADD_FIRST_REPO,\
+      active: ASC.getCurrentStep() === ASC.steps.ADD_FIRST_REPO\
+    }"
   )
     .grid-block.shrink.aha-meter(
       ng-class = "{\
@@ -42,11 +43,11 @@
     )
       svg.iconnables
         use(
-          ng-if = "$root.ahaGuide.ahaGuideToggles.showAha1"
+          ng-if = "ASC.getCurrentStep() <= ASC.steps.ADD_FIRST_REPO"
           xlink:href = "#icons-octicons-repo"
         )
         use(
-          ng-if = "!$root.ahaGuide.ahaGuideToggles.showAha1"
+          ng-if = "ASC.getCurrentStep() > ASC.steps.ADD_FIRST_REPO"
           xlink:href = "#icons-check"
         )
     .grid-block.vertical.aha-text
@@ -54,21 +55,21 @@
       p.small Set up your project and get it running!
 
   .grid-block.shrink.align-center.padding-sm.aha-guide(
-    ng-class = "{'disabled': !data.instances.models.length}"
+    ng-class = "{'disabled': ASC.getCurrentStep() < ASC.steps.ADD_FIRST_BRANCH}"
   )
     .grid-block.shrink.aha-meter(
       ng-class = "{\
-        'aha-meter-0': !$root.ahaGuide.completedMilestones.aha2,\
-        'aha-meter-100': $root.ahaGuide.completedMilestones.aha2\
+        'aha-meter-0': ASC.getCurrentStep() <= ASC.steps.ADD_FIRST_BRANCH,\
+        'aha-meter-100': $ASC.getCurrentStep() > ASC.steps.ADD_FIRST_BRANCH\
       }"
     )
       svg.iconnables
         use(
-          ng-if = "!$root.featureFlags.aha3"
+          ng-if = "ASC.getCurrentStep() <= ASC.steps.ADD_FIRST_BRANCH"
           xlink:href = "#icons-octicons-branch"
         )
         use(
-          ng-if = "$root.featureFlags.aha3"
+          ng-if = "ASC.getCurrentStep() > ASC.steps.ADD_FIRST_BRANCH"
           xlink:href = "#icons-check"
         )
     .grid-block.vertical.aha-text
@@ -76,19 +77,20 @@
       p.small Your branches will update on every commit you make.
 
   .grid-block.shrink.align-center.padding-sm.aha-guide(
-    ng-class = "{'disabled': $root.ahaGuide.completedMilestones.aha3 || !$root.ahaGuide.completedMilestones.aha2}"
+    ng-class = "{'disabled': ASC.getCurrentStep() < ASC.steps.SETUP_RUNNABOT}"
   )
     .grid-block.shrink.aha-meter(
-      ng-class = "{'aha-meter-50': $root.featureFlags.aha3}"
+      ng-class = "{'aha-meter-50': ASC.getCurrentStep() === ASC.steps.SETUP_RUNNABOT}"
     )
       svg.iconnables
         use(
+          ng-if = "ASC.getCurrentStep() <= ASC.steps.SETUP_RUNNABOT"
           xlink:href = "#icons-runnabot"
         )
-        //- if complete
-        //- use(
-        //-   xlink:href = "#icons-check"
-        //- )
+        use(
+          ng-if = "ASC.getCurrentStep() > ASC.steps.SETUP_RUNNABOT"
+          xlink:href = "#icons-check"
+        )
     .grid-block.vertical.aha-text
       p.p.strong Set Up Runnabot
       p.small Receive notifications on pull requests when your container is ready.

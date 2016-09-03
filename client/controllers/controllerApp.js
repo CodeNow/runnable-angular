@@ -129,6 +129,11 @@ function ControllerApp(
     }
   });
 
+  $scope.showAhaNavPopover = false;
+  $rootScope.$on('launchAhaNavPopover', function () {
+    $scope.showAhaNavPopover = true;
+  });
+
   /**
    * broadcast to child scopes when click event propagates up
    * to top level controller scope.
