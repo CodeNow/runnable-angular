@@ -81,10 +81,6 @@
           | Add Branch
         .popover-content(
         )
-          .text-center.text-gray.small.padding-md(
-            ng-if = "CIS.instanceBranches.length === 0"
-          ) There are no branches to add.
-
           .spinner-wrapper.spinner-sm.spinner-gray.spinner-center.in(
             ng-if = "$root.isLoading.fetchingBranches"
             ng-include = "'spinner'"
@@ -137,8 +133,15 @@
                 ng-if = "$root.isLoading['buildingForkedBranch' + branch.attrs.name]"
                 ng-include = "'spinner'"
               )
-          .empty-div(
-            ng-if = "CIS.instanceBranches && !CIS.getFilteredBranches().length"
-          )
-            p.p.text-center.text-gray-light.padding-sm(
-            ) There are no branches to add.
+
+          .text-center.text-gray.small.padding-md(
+            ng-if = "CIS.instanceBranches && !CIS.instanceBranches.length && CIS.totalInstanceBranches"
+          ) There are no branches to add.
+
+          .text-center.text-gray.small.padding-md(
+            ng-if = "CIS.instanceBranches && !CIS.instanceBranches.length && !CIS.totalInstanceBranches"
+          ) The repository has no branches.
+
+          .text-center.text-gray.small.padding-md(
+            ng-if = "CIS.instanceBranches && CIS.instanceBranches.length && CIS.totalInstanceBranches && !CIS.getFilteredBranches().length"
+          ) No branches match this filter.

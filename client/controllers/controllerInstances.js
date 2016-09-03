@@ -25,6 +25,7 @@ function ControllerInstances(
   var userName = $state.params.userName;
   self.searchBranches = null;
   self.instanceBranches = null;
+  self.unbuiltBranches = null;
   self.branchQuery = null;
   self.$storage = $localStorage.$default({
     instanceListIsClosed: false
@@ -161,26 +162,32 @@ function ControllerInstances(
     });
   };
 
-  this.getReposFromInstance = function(instance) {
+  this.unbuiltBranches = function(instance, branches) {
     var branchName;
-    self.instanceBranches = null;
-    self.branchQuery = null;
-    loading('fetchingBranches', true);
     var childInstances = instance.children.models.reduce(function(childHash, child) {
       branchName = child.getBranchName();
       childHash[branchName] = branchName;
       return childHash;
     }, {});
+
+    var unbuiltBranches = branches.models.filter(function(branch) {
+      branchName = keypather.get(branch, 'attrs.name');
+      return !childInstances[branchName];
+    });
+    loading('fetchingBranches', false);
+    return unbuiltBranches;
+  };
+
+  this.getAllBranches = function(instance) {
+    self.instanceBranches = null;
+    loading('fetchingBranches', true);
     return promisify(currentOrg.github, 'fetchRepo')(instance.getRepoName())
       .then(function (repo) {
         return promisify(repo, 'fetchBranches')();
       })
       .then(function (branches) {
-        self.instanceBranches = branches.models.filter(function(branch) {
-          branchName = keypather.get(branch, 'attrs.name');
-          return !childInstances[branchName];
-        });
-        loading('fetchingBranches', false);
+        self.totalInstanceBranches = branches.models.length;
+        self.instanceBranches = self.unbuiltBranches(instance, branches);
       });
   };
 
