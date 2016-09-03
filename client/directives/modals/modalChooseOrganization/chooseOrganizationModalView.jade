@@ -99,7 +99,7 @@
             ng-if = "data.allAccounts.length"
           )
             //- disabled until an org is selected
-            button.grid-block.align-center.justify-center.btn.btn-md.green(
+            button.btn.btn-md.green(
               ng-click = "\
                 actions.createOrCheckDock(data.selectedOrgName, goToPanel);\
                 state.showSubStep = 1;\
@@ -135,7 +135,7 @@
           footer.grid-block.vertical.modal-footer.fade(
             ng-class = "{'in': isActivePanel()}"
           )
-            button.grid-block.align-center.justify-center.btn.btn-md.green(
+            button.btn.btn-md.green(
               ng-click = "actions.selectAccount(data.selectedOrgName)"
             ) Go to Runnable
     .grid-block.justify-center.modal-outer-footer(
