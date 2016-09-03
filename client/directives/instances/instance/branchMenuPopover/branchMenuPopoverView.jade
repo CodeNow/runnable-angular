@@ -125,6 +125,8 @@
             .text-center.text-gray.small.padding-lg(
               ng-if = "branch.length === 0"
             ) There are no branches to add.
+            //- when the filter has no results
+            //- .text-center.text-gray.small.padding-lg No branches match this filter.
           ul.list.popover-list(
             ng-if = "state.branchesLoaded"
           )
