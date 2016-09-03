@@ -47,8 +47,8 @@
       ) {{key}}:{{value[0].HostPort}} |&#32;
 
   button.grid-block.shrink.btn.btn-sm.gray.btn-aha(
-    ng-click = "$root.featureFlags.ahaSidebar = true"
-    ng-if = "$root.featureFlags.aha && !$root.featureFlags.ahaSidebar"
+    ng-click = "EC.toggleSidebar()"
+    ng-if = "$root.featureFlags.aha"
     tooltip = "Setup Guide"
     tooltip-options = "{\"class\":\"left\",\"right\":42,\"top\":0}"
   )
