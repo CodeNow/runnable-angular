@@ -18,12 +18,12 @@
   }
 
   .card {
-    height: 461px;
+    height: 466px;
     margin-bottom: 15px;
     min-width: 0;
 
     &.deprecated {
-      height: 439px;
+      height: 444px;
     }
 
     // sibling styles must appear first to be overridden by media queries
