@@ -48,7 +48,7 @@
       )
       li.list-item.popover-list-item(
         ng-click = "INC.removeBranch()"
-        ng-if = "!INC.instance.attrs.isolated"
+        ng-if = "INC.instance.attrs.isIsolationGroupMaster"
       )
         svg.iconnables
           use(

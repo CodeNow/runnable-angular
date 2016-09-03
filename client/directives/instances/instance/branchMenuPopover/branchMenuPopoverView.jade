@@ -86,11 +86,11 @@
           ) There are no branches to add.
 
           .spinner-wrapper.spinner-sm.spinner-gray.spinner-center.in(
-            ng-if = "!CIS.instanceBranches.length"
+            ng-if = "$root.isLoading.fetchingBranches"
             ng-include = "'spinner'"
           )
           .padding-xxs(
-            ng-if = "CIS.instanceBranches.length"
+            ng-if = "CIS.instanceBranches"
           )
             .grid-block.shrink.align-center.well.gray.padding-xxs(
               ng-if = "!$root.featureFlags.autoIsolation"
@@ -109,7 +109,7 @@
                 )
                 .toggle-group.toggle-sm
             input.input.input-xs.input-search(
-              ng-disabled = "!CIS.instanceBranches.length"
+              ng-model = "CIS.branchQuery"
               placeholder = "Filter"
               required
               type = "search"
@@ -122,13 +122,12 @@
               .spinner-wrapper.spinner-sm.spinner-gray.spinner-center.in(
                 ng-include = "'spinner'"
               )
-            //- ng-repeat = branch in whatever returned from instance fetch branches
             li.list-item.popover-list-item(
-              ng-repeat = "branch in CIS.instanceBranches"
-              ng-click = "CIS.forkBranchFromInstance(branch, instance)"
+              ng-repeat = "branch in CIS.getFilteredBranches()"
+              ng-click = "CIS.forkBranchFromInstance(branch, instance, POC.closePopover);"
             ) {{ branch.attrs.name }}
               button.btn.btn-xs.btn-icon.btn-add(
-                ng-if = "!$root.isLoading['buildingForkedBranch' + branch.attrs.name]"
+                ng-if = "!$root.isLoading['buildingForkedBranch' + branch.attrs.name] && CIS.shouldShowBranch(branch)"
               )
                 svg.iconnables.icons-add
                   use(
@@ -138,9 +137,8 @@
                 ng-if = "$root.isLoading['buildingForkedBranch' + branch.attrs.name]"
                 ng-include = "'spinner'"
               )
-
-            li.list-item.grid-block.justify-justified.list-pagination(
-            )
-              //- ng-if = "paginated"
-              button.btn.btn-xs.gray.grid-content Last 50
-              button.btn.btn-xs.gray.grid-content Next 50
+          .empty-div(
+            ng-if = "CIS.instanceBranches && !CIS.getFilteredBranches().length"
+          )
+            p.p.text-center.text-gray-light.padding-sm(
+            ) There are no branches to add.

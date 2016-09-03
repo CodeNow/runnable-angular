@@ -25,6 +25,7 @@ function ControllerInstances(
   var userName = $state.params.userName;
   self.searchBranches = null;
   self.instanceBranches = null;
+  self.branchQuery = null;
   self.$storage = $localStorage.$default({
     instanceListIsClosed: false
   });
@@ -124,6 +125,27 @@ function ControllerInstances(
     });
   };
 
+  this.getFilteredBranches = function() {
+    if (!self.branchQuery) {
+      return self.instanceBranches;
+    }
+    var branchName;
+    var searchQuery = self.branchQuery.toLowerCase();
+    return self.instanceBranches.filter(function (branch) {
+      branchName = branch.attrs.name.toLowerCase();
+      return branchName.indexOf(searchQuery) !== -1;
+    });
+  };
+
+  this.shouldShowBranch = function(branch) {
+    if (!self.branchQuery) {
+      return true;
+    }
+    var searchQuery = self.branchQuery.toLowerCase();
+    var branchName = branch.attrs.name.toLowerCase();
+    return branchName.indexOf(searchQuery) !== -1;
+  }
+
   this.shouldShowChild = function (childInstance) {
     if (!self.searchBranches) {
       return true;
@@ -150,8 +172,11 @@ function ControllerInstances(
 
   this.getReposFromInstance = function(instance) {
     var branchName;
+    self.instanceBranches = null;
+    self.branchQuery = null;
+    loading('fetchingBranches', true);
     var childInstances = instance.children.models.reduce(function(childHash, child) {
-      branchName = keypather.get(child, 'contextVersion.appCodeVersions.models[0].attrs.branch');
+      branchName = child.getBranchName();
       childHash[branchName] = branchName;
       return childHash;
     }, {});
@@ -164,10 +189,11 @@ function ControllerInstances(
           branchName = keypather.get(branch, 'attrs.name');
           return !childInstances[branchName];
         });
+        loading('fetchingBranches', false);
       });
   };
 
-  this.forkBranchFromInstance = function(branch, instance) {
+  this.forkBranchFromInstance = function(branch, instance, closePopover) {
     var sha = branch.attrs.commit.sha;
     var loadingName = 'buildingForkedBranch' + branch.attrs.name;
     var index;
@@ -175,13 +201,7 @@ function ControllerInstances(
     promisify(instance, 'fork')(branch.attrs.name, sha)
       .then(function(result) {
         loading(loadingName, false);
-        for (var i = 0; i < self.instanceBranches.length; i++) {
-          if (self.instanceBranches[i].attrs.name === branch.attrs.name) {
-            index = i;
-            break;
-          }
-        }
-        self.instanceBranches.splice(index, 1);
+        closePopover();
       });
   };
 
