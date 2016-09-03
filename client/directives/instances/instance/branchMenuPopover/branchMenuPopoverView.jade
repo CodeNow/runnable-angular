@@ -127,7 +127,7 @@
               ng-click = "CIS.forkBranchFromInstance(branch, instance, POC.closePopover);"
             ) {{ branch.attrs.name }}
               button.btn.btn-xs.btn-icon.btn-add(
-                ng-if = "!$root.isLoading['buildingForkedBranch' + branch.attrs.name] && CIS.shouldShowBranch(branch)"
+                ng-if = "!$root.isLoading['buildingForkedBranch' + branch.attrs.name]"
               )
                 svg.iconnables.icons-add
                   use(

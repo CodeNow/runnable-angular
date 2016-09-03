@@ -137,15 +137,6 @@ function ControllerInstances(
     });
   };
 
-  this.shouldShowBranch = function(branch) {
-    if (!self.branchQuery) {
-      return true;
-    }
-    var searchQuery = self.branchQuery.toLowerCase();
-    var branchName = branch.attrs.name.toLowerCase();
-    return branchName.indexOf(searchQuery) !== -1;
-  }
-
   this.shouldShowChild = function (childInstance) {
     if (!self.searchBranches) {
       return true;
