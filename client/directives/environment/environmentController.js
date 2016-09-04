@@ -37,6 +37,13 @@ function EnvironmentController(
     EC.showCreateTemplate = true;
   };
 
+  $scope.$on('exitedEarly', function(event, didExitEarly) {
+    EC.showExitedEarly = didExitEarly;
+    if (!didExitEarly) {
+      $rootScope.$broadcast('launchAhaNavPopover');
+    }
+  })
+
   var unbindUpdateTeammateInvitation = $rootScope.$on('updateTeammateInvitations', function (event, invitesCreated) {
     if (invitesCreated) {
       updateShowInviteButton();
@@ -103,7 +110,7 @@ function EnvironmentController(
   // Asynchronously fetch the Dockerfile and check for working instances
   instancesByPod.forEach(function (instance) {
     if (instance.attrs.build.successful && instance.getRepoName()) {
-      $rootScope.$emit('launchAhaNavPopover');
+      $rootScope.$broadcast('launchAhaNavPopover');
     }
     if (instance.hasDockerfileMirroring()) {
       return fetchDockerfileForContextVersion(instance.contextVersion)

@@ -51,7 +51,7 @@
   )
 
   .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
-    ng-if = "$root.featureFlags.aha1ExitedEarly && $root.ahaGuide.ahaGuideToggles.exitedEarly"
+    ng-if = "$root.featureFlags.aha && EC.showExitedEarly"
     aha-guide-directive
     step-index = 1
     sub-step = 'exitedEarly'
@@ -97,7 +97,7 @@
         )
 
     .modal-dialog.modal-sm(
-      ng-if = "$root.featureFlags.aha && EC.showCreateTemplate"
+      ng-if = "$root.featureFlags.aha && EC.showCreateTemplate && !data.instances.models.length"
     )
       .grid-block.align-center.aha-guide.padding-md(
         aha-guide-directive

@@ -33,12 +33,15 @@
       disabled: ASC.getCurrentStep() < ASC.steps.ADD_FIRST_REPO,\
       active: ASC.getCurrentStep() === ASC.steps.ADD_FIRST_REPO\
     }"
+    ng-click = "\
+      ASC.toggleOverview();\
+    "
   )
     .grid-block.shrink.aha-meter(
       ng-class = "{\
           'aha-error': $root.ahaGuide.ahaGuideToggles.showError,\
           'aha-meter-70': $root.ahaGuide.ahaGuideToggles.exitedEarly,\
-          'aha-meter-100': !$root.ahaGuide.ahaGuideToggles.showAha1\
+          'aha-meter-100': ASC.getCurrentStep() > ASC.steps.ADD_FIRST_REPO\
         }"
     )
       svg.iconnables

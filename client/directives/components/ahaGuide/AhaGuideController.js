@@ -12,12 +12,6 @@ function AhaGuideController(
 ) {
 
   var AGC = this;
-  if (!$rootScope.ahaGuide) {
-    $rootScope.ahaGuide = {};
-  }
-
-  AGC.exitingEarly = exitingEarly;
-  AGC.confirmAha1Complete = confirmAha1Complete;
 
   var alertListener = $scope.$on('alert', function(event, alert) {
     // alerts on container creation success
@@ -29,10 +23,6 @@ function AhaGuideController(
 
   var buildLogListener = $scope.$on('buildStatusUpdated', function(event, buildStatus) {
     handleBuildUpdate(buildStatus);
-  });
-
-  var exitedEarlyListener = $scope.$on('exitedEarly', function() {
-    exitingEarly();
   });
 
   var tabListener = $scope.$on('updatedTab', function(event, tabName) {
@@ -75,22 +65,30 @@ function AhaGuideController(
     AGC.state.subStepIndex = currentMilestone.subSteps[status].step;
     AGC.state.caption = currentMilestone.subSteps[status].caption;
     AGC.state.className = currentMilestone.subSteps[status].className;
+
+    // not animating
+    // var thingy = angular.element(document.getElementsByClassName('p-slide'))
+    // var parentThingy = angular.element(document.getElementsByClassName('grid-block aha-text'))
+
+    // if (thingy && parentThingy) {
+    //   thingy.remove();
+    //   parentThingy.append('<p ng-class="{\'p-slide js-animate\': AGC.state.subStepIndex}" ng-if="$root.featureFlags.aha &amp;&amp;\
+    //                       !state.showError &amp;&amp; !state.showVerification" class="p ng-binding ng-scope p-slide js-animate">' +
+    //                       AGC.state.caption + '</p>');
+    // }
   }
 
   function handleBuildUpdate(update) {
     console.log(update);
     var buildStatus = update.status;
-    AGC.state.containerHostname = update.containerHostname;
     if (buildStatus === 'buildFailed' || buildStatus === 'stopped' || buildStatus === 'crashed') {
       AGC.state.showError = true;
     } else if (buildStatus === 'starting') {
       AGC.state.showError = false;
-      addVerificationListeners();
     } else if (buildStatus === 'running') {
+        AGC.state.isBuildSuccessful = true;
         updateCaption('success');
-        $rootScope.ahaGuide.ahaGuideToggles.exitedEarly = false;
-        $rootScope.ahaGuide.ahaGuideToggles.showPopover = true;
-        $rootScope.ahaGuide.ahaGuideToggles.showAha1 = false;
+        $rootScope.$broadcast('exitedEarly', false);
     }
     updateBuildStatus(buildStatus);
   }
@@ -98,24 +96,6 @@ function AhaGuideController(
   function updateBuildStatus(buildStatus) {
     AGC.state.buildStatus = buildStatus;
     AGC.state.caption = currentMilestone.buildStatus[buildStatus] || AGC.state.caption;
-  }
-
-  function addVerificationListeners() {
-    if (!$rootScope.doneListener) {
-      $rootScope.doneListener = $rootScope.$on('close-popovers', function() {
-        $rootScope.doneListener();
-        updateCaption('complete');
-        $rootScope.ahaGuide.ahaGuideToggles.exitedEarly = false;
-        $rootScope.ahaGuide.ahaGuideToggles.showPopover = true;
-        $rootScope.ahaGuide.ahaGuideToggles.showAha1 = false;
-      });
-    }
-  }
-
-  function exitingEarly() {
-    exitedEarlyListener();
-    AGC.state.showError = true;
-    updateCaption('exitedEarly');
   }
 
   function confirmAha1Complete() {
@@ -136,8 +116,7 @@ function AhaGuideController(
       $rootScope.doneListener();
     }
     if (AGC.state.subStepIndex === 7 && !AGC.state.isBuildSuccessful) {
-      $rootScope.ahaGuide.ahaGuideToggles.exitedEarly = true;
-      $rootScope.$broadcast('exitedEarly');
+      $rootScope.$broadcast('exitedEarly', true);
     }
   });
 

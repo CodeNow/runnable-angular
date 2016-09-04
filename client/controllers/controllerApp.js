@@ -129,9 +129,9 @@ function ControllerApp(
     }
   });
 
-  $scope.showAhaNavPopover = false;
+  CA.showAhaNavPopover = false;
   $rootScope.$on('launchAhaNavPopover', function () {
-    $scope.showAhaNavPopover = true;
+    CA.showAhaNavPopover = true;
   });
 
   /**

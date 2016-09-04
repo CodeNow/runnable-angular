@@ -266,10 +266,8 @@ function SetupServerModalController(
         SMC.state.instance = instance;
         SMC.state.instance.on('update', function() {
           var buildStatus = SMC.state.instance.status();
-          var containerHostname = SMC.state.instance.getContainerHostname();
           $rootScope.$broadcast('buildStatusUpdated', {
-            status: buildStatus,
-            containerHostname: containerHostname
+            status: buildStatus
           });
           if (buildStatus === 'running') {
             SMC.page = 'run';

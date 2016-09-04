@@ -6,6 +6,7 @@ require('app')
 function NewContainerModalController(
   $q,
   $timeout,
+  ahaGuide,
   createNewBuildAndFetchBranch,
   createNonRepoInstance,
   errs,
@@ -31,7 +32,8 @@ function NewContainerModalController(
       dockerfile: null,
       configurationMethod: null,
       namesForAllInstances: []
-    }
+    },
+    ahaGuide: ahaGuide
   });
 
   // Start loading repos and templates
