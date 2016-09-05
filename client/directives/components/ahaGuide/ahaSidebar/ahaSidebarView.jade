@@ -28,7 +28,7 @@
 
   .grid-block.shrink.align-center.padding-sm.aha-guide(
     ng-class = "{\
-      disabled: getCurrentStep() < steps.ADD_FIRST_REPO,\
+      disabled: getCurrentStep() !== steps.ADD_FIRST_REPO,\
       active: getCurrentStep() === steps.ADD_FIRST_REPO\
     }"
   )
@@ -53,7 +53,7 @@
       p.small Set up your project and get it running!
 
   .grid-block.shrink.align-center.padding-sm.aha-guide(
-    ng-class = "{'disabled': getCurrentStep() < steps.ADD_FIRST_BRANCH}"
+    ng-class = "{'disabled': getCurrentStep() !== steps.ADD_FIRST_BRANCH}"
   )
     .grid-block.shrink.aha-meter(
       ng-class = "{\
@@ -75,7 +75,7 @@
       p.small Your branches will update on every commit you make.
 
   .grid-block.shrink.align-center.padding-sm.aha-guide(
-    ng-class = "{'disabled': getCurrentStep() < steps.SETUP_RUNNABOT}"
+    ng-class = "{'disabled': getCurrentStep() !== steps.SETUP_RUNNABOT}"
   )
     .grid-block.shrink.aha-meter(
       ng-class = "{'aha-meter-50': getCurrentStep() === steps.SETUP_RUNNABOT}"

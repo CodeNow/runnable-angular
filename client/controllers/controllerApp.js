@@ -100,9 +100,7 @@ function ControllerApp(
     ahaGuideToggles = {
       showAha: true,
       exitedEarly: false,
-      showError: false,
-      showPopover: false,
-      showSidebar: false
+      showError: false
     };
     keypather.set($localStorage, 'ahaGuide.ahaGuideToggles', ahaGuideToggles);
   }

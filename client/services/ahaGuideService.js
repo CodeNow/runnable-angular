@@ -21,7 +21,7 @@ function ahaGuide(
   function refreshInstances() {
     return fetchInstancesByPod()
       .then(function (fetchedInstances) {
-        instances = fetchedInstances;
+        instances = fetchedInstances.models;
       });
   }
   refreshInstances();
@@ -187,7 +187,7 @@ function ahaGuide(
         cachedStep = STEPS.ADD_FIRST_REPO;
       } else {
         // loop over instances and see if any has ever had a branch launched
-        var hasBranchLaunched = instances.models.some(function (instance) {
+        var hasBranchLaunched = instances.some(function (instance) {
           return instance.attrs.hasBranchLaunched;
         });
         if (hasBranchLaunched) {

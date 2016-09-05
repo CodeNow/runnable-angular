@@ -47,7 +47,7 @@
   header.grid-block.align-center.environment-header(
     ng-include = "'viewEnvironmentHeader'"
     ng-init = "state.helpButton = {active: false}"
-    ng-if = "!EC.ahaGuide.isInGuide() || (EC.showCreateTemplate && EC.ahaGuide.getCurrentStep() === EC.ahaGuide.steps.ADD_FIRST_REPO)"
+    ng-if = "!EC.ahaGuide.isInGuide() || EC.showCreateTemplate"
   )
 
   .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(

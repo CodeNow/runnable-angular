@@ -108,9 +108,10 @@ function EnvironmentController(
     EC.showSidebar = true;
   }
 
+  var isAddFirstRepo = ahaGuide.getCurrentStep() ===  ahaGuide.steps.ADD_FIRST_REPO;
   // Asynchronously fetch the Dockerfile and check for working instances
   instancesByPod.forEach(function (instance) {
-    if (instance.attrs.build.successful && instance.getRepoName()) {
+    if (instance.attrs.build.successful && instance.getRepoName() && isAddFirstRepo) {
       $rootScope.$broadcast('launchAhaNavPopover');
     }
     if (instance.hasDockerfileMirroring()) {
