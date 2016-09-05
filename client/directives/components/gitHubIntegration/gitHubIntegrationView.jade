@@ -9,20 +9,24 @@ img.grid-content.shrink.img.img-comment(
 //- add 'disabled' attr if inviting runnabot, or if user isn't an admin
     hide after successfully inviting runnabot
 button.grid-content.shrink.btn.btn-md.green(
-  ng-click = "$root.featureFlags.ahaOverview = false"
+  ng-click = "GIC.addRunnabot()"
+  ng-disabled = "!GIC.isAdmin || $root.isLoading.addRunnabot"
+  ng-hide = "GIC.hasRunnabot"
 )
   svg.iconnables.icons-octicons-github
     use(
       xlink:href = "#icons-octicons-github"
     )
   | Invite Runnabot
-  //- if inviting Runnabot
-  //- .spinner-wrapper.spinner-sm.spinner-white.float-right(
-  //-   ng-include = "'spinner'"
-  //- )
+  .spinner-wrapper.spinner-sm.spinner-white.float-right(
+    ng-if = "$root.isLoading.addRunnabot"
+    ng-include = "'spinner'"
+  )
 
 //- show after successfully inviting runnabot
-//- .grid-block.align-center.shrink.runnabot-success
+.grid-block.align-center.shrink.runnabot-success(
+  ng-show = "GIC.hasRunnabot"
+)
   img.grid-content.shrink.img(
     height = "36"
     src = "/build/images/runnabot-head.png"
@@ -32,21 +36,20 @@ button.grid-content.shrink.btn.btn-md.green(
     .arrow
     p.small.text-gray.text-left Thanks! See you soon on your pull requests.
 
-.grid-content.shrink.small.text-center(
-  ng-class = "{\
-    'text-gray': !state.adminRequired,\
-    'text-red': state.adminRequired\
-  }"
-  ng-init = "state.adminRequired = false"
+.grid-content.shrink.small.text-center.text-red(
+  ng-show = "GIC.isAdmin"
 )
   //- if the user is an admin:
   | This may affect your GitHub bill.
 
-  //- if the user is not an admin:
-  //- | Sorry, you’ll need help from an admin
-  //- br
-  //- | of your org to invite Runnabot.
+.grid-content.shrink.small.text-center.text-gray(
+  ng-show = "!GIC.isAdmin"
+)
+  | Sorry, you’ll need help from an admin
+  br
+  | of your org to invite Runnabot.
 
+.grid-content.shrink.small.text-center
   //- always show this:
   br
   a.small.link More about Runnabot
