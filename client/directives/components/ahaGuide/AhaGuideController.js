@@ -7,8 +7,8 @@ require('app')
 function AhaGuideController(
   $scope,
   $rootScope,
-  $timeout,
-  ahaGuide
+  ahaGuide,
+  currentOrg
 ) {
 
   var AGC = this;
@@ -124,4 +124,15 @@ function AhaGuideController(
     updateCaption(panel);
   });
 
+  AGC.popoverActions = {
+    endGuide: function () {
+      $rootScope.$broadcast('close-popovers');
+      // TODO: AHA - Make this save
+      currentOrg.poppa.hasAha = false;
+    },
+    showSidebar: function () {
+      $rootScope.$broadcast('close-popovers');
+      $rootScope.$broadcast('show-aha-sidebar');
+    }
+  };
 }

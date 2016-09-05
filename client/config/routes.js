@@ -184,6 +184,10 @@ module.exports = [
         activeAccount,
         currentOrg
       ) {
+        // TODO: AHA - Remove this temporary change ot turn aha on
+        activeOrg.hasAha = true;
+        activeOrg.hasConfirmedSetup = false;
+
         currentOrg.poppa = activeOrg;
         currentOrg.github = activeAccount;
       }

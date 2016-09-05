@@ -172,10 +172,7 @@ function ahaGuide(
   });
   function getCurrentStep() {
     if (!cachedStep) {
-      // Temporarily turning aha on
-      currentOrg.poppa.hasAha = true;
-      currentOrg.poppa.hasConfirmedSetup = false;
-      if (!currentOrg.poppa.hasAha) {
+      if (!$rootScope.featureFlags.aha || !currentOrg.poppa.hasAha) {
         cachedStep = STEPS.COMPLETED;
       } else if (!currentOrg.poppa.hasConfirmedSetup) {
         cachedStep = STEPS.ADD_FIRST_REPO;
@@ -195,8 +192,7 @@ function ahaGuide(
   }
 
   function isInGuide() {
-    currentOrg.poppa.hasAha = true;
-    return currentOrg.poppa.hasAha && getCurrentStep() !== STEPS.COMPLETED;
+    return $rootScope.featureFlags.aha && currentOrg.poppa.hasAha && getCurrentStep() !== STEPS.COMPLETED;
   }
 
   return {

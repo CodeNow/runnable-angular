@@ -33,9 +33,6 @@
       disabled: ASC.getCurrentStep() < ASC.steps.ADD_FIRST_REPO,\
       active: ASC.getCurrentStep() === ASC.steps.ADD_FIRST_REPO\
     }"
-    ng-click = "\
-      ASC.toggleOverview();\
-    "
   )
     .grid-block.shrink.aha-meter(
       ng-class = "{\

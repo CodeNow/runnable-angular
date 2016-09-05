@@ -36,13 +36,14 @@ function EnvironmentController(
     EC.showSidebar = !EC.showSidebar;
     EC.showCreateTemplate = true;
   };
+  $scope.$on('show-aha-sidebar', EC.toggleSidebar);
 
   $scope.$on('exitedEarly', function(event, didExitEarly) {
     EC.showExitedEarly = didExitEarly;
     if (!didExitEarly) {
       $rootScope.$broadcast('launchAhaNavPopover');
     }
-  })
+  });
 
   var unbindUpdateTeammateInvitation = $rootScope.$on('updateTeammateInvitations', function (event, invitesCreated) {
     if (invitesCreated) {
