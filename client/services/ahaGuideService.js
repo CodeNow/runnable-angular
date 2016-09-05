@@ -41,7 +41,7 @@ function ahaGuide(
         dockLoaded: {
           caption: 'Continue to start configuring your project.',
           className: 'aha-meter-100'
-        },
+        }
       },
       panelSteps: {
         orgSelection: 0,
@@ -163,7 +163,7 @@ function ahaGuide(
         dockLoaded: {
           caption: 'Continue to start configuring your project.',
           className: 'aha-meter-100'
-        },
+        }
       },
       panelSteps: {
       }
