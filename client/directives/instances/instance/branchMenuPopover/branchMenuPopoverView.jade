@@ -113,14 +113,9 @@
           ul.list.popover-list(
             ng-if = "CIS.instanceBranches.length"
           )
-            //- show when loading paginated list
-            //- li.list-item.padding-md
-              .spinner-wrapper.spinner-sm.spinner-gray.spinner-center.in(
-                ng-include = "'spinner'"
-              )
             li.list-item.popover-list-item(
               ng-repeat = "branch in CIS.getFilteredBranches()"
-              ng-click = "CIS.forkBranchFromInstance(branch, instance, POC.closePopover);"
+              ng-click = "CIS.forkBranchFromInstance(branch, POC.closePopover);"
             ) {{ branch.attrs.name }}
               button.btn.btn-xs.btn-icon.btn-add(
                 ng-if = "!$root.isLoading['buildingForkedBranch' + branch.attrs.name]"
