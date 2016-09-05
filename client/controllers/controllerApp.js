@@ -93,7 +93,6 @@ function ControllerApp(
 
   if (!completedMilestones) {
     completedMilestones = {
-      aha0: false,
       aha1: false,
       aha2: false,
       aha3: false
@@ -104,7 +103,6 @@ function ControllerApp(
   if (!ahaGuideToggles) {
     ahaGuideToggles = {
       showAha: true,
-      showAha0: true,
       showAha1: false,
       showAha2: true,
       showAha3: true,

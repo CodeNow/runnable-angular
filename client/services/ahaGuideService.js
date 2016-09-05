@@ -12,15 +12,21 @@ var STEPS = {
 };
 
 function ahaGuide(
-  fetchInstancesByPod,
+  $rootScope,
   currentOrg,
-  $rootScope
+  fetchInstancesByPod,
+  keypather
 ) {
   var instances = [];
-  fetchInstancesByPod()
-    .then(function (instanceByPod) {
-      instances = instanceByPod;
-    });
+  function refreshInstances() {
+    if (keypather.get(currentOrg, 'poppa.id')) {
+      return fetchInstancesByPod()
+        .then(function (fetchedInstances) {
+          instances = fetchedInstances;
+        });
+    }
+  }
+  refreshInstances();
 
   var stepList = [
     {
@@ -170,9 +176,14 @@ function ahaGuide(
   $rootScope.$watch(function () {
     cachedStep = null;
   });
+  $rootScope.$on('$stateChangeSuccess', function () {
+    refreshInstances();
+  });
   function getCurrentStep() {
     if (!cachedStep) {
-      if (!$rootScope.featureFlags.aha || !currentOrg.poppa.hasAha) {
+      if ($rootScope.featureFlags.aha && !keypather.get(currentOrg, 'poppa.id')) {
+        cachedStep = STEPS.CHOOSE_ORGANIZATION;
+      } else if (!$rootScope.featureFlags.aha || !currentOrg.poppa.hasAha) {
         cachedStep = STEPS.COMPLETED;
       } else if (!currentOrg.poppa.hasConfirmedSetup) {
         cachedStep = STEPS.ADD_FIRST_REPO;

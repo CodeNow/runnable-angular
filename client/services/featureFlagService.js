@@ -9,7 +9,6 @@ function featureFlags(
   var defaultFeatureFlags = {
     addBranches: false,
     aha: false,
-    aha0: false, // step 1: create sandbox
     aha1: false, // step 2: working repo config
     aha1ExitedEarly: false, // step 2: if the user left the flow before getting a running config
     aha3: false, // step 4: runnabot

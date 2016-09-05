@@ -25,13 +25,6 @@ function ChooseOrganizationModalController(
   COMC.allAccounts = grantedOrgs.models;
   COMC.whitelistedOrgs = whitelistedOrgs;
 
-  // fixme once active org/currentOrg is resolved
-  $rootScope.ahaGuide = {
-    ahaGuideToggles: {
-      showAha0: true
-    }
-  };
-
   // otherwise the user can clear away the model
   // this will be re-added when they transition to something else
   keypather.set($rootScope, 'dataApp.documentKeydownEventHandler', null);
