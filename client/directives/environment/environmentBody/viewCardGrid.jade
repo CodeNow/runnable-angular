@@ -10,7 +10,7 @@
 //- empty state
 .card.gray.disabled.load.empty(
   ng-class = "{'deprecated': !$root.featureFlags.cardStatus}"
-  ng-if = "!$root.ahaGuide.ahaGuideToggles.showAha1 && !$root.isLoading.sidebar && data.instances && !data.instances.models.length"
+  ng-if = "!EC.ahaGuide.isInGuide() && !$root.isLoading.sidebar && data.instances && !data.instances.models.length"
 )
   svg.iconnables(
     ng-click = "EC.triggerModal.newContainer()"

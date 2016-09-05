@@ -98,10 +98,6 @@ function AhaGuideController(
     AGC.state.caption = currentMilestone.buildStatus[buildStatus] || AGC.state.caption;
   }
 
-  function confirmAha1Complete() {
-    console.log('confirmed that we\'ve finished the first aha 1');
-  }
-
   // we need to unregister this animated panel listener if it exists
   // to avoid duplication
   if ($rootScope.animatedPanelListener) {

@@ -15,13 +15,12 @@
       )
         header.modal-header.grid-block.justify-center(
           ng-class = "{'lg': MC.ahaGuide.getCurrentStep() !== MC.ahaGuide.steps.ADD_FIRST_REPO}"
-          ng-if = "MC.ahaGuide.getCurrentStep() !== MC.ahaGuide.steps.ADD_FIRST_REPO"
           ng-click = "MC.changeTab('nameContainer')"
         )
           .grid-block.shrink.btn(
             ng-class = "{'active': MC.state.tabName === 'repos'}"
             ng-click = "MC.changeTab('repos')"
-            ng-if = "!$root.ahaGuide.ahaGuideToggles.showAha1"
+            ng-if = "MC.ahaGuide.getCurrentStep() !== MC.ahaGuide.steps.ADD_FIRST_REPO"
           )
             svg.iconnables.icons-repository.grid-block.shrink
               use(
@@ -38,7 +37,7 @@
               'disabled': $root.isLoading[MC.name + 'SingleRepo'] \
             }"
             ng-click = "!$root.isLoading[MC.name + 'SingleRepo'] && MC.changeTab('services')"
-            ng-if = "!$root.ahaGuide.ahaGuideToggles.showAha1"
+            ng-if = "MC.ahaGuide.getCurrentStep() !== MC.ahaGuide.steps.ADD_FIRST_REPO"
           )
             svg.iconnables.icons-template.grid-block.shrink
               use(
