@@ -19,12 +19,10 @@ function ahaGuide(
 ) {
   var instances = [];
   function refreshInstances() {
-    if (keypather.get(currentOrg, 'poppa.id')) {
-      return fetchInstancesByPod()
-        .then(function (fetchedInstances) {
-          instances = fetchedInstances;
-        });
-    }
+    return fetchInstancesByPod()
+      .then(function (fetchedInstances) {
+        instances = fetchedInstances;
+      });
   }
   refreshInstances();
 

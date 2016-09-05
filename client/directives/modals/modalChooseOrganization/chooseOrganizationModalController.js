@@ -8,7 +8,6 @@ function ChooseOrganizationModalController(
   $scope,
   $state,
   createNewSandboxForUserService,
-  currentOrg,
   errs,
   featureFlags,
   fetchWhitelistForDockCreated,
