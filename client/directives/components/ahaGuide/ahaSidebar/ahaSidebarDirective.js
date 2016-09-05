@@ -3,16 +3,19 @@
 require('app')
   .directive('ahaSidebar', ahaSidebar);
 
-function ahaSidebar() {
+function ahaSidebar(
+  ahaGuide
+) {
   return {
     restrict: 'A',
     templateUrl: 'ahaSidebarView',
-    controller: 'AhaSidebarController',
-    controllerAs: 'ASC',
-    bindToController: true,
     scope: {
       toggleSidebar: '=',
       showOverview: '='
+    },
+    link: function ($scope) {
+      $scope.steps = ahaGuide.steps;
+      $scope.getCurrentStep = ahaGuide.getCurrentStep;
     }
   };
 }
