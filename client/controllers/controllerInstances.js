@@ -133,7 +133,7 @@ function ControllerInstances(
     var searchQuery = CIS.branchQuery.toLowerCase();
     return CIS.instanceBranches.filter(function (branch) {
       branchName = branch.attrs.name.toLowerCase();
-      return branchName.indexOf(searchQuery) !== -1;
+      return branchName.includes(searchQuery);
     });
   };
 
