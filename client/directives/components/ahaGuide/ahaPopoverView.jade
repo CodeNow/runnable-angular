@@ -1,25 +1,19 @@
 .arrow.white
-.popover-content(
-  ng-if = "$root.featureFlags.aha1"
-)
-	.grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
-		aha-guide-directive
-		step-index = 1
-		sub-step = "complete"
-	)
+.popover-content
+  .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
+    ng-if = "!$root.featureFlags.ahaInContainersView"
+    ng-include = "'ahaGuideView'"
+    ng-init = "state.showStep = 1"
+  )
+  .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
+    ng-if = "$root.featureFlags.ahaInContainersView"
+    ng-include = "'ahaGuideView'"
+    ng-init = "\
+      state.showStep = 2;\
+      state.showSubStep = 1;\
+    "
+  )
 .grid-block.justify-right.popover-footer(
-	ng-if = "$root.featureFlags.aha1"
+  ng-if = "!$root.featureFlags.ahaInContainersView"
 )
-	button.grid-block.shrink.btn.btn-sm.green(
-	ng-click = "CA.showAhaNavPopover = false"
-) Got It
-
-.popover-content(
-	ng-if = "$root.featureFlags.ahaInContainersView"
-)
-	.grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
-  	ng-if = "$root.featureFlags.ahaInContainersView"
-		aha-guide-directive
-		step-index = 2
-		sub-step = "addBranch"
-	)
+  button.grid-block.shrink.btn.btn-sm.green Got It
