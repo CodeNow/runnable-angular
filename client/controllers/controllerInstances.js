@@ -9,6 +9,7 @@ function ControllerInstances(
   $filter,
   $localStorage,
   $state,
+  ahaGuide,
   keypather,
   setLastOrg,
   errs,
@@ -22,6 +23,8 @@ function ControllerInstances(
 ) {
   var CIS = this;
   var userName = $state.params.userName;
+  CIS.ahaGuide = ahaGuide;
+  CIS.currentOrg = currentOrg;
   CIS.searchBranches = null;
   CIS.instanceBranches = null;
   CIS.unbuiltBranches = null;
@@ -204,6 +207,7 @@ function ControllerInstances(
     promisify(CIS.poppedInstance, 'fork')(branch.attrs.name, sha)
       .then(function() {
         loading(loadingName, false);
+        CIS.poppedInstance.attrs.hasBranchLaunched = true;
         closePopover();
       });
   };

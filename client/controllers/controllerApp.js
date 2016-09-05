@@ -88,18 +88,7 @@ function ControllerApp(
   $rootScope.resetFeatureFlags = featureFlags.reset;
   this.featureFlagsChanged = featureFlags.changed;
   $rootScope.ahaGuide = {};
-  var completedMilestones = keypather.get($localStorage, 'ahaGuide.completedMilestones');
   var ahaGuideToggles = keypather.get($localStorage, 'ahaGuide.toggles');
-
-  if (!completedMilestones) {
-    completedMilestones = {
-      aha0: false,
-      aha1: false,
-      aha2: false,
-      aha3: false
-    };
-    keypather.set($localStorage, 'ahaGuide.completedMilestones', completedMilestones);
-  }
 
   if (!ahaGuideToggles) {
     ahaGuideToggles = {
@@ -117,7 +106,6 @@ function ControllerApp(
     keypather.set($localStorage, 'ahaGuide.ahaGuideToggles', ahaGuideToggles);
   }
 
-  $rootScope.ahaGuide.completedMilestones = $localStorage.ahaGuide.completedMilestones;
   $rootScope.ahaGuide.ahaGuideToggles = $localStorage.ahaGuide.ahaGuideToggles;
 
   $scope.$watch(function () {

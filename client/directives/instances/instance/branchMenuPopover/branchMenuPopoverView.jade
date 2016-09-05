@@ -2,10 +2,25 @@
   ng-class = "{'in': active}"
   ng-style = "popoverStyle.getStyle()"
 )
+  .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
+    ng-if = "$root.featureFlags.aha2 && CIS.instanceBranches.length && CIS.ahaGuide.getCurrentStep() === CIS.ahaGuide.steps.ADD_FIRST_BRANCH"
+    aha-guide-directive
+    step-index = 2
+    sub-step = "dockLoading"
+    sub-step-index = 1
+  )
+  .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
+    ng-if = "$root.featureFlags.aha2 && CIS.instanceBranches && !CIS.instanceBranches.length && CIS.ahaGuide.getCurrentStep() === CIS.ahaGuide.steps.ADD_FIRST_BRANCH"
+    aha-guide-directive
+    step-index = 2
+    sub-step = "dockLoaded"
+    sub-step-index = 2
+  )
   .arrow.white
   .grid-block.vertical.popover-content.empty(
     ng-if = "$root.featureFlags.autoIsolationSetup"
   )
+
     svg.svg.grid-block
       use(
         xlink:href = "#icons-branch-burst"

@@ -149,7 +149,7 @@ function ahaGuide(
       title: 'Add your first branch',
       subSteps: {
         addBranch: {
-          caption: 'Click the + button next to any repository name.',
+          caption: 'Click the + button next to any repostory name.',
           className: 'aha-meter-33',
           step: 0
         },
@@ -177,14 +177,14 @@ function ahaGuide(
     if (!cachedStep) {
       // Temporarily turning aha on
       currentOrg.poppa.hasAha = true;
-      currentOrg.poppa.hasConfirmedSetup = false;
+      currentOrg.poppa.hasConfirmedSetup = true;
       if (!currentOrg.poppa.hasAha) {
         cachedStep = STEPS.COMPLETED;
       } else if (!currentOrg.poppa.hasConfirmedSetup) {
         cachedStep = STEPS.ADD_FIRST_REPO;
       } else {
         // loop over instances and see if any has ever had a branch launched
-        var hasBranchLaunched = instances.models.some(function (instance) {
+        var hasBranchLaunched = instances.models && instances.models.some(function (instance) {
           return instance.attrs.hasBranchLaunched;
         });
         if (hasBranchLaunched) {
