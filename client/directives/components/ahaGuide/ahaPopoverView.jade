@@ -2,28 +2,24 @@
 .popover-content(
   ng-if = "$root.featureFlags.aha1"
 )
-  .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
-    aha-guide-directive
-    step-index = 1
-    sub-step = "complete"
-  )
-.grid-block.justify-right.popover-footer
-  button.grid-block.shrink.btn.btn-sm.green(
-  ng-click = "CA.showAhaNavPopover = false"
+	.grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
+		aha-guide-directive
+		step-index = 1
+		sub-step = "complete"
+	)
+.grid-block.justify-right.popover-footer(
+	ng-if = "$root.featureFlags.aha1"
+)
+	button.grid-block.shrink.btn.btn-sm.green(
+	ng-click = "CA.showAhaNavPopover = false"
 ) Got It
 
 .popover-content(
-  ng-if = "$root.featureFlags.ahaInContainersView"
+	ng-if = "$root.featureFlags.ahaInContainersView"
 )
 	.grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
-    ng-if = "$root.featureFlags.ahaInContainersView"
-    ng-include = "'ahaGuideView'"
-    ng-init = "\
-      state.showStep = 2;\
-      state.showSubStep = 1;\
-    "
-  )
-.grid-block.justify-right.popover-footer(
-  ng-if = "$root.featureFlags.ahaInContainersView"
-)
-button.grid-block.shrink.btn.btn-sm.green Got It
+  	ng-if = "$root.featureFlags.ahaInContainersView"
+		aha-guide-directive
+		step-index = 2
+		sub-step = "addBranch"
+	)

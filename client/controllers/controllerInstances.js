@@ -221,4 +221,34 @@ function ControllerInstances(
     })
       .catch(errs.handler);
   };
+  
+  this.openInviteAdminModal = function (instance) {
+    ModalService.showModal({
+      controller: 'InviteAdminModalController',
+      controllerAs: 'IAMC',
+      templateUrl: 'inviteAdminModalView',
+      inputs: {
+        instance: instance,
+        isFromAutoDeploy: false
+      }
+    })
+      .catch(errs.handler);
+  };
+
+  this.openEnableBranchesModal = function (instance) {
+    ModalService.showModal({
+      controller: 'EnableBranchesModalController',
+      controllerAs: 'EBMC',
+      templateUrl: 'enableBranchesModalView',
+      inputs: {
+        instance: instance
+      }
+    })
+      .catch(errs.handler);
+  };
+
+  this.setAutofork = function(instance) {
+    var shouldNotAutofork = instance.attrs.shouldNotAutofork = !instance.attrs.shouldNotAutofork;
+    promisify(instance, 'update')({shouldNotAutofork: shouldNotAutofork});
+  };
 }

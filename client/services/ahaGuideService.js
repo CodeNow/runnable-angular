@@ -149,16 +149,19 @@ function ahaGuide(
       title: 'Add your first branch',
       subSteps: {
         addBranch: {
-          caption: 'Almost done! Click the + button next to a repo name to add a branch.',
-          className: 'aha-meter-33'
+          caption: 'Click the + button next to any repository name.',
+          className: 'aha-meter-33',
+          step: 0
         },
         dockLoading: {
           caption: 'Hang tight!',
-          className: 'aha-meter-66'
+          className: 'aha-meter-66',
+          step: 1
         },
         dockLoaded: {
           caption: 'Continue to start configuring your project.',
-          className: 'aha-meter-100'
+          className: 'aha-meter-100',
+          step: 2
         },
       },
       panelSteps: {
