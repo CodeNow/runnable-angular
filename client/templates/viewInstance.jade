@@ -60,5 +60,7 @@
 
 .grid-block.vertical.aha-sidebar.padding-sm.js-animate(
   aha-sidebar
-  ng-if = "$root.featureFlags.aha && $root.ahaGuide.ahaGuideToggles.showSidebar"
+  toggle-sidebar = "CIS.toggleSidebar"
+  show-overview = "false"
+  ng-if = "$root.featureFlags.aha && CIS.showSidebar"
 )

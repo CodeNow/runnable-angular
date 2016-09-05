@@ -101,7 +101,6 @@ function ControllerApp(
       showAha: true,
       exitedEarly: false,
       showError: false,
-      showOverview: true,
       showPopover: false,
       showSidebar: false
     };
