@@ -129,14 +129,14 @@
                 ng-include = "'spinner'"
               )
 
-          .text-center.text-gray.small.padding-md(
+          .text-center.text-gray.small.padding-lg(
             ng-if = "CIS.instanceBranches && !CIS.instanceBranches.length && CIS.totalInstanceBranches"
           ) There are no branches to add.
 
-          .text-center.text-gray.small.padding-md(
+          .text-center.text-gray.small.padding-lg(
             ng-if = "CIS.instanceBranches && !CIS.instanceBranches.length && !CIS.totalInstanceBranches"
           ) The repository has no branches.
 
-          .text-center.text-gray.small.padding-md(
+          .text-center.text-gray.small.padding-lg(
             ng-if = "CIS.instanceBranches && CIS.instanceBranches.length && CIS.totalInstanceBranches && !CIS.getFilteredBranches().length"
           ) No branches match this filter.
