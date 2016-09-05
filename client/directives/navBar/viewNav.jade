@@ -6,7 +6,7 @@
 
 //- aha menu --- This should be triggered via an event!
 .popover.right.in.popover-aha(
-  ng-if = "CA.showAhaNavPopover"
+  ng-if = "CA.showAhaNavPopover || $root.featureFlags.ahaInContainersView"
   ng-include = "'ahaPopoverView'"
 )
 
@@ -41,6 +41,17 @@ a.a(
       xlink:href = "#icons-server-dark"
     )
   | Containers
+
+a.a(
+  ng-if = "$root.featureFlags.aha2"
+  internal-modal-helper = "confirmSetupView"
+)
+  svg.iconnables.icons-server-dark
+    use(
+      xlink:href = "#icons-server-dark"
+    )
+  | Containers
+
 
 a.a.btn-docs(
   href = "https://support.runnable.com"

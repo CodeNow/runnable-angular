@@ -1,3 +1,4 @@
+
 'use strict';
 
 require('app')
@@ -13,6 +14,7 @@ function featureFlags(
     aha1: false, // step 2: working repo config
     aha1ExitedEarly: false, // step 2: if the user left the flow before getting a running config
     aha3: false, // step 4: runnabot
+    ahaInContainersView: false, // used to represent when the user is in the containers view
     allowIsolatedUpdate: false,
     autoIsolation: false,
     autoIsolationSetup: false,
@@ -27,6 +29,7 @@ function featureFlags(
     emptyFolder: false, // shows empty folder markup
     fullScreen: false,  // toggles full screen
     fullScreenToggle: false,  // toggles the button that toggles full screen
+    gitHubIntegration: false,
     hostnameNotifications: false,
     hostnameTool: false,
     imAfraidOfTheDark: false, // toggles theme

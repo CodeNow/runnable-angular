@@ -1,0 +1,67 @@
+// github form
+.form-github {
+
+  > .img.img.img {
+    height: auto;
+    margin-bottom: 30px;
+    margin-top: 30px;
+    max-width: 100%;
+  }
+
+  .btn .iconnables {
+    height: 21px;
+    margin-right: 6px;
+    top: 4px;
+    width: 21px;
+  }
+
+  // the details text
+  .grid-content.small {
+    margin-top: 15px;
+  }
+
+  // success state
+  .runnabot-success {
+    max-width: 215px;
+    overflow: visible;
+    position: relative;
+
+    .well {
+      background: $white;
+      border-color: $gray-lighter;
+      position: relative;
+    }
+
+    .arrow::after {
+      border-right-color: $white;
+    }
+
+    .arrow,
+    .arrow::after {
+      border-color: transparent;
+      border-style: solid;
+      position: absolute;
+    }
+
+    .arrow {
+      border-bottom-width: 10px;
+      border-left-width: 0;
+      border-right: 10px solid darken($gray-lighter,5);
+      border-top-width: 10px;
+      left: -10px;
+      margin-top: -10px;
+      top: 50%;
+
+      &::after {
+        border-bottom-width: 9px;
+        border-left-width: 0;
+        border-right: 9px solid $white;
+        border-top-width: 9px;
+        bottom: -9px;
+        content: '';
+        display: block;
+        left: 1px;
+      }
+    }
+  }
+}

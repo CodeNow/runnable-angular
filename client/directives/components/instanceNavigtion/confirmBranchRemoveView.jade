@@ -4,5 +4,9 @@
       p.p.strong Are you sure you want to remove this branch from Runnable?
       p.p You can add this branch again later, but any changes made to this template will not be saved.
     footer.modal-footer.clearfix
-      button.btn.btn-sm.gray.float-left Cancel
-      button.btn.btn-sm.red.float-right Remove Branch
+      button.btn.btn-sm.gray.float-left(
+        ng-click = "CMC.actions.cancel()"
+      ) Cancel
+      button.btn.btn-sm.red.float-right(
+        ng-click = "CMC.actions.confirm()"
+      ) Remove Branch

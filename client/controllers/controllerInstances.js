@@ -12,15 +12,21 @@ function ControllerInstances(
   keypather,
   setLastOrg,
   errs,
+  loading,
   ModalService,
   fetchInstancesByPod,
   activeAccount,
-  user
+  user,
+  promisify,
+  currentOrg
 ) {
-  var self = this;
+  var CIS = this;
   var userName = $state.params.userName;
-  self.searchBranches = null;
-  self.$storage = $localStorage.$default({
+  CIS.searchBranches = null;
+  CIS.instanceBranches = null;
+  CIS.unbuiltBranches = null;
+  CIS.branchQuery = null;
+  CIS.$storage = $localStorage.$default({
     instanceListIsClosed: false
   });
   fetchInstancesByPod()
@@ -30,8 +36,8 @@ function ControllerInstances(
       if (userName !== $state.params.userName) {
         return;
       }
-      self.instancesByPod = instancesByPod;
-      self.activeAccount = activeAccount;
+      CIS.instancesByPod = instancesByPod;
+      CIS.activeAccount = activeAccount;
 
       var instances = instancesByPod;
       var lastViewedInstance = keypather.get(user, 'attrs.userOptions.uiState.previousLocation.instance');
@@ -85,53 +91,65 @@ function ControllerInstances(
     .catch(errs.handler);
 
   this.filterMasterInstance = function (masterPod) {
-    if (!self.searchBranches) {
+    if (!CIS.searchBranches) {
       return true;
     }
-    var searchQuery = self.searchBranches.toLowerCase();
+    var searchQuery = CIS.searchBranches.toLowerCase();
     var instanceName = masterPod.getRepoAndBranchName() + masterPod.attrs.lowerName;
     return instanceName.toLowerCase().indexOf(searchQuery) !== -1;
   };
 
   this.getFilteredInstanceList = function () {
-    if (!self.instancesByPod) {
+    if (!CIS.instancesByPod) {
       return null;
     }
-    if (!self.searchBranches) {
-      return self.instancesByPod;
+    if (!CIS.searchBranches) {
+      return CIS.instancesByPod;
     }
-    var searchQuery = self.searchBranches.toLowerCase();
-    return self.instancesByPod
+    var searchQuery = CIS.searchBranches.toLowerCase();
+    return CIS.instancesByPod
       .filter(function (masterPod) {
         var instanceName = masterPod.getRepoAndBranchName() + masterPod.attrs.lowerName;
         return instanceName.toLowerCase().indexOf(searchQuery) !== -1 ||
-          self.getFilteredChildren(masterPod).length > 0;
+          CIS.getFilteredChildren(masterPod).length > 0;
       });
   };
 
   this.getFilteredChildren = function (masterPod) {
-    if (!self.searchBranches) {
+    if (!CIS.searchBranches) {
       return masterPod.children.models;
     }
-    var searchQuery = self.searchBranches.toLowerCase();
+    var searchQuery = CIS.searchBranches.toLowerCase();
     return masterPod.children.models.filter(function (child) {
       return child.attrs.lowerName.indexOf(searchQuery) !== -1;
     });
   };
 
+  this.getFilteredBranches = function() {
+    if (!CIS.branchQuery) {
+      return CIS.instanceBranches;
+    }
+    var branchName;
+    var searchQuery = CIS.branchQuery.toLowerCase();
+    return CIS.instanceBranches.filter(function (branch) {
+      branchName = branch.attrs.name.toLowerCase();
+      return branchName.indexOf(searchQuery) !== -1;
+    });
+  };
+
   this.shouldShowChild = function (childInstance) {
-    if (!self.searchBranches) {
+    if (!CIS.searchBranches) {
       return true;
     }
-    var searchQuery = self.searchBranches.toLowerCase();
+    var searchQuery = CIS.searchBranches.toLowerCase();
     return childInstance.attrs.lowerName.indexOf(searchQuery) !== -1;
   };
 
   this.shouldShowParent = function (masterPod) {
-    if (!self.searchBranches) {
+    if (!CIS.searchBranches) {
       return true;
     }
-    var searchQuery = self.searchBranches.toLowerCase();
+    var searchQuery = CIS.searchBranches.toLowerCase();
 
     var instanceName = masterPod.getRepoAndBranchName() + masterPod.attrs.lowerName;
     if (instanceName.indexOf(searchQuery) !== -1) {
@@ -143,6 +161,53 @@ function ControllerInstances(
     });
   };
 
+  this.unbuiltBranches = function(instance, branches) {
+    var branchName;
+    var childInstances = instance.children.models.reduce(function(childHash, child) {
+      branchName = child.getBranchName();
+      childHash[branchName] = branchName;
+      return childHash;
+    }, {});
+    var instanceBranchName = instance.getBranchName();
+    childInstances[instanceBranchName] = instanceBranchName;
+
+    var unbuiltBranches = branches.models.filter(function(branch) {
+      branchName = keypather.get(branch, 'attrs.name');
+      return !childInstances[branchName];
+    });
+    loading('fetchingBranches', false);
+    return unbuiltBranches;
+  };
+
+  this.popInstanceOpen = function (instance) {
+    CIS.poppedInstance = instance;
+    CIS.getAllBranches(instance);
+  };
+
+  this.getAllBranches = function(instance) {
+    CIS.instanceBranches = null;
+    loading('fetchingBranches', true);
+    return promisify(currentOrg.github, 'fetchRepo')(instance.getRepoName())
+      .then(function (repo) {
+        return promisify(repo, 'fetchBranches')();
+      })
+      .then(function (branches) {
+        CIS.totalInstanceBranches = branches.models.length;
+        CIS.instanceBranches = CIS.unbuiltBranches(instance, branches);
+      });
+  };
+
+  this.forkBranchFromInstance = function (branch, closePopover) {
+    var sha = branch.attrs.commit.sha;
+    var loadingName = 'buildingForkedBranch' + branch.attrs.name;
+    loading(loadingName, true);
+    promisify(CIS.poppedInstance, 'fork')(branch.attrs.name, sha)
+      .then(function() {
+        loading(loadingName, false);
+        closePopover();
+      });
+  };
+
   this.editInstance = function (instance) {
     ModalService.showModal({
       controller: 'EditServerModalController',
@@ -152,31 +217,6 @@ function ControllerInstances(
         tab: keypather.get(instance, 'contextVersion.attrs.advanced') ? 'env' : 'repository',
         instance: instance,
         actions: {}
-      }
-    })
-      .catch(errs.handler);
-  };
-
-  this.openInviteAdminModal = function (instance) {
-    ModalService.showModal({
-      controller: 'InviteAdminModalController',
-      controllerAs: 'IAMC',
-      templateUrl: 'inviteAdminModalView',
-      inputs: {
-        instance: instance,
-        isFromAutoDeploy: false
-      }
-    })
-      .catch(errs.handler);
-  };
-
-  this.openEnableBranchesModal = function (instance) {
-    ModalService.showModal({
-      controller: 'EnableBranchesModalController',
-      controllerAs: 'EBMC',
-      templateUrl: 'enableBranchesModalView',
-      inputs: {
-        instance: instance
       }
     })
       .catch(errs.handler);

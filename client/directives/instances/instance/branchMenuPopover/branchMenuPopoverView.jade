@@ -68,30 +68,25 @@
       .popover-view.fade(
         ng-class = "{'in': isActivePanel()}"
       )
-        .popover-header
+        .popover-header(
+          ng-if = "$root.featureFlags.autoIsolation"
+        )
           svg.btn.btn-sm.iconnables.icons-arrow-backward(
             ng-class = "{'in': isActivePanel()}"
             ng-click = "goToPanel('branchMenu', 'back');"
-            ng-if = "$root.featureFlags.autoIsolation"
           )
             use(
               xlink:href = "#icons-arrow-down"
             )
           | Add Branch
         .popover-content(
-          ng-init = "state.branchesLoaded = null"
         )
-          .text-center.text-gray.small.padding-md(
-            ng-if = "branch.length === 0"
-          ) There are no branches to add.
-
           .spinner-wrapper.spinner-sm.spinner-gray.spinner-center.in(
-            ng-click = "state.branchesLoaded = true"
-            ng-if = "!state.branchesLoaded"
+            ng-if = "$root.isLoading.fetchingBranches"
             ng-include = "'spinner'"
           )
           .padding-xxs(
-            ng-if = "state.branchesLoaded"
+            ng-if = "CIS.instanceBranches"
           )
             .grid-block.shrink.align-center.well.gray.padding-xxs(
               ng-if = "!$root.featureFlags.autoIsolation"
@@ -110,32 +105,38 @@
                 )
                 .toggle-group.toggle-sm
             input.input.input-xs.input-search(
+              ng-model = "CIS.branchQuery"
               placeholder = "Filter"
               required
               type = "search"
             )
           ul.list.popover-list(
-            ng-if = "state.branchesLoaded"
+            ng-if = "CIS.instanceBranches.length"
           )
-            //- show when loading paginated list
-            //- li.list-item.padding-md
-              .spinner-wrapper.spinner-sm.spinner-gray.spinner-center.in(
+            li.list-item.popover-list-item(
+              ng-repeat = "branch in CIS.getFilteredBranches()"
+              ng-click = "CIS.forkBranchFromInstance(branch, POC.closePopover);"
+            ) {{ branch.attrs.name }}
+              button.btn.btn-xs.btn-icon.btn-add(
+                ng-if = "!$root.isLoading['buildingForkedBranch' + branch.attrs.name]"
+              )
+                svg.iconnables.icons-add
+                  use(
+                    xlink:href = "#icons-add"
+                  )
+              .spinner-wrapper.spinner-sm.spinner-gray(
+                ng-if = "$root.isLoading['buildingForkedBranch' + branch.attrs.name]"
                 ng-include = "'spinner'"
               )
-            li.list-item.popover-list-item SAN-4377-Cant-add-files
-              button.btn.btn-xs.btn-icon.btn-add
-                svg.iconnables.icons-add
-                  use(
-                    xlink:href = "#icons-add"
-                  )
-            li.list-item.popover-list-item SAN-4342-auto-isolation-setup
-              button.btn.btn-xs.btn-icon.btn-add
-                svg.iconnables.icons-add
-                  use(
-                    xlink:href = "#icons-add"
-                  )
-            li.list-item.grid-block.justify-justified.list-pagination(
-            )
-              //- ng-if = "paginated"
-              button.btn.btn-xs.gray.grid-content Last 50
-              button.btn.btn-xs.gray.grid-content Next 50
+
+          .text-center.text-gray.small.padding-md(
+            ng-if = "CIS.instanceBranches && !CIS.instanceBranches.length && CIS.totalInstanceBranches"
+          ) There are no branches to add.
+
+          .text-center.text-gray.small.padding-md(
+            ng-if = "CIS.instanceBranches && !CIS.instanceBranches.length && !CIS.totalInstanceBranches"
+          ) The repository has no branches.
+
+          .text-center.text-gray.small.padding-md(
+            ng-if = "CIS.instanceBranches && CIS.instanceBranches.length && CIS.totalInstanceBranches && !CIS.getFilteredBranches().length"
+          ) No branches match this filter.
