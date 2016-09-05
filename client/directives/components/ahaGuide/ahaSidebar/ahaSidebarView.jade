@@ -1,20 +1,18 @@
 .grid-block.shrink.align-center.justify-right
   svg.iconnables.icons-close(
     ng-click = "ASC.toggleSidebar()"
-    ng-if = "!$root.ahaGuide.ahaGuideToggles.showOverview || $root.ahaGuide.ahaGuideToggles.showAha1"
+    ng-if = "!ASC.showOverview"
   )
     use(
       xlink:href = "#icons-close"
     )
 .grid-block.vertical.shrink.justify-center.text-center.aha-overview(
-  ng-if = "$root.ahaGuide.ahaGuideToggles.showOverview"
+  ng-if = "ASC.showOverview"
 )
   .grid-content.strong Let‘s get running! 👋
   | It’ll take a few steps to get everything set up. But don’t worry — we’re here to help!
   button.grid-content.btn.btn-sm.green(
-    ng-click = "\
-      ASC.toggleOverview();\
-    "
+    ng-click = "ASC.toggleSidebar()"
   ) Get Started
 .grid-block.vertical
   .grid-block.shrink.align-center.padding-sm.aha-guide.disabled

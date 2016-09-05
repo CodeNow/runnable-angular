@@ -31,7 +31,7 @@ function EnvironmentController(
   EC.showInviteButton = false;
   EC.ahaGuide = ahaGuide;
   EC.showCreateTemplate = true;
-  EC.showSidebar = false;
+  EC.showOverview = true;
   EC.toggleSidebar = function () {
     EC.showSidebar = !EC.showSidebar;
     EC.showCreateTemplate = true;

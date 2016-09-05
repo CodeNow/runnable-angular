@@ -11,7 +11,8 @@ function ahaSidebar() {
     controllerAs: 'ASC',
     bindToController: true,
     scope: {
-      toggleSidebar: '='
+      toggleSidebar: '=',
+      showOverview: '='
     }
   };
 }
