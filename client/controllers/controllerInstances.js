@@ -161,7 +161,7 @@ function ControllerInstances(
     });
   };
 
-  this.unbuiltBranches = function(instance, branches) {
+  this.getUnbuiltBranches = function (instance, branches) {
     var branchName;
     var childInstances = instance.children.models.reduce(function(childHash, child) {
       branchName = child.getBranchName();
@@ -184,7 +184,7 @@ function ControllerInstances(
     CIS.getAllBranches(instance);
   };
 
-  this.getAllBranches = function(instance) {
+  this.getAllBranches = function (instance) {
     CIS.instanceBranches = null;
     loading('fetchingBranches', true);
     return promisify(currentOrg.github, 'fetchRepo')(instance.getRepoName())
@@ -193,7 +193,7 @@ function ControllerInstances(
       })
       .then(function (branches) {
         CIS.totalInstanceBranches = branches.models.length;
-        CIS.instanceBranches = CIS.unbuiltBranches(instance, branches);
+        CIS.instanceBranches = CIS.getUnbuiltBranches(instance, branches);
       });
   };
 
