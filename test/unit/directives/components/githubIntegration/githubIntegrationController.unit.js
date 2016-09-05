@@ -4,7 +4,7 @@ var $scope;
 var $controller;
 var $rootScope;
 
-describe.only('Github Integration Controller'.bold.underline.blue, function() {
+describe('Github Integration Controller'.bold.underline.blue, function() {
   var GIC;
   var addRunnabotToGithubOrgMock;
   var isRunnabotPartOfOrgMock;
