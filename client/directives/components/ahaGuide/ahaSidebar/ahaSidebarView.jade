@@ -1,20 +1,18 @@
 .grid-block.shrink.align-center.justify-right
   svg.iconnables.icons-close(
-    ng-click = "ASC.toggleSidebar()"
-    ng-if = "!$root.ahaGuide.ahaGuideToggles.showOverview || $root.ahaGuide.ahaGuideToggles.showAha1"
+    ng-click = "toggleSidebar()"
+    ng-if = "!showOverview"
   )
     use(
       xlink:href = "#icons-close"
     )
 .grid-block.vertical.shrink.justify-center.text-center.aha-overview(
-  ng-if = "$root.ahaGuide.ahaGuideToggles.showOverview"
+  ng-if = "showOverview"
 )
   .grid-content.strong Let‘s get running! 👋
   | It’ll take a few steps to get everything set up. But don’t worry — we’re here to help!
   button.grid-content.btn.btn-sm.green(
-    ng-click = "\
-      ASC.toggleOverview();\
-    "
+    ng-click = "toggleSidebar()"
   ) Get Started
 .grid-block.vertical
   .grid-block.shrink.align-center.padding-sm.aha-guide.disabled
@@ -30,27 +28,24 @@
 
   .grid-block.shrink.align-center.padding-sm.aha-guide(
     ng-class = "{\
-      disabled: ASC.getCurrentStep() < ASC.steps.ADD_FIRST_REPO,\
-      active: ASC.getCurrentStep() === ASC.steps.ADD_FIRST_REPO\
+      disabled: getCurrentStep() !== steps.ADD_FIRST_REPO,\
+      active: getCurrentStep() === steps.ADD_FIRST_REPO\
     }"
-    ng-click = "\
-      ASC.toggleOverview();\
-    "
   )
     .grid-block.shrink.aha-meter(
       ng-class = "{\
           'aha-error': $root.ahaGuide.ahaGuideToggles.showError,\
           'aha-meter-70': $root.ahaGuide.ahaGuideToggles.exitedEarly,\
-          'aha-meter-100': ASC.getCurrentStep() > ASC.steps.ADD_FIRST_REPO\
+          'aha-meter-100': getCurrentStep() > steps.ADD_FIRST_REPO\
         }"
     )
       svg.iconnables
         use(
-          ng-if = "ASC.getCurrentStep() <= ASC.steps.ADD_FIRST_REPO"
+          ng-if = "getCurrentStep() <= steps.ADD_FIRST_REPO"
           xlink:href = "#icons-octicons-repo"
         )
         use(
-          ng-if = "ASC.getCurrentStep() > ASC.steps.ADD_FIRST_REPO"
+          ng-if = "getCurrentStep() > steps.ADD_FIRST_REPO"
           xlink:href = "#icons-check"
         )
     .grid-block.vertical.aha-text
@@ -58,21 +53,21 @@
       p.small Set up your project and get it running!
 
   .grid-block.shrink.align-center.padding-sm.aha-guide(
-    ng-class = "{'disabled': ASC.getCurrentStep() < ASC.steps.ADD_FIRST_BRANCH}"
+    ng-class = "{'disabled': getCurrentStep() !== steps.ADD_FIRST_BRANCH}"
   )
     .grid-block.shrink.aha-meter(
       ng-class = "{\
-        'aha-meter-0': ASC.getCurrentStep() <= ASC.steps.ADD_FIRST_BRANCH,\
-        'aha-meter-100': $ASC.getCurrentStep() > ASC.steps.ADD_FIRST_BRANCH\
+        'aha-meter-0': getCurrentStep() <= steps.ADD_FIRST_BRANCH,\
+        'aha-meter-100': $getCurrentStep() > steps.ADD_FIRST_BRANCH\
       }"
     )
       svg.iconnables
         use(
-          ng-if = "ASC.getCurrentStep() <= ASC.steps.ADD_FIRST_BRANCH"
+          ng-if = "getCurrentStep() <= steps.ADD_FIRST_BRANCH"
           xlink:href = "#icons-octicons-branch"
         )
         use(
-          ng-if = "ASC.getCurrentStep() > ASC.steps.ADD_FIRST_BRANCH"
+          ng-if = "getCurrentStep() > steps.ADD_FIRST_BRANCH"
           xlink:href = "#icons-check"
         )
     .grid-block.vertical.aha-text
@@ -80,18 +75,18 @@
       p.small Your branches will update on every commit you make.
 
   .grid-block.shrink.align-center.padding-sm.aha-guide(
-    ng-class = "{'disabled': ASC.getCurrentStep() < ASC.steps.SETUP_RUNNABOT}"
+    ng-class = "{'disabled': getCurrentStep() !== steps.SETUP_RUNNABOT}"
   )
     .grid-block.shrink.aha-meter(
-      ng-class = "{'aha-meter-50': ASC.getCurrentStep() === ASC.steps.SETUP_RUNNABOT}"
+      ng-class = "{'aha-meter-50': getCurrentStep() === steps.SETUP_RUNNABOT}"
     )
       svg.iconnables
         use(
-          ng-if = "ASC.getCurrentStep() <= ASC.steps.SETUP_RUNNABOT"
+          ng-if = "getCurrentStep() <= steps.SETUP_RUNNABOT"
           xlink:href = "#icons-runnabot"
         )
         use(
-          ng-if = "ASC.getCurrentStep() > ASC.steps.SETUP_RUNNABOT"
+          ng-if = "getCurrentStep() > steps.SETUP_RUNNABOT"
           xlink:href = "#icons-check"
         )
     .grid-block.vertical.aha-text

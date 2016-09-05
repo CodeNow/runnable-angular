@@ -42,12 +42,12 @@
 
 //- environment page
 .grid-block.environment-wrapper(
-  ng-class = "{'empty': $root.featureFlags.aha && EC.ahaGuide.isInGuide() && EC.ahaGuide.getCurrentStep() === EC.ahaGuide.steps.ADD_FIRST_REPO && data.instances.models.length === 0}"
+  ng-class = "{'empty': EC.ahaGuide.getCurrentStep() === EC.ahaGuide.steps.ADD_FIRST_REPO && data.instances.models.length === 0}"
 )
   header.grid-block.align-center.environment-header(
     ng-include = "'viewEnvironmentHeader'"
     ng-init = "state.helpButton = {active: false}"
-    ng-if = "$root.featureFlags.aha && EC.showCreateTemplate"
+    ng-if = "!EC.ahaGuide.isInGuide() || EC.showCreateTemplate"
   )
 
   .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
@@ -67,7 +67,7 @@
         'fixed': helpUndock,\
         'top': helpUndock\
       }"
-      ng-if = "helpCards.getActiveCard() && !$root.featureFlags.aha"
+      ng-if = "helpCards.getActiveCard() && !EC.ahaGuide.isInGuide()"
     )
       .help(
         ng-if = "helpCards.getActiveCard().targets.newContainer && state.newServerButton.active"
@@ -97,7 +97,7 @@
         )
 
     .modal-dialog.modal-sm(
-      ng-if = "$root.featureFlags.aha && EC.showCreateTemplate && !data.instances.models.length"
+      ng-if = "EC.ahaGuide.isInGuide() && EC.showCreateTemplate && !data.instances.models.length"
     )
       .grid-block.align-center.aha-guide.padding-md(
         aha-guide-directive
@@ -128,5 +128,6 @@
 .grid-block.vertical.aha-sidebar.padding-sm.js-animate(
   aha-sidebar
   toggle-sidebar = "EC.toggleSidebar"
+  show-overview = "!EC.showCreateTemplate"
   ng-if = "$root.featureFlags.aha && EC.showSidebar"
 )

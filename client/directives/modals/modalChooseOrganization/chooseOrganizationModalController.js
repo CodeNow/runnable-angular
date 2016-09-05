@@ -8,7 +8,6 @@ function ChooseOrganizationModalController(
   $scope,
   $state,
   createNewSandboxForUserService,
-  currentOrg,
   errs,
   featureFlags,
   fetchWhitelistForDockCreated,
@@ -24,13 +23,6 @@ function ChooseOrganizationModalController(
   $rootScope.featureFlags = featureFlags.flags;
   COMC.allAccounts = grantedOrgs.models;
   COMC.whitelistedOrgs = whitelistedOrgs;
-
-  // fixme once active org/currentOrg is resolved
-  $rootScope.ahaGuide = {
-    ahaGuideToggles: {
-      showAha0: true
-    }
-  };
 
   // otherwise the user can clear away the model
   // this will be re-added when they transition to something else

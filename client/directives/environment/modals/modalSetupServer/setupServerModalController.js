@@ -9,6 +9,7 @@ function SetupServerModalController(
   $filter,
   $q,
   $rootScope,
+  ahaGuide,
   cardInfoTypes,
   createAndBuildNewContainer,
   createBuildFromContextVersionId,
@@ -33,7 +34,7 @@ function SetupServerModalController(
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
   SMC.helpCards = helpCards;
-  var blankDockerfile = false;
+  SMC.ahaGuide = ahaGuide;
 
   var parentController = $controller('ServerModalController as SMC', { $scope: $scope });
   angular.extend(SMC, {

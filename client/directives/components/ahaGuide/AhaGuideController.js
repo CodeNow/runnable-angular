@@ -7,8 +7,8 @@ require('app')
 function AhaGuideController(
   $scope,
   $rootScope,
-  $timeout,
-  ahaGuide
+  ahaGuide,
+  currentOrg
 ) {
 
   var AGC = this;
@@ -98,10 +98,6 @@ function AhaGuideController(
     AGC.state.caption = currentMilestone.buildStatus[buildStatus] || AGC.state.caption;
   }
 
-  function confirmAha1Complete() {
-    console.log('confirmed that we\'ve finished the first aha 1');
-  }
-
   // we need to unregister this animated panel listener if it exists
   // to avoid duplication
   if ($rootScope.animatedPanelListener) {
@@ -124,4 +120,15 @@ function AhaGuideController(
     updateCaption(panel);
   });
 
+  AGC.popoverActions = {
+    endGuide: function () {
+      $rootScope.$broadcast('close-popovers');
+      // TODO: AHA - Make this save
+      currentOrg.poppa.hasAha = false;
+    },
+    showSidebar: function () {
+      $rootScope.$broadcast('close-popovers');
+      $rootScope.$broadcast('show-aha-sidebar');
+    }
+  };
 }

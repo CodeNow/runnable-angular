@@ -12,15 +12,19 @@ var STEPS = {
 };
 
 function ahaGuide(
-  fetchInstancesByPod,
+  $rootScope,
   currentOrg,
-  $rootScope
+  fetchInstancesByPod,
+  keypather
 ) {
   var instances = [];
-  fetchInstancesByPod()
-    .then(function (instanceByPod) {
-      instances = instanceByPod;
-    });
+  function refreshInstances() {
+    return fetchInstancesByPod()
+      .then(function (fetchedInstances) {
+        instances = fetchedInstances.models;
+      });
+  }
+  refreshInstances();
 
   var stepList = [
     {
@@ -37,7 +41,7 @@ function ahaGuide(
         dockLoaded: {
           caption: 'Continue to start configuring your project.',
           className: 'aha-meter-100'
-        },
+        }
       },
       panelSteps: {
         orgSelection: 0,
@@ -162,7 +166,7 @@ function ahaGuide(
           caption: 'Continue to start configuring your project.',
           className: 'aha-meter-100',
           step: 2
-        },
+        }
       },
       panelSteps: {
       }
@@ -173,12 +177,14 @@ function ahaGuide(
   $rootScope.$watch(function () {
     cachedStep = null;
   });
+  $rootScope.$on('$stateChangeSuccess', function () {
+    refreshInstances();
+  });
   function getCurrentStep() {
     if (!cachedStep) {
-      // Temporarily turning aha on
-      currentOrg.poppa.hasAha = true;
-      currentOrg.poppa.hasConfirmedSetup = true;
-      if (!currentOrg.poppa.hasAha) {
+      if ($rootScope.featureFlags.aha && !keypather.get(currentOrg, 'poppa.id')) {
+        cachedStep = STEPS.CHOOSE_ORGANIZATION;
+      } else if (!$rootScope.featureFlags.aha || !currentOrg.poppa.hasAha) {
         cachedStep = STEPS.COMPLETED;
       } else if (!currentOrg.poppa.hasConfirmedSetup) {
         cachedStep = STEPS.ADD_FIRST_REPO;
@@ -198,8 +204,7 @@ function ahaGuide(
   }
 
   function isInGuide() {
-    currentOrg.poppa.hasAha = true;
-    return currentOrg.poppa.hasAha && getCurrentStep() !== STEPS.COMPLETED;
+    return $rootScope.featureFlags.aha && currentOrg.poppa.hasAha && getCurrentStep() !== STEPS.COMPLETED;
   }
 
   return {

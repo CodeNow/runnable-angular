@@ -2,7 +2,7 @@
   .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
     aha-guide-directive
     ng-class = "{'p-slide js-animate': AGC.state.subStepIndex > 0}"
-    ng-if = "$root.featureFlags.aha1 && MC.getCurrentStep() === MC.ahaGuide.STEPS.ADD_FIRST_REPO"
+    ng-if = "MC.ahaGuide.getCurrentStep() === MC.ahaGuide.steps.ADD_FIRST_REPO"
     step-index = 1
     sub-step = "containerSelection"
     sub-step-index = 1
@@ -14,20 +14,20 @@
         name = "containerSelection"
       )
         header.modal-header.grid-block.justify-center(
-          ng-class = "{'lg': MC.ahaGuide.getCurrentStep() === MC.ahaGuide.STEPS.ADD_FIRST_REPO}"
-          ng-if = "MC.ahaGuide.getCurrentStep() === MC.ahaGuide.STEPS.ADD_FIRST_REPO"
+          ng-class = "{'lg': MC.ahaGuide.getCurrentStep() !== MC.ahaGuide.steps.ADD_FIRST_REPO}"
           ng-click = "MC.changeTab('nameContainer')"
         )
           .grid-block.shrink.btn(
             ng-class = "{'active': MC.state.tabName === 'repos'}"
             ng-click = "MC.changeTab('repos')"
-            ng-if = "!$root.ahaGuide.ahaGuideToggles.showAha1"
+            ng-if = "MC.ahaGuide.getCurrentStep() !== MC.ahaGuide.steps.ADD_FIRST_REPO"
           )
             svg.iconnables.icons-repository.grid-block.shrink
               use(
                 xlink:href = "#icons-new-repository-server"
               )
             .btn-text.grid-block Repository Template
+
           //- disable this button when loading a repository
           .grid-block.shrink.btn(
             ng-disabled = "$root.isLoading[MC.name + 'SingleRepo']"
@@ -37,7 +37,7 @@
               'disabled': $root.isLoading[MC.name + 'SingleRepo'] \
             }"
             ng-click = "!$root.isLoading[MC.name + 'SingleRepo'] && MC.changeTab('services')"
-            ng-if = "!$root.ahaGuide.ahaGuideToggles.showAha1"
+            ng-if = "MC.ahaGuide.getCurrentStep() !== MC.ahaGuide.steps.ADD_FIRST_REPO"
           )
             svg.iconnables.icons-template.grid-block.shrink
               use(
@@ -74,7 +74,7 @@
               xlink:href = "#icons-arrow-down"
             )
           h1.modal-heading(
-            ng-if = "!$root.featureFlags.aha1"
+            ng-if = "!MC.ahaGuide.isInGuide()"
           ) Setup Method
           svg.iconnables.icons-close(
             ng-click = "MC.close()"
@@ -117,7 +117,7 @@
               xlink:href = "#icons-arrow-down"
             )
           h1.modal-heading.text-overflow(
-            ng-if = "!$root.featureFlags.aha1"
+            ng-if = "!MC.ahaGuide.isInGuide()"
           ) Container Name
           svg.iconnables.icons-close(
             ng-click = "MC.close()"

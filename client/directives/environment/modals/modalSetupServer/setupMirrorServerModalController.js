@@ -4,34 +4,33 @@ require('app')
   .controller('SetupMirrorServerModalController', SetupMirrorServerModalController);
 
 function SetupMirrorServerModalController(
-  $scope,
   $controller,
   $q,
   $rootScope,
+  $scope,
+  ahaGuide,
   cardInfoTypes,
   createAndBuildNewContainer,
-  createBuildFromContextVersionId,
   errs,
   eventTracking,
-  fetchUser,
   helpCards,
   isTabNameValid,
   keypather,
   loading,
   loadingPromises,
-  ModalService,
   promisify,
-  OpenItems,
-  TAB_VISIBILITY,
-  updateDockerfileFromState,
+
+  build,
   close,
   instanceName,
+  masterBranch,
+  OpenItems,
   repo,
-  build,
-  masterBranch
+  TAB_VISIBILITY
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
   SMC.helpCards = helpCards;
+  SMC.ahaGuide = ahaGuide;
 
   var parentController = $controller('ServerModalController as SMC', { $scope: $scope });
   angular.extend(SMC, {

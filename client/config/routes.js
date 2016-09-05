@@ -184,6 +184,10 @@ module.exports = [
         activeAccount,
         currentOrg
       ) {
+        // TODO: AHA - Remove this temporary change ot turn aha on
+        activeOrg.hasAha = true;
+        activeOrg.hasConfirmedSetup = false;
+
         currentOrg.poppa = activeOrg;
         currentOrg.github = activeAccount;
       }
@@ -213,7 +217,8 @@ module.exports = [
     abstract: false,
     url: '^/:userName/:instanceName',
     templateUrl: 'viewInstance',
-    controller: 'ControllerInstance'
+    controller: 'ControllerInstance',
+    controllerAs: 'CI'
   }
 ];
 Object.freeze(module.exports);

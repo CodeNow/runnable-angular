@@ -90,18 +90,16 @@ function ControllerApp(
   $rootScope.ahaGuide = {};
   var ahaGuideToggles = keypather.get($localStorage, 'ahaGuide.toggles');
 
+  if (!completedMilestones) {
+    completedMilestones = {};
+    keypather.set($localStorage, 'ahaGuide.completedMilestones', completedMilestones);
+  }
+
   if (!ahaGuideToggles) {
     ahaGuideToggles = {
       showAha: true,
-      showAha0: true,
-      showAha1: false,
-      showAha2: true,
-      showAha3: true,
       exitedEarly: false,
-      showError: false,
-      showOverview: true,
-      showPopover: false,
-      showSidebar: false
+      showError: false
     };
     keypather.set($localStorage, 'ahaGuide.ahaGuideToggles', ahaGuideToggles);
   }

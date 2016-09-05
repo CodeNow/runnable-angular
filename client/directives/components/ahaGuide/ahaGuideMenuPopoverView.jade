@@ -6,8 +6,8 @@
   .popover-content
     ul.list.popover-list
       li.list-item.popover-list-item(
-        ng-click = "$scope.showSidebar = true"
+        ng-click = "actions.showSidebar()"
       ) View All
       li.list-item.popover-list-item(
-      	ng-click = "AGC.confirmAha1Complete()"
+        ng-click = "actions.endGuide()"
       ) End Guide
