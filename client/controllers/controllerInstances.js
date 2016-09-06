@@ -50,12 +50,6 @@ function ControllerInstances(
     }
   });
 
-  $scope.$watch('CIS.instanceBranches', function(newVal, oldVal) {
-    if (newVal) {
-      loading('fetchingBranches', false);
-    }
-  });
-
   fetchInstancesByPod()
     .then(function (instancesByPod) {
 
@@ -69,7 +63,7 @@ function ControllerInstances(
       var instances = instancesByPod;
       var lastViewedInstance = keypather.get(user, 'attrs.userOptions.uiState.previousLocation.instance');
 
-      function isInstanceMatch (instance, nameMatch) {
+      function isInstanceMatch(instance, nameMatch) {
         if (instance.destroyed || !instance.id()) {
           return false;
         }
@@ -152,7 +146,7 @@ function ControllerInstances(
     });
   };
 
-  this.getFilteredBranches = function() {
+  this.getFilteredBranches = function () {
     if (!CIS.branchQuery) {
       return CIS.instanceBranches;
     }
@@ -190,7 +184,7 @@ function ControllerInstances(
 
   this.getUnbuiltBranches = function (instance, branches) {
     var branchName;
-    var childInstances = instance.children.models.reduce(function(childHash, child) {
+    var childInstances = instance.children.models.reduce(function (childHash, child) {
       branchName = child.getBranchName();
       childHash[branchName] = branchName;
       return childHash;
@@ -198,7 +192,7 @@ function ControllerInstances(
     var instanceBranchName = instance.getBranchName();
     childInstances[instanceBranchName] = instanceBranchName;
 
-    var unbuiltBranches = branches.models.filter(function(branch) {
+    var unbuiltBranches = branches.models.filter(function (branch) {
       branchName = keypather.get(branch, 'attrs.name');
       return !childInstances[branchName];
     });
@@ -207,21 +201,21 @@ function ControllerInstances(
   };
 
   this.popInstanceOpen = function (instance, open) {
-    console.log(instance);
     CIS.poppedInstance = instance;
     loading('fetchingBranches', true);
-    CIS.getAllBranches(instance);
-  };
-
-  this.getAllBranches = function (instance) {
     CIS.instanceBranches = null;
-    return promisify(currentOrg.github, 'fetchRepo')(instance.getRepoName())
-      .then(function (repo) {
-        return promisify(repo, 'fetchBranches')();
-      })
+    return CIS.getAllBranches(instance)
       .then(function (branches) {
         CIS.totalInstanceBranches = branches.models.length;
         CIS.instanceBranches = CIS.getUnbuiltBranches(instance, branches);
+        loading('fetchingBranches', false);
+      });
+  };
+
+  this.getAllBranches = function (instance) {
+    return promisify(currentOrg.github, 'fetchRepo')(instance.getRepoName())
+      .then(function (repo) {
+        return promisify(repo, 'fetchBranches')();
       });
   };
 
@@ -230,7 +224,7 @@ function ControllerInstances(
     var loadingName = 'buildingForkedBranch' + branch.attrs.name;
     loading(loadingName, true);
     promisify(CIS.poppedInstance, 'fork')(branch.attrs.name, sha)
-      .then(function() {
+      .then(function () {
         loading(loadingName, false);
         CIS.poppedInstance.attrs.hasBranchLaunched = true;
         closePopover();
