@@ -5,7 +5,7 @@ var $controller;
 var $rootScope;
 var $interval;
 
-describe.only('Github Integration Controller'.bold.underline.blue, function() {
+describe('Github Integration Controller'.bold.underline.blue, function() {
   var GIC;
   var isRunnabotPartOfOrgMock;
   var isRunnabotPartOfOrgResult;
@@ -95,15 +95,25 @@ describe.only('Github Integration Controller'.bold.underline.blue, function() {
     injectSetupCompile();
     $scope.$digest();
     GIC.pollCheckRunnabot();
-    expect(GIC.pollingInterval).to.exist();
+    expect(GIC.pollingInterval).to.be.ok;
   });
 
   it('should stop interval when hasRunnabot and interval is true', function () {
     isRunnabotPartOfOrgResult = true;
-    sinon.stub($interval.cancel);
-    GIC.pollingInterval = $interval(sinon.stub(), 1000);
+    injectSetupCompile();
+    sinon.stub($interval, 'cancel').returns();
+    GIC.pollingInterval = true;
+    $scope.$digest();
+    sinon.assert.calledOnce($interval.cancel);
+    sinon.assert.calledWith($interval.cancel, GIC.pollingInterval);
+  });
+
+  it('should stop interval when $destroyed', function () {
     isRunnabotPartOfOrgResult = true;
     injectSetupCompile();
+    sinon.stub($interval, 'cancel').returns();
+    $scope.$digest();
+    $scope.$destroy();
     $scope.$digest();
     sinon.assert.calledOnce($interval.cancel);
     sinon.assert.calledWith($interval.cancel, GIC.pollingInterval);

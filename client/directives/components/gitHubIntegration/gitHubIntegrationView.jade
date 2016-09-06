@@ -8,10 +8,12 @@ img.grid-content.shrink.img.img-comment(
 )
 //- add 'disabled' attr if inviting runnabot, or if user isn't an admin
     hide after successfully inviting runnabot
-button.grid-content.shrink.btn.btn-md.green(
-  ng-click = "GIC.addRunnabot()"
+a.grid-content.shrink.btn.btn-md.green(
   ng-disabled = "!GIC.isAdmin || $root.isLoading.addRunnabot"
+  ng-click = "GIC.sayHey()"
   ng-hide = "GIC.hasRunnabot"
+  ng-href = "https://github.com/orgs/{{GIC.organizationName}}/invitations/runnabot/edit"
+  target = "_blank"
 )
   svg.iconnables.icons-octicons-github
     use(
