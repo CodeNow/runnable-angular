@@ -127,7 +127,7 @@
             //- ng-repeat = branch in whatever returned from instance fetch branches
             li.list-item.popover-list-item(
               ng-repeat = "branch in CIS.instanceBranches"
-              ng-click = "CIS.forkBranchFromInstance(branch, instance)"
+              ng-click = "CIS.forkBranchFromInstance(branch, POC.closePopover)"
             ) {{ branch.attrs.name }}
               button.btn.btn-xs.btn-icon.btn-add(
                 ng-if = "!$root.isLoading['buildingForkedBranch' + branch.attrs.name]"
