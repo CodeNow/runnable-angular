@@ -18,11 +18,6 @@
   ng-include = "'setUpRunnabotGuideView'"
 )
 
-.grid-block.align-center(
-  ng-if = "state.addRepo"
-  ng-include = "'setUpRepositoryGuideView'"
-)
-
 button.btn.btn-xs.white.btn-menu(
   ng-class = "{'active': ahaMenuGuidePopover.data.show}"
   ng-if = "!AGC.state.hideMenu"

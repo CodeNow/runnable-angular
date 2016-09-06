@@ -11,6 +11,7 @@ function ControllerApp(
   $state,
   $timeout,
   $window,
+  ahaGuide,
   configAPIHost,
   configEnvironment,
   configLoginURL,
@@ -21,6 +22,7 @@ function ControllerApp(
   keypather,
   ModalService,
   pageName,
+  promisify,
   currentOrg,
   user,
   orgs,
@@ -31,9 +33,23 @@ function ControllerApp(
     $ocLazyLoad.load('ui.ace');
   }, 10000);
 
+  $scope.$on('confirmedSetup', function() {
+    promisify(currentOrg.poppa, 'update')({
+      hasConfirmedSetup: true
+    })
+      .then(function(result) {
+        console.log(result);
+      })
+    // cheese it
+    currentOrg.poppa.hasConfirmedSetup = true;
+    $state.go('base.instances', {userName: CA.activeAccount.oauthName()})
+  });
+
   this.activeAccount = activeAccount;
   this.user = user;
   var CA = this;
+  CA.ahaGuide = ahaGuide;
+  CA.currentOrg = currentOrg;
 
   fetchInstancesByPod()
     .then(function (instancesByPod) {
@@ -89,11 +105,6 @@ function ControllerApp(
   this.featureFlagsChanged = featureFlags.changed;
   $rootScope.ahaGuide = {};
   var ahaGuideToggles = keypather.get($localStorage, 'ahaGuide.toggles');
-
-  if (!completedMilestones) {
-    completedMilestones = {};
-    keypather.set($localStorage, 'ahaGuide.completedMilestones', completedMilestones);
-  }
 
   if (!ahaGuideToggles) {
     ahaGuideToggles = {

@@ -5,7 +5,7 @@
   .modal-dialog.modal-sm
     .modal-body
       svg.iconnables.icons-close(
-        ng-click = "SMC.actions.close()"
+        ng-click = "CMC.actions.cancel()"
       )
         use(
           xlink:href = "#icons-close"
@@ -17,5 +17,9 @@
           a.link chat with our devs
           | .
     footer.modal-footer.clearfix
-      button.btn.btn-md.btn-cancel.gray.float-left Go Back
-      button.btn.btn-md.green.float-right It‘s Running!
+      button.btn.btn-md.btn-cancel.gray.float-left(
+        ng-click = "CMC.actions.cancel()"
+      ) Go Back
+      button.btn.btn-md.green.float-right(
+        ng-click = "$root.$broadcast('confirmedSetup');CMC.actions.confirm()"
+      ) It‘s Running!

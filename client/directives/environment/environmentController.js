@@ -16,6 +16,7 @@ function EnvironmentController(
   $timeout,
   $window,
   ahaGuide,
+  currentOrg,
   favico,
   fetchDockerfileForContextVersion,
   fetchOrgMembers,

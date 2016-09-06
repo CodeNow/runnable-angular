@@ -33,6 +33,7 @@ function AhaGuideController(
     }
   });
 
+  AGC.ahaGuide = ahaGuide;
   AGC.state = {
     hideMenu: false,
     isBuildSuccessful: false,

@@ -6,17 +6,40 @@
 .grid-block.shrink.aha-meter.js-animate(
   class = "{{ AGC.state.className }}"
   ng-class = "{'aha-error': AGC.state.showError}"
-  ng-if = "!state.showVerification"
+  ng-if = "!state.showVerification && AGC.ahaGuide.getCurrentStep() === AGC.ahaGuide.steps.ADD_FIRST_REPO"
 )
   svg.iconnables(
     ng-if = "!AGC.state.showError"
   )
     use(
-      ng-if = "ASC.getCurrentStep() === ASC.steps.CHOOSE_ORGANIZATION && AGC.state.subStep !== 'complete'"
+      ng-if = "AGC.ahaGuide.getCurrentStep() === AGC.ahaGuide.steps.ADD_FIRST_REPO && AGC.state.subStep !== 'complete'"
       xlink:href = "#icons-octicons-repo"
     )
     use(
-      ng-if = "AGC.state.subStep === 'complete'"
+      ng-if = "AGC.state.subStep === 'complete' || AGC.ahaGuide.getCurrentStep() > AGC.ahaGuide.steps.ADD_FIRST_REPO"
+      xlink:href = "#icons-check"
+    )
+  svg.iconnables.icons-alert(
+    ng-if = "AGC.state.showError"
+  )
+    use(
+      xlink:href = "#icons-alert-alt"
+    )
+    
+.grid-block.shrink.aha-meter.js-animate(
+  class = "aha-meter-100"
+  ng-class = "{'aha-error': AGC.state.showError}"
+  ng-if = "!state.showVerification && AGC.ahaGuide.getCurrentStep() > AGC.ahaGuide.steps.ADD_FIRST_REPO"
+)
+  svg.iconnables(
+    ng-if = "!AGC.state.showError"
+  )
+    use(
+      ng-if = "AGC.ahaGuide.getCurrentStep() === AGC.ahaGuide.steps.ADD_FIRST_REPO && AGC.state.subStep !== 'complete'"
+      xlink:href = "#icons-octicons-repo"
+    )
+    use(
+      ng-if = "AGC.state.subStep === 'complete' || AGC.ahaGuide.getCurrentStep() > AGC.ahaGuide.steps.ADD_FIRST_REPO"
       xlink:href = "#icons-check"
     )
   svg.iconnables.icons-alert(
