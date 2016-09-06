@@ -1,10 +1,7 @@
 .modal-servers,
 .modal-servers .animated-panel {
+  max-width: 100%;
   min-width: 100%; // fix animated panel container
-
-  @include media(xxxs) {
-    max-width: 100%;
-  }
 }
 
 .modal-server-select {

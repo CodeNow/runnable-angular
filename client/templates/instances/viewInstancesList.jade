@@ -9,7 +9,7 @@ label.grid-block.vertical.label-search
 
 p.p.text-center.text-gray-light.padding-sm(
   ng-if = "CIS.getFilteredInstanceList().length < 1"
-) No containers match filter.
+) No containers match this filter.
 
 //- master cluster
 .list-clusters.master-cluster(
@@ -65,7 +65,9 @@ p.p.text-center.text-gray-light.padding-sm(
     button.grid-block.shrink.btn.btn-xs.btn-icon.gray(
       ng-class = "{'active': state.active}"
       ng-if = "$root.featureFlags.addBranches"
+      ng-click = "CIS.popInstanceOpen(masterInstance)"
       pop-over
+      pop-over-controller = "CIS"
       pop-over-options = "{\"verticallyCentered\":true,\"left\":24}"
       pop-over-template = "branchMenuPopoverView"
       tooltip = "Add Branch"
