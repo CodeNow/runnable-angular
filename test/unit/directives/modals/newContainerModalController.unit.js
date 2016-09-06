@@ -46,8 +46,13 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
       }
     };
 
+    window.helpers.killDirective('ahaGuide');
     angular.mock.module('app');
     angular.mock.module(function ($provide) {
+      $provide.value('ahaGuide', {
+        isInGuide: sinon.stub(),
+        getCurrentSteop: sinon.stub()
+      });
       $provide.value('errs', errsStub);
       $provide.value('helpCards', helpCardsStub);
       $provide.factory('fetchInstancesByPod', function ($q) {

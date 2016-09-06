@@ -54,11 +54,18 @@ describe('controllerInstance'.bold.underline.blue, function () {
       status: sinon.stub().returns('building'),
       on: sinon.stub()
     };
+    window.helpers.killDirective('ahaSidebar');
     angular.mock.module(function ($provide) {
       mockFavico = {
         reset : sinon.spy(),
         setInstanceState: sinon.spy()
       };
+      $provide.value('ahaGuide', {
+        getCurrentStep: sinon.stub().returns(1),
+        steps: {
+          ADD_FIRST_BRANCH: 123
+        }
+      });
       $provide.value('favico', mockFavico);
       $provide.factory('fetchUser', function ($q) {
         return function () {
