@@ -137,8 +137,7 @@ function InstanceNavigationController(
       .then(function (modal) {
         modal.close.then(function (confirmed) {
           if (confirmed) {
-            promisify(INC.instance, 'destroy')()
-              .catch(errs.handler);
+            promisify(INC.instance, 'destroy')();
           }
         });
       })

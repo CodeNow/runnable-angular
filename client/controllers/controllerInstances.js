@@ -50,6 +50,12 @@ function ControllerInstances(
     }
   });
 
+  $scope.$watch('CIS.instanceBranches', function(newVal, oldVal) {
+    if (newVal) {
+      loading('fetchingBranches', false);
+    }
+  });
+
   fetchInstancesByPod()
     .then(function (instancesByPod) {
 
@@ -154,7 +160,7 @@ function ControllerInstances(
     var searchQuery = CIS.branchQuery.toLowerCase();
     return CIS.instanceBranches.filter(function (branch) {
       branchName = branch.attrs.name.toLowerCase();
-      return branchName.indexOf(searchQuery) !== -1;
+      return branchName.includes(searchQuery);
     });
   };
 
@@ -182,7 +188,7 @@ function ControllerInstances(
     });
   };
 
-  this.unbuiltBranches = function(instance, branches) {
+  this.getUnbuiltBranches = function (instance, branches) {
     var branchName;
     var childInstances = instance.children.models.reduce(function(childHash, child) {
       branchName = child.getBranchName();
@@ -196,26 +202,26 @@ function ControllerInstances(
       branchName = keypather.get(branch, 'attrs.name');
       return !childInstances[branchName];
     });
-    loading('fetchingBranches', false);
+
     return unbuiltBranches;
   };
 
   this.popInstanceOpen = function (instance, open) {
     console.log(instance);
     CIS.poppedInstance = instance;
+    loading('fetchingBranches', true);
     CIS.getAllBranches(instance);
   };
 
-  this.getAllBranches = function(instance) {
+  this.getAllBranches = function (instance) {
     CIS.instanceBranches = null;
-    loading('fetchingBranches', true);
     return promisify(currentOrg.github, 'fetchRepo')(instance.getRepoName())
       .then(function (repo) {
         return promisify(repo, 'fetchBranches')();
       })
       .then(function (branches) {
         CIS.totalInstanceBranches = branches.models.length;
-        CIS.instanceBranches = CIS.unbuiltBranches(instance, branches);
+        CIS.instanceBranches = CIS.getUnbuiltBranches(instance, branches);
       });
   };
 
@@ -272,9 +278,6 @@ function ControllerInstances(
 
   this.setAutofork = function() {
     var shouldNotAutofork = CIS.poppedInstance.attrs.shouldNotAutofork = !CIS.poppedInstance.attrs.shouldNotAutofork;
-    promisify(CIS.poppedInstance, 'update')({shouldNotAutofork: shouldNotAutofork})
-      .then(function(ins) {
-        console.log(ins.attrs.shouldNotAutofork);
-      });
+    promisify(CIS.poppedInstance, 'update')({shouldNotAutofork: shouldNotAutofork});
   };
 }
