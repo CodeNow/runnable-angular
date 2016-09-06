@@ -56,7 +56,7 @@
     }
 
     @include media(lg) {
-      flex: 0 0 calc(33.333% - 11px);
+      flex: 0 0 calc(33.333% - 10px);
 
       // on the 6th card + 5 thereafter
       &:nth-child(5n+6) {
