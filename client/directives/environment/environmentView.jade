@@ -51,12 +51,12 @@
   )
 
   .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
-    ng-if = "$root.featureFlags.aha && EC.showExitedEarly"
     aha-guide-directive
+    error-state = "true"
+    ng-if = "$root.featureFlags.aha && EC.showExitedEarly"
     step-index = 1
     sub-step = 'exitedEarly'
     sub-step-index = 7
-    error-state = "true"
   )
 
   .grid-block.environment-body.justify-center.clearfix(
