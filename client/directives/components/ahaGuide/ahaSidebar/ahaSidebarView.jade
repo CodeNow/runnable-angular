@@ -1,20 +1,34 @@
-.grid-block.shrink.align-center.justify-right
-  svg.iconnables.icons-close(
-    ng-click = "toggleSidebar()"
-    ng-if = "!showOverview"
-  )
-    use(
-      xlink:href = "#icons-close"
+.grid-block.shrink(
+  ng-if = "!showOverview"
+)
+  header.grid-block.align-center.justify-center.aha-sidebar-header
+    h4.grid-content.strong.text-center.h4
+      //- During ahas 1-3:
+      | Setup Guide
+      //- During aha 4:
+      //- | You did it!
+    svg.grid-content.shrink.iconnables.icons-close(
+      ng-click = "toggleSidebar()"
+      ng-if = "!showOverview"
     )
-.grid-block.vertical.shrink.justify-center.text-center.aha-overview(
+      use(
+        xlink:href = "#icons-close"
+      )
+
+//- At the start of milestone 2:
+.grid-block.vertical.shrink.aha-overview(
   ng-if = "showOverview"
 )
-  .grid-content.strong Let‘s get running! 👋
-  | It’ll take a few steps to get everything set up. But don’t worry — we’re here to help!
-  button.grid-content.btn.btn-sm.green(
-    ng-click = "toggleSidebar()"
-  ) Get Started
-.grid-block.vertical
+  header.grid-block.vertical.shrink.align-center.justify-center.aha-sidebar-header
+    h4.grid-content.shrink.text-center.h4 Let‘s get running! 👋
+  .grid-block.shrink.vertical.padding-sm
+    p.grid-content.shrink.text-center.p It’ll take a few steps to get everything set up. But don’t worry — we’re here to help!
+    button.grid-content.shrink.btn.btn-md.green(
+      ng-click = "toggleSidebar()"
+    ) Get Started
+
+//- During ahas 1-3
+.grid-block.shrink.vertical.aha-guide-wrapper
   .grid-block.shrink.align-center.padding-sm.aha-guide.disabled
     .grid-block.shrink.aha-meter.aha-meter-100
       svg.iconnables
@@ -73,21 +87,8 @@
       p.p.strong Add your First Branch
       p.small Your branches will update on every commit you make.
 
-  .grid-block.shrink.align-center.padding-sm.aha-guide(
-    ng-class = "{'disabled': getCurrentStep() !== steps.SETUP_RUNNABOT}"
+//- During aha 4:
+//- .grid-block.vertical.aha-overview
+  .grid-block.vertical.align-center.form-github(
+    ng-include = "'gitHubIntegrationView'"
   )
-    .grid-block.shrink.aha-meter(
-      ng-class = "{'aha-meter-50': getCurrentStep() === steps.SETUP_RUNNABOT}"
-    )
-      svg.iconnables
-        use(
-          ng-if = "getCurrentStep() <= steps.SETUP_RUNNABOT"
-          xlink:href = "#icons-runnabot"
-        )
-        use(
-          ng-if = "getCurrentStep() > steps.SETUP_RUNNABOT"
-          xlink:href = "#icons-check"
-        )
-    .grid-block.vertical.aha-text
-      p.p.strong Set Up Runnabot
-      p.small Receive notifications on pull requests when your container is ready.
