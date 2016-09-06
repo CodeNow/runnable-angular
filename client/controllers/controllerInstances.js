@@ -8,6 +8,7 @@ require('app')
 function ControllerInstances(
   $filter,
   $localStorage,
+  $scope,
   $state,
   keypather,
   setLastOrg,
@@ -29,6 +30,13 @@ function ControllerInstances(
   CIS.$storage = $localStorage.$default({
     instanceListIsClosed: false
   });
+
+  $scope.$watch('CIS.instanceBranches', function(newVal, oldVal) {
+    if (newVal) {
+      loading('fetchingBranches', false);
+    }
+  });
+
   fetchInstancesByPod()
     .then(function (instancesByPod) {
 
@@ -175,18 +183,18 @@ function ControllerInstances(
       branchName = keypather.get(branch, 'attrs.name');
       return !childInstances[branchName];
     });
-    loading('fetchingBranches', false);
+
     return unbuiltBranches;
   };
 
   this.popInstanceOpen = function (instance) {
     CIS.poppedInstance = instance;
+    loading('fetchingBranches', true);
     CIS.getAllBranches(instance);
   };
 
   this.getAllBranches = function (instance) {
     CIS.instanceBranches = null;
-    loading('fetchingBranches', true);
     return promisify(currentOrg.github, 'fetchRepo')(instance.getRepoName())
       .then(function (repo) {
         return promisify(repo, 'fetchBranches')();
