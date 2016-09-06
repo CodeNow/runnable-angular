@@ -52,3 +52,30 @@
     }
   }
 }
+
+.popover-template-menu {
+  top: 30px !important;
+
+  .input-search {
+    margin-top: 0;
+  }
+
+  .btn-add.btn-add.btn-add {
+    position: static;
+    right: auto;
+    top: auto;
+  }
+
+  .list-servers {
+
+    .list-item {
+      font-size: 15px;
+    }
+  }
+
+  .gravatar.gravatar {
+    margin: 0;
+    margin-right: 4px;
+    margin-top: 2px;
+  }
+}
