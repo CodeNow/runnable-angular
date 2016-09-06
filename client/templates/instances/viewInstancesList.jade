@@ -48,22 +48,34 @@ p.p.text-center.text-gray-light.padding-sm(
     span.grid-content.text-overflow(
       title = "{{masterInstance.getName()}}"
     ) {{masterInstance.getName()}}
-    //- '+' button for adding branches and configuring clusters
-    button.grid-block.shrink.btn.btn-xs.btn-icon.gray(
-      ng-class = "{'active': state.active}"
-      ng-if = "$root.featureFlags.addBranches"
+    .popoverContainingDiv(
+      ng-if = "$root.featureFlags.aha"
       ng-click = "CIS.popInstanceOpen(masterInstance)"
+      tooltip = "Add Branch"
+      tooltip-options = "{\"class\":\"bottom center text-center\",\"left\":-36,\"top\":24}"
       pop-over
       pop-over-controller = "CIS"
       pop-over-options = "{\"verticallyCentered\":true,\"left\":24}"
       pop-over-template = "branchMenuPopoverView"
-      tooltip = "Add Branch"
-      tooltip-options = "{\"class\":\"bottom center text-center\",\"left\":-36,\"top\":24}"
-    )
-      svg.iconnables
-        use(
-          xlink:href = "#icons-add"
-        )
+      pop-over-data = "'branchSelect'"
+    )  
+      .hiddenPopoverThingy(
+        ng-if = "$index === 0"
+        pop-over
+        pop-over-active = "CIS.isPopoverOpen"
+        pop-over-controller = "CIS"
+        pop-over-options = "{\"left\":24,\"top\":-40}"
+        pop-over-template = "enterAddBranch"
+        pop-over-trigger = "activeAttr"
+        pop-over-uncloseable = "true"
+        pop-over-data = "'ahaTemplate'"
+      )
+      //- '+' button for adding branches and configuring clusters
+      button.grid-block.shrink.btn.btn-xs.btn-icon.gray()
+        svg.iconnables
+          use(
+            xlink:href = "#icons-add"
+          )
     //- repo config button (pre auto-isolation)
     svg.grid-block.shrink.iconnables.icons-gear(
       ng-click = "CIS.editInstance(masterInstance)"

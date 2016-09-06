@@ -39,10 +39,10 @@ function ControllerApp(
     })
       .then(function(result) {
         console.log(result);
-      })
+      });
     // cheese it
     currentOrg.poppa.hasConfirmedSetup = true;
-    $state.go('base.instances', {userName: CA.activeAccount.oauthName()})
+    $state.go('base.instances', {userName: CA.activeAccount.oauthName()});
   });
 
   this.activeAccount = activeAccount;

@@ -14,10 +14,10 @@ var scopeVars = {
   noBroadcast: '=? popOverNoBroadcast',
   actions: '=? popOverActions',
   active: '=? popOverActive',
-  func: '=? popOverFunc',
   template: '= popOverTemplate',
   controller: '=? popOverController',
-  controllerAs: '@? popOverControllerAs'
+  controllerAs: '@? popOverControllerAs',
+  uncloseable: '=? popOverUncloseable'
 };
 
 function popOver(
@@ -101,6 +101,7 @@ function popOver(
           if (keypather.get($scope, 'popoverOptions.verticallyCentered')) {
             style.bottom = null;
             style.top = Math.round((-POC.popoverElement[0].offsetHeight / 2 + offset.top + (offset.bottom - offset.top) / 2)) + 'px';
+            console.log(Math.round((-POC.popoverElement[0].offsetHeight / 2 + offset.top + (offset.bottom - offset.top) / 2)))
           }
 
           previousStyle = style;

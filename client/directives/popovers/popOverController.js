@@ -20,11 +20,17 @@ function PopOverController(
     return $scope.active;
   };
   POC.closePopover = function () {
+    console.log('Close popover called');
+    console.trace();
     // trigger a digest because we are setting active to false!
     $timeout(angular.noop);
     $scope.active = false;
     POC.unbindDocumentClick();
     POC.unbindPopoverOpened();
+    $rootScope.$broadcast('popover-closed', {
+      template: $scope.template,
+      data: $scope.data
+    });
     // We need a closure because they could technically re-open the popover and we want to manage THIS scope and THIS element.
     (function (popoverElementScope, popoverElement) {
       //Give the transition some time to finish!
@@ -39,6 +45,10 @@ function PopOverController(
     }(POC.popoverElementScope, POC.popoverElement));
   };
   POC.openPopover = function () {
+    $rootScope.$broadcast('popover-opened', {
+      template: $scope.template,
+      data: $scope.data
+    });
     $scope.popoverOptions = $scope.popoverOptions || {};
 
     if (!exists($scope.popoverOptions.top) && !exists($scope.popoverOptions.bottom)) {
@@ -55,13 +65,15 @@ function PopOverController(
       // If the click has a target and that target is on the page but not on our popover we should close the popover.
       // Otherwise we should keep the popover alive.
       POC.unbindDocumentClick = $scope.$on('app-document-click', function (event, target) {
-        if (!target || (target && $document[0].contains(target) && !POC.popoverElement[0].contains(target))) {
+        if (!$scope.uncloseable && (!target || (target && $document[0].contains(target) && !POC.popoverElement[0].contains(target)))) {
           POC.closePopover();
         }
       });
     }, 0);
     POC.unbindPopoverOpened = $scope.$on('close-popovers', function () {
-      POC.closePopover();
+      if (!$scope.uncloseable) {
+        POC.closePopover();
+      }
     });
 
     var template = $templateCache.get($scope.template);

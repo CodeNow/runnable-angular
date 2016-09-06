@@ -8,6 +8,7 @@ require('app')
 function ControllerInstances(
   $filter,
   $localStorage,
+  $scope,
   $state,
   ahaGuide,
   keypather,
@@ -27,11 +28,28 @@ function ControllerInstances(
   CIS.currentOrg = currentOrg;
   CIS.searchBranches = null;
   CIS.instanceBranches = null;
+  CIS.isPopoverOpen = true;
   CIS.unbuiltBranches = null;
   CIS.branchQuery = null;
   CIS.$storage = $localStorage.$default({
     instanceListIsClosed: false
   });
+
+  $scope.$on('popover-closed', function(event, pop) {
+    if (pop.data !== 'ahaTemplate') {
+      CIS.isPopoverOpen = true;
+    } else {
+      console.log('seeting branches to null');
+      CIS.instanceBranches = null;
+    }
+  });
+
+  $scope.$on('popover-opened', function(event, pop) {
+    if (pop.data !== 'ahaTemplate') {
+      CIS.isPopoverOpen = false;
+    }
+  });
+
   fetchInstancesByPod()
     .then(function (instancesByPod) {
 
@@ -182,7 +200,8 @@ function ControllerInstances(
     return unbuiltBranches;
   };
 
-  this.popInstanceOpen = function (instance) {
+  this.popInstanceOpen = function (instance, open) {
+    console.log(instance);
     CIS.poppedInstance = instance;
     CIS.getAllBranches(instance);
   };
@@ -251,8 +270,11 @@ function ControllerInstances(
       .catch(errs.handler);
   };
 
-  this.setAutofork = function(instance) {
-    var shouldNotAutofork = instance.attrs.shouldNotAutofork = !instance.attrs.shouldNotAutofork;
-    promisify(instance, 'update')({shouldNotAutofork: shouldNotAutofork});
+  this.setAutofork = function() {
+    var shouldNotAutofork = CIS.poppedInstance.attrs.shouldNotAutofork = !CIS.poppedInstance.attrs.shouldNotAutofork;
+    promisify(CIS.poppedInstance, 'update')({shouldNotAutofork: shouldNotAutofork})
+      .then(function(ins) {
+        console.log(ins.attrs.shouldNotAutofork);
+      });
   };
 }
