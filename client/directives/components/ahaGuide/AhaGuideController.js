@@ -39,7 +39,6 @@ function AhaGuideController(
 
   // get the current milestone
   var currentMilestone = ahaGuide.stepList[ahaGuide.getCurrentStep()];
-  console.log(currentMilestone);
 
   AGC.title = currentMilestone.title;
   AGC.caption = currentMilestone.subSteps[AGC.subStep].caption;
