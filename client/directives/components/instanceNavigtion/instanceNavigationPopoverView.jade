@@ -47,7 +47,7 @@
         ng-if = "INC.instance.attrs.isIsolationGroupMaster"
       )
       li.list-item.popover-list-item(
-        internal-modal-helper = "confirmBranchRemoveView"
+        ng-click = "INC.removeBranch()"
         ng-if = "INC.instance.attrs.isIsolationGroupMaster"
       )
         svg.iconnables
@@ -125,14 +125,14 @@
           )
         | Delete from Isolation
       li.list-item.popover-list-item(
-        internal-modal-helper = "confirmBranchRemoveView"
+        ng-click = "INC.removeBranch()"
         ng-if = "!INC.instance.attrs.isolated"
       )
         svg.iconnables
           use(
             xlink:href = "#icons-delete"
           )
-        | Delete Branch
+        | Remove Branch
 
   .popover-content(
     ng-if = "!$root.featureFlags.addBranches && !$root.featureFlags.autoIsolation"

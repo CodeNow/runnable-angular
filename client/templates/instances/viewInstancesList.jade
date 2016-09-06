@@ -52,7 +52,9 @@ p.p.text-center.text-gray-light.padding-sm(
     button.grid-block.shrink.btn.btn-xs.btn-icon.gray(
       ng-class = "{'active': state.active}"
       ng-if = "$root.featureFlags.addBranches"
+      ng-click = "CIS.popInstanceOpen(masterInstance)"
       pop-over
+      pop-over-controller = "CIS"
       pop-over-options = "{\"verticallyCentered\":true,\"left\":24}"
       pop-over-template = "branchMenuPopoverView"
       tooltip = "Add Branch"
