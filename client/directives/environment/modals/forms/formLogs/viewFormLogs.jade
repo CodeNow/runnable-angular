@@ -1,20 +1,3 @@
-.grid-block.shrink.justify-center.align-center.padding-xs.well.gray.aha-tips(
-  ng-if = "\
-    !$root.isLoading.setupServerModalIsBuilding && \
-    !SMC.isDirty() && \
-    SMC.instance.status() === 'buildFailed' \
-  "
-)
-  svg.grid-content.shrink.iconnables
-    use(
-      xlink:href = "#icons-life-preserver"
-    )
-  .grid-content.vertical
-    small.grid-content.small Having build problems? Some errors can be resolved by rebuilding the container.
-    button.btn.btn-xxs.orange(
-      ng-click = "SMC.rebuild(true, true)"
-    ) Rebuild Without Cache
-
 //- tabs
 .btn-group.btn-toggle.btn-toggle-xs(
   ng-hide = "$root.featureFlags.fullScreen"
@@ -95,3 +78,23 @@ pre.pre.log-wrapper(
   .floating-controls(
     ng-include = "'viewFloatingControls'"
   )
+
+.grid-block.shrink.justify-center.align-center.padding-xs.well.gray.aha-tips(
+  ng-if = "\
+    !$root.isLoading.setupServerModalIsBuilding && \
+    !SMC.isDirty() && \
+    SMC.instance.status() === 'buildFailed' \
+  "
+)
+  svg.grid-content.shrink.iconnables
+    use(
+      xlink:href = "#icons-life-preserver"
+    )
+  small.grid-content.shrink.small
+    //- If build error:
+    | Build problems? Sometimes rebuilding the container can resolve errors, otherwise inspect your build logs.
+    //- IF CMD error:
+    //- | Your container is having trouble running. Check the CMD Logs and your CMD Command.
+  button.grid-content.shrink.btn.btn-xs.orange(
+    ng-click = "SMC.rebuild(true, true)"
+  ) Rebuild

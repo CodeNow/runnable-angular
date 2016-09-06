@@ -319,4 +319,9 @@
       top: 12px;
     }
   }
+
+  // spacing after plans
+  .plans-wrapper + .well-summary {
+    margin-top: 15px;
+  }
 }

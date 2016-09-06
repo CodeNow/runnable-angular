@@ -2,6 +2,14 @@
   ng-class = "{'in': active}"
   ng-style = "popoverStyle.getStyle()"
 )
+  .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
+    ng-if = "$root.featureFlags.aha2"
+    ng-include = "'ahaGuideView'"
+    ng-init = "\
+      state.showStep = 2;\
+      state.showSubStep = 2;\
+    "
+  )
   .arrow.white
   .grid-block.vertical.popover-content.empty(
     ng-if = "$root.featureFlags.autoIsolationSetup"
@@ -68,11 +76,12 @@
       .popover-view.fade(
         ng-class = "{'in': isActivePanel()}"
       )
-        .popover-header
+        .popover-header(
+          ng-if = "$root.featureFlags.autoIsolation"
+        )
           svg.btn.btn-sm.iconnables.icons-arrow-backward(
             ng-class = "{'in': isActivePanel()}"
             ng-click = "goToPanel('branchMenu', 'back');"
-            ng-if = "$root.featureFlags.autoIsolation"
           )
             use(
               xlink:href = "#icons-arrow-down"
@@ -81,11 +90,8 @@
         .popover-content(
           ng-init = "state.branchesLoaded = null"
         )
-          .text-center.text-gray.small.padding-md(
-            ng-if = "branch.length === 0"
-          ) There are no branches to add.
 
-          .spinner-wrapper.spinner-sm.spinner-gray.spinner-center.in(
+          .spinner-wrapper.spinner-sm.spinner-gray.spinner-center(
             ng-click = "state.branchesLoaded = true"
             ng-if = "!state.branchesLoaded"
             ng-include = "'spinner'"
@@ -110,10 +116,17 @@
                 )
                 .toggle-group.toggle-sm
             input.input.input-xs.input-search(
+              ng-disabled = "state.loading"
+              ng-if = "branch.length !== 0"
               placeholder = "Filter"
               required
               type = "search"
             )
+            .text-center.text-gray.small.padding-lg(
+              ng-if = "branch.length === 0"
+            ) There are no branches to add.
+            //- when the filter has no results
+            //- .text-center.text-gray.small.padding-lg No branches match this filter.
           ul.list.popover-list(
             ng-if = "state.branchesLoaded"
           )
@@ -122,20 +135,36 @@
               .spinner-wrapper.spinner-sm.spinner-gray.spinner-center.in(
                 ng-include = "'spinner'"
               )
-            li.list-item.popover-list-item SAN-4377-Cant-add-files
+            li.list-item.popover-list-item(
+              ng-class = "{'disabled': state.loading}"
+              ng-click = "\
+                $root.featureFlags.ahaSidebar = true;\
+                $root.featureFlags.aha2 = false;\
+                $root.featureFlags.aha3 = true;\
+                state.loading = !state.loading;\
+              "
+            ) SAN-4377-Cant-add-files
+              button.btn.btn-xs.btn-icon.btn-add(
+                ng-if = "!state.loading"
+              )
+                svg.iconnables.icons-add
+                  use(
+                    xlink:href = "#icons-add"
+                  )
+              .spinner-wrapper.spinner-sm.spinner-gray(
+                ng-if = "state.loading"
+                ng-include = "'spinner'"
+              )
+            li.list-item.popover-list-item(
+              ng-class = "{'disabled': state.loading}"
+              ng-click = "\
+                $root.featureFlags.ahaSidebar = true;\
+                $root.featureFlags.aha2 = false;\
+                $root.featureFlags.aha3 = true;\
+              "
+            ) SAN-4342-auto-isolation-setup
               button.btn.btn-xs.btn-icon.btn-add
                 svg.iconnables.icons-add
                   use(
                     xlink:href = "#icons-add"
                   )
-            li.list-item.popover-list-item SAN-4342-auto-isolation-setup
-              button.btn.btn-xs.btn-icon.btn-add
-                svg.iconnables.icons-add
-                  use(
-                    xlink:href = "#icons-add"
-                  )
-            li.list-item.grid-block.justify-justified.list-pagination(
-            )
-              //- ng-if = "paginated"
-              button.btn.btn-xs.gray.grid-content Last 50
-              button.btn.btn-xs.gray.grid-content Next 50

@@ -1,6 +1,10 @@
 .arrow.white
 .popover-content
   .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
+    ng-if = "!$root.featureFlags.ahaInContainersView"
+    ng-include = "'ahaGuideView'"
+    ng-init = "state.showStep = 1"
+  )
     aha-guide-directive
     step-index = 1
     sub-step = "complete"

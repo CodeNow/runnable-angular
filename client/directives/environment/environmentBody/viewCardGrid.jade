@@ -8,17 +8,14 @@
   )
 
 //- empty state
-.card.gray.disabled.load.empty(
+.card.gray.disabled.load.empty.p(
   ng-class = "{'deprecated': !$root.featureFlags.cardStatus}"
   ng-if = "!EC.ahaGuide.isInGuide() && !$root.isLoading.sidebar && data.instances && !data.instances.models.length"
 )
-  svg.iconnables(
-    ng-click = "EC.triggerModal.newContainer()"
-  )
-    use(
-      xlink:href = "#icons-new-repository-server"
-    )
-  p.p Add your first repository template to get started.
+  h1.h1 😐
+  | This is awkward.
+  br
+  | You don‘t have any templates.
 
 //- server card
 .card.gray.disabled.load(

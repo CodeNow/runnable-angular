@@ -1,6 +1,6 @@
 {
   "name": "runnable-angular",
-  "version": "4.18.0",
+  "version": "4.18.1",
   "private": true,
   "description": "Frontend for Runnable.io",
   "scripts": {
@@ -53,7 +53,7 @@
     "@runnable/api-client": "v9.1.1",
     "angular": "1.3.15",
     "angular-animate": "1.3.15",
-    "angular-clipboard": "^1.1.1",
+    "angular-clipboard": "1.4.x",
     "angular-credit-cards": "^3.1.4",
     "angular-drag-and-drop-lists": "git://github.com/cmlenz/angular-drag-and-drop-lists.git#handle-support",
     "angular-modal-service": "git://github.com/Runnable/angular-modal-service.git#v0.6.8",
