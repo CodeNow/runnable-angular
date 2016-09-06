@@ -1,5 +1,5 @@
 .card {
-  border: 2px solid transparent;
+  border: $input-border solid transparent;
   border-radius: $input-border-radius-lg;
   display: flex;
   flex-direction: column;
@@ -148,8 +148,8 @@
     }
 
     &:not([disabled]):hover {
-      border-color: darken($gray-lighter,6%);
-      box-shadow: inset 0 1px 0 darken($gray-lighter,6%);
+      border-color: $gray-light;
+      box-shadow: inset 0 0 0 $gray-light;
 
       &:first-child {
         box-shadow: none;
@@ -159,7 +159,7 @@
     &:not([disabled]):active {
       background: lighten($purple-lightest,6%);
       border-color: $purple-light;
-      box-shadow: inset 0 1px 0 $purple-light;
+      box-shadow: inset 0 0 0 $purple-light;
 
       &:first-child {
         box-shadow: none;
@@ -170,7 +170,7 @@
       }
 
       .icons-arrow-down {
-        color: lighten($purple-light,37%);
+        color: lighten($purple-light,18%);
       }
 
       .btn-xxs {
