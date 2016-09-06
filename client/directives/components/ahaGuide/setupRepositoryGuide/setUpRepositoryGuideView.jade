@@ -1,43 +1,42 @@
 .grid-block.shrink.aha-meter.js-animate(
-  class = "{{ AGC.state.className }}"
-  ng-class = "{'aha-error': AGC.state.showError}"
-  ng-if = "!state.showVerification"
+  class = "{{ AGC.className }}"
+  ng-class = "{'aha-error': AGC.showError}"
 )
   svg.iconnables(
-    ng-if = "!AGC.state.showError"
+    ng-if = "!AGC.showError"
   )
     use(
-      ng-if = "ASC.getCurrentStep() === ASC.steps.CHOOSE_ORGANIZATION && AGC.state.subStep !== 'complete'"
+      ng-if = "ASC.getCurrentStep() === ASC.steps.CHOOSE_ORGANIZATION && AGC.subStep !== 'complete'"
       xlink:href = "#icons-octicons-repo"
     )
     use(
-      ng-if = "AGC.state.subStep === 'complete'"
+      ng-if = "AGC.subStep === 'complete'"
       xlink:href = "#icons-check"
     )
   svg.iconnables.icons-alert(
-    ng-if = "AGC.state.showError"
+    ng-if = "AGC.showError"
   )
     use(
       xlink:href = "#icons-alert-alt"
     )
 
 .grid-block.vertical.aha-text
-  p.p.small.text-gray-light {{ AGC.state.title }}
+  p.p.small.text-gray-light {{ AGC.title }}
   p.p(
-    ng-class = "{'p-slide js-animate': AGC.state.subStepIndex}"
-    ng-if = "$root.featureFlags.aha && !state.showError && !state.showVerification"
-  ) {{ AGC.state.caption }}
+    ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
+    ng-if = "$root.featureFlags.aha && !AGC.showError"
+  ) {{ AGC.caption }}
 
   //- Step 8:
   p.p(
-    ng-class = "{'p-slide js-animate': AGC.state.subStepIndex}"
-    ng-if = "AGC.state.subStep === 7"
+    ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
+    ng-if = "AGC.subStep === 7"
   )
-    | {{!state.showError && !state.showVerification ? 'We‘re building! Build time varies depending on your template.' : ''}}
-    | {{state.showError ? 'Uh oh, there was a build error! Inspect your logs for debug info.' : ''}}
+    | {{!AGC.showError ? 'We‘re building! Build time varies depending on your template.' : ''}}
+    | {{AGC.showError ? 'Uh oh, there was a build error! Inspect your logs for debug info.' : ''}}
     //- | IF DETENTION ERROR: Your container is running! But it looks like something has not been set up correctly.
     span.span(
-     ng-if = "state.showErrorType === 'exitedEarly'"
+     ng-if = "AGC.showErrorType === 'exitedEarly'"
     ) Your repository isn‘t running yet! Check the logs to debug any issues. If you‘re stumped,&#32;
       //- this link should open in intercom with the prefilled message:
           "I’m having trouble getting my first container up and running."
@@ -46,14 +45,14 @@
 
   //- If template repo is deleted:
   //- p.p(
-  //-   ng-class = "{'p-slide js-animate': state.showSubStep}"
+  //-   ng-class = "{'p-slide js-animate': AGC.showSubStep}"
   //- ) You‘ve deleted your repository template. Create another one to continue.
 
 
   //- Step 9:
   p.p(
-    ng-class = "{'p-slide js-animate': AGC.state.subStepIndex}"
-    ng-if = "AGC.state.subStep === 8 && !state.showError && !state.showVerification"
+    ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
+    ng-if = "AGC.subStep === 8 && !AGC.showError"
   ) Looking good! Check out your URL, and click ‘Done’ if it looks good to you too.
 
   //- Step 10 (in the nav popover):

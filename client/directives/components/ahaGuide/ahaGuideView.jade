@@ -1,31 +1,31 @@
 .grid-block.align-center(
-  ng-if = "AGC.state.mainStep === 0"
+  ng-if = "AGC.ahaGuide.getCurrentStep() === AGC.ahaGuide.steps.CHOOSE_ORGANIZATION"
   ng-include = "'createSandboxGuideView'"
 )
 
 .grid-block.align-center(
-  ng-if = "AGC.state.mainStep === 1"
+  ng-if = "AGC.ahaGuide.getCurrentStep() === AGC.ahaGuide.steps.ADD_FIRST_REPO"
   ng-include = "'setUpRepositoryGuideView'"
 )
 
 .grid-block.align-center(
-  ng-if = "AGC.state.mainStep === 2"
+  ng-if = "AGC.ahaGuide.getCurrentStep() === AGC.ahaGuide.steps.ADD_FIRST_BRANCH"
   add-branch-guide
 )
 
 .grid-block.align-center(
-  ng-if = "AGC.state.mainStep === 3"
+  ng-if = "AGC.ahaGuide.getCurrentStep() === AGC.ahaGuide.steps.SETUP_RUNNABOT"
   ng-include = "'setUpRunnabotGuideView'"
 )
 
 .grid-block.align-center(
-  ng-if = "state.addRepo"
+  ng-if = "addRepo"
   ng-include = "'setUpRepositoryGuideView'"
 )
 
 button.btn.btn-xs.white.btn-menu(
   ng-class = "{'active': ahaMenuGuidePopover.data.show}"
-  ng-if = "!AGC.state.hideMenu"
+  ng-if = "!AGC.hideMenu"
   pop-over
   pop-over-active = "ahaMenuGuidePopover.data.show"
   pop-over-options = "{\"centered\":true,\"top\":36}"

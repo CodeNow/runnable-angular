@@ -1,12 +1,12 @@
 'use strict';
 
 require('app')
-  .directive('ahaGuideDirective', ahaGuideDirective);
+  .directive('ahaGuide', ahaGuide);
 
 /**
  * @ngInject
  */
-function ahaGuideDirective(
+function ahaGuide(
 
 ) {
   return {
@@ -14,12 +14,11 @@ function ahaGuideDirective(
     templateUrl: 'ahaGuideView',
     controller: 'AhaGuideController',
     controllerAs: 'AGC',
+    bindToController: true,
     scope: {
-      stepIndex: '=',
       subStep: '@',
-      subStepIndex: '=',
+      subStepIndex: '=?',
       errorState: '=?'
-    },
-    link: function ($scope, elem, attrs) {}
+    }
   };
 }
