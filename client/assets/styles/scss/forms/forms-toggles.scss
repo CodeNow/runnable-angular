@@ -49,7 +49,7 @@
   width: 40px;
 
   &:hover {
-    background: #e6e6e6; // warning: unique color
+    background: $gray-lighter; // warning: unique color
   }
 
   &:active {
@@ -63,8 +63,8 @@
     width: 33px;
 
     &::after {
-      height: 17px;
-      width: 17px;
+      height: 21px - ($input-border * 2);
+      width: 21px - ($input-border * 2);
     }
   }
 
@@ -74,8 +74,8 @@
     width: 24px;
 
     &::after {
-      height: 11px;
-      width: 11px;
+      height: 15px - ($input-border * 2);
+      width: 15px - ($input-border * 2);
     }
   }
 
@@ -86,12 +86,12 @@
     box-shadow: 1px 1px 3px rgba($black,.05);
     content: '';
     display: block;
-    height: 22px;
+    height: 26px - ($input-border * 2);
     left: 0;
     position: absolute;
     top: 0;
     transition: transform .15s ease-in-out;
-    width: 22px;
+    width: 26px - ($input-border * 2);
   }
 }
 
