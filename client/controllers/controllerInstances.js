@@ -31,12 +31,6 @@ function ControllerInstances(
     instanceListIsClosed: false
   });
 
-  $scope.$watch('CIS.instanceBranches', function(newVal, oldVal) {
-    if (newVal) {
-      loading('fetchingBranches', false);
-    }
-  });
-
   fetchInstancesByPod()
     .then(function (instancesByPod) {
 
@@ -190,7 +184,12 @@ function ControllerInstances(
   this.popInstanceOpen = function (instance) {
     CIS.poppedInstance = instance;
     loading('fetchingBranches', true);
-    CIS.getAllBranches(instance);
+    return CIS.getAllBranches(instance)
+      .then(function(branches) {
+        CIS.totalInstanceBranches = branches.models.length;
+        CIS.instanceBranches = CIS.getUnbuiltBranches(instance, branches);
+        loading('fetchingBranches', false);
+      })
   };
 
   this.getAllBranches = function (instance) {
@@ -199,10 +198,6 @@ function ControllerInstances(
       .then(function (repo) {
         return promisify(repo, 'fetchBranches')();
       })
-      .then(function (branches) {
-        CIS.totalInstanceBranches = branches.models.length;
-        CIS.instanceBranches = CIS.getUnbuiltBranches(instance, branches);
-      });
   };
 
   this.forkBranchFromInstance = function (branch, closePopover) {
