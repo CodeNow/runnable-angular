@@ -6,16 +6,17 @@ require('app')
  * @ngInject
  */
 function GithubIntegrationController(
-  addRunnabotToGithubOrg,
+  $scope,
+  $interval,
   currentOrg,
   errs,
   fetchGithubUserIsAdminOfOrg,
   isRunnabotPartOfOrg,
-  keypather,
-  loading
+  keypather
 ) {
   var GIC = this;
   var org = keypather.get(currentOrg, 'github.attrs.login');
+  GIC.organizationName = org;
 
   fetchGithubUserIsAdminOfOrg(org)
     .then(function (isAdmin) {
@@ -23,23 +24,26 @@ function GithubIntegrationController(
     })
     .catch(errs.handler);
 
-  isRunnabotPartOfOrg(org)
-    .then(function (hasRunnabot) {
-      GIC.hasRunnabot = hasRunnabot;
-      if (!hasRunnabot) {
-        isRunnabotPartOfOrg.cache.clear();
-      }
-    })
-    .catch(errs.handler);
-
-  GIC.addRunnabot = function () {
-    loading('addRunnabot', true);
-    return addRunnabotToGithubOrg(org)
-      .catch(errs.handler)
-      .finally(function () {
-        loading('addRunnabot');
-        isRunnabotPartOfOrg.cache.clear();
+  function checkRunnabot() {
+    isRunnabotPartOfOrg(org)
+      .then(function (hasRunnabot) {
+        GIC.hasRunnabot = hasRunnabot;
+        if (hasRunnabot && GIC.pollingInterval) {
+          $interval.cancel(GIC.pollingInterval);
+        }
+      })
+      .catch(function (err) {
+        errs.handler(err);
       });
+  }
+  checkRunnabot();
+
+  GIC.pollCheckRunnabot = function () {
+    GIC.pollingInterval = $interval(checkRunnabot, 2000);
   };
+
+  $scope.$on('$destroy', function () {
+    $interval.cancel(GIC.pollingInterval);
+  });
 }
 
