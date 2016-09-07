@@ -59,7 +59,7 @@
   )
 
   .grid-block.environment-body.justify-center.clearfix(
-    ng-class = "{'align-center justify-center': EC.showCreateTemplate}"
+    ng-class = "{'align-center justify-center': EC.showCreateTemplate && data.instances.models.length === 0}"
   )
     .help-container(
       ng-class = "{\
