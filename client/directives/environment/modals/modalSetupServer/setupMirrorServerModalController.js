@@ -10,20 +10,15 @@ function SetupMirrorServerModalController(
   $rootScope,
   cardInfoTypes,
   createAndBuildNewContainer,
-  createBuildFromContextVersionId,
   errs,
   eventTracking,
-  fetchUser,
-  helpCards,
   isTabNameValid,
   keypather,
   loading,
   loadingPromises,
-  ModalService,
   promisify,
   OpenItems,
   TAB_VISIBILITY,
-  updateDockerfileFromState,
   close,
   instanceName,
   repo,
@@ -31,7 +26,6 @@ function SetupMirrorServerModalController(
   masterBranch
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
-  SMC.helpCards = helpCards;
 
   var parentController = $controller('ServerModalController as SMC', { $scope: $scope });
   angular.extend(SMC, {

@@ -15,7 +15,6 @@ function SetupTemplateModalController(
   fetchInstances,
   getNewForkName,
   promisify,
-  helpCards,
   ModalService,
   close,
   isolation
@@ -26,7 +25,6 @@ function SetupTemplateModalController(
       STMC.templateServers = servers;
     })
     .catch(errs.handler);
-  STMC.helpCard = helpCards.getActiveCard();
   STMC.close = close;
   STMC.addServerFromTemplate = function (sourceInstance) {
     var instancesPromise = null;
