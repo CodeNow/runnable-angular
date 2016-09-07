@@ -6,6 +6,12 @@ img.grid-content.shrink.img.img-comment(
   src = "/build/images/runnabot-comment.png"
   width = "358"
 )
+
+//- if checking whether the user is an admin, or checking whether runnabot has been enabled
+//- .grid-content.spinner-wrapper.spinner-md.spinner-gray(
+//-   ng-include = "'spinner'"
+//- )
+
 //- add 'disabled' attr if inviting runnabot, or if user isn't an admin
     hide after successfully inviting runnabot
 a.grid-content.shrink.btn.btn-md.green(
@@ -20,10 +26,6 @@ a.grid-content.shrink.btn.btn-md.green(
       xlink:href = "#icons-octicons-github"
     )
   | Invite Runnabot
-  .spinner-wrapper.spinner-sm.spinner-white.float-right(
-    ng-if = "$root.isLoading.addRunnabot"
-    ng-include = "'spinner'"
-  )
   svg.iconnables.icons-link-external
     use(
       xlink:href = "#icons-link-external"
