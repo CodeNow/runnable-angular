@@ -10,7 +10,7 @@ img.grid-content.shrink.img.img-comment(
     hide after successfully inviting runnabot
 a.grid-content.shrink.btn.btn-md.green(
   ng-disabled = "!GIC.isAdmin || $root.isLoading.addRunnabot"
-  ng-click = "GIC.sayHey()"
+  ng-click = "GIC.pollCheckRunnabot()"
   ng-hide = "GIC.hasRunnabot"
   ng-href = "https://github.com/orgs/{{GIC.organizationName}}/invitations/runnabot/edit"
   target = "_blank"
