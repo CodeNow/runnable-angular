@@ -38,20 +38,21 @@ a.grid-content.shrink.btn.btn-md.green(
     .arrow
     p.small.text-gray.text-left Thanks! See you soon on your pull requests.
 
-  .grid-content.shrink.small.text-center.text-red(
-    ng-show = "GIC.isAdmin"
-  )
-    //- if the user is an admin:
-    | This may affect your GitHub bill.
-  
-  .grid-content.shrink.small.text-center.text-gray(
-    ng-show = "!GIC.isAdmin"
-  )
-    | Sorry, you’ll need help from an admin
+.grid-content.shrink.small.text-center(
+  ng-class = "{\
+    'text-gray': GIC.isAdmin,\
+    'text-red': !GIC.isAdmin\
+  }"
+)
+  span(
+    ng-if = "GIC.isAdmin"
+  ) This may affect your GitHub bill.
+  span(
+    ng-if = "!GIC.isAdmin"
+  ) Sorry, you’ll need help from an admin
     br
     | of your org to invite Runnabot.
-  
-  .grid-content.shrink.small.text-center
-    //- always show this:
+
+  span
     br
     a.small.link More about Runnabot
