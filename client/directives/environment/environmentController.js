@@ -16,12 +16,12 @@ function EnvironmentController(
   $timeout,
   ahaGuide,
   favico,
-  fetchUser,
   fetchDockerfileForContextVersion,
   fetchOrgMembers,
   fetchUser,
   keypather,
   ModalService,
+
   pageName,
   instancesByPod
 ) {
