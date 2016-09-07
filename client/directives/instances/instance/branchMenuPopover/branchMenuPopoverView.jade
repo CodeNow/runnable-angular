@@ -123,6 +123,7 @@
                 )
                 .toggle-group.toggle-sm
             input.input.input-xs.input-search(
+              ng-disabled = "$root.isLoading['buildingForkedBranch']"
               ng-model = "CIS.branchQuery"
               placeholder = "Filter"
               required
@@ -132,6 +133,7 @@
             ng-if = "CIS.instanceBranches.length"
           )
             li.list-item.popover-list-item(
+              ng-class = "{'disabled': $root.isLoading[\'buildingForkedBranch\']}"
               ng-repeat = "branch in CIS.getFilteredBranches()"
               ng-click = "CIS.forkBranchFromInstance(branch, POC.closePopover);"
             ) {{ branch.attrs.name }}

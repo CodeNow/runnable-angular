@@ -221,10 +221,12 @@ function ControllerInstances(
     var sha = branch.attrs.commit.sha;
     var loadingName = 'buildingForkedBranch' + branch.attrs.name;
     loading(loadingName, true);
+    loading('buildingForkedBranch', true);
     CIS.popoverCannotClose = false;
     promisify(CIS.poppedInstance, 'fork')(branch.attrs.name, sha)
       .then(function() {
         closePopover()
+        loading('buildingForkedBranch', false);
         loading(loadingName, false);
         CIS.poppedInstance.attrs.hasBranchLaunched = true;
         $timeout(function() {
