@@ -25,7 +25,7 @@
 
 button.btn.btn-xs.white.btn-menu(
   ng-class = "{'active': ahaMenuGuidePopover.data.show}"
-  ng-if = "!AGC.hideMenu"
+  ng-if = "AGC.ahaGuide.getCurrentStep() !== AGC.ahaGuide.steps.CHOOSE_ORGANIZATION"
   pop-over
   pop-over-active = "ahaMenuGuidePopover.data.show"
   pop-over-options = "{\"centered\":true,\"top\":36}"

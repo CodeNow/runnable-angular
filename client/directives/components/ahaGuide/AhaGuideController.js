@@ -33,7 +33,6 @@ function AhaGuideController(
     }
   });
 
-  AGC.hideMenu = false;
   AGC.isBuildSuccessful = false;
   AGC.ahaGuide = ahaGuide;
 
