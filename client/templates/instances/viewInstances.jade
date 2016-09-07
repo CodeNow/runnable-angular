@@ -1,25 +1,21 @@
 //- instance list
-.list-instances-wrapper.grid-block.vertical.shrink.align-start(
-  ng-class = "{'in': !CIS.$storage.instanceListIsClosed}"
+.grid-block.shrink.list-instances(
+  ng-class = "{\
+    'deprecated': !$root.featureFlags.addBranches,\
+    'in': !CIS.$storage.instanceListIsClosed\
+  }"
   ng-if = "CIS.instancesByPod"
+  ng-include = "'viewInstancesList'"
+  scroll-offset = "200"
+  scroll-to = "a.a-sref.active"
 )
-  .list-instances(
-    ng-class = "{'deprecated': !$root.featureFlags.addBranches, 'in': !CIS.$storage.instanceListIsClosed }"
-    ng-include = "'viewInstancesList'"
-    scroll-offset = "200"
-    scroll-to = "a.a-sref.active"
-  )
 
-  .popover.bottom.in.popover-aha.popover-add-branches.js-animate(
-    ng-if = "$root.featureFlags.aha2"
-    ng-include = "'ahaPopoverView'"
-  )
-
-.list-instances-wrapper.grid-block.shrink.align-center.justify-center(
+.grid-block.shrink.list-instances(
   ng-class = "{'in': !CIS.$storage.instanceListIsClosed}"
   ng-if = "!CIS.instancesByPod"
 )
-  .spinner-wrapper.spinner-md.spinner-gray.in(
+
+  .spinner-wrapper.spinner-md.spinner-gray.spinner-center.in(
     ng-include = "'spinner'"
   )
 

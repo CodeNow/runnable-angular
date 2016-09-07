@@ -9,7 +9,7 @@
 
 .btn-auto-deploy-deprecated {
   background: $gray-lightest;
-  border-radius: 0;
+  border-radius: 0 0 $input-border-radius;
   border-top: 1px solid $gray-lighter;
   bottom: 0;
   color: $gray;
@@ -17,7 +17,7 @@
   font-size: 13px;
   height: $input-sm;
   left: 0;
-  margin: 2px;
+  margin: $input-border;
   padding: 0 9px;
   position: absolute;
   right: 0;

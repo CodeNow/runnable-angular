@@ -10,9 +10,9 @@
     .cell.text-overflow.small Paid by {{invoice.paidBy.githubUser.name || invoice.paidBy.githubUser.login}}
     .cell.monospace.text-right {{getBillingDate(invoice)}}
 
-div(
+.well.gray.ignore-margin.text-center.padding-sm.small(
   ng-if = "invoices.length === 0"
-) You have no billing history right now.
+) You have no billing history.
 
 //- if there's something older to load
 //-.label

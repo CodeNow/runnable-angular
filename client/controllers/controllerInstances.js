@@ -8,6 +8,7 @@ require('app')
 function ControllerInstances(
   $filter,
   $localStorage,
+  $scope,
   $state,
   keypather,
   setLastOrg,
@@ -29,6 +30,7 @@ function ControllerInstances(
   CIS.$storage = $localStorage.$default({
     instanceListIsClosed: false
   });
+
   fetchInstancesByPod()
     .then(function (instancesByPod) {
 
@@ -42,7 +44,7 @@ function ControllerInstances(
       var instances = instancesByPod;
       var lastViewedInstance = keypather.get(user, 'attrs.userOptions.uiState.previousLocation.instance');
 
-      function isInstanceMatch (instance, nameMatch) {
+      function isInstanceMatch(instance, nameMatch) {
         if (instance.destroyed || !instance.id()) {
           return false;
         }
@@ -125,7 +127,7 @@ function ControllerInstances(
     });
   };
 
-  this.getFilteredBranches = function() {
+  this.getFilteredBranches = function () {
     if (!CIS.branchQuery) {
       return CIS.instanceBranches;
     }
@@ -133,7 +135,7 @@ function ControllerInstances(
     var searchQuery = CIS.branchQuery.toLowerCase();
     return CIS.instanceBranches.filter(function (branch) {
       branchName = branch.attrs.name.toLowerCase();
-      return branchName.indexOf(searchQuery) !== -1;
+      return branchName.includes(searchQuery);
     });
   };
 
@@ -161,39 +163,38 @@ function ControllerInstances(
     });
   };
 
-  this.unbuiltBranches = function(instance, branches) {
+  this.getUnbuiltBranches = function (instance, branches) {
     var branchName;
-    var childInstances = instance.children.models.reduce(function(childHash, child) {
+    var childInstances = instance.children.models.reduce(function (childHash, child) {
       branchName = child.getBranchName();
       childHash[branchName] = branchName;
       return childHash;
     }, {});
     var instanceBranchName = instance.getBranchName();
     childInstances[instanceBranchName] = instanceBranchName;
-
-    var unbuiltBranches = branches.models.filter(function(branch) {
+    var unbuiltBranches = branches.models.filter(function (branch) {
       branchName = keypather.get(branch, 'attrs.name');
       return !childInstances[branchName];
     });
-    loading('fetchingBranches', false);
     return unbuiltBranches;
   };
 
   this.popInstanceOpen = function (instance) {
     CIS.poppedInstance = instance;
-    CIS.getAllBranches(instance);
+    loading('fetchingBranches', true);
+    CIS.instanceBranches = null;
+    return CIS.getAllBranches(instance)
+      .then(function (branches) {
+        CIS.totalInstanceBranches = branches.models.length;
+        CIS.instanceBranches = CIS.getUnbuiltBranches(instance, branches);
+        loading('fetchingBranches', false);
+      });
   };
 
-  this.getAllBranches = function(instance) {
-    CIS.instanceBranches = null;
-    loading('fetchingBranches', true);
+  this.getAllBranches = function (instance) {
     return promisify(currentOrg.github, 'fetchRepo')(instance.getRepoName())
       .then(function (repo) {
         return promisify(repo, 'fetchBranches')();
-      })
-      .then(function (branches) {
-        CIS.totalInstanceBranches = branches.models.length;
-        CIS.instanceBranches = CIS.unbuiltBranches(instance, branches);
       });
   };
 
@@ -202,7 +203,7 @@ function ControllerInstances(
     var loadingName = 'buildingForkedBranch' + branch.attrs.name;
     loading(loadingName, true);
     promisify(CIS.poppedInstance, 'fork')(branch.attrs.name, sha)
-      .then(function() {
+      .then(function () {
         loading(loadingName, false);
         closePopover();
       });
@@ -221,11 +222,14 @@ function ControllerInstances(
     })
       .catch(errs.handler);
   };
-   
-  this.setAutofork = function() {
+
+  this.setAutofork = function () {
+    console.log(CIS.poppedInstance.attrs.shouldNotAutofork);
     var shouldNotAutofork = CIS.poppedInstance.attrs.shouldNotAutofork = !CIS.poppedInstance.attrs.shouldNotAutofork;
-    promisify(CIS.poppedInstance, 'update')({shouldNotAutofork: shouldNotAutofork});
+    promisify(CIS.poppedInstance, 'update')({shouldNotAutofork: shouldNotAutofork})
+      .then(function(instance) {
+        console.log(instance.attrs.shouldNotAutofork);
+      })
   };
- }
 
 }

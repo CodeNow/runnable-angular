@@ -2,7 +2,7 @@
 .modal-backdrop {
   align-items: center;
   animation: fade .15s;
-  background: rgba($white,.97);
+  background: rgba($white,.98);
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -36,7 +36,7 @@
 .modal-dialog {
   animation: scale-in-modal .15s ease-out;
   background: $gray-lighterest;
-  border: $input-border-radius solid $gray-lighter;
+  border: 2px solid $gray-lighter;
   border-radius: $input-border-radius-lg;
   display: flex;
   flex: 0 0 auto;

@@ -81,16 +81,12 @@
           | Add Branch
         .popover-content(
         )
-          .text-center.text-gray.small.padding-md(
-            ng-if = "CIS.instanceBranches.length === 0"
-          ) There are no branches to add.
-
           .spinner-wrapper.spinner-sm.spinner-gray.spinner-center.in(
-            ng-if = "!CIS.instanceBranches.length"
+            ng-if = "$root.isLoading.fetchingBranches"
             ng-include = "'spinner'"
           )
           .padding-xxs(
-            ng-if = "CIS.instanceBranches.length"
+            ng-if = "CIS.instanceBranches"
           )
             .grid-block.shrink.align-center.well.gray.padding-xxs(
               ng-if = "!$root.featureFlags.autoIsolation"
@@ -104,14 +100,14 @@
                 )
               label.grid-content.shrink.toggle-wrapper
                 input.toggle-input(
-                  ng-click = "CIS.setAutofork(instance)"
+                  ng-click = "CIS.setAutofork()"
                   ng-disabled = "$root.featureFlags.webhooks"
-                  ng-checked = "instance.attrs.shouldNotAutofork"
+                  ng-checked = "CIS.poppedInstance.attrs.shouldNotAutofork"
                   type = "checkbox"
                 )
                 .toggle-group.toggle-sm
             input.input.input-xs.input-search(
-              ng-disabled = "!CIS.instanceBranches.length"
+              ng-model = "CIS.branchQuery"
               placeholder = "Filter"
               required
               type = "search"
@@ -119,15 +115,9 @@
           ul.list.popover-list(
             ng-if = "CIS.instanceBranches.length"
           )
-            //- show when loading paginated list
-            //- li.list-item.padding-md
-              .spinner-wrapper.spinner-sm.spinner-gray.spinner-center.in(
-                ng-include = "'spinner'"
-              )
-            //- ng-repeat = branch in whatever returned from instance fetch branches
             li.list-item.popover-list-item(
-              ng-repeat = "branch in CIS.instanceBranches"
-              ng-click = "CIS.forkBranchFromInstance(branch, POC.closePopover)"
+              ng-repeat = "branch in CIS.getFilteredBranches()"
+              ng-click = "CIS.forkBranchFromInstance(branch, POC.closePopover);"
             ) {{ branch.attrs.name }}
               button.btn.btn-xs.btn-icon.btn-add(
                 ng-if = "!$root.isLoading['buildingForkedBranch' + branch.attrs.name]"
@@ -141,8 +131,14 @@
                 ng-include = "'spinner'"
               )
 
-            li.list-item.grid-block.justify-justified.list-pagination(
-            )
-              //- ng-if = "paginated"
-              button.btn.btn-xs.gray.grid-content Last 50
-              button.btn.btn-xs.gray.grid-content Next 50
+          .text-center.text-gray.small.padding-lg(
+            ng-if = "CIS.instanceBranches && !CIS.instanceBranches.length && CIS.totalInstanceBranches"
+          ) There are no branches to add.
+
+          .text-center.text-gray.small.padding-lg(
+            ng-if = "CIS.instanceBranches && !CIS.instanceBranches.length && !CIS.totalInstanceBranches"
+          ) The repository has no branches.
+
+          .text-center.text-gray.small.padding-lg(
+            ng-if = "CIS.instanceBranches && CIS.instanceBranches.length && CIS.totalInstanceBranches && !CIS.getFilteredBranches().length"
+          ) No branches match this filter.
