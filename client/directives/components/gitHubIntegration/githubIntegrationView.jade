@@ -24,6 +24,10 @@ a.grid-content.shrink.btn.btn-md.green(
     ng-if = "$root.isLoading.addRunnabot"
     ng-include = "'spinner'"
   )
+  svg.iconnables.icons-link-external
+    use(
+      xlink:href = "#icons-link-external"
+    )
 
 //- show after successfully inviting runnabot
 .grid-block.align-center.shrink.runnabot-success(
