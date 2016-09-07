@@ -20,8 +20,6 @@ function PopOverController(
     return $scope.active;
   };
   POC.closePopover = function () {
-    console.log('Close popover called');
-    console.trace();
     // trigger a digest because we are setting active to false!
     $timeout(angular.noop);
     $scope.active = false;

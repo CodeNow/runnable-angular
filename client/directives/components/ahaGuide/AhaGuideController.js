@@ -25,34 +25,29 @@ function AhaGuideController(
     handleBuildUpdate(buildStatus);
   });
 
+  $scope.$on('exitedEarly', function() {
+    AGC.showError = true;
+    updateCaption('exitedEarly');
+  });
+
   var tabListener = $scope.$on('updatedTab', function(event, tabName) {
-    if (AGC.state.subStepIndex > 5) {
+    if (AGC.subStepIndex > 5) {
       tabListener();
     } else {
       updateCaption(tabName);
     }
   });
 
+  AGC.hideMenu = false;
+  AGC.isBuildSuccessful = false;
   AGC.ahaGuide = ahaGuide;
-  AGC.state = {
-    hideMenu: false,
-    isBuildSuccessful: false,
-    mainStep: $scope.stepIndex,
-    subStep: $scope.subStep,
-    subStepIndex: $scope.subStepIndex,
-    showError: $scope.errorState
-  };
-
-  // get steps from service
-  AGC.state.steps = ahaGuide.stepList;
 
   // get the current milestone
-  var currentMilestone = AGC.state.steps[AGC.state.mainStep];
-  // get the bound of the caption array so we know when to stop
+  var currentMilestone = ahaGuide.stepList[ahaGuide.getCurrentStep()];
 
-  AGC.state.title = currentMilestone.title;
-  AGC.state.caption = currentMilestone.subSteps[AGC.state.subStep].caption;
-  AGC.state.className = currentMilestone.subSteps[AGC.state.subStep].className;
+  AGC.title = currentMilestone.title;
+  AGC.caption = currentMilestone.subSteps[AGC.subStep].caption;
+  AGC.className = currentMilestone.subSteps[AGC.subStep].className;
 
   // update steps and initiate digest loop
   function updateCaption(status) {
@@ -62,32 +57,20 @@ function AhaGuideController(
     if (status === 'dockLoaded') {
       $rootScope.animatedPanelListener();
     }
-    AGC.state.subStep = status;
-    AGC.state.subStepIndex = currentMilestone.subSteps[status].step;
-    AGC.state.caption = currentMilestone.subSteps[status].caption;
-    AGC.state.className = currentMilestone.subSteps[status].className;
-
-    // not animating
-    // var thingy = angular.element(document.getElementsByClassName('p-slide'))
-    // var parentThingy = angular.element(document.getElementsByClassName('grid-block aha-text'))
-
-    // if (thingy && parentThingy) {
-    //   thingy.remove();
-    //   parentThingy.append('<p ng-class="{\'p-slide js-animate\': AGC.state.subStepIndex}" ng-if="$root.featureFlags.aha &amp;&amp;\
-    //                       !state.showError &amp;&amp; !state.showVerification" class="p ng-binding ng-scope p-slide js-animate">' +
-    //                       AGC.state.caption + '</p>');
-    // }
+    AGC.subStep = status;
+    AGC.subStepIndex = currentMilestone.subSteps[status].step;
+    AGC.caption = currentMilestone.subSteps[status].caption;
+    AGC.className = currentMilestone.subSteps[status].className;
   }
 
   function handleBuildUpdate(update) {
-    console.log(update);
     var buildStatus = update.status;
     if (buildStatus === 'buildFailed' || buildStatus === 'stopped' || buildStatus === 'crashed') {
-      AGC.state.showError = true;
+      AGC.showError = true;
     } else if (buildStatus === 'starting') {
-      AGC.state.showError = false;
+      AGC.showError = false;
     } else if (buildStatus === 'running') {
-        AGC.state.isBuildSuccessful = true;
+        AGC.isBuildSuccessful = true;
         updateCaption('success');
         $rootScope.$broadcast('exitedEarly', false);
     }
@@ -95,8 +78,8 @@ function AhaGuideController(
   }
 
   function updateBuildStatus(buildStatus) {
-    AGC.state.buildStatus = buildStatus;
-    AGC.state.caption = currentMilestone.buildStatus[buildStatus] || AGC.state.caption;
+    AGC.buildStatus = buildStatus;
+    AGC.caption = currentMilestone.buildStatus[buildStatus] || AGC.caption;
   }
 
   // we need to unregister this animated panel listener if it exists
@@ -112,7 +95,7 @@ function AhaGuideController(
     if ($rootScope.doneListener) {
       $rootScope.doneListener();
     }
-    if (AGC.state.subStepIndex === 7 && !AGC.state.isBuildSuccessful) {
+    if (AGC.subStepIndex === 7 && !AGC.isBuildSuccessful) {
       $rootScope.$broadcast('exitedEarly', true);
     }
   });

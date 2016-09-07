@@ -43,7 +43,7 @@ a.a(
   | Containers
 
 a.a(
-  ng-if = "$root.featureFlags.aha && CA.ahaGuide.getCurrentStep() === CA.ahaGuide.steps.ADD_FIRST_REPO"
+  ng-if = "$root.featureFlags.aha && CA.ahaGuide.getCurrentStep() === CA.ahaGuide.steps.ADD_FIRST_REPO && CA.instancesByPod.models.length"
   internal-modal-helper = "confirmSetupView"
 )
   svg.iconnables.icons-server-dark

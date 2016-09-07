@@ -1,26 +1,20 @@
-.grid-block.align-center.shrink.spinner-wrapper.spinner-md.spinner-gray.in.js-animate(
-  ng-if = "state.showVerification"
-  ng-include = "'spinner'"
-)
-
 .grid-block.shrink.aha-meter.js-animate(
-  class = "{{ AGC.state.className }}"
-  ng-class = "{'aha-error': AGC.state.showError}"
-  ng-if = "!state.showVerification && AGC.ahaGuide.getCurrentStep() === AGC.ahaGuide.steps.ADD_FIRST_REPO"
+  class = "{{ AGC.className }}"
+  ng-class = "{'aha-error': AGC.showError}"
 )
   svg.iconnables(
-    ng-if = "!AGC.state.showError"
+    ng-if = "!AGC.showError"
   )
     use(
-      ng-if = "AGC.ahaGuide.getCurrentStep() === AGC.ahaGuide.steps.ADD_FIRST_REPO && AGC.state.subStep !== 'complete'"
+      ng-if = "AGC.ahaGuide.getCurrentStep() === AGC.ahaGuide.steps.ADD_FIRST_REPO && AGC.subStep !== 'complete'"
       xlink:href = "#icons-octicons-repo"
     )
     use(
-      ng-if = "AGC.state.subStep === 'complete' || AGC.ahaGuide.getCurrentStep() > AGC.ahaGuide.steps.ADD_FIRST_REPO"
+      ng-if = "AGC.subStep === 'complete' || AGC.ahaGuide.getCurrentStep() > AGC.ahaGuide.steps.ADD_FIRST_REPO"
       xlink:href = "#icons-check"
     )
   svg.iconnables.icons-alert(
-    ng-if = "AGC.state.showError"
+    ng-if = "AGC.showError"
   )
     use(
       xlink:href = "#icons-alert-alt"
@@ -28,51 +22,61 @@
     
 .grid-block.shrink.aha-meter.js-animate(
   class = "aha-meter-100"
-  ng-class = "{'aha-error': AGC.state.showError}"
+  ng-class = "{'aha-error': AGC.showError}"
   ng-if = "!state.showVerification && AGC.ahaGuide.getCurrentStep() > AGC.ahaGuide.steps.ADD_FIRST_REPO"
 )
   svg.iconnables(
-    ng-if = "!AGC.state.showError"
+    ng-if = "!AGC.showError"
   )
     use(
-      ng-if = "AGC.ahaGuide.getCurrentStep() === AGC.ahaGuide.steps.ADD_FIRST_REPO && AGC.state.subStep !== 'complete'"
+      ng-if = "AGC.ahaGuide.getCurrentStep() === AGC.ahaGuide.steps.ADD_FIRST_REPO && AGC.subStep !== 'complete'"
       xlink:href = "#icons-octicons-repo"
     )
     use(
-      ng-if = "AGC.state.subStep === 'complete' || AGC.ahaGuide.getCurrentStep() > AGC.ahaGuide.steps.ADD_FIRST_REPO"
+      ng-if = "AGC.subStep === 'complete' || AGC.ahaGuide.getCurrentStep() > AGC.ahaGuide.steps.ADD_FIRST_REPO"
       xlink:href = "#icons-check"
     )
   svg.iconnables.icons-alert(
-    ng-if = "AGC.state.showError"
+    ng-if = "AGC.showError"
   )
     use(
       xlink:href = "#icons-alert-alt"
     )
 
 .grid-block.vertical.aha-text
-  p.p.small.text-gray-light {{ AGC.state.title }}
+  p.p.small.text-gray-light {{ AGC.title }}
   p.p(
-    ng-class = "{'p-slide js-animate': AGC.state.subStepIndex}"
-    ng-if = "$root.featureFlags.aha && !state.showError && !state.showVerification"
-  ) {{ AGC.state.caption }}
+    ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
+    ng-if = "$root.featureFlags.aha && !AGC.showError"
+  ) {{ AGC.caption }}
+
+  //- Step 8:
   p.p(
-    ng-class = "{'p-slide js-animate': AGC.state.subStepIndex}"
-    ng-if = "AGC.state.subStep === 7"
+    ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
+    ng-if = "AGC.subStep === 7"
   )
-    | {{!state.showError && !state.showVerification ? 'Now building. Build time varies depending on your template.' : ''}}
-    | {{state.showVerification ? 'Verifying Template…' : ''}}
-    | {{state.showErrorType === 'build' && state.showError ? 'Your build failed. Inspect your build logs for more information.' : ''}}
-    | {{state.showErrorType === 'CMD' && state.showError ? 'Your container failed to run. Inspect your CMD logs for more information.' : ''}}
+    | {{!AGC.showError ? 'We‘re building! Build time varies depending on your template.' : ''}}
+    | {{AGC.showError ? 'Uh oh, there was a build error! Inspect your logs for debug info.' : ''}}
     //- | IF DETENTION ERROR: Your container is running! But it looks like something has not been set up correctly.
     span.span(
-     ng-if = "state.showErrorType === 'exitedEarly'"
+     ng-if = "AGC.showErrorType === 'exitedEarly'"
     ) Your repository isn‘t running yet! Check the logs to debug any issues. If you‘re stumped,&#32;
       //- this link should open in intercom with the prefilled message:
           "I’m having trouble getting my first container up and running."
       a.link ask our engineers
       | !
 
+  //- If template repo is deleted:
+  //- p.p(
+  //-   ng-class = "{'p-slide js-animate': AGC.showSubStep}"
+  //- ) You‘ve deleted your repository template. Create another one to continue.
+
+
+  //- Step 9:
   p.p(
-    ng-class = "{'p-slide js-animate': AGC.state.subStepIndex}"
-    ng-if = "AGC.state.subStep === 8 && !state.showError && !state.showVerification"
-  ) Your build is looking good! Check out its URL and click ‘Done’ if it looks good to you.
+    ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
+    ng-if = "AGC.subStep === 8 && !AGC.showError"
+  ) Looking good! Check out your URL, and click ‘Done’ if it looks good to you too.
+
+  //- Step 10 (in the nav popover):
+  //- p.p Add more templates if your project requires it. Once you’re done, head to your containers to start adding branches.

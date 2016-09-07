@@ -1,8 +1,8 @@
 .modal-backdrop.in
   .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
-    aha-guide-directive
-    ng-class = "{'p-slide js-animate': AGC.state.subStepIndex > 0}"
-    ng-if = "MC.ahaGuide.getCurrentStep() === MC.ahaGuide.steps.ADD_FIRST_REPO"
+    aha-guide
+    ng-class = "{'p-slide js-animate': AGC.subStepIndex > 0}"
+    ng-if = "MC.ahaGuide.getCurrentStep() === MC.ahaGuide.steps.ADD_FIRST_REPO && MC.instances.models.length === 0 && MC.instances.models"
     step-index = 1
     sub-step = "containerSelection"
     sub-step-index = 1
@@ -14,13 +14,13 @@
         name = "containerSelection"
       )
         header.modal-header.grid-block.justify-center(
-          ng-class = "{'lg': MC.ahaGuide.getCurrentStep() !== MC.ahaGuide.steps.ADD_FIRST_REPO}"
+          ng-class = "{'lg': MC.ahaGuide.getCurrentStep() !== MC.ahaGuide.steps.ADD_FIRST_REPO || MC.instances.models.length !== 0 && MC.instances.models}"
           ng-click = "MC.changeTab('nameContainer')"
         )
           .grid-block.shrink.btn(
             ng-class = "{'active': MC.state.tabName === 'repos'}"
             ng-click = "MC.changeTab('repos')"
-            ng-if = "MC.ahaGuide.getCurrentStep() !== MC.ahaGuide.steps.ADD_FIRST_REPO"
+            ng-if = "MC.ahaGuide.getCurrentStep() !== MC.ahaGuide.steps.ADD_FIRST_REPO || MC.instances.models.length !== 0 && MC.instances.models"
           )
             svg.iconnables.icons-repository.grid-block.shrink
               use(
@@ -37,7 +37,7 @@
               'disabled': $root.isLoading[MC.name + 'SingleRepo'] \
             }"
             ng-click = "!$root.isLoading[MC.name + 'SingleRepo'] && MC.changeTab('services')"
-            ng-if = "MC.ahaGuide.getCurrentStep() !== MC.ahaGuide.steps.ADD_FIRST_REPO"
+            ng-if = "MC.ahaGuide.getCurrentStep() !== MC.ahaGuide.steps.ADD_FIRST_REPO || MC.instances.models.length !== 0 && MC.instances.models"
           )
             svg.iconnables.icons-template.grid-block.shrink
               use(

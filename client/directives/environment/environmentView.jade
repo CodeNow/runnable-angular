@@ -52,15 +52,14 @@
 
   .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
     ng-if = "$root.featureFlags.aha && EC.showExitedEarly"
-    aha-guide-directive
-    step-index = 1
+    aha-guide
+    error-state = "true"
     sub-step = 'exitedEarly'
     sub-step-index = 7
-    error-state = "true"
   )
 
   .grid-block.environment-body.justify-center.clearfix(
-    ng-class = "{'align-center justify-center': EC.showCreateTemplate}"
+    ng-class = "{'align-center justify-center': EC.showCreateTemplate && !data.instances.models.length}"
   )
     .help-container(
       ng-class = "{\
@@ -100,8 +99,7 @@
       ng-if = "EC.ahaGuide.isInGuide() && EC.showCreateTemplate && !data.instances.models.length"
     )
       .grid-block.align-center.aha-guide.padding-md(
-        aha-guide-directive
-        step-index = 1
+        aha-guide
         sub-step = "addRepository"
         sub-step-index = 0
       )

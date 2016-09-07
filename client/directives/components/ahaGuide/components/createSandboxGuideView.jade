@@ -1,17 +1,17 @@
 .grid-block.shrink.aha-meter(
   ng-class = "\
-    AGC.state.className\
+    AGC.className\
     "
 )
   svg.iconnables
     use(
-      ng-if = "$root.featureFlags.aha && AGC.state.subStep !== 'dockLoaded'"
+      ng-if = "$root.featureFlags.aha && AGC.subStep !== 'dockLoaded'"
       xlink:href = "#icons-cog"
     )
     use(
-      ng-if = "$root.featureFlags.aha && AGC.state.subStep === 'dockLoaded'"
+      ng-if = "$root.featureFlags.aha && AGC.subStep === 'dockLoaded'"
       xlink:href = "#icons-check"
     )
 .grid-block.vertical.aha-text
-  p.p.small.text-gray-light {{ AGC.state.title }}
-  p.p {{ AGC.state.caption }}
+  p.p.small.text-gray-light {{ AGC.title }}
+  p.p {{ AGC.caption }}
