@@ -8,8 +8,10 @@ require('app')
 function ControllerInstances(
   $filter,
   $localStorage,
+  $rootScope,
   $scope,
   $state,
+  $timeout,
   ahaGuide,
   keypather,
   setLastOrg,
@@ -30,6 +32,7 @@ function ControllerInstances(
   CIS.instanceBranches = null;
   CIS.isPopoverOpen = true;
   CIS.unbuiltBranches = null;
+  CIS.popoverCannotClose = true;
   CIS.branchQuery = null;
   CIS.$storage = $localStorage.$default({
     instanceListIsClosed: false
@@ -38,9 +41,6 @@ function ControllerInstances(
   $scope.$on('popover-closed', function(event, pop) {
     if (pop.data !== 'ahaTemplate') {
       CIS.isPopoverOpen = true;
-    } else {
-      console.log('seeting branches to null');
-      CIS.instanceBranches = null;
     }
   });
 
@@ -201,9 +201,9 @@ function ControllerInstances(
   };
 
   this.popInstanceOpen = function (instance, open) {
+    CIS.instanceBranches = null;
     CIS.poppedInstance = instance;
     loading('fetchingBranches', true);
-    CIS.instanceBranches = null;
     return CIS.getAllBranches(instance)
       .then(function (branches) {
         CIS.totalInstanceBranches = branches.models.length;
@@ -223,11 +223,15 @@ function ControllerInstances(
     var sha = branch.attrs.commit.sha;
     var loadingName = 'buildingForkedBranch' + branch.attrs.name;
     loading(loadingName, true);
+    CIS.popoverCannotClose = false;
     promisify(CIS.poppedInstance, 'fork')(branch.attrs.name, sha)
-      .then(function () {
+      .then(function() {
+        closePopover()
         loading(loadingName, false);
         CIS.poppedInstance.attrs.hasBranchLaunched = true;
-        closePopover();
+        $timeout(function() {
+          $rootScope.$broadcast('close-popovers');
+        });
       });
   };
 
@@ -244,7 +248,7 @@ function ControllerInstances(
     })
       .catch(errs.handler);
   };
-  
+
   this.openInviteAdminModal = function (instance) {
     ModalService.showModal({
       controller: 'InviteAdminModalController',

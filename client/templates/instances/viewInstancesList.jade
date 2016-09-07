@@ -59,7 +59,7 @@ p.p.text-center.text-gray-light.padding-sm(
       pop-over-template = "branchMenuPopoverView"
       pop-over-data = "'branchSelect'"
     )  
-      .hiddenPopoverThingy(
+      .stepOneUncloseablePopover(
         ng-if = "$index === 0"
         pop-over
         pop-over-active = "CIS.isPopoverOpen"
@@ -67,7 +67,7 @@ p.p.text-center.text-gray-light.padding-sm(
         pop-over-options = "{\"left\":24,\"top\":-40}"
         pop-over-template = "enterAddBranch"
         pop-over-trigger = "activeAttr"
-        pop-over-uncloseable = "true"
+        pop-over-uncloseable = "CIS.popoverCannotClose"
         pop-over-data = "'ahaTemplate'"
       )
       //- '+' button for adding branches and configuring clusters
