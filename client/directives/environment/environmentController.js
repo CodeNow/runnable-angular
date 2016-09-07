@@ -37,7 +37,7 @@ function EnvironmentController(
   };
   $scope.$on('show-aha-sidebar', EC.toggleSidebar);
 
-  $scope.$on('exitedEarly', function(event, didExitEarly) {
+  $scope.$on('exitedEarly', function (event, didExitEarly) {
     EC.showExitedEarly = didExitEarly;
     if (!didExitEarly) {
       $rootScope.$broadcast('launchAhaNavPopover');
@@ -51,7 +51,7 @@ function EnvironmentController(
   });
   $scope.$on('$destroy', unbindUpdateTeammateInvitation);
 
-  function updateShowInviteButton () {
+  function updateShowInviteButton() {
     return $q.all({
       user: fetchUser(),
       members: fetchOrgMembers($state.params.userName)
