@@ -8,12 +8,20 @@ function AhaGuideController(
   $scope,
   $rootScope,
   ahaGuide,
-  currentOrg
+  currentOrg,
+  fetchInstances,
+  keypather
 ) {
-
   var AGC = this;
 
-  var alertListener = $scope.$on('alert', function(event, alert) {
+  AGC.instances = null;
+  fetchInstances()
+    .then(function (instances) {
+      AGC.instances = instances;
+      updateCaption(AGC.subStep);
+    });
+
+  var alertListener = $scope.$on('alert', function (event, alert) {
     // alerts on container creation success
     if (alert.type === 'success') {
       updateCaption('logs');
@@ -21,11 +29,11 @@ function AhaGuideController(
     }
   });
 
-  var buildLogListener = $scope.$on('buildStatusUpdated', function(event, buildStatus) {
+  $scope.$on('buildStatusUpdated', function (event, buildStatus) {
     handleBuildUpdate(buildStatus);
   });
 
-  var tabListener = $scope.$on('updatedTab', function(event, tabName) {
+  var tabListener = $scope.$on('updatedTab', function (event, tabName) {
     if (AGC.subStepIndex > 5) {
       tabListener();
     } else {
@@ -40,8 +48,7 @@ function AhaGuideController(
   var currentMilestone = ahaGuide.stepList[ahaGuide.getCurrentStep()];
 
   AGC.title = currentMilestone.title;
-  AGC.caption = currentMilestone.subSteps[AGC.subStep].caption;
-  AGC.className = currentMilestone.subSteps[AGC.subStep].className;
+  updateCaption(AGC.subStep);
 
   // update steps and initiate digest loop
   function updateCaption(status) {
@@ -55,6 +62,9 @@ function AhaGuideController(
     AGC.subStepIndex = currentMilestone.subSteps[status].step;
     AGC.caption = currentMilestone.subSteps[status].caption;
     AGC.className = currentMilestone.subSteps[status].className;
+    if (ahaGuide.getCurrentStep() === ahaGuide.steps.ADD_FIRST_REPO && keypather.get(AGC, 'instances.models.length') > 0) {
+      AGC.className = 'aha-meter-100';
+    }
   }
 
   function handleBuildUpdate(update) {
@@ -64,9 +74,9 @@ function AhaGuideController(
     } else if (buildStatus === 'starting') {
       AGC.showError = false;
     } else if (buildStatus === 'running') {
-        AGC.isBuildSuccessful = true;
-        updateCaption('success');
-        $rootScope.$broadcast('exitedEarly', false);
+      AGC.isBuildSuccessful = true;
+      updateCaption('success');
+      $rootScope.$broadcast('exitedEarly', false);
     }
     updateBuildStatus(buildStatus);
   }
@@ -82,7 +92,7 @@ function AhaGuideController(
     $rootScope.animatedPanelListener();
   }
 
-  $scope.$on('$destroy', function() {
+  $scope.$on('$destroy', function () {
     if ($rootScope.animatedPanelListener) {
       $rootScope.animatedPanelListener();
     }
