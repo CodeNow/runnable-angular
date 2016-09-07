@@ -1,18 +1,3 @@
-.help-container(
-  ng-if = "helpCards.getActiveCard().helpPopover.findAndReplace && helpCards.cardIsActiveOnThisContainer(instance)"
-)
-  .help
-    button.btn.btn-xs.btn-icon(
-      ng-click = "helpCards.hideActiveCard()"
-    )
-      svg.iconnables.icons-close
-        use(
-          xlink:href = "#icons-close"
-        )
-    span(
-      ng-bind-html = "helpCards.getActiveCard().helpPopover.findAndReplace"
-    )
-
 .btn-group.btn-toggle.btn-toggle-xs(
   ng-init = "page = 'rules'"
 )

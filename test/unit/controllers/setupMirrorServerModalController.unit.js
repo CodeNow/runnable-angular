@@ -40,7 +40,6 @@ describe('setupMirrorServerModalController'.bold.underline.blue, function () {
   var createNewBuildMock;
 
   var fetchOwnerRepoStub;
-  var fetchUserStub;
   var fetchStackAnalysisMock;
   var updateDockerfileFromStateStub;
   var populateDockerfileStub;
@@ -50,7 +49,6 @@ describe('setupMirrorServerModalController'.bold.underline.blue, function () {
   var showModalStub;
   var closeModalStub;
   var createAndBuildNewContainerMock;
-  var helpCardsMock;
 
   var instanceName = 'HelloWorldInstanceName';
   var branches;
@@ -72,9 +70,6 @@ describe('setupMirrorServerModalController'.bold.underline.blue, function () {
     opts.build = (opts.build !== undefined) ? opts.build : newBuild;
     opts.masterBranch = (opts.masterBranch !== undefined) ? opts.masterBranch: branch;
 
-    helpCardsMock = {
-      refreshAllCards: sinon.stub()
-    };
     errsMock = {
       handler: sinon.spy()
     };
@@ -89,7 +84,6 @@ describe('setupMirrorServerModalController'.bold.underline.blue, function () {
     angular.mock.module(function ($provide) {
       $provide.value('errs', errsMock);
       $provide.factory('fetchStackAnalysis', fetchStackAnalysisMock.fetch());
-      $provide.value('helpCards', helpCardsMock);
       $provide.factory('fetchUser', mockUserFetch.autoTrigger(org1));
       $provide.factory('fetchInstancesByPod', function ($q) {
         fetchInstancesByPodStub = sinon.stub().returns($q.when(instances));

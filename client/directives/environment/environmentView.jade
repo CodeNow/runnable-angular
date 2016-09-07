@@ -64,40 +64,6 @@
   .grid-block.environment-body.justify-center.clearfix(
     ng-class = "{'align-center justify-center': $root.featureFlags.aha1}"
   )
-    .help-container(
-      ng-class = "{\
-        'fixed': helpUndock,\
-        'top': helpUndock\
-      }"
-      ng-if = "helpCards.getActiveCard() && !$root.featureFlags.aha"
-    )
-      .help(
-        ng-if = "helpCards.getActiveCard().targets.newContainer && state.newServerButton.active"
-      )
-        button.btn.btn-xs.btn-icon(
-          ng-click = "helpCards.hideActiveCard()"
-        )
-          svg.iconnables.icons-close
-            use(
-              xlink:href = "#icons-close"
-            )
-        span(
-          ng-bind-html = "helpCards.getActiveCard().helpPopover.newContainer"
-        )
-      .help(
-        ng-if = "!(helpCards.getActiveCard().targets.newContainer && state.newServerButton.active)"
-      )
-        button.btn.btn-xs.btn-icon(
-          ng-click = "helpCards.hideActiveCard()"
-        )
-          svg.iconnables.icons-close
-            use(
-              xlink:href = "#icons-close"
-            )
-        span(
-          ng-bind-html = "helpCards.getActiveCard().helpTop"
-        )
-
     .modal-dialog.modal-sm(
       ng-if = "$root.featureFlags.aha1 && !$root.featureFlags.ahaOverview"
     )
@@ -110,7 +76,6 @@
       )
 
     .grid-block.card-grid.clearfix(
-      ng-class = "{'padding-top': helpCards.getActiveCard().helpTop}"
       ng-if = "!$root.featureFlags.aha1"
       ng-include = "'viewCardGrid'"
     )
