@@ -52,7 +52,7 @@ button.grid-block.shrink.btn.btn-md.btn-icon.btn-help(
 button.grid-block.shrink.btn.btn-md.green(
   ng-class = "{\
     'scale': helpCards.getActiveCard().targets.newContainer,\
-    'scale-in-modal': EC.ahaGuide.getCurrentStep() === EC.ahaGuide.ADD_FIRST_BRANCH\
+    'scale-in-modal': EC.ahaGuide.getCurrentStep() === EC.ahaGuide.steps.ADD_FIRST_REPO\
   }"
   ng-click = "EC.triggerModal.newContainer()"
 )
