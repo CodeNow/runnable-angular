@@ -8,16 +8,17 @@ img.grid-content.shrink.img.img-comment(
 )
 
 //- if checking whether the user is an admin, or checking whether runnabot has been enabled
-//- .grid-content.spinner-wrapper.spinner-md.spinner-gray(
-//-   ng-include = "'spinner'"
-//- )
+.grid-content.spinner-wrapper.spinner-md.spinner-gray(
+  ng-if = "$root.isLoading.checkRunnabot"
+  ng-include = "'spinner'"
+)
 
 //- add 'disabled' attr if inviting runnabot, or if user isn't an admin
     hide after successfully inviting runnabot
 a.grid-content.shrink.btn.btn-md.green(
-  ng-disabled = "!GIC.isAdmin || $root.isLoading.addRunnabot"
+  ng-disabled = "!GIC.isAdmin"
   ng-click = "GIC.pollCheckRunnabot()"
-  ng-hide = "GIC.hasRunnabot"
+  ng-hide = "$root.isLoading.checkRunnabot || GIC.hasRunnabot"
   ng-href = "https://github.com/orgs/{{GIC.organizationName}}/invitations/runnabot/edit"
   target = "_blank"
 )
@@ -33,7 +34,7 @@ a.grid-content.shrink.btn.btn-md.green(
 
 //- show after successfully inviting runnabot
 .grid-block.align-center.shrink.runnabot-success(
-  ng-show = "GIC.hasRunnabot"
+  ng-show = "GIC.hasRunnabot && !$root.isLoading.checkRunnabot"
 )
   img.grid-content.shrink.img(
     height = "36"
@@ -45,6 +46,7 @@ a.grid-content.shrink.btn.btn-md.green(
     p.small.text-gray.text-left Thanks! See you soon on your pull requests.
 
 .grid-content.shrink.small.text-center(
+  ng-hide = "$root.isLoading.checkRunnabot"
   ng-class = "{\
     'text-gray': GIC.isAdmin,\
     'text-red': !GIC.isAdmin\

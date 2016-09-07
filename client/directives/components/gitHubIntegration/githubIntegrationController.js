@@ -6,37 +6,44 @@ require('app')
  * @ngInject
  */
 function GithubIntegrationController(
-  $scope,
   $interval,
+  $q,
+  $scope,
   currentOrg,
   errs,
   fetchGithubUserIsAdminOfOrg,
   isRunnabotPartOfOrg,
-  keypather
+  keypather,
+  loading
 ) {
   var GIC = this;
   var org = keypather.get(currentOrg, 'github.attrs.login');
   GIC.organizationName = org;
 
-  fetchGithubUserIsAdminOfOrg(org)
-    .then(function (isAdmin) {
-      GIC.isAdmin = isAdmin;
-    })
-    .catch(errs.handler);
-
   function checkRunnabot() {
-    isRunnabotPartOfOrg(org)
+    return isRunnabotPartOfOrg(org)
       .then(function (hasRunnabot) {
         GIC.hasRunnabot = hasRunnabot;
         if (hasRunnabot && GIC.pollingInterval) {
           $interval.cancel(GIC.pollingInterval);
         }
       })
-      .catch(function (err) {
-        errs.handler(err);
-      });
+      .catch(errs.handler);
   }
-  checkRunnabot();
+
+  loading.reset('checkRunnabot');
+  loading('checkRunnabot', true);
+  $q.all({
+    isAdmin: fetchGithubUserIsAdminOfOrg(org),
+    hasRunnabot: checkRunnabot()
+  })
+    .then(function (results) {
+      GIC.isAdmin = results.isAdmin;
+    })
+    .catch(errs.handler)
+    .finally(function () {
+      loading('checkRunnabot');
+    });
 
   GIC.pollCheckRunnabot = function () {
     GIC.pollingInterval = $interval(checkRunnabot, 2000);
