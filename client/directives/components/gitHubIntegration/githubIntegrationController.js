@@ -42,7 +42,7 @@ function GithubIntegrationController(
     })
     .catch(errs.handler)
     .finally(function () {
-      loading('checkRunnabot');
+      loading('checkRunnabot', false);
     });
 
   GIC.pollCheckRunnabot = function () {
