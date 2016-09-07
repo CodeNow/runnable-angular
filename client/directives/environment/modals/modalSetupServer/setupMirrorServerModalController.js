@@ -13,7 +13,6 @@ function SetupMirrorServerModalController(
   createAndBuildNewContainer,
   errs,
   eventTracking,
-  helpCards,
   isTabNameValid,
   keypather,
   loading,
@@ -29,7 +28,6 @@ function SetupMirrorServerModalController(
   TAB_VISIBILITY
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
-  SMC.helpCards = helpCards;
   SMC.ahaGuide = ahaGuide;
 
   var parentController = $controller('ServerModalController as SMC', { $scope: $scope });

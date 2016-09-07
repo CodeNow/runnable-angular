@@ -15,7 +15,6 @@ function NewContainerModalController(
   fetchOwnerRepos,
   fetchRepoDockerfiles,
   getNewForkName,
-  helpCards,
   keypather,
   loading,
   ModalService,
@@ -23,10 +22,8 @@ function NewContainerModalController(
   currentOrg
 ) {
   var MC = this;
-  var helpCard = helpCards.getActiveCard();
   angular.extend(MC, {
     name: 'newContainerModal',
-    servicesActive: keypather.get(helpCard, 'id') === 'missingDependency',
     state: {
       tabName: 'repos',
       dockerfile: null,

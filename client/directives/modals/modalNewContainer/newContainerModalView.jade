@@ -33,7 +33,6 @@
             ng-disabled = "$root.isLoading[MC.name + 'SingleRepo']"
             ng-class = "{\
               'active': MC.state.tabName === 'services', \
-              'btn-hint': MC.servicesActive, \
               'disabled': $root.isLoading[MC.name + 'SingleRepo'] \
             }"
             ng-click = "!$root.isLoading[MC.name + 'SingleRepo'] && MC.changeTab('services')"

@@ -1,4 +1,4 @@
-/*global runnable:true, mocks: true, directiveTemplate: true, xdescribe: true, helpCardsMock */
+/*global runnable:true, mocks: true, directiveTemplate: true, xdescribe: true */
 'use strict';
 
 describe('editServerModalController'.bold.underline.blue, function () {
@@ -72,10 +72,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
     };
 
     angular.mock.module('app', function ($provide) {
-      $provide.factory('helpCards', function () {
-        ctx.helpCards = helpCardsMock.create(ctx)($q);
-        return ctx.helpCards;
-      });
       $provide.factory('fetchUser', mockUserFetch.autoTrigger(ctx.fakeOrg1));
       $provide.factory('createBuildFromContextVersionId', function () {
         ctx.createBuildFromContextVersionId = sinon.stub().returns($q.when(ctx.build));
@@ -387,7 +383,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
         sinon.assert.called(ctx.loadingPromiseMock.finished);
         expect(SMC.state.ports).to.be.ok;
         sinon.assert.notCalled(ctx.build.build);
-        sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
         sinon.assert.notCalled(ctx.instance.update);
         sinon.assert.notCalled(ctx.instance.redeploy);
       });
@@ -412,7 +407,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
         sinon.assert.called(ctx.loadingPromiseMock.finished);
         expect(SMC.state.ports).to.be.ok;
         sinon.assert.calledOnce(ctx.build.build);
-        sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
         sinon.assert.calledOnce(ctx.instance.update);
         sinon.assert.notCalled(ctx.instance.redeploy);
         sinon.assert.called(ctx.loadingPromiseMock.clear);
@@ -443,8 +437,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
         sinon.assert.calledOnce(ctx.build.build);
         $scope.$digest();
         expect(SMC.state.opts.build).to.be.ok;
-        $scope.$digest();
-        sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
         $scope.$digest();
 
         sinon.assert.calledOnce(ctx.instance.update);
@@ -477,7 +469,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $scope.$digest();
         sinon.assert.calledOnce(ctx.build.build);
         expect(SMC.state.opts.build).to.be.ok;
-        sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
         sinon.assert.calledOnce(ctx.instance.update);
         sinon.assert.notCalled(ctx.instance.redeploy);
       });
@@ -655,7 +646,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $scope.$digest();
         expect(SMC.state.opts.build).to.be.ok;
         $scope.$digest();
-        sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
         $scope.$digest();
 
         sinon.assert.calledOnce(ctx.instance.update);
@@ -687,7 +677,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
         $scope.$digest();
         sinon.assert.calledOnce(ctx.build.build);
         expect(SMC.state.opts.build).to.be.ok;
-        sinon.assert.calledOnce(ctx.helpCards.refreshActiveCard);
         sinon.assert.calledOnce(ctx.instance.update);
         sinon.assert.notCalled(ctx.instance.redeploy);
       });
@@ -1321,21 +1310,6 @@ describe('editServerModalController'.bold.underline.blue, function () {
       SMC.state.opts.env = ['asdasd=123', 'asdasdas=1'];
       $scope.$digest();
       sinon.assert.calledOnce(ctx.updateDockerfileFromStateMock);
-    });
-  });
-
-  describe('Help Cards', function () {
-
-    beforeEach(function () {
-      setup({
-        currentModel: ctx.instance,
-        selectedTab: 'env'
-      });
-    });
-
-    it('should set the help cards to the scope, depending on the instances', function () {
-      $scope.$digest();
-      expect(ctx.helpCards.getActiveCard()).to.equal('abc');
     });
   });
 
