@@ -191,12 +191,10 @@ function ControllerInstances(
     }, {});
     var instanceBranchName = instance.getBranchName();
     childInstances[instanceBranchName] = instanceBranchName;
-
     var unbuiltBranches = branches.models.filter(function (branch) {
       branchName = keypather.get(branch, 'attrs.name');
       return !childInstances[branchName];
     });
-
     return unbuiltBranches;
   };
 
@@ -274,8 +272,11 @@ function ControllerInstances(
       .catch(errs.handler);
   };
 
-  this.setAutofork = function() {
-    var shouldNotAutofork = CIS.poppedInstance.attrs.shouldNotAutofork = !CIS.poppedInstance.attrs.shouldNotAutofork;
-    promisify(CIS.poppedInstance, 'update')({shouldNotAutofork: shouldNotAutofork});
+  this.setAutofork = function () {
+    CIS.poppedInstance.attrs.shouldNotAutofork = !CIS.poppedInstance.attrs.shouldNotAutofork;
+    promisify(CIS.poppedInstance, 'update')({ shouldNotAutofork: CIS.poppedInstance.attrs.shouldNotAutofork })
+      .catch(function () {
+        CIS.poppedInstance.attrs.shouldNotAutofork = !CIS.poppedInstance.attrs.shouldNotAutofork;
+      });
   };
 }
