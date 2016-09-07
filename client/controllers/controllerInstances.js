@@ -224,8 +224,8 @@ function ControllerInstances(
   };
 
   this.setAutofork = function () {
-    var shouldNotAutofork = CIS.poppedInstance.attrs.shouldNotAutofork = !CIS.poppedInstance.attrs.shouldNotAutofork;
-    promisify(CIS.poppedInstance, 'update')({shouldNotAutofork: shouldNotAutofork});
+    CIS.poppedInstance.attrs.shouldNotAutofork = !CIS.poppedInstance.attrs.shouldNotAutofork;
+    promisify(CIS.poppedInstance, 'update')({ shouldNotAutofork: CIS.poppedInstance.attrs.shouldNotAutofork });
   };
 
 }
