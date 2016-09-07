@@ -22,12 +22,15 @@ function AhaGuideController(
   });
 
   var buildLogListener = $scope.$on('buildStatusUpdated', function(event, buildStatus) {
+    console.log(buildStatus);
     handleBuildUpdate(buildStatus);
   });
 
-  $scope.$on('exitedEarly', function() {
-    AGC.showError = true;
-    updateCaption('exitedEarly');
+  $scope.$on('exitedEarly', function(event, didExitEarly) {
+    if (didExitEarly) {
+      AGC.showError = true;
+      updateCaption('exitedEarly');
+    }
   });
 
   var tabListener = $scope.$on('updatedTab', function(event, tabName) {
