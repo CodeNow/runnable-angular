@@ -53,7 +53,7 @@ function ahaGuide(
     title: 'Add your First Repository',
     subSteps: {
       addRepository: {
-        caption: 'Add your repository by clicking ‘Add Configuration’.',
+        caption: 'Add a repository by clicking ‘Add Template’.',
         className: 'aha-meter-10',
         step: 0
       },
