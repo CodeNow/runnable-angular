@@ -1,19 +1,26 @@
 .popover.menu.right.popover-template-menu(
   ng-class = "{'in': active}"
+  ng-init = "state.tab = 'repo'"
   ng-style = "popoverStyle.getStyle()"
 )
   .arrow.gray(
     style = "top: 39px;"
   )
   .grid-block.popover-header
-    btn.grid-block.align-center.justify-center.btn.btn-radio.active
+    btn.grid-block.align-center.btn.btn-radio(
+      ng-class = "{'active': state.tab === 'repo'}"
+      ng-click = "state.tab = 'repo'"
+    )
       svg.iconnables.grid-block.shrink
         use(
           xlink:href = "#icons-new-repository-server"
         )
       .grid-block.vertical.shrink Repository
-        .small From your GH org
-    btn.grid-block.align-center.justify-center.btn.btn-radio
+        .small From your org
+    btn.grid-block.align-center.btn.btn-radio(
+      ng-class = "{'active': state.tab === 'nonRepo'}"
+      ng-click = "state.tab = 'nonRepo'"
+    )
       svg.iconnables.grid-block.shrink
         use(
           xlink:href = "#icons-server-new"
@@ -21,6 +28,7 @@
       .grid-block.vertical.shrink Non-Repository
         .small For services & DBs
   .popover-content(
+    ng-if = "state.tab === 'repo'"
     ng-init = "state.branchesLoaded = null"
   )
     .spinner-wrapper.spinner-sm.spinner-gray.spinner-center(
@@ -112,6 +120,63 @@
           ) Updated 3 days ago
 
         button.grid-block.shrink.btn.btn-xs.btn-icon.btn-add
+          svg.iconnables.icons-add
+            use(
+              xlink:href = "#icons-add"
+            )
+  .popover-content(
+    ng-if = "state.tab === 'nonRepo'"
+    ng-init = "state.servicesLoaded = null"
+  )
+    .spinner-wrapper.spinner-sm.spinner-gray.spinner-center(
+      ng-click = "state.servicesLoaded = true"
+      ng-if = "!state.servicesLoaded"
+      ng-include = "'spinner'"
+    )
+    .padding-xxs(
+      ng-if = "state.servicesLoaded"
+    )
+      input.input.input-xs.input-search(
+        ng-disabled = "state.loading"
+        placeholder = "Filter"
+        required
+        type = "search"
+      )
+    ul.list.popover-list(
+      ng-if = "state.servicesLoaded"
+    )
+      li.grid-block.align-center.list-item.popover-list-item.multi-line
+        img.grid-content.shrink.img(
+          height = "24"
+          ng-src = "/build/images/logos/logo-icon-cassandra.png"
+          width = "24"
+        )
+        .grid-content Cassandra
+        button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add
+          svg.iconnables.icons-add
+            use(
+              xlink:href = "#icons-add"
+            )
+      li.grid-block.align-center.list-item.popover-list-item.multi-line
+        img.grid-content.shrink.img(
+          height = "24"
+          ng-src = "/build/images/logos/logo-icon-consul-server.png"
+          width = "24"
+        )
+        .grid-content Consul-Server
+        button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add
+          svg.iconnables.icons-add
+            use(
+              xlink:href = "#icons-add"
+            )
+      li.grid-block.align-center.list-item.popover-list-item.multi-line
+        img.grid-content.shrink.img(
+          height = "24"
+          ng-src = "/build/images/logos/logo-icon-elasticsearch.png"
+          width = "24"
+        )
+        .grid-content ElasticSearch
+        button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add
           svg.iconnables.icons-add
             use(
               xlink:href = "#icons-add"
