@@ -28,7 +28,8 @@ function EnvironmentController(
   var EC = this;
 
   EC.showInviteButton = false;
-  EC.ahaGuide = ahaGuide;
+  EC.isAddingFirstRepo = ahaGuide.isAddingFirstRepo;
+  EC.isInGuide = ahaGuide.isInGuide;
   EC.showCreateTemplate = true;
   EC.showOverview = true;
   EC.toggleSidebar = function () {
