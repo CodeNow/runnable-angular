@@ -156,6 +156,18 @@ function SetupMirrorServerModalController(
       });
   };
 
+  SMC.handleInstanceUpdate = function () {
+    var buildStatus = SMC.state.instance.status();
+    var containerHostname = SMC.state.instance.getContainerHostname();
+    $rootScope.$broadcast('buildStatusUpdated', {
+      status: buildStatus,
+      containerHostname: containerHostname
+    });
+    if (buildStatus === 'running') {
+      SMC.page = 'run';
+    }
+  };
+
   SMC.createServer = function () {
     // Wait until all changes to the context version have been resolved before
     // creating a build with that context version
@@ -179,17 +191,7 @@ function SetupMirrorServerModalController(
         if (instance) {
           SMC.instance = instance;
           SMC.state.instance = instance;
-          SMC.state.instance.on('update', function() {
-            var buildStatus = SMC.state.instance.status();
-            var containerHostname = SMC.state.instance.getContainerHostname();
-            $rootScope.$broadcast('buildStatusUpdated', {
-              status: buildStatus,
-              containerHostname: containerHostname
-            });
-            if (buildStatus === 'running') {
-              SMC.page = 'run';
-            }
-          });
+          SMC.state.instance.on('update', SMC.handleInstanceUpdate);
           // Reset the opts, in the same way as `EditServerModalController`
           SMC.state.opts  = {
             env: keypather.get(instance, 'attrs.env') || [],
