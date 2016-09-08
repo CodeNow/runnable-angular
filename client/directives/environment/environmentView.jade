@@ -42,7 +42,7 @@
 
 //- environment page
 .grid-block.environment-wrapper(
-  ng-class = "{'empty': EC.ahaGuide.getCurrentStep() === EC.ahaGuide.steps.ADD_FIRST_REPO && data.instances.models.length === 0}"
+  ng-class = "{'empty': EC.ahaGuide.isAddingFirstRepo() && data.instances.models.length === 0}"
 )
   header.grid-block.align-center.environment-header(
     ng-include = "'viewEnvironmentHeader'"

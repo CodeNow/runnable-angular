@@ -4,7 +4,7 @@
 )
 
 .grid-block.align-center(
-  ng-if = "AGC.ahaGuide.getCurrentStep() === AGC.ahaGuide.steps.ADD_FIRST_REPO"
+  ng-if = "AGC.ahaGuide.isAddingFirstRepo()"
   ng-include = "'setUpRepositoryGuideView'"
 )
 

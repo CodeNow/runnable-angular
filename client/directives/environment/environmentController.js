@@ -100,12 +100,12 @@ function EnvironmentController(
   $scope.data = { };
   $scope.data.instances = instancesByPod;
 
-  if (ahaGuide.getCurrentStep() === ahaGuide.steps.ADD_FIRST_REPO && instancesByPod.models.length === 0) {
+  if (ahaGuide.isAddingFirstRepo() && instancesByPod.models.length === 0) {
     EC.showCreateTemplate = false;
     EC.showSidebar = true;
   }
 
-  var isAddFirstRepo = ahaGuide.getCurrentStep() ===  ahaGuide.steps.ADD_FIRST_REPO;
+  var isAddFirstRepo = ahaGuide.isAddingFirstRepo();
   // Asynchronously fetch the Dockerfile and check for working instances
   instancesByPod.forEach(function (instance) {
     if (instance.attrs.build.successful && instance.getRepoName() && isAddFirstRepo) {
