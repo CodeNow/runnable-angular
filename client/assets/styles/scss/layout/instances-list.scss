@@ -11,6 +11,18 @@
   position: relative;
   width: $instance-list-width;
 
+  .btn-xs.gray {
+    border-color: #eee;
+    color: #a1a1a1;
+    font-size: 12px;
+    font-weight: 400;
+    height: 20px;
+    padding: 0 4px;
+    right: -6px;
+    top: 1px;
+    width: auto;
+  }
+
   &.in {
     display: block;
   }
