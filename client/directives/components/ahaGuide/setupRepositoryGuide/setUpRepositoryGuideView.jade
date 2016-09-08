@@ -23,13 +23,11 @@
 .grid-block.vertical.aha-text
   p.p.small.text-gray-light {{ AGC.title }}
   p.p(
-    ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
     ng-if = "$root.featureFlags.aha && !AGC.showError"
   ) {{ AGC.caption }}
 
   //- Step 8:
   p.p(
-    ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
     ng-if = "AGC.subStep === 7"
   )
     | {{!AGC.showError ? 'We‘re building! Build time varies depending on your template.' : ''}}
@@ -51,7 +49,6 @@
 
   //- Step 9:
   p.p(
-    ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
     ng-if = "AGC.subStep === 8 && !AGC.showError"
   ) Looking good! Check out your URL, and click ‘Done’ if it looks good to you too.
 
