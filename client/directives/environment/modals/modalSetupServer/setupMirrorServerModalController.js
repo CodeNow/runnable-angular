@@ -40,6 +40,7 @@ function SetupMirrorServerModalController(
     'getElasticHostname': parentController.getElasticHostname.bind(SMC),
     'getNumberOfOpenTabs': parentController.getNumberOfOpenTabs.bind(SMC),
     'getUpdatePromise': parentController.getUpdatePromise.bind(SMC),
+    'handleInstanceUpdate': parentController.handleInstanceUpdate.bind(SMC),
     'insertHostName': parentController.insertHostName.bind(SMC),
     'isDirty': parentController.isDirty.bind(SMC),
     'openDockerfile': parentController.openDockerfile.bind(SMC),
@@ -154,18 +155,6 @@ function SetupMirrorServerModalController(
       .finally(function () {
         loading(SMC.name, false);
       });
-  };
-
-  SMC.handleInstanceUpdate = function () {
-    var buildStatus = SMC.state.instance.status();
-    var containerHostname = SMC.state.instance.getContainerHostname();
-    $rootScope.$broadcast('buildStatusUpdated', {
-      status: buildStatus,
-      containerHostname: containerHostname
-    });
-    if (buildStatus === 'running') {
-      SMC.page = 'run';
-    }
   };
 
   SMC.createServer = function () {
