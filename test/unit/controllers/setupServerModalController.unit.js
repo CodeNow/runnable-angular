@@ -47,7 +47,6 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   var showModalStub;
   var closeModalStub;
   var createAndBuildNewContainerMock;
-  var helpCardsMock;
 
   var instanceName = 'instanceName';
   var branches;
@@ -65,9 +64,6 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   var mockServerModalController;
 
   function initState(opts, replaceSMC, done) {
-    helpCardsMock = {
-      refreshAllCards: sinon.stub()
-    };
     errsMock = {
       handler: sinon.spy()
     };
@@ -112,7 +108,6 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       }
       $provide.value('errs', errsMock);
       $provide.factory('fetchStackAnalysis', fetchStackAnalysisMock.fetch());
-      $provide.value('helpCards', helpCardsMock);
       $provide.factory('fetchUser', mockUserFetch.autoTrigger(org1));
       $provide.factory('fetchInstancesByPod', function ($q) {
         fetchInstancesByPodStub = sinon.stub().returns($q.when(instances));

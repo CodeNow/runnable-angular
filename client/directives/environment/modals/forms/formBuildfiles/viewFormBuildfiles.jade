@@ -1,18 +1,3 @@
-.help-container(
-  ng-if = "SMC.helpCards.getActiveCard().helpPopover.containerFiles"
-)
-  .help
-    button.btn.btn-xs.btn-icon(
-      ng-click = "SMC.helpCards.hideActiveCard()"
-    )
-      svg.iconnables.icons-close
-        use(
-          xlink:href = "#icons-close"
-        )
-    span(
-      ng-bind-html = "SMC.helpCards.getActiveCard().helpPopover.containerFiles"
-    )
-
 .grid-block.shrink.align-center.well.well-600.gray.can-disable.padding-sm(
   ng-if = "!SMC.state.advanced"
 )

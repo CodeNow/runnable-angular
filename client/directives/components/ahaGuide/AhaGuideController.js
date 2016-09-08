@@ -8,12 +8,20 @@ function AhaGuideController(
   $scope,
   $rootScope,
   ahaGuide,
-  currentOrg
+  currentOrg,
+  fetchInstancesByPod,
+  keypather
 ) {
-
   var AGC = this;
 
-  var alertListener = $scope.$on('alert', function(event, alert) {
+  AGC.instances = null;
+  fetchInstancesByPod()
+    .then(function (instances) {
+      AGC.instances = instances;
+      updateCaption(AGC.subStep);
+    });
+
+  var alertListener = $scope.$on('alert', function (event, alert) {
     // alerts on container creation success
     if (alert.type === 'success') {
       updateCaption('logs');
@@ -41,7 +49,6 @@ function AhaGuideController(
     }
   });
 
-  AGC.hideMenu = false;
   AGC.isBuildSuccessful = false;
   AGC.ahaGuide = ahaGuide;
 
@@ -49,8 +56,7 @@ function AhaGuideController(
   var currentMilestone = ahaGuide.stepList[ahaGuide.getCurrentStep()];
 
   AGC.title = currentMilestone.title;
-  AGC.caption = currentMilestone.subSteps[AGC.subStep].caption;
-  AGC.className = currentMilestone.subSteps[AGC.subStep].className;
+  updateCaption(AGC.subStep);
 
   // update steps and initiate digest loop
   function updateCaption(status) {
@@ -59,6 +65,9 @@ function AhaGuideController(
     }
     if (status === 'dockLoaded') {
       $rootScope.animatedPanelListener();
+    }
+    if (ahaGuide.getCurrentStep() === ahaGuide.steps.ADD_FIRST_REPO && keypather.get(AGC, 'instances.models.length') > 0 && status !== 'complete') {
+      status = 'hasContainer';
     }
     AGC.subStep = status;
     AGC.subStepIndex = currentMilestone.subSteps[status].step;
@@ -73,9 +82,9 @@ function AhaGuideController(
     } else if (buildStatus === 'starting') {
       AGC.showError = false;
     } else if (buildStatus === 'running') {
-        AGC.isBuildSuccessful = true;
-        updateCaption('success');
-        $rootScope.$broadcast('exitedEarly', false);
+      AGC.isBuildSuccessful = true;
+      updateCaption('success');
+      $rootScope.$broadcast('exitedEarly', false);
     }
     updateBuildStatus(buildStatus);
   }
@@ -91,7 +100,7 @@ function AhaGuideController(
     $rootScope.animatedPanelListener();
   }
 
-  $scope.$on('$destroy', function() {
+  $scope.$on('$destroy', function () {
     if ($rootScope.animatedPanelListener) {
       $rootScope.animatedPanelListener();
     }

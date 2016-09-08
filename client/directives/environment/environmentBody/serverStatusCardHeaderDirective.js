@@ -8,7 +8,6 @@ require('app')
 function serverStatusCardHeader(
   $rootScope,
   errs,
-  helpCards,
   ModalService,
   promisify
 ) {
@@ -63,7 +62,6 @@ function serverStatusCardHeader(
                       });
                     })
                     .catch(errs.handler);
-                  helpCards.refreshAllCards();
                 }
                 return confirmed;
               });

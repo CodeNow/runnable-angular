@@ -29,11 +29,11 @@
     ng-if = "!AGC.showError"
   )
     use(
-      ng-if = "AGC.ahaGuide.getCurrentStep() === AGC.ahaGuide.steps.ADD_FIRST_REPO && AGC.subStep !== 'complete'"
+      ng-if = "ASC.getCurrentStep() === ASC.steps.CHOOSE_ORGANIZATION && AGC.subStep !== 'complete' && AGC.subStep !== 'hasContainer'"
       xlink:href = "#icons-octicons-repo"
     )
     use(
-      ng-if = "AGC.subStep === 'complete' || AGC.ahaGuide.getCurrentStep() > AGC.ahaGuide.steps.ADD_FIRST_REPO"
+      ng-if = "AGC.subStep === 'complete' || AGC.subStep === 'hasContainer'"
       xlink:href = "#icons-check"
     )
   svg.iconnables.icons-alert(
@@ -102,7 +102,6 @@
 )
   p.p.small.text-gray-light {{ AGC.title }}
   p.p(
-    ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
     ng-if = "$root.featureFlags.aha && !AGC.showError"
   ) {{ AGC.caption }}
 
@@ -130,7 +129,6 @@
 
   //- Step 9:
   p.p(
-    ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
     ng-if = "AGC.subStep === 8 && !AGC.showError"
   ) Looking good! Check out your URL, and click ‘Done’ if it looks good to you too.
 

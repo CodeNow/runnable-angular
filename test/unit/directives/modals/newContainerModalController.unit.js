@@ -11,7 +11,6 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
   var keypather;
 
   // Stubs
-  var helpCardsStub;
   var errsStub;
   var createNewBuildAndFetchBranch;
   var createNonRepoInstanceStub;
@@ -33,9 +32,6 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
   var mockCurrentOrg;
 
   function initState () {
-    helpCardsStub = {
-      getActiveCard: sinon.stub()
-    };
     errsStub = {
       handler: sinon.spy()
     };
@@ -54,7 +50,6 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
         getCurrentSteop: sinon.stub()
       });
       $provide.value('errs', errsStub);
-      $provide.value('helpCards', helpCardsStub);
       $provide.factory('fetchInstancesByPod', function ($q) {
         fetchInstancesByPodStub = sinon.stub().returns($q.when(instances));
         return fetchInstancesByPodStub;

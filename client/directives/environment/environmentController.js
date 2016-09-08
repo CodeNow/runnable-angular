@@ -14,16 +14,15 @@ function EnvironmentController(
   $scope,
   $state,
   $timeout,
-  $window,
   ahaGuide,
   currentOrg,
   favico,
   fetchDockerfileForContextVersion,
   fetchOrgMembers,
   fetchUser,
-  helpCards,
   keypather,
   ModalService,
+
   pageName,
   instancesByPod
 ) {
@@ -39,7 +38,7 @@ function EnvironmentController(
   };
   $scope.$on('show-aha-sidebar', EC.toggleSidebar);
 
-  $scope.$on('exitedEarly', function(event, didExitEarly) {
+  $scope.$on('exitedEarly', function (event, didExitEarly) {
     EC.showExitedEarly = didExitEarly;
     if (!didExitEarly) {
       $rootScope.$broadcast('launchAhaNavPopover');
@@ -53,7 +52,7 @@ function EnvironmentController(
   });
   $scope.$on('$destroy', unbindUpdateTeammateInvitation);
 
-  function updateShowInviteButton () {
+  function updateShowInviteButton() {
     return $q.all({
       user: fetchUser(),
       members: fetchOrgMembers($state.params.userName)
@@ -99,9 +98,7 @@ function EnvironmentController(
   $scope.$state = $state;
   favico.reset();
   pageName.setTitle('Configure - Runnable');
-  $scope.data = {
-    helpCards: helpCards
-  };
+  $scope.data = { };
   $scope.data.instances = instancesByPod;
 
   if (ahaGuide.getCurrentStep() === ahaGuide.steps.ADD_FIRST_REPO && instancesByPod.models.length === 0) {
@@ -129,40 +126,10 @@ function EnvironmentController(
     validation: {
       env: {}
     },
-    helpCard: null,
     newServerButton: {
       active: false
     }
   };
-
-  $scope.help = helpCards.cards;
-  $scope.helpCards = helpCards;
-
-  helpCards.clearAllCards();
-
-  $scope.helpUndock = false;
-
-  var scrollHelper = function () {
-    var newVal = false;
-    if ($window.scrollY > 60) {
-      newVal = true;
-    }
-    if ($scope.helpUndock !== newVal) {
-      $scope.helpUndock = newVal;
-      $timeout(angular.noop);
-    }
-  };
-  $scope.$on('helpCardScroll:enable', function () {
-    $window.addEventListener('scroll', scrollHelper);
-    scrollHelper();
-  });
-  $scope.$on('helpCardScroll:disable', function () {
-    $window.removeEventListener('scroll', scrollHelper);
-  });
-
-  $scope.$on('$destroy', function () {
-    $window.removeEventListener('scroll', scrollHelper);
-  });
 
   EC.alert = null;
 
@@ -190,19 +157,6 @@ function EnvironmentController(
           subTab: 'billingForm'
         }
       });
-    }
-  };
-
-  $scope.helpPopover = {
-    data: $scope.help,
-    actions: {
-      ignoreHelp: function (help) {
-        helpCards.ignoreCard(help);
-      },
-      getHelp: function (help) {
-        helpCards.setActiveCard(help);
-        $rootScope.$broadcast('close-popovers');
-      }
     }
   };
 
