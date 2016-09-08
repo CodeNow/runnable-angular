@@ -5,7 +5,7 @@
 )
 
 .grid-block.vertical.instance(
-  ng-if = "!isLoading.main"
+  ng-if = "!isLoading.main && !$root.featureFlags.containersViewEmptyState"
 )
   .grid-block.vertical
     //- show if server build is being swapped out

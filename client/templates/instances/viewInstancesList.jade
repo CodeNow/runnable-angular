@@ -26,7 +26,9 @@ p.p.text-center.text-gray-light.padding-sm(
       pop-over-template = "templateMenuPopoverView"
     ) Create Template
 
-  .list-item-cluster
+  .list-item-cluster(
+    ng-if = "!$root.featureFlags.containersViewEmptyState"
+  )
     .grid-block.list-containers.vertical.text-overflow.open
       //- master repository containers
       .grid-block(
@@ -44,8 +46,15 @@ p.p.text-center.text-gray-light.padding-sm(
         ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:false | orderBy: ['attrs.name'] as nonRepoInstances track by masterInstance.attrs.name"
       )
 
+.well.text-center(
+  ng-if = "$root.featureFlags.containersViewEmptyState"
+) 😐
+  br
+  .small You don’t have any templates. Click the button above to create one.
+
 //- branch clusters
 .list-clusters(
+  ng-if = "!$root.featureFlags.containersViewEmptyState"
   ng-repeat = "masterInstance in CIS.instancesByPod | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
   ng-show = "CIS.shouldShowParent(masterInstance)"
 )

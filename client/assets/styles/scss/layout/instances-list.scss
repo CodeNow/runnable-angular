@@ -37,30 +37,9 @@
   > .well {
     background: $white;
     border-color: $gray-lighter;
-    margin-bottom: 15px;
-    padding-left: 30px;
-    padding-right: 30px;
-    position: relative;
-
-    .icons-branch {
-      flex: 0 0 30px;
-      height: 30px;
-    }
-
-    // 'x' button
-    .btn-xs {
-      color: $gray-light;
-      height: 18px;
-      position: absolute;
-      right: 12px;
-      top: 12px;
-      width: 18px;
-
-      &:hover,
-      &:active {
-        color: $red;
-      }
-    }
+    font-size: 21px;
+    margin-top: 3px;
+    padding: 15px 24px 24px;
   }
 
   .a-sref {
