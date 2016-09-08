@@ -60,7 +60,7 @@ function popOver(
           if (!$scope.active) {
             return previousStyle;
           }
-          if (!isLoaded) {
+          if (!isLoaded && $scope.popoverOptions.canOffset) {
             $scope.popoverOptions.verticallyCentered = true;
           } else if ($scope.popoverOptions.offsetYTop || $scope.popoverOptions.offsetYBottom) {
             $scope.popoverOptions.verticallyCentered = false;
