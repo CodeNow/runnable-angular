@@ -26,6 +26,7 @@ function featureFlags(
     cardStatus: false,
     connections: false,
     configTerminal: false, // flag for terminal in config view
+    containersViewTemplateControls: false,
     dockerfileMirroringMultiple: false,
     editAnyInstance: false,
     emptyFolder: false, // shows empty folder markup
