@@ -1,15 +1,19 @@
 .popover.menu.right.popover-template-menu(
   ng-class = "{'in': active}"
-  ng-init = "state.tab = 'repo'"
+  ng-init = "\
+    state.tab = 'repo';\
+    state.loading = null;\
+  "
   ng-style = "popoverStyle.getStyle()"
 )
   .arrow.gray(
     style = "top: 39px;"
   )
   .grid-block.popover-header
-    btn.grid-block.align-center.btn.btn-radio(
+    button.grid-block.align-center.btn.btn-radio(
       ng-class = "{'active': state.tab === 'repo'}"
       ng-click = "state.tab = 'repo'"
+      ng-disabled = "state.tab !== 'repo'&& state.loading"
     )
       svg.iconnables.grid-block.shrink
         use(
@@ -17,9 +21,10 @@
         )
       .grid-block.vertical.shrink Repository
         .small From your org
-    btn.grid-block.align-center.btn.btn-radio(
+    button.grid-block.align-center.btn.btn-radio(
       ng-class = "{'active': state.tab === 'nonRepo'}"
       ng-click = "state.tab = 'nonRepo'"
+      ng-disabled = "state.tab !== 'nonRepo'&& state.loading"
     )
       svg.iconnables.grid-block.shrink
         use(
@@ -52,7 +57,10 @@
     ul.list.popover-list(
       ng-if = "state.branchesLoaded"
     )
-      li.grid-block.align-center.list-item.popover-list-item.multi-line
+      li.grid-block.align-center.list-item.popover-list-item.multi-line(
+        ng-class = "{'disabled': state.loading}"
+        ng-click = "state.loading = !state.loading"
+      )
         .grid-block.vertical
           .grid-content button-clicker
           .grid-block(
@@ -71,12 +79,20 @@
             ng-if = "!$root.featureFlags.inviteFlows"
           ) Updated 3 days ago
 
-        button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add
+        button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add(
+          ng-if = "!state.loading"
+        )
           svg.iconnables.icons-add
             use(
               xlink:href = "#icons-add"
             )
-      li.grid-block.align-center.list-item.popover-list-item.multi-line
+        .grid-content.shrink.spinner-wrapper.spinner-sm.spinner-gray(
+          ng-if = "state.loading"
+          ng-include = "'spinner'"
+        )
+      li.grid-block.align-center.list-item.popover-list-item.multi-line(
+        ng-class = "{'disabled': state.loading}"
+      )
         .grid-block.vertical
           .grid-content api
           .grid-block(
@@ -100,7 +116,9 @@
             use(
               xlink:href = "#icons-add"
             )
-      li.grid-block.align-center.list-item.popover-list-item.multi-line
+      li.grid-block.align-center.list-item.popover-list-item.multi-line(
+        ng-class = "{'disabled': state.loading}"
+      )
         .grid-block.vertical
           .grid-content runnable.com
           .grid-block(
@@ -145,19 +163,30 @@
     ul.list.popover-list(
       ng-if = "state.servicesLoaded"
     )
-      li.grid-block.align-center.list-item.popover-list-item.multi-line
+      li.grid-block.align-center.list-item.popover-list-item.multi-line(
+        ng-class = "{'disabled': state.loading}"
+        ng-click = "state.loading = !state.loading"
+      )
         img.grid-content.shrink.img(
           height = "24"
           ng-src = "/build/images/logos/logo-icon-cassandra.png"
           width = "24"
         )
         .grid-content Cassandra
-        button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add
+        button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add(
+          ng-if = "!state.loading"
+        )
           svg.iconnables.icons-add
             use(
               xlink:href = "#icons-add"
             )
-      li.grid-block.align-center.list-item.popover-list-item.multi-line
+        .grid-content.shrink.spinner-wrapper.spinner-sm.spinner-gray(
+          ng-if = "state.loading"
+          ng-include = "'spinner'"
+        )
+      li.grid-block.align-center.list-item.popover-list-item.multi-line(
+        ng-class = "{'disabled': state.loading}"
+      )
         img.grid-content.shrink.img(
           height = "24"
           ng-src = "/build/images/logos/logo-icon-consul-server.png"
@@ -169,7 +198,9 @@
             use(
               xlink:href = "#icons-add"
             )
-      li.grid-block.align-center.list-item.popover-list-item.multi-line
+      li.grid-block.align-center.list-item.popover-list-item.multi-line(
+        ng-class = "{'disabled': state.loading}"
+      )
         img.grid-content.shrink.img(
           height = "24"
           ng-src = "/build/images/logos/logo-icon-elasticsearch.png"
