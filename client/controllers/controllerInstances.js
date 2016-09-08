@@ -202,9 +202,11 @@ function ControllerInstances(
     var sha = branch.attrs.commit.sha;
     var loadingName = 'buildingForkedBranch' + branch.attrs.name;
     loading(loadingName, true);
+    loading('buildingForkedBranch', true);
     promisify(CIS.poppedInstance, 'fork')(branch.attrs.name, sha)
       .then(function () {
         loading(loadingName, false);
+        loading('buildingForkedBranch', false);
         closePopover();
       });
   };

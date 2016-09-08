@@ -2,7 +2,13 @@
   ng-class = "{'in': active}"
   ng-style = "popoverStyle.getStyle()"
 )
-  .arrow.white
+  .arrow.white(
+    ng-class = "{\
+      'offset-top': $parent.CIS.instanceBranches && $parent.popoverOptions.offsetYTop,\
+      'offset-bottom': $parent.CIS.instanceBranches && $parent.popoverOptions.offsetYBottom,\
+      'partial-offset': !$parent.CIS.instanceBranches && $parent.popoverOptions.offsetYTop,\
+    }"
+  )
   .grid-block.vertical.popover-content.empty(
     ng-if = "$root.featureFlags.autoIsolationSetup"
   )
@@ -107,6 +113,7 @@
                 )
                 .toggle-group.toggle-sm
             input.input.input-xs.input-search(
+              ng-disabled = "$root.isLoading['buildingForkedBranch']"
               ng-model = "CIS.branchQuery"
               placeholder = "Filter"
               required
@@ -116,6 +123,7 @@
             ng-if = "CIS.instanceBranches.length"
           )
             li.list-item.popover-list-item(
+              ng-class = "{'disabled': $root.isLoading[\'buildingForkedBranch\']}"
               ng-repeat = "branch in CIS.getFilteredBranches()"
               ng-click = "CIS.forkBranchFromInstance(branch, POC.closePopover);"
             ) {{ branch.attrs.name }}

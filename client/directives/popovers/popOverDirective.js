@@ -129,6 +129,26 @@ function popOver(
             bottom: event.pageY
           }
         };
+        // here we offset the popover. if the first time it is set into a specific position, it will
+        // have the offsetY property. the next time the popover is opened away from a viewport edge zone,
+        // set it to vertically centered.
+        if (event.currentTarget.className.includes('can-offset')) {
+          if (keypather.get($scope, 'popoverOptions.verticallyCentered')) {
+            if ($scope.options.mouse.top < 164) {
+              $scope.popoverOptions.verticallyCentered = null;
+              $scope.popoverOptions.offsetYTop = true;
+            } else if ($scope.options.mouse.top > 1164) {
+              $scope.popoverOptions.verticallyCentered = null;
+              $scope.popoverOptions.offsetYBottom = true;
+              $scope.popoverOptions.top = -300
+            }
+          } else if ($scope.popoverOptions.offsetY) {
+            $scope.popoverOptions.verticallyCentered = true;
+            $scope.popoverOptions.offsetY = false;
+          }
+        }
+
+        console.log($scope.options);
         POC.openPopover($scope.options);
       }
       var trigger = attrs.popOverTrigger || 'click';

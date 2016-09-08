@@ -75,15 +75,18 @@
       border-bottom-width: 0;
       border-left-color: transparent;
       border-right-color: transparent;
-      bottom: -12px;
+      bottom: 0%;
       left: 50%;
       margin-left: -11px;
+      &.offset {
+
+      }
 
       &::after {
         border-bottom-width: 0;
         border-left-color: transparent;
         border-right-color: transparent;
-        bottom: 2px;
+        bottom: 0%;
         margin-left: -10px;
       }
     }
@@ -101,6 +104,15 @@
       left: -12px;
       margin-top: -12px;
       top: 50%;
+      &.offset-top {
+        top: 4%;
+      }
+      &.offset-bottom {
+        top: 94%;
+      }
+      &.partial-offset {
+      top: 14%
+      }
 
       &::after {
         border-bottom-color: transparent;

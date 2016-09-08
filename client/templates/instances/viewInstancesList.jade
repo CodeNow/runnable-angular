@@ -49,7 +49,7 @@ p.p.text-center.text-gray-light.padding-sm(
       title = "{{masterInstance.getName()}}"
     ) {{masterInstance.getName()}}
     //- '+' button for adding branches and configuring clusters
-    button.grid-block.shrink.btn.btn-xs.btn-icon.gray(
+    button.grid-block.shrink.btn.btn-xs.btn-icon.gray.can-offset(
       ng-class = "{'active': state.active}"
       ng-if = "$root.featureFlags.addBranches"
       ng-click = "CIS.popInstanceOpen(masterInstance)"
