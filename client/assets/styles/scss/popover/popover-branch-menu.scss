@@ -10,14 +10,18 @@
     padding-bottom: 21px;
   }
 
-  .well {
-    margin-bottom: 15px;
-  }
-
   .popover-content.popover-content {
     max-height: 360px;
     min-height: 90px;
     overflow-y: auto;
+  }
+
+  .well {
+    margin-bottom: 15px;
+  }
+
+  .popover-list-item {
+    padding-right: 9px;
   }
 
   // empty state
@@ -42,9 +46,7 @@
     }
 
     > .spinner-wrapper {
-      position: absolute;
-      right: 10px;
-      top: 10px;
+      padding: 4px;
     }
   }
 }
@@ -66,13 +68,13 @@
     padding: 9px;
     text-align: left;
 
+    + .btn-radio {
+      margin-left: 6px;
+    }
+
     .small {
       font-size: 12px;
       opacity: .6;
-    }
-
-    + .btn {
-      margin-left: 6px;
     }
 
     .iconnables {
@@ -80,17 +82,5 @@
       margin-right: 6px;
       width: 18px;
     }
-  }
-
-  .btn-add.btn-add.btn-add {
-    position: static;
-    right: auto;
-    top: auto;
-  }
-
-  .gravatar.gravatar {
-    margin: 0;
-    margin-right: 4px;
-    margin-top: 2px;
   }
 }

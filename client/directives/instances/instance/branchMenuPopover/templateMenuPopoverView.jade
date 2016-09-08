@@ -23,14 +23,14 @@
   .popover-content(
     ng-init = "state.branchesLoaded = null"
   )
-    //- .spinner-wrapper.spinner-sm.spinner-gray.spinner-center(
-    //-   ng-click = "state.branchesLoaded = true"
-    //-   ng-if = "!state.branchesLoaded"
-    //-   ng-include = "'spinner'"
-    //- )
-    .padding-xxs(
+    .spinner-wrapper.spinner-sm.spinner-gray.spinner-center(
+      ng-click = "state.branchesLoaded = true"
+      ng-if = "!state.branchesLoaded"
+      ng-include = "'spinner'"
     )
-      //- ng-if = "state.branchesLoaded"
+    .padding-xxs(
+      ng-if = "state.branchesLoaded"
+    )
       input.input.input-xs.input-search(
         ng-disabled = "state.loading"
         ng-if = "branch.length !== 0"
@@ -42,8 +42,8 @@
         ng-if = "branch.length === 0"
       ) There are no branches to add.
     ul.list.popover-list(
+      ng-if = "state.branchesLoaded"
     )
-      //- ng-if = "state.branchesLoaded"
       li.grid-block.align-center.list-item.popover-list-item.multi-line
         .grid-block.vertical
           .grid-content button-clicker
@@ -63,7 +63,7 @@
             ng-if = "!$root.featureFlags.inviteFlows"
           ) Updated 3 days ago
 
-        button.grid-block.shrink.btn.btn-xs.btn-icon.btn-add
+        button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add
           svg.iconnables.icons-add
             use(
               xlink:href = "#icons-add"
