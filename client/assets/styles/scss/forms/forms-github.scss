@@ -9,10 +9,17 @@
   }
 
   .btn .iconnables {
-    height: 21px;
-    margin-right: 6px;
-    top: 4px;
-    width: 21px;
+    height: 18px;
+    top: 2px;
+    width: 18px;
+
+    &:first-child {
+      margin-right: 6px;
+    }
+
+    &:last-child {
+      margin-left: 6px;
+    }
   }
 
   // the details text

@@ -47,7 +47,7 @@
         ng-if = "INC.instance.attrs.isIsolationGroupMaster"
       )
       li.list-item.popover-list-item(
-        internal-modal-helper = "confirmBranchRemoveView"
+        ng-click = "INC.removeBranch()"
         ng-if = "INC.instance.attrs.isIsolationGroupMaster"
       )
         svg.iconnables
@@ -70,7 +70,7 @@
             xlink:href = "#icons-gear"
           )
         | Configure Template
-        .small Affects all non-isolated [config-name] containers.
+        .small Affects all non-isolated {{ INC.instance.attrs.name }} containers.
 
     ul.list.popover-list(
       ng-if = "!INC.instance.attrs.masterPod"
@@ -125,14 +125,14 @@
           )
         | Delete from Isolation
       li.list-item.popover-list-item(
-        internal-modal-helper = "confirmBranchRemoveView"
+        ng-click = "INC.removeBranch()"
         ng-if = "!INC.instance.attrs.isolated"
       )
         svg.iconnables
           use(
             xlink:href = "#icons-delete"
           )
-        | Delete Branch
+        | Remove Branch
 
   .popover-content(
     ng-if = "!$root.featureFlags.addBranches && !$root.featureFlags.autoIsolation"

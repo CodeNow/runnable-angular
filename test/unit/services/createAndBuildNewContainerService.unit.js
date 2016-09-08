@@ -8,7 +8,6 @@ var runnable = window.runnable;
 var fetchInstancesByPodMock = new (require('../fixtures/mockFetch'))();
 var createNewInstanceMock = new (require('../fixtures/mockFetch'))();
 var createAndBuildNewContainer;
-var helpCardsMock = require('../apiMocks/HelpCardServiceMock');
 
 var thisUser = runnable.newUser(apiMocks.user);
 
@@ -64,7 +63,6 @@ describe('createAndBuildNewContainer'.bold.underline.blue, function () {
         ctx.fetchUserMock = sinon.stub().returns($q.when(ctx.fakeUser));
         return ctx.fetchUserMock;
       });
-      $provide.factory('helpCards', helpCardsMock.create(ctx));
       $provide.factory('fetchInstancesByPod', fetchInstancesByPodMock.fetch());
       $provide.factory('createNewInstance', createNewInstanceMock.fetch());
       $provide.factory('fetchPlan', function ($q) {
@@ -123,7 +121,6 @@ describe('createAndBuildNewContainer'.bold.underline.blue, function () {
         }
       }, { warn: false });
 
-      sinon.assert.calledOnce(ctx.helpCards.hideActiveCard);
       sinon.assert.calledOnce(instances.add);
       sinon.assert.calledOnce(ctx.eventTracking.triggeredBuild);
 
@@ -131,7 +128,6 @@ describe('createAndBuildNewContainer'.bold.underline.blue, function () {
       mockFetchPlan.returns($q.when({next: {id: '5678'}}));
       createNewInstanceMock.triggerPromise(instance);
       $rootScope.$digest();
-      sinon.assert.calledOnce(ctx.helpCards.refreshAllCards);
       sinon.assert.calledOnce(mockFetchPlan.cache.clear);
       sinon.assert.calledOnce(mockFetchPlan);
       sinon.assert.calledWith($rootScope.$broadcast, 'alert', {
@@ -189,13 +185,11 @@ describe('createAndBuildNewContainer'.bold.underline.blue, function () {
         }
       }, { warn: false });
 
-      sinon.assert.calledOnce(ctx.helpCards.hideActiveCard);
       sinon.assert.calledOnce(ctx.eventTracking.triggeredBuild);
 
       createNewInstanceMock.triggerPromise(instance);
       $rootScope.$digest();
 
-      sinon.assert.calledOnce(ctx.helpCards.refreshAllCards);
 
       sinon.assert.calledOnce(createNewInstanceMock.getFetchSpy());
       sinon.assert.calledWith(createNewInstanceMock.getFetchSpy(), ctx.fakeOrg1, build, {
@@ -270,7 +264,6 @@ describe('createAndBuildNewContainer'.bold.underline.blue, function () {
 
       createAndBuildNewContainer($q.when(server), 'newName')
         .catch(function (err) {
-          sinon.assert.notCalled(ctx.helpCards.refreshAllCards);
           expect(err).to.equal(error);
           sinon.assert.calledOnce(instance.dealloc);
           done();
@@ -287,7 +280,6 @@ describe('createAndBuildNewContainer'.bold.underline.blue, function () {
       }, { warn: false });
 
       sinon.assert.calledOnce(instances.add);
-      sinon.assert.calledOnce(ctx.helpCards.hideActiveCard);
       sinon.assert.calledOnce(ctx.eventTracking.triggeredBuild);
 
       createNewInstanceMock.triggerPromiseError(error);

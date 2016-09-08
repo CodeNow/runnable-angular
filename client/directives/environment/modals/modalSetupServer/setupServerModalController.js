@@ -16,7 +16,6 @@ function SetupServerModalController(
   errs,
   eventTracking,
   fetchDockerfileFromSource,
-  helpCards,
   isTabNameValid,
   keypather,
   loading,
@@ -32,7 +31,6 @@ function SetupServerModalController(
   masterBranch
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
-  SMC.helpCards = helpCards;
   var blankDockerfile = false;
 
   var parentController = $controller('ServerModalController as SMC', { $scope: $scope });

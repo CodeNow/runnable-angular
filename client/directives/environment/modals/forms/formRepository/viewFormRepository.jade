@@ -1,18 +1,3 @@
-.help-container(
-  ng-if = "helpCards.getActiveCard().helpPopover.repositories"
-)
-  .help
-    button.btn.btn-xs.btn-icon(
-      ng-click = "helpCards.hideActiveCard()"
-    )
-      svg.iconnables.icons-close
-        use(
-          xlink:href = "#icons-close"
-        )
-    span(
-      ng-bind-html = "helpCards.getActiveCard().helpPopover.repositories"
-    )
-
 label.label.clearfix
   .label-col Packages
     small.small (optional)

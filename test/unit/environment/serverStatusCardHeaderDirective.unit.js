@@ -31,7 +31,6 @@ describe('serverStatusCardHeaderDirective'.bold.underline.blue, function () {
 
     runnable.reset(apiMocks.user);
     angular.mock.module('app', function ($provide) {
-      $provide.factory('helpCards', helpCardsMock.create(ctx));
       $provide.factory('ModalService', function ($q) {
         ctx.showModalStub = sinon.stub().returns($q.when({
           close: $q.when(true)
