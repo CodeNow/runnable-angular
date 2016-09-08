@@ -168,7 +168,7 @@ function popOver(
             if ($scope.options.mouse.top < 164) {
               $scope.popoverOptions.verticallyCentered = null;
               $scope.popoverOptions.offsetYTop = true;
-            } else if ($scope.options.mouse.top > 1164) {
+            } else if (window.innerHeight - $scope.popoverOptions.elemPosition.top < 180) {
               $scope.popoverOptions.verticallyCentered = null;
               $scope.popoverOptions.offsetYBottom = true;
             } else {
