@@ -212,6 +212,9 @@ function ahaGuide(
     stepList: stepList,
     getCurrentStep: getCurrentStep,
     steps: STEPS,
-    isInGuide: isInGuide
+    isInGuide: isInGuide,
+    isAddingFirstRepo: function () {
+      return getCurrentStep() === STEPS.ADD_FIRST_REPO;
+    }
   };
 }

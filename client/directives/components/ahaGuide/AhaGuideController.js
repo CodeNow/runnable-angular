@@ -79,10 +79,6 @@ function AhaGuideController(
       updateCaption('success');
       $rootScope.$broadcast('exitedEarly', false);
     }
-    updateBuildStatus(buildStatus);
-  }
-
-  function updateBuildStatus(buildStatus) {
     AGC.buildStatus = buildStatus;
     AGC.caption = currentMilestone.buildStatus[buildStatus] || AGC.caption;
   }

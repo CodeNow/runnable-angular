@@ -28,7 +28,7 @@ function SetupMirrorServerModalController(
   TAB_VISIBILITY
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
-  SMC.ahaGuide = ahaGuide;
+  SMC.isAddingFirstRepo = ahaGuide.isAddingFirstRepo;
 
   var parentController = $controller('ServerModalController as SMC', { $scope: $scope });
   angular.extend(SMC, {
