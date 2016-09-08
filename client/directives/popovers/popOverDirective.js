@@ -126,7 +126,7 @@ function popOver(
           var diff = Math.abs(bottom - elemPosition);
 
           if ($scope.popoverOptions.offsetYTop) {
-            style.top = diff + 'px'
+            style.top = diff + 'px';
           } else if ($scope.popoverOptions.offsetYBottom) {
             style.top = diff + 'px';
           }
