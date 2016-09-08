@@ -177,7 +177,7 @@ EventTracking.prototype.boot = function (user, opts) {
     '$email': _keypather.get(userJSON, 'email')
   });
 
-  //Segment
+  // Segment
   analytics.ready(function () {
     analytics.identify(user.name, {
         firstName: firstName,
@@ -200,6 +200,7 @@ EventTracking.prototype.boot = function (user, opts) {
  * Record user event toggling of selected commit in repository
  * Reports to:
  *   - mixpanel
+ *   - segment
  * @param {Object} data - key/value pairs of event data
  *   - keys
    *   - triggeredBuild: Boolean
@@ -213,6 +214,9 @@ EventTracking.prototype.toggledCommit = function (data) {
     selectedCommit: data.acv
   });
   this._mixpanel('track', eventName, eventData);
+  analytics.ready(function () {
+    analytics.track(eventName, eventData);
+  });
   return this;
 };
 
@@ -221,6 +225,7 @@ EventTracking.prototype.toggledCommit = function (data) {
  * Reports to:
  *   - intercom
  *   - mixpanel
+ *   - segment
  * @param {Boolean} cache - build triggered without cache
  * @return this
  */
@@ -231,6 +236,9 @@ EventTracking.prototype.triggeredBuild = function (cache) {
   });
   this._Intercom('trackEvent', eventName, eventData);
   this._mixpanel('track', eventName, eventData);
+  analytics.ready(function () {
+    analytics.track(eventName, eventData);
+  });
   return this;
 };
 
@@ -238,6 +246,7 @@ EventTracking.prototype.triggeredBuild = function (cache) {
  * Record user visit to states
  * Reports to:
  *   - mixpanel
+ *   - segment
  * @return this
  */
 EventTracking.prototype.visitedState = function () {
@@ -246,6 +255,9 @@ EventTracking.prototype.visitedState = function () {
     referral: _$location.search().ref || 'direct'
   });
   this._mixpanel('track', eventName, eventData);
+  analytics.ready(function () {
+    analytics.track(eventName, eventData);
+  });
   return this;
 };
 
@@ -266,6 +278,9 @@ EventTracking.prototype.update = function () {
  */
 EventTracking.prototype.trackClicked = function (data) {
   this._mixpanel('track', 'clicked - ' + _keypather.get(data, 'text'), data);
+  analytics.ready(function () {
+    analytics.track('Clicked - ' + _keypather.get(data, 'text'), data);
+  });
   return this;
 };
 
@@ -283,12 +298,12 @@ EventTracking.prototype.createdRepoContainer = function (org, repo) {
     });
   }
 
-  if (this.$window.fbq) {
-    this.$window.fbq('track', 'ViewContent', {
+  analytics.ready(function () {
+    analytics.track('ViewContent', {
       action: 'CreateContainer',
       type: 'Repo'
     });
-  }
+  });
 };
 
 /**
@@ -303,10 +318,10 @@ EventTracking.prototype.createdNonRepoContainer = function (containerName) {
     });
   }
 
-  if (this.$window.fbq) {
-    this.$window.fbq('track', 'ViewContent', {
+  analytics.ready(function () {
+    analytics.track('ViewContent', {
       action: 'CreateContainer',
       type: 'NonRepo'
     });
-  }
+  });
 };
