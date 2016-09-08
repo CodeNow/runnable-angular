@@ -39,7 +39,7 @@ function ControllerInstances(
   });
 
   $scope.$on('popover-closed', function(event, pop) {
-    if (pop.data !== 'ahaTemplate') {
+    if (pop.data && pop.data !== 'ahaTemplate') {
       CIS.isPopoverOpen = true;
     }
   });
