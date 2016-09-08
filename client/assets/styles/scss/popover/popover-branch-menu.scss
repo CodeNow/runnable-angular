@@ -1,5 +1,5 @@
 .popover-branch-menu {
-  max-width: 330px;
+  max-width: 360px;
   min-height: 90px;
   width: 100%;
 
@@ -11,15 +11,11 @@
   }
 
   .well {
-    margin-bottom: 6px;
-  }
-
-  .input-search {
-    margin-top: 9px;
+    margin-bottom: 15px;
   }
 
   .popover-content.popover-content {
-    max-height: 330px;
+    max-height: 360px;
     min-height: 90px;
     overflow-y: auto;
   }
@@ -54,23 +50,42 @@
 }
 
 .popover-template-menu {
-  top: 30px !important;
 
-  .input-search {
-    margin-top: 0;
+  .popover-header {
+    display: flex;
+    height: auto;
+    padding: 12px 15px;
+  }
+
+  .btn-radio {
+    border-radius: $input-border-radius-lg;
+    flex: 0 1 50%;
+    font-size: 13px;
+    height: auto;
+    line-height: 1.4;
+    padding: 9px;
+    text-align: left;
+
+    .small {
+      font-size: 12px;
+      opacity: .6;
+    }
+
+    + .btn {
+      margin-left: 6px;
+    }
+
+    .iconnables {
+      height: 18px;
+      margin-right: 6px;
+      width: 18px;
+    }
   }
 
   .btn-add.btn-add.btn-add {
     position: static;
     right: auto;
     top: auto;
-  }
-
-  .list-servers {
-
-    .list-item {
-      font-size: 15px;
-    }
   }
 
   .gravatar.gravatar {

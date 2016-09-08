@@ -17,7 +17,7 @@
           ng-class = "{'lg': !$root.featureFlags.aha1}"
           ng-click = "MC.changeTab('nameContainer')"
         )
-          .grid-block.shrink.btn(
+          .grid-block.align-center.shrink.btn.btn-radio(
             ng-class = "{'active': MC.state.tabName === 'repos'}"
             ng-click = "MC.changeTab('repos')"
             ng-if = "!$root.featureFlags.aha1"
@@ -28,7 +28,7 @@
               )
             .btn-text.grid-block Repository Template
           //- disable this button when loading a repository
-          .grid-block.shrink.btn(
+          .grid-block.align-center.shrink.btn.btn-radio(
             ng-disabled = "$root.isLoading[MC.name + 'SingleRepo']"
             ng-class = "{\
               'active': MC.state.tabName === 'services', \

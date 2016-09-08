@@ -2,19 +2,35 @@
   ng-class = "{'in': active}"
   ng-style = "popoverStyle.getStyle()"
 )
-  .arrow.white
-  .popover-header Add Branch
+  .arrow.gray(
+    style = "top: 39px;"
+  )
+  .grid-block.popover-header
+    btn.grid-block.align-center.justify-center.btn.btn-radio.active
+      svg.iconnables.grid-block.shrink
+        use(
+          xlink:href = "#icons-new-repository-server"
+        )
+      .grid-block.vertical.shrink Repository
+        .small From your GH org
+    btn.grid-block.align-center.justify-center.btn.btn-radio
+      svg.iconnables.grid-block.shrink
+        use(
+          xlink:href = "#icons-server-new"
+        )
+      .grid-block.vertical.shrink Non-Repository
+        .small For services & DBs
   .popover-content(
     ng-init = "state.branchesLoaded = null"
   )
-    .spinner-wrapper.spinner-sm.spinner-gray.spinner-center(
-      ng-click = "state.branchesLoaded = true"
-      ng-if = "!state.branchesLoaded"
-      ng-include = "'spinner'"
-    )
+    //- .spinner-wrapper.spinner-sm.spinner-gray.spinner-center(
+    //-   ng-click = "state.branchesLoaded = true"
+    //-   ng-if = "!state.branchesLoaded"
+    //-   ng-include = "'spinner'"
+    //- )
     .padding-xxs(
-      ng-if = "state.branchesLoaded"
     )
+      //- ng-if = "state.branchesLoaded"
       input.input.input-xs.input-search(
         ng-disabled = "state.loading"
         ng-if = "branch.length !== 0"
@@ -26,11 +42,9 @@
         ng-if = "branch.length === 0"
       ) There are no branches to add.
     ul.list.popover-list(
-      ng-if = "state.branchesLoaded"
     )
-      li.grid-block.align-center.list-item.popover-list-item.multi-line(
-        ng-class = "{'disabled': state.loading}"
-      )
+      //- ng-if = "state.branchesLoaded"
+      li.grid-block.align-center.list-item.popover-list-item.multi-line
         .grid-block.vertical
           .grid-content button-clicker
           .grid-block(
@@ -54,9 +68,7 @@
             use(
               xlink:href = "#icons-add"
             )
-      li.grid-block.align-center.list-item.popover-list-item.multi-line(
-        ng-class = "{'disabled': state.loading}"
-      )
+      li.grid-block.align-center.list-item.popover-list-item.multi-line
         .grid-block.vertical
           .grid-content api
           .grid-block(
@@ -80,9 +92,7 @@
             use(
               xlink:href = "#icons-add"
             )
-      li.grid-block.align-center.list-item.popover-list-item.multi-line(
-        ng-class = "{'disabled': state.loading}"
-      )
+      li.grid-block.align-center.list-item.popover-list-item.multi-line
         .grid-block.vertical
           .grid-content runnable.com
           .grid-block(
