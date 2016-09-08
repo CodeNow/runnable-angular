@@ -26,6 +26,7 @@ require('app')
   .factory('fetchDebugContainer', fetchDebugContainer)
   .factory('fetchStackData', fetchStackData)
   // Github API
+  .factory('fetchGithubUserIsAdminOfOrg', fetchGithubUserIsAdminOfOrg)
   .factory('fetchGitHubUser', fetchGitHubUser)
   .factory('fetchGitHubMembers', fetchGitHubMembers)
   .factory('fetchGitHubAdminsByRepo', fetchGitHubAdminsByRepo)
@@ -698,6 +699,27 @@ function fetchGitHubUser(
     }).then(function (user) {
       return user.data;
     });
+  });
+}
+
+function fetchGithubUserIsAdminOfOrg(
+  $http,
+  configAPIHost,
+  keypather,
+  memoize
+) {
+  return memoize(function (orgName) {
+    return $http({
+      method: 'get',
+      url: configAPIHost + '/github/user/memberships/orgs/' + orgName
+    })
+      .catch(function () {
+        return false;
+      })
+      .then(function (response) {
+        return keypather.get(response, 'data.state') === 'active' &&
+          keypather.get(response, 'data.role') === 'admin';
+      });
   });
 }
 
