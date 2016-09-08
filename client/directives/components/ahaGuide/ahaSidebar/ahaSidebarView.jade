@@ -41,8 +41,8 @@
 
   .grid-block.shrink.align-center.padding-sm.aha-guide(
     ng-class = "{\
-      disabled: getCurrentStep() !== steps.ADD_FIRST_REPO,\
-      active: getCurrentStep() === steps.ADD_FIRST_REPO\
+      disabled: !isAddingFirstRepo(),\
+      active: isAddingFirstRepo()\
     }"
   )
     .grid-block.shrink.aha-meter(

@@ -16,6 +16,7 @@ function ahaSidebar(
     link: function ($scope) {
       $scope.steps = ahaGuide.steps;
       $scope.getCurrentStep = ahaGuide.getCurrentStep;
+      $scope.isAddingFirstRepo = ahaGuide.isAddingFirstRepo;
     }
   };
 }

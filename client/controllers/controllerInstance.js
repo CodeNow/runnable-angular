@@ -39,7 +39,7 @@ function ControllerInstance(
   };
   $scope.$on('show-aha-sidebar', CIS.toggleSidebar);
 
-  if (ahaGuide.getCurrentStep() === ahaGuide.steps.ADD_FIRST_BRANCH) {
+  if (ahaGuide.isAddingFirstRepo()) {
     console.log('Toggle first branch thingy');
   }
 

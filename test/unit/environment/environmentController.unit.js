@@ -71,6 +71,7 @@ describe('environmentController'.bold.underline.blue, function () {
       $provide.value('user', thisUser);
       $provide.value('$state', ctx.state);
       $provide.value('ahaGuide', {
+        isAddingFirstRepo: sinon.stub().returns(false),
         getCurrentStep: sinon.stub(),
         steps: {
           ADD_FIRST_REPO: 'addFirstRepo?!'

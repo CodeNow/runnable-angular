@@ -1,8 +1,6 @@
 //- new server button
 button.grid-block.shrink.btn.btn-md.green(
-  ng-class = "{\
-    'scale-in-modal': EC.ahaGuide.getCurrentStep() === EC.ahaGuide.steps.ADD_FIRST_REPO\
-  }"
+  ng-class = "{ 'scale-in-modal': EC.isAddingFirstRepo() }"
   ng-click = "EC.triggerModal.newContainer()"
 )
   svg.iconnables.icons-add.float-left
