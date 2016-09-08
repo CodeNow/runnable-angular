@@ -1,0 +1,66 @@
+p.grid-content.shrink.p.text-center Now you can invite our bot to your GitHub org to get notifications on your pull requests:
+
+img.grid-content.shrink.img.img-comment(
+  alt = "Runnabot sample comment on a GitHub pull request."
+  height = "206"
+  src = "/build/images/runnabot-comment.png"
+  width = "358"
+)
+
+//- if checking whether the user is an admin, or checking whether runnabot has been enabled
+.grid-content.spinner-wrapper.spinner-md.spinner-gray(
+  ng-if = "$root.isLoading.checkRunnabot"
+  ng-include = "'spinner'"
+)
+
+//- add 'disabled' attr if inviting runnabot, or if user isn't an admin
+    hide after successfully inviting runnabot
+a.grid-content.shrink.btn.btn-md.green(
+  ng-disabled = "!GIC.isAdmin"
+  ng-click = "GIC.pollCheckRunnabot()"
+  ng-hide = "$root.isLoading.checkRunnabot || GIC.hasRunnabot"
+  ng-href = "https://github.com/orgs/{{GIC.organizationName}}/invitations/runnabot/edit"
+  target = "_blank"
+)
+  svg.iconnables.icons-octicons-github
+    use(
+      xlink:href = "#icons-octicons-github"
+    )
+  | Invite Runnabot
+  svg.iconnables.icons-link-external
+    use(
+      xlink:href = "#icons-link-external"
+    )
+
+//- show after successfully inviting runnabot
+.grid-block.align-center.shrink.runnabot-success(
+  ng-show = "GIC.hasRunnabot && !$root.isLoading.checkRunnabot"
+)
+  img.grid-content.shrink.img(
+    height = "36"
+    src = "/build/images/runnabot-head.png"
+    width = "36"
+  )
+  .grid-content.well.padding-xs.ignore-margin
+    .arrow
+    p.small.text-gray.text-left Thanks! See you soon on your pull requests.
+
+.grid-content.shrink.small.text-center(
+  ng-hide = "$root.isLoading.checkRunnabot"
+  ng-class = "{\
+    'text-gray': GIC.isAdmin,\
+    'text-red': !GIC.isAdmin\
+  }"
+)
+  span(
+    ng-if = "GIC.isAdmin"
+  ) This may affect your GitHub bill.
+  span(
+    ng-if = "!GIC.isAdmin"
+  ) Sorry, you’ll need help from an admin
+    br
+    | of your org to invite Runnabot.
+
+  span
+    br
+    a.small.link More about Runnabot

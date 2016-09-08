@@ -2,11 +2,16 @@
   ng-if = "!showOverview"
 )
   header.grid-block.align-center.justify-center.aha-sidebar-header
-    h4.grid-content.strong.text-center.h4
+    h4.grid-content.strong.text-center.h4(
+      ng-if = "getCurrentStep() < steps.SETUP_RUNNABOT"
+    )
       //- During ahas 1-3:
       | Setup Guide
+    h4.grid-content.strong.text-center.h4(
+      ng-if = "getCurrentStep() === steps.SETUP_RUNNABOT"
+    )
       //- During aha 4:
-      //- | You did it!
+      | You did it!
     svg.grid-content.shrink.iconnables.icons-close(
       ng-click = "toggleSidebar()"
       ng-if = "!showOverview"
@@ -28,7 +33,9 @@
     ) Get Started
 
 //- During ahas 1-3
-.grid-block.shrink.vertical.aha-guide-wrapper
+.grid-block.shrink.vertical.aha-guide-wrapper(
+  ng-if = "getCurrentStep() < steps.SETUP_RUNNABOT"
+)
   .grid-block.shrink.align-center.padding-sm.aha-guide.disabled
     .grid-block.shrink.aha-meter.aha-meter-100
       svg.iconnables
@@ -87,8 +94,9 @@
       p.p.strong Add your First Branch
       p.small Your branches will update on every commit you make.
 
-//- During aha 4:
-//- .grid-block.vertical.aha-overview
+.grid-block.vertical.aha-overview(
+  ng-if = "getCurrentStep() === steps.SETUP_RUNNABOT"
+)
   .grid-block.vertical.align-center.form-github(
-    ng-include = "'gitHubIntegrationView'"
+    github-integration
   )

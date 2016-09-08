@@ -225,10 +225,11 @@ function ControllerInstances(
     CIS.popoverCannotClose = false;
     promisify(CIS.poppedInstance, 'fork')(branch.attrs.name, sha)
       .then(function() {
-        closePopover()
+        closePopover();
         loading('buildingForkedBranch', false);
         loading(loadingName, false);
         CIS.poppedInstance.attrs.hasBranchLaunched = true;
+        $rootScope.$broadcast('hasAddedBranch');
         $timeout(function() {
           $rootScope.$broadcast('close-popovers');
         });

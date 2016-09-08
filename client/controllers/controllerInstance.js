@@ -39,10 +39,6 @@ function ControllerInstance(
   };
   $scope.$on('show-aha-sidebar', CIS.toggleSidebar);
 
-  if (ahaGuide.getCurrentStep() === ahaGuide.steps.ADD_FIRST_BRANCH) {
-    console.log('Toggle first branch thingy');
-  }
-
   var dataInstance = $scope.dataInstance = {
     data: {
       unsavedAcvs: []

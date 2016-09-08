@@ -181,6 +181,9 @@ function ahaGuide(
   $rootScope.$on('$stateChangeSuccess', function () {
     refreshInstances();
   });
+  $rootScope.$on('hasAddedBranch', function () {
+    refreshInstances();
+  });
   function getCurrentStep() {
     if (!cachedStep) {
       if ($rootScope.featureFlags.aha && !keypather.get(currentOrg, 'poppa.id')) {
