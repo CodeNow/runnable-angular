@@ -2,14 +2,6 @@
   ng-class = "{'in': active}"
   ng-style = "popoverStyle.getStyle()"
 )
-  .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
-    ng-if = "$root.featureFlags.aha2"
-    ng-include = "'ahaGuideView'"
-    ng-init = "\
-      state.showStep = 2;\
-      state.showSubStep = 2;\
-    "
-  )
   .arrow.white
   .grid-block.vertical.popover-content.empty(
     ng-if = "$root.featureFlags.autoIsolationSetup"
@@ -88,16 +80,13 @@
             )
           | Add Branch
         .popover-content(
-          ng-init = "state.branchesLoaded = null"
         )
-
-          .spinner-wrapper.spinner-sm.spinner-gray.spinner-center(
-            ng-click = "state.branchesLoaded = true"
-            ng-if = "!state.branchesLoaded"
+          .spinner-wrapper.spinner-sm.spinner-gray.spinner-center.in(
+            ng-if = "$root.isLoading.fetchingBranches"
             ng-include = "'spinner'"
           )
           .padding-xxs(
-            ng-if = "state.branchesLoaded"
+            ng-if = "CIS.instanceBranches"
           )
             .grid-block.shrink.align-center.well.gray.padding-xxs(
               ng-if = "!$root.featureFlags.autoIsolation"
@@ -111,60 +100,45 @@
                 )
               label.grid-content.shrink.toggle-wrapper
                 input.toggle-input(
+                  ng-click = "CIS.setAutofork()"
                   ng-disabled = "$root.featureFlags.webhooks"
+                  ng-checked = "!CIS.poppedInstance.attrs.shouldNotAutofork"
                   type = "checkbox"
                 )
                 .toggle-group.toggle-sm
             input.input.input-xs.input-search(
-              ng-disabled = "state.loading"
-              ng-if = "branch.length !== 0"
+              ng-model = "CIS.branchQuery"
               placeholder = "Filter"
               required
               type = "search"
             )
-            .text-center.text-gray.small.padding-lg(
-              ng-if = "branch.length === 0"
-            ) There are no branches to add.
-            //- when the filter has no results
-            //- .text-center.text-gray.small.padding-lg No branches match this filter.
           ul.list.popover-list(
-            ng-if = "state.branchesLoaded"
+            ng-if = "CIS.instanceBranches.length"
           )
-            //- show when loading paginated list
-            //- li.list-item.padding-md
-              .spinner-wrapper.spinner-sm.spinner-gray.spinner-center.in(
-                ng-include = "'spinner'"
-              )
             li.list-item.popover-list-item(
-              ng-class = "{'disabled': state.loading}"
-              ng-click = "\
-                $root.featureFlags.ahaSidebar = true;\
-                $root.featureFlags.aha2 = false;\
-                $root.featureFlags.aha3 = true;\
-                state.loading = !state.loading;\
-              "
-            ) SAN-4377-Cant-add-files
+              ng-repeat = "branch in CIS.getFilteredBranches()"
+              ng-click = "CIS.forkBranchFromInstance(branch, POC.closePopover);"
+            ) {{ branch.attrs.name }}
               button.btn.btn-xs.btn-icon.btn-add(
-                ng-if = "!state.loading"
+                ng-if = "!$root.isLoading['buildingForkedBranch' + branch.attrs.name]"
               )
                 svg.iconnables.icons-add
                   use(
                     xlink:href = "#icons-add"
                   )
               .spinner-wrapper.spinner-sm.spinner-gray(
-                ng-if = "state.loading"
+                ng-if = "$root.isLoading['buildingForkedBranch' + branch.attrs.name]"
                 ng-include = "'spinner'"
               )
-            li.list-item.popover-list-item(
-              ng-class = "{'disabled': state.loading}"
-              ng-click = "\
-                $root.featureFlags.ahaSidebar = true;\
-                $root.featureFlags.aha2 = false;\
-                $root.featureFlags.aha3 = true;\
-              "
-            ) SAN-4342-auto-isolation-setup
-              button.btn.btn-xs.btn-icon.btn-add
-                svg.iconnables.icons-add
-                  use(
-                    xlink:href = "#icons-add"
-                  )
+
+          .text-center.text-gray.small.padding-lg(
+            ng-if = "CIS.instanceBranches && !CIS.instanceBranches.length && CIS.totalInstanceBranches"
+          ) There are no branches to add.
+
+          .text-center.text-gray.small.padding-lg(
+            ng-if = "CIS.instanceBranches && !CIS.instanceBranches.length && !CIS.totalInstanceBranches"
+          ) The repository has no branches.
+
+          .text-center.text-gray.small.padding-lg(
+            ng-if = "CIS.instanceBranches && CIS.instanceBranches.length && CIS.totalInstanceBranches && !CIS.getFilteredBranches().length"
+          ) No branches match this filter.

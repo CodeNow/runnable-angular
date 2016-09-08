@@ -53,7 +53,7 @@ function ahaGuide(
     title: 'Add your First Repository',
     subSteps: {
       addRepository: {
-        caption: 'Add your repository by clicking ‘Add Configuration’.',
+        caption: 'Add a repository by clicking ‘Add Template’.',
         className: 'aha-meter-10',
         step: 0
       },
@@ -135,6 +135,11 @@ function ahaGuide(
       },
       complete: {
         caption: 'Add more templates if your project requires it. Once you’re done, head to your containers to start adding branches.',
+        className: 'aha-meter-100',
+        step: 9
+      },
+      hasContainer: {
+        caption: 'Choose a template to configure.',
         className: 'aha-meter-100',
         step: 9
       }
