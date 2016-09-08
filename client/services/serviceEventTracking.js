@@ -105,7 +105,7 @@ function EventTracking(
 }
 
 /**
- * Intercom and Mixpanel user identification
+ * Intercom, Mixpanel, and Segment user identification
  * @throws Error
  * @param {Object} user - User Model instance
  * @return this
@@ -175,6 +175,23 @@ EventTracking.prototype.boot = function (user, opts) {
     '$last_name': lastName,
     '$created': _keypather.get(userJSON, 'created'),
     '$email': _keypather.get(userJSON, 'email')
+  });
+
+  //Segment
+  analytics.ready(function () {
+    analytics.identify(user.name, {
+        firstName: firstName,
+        lastName: lastName,
+        username: data.name,
+        email: _keypather.get(userJSON, 'email'),
+        createdAt: _keypather.get(userJSON, 'created'),
+        avatar: _keypather.get(userJSON, 'gravatar')
+    });
+    if (opts.orgName) {
+      analytics.group(data.company.id, {
+        name: data.company.name
+      });
+    }
   });
   return this;
 };
