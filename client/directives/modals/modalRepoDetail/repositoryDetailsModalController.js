@@ -56,7 +56,7 @@ function RepositoryDetailsModalController(
   };
 
   RDMC.hasLockedBeenUpdated = function () {
-    return RDMC.data.locked === RDMC.instance.attrs.locked;
+    return RDMC.data.locked !== RDMC.instance.attrs.locked;
   };
 
   RDMC.updateInstance = function () {
@@ -64,7 +64,7 @@ function RepositoryDetailsModalController(
       return $q.when()
         .then(function () {
           loading('main', true);
-          if (RDMC.hasLockedBeenUpdated()) {
+          if (!RDMC.hasLockedBeenUpdated()) {
             return;
           }
           return promisify(instance, 'update')({
