@@ -25,9 +25,9 @@ function AhaGuideController(
     handleBuildUpdate(buildStatus);
   });
 
-  var tabListener = $scope.$on('updatedTab', function(event, tabName) {
+  var stopTabUpdate = $scope.$on('updatedTab', function(event, tabName) {
     if (AGC.subStepIndex > 5) {
-      tabListener();
+      stopTabUpdate();
     } else {
       updateCaption(tabName);
     }
