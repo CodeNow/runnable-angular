@@ -1,19 +1,23 @@
-.popover-branch-menu {
+.popover-branch-menu,
+.popover-template-menu {
   max-width: 360px;
   min-height: 90px;
   width: 100%;
+
+  .popover-content.popover-content {
+    max-height: 360px;
+    min-height: 90px;
+    overflow-y: auto;
+  }
+}
+
+.popover-branch-menu {
 
   .aha-guide {
     border-bottom: 1px solid $gray-lighter;
     font-size: 15px;
     margin-top: 6px;
     padding-bottom: 21px;
-  }
-
-  .popover-content.popover-content {
-    max-height: 360px;
-    min-height: 90px;
-    overflow-y: auto;
   }
 
   .well {
