@@ -1,13 +1,9 @@
 .popover.menu.right.popover-branch-menu(
   ng-class = "{'in': active}"
-  ng-style = "popoverStyle.getStyle()"
+  ng-style = "popoverStyle.getStyle(CIS.instanceBranches)"
 )
   .arrow.white(
-    ng-class = "{\
-      'offset-top': $parent.CIS.instanceBranches && $parent.popoverOptions.offsetYTop,\
-      'offset-bottom': $parent.CIS.instanceBranches && $parent.popoverOptions.offsetYBottom,\
-      'partial-offset': !$parent.CIS.instanceBranches && $parent.popoverOptions.offsetYTop,\
-    }"
+    ng-style = "popoverStyle.getArrowStyle(CIS.instanceBranches)"
   )
   .grid-block.vertical.popover-content.empty(
     ng-if = "$root.featureFlags.autoIsolationSetup"
