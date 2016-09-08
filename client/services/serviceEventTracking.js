@@ -301,7 +301,8 @@ EventTracking.prototype.createdRepoContainer = function (org, repo) {
   analytics.ready(function () {
     analytics.track('ViewContent', {
       action: 'CreateContainer',
-      type: 'Repo'
+      type: 'Repo',
+      containerName: containerName
     });
   });
 };
@@ -321,7 +322,8 @@ EventTracking.prototype.createdNonRepoContainer = function (containerName) {
   analytics.ready(function () {
     analytics.track('ViewContent', {
       action: 'CreateContainer',
-      type: 'NonRepo'
+      type: 'NonRepo',
+      containerName: containerName
     });
   });
 };
