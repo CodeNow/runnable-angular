@@ -56,10 +56,6 @@
       span.small(
         ng-if = "!$root.featureFlags.inviteFlows"
       ) {{activeCommit.attrs.commit.author.date | timeFrom}}
-    svg.iconnables.icons-arrow-forward
-      use(
-        xlink:href = "#icons-arrow-down"
-      )
 
     //- auto-deploy w/ commit syncing
     //- show alternate text in autoDeployTooltip.jade if disabled
