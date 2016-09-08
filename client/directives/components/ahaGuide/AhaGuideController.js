@@ -9,13 +9,13 @@ function AhaGuideController(
   $rootScope,
   ahaGuide,
   currentOrg,
-  fetchInstances,
+  fetchInstancesByPod,
   keypather
 ) {
   var AGC = this;
 
   AGC.instances = null;
-  fetchInstances()
+  fetchInstancesByPod()
     .then(function (instances) {
       AGC.instances = instances;
       updateCaption(AGC.subStep);
@@ -58,13 +58,13 @@ function AhaGuideController(
     if (status === 'dockLoaded') {
       $rootScope.animatedPanelListener();
     }
+    if (ahaGuide.getCurrentStep() === ahaGuide.steps.ADD_FIRST_REPO && keypather.get(AGC, 'instances.models.length') > 0) {
+      status = 'hasContainer';
+    }
     AGC.subStep = status;
     AGC.subStepIndex = currentMilestone.subSteps[status].step;
     AGC.caption = currentMilestone.subSteps[status].caption;
     AGC.className = currentMilestone.subSteps[status].className;
-    if (ahaGuide.getCurrentStep() === ahaGuide.steps.ADD_FIRST_REPO && keypather.get(AGC, 'instances.models.length') > 0) {
-      AGC.className = 'aha-meter-100';
-    }
   }
 
   function handleBuildUpdate(update) {

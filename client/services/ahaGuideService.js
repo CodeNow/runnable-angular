@@ -137,6 +137,11 @@ function ahaGuide(
         caption: 'Add more templates if your project requires it. Once you’re done, head to your containers to start adding branches.',
         className: 'aha-meter-100',
         step: 9
+      },
+      hasContainer: {
+        caption: 'Choose a template to configure.',
+        className: 'aha-meter-100',
+        step: 9
       }
     },
     buildStatus: {

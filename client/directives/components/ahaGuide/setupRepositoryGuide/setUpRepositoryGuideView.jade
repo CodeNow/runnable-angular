@@ -6,11 +6,11 @@
     ng-if = "!AGC.showError"
   )
     use(
-      ng-if = "ASC.getCurrentStep() === ASC.steps.CHOOSE_ORGANIZATION && AGC.subStep !== 'complete'"
+      ng-if = "ASC.getCurrentStep() === ASC.steps.CHOOSE_ORGANIZATION && AGC.subStep !== 'complete' && AGC.subStep !== 'hasContainer'"
       xlink:href = "#icons-octicons-repo"
     )
     use(
-      ng-if = "AGC.subStep === 'complete'"
+      ng-if = "AGC.subStep === 'complete' || AGC.subStep === 'hasContainer'"
       xlink:href = "#icons-check"
     )
   svg.iconnables.icons-alert(
