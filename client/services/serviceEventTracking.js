@@ -42,6 +42,7 @@ function EventTracking(
   _$location = $location;
 
   this._Intercom = $window.Intercom;
+  this.analytics = $window.analytics;
   this._user = null;
   this.$window = $window;
 
@@ -87,9 +88,9 @@ function EventTracking(
    * Stub Segment when SDK not present
    * (development/staging environments)
    */
-  if (!analytics) {
+  if (!this.analytics) {
     // stub segment (analytics) if not present
-    analytics = angular.noop;
+    this.analytics = angular.noop;
   }
 
   /**
@@ -141,8 +142,8 @@ EventTracking.prototype.boot = function (user, opts) {
     _sift.push(['_setSessionId', session]);
     _sift.push(['_trackPageview']);
 
-    analytics.ready(function () {
-      analytics.track('ViewContent', {
+    this.analytics.ready(function () {
+      this.analytics.track('ViewContent', {
         action: 'LoggedIn'
       });
     });
@@ -187,8 +188,8 @@ EventTracking.prototype.boot = function (user, opts) {
   });
 
   // Segment
-  analytics.ready(function () {
-    analytics.identify(data.name, {
+  this.analytics.ready(function () {
+    this.analytics.identify(data.name, {
         firstName: firstName,
         lastName: lastName,
         username: data.name,
@@ -196,10 +197,10 @@ EventTracking.prototype.boot = function (user, opts) {
         createdAt: _keypather.get(userJSON, 'created'),
         avatar: _keypather.get(userJSON, 'gravatar')
     });
-    analytics.alias(user.oauthId());
-    analytics.alias(_keypather.get(userJSON, '_id'));
+    this.analytics.alias(user.oauthId());
+    this.analytics.alias(_keypather.get(userJSON, '_id'));
     if (opts.orgName) {
-      analytics.group(data.company.id, {
+      this.analytics.group(data.company.id, {
         name: data.company.name
       });
     }
@@ -225,8 +226,8 @@ EventTracking.prototype.toggledCommit = function (data) {
     selectedCommit: data.acv
   });
   this._mixpanel('track', eventName, eventData);
-  analytics.ready(function () {
-    analytics.track(eventName, eventData);
+  this.analytics.ready(function () {
+    this.analytics.track(eventName, eventData);
   });
   return this;
 };
@@ -247,8 +248,8 @@ EventTracking.prototype.triggeredBuild = function (cache) {
   });
   this._Intercom('trackEvent', eventName, eventData);
   this._mixpanel('track', eventName, eventData);
-  analytics.ready(function () {
-    analytics.track(eventName, eventData);
+  this.analytics.ready(function () {
+    this.analytics.track(eventName, eventData);
   });
   return this;
 };
@@ -266,8 +267,8 @@ EventTracking.prototype.visitedState = function () {
     referral: _$location.search().ref || 'direct'
   });
   this._mixpanel('track', eventName, eventData);
-  analytics.ready(function () {
-    analytics.track(eventName, eventData);
+  this.analytics.ready(function () {
+    this.analytics.track(eventName, eventData);
   });
   return this;
 };
@@ -289,8 +290,8 @@ EventTracking.prototype.update = function () {
  */
 EventTracking.prototype.trackClicked = function (data) {
   this._mixpanel('track', 'clicked - ' + _keypather.get(data, 'text'), data);
-  analytics.ready(function () {
-    analytics.track('Clicked - ' + _keypather.get(data, 'text'), data);
+  this.analytics.ready(function () {
+    this.analytics.track('Clicked - ' + _keypather.get(data, 'text'), data);
   });
   return this;
 };
@@ -309,8 +310,8 @@ EventTracking.prototype.createdRepoContainer = function (org, repo) {
     });
   }
 
-  analytics.ready(function () {
-    analytics.track('ViewContent', {
+  this.analytics.ready(function () {
+    this.analytics.track('ViewContent', {
       action: 'CreateContainer',
       type: 'Repo',
       containerName: containerName
@@ -330,8 +331,8 @@ EventTracking.prototype.createdNonRepoContainer = function (containerName) {
     });
   }
 
-  analytics.ready(function () {
-    analytics.track('ViewContent', {
+  this.analytics.ready(function () {
+    this.analytics.track('ViewContent', {
       action: 'CreateContainer',
       type: 'NonRepo',
       containerName: containerName
@@ -348,8 +349,8 @@ EventTracking.prototype.createdNonRepoContainer = function (containerName) {
 EventTracking.prototype.visitedOrgSelectPage = function () {
   var eventName = 'Visited org-select page';
    
-  analytics.ready(function () {
-    analytics.track(eventName);
+  this.analytics.ready(function () {
+    this.analytics.track(eventName);
   });
   return this;
 };
@@ -363,8 +364,8 @@ EventTracking.prototype.visitedOrgSelectPage = function () {
 EventTracking.prototype.waitingForInfrastructure = function (orgName) {
   var eventName = 'Waiting for infrastrucuture';
   
-  analytics.ready(function () {
-    analytics.track(eventName, {org: orgName});
+  this.analytics.ready(function () {
+    this.analytics.track(eventName, {org: orgName});
   });
   return this;
 };
