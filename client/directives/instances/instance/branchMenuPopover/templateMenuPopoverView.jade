@@ -10,7 +10,7 @@
     style = "top: 39px;"
   )
   .grid-block.popover-header
-    button.grid-block.align-center.btn.btn-radio(
+    .grid-block.align-center.btn.btn-radio(
       ng-class = "{'active': state.tab === 'repo'}"
       ng-click = "state.tab = 'repo'"
       ng-disabled = "state.tab !== 'repo'&& state.loading"
@@ -20,8 +20,10 @@
           xlink:href = "#icons-new-repository-server"
         )
       .grid-block.vertical.shrink Repository
-        .small Add from your org
-    button.grid-block.align-center.btn.btn-radio(
+        .small From your GitHub
+          br
+          | organization
+    .grid-block.align-center.btn.btn-radio(
       ng-class = "{'active': state.tab === 'nonRepo'}"
       ng-click = "state.tab = 'nonRepo'"
       ng-disabled = "state.tab !== 'nonRepo'&& state.loading"
@@ -31,7 +33,9 @@
           xlink:href = "#icons-server-new"
         )
       .grid-block.vertical.shrink Non-Repository
-        .small Add a service or DB
+        .small For a database or&#32;
+          br
+          | other service
   .popover-content(
     ng-if = "state.tab === 'repo'"
     ng-init = "state.branchesLoaded = null"
