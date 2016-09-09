@@ -38,7 +38,6 @@ function ControllerInstance(
     CIS.showSidebar = !CIS.showSidebar;
   };
   $scope.$on('show-aha-sidebar', CIS.toggleSidebar);
-
   var dataInstance = $scope.dataInstance = {
     data: {
       unsavedAcvs: []

@@ -77,6 +77,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       this.getElasticHostname = sinon.spy();
       this.getNumberOfOpenTabs = sinon.spy();
       this.getUpdatePromise = sinon.spy();
+      this.handleInstanceUpdate = sinon.spy();
       this.insertHostName = sinon.spy();
       this.isDirty = sinon.spy();
       this.openDockerfile = sinon.spy();

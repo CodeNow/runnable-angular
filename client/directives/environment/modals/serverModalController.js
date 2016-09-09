@@ -347,6 +347,16 @@ function ServerModalController(
       });
   };
 
+  this.handleInstanceUpdate = function () {
+    var buildStatus = this.instance.status();
+    $rootScope.$broadcast('buildStatusUpdated', {
+      status: buildStatus
+    });
+    if (buildStatus === 'running') {
+      this.page = 'run';
+    }
+  };
+
   this.switchToMirrorMode = function (state, openItems, dockerfile) {
     var SMC = this;
     return loadingPromises.add(SMC.name, promisify(state.contextVersion, 'update')({

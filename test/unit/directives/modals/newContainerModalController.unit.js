@@ -46,8 +46,9 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
     angular.mock.module('app');
     angular.mock.module(function ($provide) {
       $provide.value('ahaGuide', {
+        isAddingFirstRepo: sinon.stub().returns(false),
         isInGuide: sinon.stub(),
-        getCurrentSteop: sinon.stub()
+        getCurrentStep: sinon.stub()
       });
       $provide.value('errs', errsStub);
       $provide.factory('fetchInstancesByPod', function ($q) {

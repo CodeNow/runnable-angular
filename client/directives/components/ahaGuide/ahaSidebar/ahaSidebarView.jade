@@ -48,8 +48,8 @@
 
   .grid-block.shrink.align-center.padding-sm.aha-guide(
     ng-class = "{\
-      disabled: getCurrentStep() !== steps.ADD_FIRST_REPO,\
-      active: getCurrentStep() === steps.ADD_FIRST_REPO\
+      disabled: !isAddingFirstRepo(),\
+      active: isAddingFirstRepo()\
     }"
   )
     .grid-block.shrink.aha-meter(
@@ -78,7 +78,7 @@
     .grid-block.shrink.aha-meter(
       ng-class = "{\
         'aha-meter-0': getCurrentStep() <= steps.ADD_FIRST_BRANCH,\
-        'aha-meter-100': $getCurrentStep() > steps.ADD_FIRST_BRANCH\
+        'aha-meter-100': getCurrentStep() > steps.ADD_FIRST_BRANCH\
       }"
     )
       svg.iconnables
@@ -94,9 +94,7 @@
       p.p.strong Add your First Branch
       p.small Your branches will update on every commit you make.
 
-.grid-block.vertical.aha-overview(
-  ng-if = "getCurrentStep() === steps.SETUP_RUNNABOT"
-)
   .grid-block.vertical.align-center.form-github(
+    ng-if = "getCurrentStep() === steps.SETUP_RUNNABOT"
     github-integration
   )

@@ -28,7 +28,7 @@ function SetupMirrorServerModalController(
   TAB_VISIBILITY
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
-  SMC.ahaGuide = ahaGuide;
+  SMC.isAddingFirstRepo = ahaGuide.isAddingFirstRepo;
 
   var parentController = $controller('ServerModalController as SMC', { $scope: $scope });
   angular.extend(SMC, {
@@ -40,6 +40,7 @@ function SetupMirrorServerModalController(
     'getElasticHostname': parentController.getElasticHostname.bind(SMC),
     'getNumberOfOpenTabs': parentController.getNumberOfOpenTabs.bind(SMC),
     'getUpdatePromise': parentController.getUpdatePromise.bind(SMC),
+    'handleInstanceUpdate': parentController.handleInstanceUpdate.bind(SMC),
     'insertHostName': parentController.insertHostName.bind(SMC),
     'isDirty': parentController.isDirty.bind(SMC),
     'openDockerfile': parentController.openDockerfile.bind(SMC),
@@ -179,17 +180,7 @@ function SetupMirrorServerModalController(
         if (instance) {
           SMC.instance = instance;
           SMC.state.instance = instance;
-          SMC.state.instance.on('update', function() {
-            var buildStatus = SMC.state.instance.status();
-            var containerHostname = SMC.state.instance.getContainerHostname();
-            $rootScope.$broadcast('buildStatusUpdated', {
-              status: buildStatus,
-              containerHostname: containerHostname
-            });
-            if (buildStatus === 'running') {
-              SMC.page = 'run';
-            }
-          });
+          SMC.state.instance.on('update', SMC.handleInstanceUpdate);
           // Reset the opts, in the same way as `EditServerModalController`
           SMC.state.opts  = {
             env: keypather.get(instance, 'attrs.env') || [],

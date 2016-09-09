@@ -1,14 +1,14 @@
 .modal-backdrop.in
   .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
     aha-guide
-    ng-if = "SMC.state.advanced !== 'blankDockerfile' && SMC.ahaGuide.getCurrentStep() === SMC.ahaGuide.steps.ADD_FIRST_REPO"
+    ng-if = "SMC.state.advanced !== 'blankDockerfile' && SMC.isAddingFirstRepo()"
     step-index = 1
     sub-step = "repository"
     sub-step-index = 4
   )
   .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
     aha-guide
-    ng-if = "SMC.state.advanced === 'blankDockerfile' && SMC.ahaGuide.getCurrentStep() === SMC.ahaGuide.steps.ADD_FIRST_REPO"
+    ng-if = "SMC.state.advanced === 'blankDockerfile' && SMC.isAddingFirstRepo()"
     step-index = 1
     sub-step = "buildfiles"
     sub-step-index = 6

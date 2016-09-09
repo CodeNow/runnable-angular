@@ -13,6 +13,7 @@ function AhaGuideController(
   keypather
 ) {
   var AGC = this;
+  var animatedPanelListener = angular.noop;
 
   AGC.instances = null;
   fetchInstancesByPod()
@@ -41,9 +42,9 @@ function AhaGuideController(
     }
   });
 
-  var tabListener = $scope.$on('updatedTab', function(event, tabName) {
+  var stopTabUpdate = $scope.$on('updatedTab', function(event, tabName) {
     if (AGC.subStepIndex > 5) {
-      tabListener();
+      stopTabUpdate();
     } else {
       updateCaption(tabName);
     }
@@ -64,9 +65,9 @@ function AhaGuideController(
       return;
     }
     if (status === 'dockLoaded') {
-      $rootScope.animatedPanelListener();
+      animatedPanelListener();
     }
-    if (ahaGuide.getCurrentStep() === ahaGuide.steps.ADD_FIRST_REPO && keypather.get(AGC, 'instances.models.length') > 0 && status !== 'complete') {
+    if (ahaGuide.isAddingFirstRepo() && keypather.get(AGC, 'instances.models.length') > 0 && status !== 'complete') {
       status = 'hasContainer';
     }
     AGC.subStep = status;
@@ -86,33 +87,18 @@ function AhaGuideController(
       updateCaption('success');
       $rootScope.$broadcast('exitedEarly', false);
     }
-    updateBuildStatus(buildStatus);
-  }
-
-  function updateBuildStatus(buildStatus) {
     AGC.buildStatus = buildStatus;
     AGC.caption = currentMilestone.buildStatus[buildStatus] || AGC.caption;
   }
 
-  // we need to unregister this animated panel listener if it exists
-  // to avoid duplication
-  if ($rootScope.animatedPanelListener) {
-    $rootScope.animatedPanelListener();
-  }
-
   $scope.$on('$destroy', function () {
-    if ($rootScope.animatedPanelListener) {
-      $rootScope.animatedPanelListener();
-    }
-    if ($rootScope.doneListener) {
-      $rootScope.doneListener();
-    }
+    animatedPanelListener();
     if (AGC.subStepIndex === 7 && !AGC.isBuildSuccessful) {
       $rootScope.$broadcast('exitedEarly', true);
     }
   });
 
-  $rootScope.animatedPanelListener = $rootScope.$on('changed-animated-panel', function (e, panel) {
+  animatedPanelListener = $rootScope.$on('changed-animated-panel', function (e, panel) {
     updateCaption(panel);
   });
 

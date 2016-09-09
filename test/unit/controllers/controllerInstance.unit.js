@@ -61,6 +61,7 @@ describe('controllerInstance'.bold.underline.blue, function () {
         setInstanceState: sinon.spy()
       };
       $provide.value('ahaGuide', {
+        isAddingFirstRepo: sinon.stub().returns(false),
         getCurrentStep: sinon.stub().returns(1),
         steps: {
           ADD_FIRST_BRANCH: 123
