@@ -132,11 +132,11 @@ EventTracking.prototype.boot = function (user, opts) {
     _sift.push(['_setSessionId', session]);
     _sift.push(['_trackPageview']);
 
-    if (this.$window.fbq) {
-      this.$window.fbq('track', 'ViewContent', {
+    analytics.ready(function () {
+      analytics.track('ViewContent', {
         action: 'LoggedIn'
       });
-    }
+    });
   }
 
   this._user = user;
@@ -349,11 +349,11 @@ EventTracking.prototype.visitedOrgSelectPage = function () {
  *   - segment
  * @return this
  */
-EventTracking.prototype.waitingForInfrastructure = function () {
+EventTracking.prototype.waitingForInfrastructure = function (orgName) {
   var eventName = 'Waiting for infrastrucuture';
-   
+  
   analytics.ready(function () {
-    analytics.track(eventName);
+    analytics.track(eventName, {org: orgName});
   });
   return this;
 };
