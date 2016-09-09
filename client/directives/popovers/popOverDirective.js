@@ -54,6 +54,7 @@ function popOver(
           return $log.error('Pop over needs a template');
         }
       }
+      $scope.element = element;
       $scope.popoverOptions = $scope.popoverOptions || {};
       $scope.active = $scope.active || false;
       $scope.popoverStyle = {
@@ -122,14 +123,15 @@ function popOver(
 
         getArrowStyle: function() {
           var style = {};
-          var isAtBottom = window.innerHeight - $scope.triggerElemPosition.top < 180;
+          var elementPosition = $scope.element[0].getBoundingClientRect();
+          var isAtBottom = window.innerHeight - elementPosition.top < 180;
           var topInt = parseInt($scope.popoverStyle.getStyle().top.replace('px', ''));
 
           if (topInt > 8 && !isAtBottom) {
             return style;
           }
           var top = POC.popoverElement[0].getBoundingClientRect().top;
-          var elemPosition = ($scope.triggerElemPosition.bottom + $scope.triggerElemPosition.top) / 2;
+          var elemPosition = (elementPosition.bottom + elementPosition.top) / 2;
           var diff = Math.abs(top - elemPosition);
 
           style.top = diff + 'px';
@@ -160,7 +162,6 @@ function popOver(
           }
         };
 
-        $scope.triggerElemPosition = event.currentTarget.getBoundingClientRect();
         POC.openPopover($scope.options);
       }
 
