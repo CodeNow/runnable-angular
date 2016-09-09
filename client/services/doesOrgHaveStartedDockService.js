@@ -4,7 +4,6 @@ require('app')
   .factory('doesOrgHaveStartedDock', doesOrgHaveStartedDock);
 
 function doesOrgHaveStartedDock(
-  eventTracking,
   fetchWhitelistedOrgsForDockCreated,
   keypather
 ) {
@@ -16,5 +15,4 @@ function doesOrgHaveStartedDock(
         });
       });
   };
-  eventTracking.visitedOrgSelectPage();
 }
