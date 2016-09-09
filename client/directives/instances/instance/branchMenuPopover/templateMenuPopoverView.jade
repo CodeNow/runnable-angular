@@ -15,27 +15,15 @@
       ng-click = "state.tab = 'repo'"
       ng-disabled = "state.tab !== 'repo'&& state.loading"
     )
-      svg.iconnables.grid-block.shrink
-        use(
-          xlink:href = "#icons-new-repository-server"
-        )
       .grid-block.vertical.shrink Repository
-        .small From your GitHub
-          br
-          | organization
+        .small From your GitHub org
     .grid-block.align-center.btn.btn-radio(
       ng-class = "{'active': state.tab === 'nonRepo'}"
       ng-click = "state.tab = 'nonRepo'"
       ng-disabled = "state.tab !== 'nonRepo'&& state.loading"
     )
-      svg.iconnables.grid-block.shrink
-        use(
-          xlink:href = "#icons-server-new"
-        )
       .grid-block.vertical.shrink Non-Repository
-        .small For a database or&#32;
-          br
-          | other service
+        .small For a DB or service
   .popover-content(
     ng-if = "state.tab === 'repo'"
     ng-init = "state.branchesLoaded = null"
@@ -65,6 +53,10 @@
         ng-class = "{'disabled': state.loading}"
         ng-click = "state.loading = !state.loading"
       )
+        svg.grid-content.shrink.iconnables.icons-repository
+          use(
+            xlink:href = "#icons-repository"
+          )
         .grid-block.vertical
           .grid-content button-clicker
           .grid-block(
@@ -97,6 +89,10 @@
       li.grid-block.align-center.list-item.popover-list-item.multi-line(
         ng-class = "{'disabled': state.loading}"
       )
+        svg.grid-content.shrink.iconnables.icons-repository
+          use(
+            xlink:href = "#icons-repository"
+          )
         .grid-block.vertical
           .grid-content api
           .grid-block(
@@ -123,6 +119,10 @@
       li.grid-block.align-center.list-item.popover-list-item.multi-line(
         ng-class = "{'disabled': state.loading}"
       )
+        svg.grid-content.shrink.iconnables.icons-repository
+          use(
+            xlink:href = "#icons-repository"
+          )
         .grid-block.vertical
           .grid-content runnable.com
           .grid-block(

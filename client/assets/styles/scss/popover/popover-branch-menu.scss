@@ -61,7 +61,7 @@
   .popover-header {
     display: flex;
     height: auto;
-    padding: 9px;
+    padding: 15px;
   }
 
   .btn-radio {
@@ -75,18 +75,18 @@
     text-align: left;
 
     + .btn-radio {
-      margin-left: 9px;
+      margin-left: 12px;
     }
 
     .small {
       font-size: 12px;
       opacity: .6;
     }
+  }
 
-    .iconnables {
-      height: 18px;
-      margin-right: 9px;
-      width: 18px;
-    }
+  .list-item .iconnables.icons-repository {
+    margin-right: 15px;
+    padding-left: 3px;
+    width: 24px;
   }
 }
