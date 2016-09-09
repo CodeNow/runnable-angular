@@ -23,6 +23,7 @@ function ControllerInstances(
 ) {
   var CIS = this;
   var userName = $state.params.userName;
+  CIS.userName = userName;
   CIS.searchBranches = null;
   CIS.instanceBranches = null;
   CIS.unbuiltBranches = null;
@@ -200,14 +201,22 @@ function ControllerInstances(
 
   this.forkBranchFromInstance = function (branch, closePopover) {
     var sha = branch.attrs.commit.sha;
-    var loadingName = 'buildingForkedBranch' + branch.attrs.name;
-    loading(loadingName, true);
+    var branchName = branch.attrs.name;
+    loading(branchName, true);
     loading('buildingForkedBranch', true);
-    promisify(CIS.poppedInstance, 'fork')(branch.attrs.name, sha)
-      .then(function () {
-        loading(loadingName, false);
+    promisify(CIS.poppedInstance, 'fork')(branchName, sha)
+      .then(function (instance) {
+        var newInstance = instance.children.models.filter(function(childInstance) {
+          return childInstance.attrs.name === branchName + '-' + instance.attrs.lowerName;
+        })[0];
+        var userName = instance.opts.qs.githubUsername;
+        loading(branchName, false);
         loading('buildingForkedBranch', false);
         closePopover();
+        $state.go('base.instances.instance', {
+          userName: userName,
+          instanceName: newInstance.attrs.name
+        });
       });
   };
 
