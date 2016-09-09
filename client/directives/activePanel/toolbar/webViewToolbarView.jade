@@ -1,8 +1,8 @@
 small.small.sans-serif.label-url.hidden-xxxs URL:&#32;
 a.p.monospace.text-overflow(
-  href = "//praful-staging-codenow.runnableapp.com"
+  ng-href = "http://{{SMC.state.instance.getContainerHostname()}}"
   target = "_blank"
-) praful-staging-codenow.runnableapp.com
+) {{ SMC.state.instance.getContainerHostname() }}
   svg.iconnables.icons-external
     use(
       xlink:href = "#icons-link-external"
@@ -16,8 +16,8 @@ a.p.monospace.text-overflow(
     )
   | {{state.error ? 'No exposed ports.' : ''}}
   | {{!state.error ? 'Bind to all interfaces.' : ''}}
-  | &nbsp;
-  a.link(
-    href = "#"
-    target = "_blank"
-  ) Learn More
+  //- | &nbsp;
+  //- a.link(
+  //-   href = "#"
+  //-   target = "_blank"
+  //- ) Learn More

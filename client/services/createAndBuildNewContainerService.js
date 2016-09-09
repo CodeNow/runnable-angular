@@ -80,7 +80,9 @@ function createAndBuildNewContainer(
       })
       .catch(function (err) {
         // Remove it from the servers list
-        instance.dealloc();
+        if (instance) {
+          instance.dealloc();
+        }
         return $q.reject(err);
       });
   };

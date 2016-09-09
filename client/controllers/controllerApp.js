@@ -3,7 +3,6 @@
 require('app')
   .controller('ControllerApp', ControllerApp);
 
-
 function ControllerApp(
   $localStorage,
   $ocLazyLoad,
@@ -23,7 +22,6 @@ function ControllerApp(
   ModalService,
   pageName,
   currentOrg,
-
   user,
   orgs,
   activeAccount
@@ -89,6 +87,26 @@ function ControllerApp(
   $rootScope.featureFlags = featureFlags.flags;
   $rootScope.resetFeatureFlags = featureFlags.reset;
   this.featureFlagsChanged = featureFlags.changed;
+  $rootScope.ahaGuide = {};
+  var completedMilestones = keypather.get($localStorage, 'ahaGuide.completedMilestones');
+  var ahaGuideToggles = keypather.get($localStorage, 'ahaGuide.toggles');
+
+  if (!completedMilestones) {
+    completedMilestones = {};
+    keypather.set($localStorage, 'ahaGuide.completedMilestones', completedMilestones);
+  }
+
+  if (!ahaGuideToggles) {
+    ahaGuideToggles = {
+      showAha: true,
+      exitedEarly: false,
+      showError: false
+    };
+    keypather.set($localStorage, 'ahaGuide.ahaGuideToggles', ahaGuideToggles);
+  }
+
+  $rootScope.ahaGuide.completedMilestones = $localStorage.ahaGuide.completedMilestones;
+  $rootScope.ahaGuide.ahaGuideToggles = $localStorage.ahaGuide.ahaGuideToggles;
 
   $scope.$watch(function () {
     return errs.errors.length;
@@ -97,6 +115,11 @@ function ControllerApp(
       dataApp.data.modalError.data.errors = errs.errors;
       dataApp.data.modalError.data.in = true;
     }
+  });
+
+  CA.showAhaNavPopover = false;
+  $rootScope.$on('launchAhaNavPopover', function () {
+    CA.showAhaNavPopover = true;
   });
 
   /**

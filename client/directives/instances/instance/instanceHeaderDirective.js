@@ -8,6 +8,7 @@ require('app')
  */
 function instanceHeader(
   $localStorage,
+  $rootScope,
   $stateParams,
   fetchPullRequest
 ) {
@@ -32,6 +33,9 @@ function instanceHeader(
             }
           });
       });
+      $scope.toggleSidebar = function () {
+        $rootScope.$broadcast('show-aha-sidebar');
+      };
     }
   };
 }
