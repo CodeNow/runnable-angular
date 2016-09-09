@@ -6,6 +6,7 @@ require('app')
 function NewContainerModalController(
   $q,
   $timeout,
+  ahaGuide,
   createNewBuildAndFetchBranch,
   createNonRepoInstance,
   errs,
@@ -20,64 +21,65 @@ function NewContainerModalController(
   close,
   currentOrg
 ) {
-  var NCMC = this;
-  angular.extend(NCMC, {
+  var MC = this;
+  angular.extend(MC, {
     name: 'newContainerModal',
     state: {
       tabName: 'repos',
       dockerfile: null,
       configurationMethod: null,
       namesForAllInstances: []
-    }
+    },
+    ahaGuide: ahaGuide
   });
 
   // Start loading repos and templates
-  loading.reset(NCMC.name + 'Repos');
-  loading.reset(NCMC.name + 'Templates');
-  loading.reset(NCMC.name + 'SingleRepo');
+  loading.reset(MC.name + 'Repos');
+  loading.reset(MC.name + 'Templates');
+  loading.reset(MC.name + 'SingleRepo');
 
   // Fetch all repos from Github
-  loading(NCMC.name + 'Repos', true);
+  loading(MC.name + 'Repos', true);
   $q.all({
     instances: fetchInstancesByPod(),
     repoList: fetchOwnerRepos(currentOrg.github.oauthName())
   })
     .then(function (data) {
-      NCMC.instances = data.instances;
-      NCMC.state.namesForAllInstances = NCMC.instances.map(function (instance) {
+      MC.instances = data.instances;
+      MC.state.namesForAllInstances = MC.instances.map(function (instance) {
         return instance.attrs.name;
       });
-      NCMC.githubRepos = data.repoList;
-      NCMC.githubRepos.models.forEach(function (repo) {
-        repo.isAdded = NCMC.isRepoAdded(repo, data.instances);
+      MC.githubRepos = data.repoList;
+      MC.githubRepos.models.forEach(function (repo) {
+        repo.isAdded = MC.isRepoAdded(repo, data.instances);
       });
     })
     .catch(errs.handler)
     .finally(function () {
-      loading(NCMC.name + 'Repos', false);
+      loading(MC.name + 'Repos', false);
     });
 
-  NCMC.fetchTemplateServers = function () {
-    loading(NCMC.name + 'Templates', true);
+  MC.fetchTemplateServers = function () {
+    loading(MC.name + 'Templates', true);
     // Fetch all non-repo containres
     return fetchInstances({ githubUsername: 'HelloRunnable' })
       .then(function (servers) {
-        NCMC.templateServers = servers;
-        loading(NCMC.name + 'Templates', false);
+        MC.templateServers = servers;
+        loading(MC.name + 'Templates', false);
         return servers;
       });
   };
 
-  NCMC.changeTab = function (tabName) {
+  MC.changeTab = function (tabName) {
     if (!['repos', 'services'].includes(tabName)) {
       return;
     }
-    NCMC.state.tabName = tabName;
+    MC.state.tabName = tabName;
     // Reset repo and template
-    NCMC.state.templateSource = null;
-    NCMC.state.repo = null;
-    if (NCMC.state.tabName === 'services' && !NCMC.templateServers) {
-      NCMC.fetchTemplateServers();
+    MC.state.templateSource = null;
+    MC.state.repo = null;
+    if (MC.state.tabName === 'services' && !MC.templateServers) {
+      MC.fetchTemplateServers();
     }
   };
 
@@ -85,7 +87,7 @@ function NewContainerModalController(
     return repo.attrs.name.replace(/[^a-zA-Z0-9-]/g, '-');
   }
 
-  NCMC.isRepoAdded = function (repo, instances) {
+  MC.isRepoAdded = function (repo, instances) {
     // Since the newServers may have faked repos (just containing names), just check the name
     return !!instances.find(function (instance) {
       var repoName = instance.getRepoName();
@@ -97,21 +99,21 @@ function NewContainerModalController(
     });
   };
 
-  NCMC.close = function () {
-    if (NCMC.state.closed) { return; }
-    NCMC.state.closed = true;
+  MC.close = function () {
+    if (MC.state.closed) { return; }
+    MC.state.closed = true;
     return close();
   };
 
-  NCMC.setTemplate = function (sourceInstance, goToPanelCb) {
-    NCMC.state.templateSource = sourceInstance;
+  MC.setTemplate = function (sourceInstance, goToPanelCb) {
+    MC.state.templateSource = sourceInstance;
     var instanceToForkName = sourceInstance.attrs.name;
-    loading(NCMC.name + 'SingleRepo', true);
+    loading(MC.name + 'SingleRepo', true);
     return fetchInstances()
       .then(function (instances) {
-        loading(NCMC.name + 'SingleRepo', false);
+        loading(MC.name + 'SingleRepo', false);
         var serverName = getNewForkName(instanceToForkName, instances, true);
-        NCMC.state.instanceName = serverName;
+        MC.state.instanceName = serverName;
         /**
          * Warning: Hack Ahead
          *
@@ -129,9 +131,9 @@ function NewContainerModalController(
       .catch(errs.handler);
   };
 
-  NCMC.addServerFromTemplate = function (sourceInstance) {
+  MC.addServerFromTemplate = function (sourceInstance) {
     var instanceToForkName = sourceInstance.attrs.name;
-    NCMC.close();
+    MC.close();
     return fetchInstances()
       .then(function (instances) {
         var serverName = getNewForkName(instanceToForkName, instances, true);
@@ -150,34 +152,31 @@ function NewContainerModalController(
       .catch(errs.handler);
   };
 
-  NCMC.setRepo = function (repo, goToPanelCb) {
-    if (repo.attrs.full_name === keypather.get(NCMC, 'state.repo.attrs.full_name')) {
+  MC.setRepo = function (repo, goToPanelCb) {
+    if (repo.attrs.full_name === keypather.get(MC, 'state.repo.attrs.full_name')) {
       return goToPanelCb('dockerfileMirroring');
     }
     repo.loading = true;
-    NCMC.state.repo = repo;
-    loading(NCMC.name + 'SingleRepo', true);
+    MC.state.repo = repo;
+    loading(MC.name + 'SingleRepo', true);
     var fullName = keypather.get(repo, 'attrs.full_name');
     var defaultBranch = keypather.get(repo, 'attrs.default_branch');
-    NCMC.state.configurationMethod = null;
-    NCMC.state.instanceName = fullName.split('/')[1] || '';
-    NCMC.state.instanceName = NCMC.state.instanceName.replace(/_/g, '-');
+    MC.state.configurationMethod = null;
+    MC.state.instanceName = fullName.split('/')[1] || '';
+    MC.state.instanceName = MC.state.instanceName.replace(/_/g, '-');
     return fetchRepoDockerfiles(fullName, defaultBranch)
       .then(function (dockerfiles) {
-        if (dockerfiles.length === 0) {
-          NCMC.state.configurationMethod = 'new';
-        }
-        loading(NCMC.name + 'SingleRepo', false);
+        loading(MC.name + 'SingleRepo', false);
         repo.loading = false;
         repo.dockerfiles = dockerfiles;
-        NCMC.state.dockerfile = null;
+        MC.state.dockerfile = null;
         return goToPanelCb('dockerfileMirroring');
       });
   };
 
-  NCMC.createBuildAndGoToNewRepoModal = function (instanceName, repo, dockerfile, configurationMethod) {
+  MC.createBuildAndGoToNewRepoModal = function (instanceName, repo, dockerfile, configurationMethod) {
     var dockerfilePath;
-    loading(NCMC.name + 'SingleRepo', true);
+    loading(MC.name + 'SingleRepo', true);
 
     if (configurationMethod === 'dockerfile') {
       dockerfilePath = keypather.get(dockerfile, 'path');
@@ -188,25 +187,27 @@ function NewContainerModalController(
       .then(function (repoBuildAndBranch) {
         repoBuildAndBranch.instanceName = instanceName;
         if (configurationMethod === 'dockerfile' && dockerfile) {
-          NCMC.newMirrorRepositoryContainer(repoBuildAndBranch);
+          MC.newMirrorRepositoryContainer(repoBuildAndBranch);
+        } else if (configurationMethod === 'blankDockerfile'){
+          MC.newRepositoryContainer(repoBuildAndBranch, configurationMethod);
         } else {
-          NCMC.newRepositoryContainer(repoBuildAndBranch, configurationMethod);
+          MC.newRepositoryContainer(repoBuildAndBranch, false);
         }
       })
       .finally(function () {
-        loading(NCMC.name + 'SingleRepo', false);
+        loading(MC.name + 'SingleRepo', false);
       });
   };
 
-  NCMC.createBuildFromTemplate = function (instanceName, sourceInstance) {
-    NCMC.close();
+  MC.createBuildFromTemplate = function (instanceName, sourceInstance) {
+    MC.close();
     return createNonRepoInstance(instanceName, sourceInstance)
       .catch(errs.handler);
   };
 
-  NCMC.newRepositoryContainer = function (inputs, configurationMethod) {
-    if (NCMC.state.closed) { return; }
-    NCMC.close();
+  MC.newRepositoryContainer = function (inputs, configurationMethod) {
+    if (MC.state.closed) { return; }
+    MC.close();
     ModalService.showModal({
       controller: 'SetupServerModalController',
       controllerAs: 'SMC',
@@ -221,9 +222,9 @@ function NewContainerModalController(
     });
   };
 
-  NCMC.newMirrorRepositoryContainer = function (inputs) {
-    if (NCMC.state.closed) { return; }
-    NCMC.close();
+  MC.newMirrorRepositoryContainer = function (inputs) {
+    if (MC.state.closed) { return; }
+    MC.close();
     ModalService.showModal({
       controller: 'SetupMirrorServerModalController',
       controllerAs: 'SMC',

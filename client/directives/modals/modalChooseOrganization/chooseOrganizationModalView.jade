@@ -13,13 +13,11 @@
       }"
     )
       .grid-block.shrink.align-center.justify-center.padding-md.aha-guide(
+        aha-guide
         ng-if = "$root.featureFlags.aha"
-        ng-include = "'ahaGuideView'"
-        ng-init = "\
-          state.showStep = 0;\
-          state.showSubStep = 0;\
-          state.hideMenu = true;\
-        "
+        step-index = 0
+        sub-step = "orgSelection"
+        sub-step-index = 0
       )
       animated-panel-container
         animated-panel.modal-body.grid-block.vertical.padding-sm(
@@ -102,7 +100,6 @@
             button.btn.btn-md.green(
               ng-click = "\
                 actions.createOrCheckDock(data.selectedOrgName, goToPanel);\
-                state.showSubStep = 1;\
               "
               ng-disabled = "!data.selectedOrgName"
             ) Confirm Organization

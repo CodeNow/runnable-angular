@@ -543,6 +543,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
     });
 
     it('should fetch all the instances in one go', function (done) {
+      $state.params.userName = 'thejsj';
       fetchInstancesByPod().then(function (instancesByPod) {
         expect(instancesByPod).to.deep.equal({reset: resetInstance, githubUsername: $state.params.userName});
         done();

@@ -1,17 +1,16 @@
 .grid-block.shrink.aha-meter(
   ng-class = "{\
-    'aha-meter-33': $root.featureFlags.aha2 && state.showSubStep === 1,\
-    'aha-meter-66': $root.featureFlags.aha2 && state.showSubStep === 2,\
-    'aha-meter-100': $root.featureFlags.aha3\
+    'aha-meter-33': ahaGuide.getCurrentStep() === ahaGuide.steps.ADD_FIRST_BRANCH,\
+    'aha-meter-100': ahaGuide.getCurrentStep() > ahaGuide.steps.ADD_FIRST_BRANCH\
   }"
 )
   svg.iconnables
     use(
-      ng-if = "!$root.featureFlags.aha3"
+      ng-if = "ahaGuide.getCurrentStep() === ahaGuide.steps.ADD_FIRST_BRANCH"
       xlink:href = "#icons-octicons-branch"
     )
     use(
-      ng-if = "$root.featureFlags.aha3"
+      ng-if = "ahaGuide.getCurrentStep() > ahaGuide.steps.ADD_FIRST_BRANCH"
       xlink:href = "#icons-check"
     )
 .grid-block.vertical.aha-text

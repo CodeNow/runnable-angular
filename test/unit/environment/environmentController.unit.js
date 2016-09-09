@@ -1,27 +1,23 @@
 'use strict';
 
-var $controller,
-    $rootScope,
-    $scope,
-    $q,
-    $timeout;
-var keypather = require('keypather')();
 var apiMocks = require('../apiMocks/index');
+var keypather = require('keypather')();
 var runnable = window.runnable;
-var fetchInstancesByPodMock = new (require('../fixtures/mockFetch'))();
-var createAndBuildNewContainer = new (require('../fixtures/mockFetch'))();
 
-var stacks = angular.copy(apiMocks.stackInfo);
+var $controller;
+var $q;
+var $rootScope;
+var $scope;
+var $timeout;
+
 var thisUser = runnable.newUser(apiMocks.user);
 var EC;
 var fetchDockerfileForContextVersionStub;
-var fetchInstancesByPodStub;
 
 describe('environmentController'.bold.underline.blue, function () {
   var ctx = {};
 
-  function setup(opts) {
-    opts = opts || {};
+  function setup() {
     ctx = {};
     var buildingInstance = apiMocks.instances.building;
     ctx.runningInstance = apiMocks.instances.runningWithContainers[0];
@@ -74,10 +70,14 @@ describe('environmentController'.bold.underline.blue, function () {
       $provide.value('eventTracking', ctx.eventTracking);
       $provide.value('user', thisUser);
       $provide.value('$state', ctx.state);
-      $provide.factory('fetchInstancesByPod', function ($q) {
-        fetchInstancesByPodStub = sinon.stub().returns($q.when(ctx.masterPods));
-        return fetchInstancesByPodStub;
+      $provide.value('ahaGuide', {
+        isAddingFirstRepo: sinon.stub().returns(false),
+        getCurrentStep: sinon.stub(),
+        steps: {
+          ADD_FIRST_REPO: 'addFirstRepo?!'
+        }
       });
+      $provide.value('instancesByPod', ctx.masterPods);
       $provide.factory('fetchDockerfileForContextVersion', function ($q) {
         fetchDockerfileForContextVersionStub = sinon.stub().returns($q.when(ctx.dockerfile));
         return fetchDockerfileForContextVersionStub;
@@ -145,8 +145,6 @@ describe('environmentController'.bold.underline.blue, function () {
       setup();
       $rootScope.$digest();
       // this should now be loaded
-      expect($scope.data.instances, 'masterPods').to.equal(ctx.masterPods);
-      sinon.assert.calledOnce(fetchInstancesByPodStub);
       sinon.assert.calledOnce(fetchDockerfileForContextVersionStub);
       expect(ctx.masterPods.models[1].mirroredDockerfile).to.equal(ctx.dockerfile);
     });

@@ -1,11 +1,17 @@
 .modal-backdrop.in
   .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
-    ng-if = "$root.featureFlags.aha1"
-    ng-include = "'ahaGuideView'"
-    ng-init = "\
-      state.showStep = 1;\
-      state.showSubStep = 4;\
-    "
+    aha-guide
+    ng-if = "SMC.state.advanced !== 'blankDockerfile' && SMC.isAddingFirstRepo()"
+    step-index = 1
+    sub-step = "repository"
+    sub-step-index = 4
+  )
+  .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
+    aha-guide
+    ng-if = "SMC.state.advanced === 'blankDockerfile' && SMC.isAddingFirstRepo()"
+    step-index = 1
+    sub-step = "buildfiles"
+    sub-step-index = 6
   )
   form.modal-dialog.modal-edit(
     name = "SMC.serverForm"
