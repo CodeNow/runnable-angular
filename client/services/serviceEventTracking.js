@@ -179,7 +179,7 @@ EventTracking.prototype.boot = function (user, opts) {
 
   // Segment
   analytics.ready(function () {
-    analytics.identify(user.name, {
+    analytics.identify(data.name, {
         firstName: firstName,
         lastName: lastName,
         username: data.name,
@@ -187,6 +187,8 @@ EventTracking.prototype.boot = function (user, opts) {
         createdAt: _keypather.get(userJSON, 'created'),
         avatar: _keypather.get(userJSON, 'gravatar')
     });
+    analytics.alias(user.oauthId());
+    analytics.alias(_keypather.get(userJSON, '_id'));
     if (opts.orgName) {
       analytics.group(data.company.id, {
         name: data.company.name
