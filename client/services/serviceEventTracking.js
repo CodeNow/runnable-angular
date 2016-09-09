@@ -314,7 +314,7 @@ EventTracking.prototype.createdRepoContainer = function (org, repo) {
     this.analytics.track('ViewContent', {
       action: 'CreateContainer',
       type: 'Repo',
-      containerName: containerName
+      containerName: repo
     });
   });
 };
