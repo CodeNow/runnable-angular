@@ -26,7 +26,8 @@
               use(
                 xlink:href = "#icons-new-repository-server"
               )
-            .btn-text.grid-block Repository Template
+            .btn-text.grid-block.vertical.text-left Repository Template
+              small.small From your GitHub org
           //- disable this button when loading a repository
           .grid-block.align-center.shrink.btn.btn-radio(
             ng-disabled = "$root.isLoading[MC.name + 'SingleRepo']"
@@ -42,7 +43,7 @@
                 xlink:href = "#icons-server-new"
               )
             .btn-text.grid-block.vertical.text-left Non-Repository Template
-              small.small For services and databases
+              small.small For a database or service
           svg.iconnables.icons-close(
             ng-click = "MC.close()"
           )
@@ -67,6 +68,7 @@
         header.modal-header
           svg.iconnables.icons-arrow-backward(
             ng-click = "!$root.isLoading[MC.name + 'SingleRepo'] && goToPanel('containerSelection', 'back')"
+            ng-if = "!$root.featureFlags.containersViewTemplateControls"
           )
             use(
               xlink:href = "#icons-arrow-down"
@@ -110,6 +112,7 @@
         header.modal-header
           svg.iconnables.icons-arrow-backward(
             ng-click = "!$root.isLoading[MC.name + 'SingleRepo'] && goToPanel(MC.state.templateSource ? 'containerSelection' : 'dockerfileMirroring', 'back')"
+            ng-if = "!$root.featureFlags.containersViewTemplateControls"
           )
             use(
               xlink:href = "#icons-arrow-down"
