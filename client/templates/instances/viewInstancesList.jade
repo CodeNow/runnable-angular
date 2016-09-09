@@ -18,7 +18,8 @@ p.p.text-center.text-gray-light.padding-sm(
 
   .grid-block.align-center.list-item-cluster.list-clusters-heading
     span.grid-content.text-overflow Templates
-    button.grid-block.align-center.shrink.btn.btn-xxs.gray(
+    //- div instead of button so safari doesn’t get weird with alignment
+    .grid-block.align-center.shrink.btn.btn-xxs.gray(
       ng-class = "{'active': state.active}"
       ng-if = "$root.featureFlags.containersViewTemplateControls"
       pop-over
@@ -69,8 +70,8 @@ p.p.text-center.text-gray-light.padding-sm(
     span.grid-content.text-overflow(
       title = "{{masterInstance.getName()}}"
     ) {{masterInstance.getName()}}
-    //- '+' button for adding branches and configuring clusters
-    button.grid-block.align-center.shrink.btn.btn-xxs.gray(
+    //- div instead of button so safari doesn’t get weird with alignment
+    .grid-block.align-center.shrink.btn.btn-xxs.gray(
       ng-class = "{'active': state.active}"
       ng-if = "$root.featureFlags.addBranches"
       ng-click = "CIS.popInstanceOpen(masterInstance)"
