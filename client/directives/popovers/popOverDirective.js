@@ -56,7 +56,6 @@ function popOver(
       }
       $scope.popoverOptions = $scope.popoverOptions || {};
       $scope.active = $scope.active || false;
-      var prevSpot = -1;
       $scope.popoverStyle = {
         getStyle: function () {
           if (!$scope.active) {
@@ -64,6 +63,7 @@ function popOver(
           }
 
           var offset = {};
+          var topMargin = 8;
 
           var scrollTop = $document.find('body')[0].scrollTop || $document.find('html')[0].scrollTop;
           if (keypather.get($scope, 'popoverOptions.mouse')) {
@@ -110,7 +110,7 @@ function popOver(
               targetedTopVal = $document.find('body')[0].offsetHeight - POC.popoverElement[0].offsetHeight - 8;
             }
             if (targetedTopVal < 0) {
-              targetedTopVal = 8;
+              targetedTopVal = topMargin;
             }
 
             style.top = targetedTopVal + 'px';
