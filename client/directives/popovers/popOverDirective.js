@@ -127,7 +127,7 @@ function popOver(
           var isAtBottom = window.innerHeight - elementPosition.top < 180;
           var topInt = parseInt($scope.popoverStyle.getStyle().top.replace('px', ''));
 
-          if (topInt > 8 && !isAtBottom) {
+          if (topInt > 8 && !isAtBottom || elementPosition.bottom > window.innerHeight) {
             return style;
           }
           var top = POC.popoverElement[0].getBoundingClientRect().top;
