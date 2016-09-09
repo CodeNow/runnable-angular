@@ -92,7 +92,17 @@ function EventTracking(
     // stub segment (analytics) if not present
     this.analytics = {
       ready: angular.noop,
-      track: angular.noop
+      track: angular.noop,
+      identify: angular.noop,
+      alias: angular.noop,
+      page: angular.noop,
+      group: angular.noop,
+      trackLink: angular.noop,
+      trackForm: angular.noop,
+      user: angular.noop,
+      debug: angular.noop,
+      on: angular.noop,
+      timeout: angular.noop
     };
   }
 
@@ -146,7 +156,7 @@ EventTracking.prototype.boot = function (user, opts) {
     _sift.push(['_trackPageview']);
 
     this.analytics.ready(function () {
-      this.analytics.track('ViewContent', {
+      analytics.track('ViewContent', {
         action: 'LoggedIn'
       });
     });
@@ -192,7 +202,7 @@ EventTracking.prototype.boot = function (user, opts) {
 
   // Segment
   this.analytics.ready(function () {
-    this.analytics.identify(data.name, {
+    analytics.identify(data.name, {
         firstName: firstName,
         lastName: lastName,
         username: data.name,
@@ -200,10 +210,10 @@ EventTracking.prototype.boot = function (user, opts) {
         createdAt: _keypather.get(userJSON, 'created'),
         avatar: _keypather.get(userJSON, 'gravatar')
     });
-    this.analytics.alias(user.oauthId());
-    this.analytics.alias(_keypather.get(userJSON, '_id'));
+    analytics.alias(user.oauthId());
+    analytics.alias(_keypather.get(userJSON, '_id'));
     if (opts.orgName) {
-      this.analytics.group(data.company.id, {
+      analytics.group(data.company.id, {
         name: data.company.name
       });
     }
@@ -230,7 +240,7 @@ EventTracking.prototype.toggledCommit = function (data) {
   });
   this._mixpanel('track', eventName, eventData);
   this.analytics.ready(function () {
-    this.analytics.track(eventName, eventData);
+    analytics.track(eventName, eventData);
   });
   return this;
 };
@@ -252,7 +262,7 @@ EventTracking.prototype.triggeredBuild = function (cache) {
   this._Intercom('trackEvent', eventName, eventData);
   this._mixpanel('track', eventName, eventData);
   this.analytics.ready(function () {
-    this.analytics.track(eventName, eventData);
+    analytics.track(eventName, eventData);
   });
   return this;
 };
@@ -271,7 +281,7 @@ EventTracking.prototype.visitedState = function () {
   });
   this._mixpanel('track', eventName, eventData);
   this.analytics.ready(function () {
-    this.analytics.track(eventName, eventData);
+    analytics.track(eventName, eventData);
   });
   return this;
 };
@@ -294,7 +304,7 @@ EventTracking.prototype.update = function () {
 EventTracking.prototype.trackClicked = function (data) {
   this._mixpanel('track', 'clicked - ' + _keypather.get(data, 'text'), data);
   this.analytics.ready(function () {
-    this.analytics.track('Clicked - ' + _keypather.get(data, 'text'), data);
+    analytics.track('Clicked - ' + _keypather.get(data, 'text'), data);
   });
   return this;
 };
@@ -314,7 +324,7 @@ EventTracking.prototype.createdRepoContainer = function (org, repo) {
   }
 
   this.analytics.ready(function () {
-    this.analytics.track('ViewContent', {
+    analytics.track('ViewContent', {
       action: 'CreateContainer',
       type: 'Repo',
       containerName: repo
@@ -335,7 +345,7 @@ EventTracking.prototype.createdNonRepoContainer = function (containerName) {
   }
 
   this.analytics.ready(function () {
-    this.analytics.track('ViewContent', {
+    analytics.track('ViewContent', {
       action: 'CreateContainer',
       type: 'NonRepo',
       containerName: containerName
@@ -353,7 +363,7 @@ EventTracking.prototype.visitedOrgSelectPage = function () {
   var eventName = 'Visited org-select page';
 
   this.analytics.ready(function () {
-    this.analytics.track(eventName);
+    analytics.track(eventName);
   });
   return this;
 };
@@ -368,7 +378,7 @@ EventTracking.prototype.waitingForInfrastructure = function (orgName) {
   var eventName = 'Waiting for infrastrucuture';
 
   this.analytics.ready(function () {
-    this.analytics.track(eventName, {org: orgName});
+    analytics.track(eventName, {org: orgName});
   });
   return this;
 };
