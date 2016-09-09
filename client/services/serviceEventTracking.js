@@ -84,6 +84,15 @@ function EventTracking(
   }
 
   /**
+   * Stub Segment when SDK not present
+   * (development/staging environments)
+   */
+  if (!analytics) {
+    // stub segment (analytics) if not present
+    analytics = angular.noop;
+  }
+
+  /**
    * Wrap invokations of mixpanel SDK API methods (object properties)
    * @param {String} mixpanel SDK API method name
    * @params [1..n] optional arguments passed to mixpanel SDK
