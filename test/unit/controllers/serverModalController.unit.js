@@ -1,4 +1,4 @@
-/*global runnable:true, mocks: true, directiveTemplate: true, xdescribe: true, helpCardsMock */
+/*global runnable:true, mocks: true, directiveTemplate: true, xdescribe: true */
 'use strict';
 
 describe('serverModalController'.bold.underline.blue, function () {
@@ -127,10 +127,6 @@ describe('serverModalController'.bold.underline.blue, function () {
     };
 
     angular.mock.module('app', function ($provide) {
-      $provide.factory('helpCards', function () {
-        ctx.helpCards = helpCardsMock.create(ctx)($q);
-        return ctx.helpCards;
-      });
       $provide.factory('fetchUser', mockUserFetch.autoTrigger(ctx.fakeOrg1));
       $provide.factory('createBuildFromContextVersionId', function () {
         ctx.createBuildFromContextVersionId = sinon.stub().returns($q.when(ctx.build));

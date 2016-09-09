@@ -12,7 +12,6 @@ function EditServerModalController(
   cleanStartCommand,
   errs,
   fetchInstancesByPod,
-  helpCards,
   instance,
   isTabNameValid,
   keypather,
@@ -24,7 +23,6 @@ function EditServerModalController(
   close
 ) {
   var SMC = this;
-  SMC.helpCards = helpCards;
 
   var parentController = $controller('ServerModalController as SMC', { $scope: $scope });
   angular.extend(SMC, {

@@ -37,15 +37,15 @@
             )
           .btn-text.grid-content Teammates
         button.btn.btn-radio.grid-block.vertical(
-          ng-class = "{'active': SEMC.currentTab === 'gitHubIntegration'}"
-          ng-click = "SEMC.currentTab = 'gitHubIntegration'"
+          ng-class = "{'active': SEMC.currentTab === 'githubIntegration'}"
+          ng-click = "SEMC.currentTab = 'githubIntegration'"
           ng-if = "$root.featureFlags.gitHubIntegration"
         )
           svg.iconnables.grid-content
             use(
               xlink:href = "#icons-octicons-github-gray"
             )
-          .btn-text.grid-content PR Integration
+          .btn-text.grid-content PR Bot
         button.btn.btn-radio.grid-block.vertical(
           ng-class = "{'active': SEMC.currentTab === 'slackIntegration'}"
           ng-click = "SEMC.currentTab = 'slackIntegration'"
@@ -70,7 +70,7 @@
       )
 
       div(
-        ng-if = "SEMC.currentTab === 'gitHubIntegration'"
+        ng-if = "SEMC.currentTab === 'githubIntegration'"
         ng-include = "'gitHubForm'"
       )
 

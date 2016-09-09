@@ -40,7 +40,7 @@ p.p.text-center.text-gray-light.padding-sm(
         instance = "masterInstance"
         instance-navigation
         master-instance = "masterInstance"
-        ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
+        ng-repeat = "masterInstance in CIS.getFilteredInstanceList().models | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
       )
       //- master non-repository containers
       .grid-block(

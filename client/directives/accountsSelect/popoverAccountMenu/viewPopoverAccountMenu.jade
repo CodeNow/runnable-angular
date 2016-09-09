@@ -58,14 +58,14 @@
             //- $root.featureFlags.billing
             //- *****************
             li.list-item.popover-list-item(
-              ng-click = "actions.openSettingsModal('gitHubIntegration')"
+              ng-click = "actions.openSettingsModal('githubIntegration')"
               ng-if = "$root.featureFlags.gitHubIntegration"
             )
               svg.iconnables
                 use(
                   xlink:href = "#icons-octicons-github-gray"
                 )
-              | PR Integration
+              | PR Bot
             li.list-item.popover-list-item(
               ng-click = "actions.openSettingsModal('slackIntegration')"
             )

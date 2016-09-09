@@ -1,4 +1,4 @@
-/*global runnable:true, mocks: true, directiveTemplate: true, xdescribe: true, helpCardsMock */
+/*global runnable:true, mocks: true, directiveTemplate: true, xdescribe: true */
 'use strict';
 
 var VersionFileModel = require('@runnable/api-client/lib/models/context/version/file');
