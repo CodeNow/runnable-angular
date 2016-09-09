@@ -327,3 +327,33 @@ EventTracking.prototype.createdNonRepoContainer = function (containerName) {
     });
   });
 };
+
+/**
+ * Track user visit to /orgSelect page
+ * Reports to:
+ *   - segment
+ * @return this
+ */
+EventTracking.prototype.visitedOrgSelectPage = function () {
+  var eventName = 'Visited org-select page';
+   
+  analytics.ready(function () {
+    analytics.track(eventName);
+  });
+  return this;
+};
+
+/**
+ * Track org click on /orgSelect page
+ * Reports to:
+ *   - segment
+ * @return this
+ */
+EventTracking.prototype.waitingForInfrastructure = function () {
+  var eventName = 'Waiting for infrastrucuture';
+   
+  analytics.ready(function () {
+    analytics.track(eventName);
+  });
+  return this;
+};
