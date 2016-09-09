@@ -124,18 +124,21 @@ function popOver(
         getArrowStyle: function() {
           var style = {};
           var elementPosition = $scope.element[0].getBoundingClientRect();
-          var isAtBottom = window.innerHeight - elementPosition.top < 180;
-          var topInt = parseInt($scope.popoverStyle.getStyle().top.replace('px', ''));
+          var elementCenter = (elementPosition.bottom + elementPosition.top) / 2;
 
-          if (topInt > 8 && !isAtBottom || elementPosition.bottom > window.innerHeight) {
+          var popoverElementPosition = POC.popoverElement[0].getBoundingClientRect();
+
+          var topInt = parseInt($scope.popoverStyle.getStyle().top.replace('px', ''));
+          var isAtBottom = window.innerHeight - elementPosition.top < 180;
+
+          var diff = Math.abs(popoverElementPosition.top - elementCenter);
+
+          if (topInt > 8 && !isAtBottom || diff > POC.popoverElement[0].getBoundingClientRect().height) {
+            return style;
+          } else {
+            style.top = diff + 'px';
             return style;
           }
-          var top = POC.popoverElement[0].getBoundingClientRect().top;
-          var elemPosition = (elementPosition.bottom + elementPosition.top) / 2;
-          var diff = Math.abs(top - elemPosition);
-
-          style.top = diff + 'px';
-          return style;
         }
       };
 
