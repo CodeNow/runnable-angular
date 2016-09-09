@@ -18,13 +18,17 @@ p.p.text-center.text-gray-light.padding-sm(
 
   .grid-block.align-center.list-item-cluster.list-clusters-heading
     span.grid-content.text-overflow Templates
-    button.grid-block.shrink.btn.btn-xs.gray(
+    button.grid-block.align-center.shrink.btn.btn-xxs.gray(
       ng-class = "{'active': state.active}"
       ng-if = "$root.featureFlags.containersViewTemplateControls"
       pop-over
-      pop-over-options = "{\"top\":-30,\"left\":105}"
+      pop-over-options = "{\"top\":-30,\"left\":114}"
       pop-over-template = "templateMenuPopoverView"
     ) Create Template
+      svg.iconnables.icons-arrow-forward
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
 
   .list-item-cluster(
     ng-if = "!$root.featureFlags.containersViewEmptyState"
@@ -66,15 +70,19 @@ p.p.text-center.text-gray-light.padding-sm(
       title = "{{masterInstance.getName()}}"
     ) {{masterInstance.getName()}}
     //- '+' button for adding branches and configuring clusters
-    button.grid-block.shrink.btn.btn-xs.gray(
+    button.grid-block.align-center.shrink.btn.btn-xxs.gray(
       ng-class = "{'active': state.active}"
       ng-if = "$root.featureFlags.addBranches"
       ng-click = "CIS.popInstanceOpen(masterInstance)"
       pop-over
       pop-over-controller = "CIS"
-      pop-over-options = "{\"verticallyCentered\":true,\"left\":78}"
+      pop-over-options = "{\"verticallyCentered\":true,\"left\":87}"
       pop-over-template = "branchMenuPopoverView"
     ) Add Branch
+      svg.iconnables.icons-arrow-forward
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
 
     //- repo config button (pre auto-isolation)
     svg.grid-block.shrink.iconnables.icons-gear(

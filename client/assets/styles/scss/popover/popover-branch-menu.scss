@@ -65,12 +65,11 @@
   }
 
   .btn-radio {
-    border-radius: $input-border-radius-lg;
     flex: 0 1 50%;
     font-size: 13px;
     height: auto;
     line-height: 1.4;
-    padding: 9px 15px;
+    padding: 9px 12px;
     text-align: left;
 
     + .btn-radio {
@@ -84,7 +83,7 @@
 
     .iconnables {
       height: 18px;
-      margin-right: 9px;
+      margin-right: 6px;
       width: 18px;
     }
   }

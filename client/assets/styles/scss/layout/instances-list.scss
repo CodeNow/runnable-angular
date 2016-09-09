@@ -11,18 +11,6 @@
   position: relative;
   width: $instance-list-width;
 
-  .btn-xs.gray {
-    border-color: #ddd;
-    color: #a1a1a1;
-    font-size: 12px;
-    font-weight: 400;
-    height: 20px;
-    padding: 0 4px;
-    right: -6px;
-    top: 1px;
-    width: auto;
-  }
-
   &.in {
     display: block;
   }
@@ -87,18 +75,29 @@
 .list-clusters-heading {
   height: 27px;
   margin: 4px 0;
-  padding: 0 10px 0 31px;
+  padding: 0 4px 0 31px;
 
   // repo name
   .text-overflow {
     padding-right: 9px;
   }
 
-  // '+' button
-  .btn-xs {
-    line-height: initial;
-    overflow: hidden;
-    width: $input-xs;
+  // 'add…' buttons
+  .btn-xxs {
+    color: lighten($gray,15);
+    font-weight: $weight-normal;
+    height: 20px;
+    top: 1px;
+
+    &:hover {
+      color: $gray;
+    }
+
+    .icons-arrow-forward {
+      height: 12px;
+      margin-right: -3px;
+      width: 12px;
+    }
   }
 }
 

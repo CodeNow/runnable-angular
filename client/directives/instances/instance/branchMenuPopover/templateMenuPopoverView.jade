@@ -20,7 +20,7 @@
           xlink:href = "#icons-new-repository-server"
         )
       .grid-block.vertical.shrink Repository
-        .small From your org
+        .small Add from your org
     button.grid-block.align-center.btn.btn-radio(
       ng-class = "{'active': state.tab === 'nonRepo'}"
       ng-click = "state.tab = 'nonRepo'"
@@ -31,7 +31,7 @@
           xlink:href = "#icons-server-new"
         )
       .grid-block.vertical.shrink Non-Repository
-        .small For services & DBs
+        .small Add a service or DB
   .popover-content(
     ng-if = "state.tab === 'repo'"
     ng-init = "state.branchesLoaded = null"
