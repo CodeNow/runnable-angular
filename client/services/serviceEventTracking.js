@@ -90,7 +90,10 @@ function EventTracking(
    */
   if (!this.analytics) {
     // stub segment (analytics) if not present
-    this.analytics = angular.noop;
+    this.analytics = {
+      ready: angular.noop,
+      track: angular.noop
+    };
   }
 
   /**
@@ -348,7 +351,7 @@ EventTracking.prototype.createdNonRepoContainer = function (containerName) {
  */
 EventTracking.prototype.visitedOrgSelectPage = function () {
   var eventName = 'Visited org-select page';
-   
+
   this.analytics.ready(function () {
     this.analytics.track(eventName);
   });
@@ -363,7 +366,7 @@ EventTracking.prototype.visitedOrgSelectPage = function () {
  */
 EventTracking.prototype.waitingForInfrastructure = function (orgName) {
   var eventName = 'Waiting for infrastrucuture';
-  
+
   this.analytics.ready(function () {
     this.analytics.track(eventName, {org: orgName});
   });
