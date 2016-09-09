@@ -24,7 +24,8 @@ function popOver(
   $document,
   keypather,
   $log,
-  exists
+  exists,
+  $timeout
 ) {
   return {
     restrict: 'A',
@@ -55,15 +56,11 @@ function popOver(
       }
       $scope.popoverOptions = $scope.popoverOptions || {};
       $scope.active = $scope.active || false;
+      var prevSpot = -1;
       $scope.popoverStyle = {
-        getStyle: function (isLoaded) {
+        getStyle: function () {
           if (!$scope.active) {
             return previousStyle;
-          }
-          if (!isLoaded && $scope.popoverOptions.canOffset) {
-            $scope.popoverOptions.verticallyCentered = true;
-          } else if ($scope.popoverOptions.offsetYTop || $scope.popoverOptions.offsetYBottom) {
-            $scope.popoverOptions.verticallyCentered = false;
           }
 
           var offset = {};
@@ -105,31 +102,37 @@ function popOver(
 
           if (keypather.get($scope, 'popoverOptions.verticallyCentered')) {
             style.bottom = null;
-            style.top = Math.round((-POC.popoverElement[0].offsetHeight / 2 + offset.top + (offset.bottom - offset.top) / 2)) + 'px';
-          } else if (keypather.get($scope, 'popoverOptions.offsetYBottom')) {
-            style.top = 'auto';
-            style.bottom = '0px';
-          } else if (keypather.get($scope, 'popoverOptions.offsetYTop')) {
-            style.top = '0px';
-            style.bottom = 'auto';
+            var targetedTopVal = Math.round((-POC.popoverElement[0].offsetHeight / 2 + offset.top + (offset.bottom - offset.top) / 2));
+            if (
+              $scope.popoverOptions.pinToViewPort && // If true, make sure popover is not displayed outside the viewport
+              POC.popoverElement[0].offsetHeight + targetedTopVal > $document.find('body')[0].offsetHeight
+            ) {
+              targetedTopVal = $document.find('body')[0].offsetHeight - POC.popoverElement[0].offsetHeight - 8;
+            }
+            if (targetedTopVal < 0) {
+              targetedTopVal = 8;
+            }
+
+            style.top = targetedTopVal + 'px';
           }
 
           previousStyle = style;
           return style;
         },
 
-        getArrowStyle: function(isLoaded) {
+        getArrowStyle: function() {
           var style = {};
+          var isAtBottom = window.innerHeight - $scope.triggerElemPosition.top < 180;
+          var topInt = parseInt($scope.popoverStyle.getStyle().top.replace('px', ''));
 
-          var bottom = POC.popoverElement[0].getBoundingClientRect().top;
-          var elemPosition = ($scope.popoverOptions.elemPosition.bottom + $scope.popoverOptions.elemPosition.top) / 2;
-          var diff = Math.abs(bottom - elemPosition);
-
-          if ($scope.popoverOptions.offsetYTop) {
-            style.top = diff + 'px';
-          } else if ($scope.popoverOptions.offsetYBottom) {
-            style.top = diff + 'px';
+          if (topInt > 8 && !isAtBottom) {
+            return style;
           }
+          var top = POC.popoverElement[0].getBoundingClientRect().top;
+          var elemPosition = ($scope.triggerElemPosition.bottom + $scope.triggerElemPosition.top) / 2;
+          var diff = Math.abs(top - elemPosition);
+
+          style.top = diff + 'px';
           return style;
         }
       };
@@ -157,27 +160,7 @@ function popOver(
           }
         };
 
-        // here we offset the popover. if the first time it is set into a specific position, it will
-        // have the offsetY property. the next time the popover is opened away from a viewport edge zone,
-        // set it to vertically centered.
-        if ($scope.popoverOptions.canOffset) {
-          if (keypather.get($scope, 'popoverOptions.verticallyCentered') ||
-              keypather.get($scope, 'popoverOptions.offsetYTop') ||
-              keypather.get($scope, 'popoverOptions.offsetYBottom')) {
-            $scope.popoverOptions.elemPosition = event.currentTarget.getBoundingClientRect();
-            if ($scope.options.mouse.top < 164) {
-              $scope.popoverOptions.verticallyCentered = null;
-              $scope.popoverOptions.offsetYTop = true;
-            } else if (window.innerHeight - $scope.popoverOptions.elemPosition.top < 180) {
-              $scope.popoverOptions.verticallyCentered = null;
-              $scope.popoverOptions.offsetYBottom = true;
-            } else {
-              $scope.popoverOptions.verticallyCentered = true;
-              $scope.popoverOptions.offsetYTop = false;
-              $scope.popoverOptions.offsetYBottom = false;
-            }
-          }
-        }
+        $scope.triggerElemPosition = event.currentTarget.getBoundingClientRect();
         POC.openPopover($scope.options);
       }
 
