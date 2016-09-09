@@ -16,7 +16,8 @@ var scopeVars = {
   active: '=? popOverActive',
   template: '= popOverTemplate',
   controller: '=? popOverController',
-  controllerAs: '@? popOverControllerAs'
+  controllerAs: '@? popOverControllerAs',
+  userCannotClose: '=? popOverUncloseable'
 };
 
 function popOver(

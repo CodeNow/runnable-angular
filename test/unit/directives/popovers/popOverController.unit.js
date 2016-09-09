@@ -143,6 +143,7 @@ describe('PopOverController'.bold.underline.blue, function() {
         POC.popoverElement = {};
         POC.unbindDocumentClick = sinon.spy();
         POC.unbindPopoverOpened = sinon.spy();
+        POC.unbindSpecificPopoverOpened = sinon.spy();
         POC.popoverElementScope.$destroy = sinon.spy();
         POC.popoverElement.remove = sinon.spy();
         POC.closePopover();
@@ -196,6 +197,38 @@ describe('PopOverController'.bold.underline.blue, function() {
         $rootScope.$broadcast('close-popovers', {}, {});
         $scope.$digest();
 
+        sinon.assert.calledOnce(POC.closePopover);
+      });
+      it('should not close if it is an uncloseable popover', function () {
+        POC.popoverElement[0] = {
+          contains: sinon.spy(function () {
+            return true;
+          })
+        };
+        $scope.userCannotClose = true;
+        $rootScope.$broadcast('close-popovers', false, {});
+        $scope.$digest();
+        sinon.assert.notCalled(POC.closePopover);
+
+        $rootScope.$broadcast('close-popovers', true, {});
+        $scope.$digest();
+        sinon.assert.calledOnce(POC.closePopover);
+      });
+      it('should close an uncloseable popover if the close specific popover is broadcast', function () {
+        POC.popoverElement[0] = {
+          contains: sinon.spy(function () {
+            return true;
+          })
+        };
+        $scope.data = {popoverName: 'mockPopoverName'};
+        $scope.userCannotClose = true;
+
+        $rootScope.$broadcast('close-open-state-popover', 'not the correct name', {});
+        $scope.$digest();
+        sinon.assert.notCalled(POC.closePopover);
+
+        $rootScope.$broadcast('close-open-state-popover', 'mockPopoverName', {});
+        $scope.$digest();
         sinon.assert.calledOnce(POC.closePopover);
       });
     });
