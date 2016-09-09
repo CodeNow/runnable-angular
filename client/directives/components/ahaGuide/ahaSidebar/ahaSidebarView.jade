@@ -88,5 +88,6 @@
       p.small Your branches will update on every commit you make.
 
   .grid-block.vertical.align-center.form-github(
+    ng-if = "getCurrentStep() === steps.SETUP_RUNNABOT"
     github-integration
   )
