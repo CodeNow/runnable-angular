@@ -158,7 +158,7 @@ EventTracking.prototype.boot = function (user, opts) {
     _sift.push(['_trackPageview']);
 
     self.analytics.ready(function () {
-      self.nalytics.track('ViewContent', {
+      self.analytics.track('ViewContent', {
         action: 'LoggedIn'
       });
     });
@@ -204,18 +204,18 @@ EventTracking.prototype.boot = function (user, opts) {
 
   // Segment
   self.analytics.ready(function () {
-    analytics.identify(data.name, {
-        firstName: firstName,
-        lastName: lastName,
-        username: data.name,
-        email: _keypather.get(userJSON, 'email'),
-        createdAt: _keypather.get(userJSON, 'created'),
-        avatar: _keypather.get(userJSON, 'gravatar')
+    self.analytics.identify(data.name, {
+      firstName: firstName,
+      lastName: lastName,
+      username: data.name,
+      email: _keypather.get(userJSON, 'email'),
+      createdAt: _keypather.get(userJSON, 'created'),
+      avatar: _keypather.get(userJSON, 'gravatar')
     });
-    analytics.alias(user.oauthId());
-    analytics.alias(_keypather.get(userJSON, '_id'));
+    self.analytics.alias(user.oauthId());
+    self.analytics.alias(_keypather.get(userJSON, '_id'));
     if (opts.orgName) {
-      analytics.group(data.company.id, {
+      self.analytics.group(data.company.id, {
         name: data.company.name
       });
     }
