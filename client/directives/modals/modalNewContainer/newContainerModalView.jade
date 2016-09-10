@@ -69,7 +69,6 @@
         header.modal-header
           svg.iconnables.icons-arrow-backward(
             ng-click = "!$root.isLoading[MC.name + 'SingleRepo'] && goToPanel('containerSelection', 'back')"
-            ng-if = "!$root.featureFlags.containersViewTemplateControls"
           )
             use(
               xlink:href = "#icons-arrow-down"
@@ -113,7 +112,6 @@
         header.modal-header
           svg.iconnables.icons-arrow-backward(
             ng-click = "!$root.isLoading[MC.name + 'SingleRepo'] && goToPanel(MC.state.templateSource ? 'containerSelection' : 'dockerfileMirroring', 'back')"
-            ng-if = "!$root.featureFlags.containersViewTemplateControls"
           )
             use(
               xlink:href = "#icons-arrow-down"
