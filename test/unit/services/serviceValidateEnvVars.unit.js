@@ -54,7 +54,7 @@ describe('serviceValidateEnvVars'.bold.underline.blue, function () {
 
   it('should always require something at the end of an =', function () {
     var env = [
-      'PROPERTY1=', //invalid
+      'PROPERTY1=' //invalid
     ];
     expectFail(validateEnvVars(env));
   });
