@@ -18,7 +18,22 @@ p.p.text-center.text-gray-light.padding-sm(
 
   .grid-block.align-center.list-item-cluster.list-clusters-heading
     span.grid-content.text-overflow Templates
-  .list-item-cluster
+    //- div instead of button so safari doesn’t get weird with alignment
+    .grid-block.align-center.shrink.btn.btn-xxs.white(
+      ng-class = "{'active': state.active}"
+      ng-if = "$root.featureFlags.containersViewTemplateControls"
+      pop-over
+      pop-over-options = "{\"top\":-30,\"left\":114}"
+      pop-over-template = "templateMenuPopoverView"
+    ) Create Template
+      svg.iconnables.icons-arrow-forward
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+
+  .list-item-cluster(
+    ng-if = "!$root.featureFlags.containersViewEmptyState"
+  )
     .grid-block.list-containers.vertical.text-overflow.open
       //- master repository containers
       .grid-block(
@@ -36,8 +51,15 @@ p.p.text-center.text-gray-light.padding-sm(
         ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:false | orderBy: ['attrs.name'] as nonRepoInstances track by masterInstance.attrs.name"
       )
 
+.well.text-center(
+  ng-if = "$root.featureFlags.containersViewEmptyState"
+) 😐
+  br
+  .small You don’t have any templates. Click the button above to create one.
+
 //- branch clusters
 .list-clusters(
+  ng-if = "!$root.featureFlags.containersViewEmptyState"
   ng-repeat = "masterInstance in CIS.instancesByPod | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
   ng-show = "CIS.shouldShowParent(masterInstance)"
 )
@@ -48,22 +70,21 @@ p.p.text-center.text-gray-light.padding-sm(
     span.grid-content.text-overflow(
       title = "{{masterInstance.getName()}}"
     ) {{masterInstance.getName()}}
-    //- '+' button for adding branches and configuring clusters
-    button.grid-block.shrink.btn.btn-xs.btn-icon.gray(
+    //- div instead of button so safari doesn’t get weird with alignment
+    .grid-block.align-center.shrink.btn.btn-xxs.white(
       ng-class = "{'active': state.active}"
       ng-if = "$root.featureFlags.addBranches"
       ng-click = "CIS.popInstanceOpen(masterInstance)"
       pop-over
       pop-over-controller = "CIS"
-      pop-over-options = "{\"verticallyCentered\":true,\"left\":24}"
+      pop-over-options = "{\"verticallyCentered\":true,\"left\":87}"
       pop-over-template = "branchMenuPopoverView"
-      tooltip = "Add Branch"
-      tooltip-options = "{\"class\":\"bottom center text-center\",\"left\":-36,\"top\":24}"
-    )
-      svg.iconnables
+    ) Add Branch
+      svg.iconnables.icons-arrow-forward
         use(
-          xlink:href = "#icons-add"
+          xlink:href = "#icons-arrow-down"
         )
+
     //- repo config button (pre auto-isolation)
     svg.grid-block.shrink.iconnables.icons-gear(
       ng-click = "CIS.editInstance(masterInstance)"

@@ -17,7 +17,7 @@
           ng-class = "{'lg': !MC.ahaGuide.isAddingFirstRepo() || ( MC.instances.models && MC.instances.models.length !== 0 )}"
           ng-click = "MC.changeTab('nameContainer')"
         )
-          .grid-block.shrink.btn(
+          .grid-block.align-center.shrink.btn.btn-radio(
             ng-class = "{'active': MC.state.tabName === 'repos'}"
             ng-click = "MC.changeTab('repos')"
             ng-if = "!MC.ahaGuide.isAddingFirstRepo() || ( MC.instances.models && MC.instances.models.length !== 0 )"
@@ -26,10 +26,11 @@
               use(
                 xlink:href = "#icons-new-repository-server"
               )
-            .btn-text.grid-block Repository Template
+            .btn-text.grid-block.vertical.text-left Repository Template
+              small.small From your GitHub org
 
           //- disable this button when loading a repository
-          .grid-block.shrink.btn(
+          .grid-block.align-center.shrink.btn.btn-radio(
             ng-disabled = "$root.isLoading[MC.name + 'SingleRepo']"
             ng-class = "{\
               'active': MC.state.tabName === 'services', \
@@ -43,7 +44,7 @@
                 xlink:href = "#icons-server-new"
               )
             .btn-text.grid-block.vertical.text-left Non-Repository Template
-              small.small For services and databases
+              small.small For a database or service
           svg.iconnables.icons-close(
             ng-click = "MC.close()"
           )
@@ -102,7 +103,7 @@
               ng-include = "'spinner'"
               ng-if = "$root.isLoading[MC.name + 'SingleRepo']"
             )
-            span() Next Step: Naming
+            span Next Step: Naming
 
       animated-panel.grid-block.vertical.modals-rename(
         name = "nameContainer"
@@ -117,7 +118,7 @@
             )
           h1.modal-heading.text-overflow(
             ng-if = "!MC.ahaGuide.isInGuide()"
-          ) Container Name
+          ) Template Name
           svg.iconnables.icons-close(
             ng-click = "MC.close()"
           )
