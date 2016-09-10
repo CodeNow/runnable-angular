@@ -146,16 +146,15 @@
     }
 
     &.disabled {
-      color: $gray-light;
       cursor: default;
 
-      > .small {
-        color: $gray-light;
+      > .small,
+      .btn-icon {
+        opacity: .6;
       }
 
       .btn-icon {
         cursor: default;
-        opacity: .5;
       }
     }
 
@@ -165,10 +164,6 @@
       background: $white;
       border-color: currentColor;
       color: $green;
-
-      .small {
-        color: currentColor;
-      }
     }
 
     &:last-child {

@@ -19,7 +19,7 @@ p.p.text-center.text-gray-light.padding-sm(
   .grid-block.align-center.list-item-cluster.list-clusters-heading
     span.grid-content.text-overflow Templates
     //- div instead of button so safari doesn’t get weird with alignment
-    .grid-block.align-center.shrink.btn.btn-xxs.gray(
+    .grid-block.align-center.shrink.btn.btn-xxs.white(
       ng-class = "{'active': state.active}"
       ng-if = "$root.featureFlags.containersViewTemplateControls"
       pop-over
@@ -71,7 +71,7 @@ p.p.text-center.text-gray-light.padding-sm(
       title = "{{masterInstance.getName()}}"
     ) {{masterInstance.getName()}}
     //- div instead of button so safari doesn’t get weird with alignment
-    .grid-block.align-center.shrink.btn.btn-xxs.gray(
+    .grid-block.align-center.shrink.btn.btn-xxs.white(
       ng-class = "{'active': state.active}"
       ng-if = "$root.featureFlags.addBranches"
       ng-click = "CIS.popInstanceOpen(masterInstance)"
