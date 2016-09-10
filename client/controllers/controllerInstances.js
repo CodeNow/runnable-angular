@@ -23,7 +23,6 @@ function ControllerInstances(
 ) {
   var CIS = this;
   var userName = $state.params.userName;
-  CIS.userName = userName;
   CIS.searchBranches = null;
   CIS.instanceBranches = null;
   CIS.unbuiltBranches = null;
@@ -209,10 +208,10 @@ function ControllerInstances(
         var newInstance = instance.children.models.filter(function(childInstance) {
           return childInstance.attrs.name === branchName + '-' + instance.attrs.lowerName;
         })[0];
-        var userName = instance.opts.qs.githubUsername;
         loading(branchName, false);
         loading('buildingForkedBranch', false);
         closePopover();
+        var userName = instance.opts.qs.githubUsername;
         $state.go('base.instances.instance', {
           userName: userName,
           instanceName: newInstance.attrs.name
