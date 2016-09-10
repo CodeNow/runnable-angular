@@ -10,14 +10,14 @@
     style = "top: 39px;"
   )
   .grid-block.popover-header
-    .grid-block.align-center.btn.btn-radio(
+    button.grid-block.align-center.btn.btn-radio(
       ng-class = "{'active': state.tab === 'repo'}"
       ng-click = "state.tab = 'repo'"
       ng-disabled = "state.tab !== 'repo'&& state.loading"
     )
       .grid-block.vertical.shrink Repository
         .small From your GitHub org
-    .grid-block.align-center.btn.btn-radio(
+    button.grid-block.align-center.btn.btn-radio(
       ng-class = "{'active': state.tab === 'nonRepo'}"
       ng-click = "state.tab = 'nonRepo'"
       ng-disabled = "state.tab !== 'nonRepo'&& state.loading"
