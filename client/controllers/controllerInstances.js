@@ -211,9 +211,7 @@ function ControllerInstances(
         loading(branchName, false);
         loading('buildingForkedBranch', false);
         closePopover();
-        var userName = instance.opts.qs.githubUsername;
         $state.go('base.instances.instance', {
-          userName: userName,
           instanceName: newInstance.attrs.name
         });
       });
