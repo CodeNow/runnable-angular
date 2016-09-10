@@ -50,7 +50,7 @@
       ng-if = "state.branchesLoaded"
     )
       li.grid-block.align-center.list-item.popover-list-item.multi-line(
-        ng-class = "{'disabled': state.loading}"
+        ng-class = "{'active': state.loading}"
         ng-click = "state.loading = !state.loading"
       )
         svg.grid-content.shrink.iconnables.icons-repository
@@ -82,7 +82,7 @@
             use(
               xlink:href = "#icons-add"
             )
-        .grid-content.shrink.spinner-wrapper.spinner-sm.spinner-gray(
+        .grid-content.shrink.spinner-wrapper.spinner-sm.spinner-green(
           ng-if = "state.loading"
           ng-include = "'spinner'"
         )
@@ -168,7 +168,7 @@
       ng-if = "state.servicesLoaded"
     )
       li.grid-block.align-center.list-item.popover-list-item.multi-line(
-        ng-class = "{'disabled': state.loading}"
+        ng-class = "{'active': state.loading}"
         ng-click = "state.loading = !state.loading"
       )
         img.grid-content.shrink.img(
@@ -184,7 +184,7 @@
             use(
               xlink:href = "#icons-add"
             )
-        .grid-content.shrink.spinner-wrapper.spinner-sm.spinner-gray(
+        .grid-content.shrink.spinner-wrapper.spinner-sm.spinner-green(
           ng-if = "state.loading"
           ng-include = "'spinner'"
         )

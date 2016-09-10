@@ -10,17 +10,37 @@
     overflow-y: auto;
   }
 
-  // loading state
-  .list-item.disabled {
-    cursor: not-allowed;
-    opacity: .5;
+  .list-item {
+    border: 1px solid transparent;
+
+    &:hover:not(.disabled) {
+      background: $gray-lighterest;
+      border-color: $gray-lighter;
+    }
+
+    &:active:not(.disabled),
+    &.active:not(.disabled) {
+      background: $white;
+      border-color: currentColor;
+      color: $green;
+
+      .small {
+        color: currentColor;
+      }
+    }
+
+    &.active {
+      cursor: default;
+    }
+
+    // loading state
+    &.disabled {
+      cursor: not-allowed;
+      opacity: .5;
+    }
 
     .spinner-wrapper {
       padding: 4px;
-
-      .path {
-        stroke: $gray;
-      }
     }
   }
 }
@@ -85,8 +105,8 @@
   }
 
   .list-item .iconnables.icons-repository {
-    margin-right: 15px;
-    padding-left: 3px;
-    width: 24px;
+    margin-left: 3px;
+    margin-right: 18px;
+    width: 18px;
   }
 }
