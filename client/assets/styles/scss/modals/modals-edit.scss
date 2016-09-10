@@ -368,6 +368,11 @@
       }
     }
 
+    &:active,
+    &.active {
+      box-shadow: none;
+    }
+
     &:first-child {
       border-radius: $input-border-radius 0 0;
     }
