@@ -47,7 +47,6 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   var showModalStub;
   var closeModalStub;
   var createAndBuildNewContainerMock;
-  var helpCardsMock;
 
   var instanceName = 'instanceName';
   var branches;
@@ -65,9 +64,6 @@ describe('setupServerModalController'.bold.underline.blue, function () {
   var mockServerModalController;
 
   function initState(opts, replaceSMC, done) {
-    helpCardsMock = {
-      refreshAllCards: sinon.stub()
-    };
     errsMock = {
       handler: sinon.spy()
     };
@@ -81,6 +77,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       this.getElasticHostname = sinon.spy();
       this.getNumberOfOpenTabs = sinon.spy();
       this.getUpdatePromise = sinon.spy();
+      this.handleInstanceUpdate = sinon.spy();
       this.insertHostName = sinon.spy();
       this.isDirty = sinon.spy();
       this.openDockerfile = sinon.spy();
@@ -112,7 +109,6 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       }
       $provide.value('errs', errsMock);
       $provide.factory('fetchStackAnalysis', fetchStackAnalysisMock.fetch());
-      $provide.value('helpCards', helpCardsMock);
       $provide.factory('fetchUser', mockUserFetch.autoTrigger(org1));
       $provide.factory('fetchInstancesByPod', function ($q) {
         fetchInstancesByPodStub = sinon.stub().returns($q.when(instances));
@@ -206,7 +202,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       $scope = $rootScope.$new();
       SMC = $controller('SetupServerModalController', {
         $scope: $scope,
-        dockerfileType: {},
+        dockerfileType: false,
         instanceName: opts.instanceName || instanceName,
         repo: opts.repo || repo,
         build: opts.build || newBuild,

@@ -9,14 +9,6 @@ function featureFlags(
   var defaultFeatureFlags = {
     addBranches: false,
     aha: false,
-    aha0: false, // step 1: create sandbox
-    aha1: false, // step 2: working repo config
-    aha1ExitedEarly: false, // step 2: if the user left the flow before getting a running config
-    aha2: false, // step 3: add branch
-    aha3: false, // step 4: runnabot
-    ahaInContainersView: false, // used to represent when the user is in the containers view
-    ahaOverview: false, // toggle aha intro in sidebar
-    ahaSidebar: false, // toggle sidebar
     allowIsolatedUpdate: false,
     autoIsolation: false,
     autoIsolationSetup: false,
@@ -26,6 +18,8 @@ function featureFlags(
     cardStatus: false,
     connections: false,
     configTerminal: false, // flag for terminal in config view
+    containersViewTemplateControls: false,
+    containersViewEmptyState: false,
     dockerfileMirroringMultiple: false,
     editAnyInstance: false,
     emptyFolder: false, // shows empty folder markup

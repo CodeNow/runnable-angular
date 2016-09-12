@@ -48,7 +48,6 @@ window.fixtures = {
 };
 
 window.apiClientMockFactory = require('../unit/apiMocks/apiClientMockFactory');
-window.helpCardsMock = require('../unit/apiMocks/HelpCardServiceMock');
 window.noop = function () {};
 window.helpers = {
   click: function (el, augmentCb){

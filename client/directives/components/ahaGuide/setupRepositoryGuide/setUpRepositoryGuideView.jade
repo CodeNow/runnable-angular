@@ -1,0 +1,56 @@
+.grid-block.shrink.aha-meter.js-animate(
+  class = "{{ AGC.className }}"
+  ng-class = "{'aha-error': AGC.showError}"
+)
+  svg.iconnables(
+    ng-if = "!AGC.showError"
+  )
+    use(
+      ng-if = "ASC.getCurrentStep() === ASC.steps.CHOOSE_ORGANIZATION && AGC.subStep !== 'complete' && AGC.subStep !== 'hasContainer'"
+      xlink:href = "#icons-octicons-repo"
+    )
+    use(
+      ng-if = "AGC.subStep === 'complete' || AGC.subStep === 'hasContainer'"
+      xlink:href = "#icons-check"
+    )
+  svg.iconnables.icons-alert(
+    ng-if = "AGC.showError"
+  )
+    use(
+      xlink:href = "#icons-alert-alt"
+    )
+
+.grid-block.vertical.aha-text
+  p.p.small.text-gray-light {{ AGC.title }}
+  p.p(
+    ng-if = "$root.featureFlags.aha && !AGC.showError"
+  ) {{ AGC.caption }}
+
+  //- Step 8:
+  p.p(
+    ng-if = "AGC.subStep === 7"
+  )
+    | {{!AGC.showError ? 'We‘re building! Build time varies depending on your template.' : ''}}
+    | {{AGC.showError ? 'Uh oh, there was a build error! Inspect your logs for debug info.' : ''}}
+    //- | IF DETENTION ERROR: Your container is running! But it looks like something has not been set up correctly.
+    span.span(
+     ng-if = "AGC.showErrorType === 'exitedEarly'"
+    ) Your repository isn‘t running yet! Check the logs to debug any issues. If you‘re stumped,&#32;
+      a.link(
+        ng-click = "askEngineers()"
+      ) ask our engineers
+      | !
+
+  //- If template repo is deleted:
+  //- p.p(
+  //-   ng-class = "{'p-slide js-animate': AGC.showSubStep}"
+  //- ) You‘ve deleted your repository template. Create another one to continue.
+
+
+  //- Step 9:
+  p.p(
+    ng-if = "AGC.subStep === 8 && !AGC.showError"
+  ) Looking good! Check out your URL, and click ‘Done’ if it looks good to you too.
+
+  //- Step 10 (in the nav popover):
+  //- p.p Add more templates if your project requires it. Once you’re done, head to your containers to start adding branches.

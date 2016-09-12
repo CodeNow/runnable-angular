@@ -31,6 +31,7 @@ function EventTracking(
   configEnvironment,
   siftApiConfig
 ) {
+  var self = this;
   SIFT_API_KEY = siftApiConfig;
 
   if (configEnvironment === 'production') {
@@ -41,9 +42,10 @@ function EventTracking(
   _keypather = keypather;
   _$location = $location;
 
-  this._Intercom = $window.Intercom;
-  this._user = null;
-  this.$window = $window;
+  self._Intercom = $window.Intercom;
+  self.analytics = $window.analytics;
+  self._user = null;
+  self.$window = $window;
 
   /**
    * Extend per-event data with specific properties
@@ -51,8 +53,8 @@ function EventTracking(
    * @param {Object} data - data for given event to be extended
    * @return Object - extended event object
    */
-  this.extendEventData = function (data) {
-    if (!this._user) {
+  self.extendEventData = function (data) {
+    if (!self._user) {
       $log.error('eventTracking.boot() must be invoked before reporting events');
     }
     // username owner if server page
@@ -62,8 +64,8 @@ function EventTracking(
       state: $state.$current.name,
       href: $window.location.href
     };
-    if (angular.isFunction(keypather.get(this._user, 'oauthName'))) {
-      baseData.userName = this._user.oauthName();
+    if (angular.isFunction(keypather.get(self._user, 'oauthName'))) {
+      baseData.userName = self._user.oauthName();
     }
     if ($stateParams.userName) {
       baseData.instanceOwner = $stateParams.userName;
@@ -78,9 +80,31 @@ function EventTracking(
    * Stub Intercom when SDK not present
    * (development/staging environments)
    */
-  if (!this._Intercom || $browser.cookies().isModerating) {
+  if (!self._Intercom || $browser.cookies().isModerating) {
     // stub intercom if not present
-    this._Intercom = angular.noop;
+    self._Intercom = angular.noop;
+  }
+
+  /**
+   * Stub Segment when SDK not present
+   * (development/staging environments)
+   */
+  if (!self.analytics) {
+    // stub segment (analytics) if not present
+    self.analytics = {
+      ready: angular.noop,
+      track: angular.noop,
+      identify: angular.noop,
+      alias: angular.noop,
+      page: angular.noop,
+      group: angular.noop,
+      trackLink: angular.noop,
+      trackForm: angular.noop,
+      user: angular.noop,
+      debug: angular.noop,
+      on: angular.noop,
+      timeout: angular.noop
+    };
   }
 
   /**
@@ -88,7 +112,7 @@ function EventTracking(
    * @param {String} mixpanel SDK API method name
    * @params [1..n] optional arguments passed to mixpanel SDK
    */
-  this._mixpanel = function () {
+  self._mixpanel = function () {
     if (!angular.isFunction(keypather.get($window, 'mixpanel.'+arguments[0]))) {
       // $log.info('Mixpanel JS SDK stubbed');
       // $log.info(arguments);
@@ -105,14 +129,15 @@ function EventTracking(
 }
 
 /**
- * Intercom and Mixpanel user identification
+ * Intercom, Mixpanel, and Segment user identification
  * @throws Error
  * @param {Object} user - User Model instance
  * @return this
  */
 EventTracking.prototype.boot = function (user, opts) {
+  var self = this;
   opts = opts || {};
-  if (this._user) { return this; }
+  if (self._user) { return self; }
   if (!(user instanceof User)) {
     throw new Error('arguments[0] must be instance of User');
   }
@@ -132,14 +157,14 @@ EventTracking.prototype.boot = function (user, opts) {
     _sift.push(['_setSessionId', session]);
     _sift.push(['_trackPageview']);
 
-    if (this.$window.fbq) {
-      this.$window.fbq('track', 'ViewContent', {
+    self.analytics.ready(function () {
+      self.analytics.track('ViewContent', {
         action: 'LoggedIn'
       });
-    }
+    });
   }
 
-  this._user = user;
+  self._user = user;
   var data = {
     name: user.oauthName(),
     email: user.attrs.email,
@@ -156,12 +181,12 @@ EventTracking.prototype.boot = function (user, opts) {
   // Mixpanel uses a string GUID to track anon users
   // If we're still tracking the user via GUID, we need to alias
   // Otherwise, we can just identify ourselves
-  if (angular.isString(this._mixpanel('get_distinct_id'))) {
-    this._mixpanel('alias', user.oauthId());
+  if (angular.isString(self._mixpanel('get_distinct_id'))) {
+    self._mixpanel('alias', user.oauthId());
   } else {
-    this._mixpanel('identify', user.oauthId());
+    self._mixpanel('identify', user.oauthId());
   }
-  this._Intercom('boot', data);
+  self._Intercom('boot', data);
   var userJSON = user.toJSON();
   var firstName = '';
   var lastName = '';
@@ -170,19 +195,39 @@ EventTracking.prototype.boot = function (user, opts) {
     firstName = displayName.split(/ (.+)/)[0];
     lastName = displayName.split(/ (.+)/)[1];
   }
-  this._mixpanel('people.set', {
+  self._mixpanel('people.set', {
     '$first_name': firstName,
     '$last_name': lastName,
     '$created': _keypather.get(userJSON, 'created'),
     '$email': _keypather.get(userJSON, 'email')
   });
-  return this;
+
+  // Segment
+  self.analytics.ready(function () {
+    self.analytics.identify(data.name, {
+      firstName: firstName,
+      lastName: lastName,
+      username: data.name,
+      email: _keypather.get(userJSON, 'email'),
+      createdAt: _keypather.get(userJSON, 'created'),
+      avatar: _keypather.get(userJSON, 'gravatar')
+    });
+    self.analytics.alias(user.oauthId());
+    self.analytics.alias(_keypather.get(userJSON, '_id'));
+    if (opts.orgName) {
+      self.analytics.group(data.company.id, {
+        name: data.company.name
+      });
+    }
+  });
+  return self;
 };
 
 /**
  * Record user event toggling of selected commit in repository
  * Reports to:
  *   - mixpanel
+ *   - segment
  * @param {Object} data - key/value pairs of event data
  *   - keys
    *   - triggeredBuild: Boolean
@@ -190,13 +235,17 @@ EventTracking.prototype.boot = function (user, opts) {
  * @return this
  */
 EventTracking.prototype.toggledCommit = function (data) {
+  var self = this;
   var eventName = 'toggled-commit';
-  var eventData = this.extendEventData({
+  var eventData = self.extendEventData({
     triggeredBuild: !!data.triggeredBuild,
     selectedCommit: data.acv
   });
-  this._mixpanel('track', eventName, eventData);
-  return this;
+  self._mixpanel('track', eventName, eventData);
+  self.analytics.ready(function () {
+    self.analytics.track(eventName, eventData);
+  });
+  return self;
 };
 
 /**
@@ -204,32 +253,42 @@ EventTracking.prototype.toggledCommit = function (data) {
  * Reports to:
  *   - intercom
  *   - mixpanel
+ *   - segment
  * @param {Boolean} cache - build triggered without cache
  * @return this
  */
 EventTracking.prototype.triggeredBuild = function (cache) {
+  var self = this;
   var eventName = 'triggered-build';
-  var eventData = this.extendEventData({
+  var eventData = self.extendEventData({
     cache: cache
   });
-  this._Intercom('trackEvent', eventName, eventData);
-  this._mixpanel('track', eventName, eventData);
-  return this;
+  self._Intercom('trackEvent', eventName, eventData);
+  self._mixpanel('track', eventName, eventData);
+  self.analytics.ready(function () {
+    self.analytics.track(eventName, eventData);
+  });
+  return self;
 };
 
 /**
  * Record user visit to states
  * Reports to:
  *   - mixpanel
+ *   - segment
  * @return this
  */
 EventTracking.prototype.visitedState = function () {
+  var self = this;
   var eventName = 'visited-state';
-  var eventData = this.extendEventData({
+  var eventData = self.extendEventData({
     referral: _$location.search().ref || 'direct'
   });
-  this._mixpanel('track', eventName, eventData);
-  return this;
+  self._mixpanel('track', eventName, eventData);
+  self.analytics.ready(function () {
+    self.analytics.track(eventName, eventData);
+  });
+  return self;
 };
 
 /**
@@ -238,8 +297,9 @@ EventTracking.prototype.visitedState = function () {
  * @return this
  */
 EventTracking.prototype.update = function () {
-  this._Intercom('update');
-  return this;
+  var self = this;
+  self._Intercom('update');
+  return self;
 };
 
 /**
@@ -248,8 +308,12 @@ EventTracking.prototype.update = function () {
  * @returns {EventTracking}
  */
 EventTracking.prototype.trackClicked = function (data) {
-  this._mixpanel('track', 'clicked - ' + _keypather.get(data, 'text'), data);
-  return this;
+  var self = this;
+  self._mixpanel('track', 'clicked - ' + _keypather.get(data, 'text'), data);
+  self.analytics.ready(function () {
+    self.analytics.track('Clicked - ' + _keypather.get(data, 'text'), data);
+  });
+  return self;
 };
 
 /**
@@ -259,19 +323,21 @@ EventTracking.prototype.trackClicked = function (data) {
  * @returns {EventTracking}
  */
 EventTracking.prototype.createdRepoContainer = function (org, repo) {
-  if (this._mixpanel) {
-    this._mixpanel('track', 'createRepoContainer', {
+  var self = this;
+  if (self._mixpanel) {
+    self._mixpanel('track', 'createRepoContainer', {
       org: org,
       repo: repo
     });
   }
 
-  if (this.$window.fbq) {
-    this.$window.fbq('track', 'ViewContent', {
+  self.analytics.ready(function () {
+    self.analytics.track('ViewContent', {
       action: 'CreateContainer',
-      type: 'Repo'
+      type: 'Repo',
+      containerName: repo
     });
-  }
+  });
 };
 
 /**
@@ -280,16 +346,50 @@ EventTracking.prototype.createdRepoContainer = function (org, repo) {
  * @returns {EventTracking}
  */
 EventTracking.prototype.createdNonRepoContainer = function (containerName) {
-  if (this._mixpanel) {
-    this._mixpanel('track', 'createNonRepoContainer', {
+  var self = this;
+  if (self._mixpanel) {
+    self._mixpanel('track', 'createNonRepoContainer', {
       containerName: containerName
     });
   }
 
-  if (this.$window.fbq) {
-    this.$window.fbq('track', 'ViewContent', {
+  self.analytics.ready(function () {
+    self.analytics.track('ViewContent', {
       action: 'CreateContainer',
-      type: 'NonRepo'
+      type: 'NonRepo',
+      containerName: containerName
     });
-  }
+  });
+};
+
+/**
+ * Track user visit to /orgSelect page
+ * Reports to:
+ *   - segment
+ * @return this
+ */
+EventTracking.prototype.visitedOrgSelectPage = function () {
+  var self = this;
+  var eventName = 'Visited org-select page';
+
+  self.analytics.ready(function () {
+    self.analytics.track(eventName);
+  });
+  return self;
+};
+
+/**
+ * Track org click on /orgSelect page
+ * Reports to:
+ *   - segment
+ * @return this
+ */
+EventTracking.prototype.waitingForInfrastructure = function (orgName) {
+  var self = this;
+  var eventName = 'Waiting for infrastrucuture';
+
+  self.analytics.ready(function () {
+    self.analytics.track(eventName, {org: orgName});
+  });
+  return self;
 };

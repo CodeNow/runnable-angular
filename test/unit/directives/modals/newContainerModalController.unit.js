@@ -11,7 +11,6 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
   var keypather;
 
   // Stubs
-  var helpCardsStub;
   var errsStub;
   var createNewBuildAndFetchBranch;
   var createNonRepoInstanceStub;
@@ -33,9 +32,6 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
   var mockCurrentOrg;
 
   function initState () {
-    helpCardsStub = {
-      getActiveCard: sinon.stub()
-    };
     errsStub = {
       handler: sinon.spy()
     };
@@ -46,10 +42,15 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
       }
     };
 
+    window.helpers.killDirective('ahaGuide');
     angular.mock.module('app');
     angular.mock.module(function ($provide) {
+      $provide.value('ahaGuide', {
+        isAddingFirstRepo: sinon.stub().returns(false),
+        isInGuide: sinon.stub(),
+        getCurrentStep: sinon.stub()
+      });
       $provide.value('errs', errsStub);
-      $provide.value('helpCards', helpCardsStub);
       $provide.factory('fetchInstancesByPod', function ($q) {
         fetchInstancesByPodStub = sinon.stub().returns($q.when(instances));
         return fetchInstancesByPodStub;
@@ -183,7 +184,7 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
       it('should create a build and fetch the branch', function () {
         var repo = {};
         var dockerfile = null;
-        var configurationMethod = 'new';
+        var configurationMethod = false;
         sinon.stub(NCMC, 'newRepositoryContainer');
 
         NCMC.createBuildAndGoToNewRepoModal(instanceName, repo, dockerfile, configurationMethod);

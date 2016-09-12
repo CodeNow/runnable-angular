@@ -115,7 +115,7 @@
   font-size: 12px;
   height: $input-xxs;
   line-height: $input-line-height-xxs;
-  padding: 0 3px;
+  padding: 0 5px;
 }
 
 // .btn-icon
@@ -485,12 +485,10 @@
  }
 
 .btn-radio {
-  background: $white;
   border: $input-border solid transparent;
   border-radius: $input-border-radius;
   box-shadow: none;
   cursor: pointer;
-  display: inline-block;
   font-size: 16px;
   height: 72px;
   text-align: center;
@@ -498,43 +496,25 @@
   transition: none;
   user-select: none;
   white-space: nowrap;
-  width: 90px;
 
-  &:active,
-  &.active {
+  &:hover:not([disabled]) {
+    border-color: $gray-lighter;
+  }
+
+  &:active:not([disabled]),
+  &.active.active {
+    background: lighten($purple-lightest,6%);
+    border-color: $purple-light;
+    box-shadow: inset 0 0 0 1px $purple-light;
     color: $purple-light;
-    cursor: default;
   }
 
   &.active {
-    font-weight: $weight-bold;
+    cursor: default;
   }
 
   &:focus {
     outline: 0;
-  }
-
-  &.btn-lg {
-    height: 108px;
-    width: 120px;
-
-    .img,
-    .iconnables {
-      margin-bottom: 6px;
-      width: 36px;
-    }
-  }
-
-  &:last-child {
-    margin-right: 0;
-  }
-
-  .img,
-  .iconnables {
-    display: block;
-    height: 33px;
-    margin: 0 auto;
-    width: 18px;
   }
 }
 
@@ -549,14 +529,10 @@
   transition: none;
 
   &.btn-sm {
-    right: 15px;
-    top: 15px;
     width: $input-sm;
   }
 
   &.btn-xs {
-    right: 6px;
-    top: 6px;
     width: $input-xs;
   }
 

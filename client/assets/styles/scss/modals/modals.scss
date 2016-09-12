@@ -281,25 +281,21 @@
   }
 
   .btn-radio {
-    background: none;
-    border: 1px solid transparent;
     border-radius: $input-border-radius-lg;
-    color: $gray;
-    display: flex;
     flex: 0 0 90px;
     font-weight: $weight-normal;
     padding: 9px 3px 6px;
+    width: 90px;
 
-    &:hover {
-      border-color: $gray-lighter;
+    &:not(.active):not(:active) {
+      color: $gray;
     }
 
-    &:active,
-    &.active {
-      background: lighten($purple-lightest,6%);
-      border-color: currentColor;
-      box-shadow: inset 0 0 0 1px $purple-light;
-      color: $purple-light;
+    .iconnables {
+      display: block;
+      height: 18px;
+      margin: 0 auto;
+      width: 18px;
     }
 
     // animation start state
@@ -323,10 +319,6 @@
 
     + .btn-radio {
       margin-left: $tab-margin;
-    }
-
-    .iconnables {
-      height: 21px;
     }
 
     .btn-text {

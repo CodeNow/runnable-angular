@@ -4,34 +4,31 @@ require('app')
   .controller('SetupMirrorServerModalController', SetupMirrorServerModalController);
 
 function SetupMirrorServerModalController(
-  $scope,
   $controller,
   $q,
   $rootScope,
+  $scope,
+  ahaGuide,
   cardInfoTypes,
   createAndBuildNewContainer,
-  createBuildFromContextVersionId,
   errs,
   eventTracking,
-  fetchUser,
-  helpCards,
   isTabNameValid,
   keypather,
   loading,
   loadingPromises,
-  ModalService,
   promisify,
-  OpenItems,
-  TAB_VISIBILITY,
-  updateDockerfileFromState,
+
+  build,
   close,
   instanceName,
+  masterBranch,
+  OpenItems,
   repo,
-  build,
-  masterBranch
+  TAB_VISIBILITY
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
-  SMC.helpCards = helpCards;
+  SMC.isAddingFirstRepo = ahaGuide.isAddingFirstRepo;
 
   var parentController = $controller('ServerModalController as SMC', { $scope: $scope });
   angular.extend(SMC, {
@@ -43,6 +40,7 @@ function SetupMirrorServerModalController(
     'getElasticHostname': parentController.getElasticHostname.bind(SMC),
     'getNumberOfOpenTabs': parentController.getNumberOfOpenTabs.bind(SMC),
     'getUpdatePromise': parentController.getUpdatePromise.bind(SMC),
+    'handleInstanceUpdate': parentController.handleInstanceUpdate.bind(SMC),
     'insertHostName': parentController.insertHostName.bind(SMC),
     'isDirty': parentController.isDirty.bind(SMC),
     'openDockerfile': parentController.openDockerfile.bind(SMC),
@@ -182,6 +180,7 @@ function SetupMirrorServerModalController(
         if (instance) {
           SMC.instance = instance;
           SMC.state.instance = instance;
+          SMC.state.instance.on('update', SMC.handleInstanceUpdate);
           // Reset the opts, in the same way as `EditServerModalController`
           SMC.state.opts  = {
             env: keypather.get(instance, 'attrs.env') || [],

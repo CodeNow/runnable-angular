@@ -26,6 +26,7 @@ require('app')
   .factory('fetchDebugContainer', fetchDebugContainer)
   .factory('fetchStackData', fetchStackData)
   // Github API
+  .factory('fetchGithubUserIsAdminOfOrg', fetchGithubUserIsAdminOfOrg)
   .factory('fetchGitHubUser', fetchGitHubUser)
   .factory('fetchGitHubMembers', fetchGitHubMembers)
   .factory('fetchGitHubAdminsByRepo', fetchGitHubAdminsByRepo)
@@ -193,6 +194,7 @@ function fetchInstance(
 var fetchByPodCache = {};
 
 function fetchInstancesByPod(
+  $q,
   $state,
   fetchInstances,
   fetchUser,
@@ -200,6 +202,9 @@ function fetchInstancesByPod(
 ) {
   return function (username) {
     username = username || $state.params.userName;
+    if (!username) {
+      return $q.when([]);
+    }
     if (!fetchByPodCache[username]) {
       var userPromise = fetchUser();
       fetchByPodCache[username] = fetchInstances({
@@ -694,6 +699,27 @@ function fetchGitHubUser(
     }).then(function (user) {
       return user.data;
     });
+  });
+}
+
+function fetchGithubUserIsAdminOfOrg(
+  $http,
+  configAPIHost,
+  keypather,
+  memoize
+) {
+  return memoize(function (orgName) {
+    return $http({
+      method: 'get',
+      url: configAPIHost + '/github/user/memberships/orgs/' + orgName
+    })
+      .catch(function () {
+        return false;
+      })
+      .then(function (response) {
+        return keypather.get(response, 'data.state') === 'active' &&
+          keypather.get(response, 'data.role') === 'admin';
+      });
   });
 }
 

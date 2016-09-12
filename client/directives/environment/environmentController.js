@@ -14,20 +14,36 @@ function EnvironmentController(
   $scope,
   $state,
   $timeout,
-  $window,
+  ahaGuide,
   favico,
-  fetchUser,
   fetchDockerfileForContextVersion,
-  fetchInstancesByPod,
   fetchOrgMembers,
-  helpCards,
+  fetchUser,
   keypather,
   ModalService,
-  pageName
+
+  pageName,
+  instancesByPod
 ) {
   var EC = this;
 
   EC.showInviteButton = false;
+  EC.isAddingFirstRepo = ahaGuide.isAddingFirstRepo;
+  EC.isInGuide = ahaGuide.isInGuide;
+  EC.showCreateTemplate = true;
+  EC.showOverview = true;
+  EC.toggleSidebar = function () {
+    EC.showSidebar = !EC.showSidebar;
+    EC.showCreateTemplate = true;
+  };
+  $scope.$on('show-aha-sidebar', EC.toggleSidebar);
+
+  $scope.$on('exitedEarly', function (event, didExitEarly) {
+    EC.showExitedEarly = didExitEarly;
+    if (!didExitEarly) {
+      $rootScope.$broadcast('launchAhaNavPopover');
+    }
+  });
 
   var unbindUpdateTeammateInvitation = $rootScope.$on('updateTeammateInvitations', function (event, invitesCreated) {
     if (invitesCreated) {
@@ -36,7 +52,7 @@ function EnvironmentController(
   });
   $scope.$on('$destroy', unbindUpdateTeammateInvitation);
 
-  function updateShowInviteButton () {
+  function updateShowInviteButton() {
     return $q.all({
       user: fetchUser(),
       members: fetchOrgMembers($state.params.userName)
@@ -82,63 +98,38 @@ function EnvironmentController(
   $scope.$state = $state;
   favico.reset();
   pageName.setTitle('Configure - Runnable');
-  $scope.data = {
-    helpCards: helpCards
-  };
-  fetchInstancesByPod($state.userName)
-    .then(function (instancesCollection) {
-      $scope.data.instances = instancesCollection;
-      // Asynchronously fetch the Dockerfile
-      instancesCollection.forEach(function (instance) {
-        if (instance.hasDockerfileMirroring()) {
-          return fetchDockerfileForContextVersion(instance.contextVersion)
-            .then(function (dockerfile) {
-              instance.mirroredDockerfile = dockerfile;
-            });
-        }
-        // Differentiate between non-fetched and non-existing
-        instance.mirroredDockerfile = null;
-      });
-    });
+  $scope.data = { };
+  $scope.data.instances = instancesByPod;
+
+  if (ahaGuide.isAddingFirstRepo() && instancesByPod.models.length === 0) {
+    EC.showCreateTemplate = false;
+    EC.showSidebar = true;
+  }
+
+  var isAddFirstRepo = ahaGuide.isAddingFirstRepo();
+  // Asynchronously fetch the Dockerfile and check for working instances
+  instancesByPod.forEach(function (instance) {
+    if (instance.attrs.build.successful && instance.getRepoName() && isAddFirstRepo) {
+      $rootScope.$broadcast('launchAhaNavPopover');
+    }
+    if (instance.hasDockerfileMirroring()) {
+      return fetchDockerfileForContextVersion(instance.contextVersion)
+        .then(function (dockerfile) {
+          instance.mirroredDockerfile = dockerfile;
+        });
+    }
+    // Differentiate between non-fetched and non-existing
+    instance.mirroredDockerfile = null;
+  });
 
   $scope.state = {
     validation: {
       env: {}
     },
-    helpCard: null,
     newServerButton: {
       active: false
     }
   };
-
-  $scope.help = helpCards.cards;
-  $scope.helpCards = helpCards;
-
-  helpCards.clearAllCards();
-
-  $scope.helpUndock = false;
-
-  var scrollHelper = function () {
-    var newVal = false;
-    if ($window.scrollY > 60) {
-      newVal = true;
-    }
-    if ($scope.helpUndock !== newVal) {
-      $scope.helpUndock = newVal;
-      $timeout(angular.noop);
-    }
-  };
-  $scope.$on('helpCardScroll:enable', function () {
-    $window.addEventListener('scroll', scrollHelper);
-    scrollHelper();
-  });
-  $scope.$on('helpCardScroll:disable', function () {
-    $window.removeEventListener('scroll', scrollHelper);
-  });
-
-  $scope.$on('$destroy', function () {
-    $window.removeEventListener('scroll', scrollHelper);
-  });
 
   EC.alert = null;
 
@@ -166,19 +157,6 @@ function EnvironmentController(
           subTab: 'billingForm'
         }
       });
-    }
-  };
-
-  $scope.helpPopover = {
-    data: $scope.help,
-    actions: {
-      ignoreHelp: function (help) {
-        helpCards.ignoreCard(help);
-      },
-      getHelp: function (help) {
-        helpCards.setActiveCard(help);
-        $rootScope.$broadcast('close-popovers');
-      }
     }
   };
 

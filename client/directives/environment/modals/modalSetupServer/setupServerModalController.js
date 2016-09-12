@@ -9,6 +9,7 @@ function SetupServerModalController(
   $filter,
   $q,
   $rootScope,
+  ahaGuide,
   cardInfoTypes,
   createAndBuildNewContainer,
   createBuildFromContextVersionId,
@@ -16,7 +17,6 @@ function SetupServerModalController(
   errs,
   eventTracking,
   fetchDockerfileFromSource,
-  helpCards,
   isTabNameValid,
   keypather,
   loading,
@@ -32,8 +32,7 @@ function SetupServerModalController(
   masterBranch
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
-  SMC.helpCards = helpCards;
-  var blankDockerfile = false;
+  SMC.isAddingFirstRepo = ahaGuide.isAddingFirstRepo;
 
   var parentController = $controller('ServerModalController as SMC', { $scope: $scope });
   angular.extend(SMC, {
@@ -45,6 +44,7 @@ function SetupServerModalController(
     'getElasticHostname': parentController.getElasticHostname.bind(SMC),
     'getNumberOfOpenTabs': parentController.getNumberOfOpenTabs.bind(SMC),
     'getUpdatePromise': parentController.getUpdatePromise.bind(SMC),
+    'handleInstanceUpdate': parentController.handleInstanceUpdate.bind(SMC),
     'insertHostName': parentController.insertHostName.bind(SMC),
     'isDirty': parentController.isDirty.bind(SMC),
     'openDockerfile': parentController.openDockerfile.bind(SMC),
@@ -110,22 +110,23 @@ function SetupServerModalController(
     return errs.handler(new Error('Repo, build, and masterBranch must be set'));
   }
 
-  // if the blank docker file is chosen, we need to load it because it is already available
-  if (dockerfileType === 'blankDockerfile') {
-    blankDockerfile = 'blankDockerfile';
-    SMC.openDockerfile({contextVersion: build.contextVersion}, SMC.openItems);
-  }
-
   // If a repo is passed into this controller, select that repo
   angular.extend(SMC.state, {
     acv: build.contextVersion.getMainAppCodeVersion(),
-    advanced: blankDockerfile,
+    advanced: dockerfileType,
     branch: masterBranch,
     build: build,
     contextVersion: build.contextVersion,
     repo: repo,
     repoSelected: true
   });
+
+  // if the blank docker file is chosen, we need to load it because it is already available
+  if (dockerfileType === 'blankDockerfile') {
+    SMC.openDockerfile({contextVersion: build.contextVersion}, SMC.openItems);
+    SMC.changeTab('buildfiles');
+  }
+
   SMC.state.mainRepoContainerFile.name = repo.attrs.name;
   SMC.state.promises.contextVersion = $q.when(SMC.state.contextVersion);
 
@@ -264,6 +265,7 @@ function SetupServerModalController(
       if (instance) {
         SMC.instance = instance;
         SMC.state.instance = instance;
+        SMC.state.instance.on('update', SMC.handleInstanceUpdate);
         // Reset the opts, in the same way as `EditServerModalController`
         SMC.state.opts  = {
           env: keypather.get(instance, 'attrs.env') || [],

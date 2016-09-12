@@ -9,8 +9,7 @@ require('app')
     updateDockerfileFromState,
     parseDockerfileForDefaults,
     report,
-    watchOncePromise,
-    helpCards
+    watchOncePromise
   ) {
     return {
       restrict: 'A',
@@ -23,7 +22,6 @@ require('app')
         startCommandCanDisable: '=?'
       },
       link: function ($scope, element, attrs) {
-        $scope.helpCards = helpCards;
         $scope.data = { };
         watchOncePromise($scope, 'state.containerFiles', true)
           .then(function (containerFiles) {

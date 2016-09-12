@@ -19,8 +19,7 @@ function createAndBuildNewContainer(
   eventTracking,
   fetchInstancesByPod,
   fetchPlan,
-  fetchUser,
-  helpCards
+  fetchUser
 ) {
   return function (createPromiseForState, containerName, options) {
     options = options || {};
@@ -51,7 +50,6 @@ function createAndBuildNewContainer(
         return $q.when(createPromiseForState);
       })
       .then(function (newServerModel) {
-        helpCards.hideActiveCard();
         if (options.isolation) {
           newServerModel.opts.isIsolationGroupMaster = false;
           newServerModel.opts.isolated = options.isolation.id();
@@ -78,12 +76,13 @@ function createAndBuildNewContainer(
           });
       })
       .then(function (instance) {
-        helpCards.refreshAllCards();
         return instance;
       })
       .catch(function (err) {
         // Remove it from the servers list
-        instance.dealloc();
+        if (instance) {
+          instance.dealloc();
+        }
         return $q.reject(err);
       });
   };

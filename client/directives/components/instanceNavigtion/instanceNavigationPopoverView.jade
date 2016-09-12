@@ -17,7 +17,19 @@
             xlink:href = "#icons-gear"
           )
         | Configure Template
-        .small Affects all [config-name] containers.
+        .small Affects all non-isolated [config-name] containers.
+      li.divider(
+        ng-if = "$root.featureFlags.containersViewTemplateControls"
+      )
+      li.list-item.popover-list-item(
+        internal-modal-helper = "confirmDeleteServerView"
+        ng-if = "$root.featureFlags.containersViewTemplateControls"
+      )
+        svg.iconnables.icons-delete
+          use(
+            xlink:href = "#icons-delete"
+          )
+        | Delete Template
 
     ul.list.popover-list(
       ng-if = "!INC.instance.attrs.masterPod"
@@ -71,6 +83,18 @@
           )
         | Configure Template
         .small Affects all non-isolated {{ INC.instance.attrs.name }} containers.
+      li.divider(
+        ng-if = "$root.featureFlags.containersViewTemplateControls"
+      )
+      li.list-item.popover-list-item(
+        internal-modal-helper = "confirmDeleteServerView"
+        ng-if = "$root.featureFlags.containersViewTemplateControls"
+      )
+        svg.iconnables.icons-delete
+          use(
+            xlink:href = "#icons-delete"
+          )
+        | Delete Template
 
     ul.list.popover-list(
       ng-if = "!INC.instance.attrs.masterPod"

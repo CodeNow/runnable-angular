@@ -165,10 +165,6 @@
         box-shadow: none;
       }
 
-      > .small {
-        color: lighten($purple-light,18%);
-      }
-
       .icons-arrow-down {
         color: lighten($purple-light,18%);
       }
@@ -210,9 +206,9 @@
 
     // description of tool
     > .small {
-      color: $gray;
       display: block;
       line-height: 15px;
+      opacity: .6;
     }
 
     // notifications

@@ -12,7 +12,8 @@ function ControllerInstance(
   $state,
   $stateParams,
   $timeout,
-  OpenItems,
+  ahaGuide,
+  currentOrg,
   errs,
   eventTracking,
   favico,
@@ -20,13 +21,28 @@ function ControllerInstance(
   fetchDockerfileForContextVersion,
   fetchInstances,
   fetchSettings,
+  fetchUser,
   getCommitForCurrentlyBuildingBuild,
   keypather,
-  fetchUser,
+  loading,
+  OpenItems,
   pageName,
-  setLastInstance,
-  loading
+  setLastInstance
 ) {
+  // TODO: Aha - Remove this hardcoding
+  currentOrg.poppa.hasConfirmedSetup = true;
+
+  var CIS = this;
+  CIS.showSidebar = false;
+  CIS.toggleSidebar = function () {
+    CIS.showSidebar = !CIS.showSidebar;
+  };
+  $scope.$on('show-aha-sidebar', CIS.toggleSidebar);
+
+  if (ahaGuide.isAddingFirstRepo()) {
+    console.log('Toggle first branch thingy');
+  }
+
   var dataInstance = $scope.dataInstance = {
     data: {
       unsavedAcvs: []

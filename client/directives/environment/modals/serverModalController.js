@@ -12,8 +12,6 @@ function ServerModalController(
   errs,
   eventTracking,
   fetchDockerfileForContextVersion,
-  hasKeypaths,
-  helpCards,
   keypather,
   ModalService,
   loading,
@@ -341,13 +339,22 @@ function ServerModalController(
     $rootScope.$broadcast('close-popovers');
     return SMC.rebuildAndOrRedeploy()
       .then(function () {
-        helpCards.refreshActiveCard();
         $rootScope.$broadcast('alert', {
           type: 'success',
           text: 'Changes Saved'
         });
         return true;
       });
+  };
+
+  this.handleInstanceUpdate = function () {
+    var buildStatus = this.instance.status();
+    $rootScope.$broadcast('buildStatusUpdated', {
+      status: buildStatus
+    });
+    if (buildStatus === 'running') {
+      this.page = 'run';
+    }
   };
 
   this.switchToMirrorMode = function (state, openItems, dockerfile) {
@@ -503,14 +510,15 @@ function ServerModalController(
   };
 
   /**
-   * Updates the this.instance with all the states, emits the Changes Saved alert, and refreshes the
-   *  help cards.  If a failure occurs, the cv is reset, and the error propagates.
+   * Updates the this.instance with all the states, emits the Changes Saved alert.
+   * If a failure occurs, the cv is reset, and the error propagates.
    * @returns {Promise} Resolves when the instance update has been started, and the cv has been
    *        reset.  The error is uncaught, so a catch should be added to this
    */
   this.getUpdatePromise = this.saveInstanceAndRefreshCards;
 
   this.changeTab = function (tabname) {
+    $rootScope.$broadcast('updatedTab', tabname);
     var SMC = this;
     if (keypather.get(SMC, 'serverForm.$invalid')) {
       if (keypather.get(SMC, 'serverForm.$error.required.length')) {

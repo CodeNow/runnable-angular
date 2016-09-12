@@ -4,6 +4,7 @@ require('app')
   .controller('IndexController', IndexController);
 
 function IndexController(
+  $localStorage,
   $ocLazyLoad,
   $rootScope,
   $scope,

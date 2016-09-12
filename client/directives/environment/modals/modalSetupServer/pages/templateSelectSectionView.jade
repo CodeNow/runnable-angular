@@ -19,7 +19,7 @@
 ul.list.list-servers(
   ng-if = "!$root.isLoading.newContainerModalTemplates"
 )
-  li.list-item.grid-block(
+  li.grid-block.align-center.list-item(
     ng-click = "MC.setTemplate(dependency, goToPanel)"
     ng-repeat = "\
       dependency in MC.templateServers.models | \
@@ -28,13 +28,13 @@ ul.list.list-servers(
       orderBy:'attrs.name'\
     "
   )
-    img.img(
+    img.grid-content.shrink.img(
       height = "36"
       ng-src = "/build/images/logos/logo-icon-{{dependency.attrs.name.toLowerCase()}}.png"
       width = "36"
     )
-    | {{dependency.attrs.name}}
-    button.btn.btn-sm.btn-icon.btn-add
+    .grid-content {{dependency.attrs.name}}
+    button.grid-content.shrink.btn.btn-sm.btn-icon.btn-add
       svg.iconnables.icons-add
         use(
           xlink:href = "#icons-add"
