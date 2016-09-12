@@ -299,7 +299,7 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       };
       childInstance3 = {
         attrs: {
-          name: 'mockBranch-postgresql'
+          name: 'mockBranch-PostgreSQL'
         }
       };
       masterInstance = {
