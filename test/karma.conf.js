@@ -37,8 +37,7 @@ module.exports = function(config) {
     files: [
       'https://js.stripe.com/v2/stripe-debug.js',
       'unit/globals.js',
-      'unit/controllers/controllerInstances.unit.js'
-      // 'unit/**/*.unit.js'
+      'unit/**/*.unit.js'
     ],
 
 
