@@ -1,0 +1,218 @@
+.popover.menu.right.popover-template-menu(
+  ng-class = "{'in': active}"
+  ng-init = "\
+    state.tab = 'repo';\
+    state.loading = null;\
+  "
+  ng-style = "popoverStyle.getStyle()"
+)
+  .arrow.gray(
+    style = "top: 39px;"
+  )
+  .grid-block.popover-header
+    button.grid-block.align-center.btn.btn-radio(
+      ng-class = "{'active': state.tab === 'repo'}"
+      ng-click = "state.tab = 'repo'"
+      ng-disabled = "state.tab !== 'repo'&& state.loading"
+    )
+      .grid-block.vertical.shrink Repository
+        .small From your GitHub org
+    button.grid-block.align-center.btn.btn-radio(
+      ng-class = "{'active': state.tab === 'nonRepo'}"
+      ng-click = "state.tab = 'nonRepo'"
+      ng-disabled = "state.tab !== 'nonRepo'&& state.loading"
+    )
+      .grid-block.vertical.shrink Non-Repository
+        .small For a DB or service
+  .popover-content(
+    ng-if = "state.tab === 'repo'"
+    ng-init = "state.branchesLoaded = null"
+  )
+    .spinner-wrapper.spinner-sm.spinner-gray.spinner-center(
+      ng-click = "state.branchesLoaded = true"
+      ng-if = "!state.branchesLoaded"
+      ng-include = "'spinner'"
+    )
+    .padding-xxs(
+      ng-if = "state.branchesLoaded"
+    )
+      input.input.input-xs.input-search(
+        ng-disabled = "state.loading"
+        ng-if = "branch.length !== 0"
+        placeholder = "Filter by name"
+        required
+        type = "search"
+      )
+      .text-center.text-gray.small.padding-lg(
+        ng-if = "branch.length === 0"
+      ) There are no branches to add.
+    ul.list.popover-list(
+      ng-if = "state.branchesLoaded"
+    )
+      li.grid-block.align-center.list-item.popover-list-item.multi-line(
+        ng-class = "{'active': state.loading}"
+        ng-click = "state.loading = !state.loading"
+      )
+        svg.grid-content.shrink.iconnables.icons-repository
+          use(
+            xlink:href = "#icons-repository"
+          )
+        .grid-block.vertical
+          .grid-content button-clicker
+          .grid-block(
+            ng-if = "$root.featureFlags.inviteFlows"
+          )
+            .btn-user.text-overflow.no-touching(
+              ng-class = "{'active': state.active}"
+              ng-include = "'userButtonView'"
+            )
+            span.small(
+              ng-if = "$root.featureFlags.inviteFlows"
+            )  — 3 days ago
+
+          //- else
+          small.small(
+            ng-if = "!$root.featureFlags.inviteFlows"
+          ) Updated 3 days ago
+
+        button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add(
+          ng-if = "!state.loading"
+        )
+          svg.iconnables.icons-add
+            use(
+              xlink:href = "#icons-add"
+            )
+        .grid-content.shrink.spinner-wrapper.spinner-sm.spinner-green(
+          ng-if = "state.loading"
+          ng-include = "'spinner'"
+        )
+      li.grid-block.align-center.list-item.popover-list-item.multi-line(
+        ng-class = "{'disabled': state.loading}"
+      )
+        svg.grid-content.shrink.iconnables.icons-repository
+          use(
+            xlink:href = "#icons-repository"
+          )
+        .grid-block.vertical
+          .grid-content api
+          .grid-block(
+            ng-if = "$root.featureFlags.inviteFlows"
+          )
+            .btn-user.text-overflow.no-touching(
+              ng-class = "{'active': state.active}"
+              ng-include = "'userButtonView'"
+            )
+            span.small(
+              ng-if = "$root.featureFlags.inviteFlows"
+            )  — 3 days ago
+
+          //- else
+          small.small(
+            ng-if = "!$root.featureFlags.inviteFlows"
+          ) Updated 3 days ago
+
+        button.grid-block.shrink.btn.btn-xs.btn-icon.btn-add
+          svg.iconnables.icons-add
+            use(
+              xlink:href = "#icons-add"
+            )
+      li.grid-block.align-center.list-item.popover-list-item.multi-line(
+        ng-class = "{'disabled': state.loading}"
+      )
+        svg.grid-content.shrink.iconnables.icons-repository
+          use(
+            xlink:href = "#icons-repository"
+          )
+        .grid-block.vertical
+          .grid-content runnable.com
+          .grid-block(
+            ng-if = "$root.featureFlags.inviteFlows"
+          )
+            .btn-user.text-overflow.no-touching(
+              ng-class = "{'active': state.active}"
+              ng-include = "'userButtonView'"
+            )
+            span.small(
+              ng-if = "$root.featureFlags.inviteFlows"
+            )  — 3 days ago
+
+          //- else
+          small.small(
+            ng-if = "!$root.featureFlags.inviteFlows"
+          ) Updated 3 days ago
+
+        button.grid-block.shrink.btn.btn-xs.btn-icon.btn-add
+          svg.iconnables.icons-add
+            use(
+              xlink:href = "#icons-add"
+            )
+  .popover-content(
+    ng-if = "state.tab === 'nonRepo'"
+    ng-init = "state.servicesLoaded = null"
+  )
+    .spinner-wrapper.spinner-sm.spinner-gray.spinner-center(
+      ng-click = "state.servicesLoaded = true"
+      ng-if = "!state.servicesLoaded"
+      ng-include = "'spinner'"
+    )
+    .padding-xxs(
+      ng-if = "state.servicesLoaded"
+    )
+      input.input.input-xs.input-search(
+        ng-disabled = "state.loading"
+        placeholder = "Filter by name"
+        required
+        type = "search"
+      )
+    ul.list.popover-list(
+      ng-if = "state.servicesLoaded"
+    )
+      li.grid-block.align-center.list-item.popover-list-item.multi-line(
+        ng-class = "{'active': state.loading}"
+        ng-click = "state.loading = !state.loading"
+      )
+        img.grid-content.shrink.img(
+          height = "24"
+          ng-src = "/build/images/logos/logo-icon-cassandra.png"
+          width = "24"
+        )
+        .grid-content Cassandra
+        button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add(
+          ng-if = "!state.loading"
+        )
+          svg.iconnables.icons-add
+            use(
+              xlink:href = "#icons-add"
+            )
+        .grid-content.shrink.spinner-wrapper.spinner-sm.spinner-green(
+          ng-if = "state.loading"
+          ng-include = "'spinner'"
+        )
+      li.grid-block.align-center.list-item.popover-list-item.multi-line(
+        ng-class = "{'disabled': state.loading}"
+      )
+        img.grid-content.shrink.img(
+          height = "24"
+          ng-src = "/build/images/logos/logo-icon-consul-server.png"
+          width = "24"
+        )
+        .grid-content Consul-Server
+        button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add
+          svg.iconnables.icons-add
+            use(
+              xlink:href = "#icons-add"
+            )
+      li.grid-block.align-center.list-item.popover-list-item.multi-line(
+        ng-class = "{'disabled': state.loading}"
+      )
+        img.grid-content.shrink.img(
+          height = "24"
+          ng-src = "/build/images/logos/logo-icon-elasticsearch.png"
+          width = "24"
+        )
+        .grid-content ElasticSearch
+        button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add
+          svg.iconnables.icons-add
+            use(
+              xlink:href = "#icons-add"
+            )

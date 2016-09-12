@@ -9,6 +9,13 @@
     sub-step = "addBranch"
   )
 
+  .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
+    ng-if = "$root.featureFlags.aha && !$root.isLoading.fetchingBranches && CIS.ahaGuide.getCurrentStep() === CIS.ahaGuide.steps.SETUP_RUNNABOT"
+    aha-guide
+    step-index = 3
+    sub-step = "addBranch"
+  )
+
   .arrow.white
   
   animated-panel-container.popover-views(

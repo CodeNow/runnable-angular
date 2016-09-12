@@ -7,7 +7,10 @@ var $controller,
     $localStorage,
     keypather,
     $state,
-    $q;
+    $q,
+    promisify,
+    mockOrg,
+    currentOrg;
 var apiMocks = require('../apiMocks/index');
 var mockFetch = new (require('../fixtures/mockFetch'))();
 var runnable = window.runnable;
@@ -75,8 +78,21 @@ describe('ControllerInstances'.bold.underline.blue, function () {
     localStorageData = angular.extend({}, localStorageData, {
       $default: sinon.spy()
     });
+    mockOrg = {
+      github: {
+        fetchRepo: sinon.stub()
+      }
+    };
     angular.mock.module('app', function ($provide) {
       $provide.factory('fetchInstancesByPod', mockFetch.fetch());
+      $provide.factory('promisify', function ($q) {
+        var promisifyMock = sinon.spy(function (obj, key) {
+          return function () {
+            return $q.when(obj[key].apply(obj, arguments));
+          };
+        });
+        return promisifyMock;
+      });
       $provide.value('favico', {
         reset : sinon.spy(),
         setInstanceState: sinon.spy()
@@ -87,7 +103,7 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       $provide.value('user', ctx.fakeuser);
       $provide.value('activeAccount', ctx.fakeuser);
 
-
+      $provide.value('currentOrg', mockOrg);
       $provide.factory('setLastOrg', function ($q) {
         return sinon.stub().returns($q.when());
       });
@@ -253,6 +269,69 @@ describe('ControllerInstances'.bold.underline.blue, function () {
         userName: 'org2'
       });
     });
+  });
+
+  describe('branch launch popover', function() {
+
+    var childInstance;
+    var childInstance2;
+    var masterInstance;
+    var masterInstance2;
+
+    beforeEach(function() {
+      childInstance = {
+        attrs: {
+          name: 'feature-AWESOME',
+          lowerName: 'feature-awesome'
+        },
+        getBranchName: sinon.stub().returns('henry\'s branch')
+      };
+      childInstance2 = {
+        attrs: {
+          name: 'deezNutz',
+          lowerName: 'deeznutz'
+        },
+        getBranchName: sinon.stub().returns('olive branch')
+      };
+      masterInstance = {
+        getRepoAndBranchName: sinon.stub().returns('master'),
+        getRepoName: sinon.stub().returns('main'),
+        getBranchName: sinon.stub().returns('master'),
+        attrs: {
+          name: 'MyFirstNodeAPI',
+          lowerName: 'myfirstnodeapi'
+        },
+        children: {
+          models: [ childInstance, childInstance2 ]
+        }
+      };
+      masterInstance2 = {
+        getRepoAndBranchName: sinon.stub().returns(null),
+        attrs: {
+          name: 'PostgreSQL',
+          lowerName: 'postgresql'
+        },
+        children: {
+          models: []
+        },
+      };
+    });
+
+    it('should call the right stuff', function() {
+      setup('myOrg');
+      $rootScope.$digest();
+      var repo = {
+        fetchBranches: sinon.stub().returns($q.when({
+          models: []
+        }))
+      };
+
+      mockOrg.github.fetchRepo.returns($q.when(repo));
+      CIS.popInstanceOpen(masterInstance);
+      $rootScope.$digest();
+      sinon.assert.calledOnce(mockOrg.github.fetchRepo);
+    });
+
   });
   
   describe('using various searches in the search filter'.blue, function () {

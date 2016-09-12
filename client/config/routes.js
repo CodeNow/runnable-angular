@@ -73,6 +73,10 @@ module.exports = [
       },
       whitelistedOrgs: function (fetchWhitelistForDockCreated) {
         return fetchWhitelistForDockCreated();
+      },
+      booted: function (eventTracking, user) {
+        eventTracking.boot(user);
+        eventTracking.visitedOrgSelectPage();
       }
     }
   }, {

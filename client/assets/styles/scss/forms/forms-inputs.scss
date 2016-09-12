@@ -116,7 +116,7 @@ input {
   &.input-xs {
     font-size: 13px;
     height: $input-xs;
-    line-height: 1;
+    line-height: $input-line-height-xs;
 
     &[type="search"] {
       border-radius: $input-xs;
@@ -127,7 +127,7 @@ input {
   &.input-xxs {
     font-size: 13px;
     height: $input-xxs;
-    line-height: 1;
+    line-height: $input-line-height-xxs;
 
     &[type="search"] {
       border-radius: $input-xxs;

@@ -93,8 +93,7 @@
               xlink:href = "#icons-arrow-down"
             )
           | Add Branch
-        .popover-content(
-        )
+        .popover-content
           .spinner-wrapper.spinner-sm.spinner-gray.spinner-center.in(
             ng-if = "$root.isLoading.fetchingBranches"
             ng-include = "'spinner'"
@@ -123,26 +122,27 @@
             input.input.input-xs.input-search(
               ng-disabled = "$root.isLoading['buildingForkedBranch']"
               ng-model = "CIS.branchQuery"
-              placeholder = "Filter"
+              placeholder = "Filter by name"
               required
               type = "search"
             )
           ul.list.popover-list(
             ng-if = "CIS.instanceBranches.length"
           )
-            li.list-item.popover-list-item(
+            li.grid-block.align-center.list-item.popover-list-item(
               ng-class = "{'disabled': $root.isLoading[\'buildingForkedBranch\']}"
               ng-repeat = "branch in CIS.getFilteredBranches()"
               ng-click = "CIS.forkBranchFromInstance(branch, POC.closePopover);"
-            ) {{ branch.attrs.name }}
-              button.btn.btn-xs.btn-icon.btn-add(
+            )
+              .grid-content {{ branch.attrs.name }}
+              button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add(
                 ng-if = "!$root.isLoading['buildingForkedBranch' + branch.attrs.name]"
               )
                 svg.iconnables.icons-add
                   use(
                     xlink:href = "#icons-add"
                   )
-              .spinner-wrapper.spinner-sm.spinner-gray(
+              .grid-content.shrink.spinner-wrapper.spinner-sm.spinner-green(
                 ng-if = "$root.isLoading['buildingForkedBranch' + branch.attrs.name]"
                 ng-include = "'spinner'"
               )

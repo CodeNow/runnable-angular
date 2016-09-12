@@ -354,12 +354,24 @@
   }
 
   > .btn {
-    border-color: $gray-lighter;
     flex: 0 1 25%;
     font-size: 13px;
     height: 90px;
     line-height: normal; // reset
     padding: 0;
+
+    &:not(:active):not(.active) {
+      border-color: $gray-lighter;
+
+      &:hover:not([disabled]) {
+        border-color: $gray-light;
+      }
+    }
+
+    &:active,
+    &.active {
+      box-shadow: none;
+    }
 
     &:first-child {
       border-radius: $input-border-radius 0 0;
@@ -408,13 +420,13 @@
         top: -21px;
       }
 
-      &:hover::after {
+      &:hover:not([disabled])::after {
         background: $gray-light;
         color: $white;
       }
 
       &.active,
-      &:active {
+      &:active:not([disabled]) {
 
         &::after {
           background: $purple-light;
@@ -424,6 +436,7 @@
     }
 
     .iconnables {
+      display: block;
       height: 24px;
       margin: 9px auto 6px;
       width: 24px;
