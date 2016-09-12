@@ -25,7 +25,8 @@ function popOver(
   $document,
   keypather,
   $log,
-  exists
+  exists,
+  $timeout
 ) {
   return {
     restrict: 'A',
@@ -54,6 +55,7 @@ function popOver(
           return $log.error('Pop over needs a template');
         }
       }
+      $scope.element = element;
       $scope.popoverOptions = $scope.popoverOptions || {};
       $scope.active = $scope.active || false;
       $scope.popoverStyle = {
@@ -61,7 +63,9 @@ function popOver(
           if (!$scope.active) {
             return previousStyle;
           }
+
           var offset = {};
+          var topMargin = 8;
 
           var scrollTop = $document.find('body')[0].scrollTop || $document.find('html')[0].scrollTop;
           if (keypather.get($scope, 'popoverOptions.mouse')) {
@@ -100,11 +104,42 @@ function popOver(
 
           if (keypather.get($scope, 'popoverOptions.verticallyCentered')) {
             style.bottom = null;
-            style.top = Math.round((-POC.popoverElement[0].offsetHeight / 2 + offset.top + (offset.bottom - offset.top) / 2)) + 'px';
+            var targetedTopVal = Math.round((-POC.popoverElement[0].offsetHeight / 2 + offset.top + (offset.bottom - offset.top) / 2));
+            if (
+              $scope.popoverOptions.pinToViewPort && // If true, make sure popover is not displayed outside the viewport
+              POC.popoverElement[0].offsetHeight + targetedTopVal > $document.find('body')[0].offsetHeight
+            ) {
+              targetedTopVal = $document.find('body')[0].offsetHeight - POC.popoverElement[0].offsetHeight - 8;
+            }
+            if (targetedTopVal < 0) {
+              targetedTopVal = topMargin;
+            }
+
+            style.top = targetedTopVal + 'px';
           }
 
           previousStyle = style;
           return style;
+        },
+
+        getArrowStyle: function() {
+          var style = {};
+          var elementPosition = $scope.element[0].getBoundingClientRect();
+          var elementCenter = (elementPosition.bottom + elementPosition.top) / 2;
+
+          var popoverElementPosition = POC.popoverElement[0].getBoundingClientRect();
+
+          var topInt = parseInt($scope.popoverStyle.getStyle().top.replace('px', ''));
+          var isAtBottom = window.innerHeight - elementPosition.top < 180;
+
+          var diff = Math.abs(popoverElementPosition.top - elementCenter);
+
+          if (topInt > 8 && !isAtBottom || diff > POC.popoverElement[0].getBoundingClientRect().height) {
+            return style;
+          } else {
+            style.top = diff + 'px';
+            return style;
+          }
         }
       };
 
@@ -130,8 +165,10 @@ function popOver(
             bottom: event.pageY
           }
         };
+
         POC.openPopover($scope.options);
       }
+
       var trigger = attrs.popOverTrigger || 'click';
       switch (trigger) {
         case 'rightClick':

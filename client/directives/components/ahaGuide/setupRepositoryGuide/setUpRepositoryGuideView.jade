@@ -118,9 +118,9 @@
     span.span(
      ng-if = "AGC.showErrorType === 'exitedEarly'"
     ) Your repository isn‘t running yet! Check the logs to debug any issues. If you‘re stumped,&#32;
-      //- this link should open in intercom with the prefilled message:
-          "I’m having trouble getting my first container up and running."
-      a.link ask our engineers
+      a.link(
+        ng-click = "askEngineers()"
+      ) ask our engineers
       | !
 
   //- If template repo is deleted:

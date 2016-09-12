@@ -41,14 +41,14 @@ p.p.text-center.text-gray-light.padding-sm(
         instance = "masterInstance"
         instance-navigation
         master-instance = "masterInstance"
-        ng-repeat = "masterInstance in CIS.getFilteredInstanceList().models | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
+        ng-repeat = "masterInstance in CIS.getFilteredInstanceList() | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
       )
       //- master non-repository containers
       .grid-block(
         active-account = "CIS.activeAccount"
         instance = "masterInstance"
         instance-navigation
-        ng-repeat = "masterInstance in CIS.instancesByPod.models | instanceHasRepo:false | orderBy: ['attrs.name'] as nonRepoInstances track by masterInstance.attrs.name"
+        ng-repeat = "masterInstance in CIS.getFilteredInstanceList() | instanceHasRepo:false | orderBy: ['attrs.name'] as nonRepoInstances track by masterInstance.attrs.name"
       )
 
 .well.text-center(
@@ -76,7 +76,7 @@ p.p.text-center.text-gray-light.padding-sm(
       tooltip-options = "{\"class\":\"bottom center text-center\",\"left\":-4,\"top\":24}"
       pop-over
       pop-over-controller = "CIS"
-      pop-over-options = "{\"verticallyCentered\":true,\"left\":87}"
+      pop-over-options = "{\"verticallyCentered\":true,\"left\":87,\"pinToViewPort\":true}"
       pop-over-template = "branchMenuPopoverView"
       pop-over-data = "'branchSelect'"
     ) Add Branch

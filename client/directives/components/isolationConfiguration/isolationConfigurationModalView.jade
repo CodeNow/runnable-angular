@@ -100,4 +100,9 @@
       button.btn.btn-md.green.float-right(
         ng-disabled = "$root.isLoading.createIsolation"
         ng-click = "ICMC.createIsolation()"
-      ) {{$root.isLoading.createIsolation ? 'Isolating...' : 'Isolate Branch'}}
+      )
+        .spinner-wrapper.spinner-white.spinner-sm.float-left(
+          ng-if = "$root.isLoading.createIsolation"
+          ng-include = "'spinner'"
+        )
+        span Isolate Branch
