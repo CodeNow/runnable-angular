@@ -17,6 +17,7 @@ function SetupServerModalController(
   errs,
   eventTracking,
   fetchDockerfileFromSource,
+  fetchInstancesByPod,
   isTabNameValid,
   keypather,
   loading,
@@ -120,6 +121,11 @@ function SetupServerModalController(
     repo: repo,
     repoSelected: true
   });
+
+  fetchInstancesByPod()
+    .then(function (instances) {
+      SMC.data.instances = instances;
+    });
 
   // if the blank docker file is chosen, we need to load it because it is already available
   if (dockerfileType === 'blankDockerfile') {

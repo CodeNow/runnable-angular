@@ -1024,7 +1024,7 @@ describe('serverModalController'.bold.underline.blue, function () {
       SMC.state.repo = ctx.repo;
       $scope.$digest();
       var generatedElasticHostname = SMC.getElasticHostname();
-      var manualEleasticHostname = ctx.repo.attrs.name + '-staging-' + ctx.repo.attrs.owner.login + '.' + ctx.repo.opts.userContentDomain;
+      var manualEleasticHostname = ctx.repo.attrs.name + '-staging-' + ctx.repo.attrs.owner.login + '.' + window.userContentDomain;
       expect(generatedElasticHostname).to.equal(manualEleasticHostname);
     });
 
