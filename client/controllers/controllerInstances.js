@@ -206,7 +206,7 @@ function ControllerInstances(
     promisify(CIS.poppedInstance, 'fork')(branchName, sha)
       .then(function (instance) {
         var newInstance = instance.children.models.filter(function(childInstance) {
-          return childInstance.attrs.name === branchName + '-' + instance.attrs.lowerName;
+          return childInstance.attrs.name === branchName + '-' + instance.attrs.name;
         })[0];
         loading(branchName, false);
         loading('buildingForkedBranch', false);

@@ -118,7 +118,10 @@
             ng-if = "CIS.instanceBranches.length"
           )
             li.grid-block.align-center.list-item.popover-list-item(
-              ng-class = "{'disabled': $root.isLoading[\'buildingForkedBranch\']}"
+              ng-class = "{\
+                'disabled': $root.isLoading['buildingForkedBranch'] && !$root.isLoading[branch.attrs.name],\
+                'active': $root.isLoading['buildingForkedBranch'] && $root.isLoading[branch.attrs.name]\
+              }"
               ng-repeat = "branch in CIS.getFilteredBranches()"
               ng-click = "CIS.forkBranchFromInstance(branch, POC.closePopover);"
             )
