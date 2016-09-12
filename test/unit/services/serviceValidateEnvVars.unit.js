@@ -51,4 +51,12 @@ describe('serviceValidateEnvVars'.bold.underline.blue, function () {
     ];
     expectFail(validateEnvVars(env));
   });
+
+  it('should always require something at the end of an =', function () {
+    var env = [
+      'PROPERTY1=test', //valid
+      'PROPERTY1=' //invalid
+    ];
+    expectFail(validateEnvVars(env));
+  });
 });
