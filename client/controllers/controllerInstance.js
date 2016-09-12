@@ -114,8 +114,8 @@ function ControllerInstance(
         setLastInstance($stateParams.instanceName);
         loading('main', false);
       })
-      .catch(function (err) { // We ONLY want to handle errors related to fetching instances so this catch is nested.
-        errs.handler(err);
+      .catch(function () {
+        // Don't handle the instance fetch err, because it's super annoying
         loading('main', false);
         setLastInstance(false);
         $state.go('base.instances', {
