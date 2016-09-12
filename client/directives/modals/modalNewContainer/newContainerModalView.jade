@@ -177,9 +177,9 @@
           )
             //- should say "Next Step: Setup" if a repository container
             //- should say "Create Template" if its a non-repository container
-            .spinner-wrapper.spinner-white.spinner-sm.in(
-              ng-include = "'spinner'"
+            .spinner-wrapper.spinner-white.spinner-sm.float-left(
               ng-if = "$root.isLoading[MC.name + 'SingleRepo']"
+              ng-include = "'spinner'"
             )
             span(
               ng-if = "MC.state.repo"

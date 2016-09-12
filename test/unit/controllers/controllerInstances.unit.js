@@ -7,7 +7,10 @@ var $controller,
     $localStorage,
     keypather,
     $state,
-    $q;
+    $q,
+    promisify,
+    mockOrg,
+    currentOrg;
 var apiMocks = require('../apiMocks/index');
 var mockFetch = new (require('../fixtures/mockFetch'))();
 var runnable = window.runnable;
@@ -75,8 +78,23 @@ describe('ControllerInstances'.bold.underline.blue, function () {
     localStorageData = angular.extend({}, localStorageData, {
       $default: sinon.spy()
     });
+    mockOrg = {
+      github: {
+        fetchRepo: sinon.stub()
+      }
+    };
     angular.mock.module('app', function ($provide) {
       $provide.factory('fetchInstancesByPod', mockFetch.fetch());
+      $provide.factory('promisify', function ($q) {
+        var promisifyMock = sinon.spy(function (obj, key) {
+          return function () {
+            return $q.when(obj[key].apply(obj, arguments));
+          };
+        });
+        return promisifyMock;
+      });
+
+      $provide.value('currentOrg', mockOrg);
       $provide.value('favico', {
         reset : sinon.spy(),
         setInstanceState: sinon.spy()
@@ -254,6 +272,134 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       });
     });
   });
+
+  describe('branch launch popover', function() {
+
+    var childInstance;
+    var childInstance2;
+    var childInstance3;
+    var masterInstance;
+    var masterInstance2;
+    var mockBranch;
+
+    beforeEach(function() {
+      childInstance = {
+        attrs: {
+          name: 'feature-AWESOME',
+          lowerName: 'feature-awesome'
+        },
+        getBranchName: sinon.stub().returns('henry\'s branch')
+      };
+      childInstance2 = {
+        attrs: {
+          name: 'deezNutz',
+          lowerName: 'deeznutz'
+        },
+        getBranchName: sinon.stub().returns('olive branch')
+      };
+      childInstance3 = {
+        attrs: {
+          name: 'mockBranch-PostgreSQL'
+        }
+      };
+      masterInstance = {
+        getRepoAndBranchName: sinon.stub().returns('master'),
+        getRepoName: sinon.stub().returns('main'),
+        getBranchName: sinon.stub().returns('master'),
+        attrs: {
+          name: 'MyFirstNodeAPI',
+          lowerName: 'myfirstnodeapi'
+        },
+        children: {
+          models: [ childInstance, childInstance2 ]
+        }
+      };
+      masterInstance2 = {
+        getRepoAndBranchName: sinon.stub().returns(null),
+        attrs: {
+          name: 'PostgreSQL',
+          lowerName: 'postgresql',
+          shouldNotAutofork: false
+        },
+        children: {
+          models: [childInstance3]
+        },
+        fork: sinon.stub(),
+        update: sinon.stub()
+      };
+      mockBranch = {
+        attrs: {
+          "name": "mockBranch",
+          "commit": {
+            "sha": "6e0c5e3778b83f128f6f14c311d5728392053581",
+            "url": "https://api.github.com/repos/cflynn07/bitcoin/commits/6e0c5e3778b83f128f6f14c311d5728392053581"
+          }
+        }
+      };
+    });
+
+    it('should fetch branches for an instance when popInstanceOpen is called', function () {
+      setup('myOrg');
+
+      var repo = {
+        fetchBranches: sinon.stub().returns($q.when({
+          models: apiMocks.branches.bitcoinRepoBranches
+        }))
+      };
+
+      mockOrg.github.fetchRepo.returns($q.when(repo));
+      CIS.popInstanceOpen(masterInstance);
+      $rootScope.$digest();
+      sinon.assert.calledOnce(mockOrg.github.fetchRepo);
+      sinon.assert.calledOnce(repo.fetchBranches);
+      expect(CIS.instanceBranches).to.deep.equal(apiMocks.branches.bitcoinRepoBranches);
+      expect(CIS.totalInstanceBranches).to.equal(apiMocks.branches.bitcoinRepoBranches.length);
+    });
+
+    it('should not return branches that were already launched', function () {
+      setup('myOrg');
+      apiMocks.branches.bitcoinRepoBranches[0].attrs = {
+        name: 'henry\'s branch'
+      }
+
+      CIS.instanceBranches = CIS.getUnbuiltBranches(masterInstance, {
+        models: apiMocks.branches.bitcoinRepoBranches
+      });
+      $rootScope.$digest();
+      expect(CIS.instanceBranches.length).to.equal(apiMocks.branches.bitcoinRepoBranches.length - 1);
+    });
+
+    it('should build a new instance', function () {
+      setup('myOrg');
+
+      CIS.poppedInstance = masterInstance2;
+      var closePopoverStub = sinon.stub();
+
+      masterInstance2.fork.returns($q.when(masterInstance2));
+
+      CIS.forkBranchFromInstance(mockBranch, closePopoverStub);
+      $rootScope.$digest();
+      sinon.assert.calledOnce(masterInstance2.fork);
+      sinon.assert.calledWithExactly(masterInstance2.fork, mockBranch.attrs.name, mockBranch.attrs.commit.sha);
+      sinon.assert.calledOnce(closePopoverStub);
+      sinon.assert.calledWithExactly(ctx.fakeGo, 'base.instances.instance', {
+        instanceName: childInstance3.attrs.name
+      });
+    });
+
+    it('should set the instance\'s autofork property', function () {
+      setup('myOrg');
+      CIS.poppedInstance = masterInstance2;
+      masterInstance2.update.returns($q.when(true))
+
+      expect(CIS.poppedInstance.attrs.shouldNotAutofork).to.equal(false);
+      CIS.setAutofork();
+      $rootScope.$digest();
+      expect(CIS.poppedInstance.attrs.shouldNotAutofork).to.equal(true);
+      sinon.assert.calledOnce(masterInstance2.update);
+      sinon.assert.calledWithExactly(masterInstance2.update, {shouldNotAutofork: masterInstance2.attrs.shouldNotAutofork});
+    })
+  });
   
   describe('using various searches in the search filter'.blue, function () {
     var childInstance;
@@ -374,5 +520,26 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       });
       expect(results).to.deep.equal([[true,true],[false,true],[false,false],[true,false]]);
     });
+
+    it('should only show branches matching the search query', function() {
+      // polyfill
+      String.prototype.includes = function (search) {
+        return this.indexOf(search) !== -1;
+      }
+      CIS.instanceBranches = [
+        {attrs: {name:'brian'}},{attrs:{name:'carl'}},{attrs:{name:'dennis'}}
+      ];
+      var searchTerms = ['BRIAN', null, 'n', 'mike love', 'AlJaRdInE'];
+
+      var results = searchTerms.map(function(query) {
+        CIS.branchQuery = query;
+        return CIS.getFilteredBranches();
+      });
+      expect(results).to.deep.equal([[{attrs: {name:'brian'}}],
+                                      CIS.instanceBranches,
+                                      [{attrs: {name:'brian'}},{attrs:{name:'dennis'}}],
+                                      [],
+                                      []]);
+    })
   });
 });

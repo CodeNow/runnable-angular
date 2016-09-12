@@ -1,8 +1,10 @@
 .popover.menu.right.popover-branch-menu(
   ng-class = "{'in': active}"
-  ng-style = "popoverStyle.getStyle()"
+  ng-style = "popoverStyle.getStyle(CIS.instanceBranches)"
 )
-  .arrow.white
+  .arrow.white(
+    ng-style = "popoverStyle.getArrowStyle(CIS.instanceBranches)"
+  )
   .grid-block.vertical.popover-content.empty(
     ng-if = "$root.featureFlags.autoIsolationSetup"
   )
@@ -106,6 +108,7 @@
                 )
                 .toggle-group.toggle-sm
             input.input.input-xs.input-search(
+              ng-disabled = "$root.isLoading['buildingForkedBranch']"
               ng-model = "CIS.branchQuery"
               placeholder = "Filter by name"
               required
@@ -115,19 +118,23 @@
             ng-if = "CIS.instanceBranches.length"
           )
             li.grid-block.align-center.list-item.popover-list-item(
+              ng-class = "{\
+                'disabled': $root.isLoading['buildingForkedBranch'] && !$root.isLoading[branch.attrs.name],\
+                'active': $root.isLoading['buildingForkedBranch'] && $root.isLoading[branch.attrs.name]\
+              }"
               ng-repeat = "branch in CIS.getFilteredBranches()"
               ng-click = "CIS.forkBranchFromInstance(branch, POC.closePopover);"
             )
               .grid-content {{ branch.attrs.name }}
               button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add(
-                ng-if = "!$root.isLoading['buildingForkedBranch' + branch.attrs.name]"
+                ng-if = "!$root.isLoading[branch.attrs.name]"
               )
                 svg.iconnables.icons-add
                   use(
                     xlink:href = "#icons-add"
                   )
               .grid-content.shrink.spinner-wrapper.spinner-sm.spinner-green(
-                ng-if = "$root.isLoading['buildingForkedBranch' + branch.attrs.name]"
+                ng-if = "$root.isLoading[branch.attrs.name]"
                 ng-include = "'spinner'"
               )
 

@@ -200,12 +200,20 @@ function ControllerInstances(
 
   this.forkBranchFromInstance = function (branch, closePopover) {
     var sha = branch.attrs.commit.sha;
-    var loadingName = 'buildingForkedBranch' + branch.attrs.name;
-    loading(loadingName, true);
-    promisify(CIS.poppedInstance, 'fork')(branch.attrs.name, sha)
-      .then(function () {
-        loading(loadingName, false);
+    var branchName = branch.attrs.name;
+    loading(branchName, true);
+    loading('buildingForkedBranch', true);
+    promisify(CIS.poppedInstance, 'fork')(branchName, sha)
+      .then(function (instance) {
+        var newInstance = instance.children.models.filter(function(childInstance) {
+          return childInstance.attrs.name === branchName + '-' + instance.attrs.name;
+        })[0];
+        loading(branchName, false);
+        loading('buildingForkedBranch', false);
         closePopover();
+        $state.go('base.instances.instance', {
+          instanceName: newInstance.attrs.name
+        });
       });
   };
 
