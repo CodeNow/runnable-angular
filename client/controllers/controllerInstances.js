@@ -226,9 +226,9 @@ function ControllerInstances(
     promisify(CIS.poppedInstance, 'fork')(branch.attrs.name, sha)
       .then(function() {
         closePopover();
+        $rootScope.$broadcast('hasAddedBranch');
         loading('buildingForkedBranch', false);
         loading(loadingName, false);
-        $rootScope.$broadcast('hasAddedBranch');
         $timeout(function() {
           $rootScope.$broadcast('close-popovers');
         });

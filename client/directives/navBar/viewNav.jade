@@ -32,7 +32,7 @@ a.a.disabled(
   | Containers
 
 a.a(
-  ng-if = "(dataApp.state.includes('base.instances') || !CA.instancesByPod || CA.instancesByPod.models.length) || $root.featureFlags.containersViewTemplateControls && (!$root.featureFlags.aha || CA.ahaGuide.getCurrentStep() > CA.ahaGuide.steps.ADD_FIRST_REPO)"
+  ng-if = "(!$root.featureFlags.aha && (dataApp.state.includes('base.instances') || !CA.instancesByPod || CA.instancesByPod.models.length)) || ($root.featureFlags.containersViewTemplateControls || ($root.featureFlags.aha && CA.instancesByPod.models.length && CA.ahaGuide.getCurrentStep() > CA.ahaGuide.steps.ADD_FIRST_REPO))"
   ui-sref = "base.instances({ userName: CA.activeAccount.oauthName() })"
   ui-sref-active = "active"
 )
@@ -43,7 +43,7 @@ a.a(
   | Containers
 
 a.a(
-  ng-if = "$root.featureFlags.aha && CA.ahaGuide.getCurrentStep() === CA.ahaGuide.steps.ADD_FIRST_REPO && CA.instancesByPod.models.length"
+  ng-if = "$root.featureFlags.aha && CA.instancesByPod.models.length && !CA.currentOrg.poppa.hasConfirmedSetup"
   internal-modal-helper = "confirmSetupView"
 )
   svg.iconnables.icons-server-dark

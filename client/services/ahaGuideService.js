@@ -21,7 +21,6 @@ function ahaGuide(
   function refreshInstances() {
     return fetchInstancesByPod()
       .then(function (fetchedInstances) {
-        console.log(fetchedInstances);
         instances = fetchedInstances.models;
       });
   }

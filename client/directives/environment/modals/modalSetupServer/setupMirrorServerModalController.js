@@ -18,7 +18,6 @@ function SetupMirrorServerModalController(
   loading,
   loadingPromises,
   promisify,
-
   build,
   close,
   instanceName,
