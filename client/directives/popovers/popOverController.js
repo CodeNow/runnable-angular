@@ -61,8 +61,8 @@ function PopOverController(
         }
       });
     }, 0);
-    POC.unbindPopoverOpened = $scope.$on('close-popovers', function (event, closeAllPopovers) {
-      if (!$scope.userCannotClose || closeAllPopovers) {
+    POC.unbindPopoverOpened = $scope.$on('close-popovers', function (event, closeAllPopoversOverride) {
+      if (!$scope.userCannotClose || closeAllPopoversOverride) {
         POC.closePopover();
       }
     });
