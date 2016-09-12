@@ -121,8 +121,8 @@
               ng-class = "{'disabled': $root.isLoading[\'buildingForkedBranch\']}"
               ng-repeat = "branch in CIS.getFilteredBranches()"
               ng-click = "CIS.forkBranchFromInstance(branch, POC.closePopover);"
-            ) 
-            .grid-content {{ branch.attrs.name }}
+            )
+              .grid-content {{ branch.attrs.name }}
               button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add(
                 ng-if = "!$root.isLoading[branch.attrs.name]"
               )
