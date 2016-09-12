@@ -39,7 +39,7 @@ function ControllerInstances(
   });
 
   $scope.$on('popover-closed', function(event, pop) {
-    if (pop.data && pop.data !== 'ahaTemplate') {
+    if (pop.data && pop.data !== 'ahaTemplate' && CIS.ahaGuide.getCurrentStep() === CIS.ahaGuide.steps.ADD_FIRST_BRANCH) {
       CIS.isPopoverOpen = true;
     }
   });
@@ -228,7 +228,6 @@ function ControllerInstances(
         closePopover();
         loading('buildingForkedBranch', false);
         loading(loadingName, false);
-        CIS.poppedInstance.attrs.hasBranchLaunched = true;
         $rootScope.$broadcast('hasAddedBranch');
         $timeout(function() {
           $rootScope.$broadcast('close-popovers');

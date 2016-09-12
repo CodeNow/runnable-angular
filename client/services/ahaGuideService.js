@@ -21,6 +21,7 @@ function ahaGuide(
   function refreshInstances() {
     return fetchInstancesByPod()
       .then(function (fetchedInstances) {
+        console.log(fetchedInstances);
         instances = fetchedInstances.models;
       });
   }
@@ -174,6 +175,15 @@ function ahaGuide(
     panelSteps: { }
   };
 
+  stepList[STEPS.SETUP_RUNNABOT] = {
+    subSteps: {
+      setupRunnabot: {
+        caption: 'Get the most out of Runnabot by adding branches automatically',
+        className: 'aha-meter-50'
+      }
+    }
+  };
+
   var cachedStep;
   $rootScope.$watch(function () {
     cachedStep = null;
@@ -194,8 +204,8 @@ function ahaGuide(
         cachedStep = STEPS.ADD_FIRST_REPO;
       } else {
         // loop over instances and see if any has ever had a branch launched
-        var hasBranchLaunched = instances.models && instances.models.some(function (instance) {
-          return instance.attrs.hasBranchLaunched;
+        var hasBranchLaunched = instances.some(function (instance) {
+          return instance.attrs.hasAddedBranches;
         });
         if (hasBranchLaunched) {
           cachedStep = STEPS.SETUP_RUNNABOT;
