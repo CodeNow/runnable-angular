@@ -67,9 +67,6 @@ function AhaGuideController(
     if (status === 'dockLoaded') {
       animatedPanelListener();
     }
-    if (ahaGuide.isAddingFirstRepo() && keypather.get(AGC, 'instances.models.length') > 0 && status !== 'complete') {
-      status = 'hasContainer';
-    }
     AGC.subStep = status;
     AGC.subStepIndex = currentMilestone.subSteps[status].step;
     AGC.caption = currentMilestone.subSteps[status].caption;
