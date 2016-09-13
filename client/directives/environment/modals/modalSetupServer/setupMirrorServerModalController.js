@@ -13,11 +13,13 @@ function SetupMirrorServerModalController(
   createAndBuildNewContainer,
   errs,
   eventTracking,
+  fetchInstancesByPod,
   isTabNameValid,
   keypather,
   loading,
   loadingPromises,
   promisify,
+  // everything below comes from the modal open
   build,
   close,
   instanceName,
@@ -109,6 +111,11 @@ function SetupMirrorServerModalController(
     branch: masterBranch,
     repoSelected: true
   });
+
+  fetchInstancesByPod()
+    .then(function (instances) {
+      SMC.data.instances = instances;
+    });
 
   SMC.state.mainRepoContainerFile.name = repo.attrs.name;
   SMC.state.promises.contextVersion = $q.when(SMC.state.contextVersion);

@@ -9,6 +9,7 @@ function ServerModalController(
   $rootScope,
   $scope,
   createBuildFromContextVersionId,
+  configUserContentDomain,
   errs,
   eventTracking,
   fetchDockerfileForContextVersion,
@@ -490,8 +491,7 @@ function ServerModalController(
       var repo = SMC.state.repo;
       var repoName = repo.attrs.name;
       var repoOwner = repo.attrs.owner.login.toLowerCase();
-      var domain = SMC.state.repo.opts.userContentDomain;
-      return repoName + '-staging-' + repoOwner + '.' + domain;
+      return repoName + '-staging-' + repoOwner + '.' + configUserContentDomain;
     }
     return '';
   };
