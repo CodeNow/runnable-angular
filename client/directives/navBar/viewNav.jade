@@ -44,7 +44,7 @@ a.a(
 
 a.a(
   ng-if = "$root.featureFlags.aha && CA.instancesByPod.models.length && !CA.currentOrg.poppa.hasConfirmedSetup"
-  internal-modal-helper = "confirmSetupView"
+  ng-click = "CA.showAhaConfirmation()"
 )
   svg.iconnables.icons-server-dark
     use(

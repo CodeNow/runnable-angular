@@ -63,14 +63,13 @@
     aha-guide
     error-state = "true"
     sub-step = "deletedTemplate"
-    error-state = "true"
   )
 
   .grid-block.environment-body.justify-center.clearfix(
     ng-class = "{'align-center justify-center': EC.showCreateTemplate && !data.instances.models.length}"
   )
     .modal-dialog.modal-sm(
-      ng-if = "EC.isInGuide() && EC.isAddingFirstRepo() && EC.showCreateTemplate && !data.instances.models.length"
+      ng-if = "EC.isAddingFirstRepo() && EC.showCreateTemplate && !data.instances.models.length"
     )
       .grid-block.align-center.aha-guide.padding-md(
         aha-guide

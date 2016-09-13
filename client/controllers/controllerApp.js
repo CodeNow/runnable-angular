@@ -131,6 +131,20 @@ function ControllerApp(
     CA.showAhaNavPopover = true;
   });
 
+  CA.showAhaConfirmation = function() {
+    ModalService.showModal({
+      controller: 'ConfirmationModalController',
+      controllerAs: 'CMC',
+      templateUrl: 'confirmSetupView'
+    })
+    .then(function (modal) {
+      return modal.close;
+    })
+    .then(function(confirmed) {
+      console.log(confirmed);
+    })
+  };
+
   /**
    * broadcast to child scopes when click event propagates up
    * to top level controller scope.

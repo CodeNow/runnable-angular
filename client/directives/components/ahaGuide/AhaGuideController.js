@@ -9,8 +9,7 @@ function AhaGuideController(
   $rootScope,
   ahaGuide,
   currentOrg,
-  fetchInstancesByPod,
-  keypather
+  fetchInstancesByPod
 ) {
   var AGC = this;
   var animatedPanelListener = angular.noop;
@@ -29,13 +28,6 @@ function AhaGuideController(
       alertListener();
     }
   });
-
-  AGC.askEngineers = function () {
-    window.Intercom(
-      'showNewMessage',
-      'I’m having trouble getting my first container up and running.'
-    );
-  };
 
   var buildLogListener = $scope.$on('buildStatusUpdated', function(event, buildStatus) {
     handleBuildUpdate(buildStatus);
@@ -58,6 +50,7 @@ function AhaGuideController(
 
   AGC.isBuildSuccessful = false;
   AGC.ahaGuide = ahaGuide;
+  AGC.showError = $scope.showError;
 
   // get the current milestone
   var currentMilestone = ahaGuide.stepList[ahaGuide.getCurrentStep()];

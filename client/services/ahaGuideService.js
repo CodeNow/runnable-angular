@@ -222,11 +222,17 @@ function ahaGuide(
     getCurrentStep: getCurrentStep,
     steps: STEPS,
     isInGuide: isInGuide,
+    isChoosingOrg: function() {
+      return getCurrentStep() === STEPS.CHOOSE_ORGANIZATION;
+    },
     isAddingFirstRepo: function () {
       return getCurrentStep() === STEPS.ADD_FIRST_REPO;
     },
-    isChoosingOrg: function() {
-      return getCurrentStep() === STEPS.CHOOSE_ORGANIZATION;
+    isAddingFirstBranch: function() {
+      return getCurrentStep() === STEPS.ADD_FIRST_BRANCH;
+    },
+    isSettingUpRunnabot: function() {
+      return getCurrentStep() === STEPS.SETUP_RUNNABOT;
     }
   };
 }

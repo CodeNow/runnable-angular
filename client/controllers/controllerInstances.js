@@ -8,10 +8,8 @@ require('app')
 function ControllerInstances(
   $filter,
   $localStorage,
-  $rootScope,
   $scope,
   $state,
-  $timeout,
   ahaGuide,
   keypather,
   setLastOrg,
@@ -26,20 +24,20 @@ function ControllerInstances(
 ) {
   var CIS = this;
   var userName = $state.params.userName;
-  CIS.ahaGuide = ahaGuide;
+  CIS.isAddingFirstBranch = ahaGuide.isAddingFirstBranch;
+  CIS.isSettingUpRunnabot = ahaGuide.isSettingUpRunnabot;
   CIS.currentOrg = currentOrg;
   CIS.searchBranches = null;
   CIS.instanceBranches = null;
   CIS.isPopoverOpen = true;
   CIS.unbuiltBranches = null;
-  CIS.popoverCannotClose = true;
   CIS.branchQuery = null;
   CIS.$storage = $localStorage.$default({
     instanceListIsClosed: false
   });
 
   $scope.$on('popover-closed', function(event, pop) {
-    if (pop.data && pop.data !== 'ahaTemplate' && CIS.ahaGuide.getCurrentStep() === CIS.ahaGuide.steps.ADD_FIRST_BRANCH) {
+    if (pop.data && pop.data !== 'ahaTemplate' && CIS.isAddingFirstBranch()) {
       CIS.isPopoverOpen = true;
     }
   });
@@ -250,31 +248,6 @@ function ControllerInstances(
         tab: keypather.get(instance, 'contextVersion.attrs.advanced') ? 'env' : 'repository',
         instance: instance,
         actions: {}
-      }
-    })
-      .catch(errs.handler);
-  };
-
-  this.openInviteAdminModal = function (instance) {
-    ModalService.showModal({
-      controller: 'InviteAdminModalController',
-      controllerAs: 'IAMC',
-      templateUrl: 'inviteAdminModalView',
-      inputs: {
-        instance: instance,
-        isFromAutoDeploy: false
-      }
-    })
-      .catch(errs.handler);
-  };
-
-  this.openEnableBranchesModal = function (instance) {
-    ModalService.showModal({
-      controller: 'EnableBranchesModalController',
-      controllerAs: 'EBMC',
-      templateUrl: 'enableBranchesModalView',
-      inputs: {
-        instance: instance
       }
     })
       .catch(errs.handler);
