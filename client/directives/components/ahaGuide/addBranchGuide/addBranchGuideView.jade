@@ -1,6 +1,6 @@
 .grid-block.shrink.aha-meter(
   ng-class = "{\
-    'aha-error': AGC.showError || subStep === 'deletedTemplate',\
+    'aha-error': AGC.showError,\
     'aha-meter-33': ahaGuide.getCurrentStep() === ahaGuide.steps.ADD_FIRST_BRANCH,\
     'aha-meter-66': ahaGuide.getCurrentStep() === ahaGuide.steps.ADD_FIRST_BRANCH && subStep === 'dockLoading',\
     'aha-meter-100': ahaGuide.getCurrentStep() > ahaGuide.steps.ADD_FIRST_BRANCH\
