@@ -18,6 +18,7 @@ function ahaGuide(
   keypather
 ) {
   var instances = [];
+  var isLaunchingBranch;
   function refreshInstances() {
     return fetchInstancesByPod()
       .then(function (fetchedInstances) {
@@ -164,6 +165,10 @@ function ahaGuide(
       dockLoaded: {
         caption: 'Continue to start configuring your project.',
         className: 'aha-meter-100'
+      },
+      deletedTemplate: {
+        caption: 'You\'ve deleted your repository template. Create another one to continue.',
+        className: 'aha-meter-20'
       }
     },
     panelSteps: { }
@@ -187,6 +192,8 @@ function ahaGuide(
   });
   $rootScope.$on('hasAddedBranch', function () {
     refreshInstances();
+    $rootScope.$broadcast('show-aha-sidebar');
+    isLaunchingBranch = true;
   });
   function getCurrentStep() {
     if (!cachedStep) {
@@ -201,7 +208,7 @@ function ahaGuide(
         var hasBranchLaunched = instances.some(function (instance) {
           return instance.attrs.hasAddedBranches;
         });
-        if (hasBranchLaunched) {
+        if (hasBranchLaunched || isLaunchingBranch) {
           cachedStep = STEPS.SETUP_RUNNABOT;
         } else {
           cachedStep = STEPS.ADD_FIRST_BRANCH;
@@ -222,6 +229,9 @@ function ahaGuide(
     isInGuide: isInGuide,
     isAddingFirstRepo: function () {
       return getCurrentStep() === STEPS.ADD_FIRST_REPO;
+    },
+    isChoosingOrg: function() {
+      return getCurrentStep() === STEPS.CHOOSE_ORGANIZATION;
     }
   };
 }

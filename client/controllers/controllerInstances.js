@@ -224,15 +224,23 @@ function ControllerInstances(
     loading('buildingForkedBranch', true);
     promisify(CIS.poppedInstance, 'fork')(branchName, sha)
       .then(function (instance) {
-        var newInstance = instance.children.models.filter(function(childInstance) {
+        instance.attrs.hasAddedBranches = true;
+        var newInstances = instance.children.models.filter(function(childInstance) {
+          console.log(childInstance);
           return childInstance.attrs.name === branchName + '-' + instance.attrs.name;
-        })[0];
+        });
         loading(branchName, false);
         loading('buildingForkedBranch', false);
         closePopover();
-        $state.go('base.instances.instance', {
-          instanceName: newInstance.attrs.name
-        });
+        if (newInstances.length) {
+          $rootScope.$broadcast('hasAddedBranch');
+          $state.go('base.instances.instance', {
+            instanceName: newInstances[0].attrs.name
+          });
+        }
+      })
+      .catch(function(err) {
+        console.log(err);
       });
   };
 

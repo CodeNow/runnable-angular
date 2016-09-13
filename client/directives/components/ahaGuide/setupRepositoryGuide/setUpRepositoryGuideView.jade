@@ -44,7 +44,7 @@
     )
 
 .grid-block.vertical.aha-text(
-  ng-if = "$root.featureFlags.aha && !AGC.showError"
+  ng-if = "$root.featureFlags.aha && !AGC.showError && AGC.ahaGuide.isAddingFirstRepo()"
 )
   p.p.small.text-gray-light {{ AGC.title }}
   p.p(
@@ -128,6 +128,15 @@
   //-   ng-class = "{'p-slide js-animate': AGC.showSubStep}"
   //- ) You‘ve deleted your repository template. Create another one to continue.
 
+.grid-block.vertical.aha-text(
+  class = "{{ AGC.className }}"
+  ng-if = "$root.featureFlags.aha && !AGC.showError && !AGC.ahaGuide.isAddingFirstRepo()"
+)
+  p.p.small.text-gray-light {{ AGC.title }}
+  p.p(
+    ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
+    ng-if = "$root.featureFlags.aha && !AGC.showError && AGC.subStep === 'hasContainer'"
+  ) Choose a template to configure.
 
   //- Step 9:
   p.p(

@@ -14,7 +14,7 @@
     )
       .grid-block.shrink.align-center.justify-center.padding-md.aha-guide(
         aha-guide
-        ng-if = "$root.featureFlags.aha"
+        ng-if = "$root.featureFlags.aha && data.isChoosingOrg()"
         sub-step = "orgSelection"
       )
       animated-panel-container
