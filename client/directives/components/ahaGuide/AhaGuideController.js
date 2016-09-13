@@ -9,7 +9,8 @@ function AhaGuideController(
   $rootScope,
   ahaGuide,
   currentOrg,
-  fetchInstancesByPod
+  fetchInstancesByPod,
+  patchOrgMetadata
 ) {
   var AGC = this;
   var animatedPanelListener = angular.noop;
@@ -102,7 +103,11 @@ function AhaGuideController(
     endGuide: function () {
       $rootScope.$broadcast('close-popovers');
       // TODO: AHA - Make this save
-      currentOrg.poppa.hasAha = false;
+      patchOrgMetadata(currentOrg.poppa.id(), {
+        metadata: {
+          hasAha: false
+        }
+      })
     },
     showSidebar: function () {
       $rootScope.$broadcast('close-popovers');

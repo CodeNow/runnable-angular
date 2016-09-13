@@ -22,6 +22,7 @@ function ControllerApp(
   keypather,
   ModalService,
   pageName,
+  patchOrgMetadata,
   promisify,
   currentOrg,
   user,
@@ -142,6 +143,11 @@ function ControllerApp(
     })
     .then(function(confirmed) {
       console.log(confirmed);
+      patchOrgMetadata(currentOrg.poppa.id(), {
+        metadata: {
+          hasConfirmedSetup: true
+        }
+      });
     })
   };
 
