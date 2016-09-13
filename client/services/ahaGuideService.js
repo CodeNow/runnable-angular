@@ -190,11 +190,6 @@ function ahaGuide(
   $rootScope.$on('$stateChangeSuccess', function () {
     refreshInstances();
   });
-  $rootScope.$on('hasAddedBranch', function () {
-    refreshInstances();
-    $rootScope.$broadcast('show-aha-sidebar');
-    isLaunchingBranch = true;
-  });
   function getCurrentStep() {
     if (!cachedStep) {
       if ($rootScope.featureFlags.aha && !keypather.get(currentOrg, 'poppa.id')) {
@@ -208,7 +203,7 @@ function ahaGuide(
         var hasBranchLaunched = instances.some(function (instance) {
           return instance.attrs.hasAddedBranches;
         });
-        if (hasBranchLaunched || isLaunchingBranch) {
+        if (hasBranchLaunched) {
           cachedStep = STEPS.SETUP_RUNNABOT;
         } else {
           cachedStep = STEPS.ADD_FIRST_BRANCH;

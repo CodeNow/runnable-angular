@@ -12,12 +12,12 @@
       xlink:href = "#icons-octicons-branch"
     )
     use(
-      ng-if = "AGC.showError && ahaGuide.getCurrentStep() > ahaGuide.steps.ADD_FIRST_BRANCH"
+      ng-if = "!AGC.showError && ahaGuide.getCurrentStep() > ahaGuide.steps.ADD_FIRST_BRANCH"
       xlink:href = "#icons-check"
     )
 
   svg.iconnables.icons-alert(
-    ng-if = "AGC.showError || subStep === 'deletedTemplate'"
+    ng-if = "AGC.showError"
   )
     use(
       xlink:href = "#icons-alert-alt"

@@ -15,12 +15,6 @@ function setupRepositoryGuide(
         steps: ahaGuide.steps,
         getCurrentStep: ahaGuide.getCurrentStep
       };
-      $scope.askEngineers = function () {
-        window.Intercom(
-          'showNewMessage',
-          'I’m having trouble getting my first container up and running.'
-        );
-      };
     }
   };
 }

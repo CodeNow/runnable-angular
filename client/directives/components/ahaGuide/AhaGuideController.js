@@ -30,8 +30,14 @@ function AhaGuideController(
     }
   });
 
+  AGC.askEngineers = function () {
+    window.Intercom(
+      'showNewMessage',
+      'I’m having trouble getting my first container up and running.'
+    );
+  };
+
   var buildLogListener = $scope.$on('buildStatusUpdated', function(event, buildStatus) {
-    console.log(buildStatus);
     handleBuildUpdate(buildStatus);
   });
 

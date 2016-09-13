@@ -86,7 +86,11 @@
   p.p(
     ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
     ng-if = "$root.featureFlags.aha && !AGC.showError && AGC.subStep === 'exitedEarly'"
-  ) Your template isn‘t running yet! Check the logs to debug any issues. If you‘re stumped, ask our engineers!
+  ) Your template isn‘t running yet! Check the logs to debug any issues. If you‘re stumped,&#32;
+      a.link(
+        ng-click = "AGC.askEngineers()"
+      ) ask our engineers
+      | !
   p.p(
     ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
     ng-if = "$root.featureFlags.aha && !AGC.showError && AGC.subStep === 'success'"
@@ -119,7 +123,7 @@
      ng-if = "AGC.showErrorType === 'exitedEarly'"
     ) Your repository isn‘t running yet! Check the logs to debug any issues. If you‘re stumped,&#32;
       a.link(
-        ng-click = "askEngineers()"
+        ng-click = "AGC.askEngineers()"
       ) ask our engineers
       | !
 
