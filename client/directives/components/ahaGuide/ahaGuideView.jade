@@ -20,7 +20,7 @@
 
 button.btn.btn-xs.white.btn-menu(
   ng-class = "{'active': ahaMenuGuidePopover.data.show}"
-  ng-if = "!AGC.ahaGuide.isChoosingOrg()"
+  ng-if = "!AGC.ahaGuide.isChoosingOrg() && !AGC.ahaGuide.isSettingUpRunnabot()"
   pop-over
   pop-over-active = "ahaMenuGuidePopover.data.show"
   pop-over-options = "{\"centered\":true,\"top\":36}"

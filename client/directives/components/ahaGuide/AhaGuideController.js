@@ -9,6 +9,7 @@ function AhaGuideController(
   $rootScope,
   ahaGuide,
   currentOrg,
+  errs,
   fetchInstancesByPod,
   patchOrgMetadata
 ) {
@@ -19,6 +20,16 @@ function AhaGuideController(
   fetchInstancesByPod()
     .then(function (instances) {
       AGC.instances = instances;
+      if (!instances.models.length) {
+        patchOrgMetadata(currentOrg.poppa.id(), {
+          metadata: {
+            hasConfirmedSetup: false
+          }
+        })
+        .catch(function(err) {
+          errs.handler(err);
+        });
+      }
       updateCaption(AGC.subStep);
     });
 
@@ -31,7 +42,9 @@ function AhaGuideController(
   });
 
   var buildLogListener = $scope.$on('buildStatusUpdated', function(event, buildStatus) {
-    handleBuildUpdate(buildStatus);
+    if (ahaGuide.isAddingFirstRepo()) {
+      handleBuildUpdate(buildStatus);
+    }
   });
 
   $scope.$on('exitedEarly', function(event, didExitEarly) {
@@ -95,8 +108,8 @@ function AhaGuideController(
     if (AGC.subStepIndex === 7 && !AGC.isBuildSuccessful) {
       $rootScope.$broadcast('exitedEarly', true);
     }
-    if (AGC.ahaGuide.isSettingUpRunnabot()) {
-
+    if (AGC.subStepIndex < 7) {
+      $rootScope.$broadcast('changed-animated-panel', 'addRepository');
     }
   });
 

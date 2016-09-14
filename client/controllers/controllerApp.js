@@ -117,6 +117,7 @@ function ControllerApp(
   });
 
   CA.showAhaConfirmation = function() {
+    CA.showAhaNavPopover = false;
     ModalService.showModal({
       controller: 'ConfirmationModalController',
       controllerAs: 'CMC',
@@ -126,18 +127,21 @@ function ControllerApp(
       return modal.close;
     })
     .then(function(confirmed) {
-      patchOrgMetadata(currentOrg.poppa.id(), {
-        metadata: {
-          hasConfirmedSetup: true
-        }
-      })
-      .then(function() {
-        $state.go('base.instances', {userName: CA.activeAccount.oauthName()});
-      })
-      .catch(function(err) {
-        // errs.handler(errs);
-        $state.go('base.instances', {userName: CA.activeAccount.oauthName()});
-      });
+      if (confirmed) {
+        patchOrgMetadata(currentOrg.poppa.id(), {
+          metadata: {
+            hasConfirmedSetup: true
+          }
+        })
+        .then(function(updatedOrg) {
+          currentOrg.poppa.attrs.metadata = keypather.get(updatedOrg, 'metadata');
+          $state.go('base.instances', {userName: CA.activeAccount.oauthName()});
+        });
+      }
+    })
+    .catch(function(err) {
+      errs.handler(err);
+      // $state.go('base.instances', {userName: CA.activeAccount.oauthName()});
     });
   };
 

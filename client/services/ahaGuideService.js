@@ -28,7 +28,7 @@ function ahaGuide(
 
   var stepList = {};
   stepList[STEPS.CHOOSE_ORGANIZATION] = {
-    title: 'Create your Sandbox',
+    title: 'Create your Environment',
     subSteps: {
       orgSelection: {
         caption: 'Choose an organization to create your sandbox for.',
@@ -53,7 +53,7 @@ function ahaGuide(
     title: 'Add your First Repository',
     subSteps: {
       addRepository: {
-        caption: 'Add a repository by clicking ‘Add Template’.',
+        caption: 'Add a repository by clicking ‘Create Template’.',
         className: 'aha-meter-10',
         step: 0
       },
@@ -214,11 +214,11 @@ function ahaGuide(
 
   function isInGuide () {
     return keypather.get(currentOrg, 'poppa.attrs.metadata.hasAha');
-  };
+  }
 
   function hasConfirmedSetup () {
     return keypather.get(currentOrg, 'poppa.attrs.metadata.hasConfirmedSetup');
-  };
+  }
 
   return {
     stepList: stepList,

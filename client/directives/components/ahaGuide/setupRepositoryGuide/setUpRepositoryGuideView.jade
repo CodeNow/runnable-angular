@@ -110,11 +110,11 @@
   p.p(
     ng-if = "$root.featureFlags.aha && AGC.isInGuide() && !AGC.showError"
   ) {{ AGC.caption }}
+  p.p(
+    ng-if = "$root.featureFlags.aha && AGC.isInGuide() && AGC.showError"
+  ) Uh oh, there was a build error! Inspect your logs for debug info.
+    //- | IF DETENTION ERROR: Your container is running! But it looks like something has not been set up correctly.
 
-  //- If template repo is deleted:
-  //- p.p(
-  //-   ng-class = "{'p-slide js-animate': AGC.showSubStep}"
-  //- ) You‘ve deleted your repository template. Create another one to continue.
 
 .grid-block.vertical.aha-text(
   class = "{{ AGC.className }}"

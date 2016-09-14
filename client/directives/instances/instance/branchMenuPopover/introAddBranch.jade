@@ -9,7 +9,7 @@
     sub-step = "addBranch"
   )
 
-  .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
+  .grid-block.shrink.align-center.justify-center.padding-sm(
     ng-if = "$root.featureFlags.aha && !$root.isLoading.fetchingBranches && CIS.isSettingUpRunnabot()"
     aha-guide
     step-index = 3

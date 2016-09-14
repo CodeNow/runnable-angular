@@ -29,8 +29,6 @@ function ControllerInstance(
   pageName,
   setLastInstance
 ) {
-  // TODO: Aha - Remove this hardcoding
-  currentOrg.poppa.hasConfirmedSetup = true;
 
   var CIS = this;
   CIS.showSidebar = false;
