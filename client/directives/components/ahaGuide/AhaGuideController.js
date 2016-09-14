@@ -25,13 +25,11 @@ function AhaGuideController(
           metadata: {
             hasConfirmedSetup: false
           }
-        })
-        .catch(function(err) {
-          errs.handler(err);
         });
       }
       updateCaption(AGC.subStep);
-    });
+    })
+    .catch(errs.handler);
 
   var alertListener = $scope.$on('alert', function (event, alert) {
     // alerts on container creation success
@@ -41,7 +39,7 @@ function AhaGuideController(
     }
   });
 
-  var buildLogListener = $scope.$on('buildStatusUpdated', function(event, buildStatus) {
+  $scope.$on('buildStatusUpdated', function(event, buildStatus) {
     if (ahaGuide.isAddingFirstRepo()) {
       handleBuildUpdate(buildStatus);
     }

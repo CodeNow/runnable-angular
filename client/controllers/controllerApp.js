@@ -123,25 +123,27 @@ function ControllerApp(
       controllerAs: 'CMC',
       templateUrl: 'confirmSetupView'
     })
-    .then(function (modal) {
+    .then(function(modal) {
       return modal.close;
     })
     .then(function(confirmed) {
       if (confirmed) {
-        patchOrgMetadata(currentOrg.poppa.id(), {
+        return patchOrgMetadata(currentOrg.poppa.id(), {
           metadata: {
             hasConfirmedSetup: true
           }
         })
         .then(function(updatedOrg) {
-          currentOrg.poppa.attrs.metadata = keypather.get(updatedOrg, 'metadata');
+          var updatedOrgMetadata = keypather.get(updatedOrg, 'metadata');
+          if (updatedOrgMetadata.hasAha !== undefined && updatedOrgMetadata.hasConfirmedSetup !== undefined) {
+            currentOrg.poppa.attrs.metadata = updatedOrgMetadata;
+          }
           $state.go('base.instances', {userName: CA.activeAccount.oauthName()});
         });
       }
     })
     .catch(function(err) {
       errs.handler(err);
-      // $state.go('base.instances', {userName: CA.activeAccount.oauthName()});
     });
   };
 

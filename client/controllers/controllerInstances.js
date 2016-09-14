@@ -235,9 +235,7 @@ function ControllerInstances(
           });
         }
       })
-      .catch(function(err) {
-        errs.handler(err);
-      });
+      .catch(errs.handler);
   };
 
   this.editInstance = function (instance) {
