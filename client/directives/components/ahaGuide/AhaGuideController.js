@@ -120,8 +120,7 @@ function AhaGuideController(
   AGC.popoverActions = {
     endGuide: function () {
       $rootScope.$broadcast('close-popovers');
-      // TODO: AHA - Make this save
-      patchOrgMetadata(currentOrg.poppa.id(), {
+      return patchOrgMetadata(currentOrg.poppa.id(), {
         metadata: {
           hasAha: false
         }

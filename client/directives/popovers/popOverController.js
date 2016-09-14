@@ -65,14 +65,11 @@ function PopOverController(
       // If the click has a target and that target is on the page but not on our popover we should close the popover.
       // Otherwise we should keep the popover alive.
       POC.unbindDocumentClick = $scope.$on('app-document-click', function (event, target) {
-        // if (!$scope.uncloseable && (!target || (target && $document[0].contains(target) && !POC.popoverElement[0].contains(target)))) {
         if (!$scope.userCannotClose && (!target || (target && $document[0].contains(target) && !POC.popoverElement[0].contains(target)))) {
           POC.closePopover();
         }
       });
     }, 0);
-    // POC.unbindPopoverOpened = $scope.$on('close-popovers', function () {
-      // if (!$scope.uncloseable) {
     POC.unbindPopoverOpened = $scope.$on('close-popovers', function (event, closeAllPopoversOverride) {
       if (!$scope.userCannotClose || closeAllPopoversOverride) {
         POC.closePopover();
