@@ -142,9 +142,7 @@ function ControllerApp(
         });
       }
     })
-    .catch(function(err) {
-      errs.handler(err);
-    });
+    .catch(errs.handler);
   };
 
   /**
