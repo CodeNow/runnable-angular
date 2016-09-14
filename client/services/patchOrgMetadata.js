@@ -14,9 +14,6 @@ function patchOrgMetadata(
       url: configAPIHost + '/auth/whitelist/' + orgId,
       data: params
     })
-      .then(function (data) {
-        return data;
-      })
       .catch(function (err) {
         errs.handler(err);
       });

@@ -24,6 +24,7 @@ function ControllerInstances(
 ) {
   var CIS = this;
   var userName = $state.params.userName;
+  CIS.isInGuide = ahaGuide.isInGuide;
   CIS.isAddingFirstBranch = ahaGuide.isAddingFirstBranch;
   CIS.isSettingUpRunnabot = ahaGuide.isSettingUpRunnabot;
   CIS.currentOrg = currentOrg;

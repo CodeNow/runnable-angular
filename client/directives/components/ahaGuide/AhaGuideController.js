@@ -49,6 +49,8 @@ function AhaGuideController(
     }
   });
 
+  AGC.isInGuide = ahaGuide.isInGuide;
+  AGC.hasConfirmedSetup = ahaGuide.hasConfirmedSetup;
   AGC.isBuildSuccessful = false;
   AGC.ahaGuide = ahaGuide;
   AGC.showError = $scope.showError;

@@ -22,7 +22,8 @@ function EnvironmentController(
   fetchUser,
   keypather,
   ModalService,
-
+  // used to reset aha guide
+  patchOrgMetadata,
   pageName,
   instancesByPod
 ) {
@@ -36,6 +37,13 @@ function EnvironmentController(
   EC.toggleSidebar = function () {
     EC.showSidebar = !EC.showSidebar;
     EC.showCreateTemplate = true;
+    // reset aha guide!!!
+    patchOrgMetadata(currentOrg.poppa.id(), {
+      metadata: {
+        hasAha: true,
+        hasConfirmedSetup: false
+      }
+    })
   };
   $scope.$on('show-aha-sidebar', EC.toggleSidebar);
 
@@ -107,10 +115,10 @@ function EnvironmentController(
     EC.showSidebar = true;
   }
 
-  var isAddFirstRepo = ahaGuide.isAddingFirstRepo();
+  var isAddingFirstRepo = ahaGuide.isAddingFirstRepo;
   // Asynchronously fetch the Dockerfile and check for working instances
   instancesByPod.forEach(function (instance) {
-    if (instance.attrs.build.successful && instance.getRepoName() && isAddFirstRepo) {
+    if (instance.attrs.build.successful && instance.getRepoName() && isAddingFirstRepo()) {
       $rootScope.$broadcast('launchAhaNavPopover');
     }
     if (instance.hasDockerfileMirroring()) {

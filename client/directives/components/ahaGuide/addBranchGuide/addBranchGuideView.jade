@@ -1,18 +1,18 @@
 .grid-block.shrink.aha-meter(
   ng-class = "{\
-    'aha-error': AGC.showError,\
-    'aha-meter-33': ahaGuide.isAddingFirstBranch(),\
-    'aha-meter-66': ahaGuide.isAddingFirstBranch() && subStep === 'dockLoading',\
-    'aha-meter-100': ahaGuide.getCurrentStep() > ahaGuide.steps.ADD_FIRST_BRANCH\
+    'aha-error': AGC.errorState || AGC.showError,\
+    'aha-meter-33': AGC.ahaGuide.isAddingFirstBranch(),\
+    'aha-meter-66': AGC.ahaGuide.isAddingFirstBranch() && subStep === 'dockLoading',\
+    'aha-meter-100': AGC.ahaGuide.getCurrentStep() > ahaGuide.steps.ADD_FIRST_BRANCH\
   }"
 )
   svg.iconnables
     use(
-      ng-if = "!AGC.showError && ahaGuide.isAddingFirstBranch()"
+      ng-if = "!AGC.showError && AGC.ahaGuide.isAddingFirstBranch()"
       xlink:href = "#icons-octicons-branch"
     )
     use(
-      ng-if = "!AGC.showError && ahaGuide.getCurrentStep() > ahaGuide.steps.ADD_FIRST_BRANCH"
+      ng-if = "!AGC.showError && ahaGuide.getCurrentStep() > AGC.ahaGuide.steps.ADD_FIRST_BRANCH"
       xlink:href = "#icons-check"
     )
 

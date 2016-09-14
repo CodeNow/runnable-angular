@@ -193,9 +193,9 @@ function ahaGuide(
     if (!cachedStep) {
       if ($rootScope.featureFlags.aha && !keypather.get(currentOrg, 'poppa.id')) {
         cachedStep = STEPS.CHOOSE_ORGANIZATION;
-      } else if (!$rootScope.featureFlags.aha || !currentOrg.poppa.hasAha) {
+      } else if (!$rootScope.featureFlags.aha || !isInGuide()) {
         cachedStep = STEPS.COMPLETED;
-      } else if (!currentOrg.poppa.hasConfirmedSetup) {
+      } else if (!hasConfirmedSetup()) {
         cachedStep = STEPS.ADD_FIRST_REPO;
       } else {
         // loop over instances and see if any has ever had a branch launched
@@ -212,15 +212,20 @@ function ahaGuide(
     return cachedStep;
   }
 
-  function isInGuide() {
-    return $rootScope.featureFlags.aha && currentOrg.poppa.hasAha && getCurrentStep() !== STEPS.COMPLETED;
-  }
+  function isInGuide () {
+    return keypather.get(currentOrg, 'poppa.attrs.metadata.hasAha');
+  };
+
+  function hasConfirmedSetup () {
+    return keypather.get(currentOrg, 'poppa.attrs.metadata.hasConfirmedSetup');
+  };
 
   return {
     stepList: stepList,
     getCurrentStep: getCurrentStep,
     steps: STEPS,
     isInGuide: isInGuide,
+    hasConfirmedSetup: hasConfirmedSetup,
     isChoosingOrg: function() {
       return getCurrentStep() === STEPS.CHOOSE_ORGANIZATION;
     },
@@ -232,6 +237,6 @@ function ahaGuide(
     },
     isSettingUpRunnabot: function() {
       return getCurrentStep() === STEPS.SETUP_RUNNABOT;
-    }
+    },
   };
 }

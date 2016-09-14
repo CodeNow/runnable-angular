@@ -113,7 +113,7 @@ function ControllerApp(
 
   CA.showAhaNavPopover = false;
   $rootScope.$on('launchAhaNavPopover', function () {
-    CA.showAhaNavPopover = true;
+    CA.showAhaNavPopover = !keypather.get(currentOrg, 'poppa.attrs.metadata.hasConfirmedSetup');
   });
 
   CA.showAhaConfirmation = function() {
