@@ -5,7 +5,8 @@ require('app')
 
 function patchOrgMetadata(
   $http,
-  configAPIHost
+  configAPIHost,
+  errs
 ) {
   return function (orgId, params) {
     return $http({
@@ -14,10 +15,10 @@ function patchOrgMetadata(
       data: params
     })
       .then(function (data) {
-        return data;  // Github returns 404 when the user isn't part of the org
+        return data;
       })
       .catch(function (err) {
-        return err;
+        errs.handler(err);
       });
   };
 }

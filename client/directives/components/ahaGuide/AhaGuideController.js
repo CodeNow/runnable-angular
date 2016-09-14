@@ -93,6 +93,9 @@ function AhaGuideController(
     if (AGC.subStepIndex === 7 && !AGC.isBuildSuccessful) {
       $rootScope.$broadcast('exitedEarly', true);
     }
+    if (AGC.ahaGuide.isSettingUpRunnabot()) {
+
+    }
   });
 
   animatedPanelListener = $rootScope.$on('changed-animated-panel', function (e, panel) {
@@ -107,7 +110,7 @@ function AhaGuideController(
         metadata: {
           hasAha: false
         }
-      })
+      });
     },
     showSidebar: function () {
       $rootScope.$broadcast('close-popovers');

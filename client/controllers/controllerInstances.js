@@ -37,13 +37,13 @@ function ControllerInstances(
   });
 
   $scope.$on('popover-closed', function(event, pop) {
-    if (pop.data && pop.data !== 'ahaTemplate' && CIS.isAddingFirstBranch()) {
+    if (keypather.get(pop, 'data') !== 'ahaTemplate' && CIS.isAddingFirstBranch()) {
       CIS.isPopoverOpen = true;
     }
   });
 
   $scope.$on('popover-opened', function(event, pop) {
-    if (pop.data !== 'ahaTemplate') {
+    if (keypather.get(pop, 'data') !== 'ahaTemplate') {
       CIS.isPopoverOpen = false;
     }
   });
@@ -235,7 +235,7 @@ function ControllerInstances(
         }
       })
       .catch(function(err) {
-        console.log(err);
+        errs.handler(err);
       });
   };
 

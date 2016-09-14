@@ -30,22 +30,6 @@ function ControllerApp(
   activeAccount
 ) {
   // Load ace after 10 seconds. Should improve user experience overall..
-  $timeout(function () {
-    $ocLazyLoad.load('ui.ace');
-  }, 10000);
-
-  $scope.$on('confirmedSetup', function() {
-    promisify(currentOrg.poppa, 'update')({
-      hasConfirmedSetup: true
-    })
-      .then(function(result) {
-        console.log(result);
-      });
-    // cheese it
-    currentOrg.poppa.hasConfirmedSetup = true;
-    $state.go('base.instances', {userName: CA.activeAccount.oauthName()});
-  });
-
   this.activeAccount = activeAccount;
   this.user = user;
   var CA = this;
@@ -142,13 +126,19 @@ function ControllerApp(
       return modal.close;
     })
     .then(function(confirmed) {
-      console.log(confirmed);
       patchOrgMetadata(currentOrg.poppa.id(), {
         metadata: {
           hasConfirmedSetup: true
         }
+      })
+      .then(function() {
+        $state.go('base.instances', {userName: CA.activeAccount.oauthName()});
+      })
+      .catch(function(err) {
+        // errs.handler(errs);
+        $state.go('base.instances', {userName: CA.activeAccount.oauthName()});
       });
-    })
+    });
   };
 
   /**

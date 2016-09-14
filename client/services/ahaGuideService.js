@@ -18,7 +18,6 @@ function ahaGuide(
   keypather
 ) {
   var instances = [];
-  var isLaunchingBranch;
   function refreshInstances() {
     return fetchInstancesByPod()
       .then(function (fetchedInstances) {
