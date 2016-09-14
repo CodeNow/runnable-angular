@@ -134,9 +134,8 @@ function ControllerApp(
           }
         })
         .then(function(updatedOrg) {
-          var updatedOrgMetadata = keypather.get(updatedOrg, 'metadata');
-          if (updatedOrgMetadata.hasAha !== undefined && updatedOrgMetadata.hasConfirmedSetup !== undefined) {
-            currentOrg.poppa.attrs.metadata = updatedOrgMetadata;
+          if (keypather.has(updatedOrg, 'metadata.hasAha') && keypather.has(updatedOrg, 'metadata.hasConfirmedSetup')) {
+            currentOrg.poppa.attrs.metadata = updatedOrg.metadata;
           }
           $state.go('base.instances', {userName: CA.activeAccount.oauthName()});
         });

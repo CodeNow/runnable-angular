@@ -106,7 +106,7 @@ function AhaGuideController(
     if (AGC.subStepIndex === 7 && !AGC.isBuildSuccessful) {
       $rootScope.$broadcast('exitedEarly', true);
     }
-    if (AGC.subStepIndex < 7) {
+    if (AGC.subStepIndex < 6) {
       $rootScope.$broadcast('changed-animated-panel', 'addRepository');
     }
   });
