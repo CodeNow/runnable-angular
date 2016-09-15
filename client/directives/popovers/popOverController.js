@@ -15,6 +15,7 @@ function PopOverController(
   var POC = this;
   POC.unbindDocumentClick = angular.noop;
   POC.unbindPopoverOpened = angular.noop;
+  POC.unbindSpecificPopoverOpened = angular.noop;
 
   POC.isPopoverActive = function () {
     return $scope.active;
