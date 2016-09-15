@@ -20,7 +20,7 @@
 //- empty state
 .card.gray.disabled.load.empty.p(
   ng-class = "{'deprecated': !$root.featureFlags.cardStatus}"
-  ng-if = "!$root.featureFlags.aha && !EC.isInGuide() && !$root.isLoading.sidebar && data.instances && !data.instances.models.length"
+  ng-if = "(!$root.featureFlags.aha || !EC.isInGuide()) && !$root.isLoading.sidebar && data.instances && !data.instances.models.length"
 ) Create a repository template to get started!
 
 //- server card
