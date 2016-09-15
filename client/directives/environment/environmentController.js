@@ -101,15 +101,16 @@ function EnvironmentController(
   $scope.data = { };
   $scope.data.instances = instancesByPod;
 
-  if (ahaGuide.isAddingFirstRepo() && instancesByPod.models.length === 0) {
+  var isAddFirstRepo = ahaGuide.isAddingFirstRepo();
+
+  if (isAddFirstRepo && instancesByPod.models.length === 0) {
     EC.showCreateTemplate = false;
     EC.showSidebar = true;
   }
 
-  var isAddingFirstRepo = ahaGuide.isAddingFirstRepo;
   // Asynchronously fetch the Dockerfile and check for working instances
   instancesByPod.forEach(function (instance) {
-    if (instance.attrs.build.successful && instance.getRepoName() && isAddingFirstRepo()) {
+    if (instance.attrs.build.successful && instance.getRepoName() && isAddFirstRepo) {
       $rootScope.$broadcast('launchAhaNavPopover');
     }
     if (instance.hasDockerfileMirroring()) {
