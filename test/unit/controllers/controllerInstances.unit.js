@@ -401,7 +401,7 @@ describe('ControllerInstances'.bold.underline.blue, function () {
     });
   });
 
-  describe.only('using various searches in the search filter'.blue, function () {
+  describe('using various searches in the search filter'.blue, function () {
     var childInstance;
     var childInstance2;
     var masterInstance;
