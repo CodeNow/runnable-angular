@@ -29,8 +29,6 @@ function ControllerInstance(
   pageName,
   setLastInstance
 ) {
-  // TODO: Aha - Remove this hardcoding
-  currentOrg.poppa.hasConfirmedSetup = true;
 
   var CIS = this;
   CIS.showSidebar = false;
@@ -38,11 +36,6 @@ function ControllerInstance(
     CIS.showSidebar = !CIS.showSidebar;
   };
   $scope.$on('show-aha-sidebar', CIS.toggleSidebar);
-
-  if (ahaGuide.isAddingFirstRepo()) {
-    console.log('Toggle first branch thingy');
-  }
-
   var dataInstance = $scope.dataInstance = {
     data: {
       unsavedAcvs: []

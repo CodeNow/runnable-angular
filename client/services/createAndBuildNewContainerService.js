@@ -19,7 +19,8 @@ function createAndBuildNewContainer(
   eventTracking,
   fetchInstancesByPod,
   fetchPlan,
-  fetchUser
+  fetchUser,
+  keypather
 ) {
   return function (createPromiseForState, containerName, options) {
     options = options || {};
@@ -34,7 +35,7 @@ function createAndBuildNewContainer(
       plan: fetchPlan()
     })
       .then(function (response) {
-        oldPlanId = response.plan.next.id;
+        oldPlanId = keypather.get(response, 'plan.next.id');
         var instanceOptions = {
           name: containerName,
           owner: {

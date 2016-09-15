@@ -6,7 +6,7 @@
 
 //- aha menu --- This should be triggered via an event!
 .popover.right.in.popover-aha(
-  ng-if = "CA.showAhaNavPopover"
+  ng-if = "$root.featureFlags.aha && CA.showAhaNavPopover"
   ng-include = "'ahaPopoverView'"
 )
 
@@ -36,6 +36,10 @@ a.a(
   ui-sref = "base.instances({ userName: CA.activeAccount.oauthName() })"
   ui-sref-active = "active"
 )
+  .aha-overlay-div(
+    ng-if = "$root.featureFlags.aha && CA.ahaGuide.isAddingFirstRepo() && CA.instancesByPod.models.length && !CA.ahaGuide.hasConfirmedSetup()"
+    ng-click = "CA.showAhaConfirmation($event)"
+  )
   svg.iconnables.icons-server-dark
     use(
       xlink:href = "#icons-server-dark"

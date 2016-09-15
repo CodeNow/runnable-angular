@@ -10,6 +10,7 @@ function ControllerInstances(
   $localStorage,
   $scope,
   $state,
+  ahaGuide,
   keypather,
   setLastOrg,
   errs,
@@ -23,12 +24,29 @@ function ControllerInstances(
 ) {
   var CIS = this;
   var userName = $state.params.userName;
+  CIS.isInGuide = ahaGuide.isInGuide;
+  CIS.isAddingFirstBranch = ahaGuide.isAddingFirstBranch;
+  CIS.isSettingUpRunnabot = ahaGuide.isSettingUpRunnabot;
+  CIS.currentOrg = currentOrg;
   CIS.searchBranches = null;
   CIS.instanceBranches = null;
+  CIS.isPopoverOpen = true;
   CIS.unbuiltBranches = null;
   CIS.branchQuery = null;
   CIS.$storage = $localStorage.$default({
     instanceListIsClosed: false
+  });
+
+  $scope.$on('popover-closed', function(event, pop) {
+    if (keypather.get(pop, 'data') !== 'ahaTemplate' && CIS.isAddingFirstBranch()) {
+      CIS.isPopoverOpen = true;
+    }
+  });
+
+  $scope.$on('popover-opened', function(event, pop) {
+    if (keypather.get(pop, 'data') !== 'ahaTemplate') {
+      CIS.isPopoverOpen = false;
+    }
   });
 
   fetchInstancesByPod()
@@ -171,10 +189,10 @@ function ControllerInstances(
     return unbuiltBranches;
   };
 
-  this.popInstanceOpen = function (instance) {
+  this.popInstanceOpen = function (instance, open) {
+    CIS.instanceBranches = null;
     CIS.poppedInstance = instance;
     loading('fetchingBranches', true);
-    CIS.instanceBranches = null;
     return CIS.getAllBranches(instance)
       .then(function (branches) {
         CIS.totalInstanceBranches = branches.models.length;
@@ -197,16 +215,19 @@ function ControllerInstances(
     loading('buildingForkedBranch', true);
     promisify(CIS.poppedInstance, 'fork')(branchName, sha)
       .then(function (instance) {
-        var newInstance = instance.children.models.filter(function(childInstance) {
+        var newInstances = instance.children.models.filter(function(childInstance) {
           return childInstance.attrs.name === branchName + '-' + instance.attrs.name;
-        })[0];
+        });
         loading(branchName, false);
         loading('buildingForkedBranch', false);
         closePopover();
-        $state.go('base.instances.instance', {
-          instanceName: newInstance.attrs.name
-        });
-      });
+        if (newInstances.length) {
+          $state.go('base.instances.instance', {
+            instanceName: newInstances[0].attrs.name
+          });
+        }
+      })
+      .catch(errs.handler);
   };
 
   this.editInstance = function (instance) {
@@ -230,5 +251,4 @@ function ControllerInstances(
         CIS.poppedInstance.attrs.shouldNotAutofork = !CIS.poppedInstance.attrs.shouldNotAutofork;
       });
   };
-
 }

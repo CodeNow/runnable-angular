@@ -28,7 +28,7 @@ function ahaGuide(
 
   var stepList = {};
   stepList[STEPS.CHOOSE_ORGANIZATION] = {
-    title: 'Create your Sandbox',
+    title: 'Create your Environment',
     subSteps: {
       orgSelection: {
         caption: 'Choose an organization to create your sandbox for.',
@@ -53,7 +53,7 @@ function ahaGuide(
     title: 'Add your First Repository',
     subSteps: {
       addRepository: {
-        caption: 'Add a repository by clicking ‘Add Template’.',
+        caption: 'Add a repository by clicking ‘Create Template’.',
         className: 'aha-meter-10',
         step: 0
       },
@@ -137,11 +137,6 @@ function ahaGuide(
         caption: 'Add more templates if your project requires it. Once you’re done, head to your containers to start adding branches.',
         className: 'aha-meter-100',
         step: 9
-      },
-      hasContainer: {
-        caption: 'Choose a template to configure.',
-        className: 'aha-meter-100',
-        step: 9
       }
     },
     buildStatus: {
@@ -169,9 +164,22 @@ function ahaGuide(
       dockLoaded: {
         caption: 'Continue to start configuring your project.',
         className: 'aha-meter-100'
+      },
+      deletedTemplate: {
+        caption: 'You\'ve deleted your repository template. Create another one to continue.',
+        className: 'aha-meter-20'
       }
     },
     panelSteps: { }
+  };
+
+  stepList[STEPS.SETUP_RUNNABOT] = {
+    subSteps: {
+      setupRunnabot: {
+        caption: 'Get the most out of Runnabot by adding branches automatically',
+        className: 'aha-meter-50'
+      }
+    }
   };
 
   var cachedStep;
@@ -185,14 +193,14 @@ function ahaGuide(
     if (!cachedStep) {
       if ($rootScope.featureFlags.aha && !keypather.get(currentOrg, 'poppa.id')) {
         cachedStep = STEPS.CHOOSE_ORGANIZATION;
-      } else if (!$rootScope.featureFlags.aha || !currentOrg.poppa.hasAha) {
+      } else if (!$rootScope.featureFlags.aha || !isInGuide()) {
         cachedStep = STEPS.COMPLETED;
-      } else if (!currentOrg.poppa.hasConfirmedSetup) {
+      } else if (!hasConfirmedSetup()) {
         cachedStep = STEPS.ADD_FIRST_REPO;
       } else {
         // loop over instances and see if any has ever had a branch launched
         var hasBranchLaunched = instances.some(function (instance) {
-          return instance.attrs.hasBranchLaunched;
+          return instance.attrs.hasAddedBranches;
         });
         if (hasBranchLaunched) {
           cachedStep = STEPS.SETUP_RUNNABOT;
@@ -204,8 +212,18 @@ function ahaGuide(
     return cachedStep;
   }
 
-  function isInGuide() {
-    return $rootScope.featureFlags.aha && currentOrg.poppa.hasAha && getCurrentStep() !== STEPS.COMPLETED;
+  function isInGuide () {
+    return keypather.get(currentOrg, 'poppa.attrs.metadata.hasAha');
+  }
+
+  function hasConfirmedSetup () {
+    return keypather.get(currentOrg, 'poppa.attrs.metadata.hasConfirmedSetup');
+  }
+
+  function updateCurrentOrg(updatedOrg) {
+    if (keypather.has(updatedOrg, 'metadata.hasAha') && keypather.has(updatedOrg, 'metadata.hasConfirmedSetup')) {
+      currentOrg.poppa.attrs.metadata = updatedOrg.metadata;
+    }
   }
 
   return {
@@ -213,8 +231,19 @@ function ahaGuide(
     getCurrentStep: getCurrentStep,
     steps: STEPS,
     isInGuide: isInGuide,
+    hasConfirmedSetup: hasConfirmedSetup,
+    updateCurrentOrg: updateCurrentOrg,
+    isChoosingOrg: function() {
+      return getCurrentStep() === STEPS.CHOOSE_ORGANIZATION;
+    },
     isAddingFirstRepo: function () {
       return getCurrentStep() === STEPS.ADD_FIRST_REPO;
-    }
+    },
+    isAddingFirstBranch: function() {
+      return getCurrentStep() === STEPS.ADD_FIRST_BRANCH;
+    },
+    isSettingUpRunnabot: function() {
+      return getCurrentStep() === STEPS.SETUP_RUNNABOT;
+    },
   };
 }

@@ -7,6 +7,7 @@ function ChooseOrganizationModalController(
   $rootScope,
   $scope,
   $state,
+  ahaGuide,
   createNewSandboxForUserService,
   errs,
   featureFlags,
@@ -84,6 +85,7 @@ function ChooseOrganizationModalController(
       return selectedOrgName.toLowerCase() === org.oauthName().toLowerCase();
     });
   };
+  COMC.isChoosingOrg = ahaGuide.isChoosingOrg;
 
   // Polling stuff
   COMC.cancelPolling = function () {

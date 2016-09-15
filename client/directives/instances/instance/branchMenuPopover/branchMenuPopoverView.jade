@@ -2,12 +2,26 @@
   ng-class = "{'in': active}"
   ng-style = "popoverStyle.getStyle(CIS.instanceBranches)"
 )
+  .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
+    ng-if = "$root.featureFlags.aha && CIS.instanceBranches.length && CIS.isAddingFirstBranch()"
+    aha-guide
+    step-index = 2
+    sub-step = "dockLoading"
+  )
+  .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
+    ng-if = "$root.featureFlags.aha && CIS.instanceBranches && !CIS.instanceBranches.length && CIS.isAddingFirstBranch()"
+    aha-guide
+    step-index = 2
+    sub-step = "dockLoaded"
+  )
+  
   .arrow.white(
     ng-style = "popoverStyle.getArrowStyle(CIS.instanceBranches)"
   )
   .grid-block.vertical.popover-content.empty(
     ng-if = "$root.featureFlags.autoIsolationSetup"
   )
+
     svg.svg.grid-block
       use(
         xlink:href = "#icons-branch-burst"
@@ -18,7 +32,7 @@
     ) Set Up Branches
 
   animated-panel-container.popover-views(
-    ng-if = "!$root.featureFlags.autoIsolationSetup"
+    ng-if = "!$root.featureFlags.autoIsolationSetup && !CIS.isPopoverOpen"
   )
     //- this should be the default panel when auto-isolation is implemented
     animated-panel(

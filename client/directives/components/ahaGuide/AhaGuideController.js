@@ -9,18 +9,33 @@ function AhaGuideController(
   $rootScope,
   ahaGuide,
   currentOrg,
+  errs,
   fetchInstancesByPod,
-  keypather
+  keypather,
+  patchOrgMetadata
 ) {
   var AGC = this;
   var animatedPanelListener = angular.noop;
 
   AGC.instances = null;
-  fetchInstancesByPod()
-    .then(function (instances) {
-      AGC.instances = instances;
-      updateCaption(AGC.subStep);
-    });
+  if (keypather.has(currentOrg, 'poppa.id')) {
+    fetchInstancesByPod()
+      .then(function (instances) {
+        AGC.instances = instances;
+        if (!keypather.get(instances, 'models.length')) {
+          return patchOrgMetadata(currentOrg.poppa.id(), {
+            metadata: {
+              hasConfirmedSetup: false
+            }
+          })
+            .then(function(updatedOrg) {
+              ahaGuide.updateCurrentOrg(updatedOrg);
+            });
+        }
+        updateCaption(AGC.subStep);
+      })
+      .catch(errs.handler);
+  }
 
   var alertListener = $scope.$on('alert', function (event, alert) {
     // alerts on container creation success
@@ -30,8 +45,17 @@ function AhaGuideController(
     }
   });
 
-  $scope.$on('buildStatusUpdated', function (event, buildStatus) {
-    handleBuildUpdate(buildStatus);
+  $scope.$on('buildStatusUpdated', function(event, buildStatus) {
+    if (ahaGuide.isAddingFirstRepo()) {
+      handleBuildUpdate(buildStatus);
+    }
+  });
+
+  $scope.$on('exitedEarly', function(event, didExitEarly) {
+    if (didExitEarly) {
+      AGC.showError = true;
+      updateCaption('exitedEarly');
+    }
   });
 
   var stopTabUpdate = $scope.$on('updatedTab', function(event, tabName) {
@@ -42,8 +66,11 @@ function AhaGuideController(
     }
   });
 
+  AGC.isInGuide = ahaGuide.isInGuide;
+  AGC.hasConfirmedSetup = ahaGuide.hasConfirmedSetup;
   AGC.isBuildSuccessful = false;
   AGC.ahaGuide = ahaGuide;
+  AGC.showError = $scope.showError;
 
   // get the current milestone
   var currentMilestone = ahaGuide.stepList[ahaGuide.getCurrentStep()];
@@ -58,9 +85,6 @@ function AhaGuideController(
     }
     if (status === 'dockLoaded') {
       animatedPanelListener();
-    }
-    if (ahaGuide.isAddingFirstRepo() && keypather.get(AGC, 'instances.models.length') > 0 && status !== 'complete') {
-      status = 'hasContainer';
     }
     AGC.subStep = status;
     AGC.subStepIndex = currentMilestone.subSteps[status].step;
@@ -88,6 +112,9 @@ function AhaGuideController(
     if (AGC.subStepIndex === 7 && !AGC.isBuildSuccessful) {
       $rootScope.$broadcast('exitedEarly', true);
     }
+    if (AGC.subStepIndex < 6) {
+      $rootScope.$broadcast('changed-animated-panel', 'addRepository');
+    }
   });
 
   animatedPanelListener = $rootScope.$on('changed-animated-panel', function (e, panel) {
@@ -97,8 +124,14 @@ function AhaGuideController(
   AGC.popoverActions = {
     endGuide: function () {
       $rootScope.$broadcast('close-popovers');
-      // TODO: AHA - Make this save
-      currentOrg.poppa.hasAha = false;
+      return patchOrgMetadata(currentOrg.poppa.id(), {
+        metadata: {
+          hasAha: false
+        }
+      })
+      .then(function(updatedOrg) {
+        ahaGuide.updateCurrentOrg(updatedOrg);
+      });
     },
     showSidebar: function () {
       $rootScope.$broadcast('close-popovers');

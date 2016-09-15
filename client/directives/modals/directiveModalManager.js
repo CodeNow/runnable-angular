@@ -58,7 +58,7 @@ function modalManager(
           }
 
           $scope.currentModalScope = currentModalScope = $scope.$new(true);
-          currentModalScope.data = options.data;
+          currentModalScope[options.controllerAs] = options.controller;
           currentModalScope.actions = options.actions;
           currentModalScope.template = options.template;
           currentModalScope.openFlag = options.openFlag;

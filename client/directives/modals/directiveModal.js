@@ -9,7 +9,8 @@ function modal() {
   return {
     restrict: 'A',
     scope: {
-      data: '=?modalData', // Contains modal specific data
+      controller: '=?modalController', // Contains modal specific data
+      controllerAs: '@?modalControllerAs', // the property name used to access controller
       actions: '=?modalActions', // Contains modal specific actions
       template: '@modalTemplate',
       currentModel: '=?modalCurrentModel', // The object that contains the data to display
@@ -19,8 +20,9 @@ function modal() {
     link: function ($scope, element, attrs) {
       function openModal() {
         $scope.$emit('open-modal', {
-          data: $scope.data,
           actions: $scope.actions,
+          controller: $scope.controller,
+          controllerAs: $scope.controllerAs,
           template: $scope.template,
           currentModel: $scope.currentModel,
           stateModel: $scope.stateModel

@@ -8,16 +8,14 @@
     )
     .grid-block.shrink.modal-dialog.modal-orgs(
       ng-class = "{\
-        'modal-lg': data.allAccounts.length > 1,\
-        'modal-sm': data.allAccounts.length <= 1\
+        'modal-lg': COS.allAccounts.length > 1,\
+        'modal-sm': COS.allAccounts.length <= 1\
       }"
     )
       .grid-block.shrink.align-center.justify-center.padding-md.aha-guide(
         aha-guide
-        ng-if = "$root.featureFlags.aha"
-        step-index = 0
+        ng-if = "$root.featureFlags.aha && COS.isChoosingOrg()"
         sub-step = "orgSelection"
-        sub-step-index = 0
       )
       animated-panel-container
         animated-panel.modal-body.grid-block.vertical.padding-sm(
@@ -37,7 +35,7 @@
 
           .grid-block.shrink.justify-center.align-center.padding-xs.well.gray.aha-tips.fade(
             ng-class = "{'in': isActivePanel()}"
-            ng-if = "$root.featureFlags.aha && data.allAccounts.length"
+            ng-if = "$root.featureFlags.aha && COS.allAccounts.length"
           )
             svg.grid-content.shrink.iconnables
               use(
@@ -52,7 +50,7 @@
 
           //- empty state
           .empty.well.gray.padding-lg(
-            ng-if = "!data.allAccounts.length"
+            ng-if = "!COS.allAccounts.length"
           )
             h3.h3.empty.text-gray.text-center We couldn’t find any organizations.
             small.small.empty.text-center Check if you’ve granted access to your organization&#32;
@@ -63,15 +61,15 @@
               | . If you don’t have permission to grant access, you’ll have to ask your admin to give the go ahead.
 
           form.grid-block.list.fade(
-            name = "data.orgSelectorForm"
+            name = "COS.orgSelectorForm"
             ng-class = "{'in': isActivePanel()}"
-            ng-if = "data.allAccounts.length"
+            ng-if = "COS.allAccounts.length"
           )
             //- add .active class if this org is selected
             //- add [disabled] property when loading NOT class!
             label.grid-block.align-center.list-item.btn.white(
-              ng-class = "{'active': org.oauthName() === data.selectedOrgName}"
-              ng-repeat = "org in data.allAccounts"
+              ng-class = "{'active': org.oauthName() === COS.selectedOrgName}"
+              ng-repeat = "org in COS.allAccounts"
               title = "{{org.oauthName()}}"
             )
               img.grid-block.shrink(
@@ -81,7 +79,7 @@
               )
               span.grid-block.text-left.text-overflow {{org.oauthName()}}
               input.checkbox.hidden(
-                ng-model = "data.selectedOrgName"
+                ng-model = "COS.selectedOrgName"
                 value = "{{org.oauthName()}}"
                 type = "radio"
               )
@@ -94,14 +92,14 @@
           //- hide the footer if no orgs are found
           footer.grid-block.vertical.modal-footer.fade(
             ng-class = "{'in': isActivePanel()}"
-            ng-if = "data.allAccounts.length"
+            ng-if = "COS.allAccounts.length"
           )
             //- disabled until an org is selected
             button.btn.btn-md.green(
               ng-click = "\
-                actions.createOrCheckDock(data.selectedOrgName, goToPanel);\
+                actions.createOrCheckDock(COS.selectedOrgName, goToPanel);\
               "
-              ng-disabled = "!data.selectedOrgName"
+              ng-disabled = "!COS.selectedOrgName"
             ) Confirm Organization
 
         animated-panel.modal-body.grid-block.vertical(
@@ -133,7 +131,7 @@
             ng-class = "{'in': isActivePanel()}"
           )
             button.btn.btn-md.green(
-              ng-click = "actions.selectAccount(data.selectedOrgName)"
+              ng-click = "actions.selectAccount(COS.selectedOrgName)"
             ) Go to Runnable
     .grid-block.justify-center.modal-outer-footer(
       grace-period-footer

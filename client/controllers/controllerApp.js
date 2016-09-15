@@ -11,6 +11,7 @@ function ControllerApp(
   $state,
   $timeout,
   $window,
+  ahaGuide,
   configAPIHost,
   configEnvironment,
   configLoginURL,
@@ -21,19 +22,19 @@ function ControllerApp(
   keypather,
   ModalService,
   pageName,
+  patchOrgMetadata,
+  promisify,
   currentOrg,
   user,
   orgs,
   activeAccount
 ) {
   // Load ace after 10 seconds. Should improve user experience overall..
-  $timeout(function () {
-    $ocLazyLoad.load('ui.ace');
-  }, 10000);
-
   this.activeAccount = activeAccount;
   this.user = user;
   var CA = this;
+  CA.ahaGuide = ahaGuide;
+  CA.currentOrg = currentOrg;
 
   fetchInstancesByPod()
     .then(function (instancesByPod) {
@@ -88,13 +89,7 @@ function ControllerApp(
   $rootScope.resetFeatureFlags = featureFlags.reset;
   this.featureFlagsChanged = featureFlags.changed;
   $rootScope.ahaGuide = {};
-  var completedMilestones = keypather.get($localStorage, 'ahaGuide.completedMilestones');
   var ahaGuideToggles = keypather.get($localStorage, 'ahaGuide.toggles');
-
-  if (!completedMilestones) {
-    completedMilestones = {};
-    keypather.set($localStorage, 'ahaGuide.completedMilestones', completedMilestones);
-  }
 
   if (!ahaGuideToggles) {
     ahaGuideToggles = {
@@ -105,7 +100,6 @@ function ControllerApp(
     keypather.set($localStorage, 'ahaGuide.ahaGuideToggles', ahaGuideToggles);
   }
 
-  $rootScope.ahaGuide.completedMilestones = $localStorage.ahaGuide.completedMilestones;
   $rootScope.ahaGuide.ahaGuideToggles = $localStorage.ahaGuide.ahaGuideToggles;
 
   $scope.$watch(function () {
@@ -118,9 +112,37 @@ function ControllerApp(
   });
 
   CA.showAhaNavPopover = false;
-  $rootScope.$on('launchAhaNavPopover', function () {
-    CA.showAhaNavPopover = true;
+  $scope.$on('launchAhaNavPopover', function () {
+    CA.showAhaNavPopover = !keypather.get(currentOrg, 'poppa.attrs.metadata.hasConfirmedSetup');
   });
+
+  CA.showAhaConfirmation = function(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    CA.showAhaNavPopover = false;
+    ModalService.showModal({
+      controller: 'ConfirmationModalController',
+      controllerAs: 'CMC',
+      templateUrl: 'confirmSetupView'
+    })
+      .then(function(modal) {
+        return modal.close;
+      })
+      .then(function(confirmed) {
+        if (confirmed) {
+          return patchOrgMetadata(currentOrg.poppa.id(), {
+            metadata: {
+              hasConfirmedSetup: true
+            }
+          })
+            .then(function(updatedOrg) {
+              ahaGuide.updateCurrentOrg(updatedOrg);
+              $state.go('base.instances', {userName: CA.activeAccount.oauthName()});
+            });
+        }
+      })
+      .catch(errs.handler);
+  };
 
   /**
    * broadcast to child scopes when click event propagates up

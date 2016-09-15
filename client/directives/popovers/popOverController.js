@@ -27,6 +27,10 @@ function PopOverController(
     POC.unbindDocumentClick();
     POC.unbindPopoverOpened();
     POC.unbindSpecificPopoverOpened();
+    $rootScope.$broadcast('popover-closed', {
+      template: $scope.template,
+      data: $scope.data
+    });
     // We need a closure because they could technically re-open the popover and we want to manage THIS scope and THIS element.
     (function (popoverElementScope, popoverElement) {
       //Give the transition some time to finish!
@@ -41,6 +45,10 @@ function PopOverController(
     }(POC.popoverElementScope, POC.popoverElement));
   };
   POC.openPopover = function () {
+    $rootScope.$broadcast('popover-opened', {
+      template: $scope.template,
+      data: $scope.data
+    });
     $scope.popoverOptions = $scope.popoverOptions || {};
 
     if (!exists($scope.popoverOptions.top) && !exists($scope.popoverOptions.bottom)) {

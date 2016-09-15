@@ -42,7 +42,7 @@
 
 //- environment page
 .grid-block.environment-wrapper(
-  ng-class = "{'empty': EC.isAddingFirstRepo() && data.instances.models.length === 0}"
+  ng-class = "{'empty': EC.isInGuide() && EC.isAddingFirstRepo() && data.instances.models.length === 0}"
 )
   header.grid-block.align-center.environment-header(
     ng-include = "'viewEnvironmentHeader'"
@@ -51,18 +51,25 @@
   )
 
   .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
-    ng-if = "$root.featureFlags.aha && EC.showExitedEarly"
+    ng-if = "$root.featureFlags.aha && EC.showExitedEarly && data.instances.models.length"
     aha-guide
     error-state = "true"
     sub-step = 'exitedEarly'
     sub-step-index = 7
   )
 
+  .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
+    ng-if = "$root.featureFlags.aha && EC.isInGuide() && !EC.isAddingFirstRepo() && !data.instances.models.length"
+    aha-guide
+    error-state = "true"
+    sub-step = "deletedTemplate"
+  )
+
   .grid-block.environment-body.justify-center.clearfix(
-    ng-class = "{'align-center justify-center': EC.showCreateTemplate && data.instances.models.length === 0}"
+    ng-class = "{'align-center justify-center': EC.showCreateTemplate && !data.instances.models.length}"
   )
     .modal-dialog.modal-sm(
-      ng-if = "EC.isInGuide() && EC.showCreateTemplate && !data.instances.models.length"
+      ng-if = "$root.featureFlags.aha && EC.isInGuide() && EC.isAddingFirstRepo() && EC.showCreateTemplate && !data.instances.models.length"
     )
       .grid-block.align-center.aha-guide.padding-md(
         aha-guide
@@ -92,5 +99,5 @@
   aha-sidebar
   toggle-sidebar = "EC.toggleSidebar"
   show-overview = "!EC.showCreateTemplate"
-  ng-if = "$root.featureFlags.aha && EC.showSidebar"
+  ng-if = "$root.featureFlags.aha && EC.isInGuide() && EC.showSidebar"
 )

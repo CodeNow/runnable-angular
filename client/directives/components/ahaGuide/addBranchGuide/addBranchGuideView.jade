@@ -1,29 +1,37 @@
 .grid-block.shrink.aha-meter(
   ng-class = "{\
-    'aha-meter-33': ahaGuide.getCurrentStep() === ahaGuide.steps.ADD_FIRST_BRANCH,\
-    'aha-meter-100': ahaGuide.getCurrentStep() > ahaGuide.steps.ADD_FIRST_BRANCH\
+    'aha-error': AGC.errorState || AGC.showError,\
+    'aha-meter-33': AGC.ahaGuide.isAddingFirstBranch(),\
+    'aha-meter-66': AGC.ahaGuide.isAddingFirstBranch() && subStep === 'dockLoading',\
+    'aha-meter-100': AGC.ahaGuide.getCurrentStep() > ahaGuide.steps.ADD_FIRST_BRANCH\
   }"
 )
   svg.iconnables
     use(
-      ng-if = "ahaGuide.getCurrentStep() === ahaGuide.steps.ADD_FIRST_BRANCH"
+      ng-if = "!AGC.showError && AGC.ahaGuide.isAddingFirstBranch()"
       xlink:href = "#icons-octicons-branch"
     )
     use(
-      ng-if = "ahaGuide.getCurrentStep() > ahaGuide.steps.ADD_FIRST_BRANCH"
+      ng-if = "!AGC.showError && AGC.ahaGuide.getCurrentStep() > AGC.ahaGuide.steps.ADD_FIRST_BRANCH"
       xlink:href = "#icons-check"
     )
+
+  svg.iconnables.icons-alert(
+    ng-if = "AGC.showError"
+  )
+    use(
+      xlink:href = "#icons-alert-alt"
+    )
+
 .grid-block.vertical.aha-text
   p.p.small.text-gray-light Add your First Branch
   p.p(
-    ng-if = "state.showSubStep === 1"
+    ng-if = "subStep === 'addBranch'"
   ) Click the ‘Add Branch’ button next to any repo name.
   p.p(
-    ng-if = "state.showSubStep === 2"
+    ng-if = "subStep === 'dockLoading'"
   ) Select a branch to add.
   //- show in the branch menu if the repository has no branches.
   p.p(
-    ng-if = "state.showSubStep === 3"
-  ) Aw, no branches. Try another repository or&#32;
-    a.link skip this step
-    | .
+    ng-if = "subStep === 'deletedTemplate'"
+  ) You've deleted your repository template. Create another one to continue.
