@@ -7,12 +7,14 @@ a.p.monospace.text-overflow(
     use(
       xlink:href = "#icons-link-external"
     )
-.grid-block.shrink.align-center.btn.btn-xs.btn-web-state
+.grid-block.shrink.align-center.btn.btn-xs.btn-web-state(
+  ng-if = "!SMC.hasOpenPorts()"
+)
   svg.iconnables.icons-alert
     use(
       xlink:href = "#icons-alert-alt"
     )
-  | {{!SMC.state.ports.length && SMC.state.advanced !== 'isMirroringDockerfile' ? 'No exposed ports.' : 'Bind to all interfaces.'}}
+  | No exposed ports.
   //- | &nbsp;
   //- a.link(
   //-   href = "#"

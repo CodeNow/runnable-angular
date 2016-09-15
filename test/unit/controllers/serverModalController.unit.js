@@ -1033,7 +1033,6 @@ describe('serverModalController'.bold.underline.blue, function () {
     });
   });
 
-
   describe('Env change', function () {
     beforeEach(setup.bind(null, {}));
 
@@ -1054,4 +1053,34 @@ describe('serverModalController'.bold.underline.blue, function () {
       );
     });
   });
+
+  describe('Checking ports', function() {
+    beforeEach(function() {
+      SMC.instance = ctx.instance;
+    });
+
+    it('should return true when there are ports on an instance', function() {
+      SMC.instance.attrs.container = {
+        ports: {
+          "3000/tcp": [
+            {
+              "HostIp": "0.0.0.0",
+              "HostPort": "64607"
+            }
+          ],
+          "80/tcp": [
+            {
+              "HostIp": "0.0.0.0",
+              "HostPort": "64608"
+            }
+          ]
+        }
+      }
+      expect(SMC.hasOpenPorts()).to.equal(true);
+    });
+
+    it('should return false when there are no ports on an instance', function() {
+      expect(SMC.hasOpenPorts()).to.equal(false);
+    });
+  })
 });

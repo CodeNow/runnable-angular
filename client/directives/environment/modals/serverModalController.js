@@ -261,6 +261,11 @@ function ServerModalController(
     }
   };
 
+  this.hasOpenPorts = function() {
+    var ports = keypather.get(this, 'instance.attrs.container.ports');
+    return !!ports;
+  };
+
   this.onEnvChange = function (newEnvArray, oldEnvArray) {
     var SMC = this;
     if (!newEnvArray) { return; }
