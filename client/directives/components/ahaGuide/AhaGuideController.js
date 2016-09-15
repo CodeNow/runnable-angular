@@ -11,28 +11,31 @@ function AhaGuideController(
   currentOrg,
   errs,
   fetchInstancesByPod,
+  keypather,
   patchOrgMetadata
 ) {
   var AGC = this;
   var animatedPanelListener = angular.noop;
 
   AGC.instances = null;
-  fetchInstancesByPod()
-    .then(function (instances) {
-      AGC.instances = instances;
-      if (!instances.models.length) {
-        return patchOrgMetadata(currentOrg.poppa.id(), {
-          metadata: {
-            hasConfirmedSetup: false
-          }
-        })
-        .then(function(updatedOrg) {
-          ahaGuide.updateCurrentOrg(updatedOrg);
-        });
-      }
-      updateCaption(AGC.subStep);
-    })
-    .catch(errs.handler);
+  if (keypather.has(currentOrg, 'poppa.id')) {
+    fetchInstancesByPod()
+      .then(function (instances) {
+        AGC.instances = instances;
+        if (!keypather.get(instances, 'models.length')) {
+          return patchOrgMetadata(currentOrg.poppa.id(), {
+            metadata: {
+              hasConfirmedSetup: false
+            }
+          })
+            .then(function(updatedOrg) {
+              ahaGuide.updateCurrentOrg(updatedOrg);
+            });
+        }
+        updateCaption(AGC.subStep);
+      })
+      .catch(errs.handler);
+  }
 
   var alertListener = $scope.$on('alert', function (event, alert) {
     // alerts on container creation success
