@@ -49,7 +49,7 @@ function featureFlags(
     trial: false, // sets account to trial mode
     undoDelete: false, // undo delete configuration
     webhooks: false,
-    webToolbar: false, // webview toolbar
+    webToolbar: true, // webview toolbar
     whitelistIpFiltering: false
   };
 
