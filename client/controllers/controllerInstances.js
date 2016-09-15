@@ -110,6 +110,19 @@ function ControllerInstances(
     })
     .catch(errs.handler);
 
+  this.filterMatchedAnything = function () {
+    if (!CIS.searchBranches) {
+      return true;
+    }
+    if (!CIS.instancesByPod) {
+      return true;
+    }
+
+    return CIS.instancesByPod.models.some(function (masterPod) {
+      return CIS.filterMasterInstance(masterPod) || CIS.shouldShowParent(masterPod);
+    });
+  };
+
   this.filterMasterInstance = function (masterPod) {
     if (!CIS.searchBranches) {
       return true;
@@ -124,25 +137,10 @@ function ControllerInstances(
       return null;
     }
     if (!CIS.searchBranches) {
-      return CIS.instancesByPod;
+      return CIS.instancesByPod.models;
     }
-    var searchQuery = CIS.searchBranches.toLowerCase();
-    return CIS.instancesByPod
-      .filter(function (masterPod) {
-        var instanceName = masterPod.getRepoAndBranchName() + masterPod.attrs.lowerName;
-        return instanceName.toLowerCase().indexOf(searchQuery) !== -1 ||
-          CIS.getFilteredChildren(masterPod).length > 0;
-      });
-  };
-
-  this.getFilteredChildren = function (masterPod) {
-    if (!CIS.searchBranches) {
-      return masterPod.children.models;
-    }
-    var searchQuery = CIS.searchBranches.toLowerCase();
-    return masterPod.children.models.filter(function (child) {
-      return child.attrs.lowerName.indexOf(searchQuery) !== -1;
-    });
+    return CIS.instancesByPod.models
+      .filter(CIS.filterMasterInstance);
   };
 
   this.getFilteredBranches = function () {
@@ -162,23 +160,17 @@ function ControllerInstances(
       return true;
     }
     var searchQuery = CIS.searchBranches.toLowerCase();
-    return childInstance.attrs.lowerName.indexOf(searchQuery) !== -1;
+    return childInstance.getBranchName().toLowerCase().indexOf(searchQuery) !== -1;
   };
 
   this.shouldShowParent = function (masterPod) {
     if (!CIS.searchBranches) {
       return true;
     }
-    var searchQuery = CIS.searchBranches.toLowerCase();
-
-    var instanceName = masterPod.getRepoAndBranchName() + masterPod.attrs.lowerName;
-    if (instanceName.indexOf(searchQuery) !== -1) {
-      return true;
+    if (!masterPod.children) {
+      return false;
     }
-
-    return !!masterPod.children.models.find(function (child) {
-      return child.attrs.lowerName.indexOf(searchQuery) !== -1;
-    });
+    return masterPod.children.models.some(CIS.shouldShowChild);
   };
 
   this.getUnbuiltBranches = function (instance, branches) {

@@ -17,8 +17,6 @@ function patchOrgMetadata(
     .then(function(response) {
       return response.data;
     })
-    .catch(function (err) {
-      errs.handler(err);
-    });
+    .catch(errs.handler);
   };
 }

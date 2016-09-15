@@ -112,7 +112,7 @@ function ControllerApp(
   });
 
   CA.showAhaNavPopover = false;
-  $rootScope.$on('launchAhaNavPopover', function () {
+  $scope.$on('launchAhaNavPopover', function () {
     CA.showAhaNavPopover = !keypather.get(currentOrg, 'poppa.attrs.metadata.hasConfirmedSetup');
   });
 
@@ -125,23 +125,23 @@ function ControllerApp(
       controllerAs: 'CMC',
       templateUrl: 'confirmSetupView'
     })
-    .then(function(modal) {
-      return modal.close;
-    })
-    .then(function(confirmed) {
-      if (confirmed) {
-        return patchOrgMetadata(currentOrg.poppa.id(), {
-          metadata: {
-            hasConfirmedSetup: true
-          }
-        })
-        .then(function(updatedOrg) {
-          ahaGuide.updateCurrentOrg(updatedOrg);
-          $state.go('base.instances', {userName: CA.activeAccount.oauthName()});
-        });
-      }
-    })
-    .catch(errs.handler);
+      .then(function(modal) {
+        return modal.close;
+      })
+      .then(function(confirmed) {
+        if (confirmed) {
+          return patchOrgMetadata(currentOrg.poppa.id(), {
+            metadata: {
+              hasConfirmedSetup: true
+            }
+          })
+            .then(function(updatedOrg) {
+              ahaGuide.updateCurrentOrg(updatedOrg);
+              $state.go('base.instances', {userName: CA.activeAccount.oauthName()});
+            });
+        }
+      })
+      .catch(errs.handler);
   };
 
   /**

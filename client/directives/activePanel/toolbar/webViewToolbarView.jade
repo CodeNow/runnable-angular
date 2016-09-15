@@ -7,14 +7,22 @@ a.p.monospace.text-overflow(
     use(
       xlink:href = "#icons-link-external"
     )
+<<<<<<< HEAD
 .grid-block.shrink.align-center.btn.btn-xs.btn-web-state(
   ng-if = "!SMC.hasOpenPorts()"
 )
+=======
+.grid-block.shrink.align-center.btn.btn-xs.btn-web-state
+>>>>>>> 0d913e15297310b9983a9d01682a1e8987353f44
   svg.iconnables.icons-alert
     use(
       xlink:href = "#icons-alert-alt"
     )
+<<<<<<< HEAD
   | No exposed ports.
+=======
+  | {{!SMC.state.ports.length && SMC.state.advanced !== 'isMirroringDockerfile' ? 'No exposed ports.' : 'Bind to all interfaces.'}}
+>>>>>>> 0d913e15297310b9983a9d01682a1e8987353f44
   //- | &nbsp;
   //- a.link(
   //-   href = "#"

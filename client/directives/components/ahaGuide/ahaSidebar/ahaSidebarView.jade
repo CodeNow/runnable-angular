@@ -3,7 +3,7 @@
 )
   header.grid-block.align-center.justify-center.aha-sidebar-header
     h4.grid-content.strong.text-center.h4(
-      ng-if = "getCurrentStep() < steps.SETUP_RUNNABOT"
+      ng-if = "!isSettingUpRunnabot()"
     )
       //- During ahas 1-3:
       | Setup Guide
