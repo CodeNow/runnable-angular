@@ -11,6 +11,7 @@ function AhaGuideController(
   currentOrg,
   errs,
   fetchInstancesByPod,
+  keypather,
   patchOrgMetadata
 ) {
   var AGC = this;
@@ -20,7 +21,7 @@ function AhaGuideController(
   fetchInstancesByPod()
     .then(function (instances) {
       AGC.instances = instances;
-      if (!instances.models.length) {
+      if (!keypather.get(instances, 'models.length')) {
         return patchOrgMetadata(currentOrg.poppa.id(), {
           metadata: {
             hasConfirmedSetup: false
