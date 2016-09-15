@@ -110,6 +110,7 @@
               placeholder = "Filter by name"
               required
               type = "search"
+              ng-if = "CIS.instanceBranches.length"
             )
           ul.list.popover-list(
             ng-if = "CIS.instanceBranches.length"
