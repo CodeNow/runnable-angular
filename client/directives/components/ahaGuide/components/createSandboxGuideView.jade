@@ -14,4 +14,12 @@
     )
 .grid-block.vertical.aha-text
   p.p.small.text-gray-light {{ AGC.title }}
-  p.p {{ AGC.caption }}
+  p.p.p-slide.js-animate(
+    ng-if = "AGC.subStep === 'orgSelection'"
+  ) Choose an organization to create your sandbox for. {{AGC.subStepIndex}}
+  p.p.p-slide.js-animate(
+    ng-if = "AGC.subStep === 'dockLoading'"
+  ) Hang tight! {{AGC.subStepIndex}}
+  p.p.p-slide.js-animate(
+    ng-if = "AGC.subStep === 'dockLoaded'"
+  ) Continue to start configuring your project. {{AGC.subStepIndex}}
