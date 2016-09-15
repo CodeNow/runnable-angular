@@ -128,7 +128,7 @@ function AhaGuideController(
       })
       .then(function(updatedOrg) {
         ahaGuide.updateCurrentOrg(updatedOrg);
-      })
+      });
     },
     showSidebar: function () {
       $rootScope.$broadcast('close-popovers');

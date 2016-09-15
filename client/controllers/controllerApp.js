@@ -116,7 +116,9 @@ function ControllerApp(
     CA.showAhaNavPopover = !keypather.get(currentOrg, 'poppa.attrs.metadata.hasConfirmedSetup');
   });
 
-  CA.showAhaConfirmation = function() {
+  CA.showAhaConfirmation = function(event) {
+    event.stopPropagation();
+    event.preventDefault();
     CA.showAhaNavPopover = false;
     ModalService.showModal({
       controller: 'ConfirmationModalController',

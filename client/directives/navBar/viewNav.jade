@@ -32,26 +32,19 @@ a.a.disabled(
   | Containers
 
 a.a(
-  ng-if = "(!$root.featureFlags.aha && (dataApp.state.includes('base.instances') || !CA.instancesByPod || CA.instancesByPod.models.length)) || ($root.featureFlags.containersViewTemplateControls || ($root.featureFlags.aha && CA.ahaGuide.isInGuide() && CA.instancesByPod.models.length && CA.ahaGuide.getCurrentStep() > CA.ahaGuide.steps.ADD_FIRST_REPO))"
+  ng-if = "(dataApp.state.includes('base.instances') || !CA.instancesByPod || CA.instancesByPod.models.length) || $root.featureFlags.containersViewTemplateControls"
   ui-sref = "base.instances({ userName: CA.activeAccount.oauthName() })"
   ui-sref-active = "active"
 )
+  .aha-overlay-div(
+    ng-if = "$root.featureFlags.aha && CA.ahaGuide.isAddingFirstRepo() && CA.instancesByPod.models.length && !CA.ahaGuide.hasConfirmedSetup()"
+    ng-click = "CA.showAhaConfirmation($event)"
+  )
   svg.iconnables.icons-server-dark
     use(
       xlink:href = "#icons-server-dark"
     )
   | Containers
-
-a.a(
-  ng-if = "$root.featureFlags.aha && CA.ahaGuide.isAddingFirstRepo() && CA.instancesByPod.models.length && !CA.ahaGuide.hasConfirmedSetup()"
-  ng-click = "CA.showAhaConfirmation()"
-)
-  svg.iconnables.icons-server-dark
-    use(
-      xlink:href = "#icons-server-dark"
-    )
-  | Containers
-
 
 a.a.btn-docs(
   href = "https://support.runnable.com"
