@@ -22,8 +22,6 @@ function EnvironmentController(
   fetchUser,
   keypather,
   ModalService,
-  // used to reset aha guide
-  patchOrgMetadata,
   pageName,
   instancesByPod
 ) {
@@ -37,13 +35,6 @@ function EnvironmentController(
   EC.toggleSidebar = function () {
     EC.showSidebar = !EC.showSidebar;
     EC.showCreateTemplate = true;
-    // reset aha guide!!! will be removed!!!
-    patchOrgMetadata(currentOrg.poppa.id(), {
-      metadata: {
-        hasAha: true,
-        hasConfirmedSetup: false
-      }
-    });
   };
   $scope.$on('show-aha-sidebar', EC.toggleSidebar);
 

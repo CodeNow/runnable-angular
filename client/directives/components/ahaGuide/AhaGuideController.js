@@ -21,10 +21,13 @@ function AhaGuideController(
     .then(function (instances) {
       AGC.instances = instances;
       if (!instances.models.length) {
-        patchOrgMetadata(currentOrg.poppa.id(), {
+        return patchOrgMetadata(currentOrg.poppa.id(), {
           metadata: {
             hasConfirmedSetup: false
           }
+        })
+        .then(function(updatedOrg) {
+          ahaGuide.updateCurrentOrg(updatedOrg);
         });
       }
       updateCaption(AGC.subStep);
@@ -122,7 +125,10 @@ function AhaGuideController(
         metadata: {
           hasAha: false
         }
-      });
+      })
+      .then(function(updatedOrg) {
+        ahaGuide.updateCurrentOrg(updatedOrg);
+      })
     },
     showSidebar: function () {
       $rootScope.$broadcast('close-popovers');

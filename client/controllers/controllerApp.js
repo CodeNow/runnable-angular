@@ -134,9 +134,7 @@ function ControllerApp(
           }
         })
         .then(function(updatedOrg) {
-          if (keypather.has(updatedOrg, 'metadata.hasAha') && keypather.has(updatedOrg, 'metadata.hasConfirmedSetup')) {
-            currentOrg.poppa.attrs.metadata = updatedOrg.metadata;
-          }
+          ahaGuide.updateCurrentOrg(updatedOrg);
           $state.go('base.instances', {userName: CA.activeAccount.oauthName()});
         });
       }
