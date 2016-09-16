@@ -5,7 +5,7 @@
 )
 
 .grid-block.vertical.instance(
-  ng-if = "!isLoading.main"
+  ng-if = "!isLoading.main && !$root.featureFlags.containersViewEmptyState"
 )
   .grid-block.vertical
     //- show if server build is being swapped out
@@ -58,6 +58,8 @@
       )
 
 .grid-block.vertical.aha-sidebar.padding-sm.js-animate(
-  ng-include = "'ahaSidebarView'"
-  ng-if = "$root.featureFlags.aha && $root.featureFlags.ahaSidebar"
+  aha-sidebar
+  toggle-sidebar = "CI.toggleSidebar"
+  show-overview = "false"
+  ng-if = "$root.featureFlags.aha && CI.showSidebar"
 )

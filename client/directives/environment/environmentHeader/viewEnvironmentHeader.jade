@@ -1,10 +1,7 @@
 //- new server button
 button.grid-block.shrink.btn.btn-md.green(
-  ng-class = "{\
-    'scale-in-modal': $root.featureFlags.aha1\
-  }"
+  ng-class = "{ 'scale-in-modal': EC.isAddingFirstRepo() }"
   ng-click = "EC.triggerModal.newContainer()"
-  ng-if = "!$root.featureFlags.ahaOverview"
 )
   svg.iconnables.icons-add.float-left
     use(
@@ -13,8 +10,8 @@ button.grid-block.shrink.btn.btn-md.green(
   | Create Template
 
 button.grid-block.shrink.btn.btn-sm.gray.btn-aha(
-  ng-click = "$root.featureFlags.ahaSidebar = true"
-  ng-if = "$root.featureFlags.aha && !$root.featureFlags.ahaSidebar"
+  ng-click = "EC.toggleSidebar()"
+  ng-if = "$root.featureFlags.aha"
   tooltip = "Setup Guide"
   tooltip-options = "{\"class\":\"left\",\"right\":42,\"top\":0}"
 )

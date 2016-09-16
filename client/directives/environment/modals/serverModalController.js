@@ -9,6 +9,7 @@ function ServerModalController(
   $rootScope,
   $scope,
   createBuildFromContextVersionId,
+  configUserContentDomain,
   errs,
   eventTracking,
   fetchDockerfileForContextVersion,
@@ -347,6 +348,16 @@ function ServerModalController(
       });
   };
 
+  this.handleInstanceUpdate = function () {
+    var buildStatus = this.instance.status();
+    $rootScope.$broadcast('buildStatusUpdated', {
+      status: buildStatus
+    });
+    if (buildStatus === 'running') {
+      this.page = 'run';
+    }
+  };
+
   this.switchToMirrorMode = function (state, openItems, dockerfile) {
     var SMC = this;
     return loadingPromises.add(SMC.name, promisify(state.contextVersion, 'update')({
@@ -480,8 +491,7 @@ function ServerModalController(
       var repo = SMC.state.repo;
       var repoName = repo.attrs.name;
       var repoOwner = repo.attrs.owner.login.toLowerCase();
-      var domain = SMC.state.repo.opts.userContentDomain;
-      return repoName + '-staging-' + repoOwner + '.' + domain;
+      return repoName + '-staging-' + repoOwner + '.' + configUserContentDomain;
     }
     return '';
   };
@@ -508,6 +518,7 @@ function ServerModalController(
   this.getUpdatePromise = this.saveInstanceAndRefreshCards;
 
   this.changeTab = function (tabname) {
+    $rootScope.$broadcast('updatedTab', tabname);
     var SMC = this;
     if (keypather.get(SMC, 'serverForm.$invalid')) {
       if (keypather.get(SMC, 'serverForm.$error.required.length')) {

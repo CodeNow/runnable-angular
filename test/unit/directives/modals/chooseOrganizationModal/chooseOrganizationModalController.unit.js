@@ -10,6 +10,7 @@ var $q;
 var apiMocks = require('../../../apiMocks/index');
 var user = require('../../../apiMocks').user;
 
+var mockAhaGuide;
 var mockWhitelistedOrgs;
 var mockGrantedOrgs;
 var mockCreateNewSandboxForUserService;
@@ -85,8 +86,12 @@ describe('ChooseOrganizationModalController', function () {
     mockState = {
       go: sinon.stub()
     };
+    mockAhaGuide = {
+      isChoosingOrg: sinon.stub()
+    };
     angular.mock.module('app', function ($provide) {
       $provide.value('$state', mockState);
+      $provide.value('ahaGuide', mockAhaGuide);
       $provide.factory('createNewSandboxForUserService', function ($q) {
         mockCreateNewSandboxForUserService = sinon.stub().returns($q.when(true));
         return mockCreateNewSandboxForUserService;

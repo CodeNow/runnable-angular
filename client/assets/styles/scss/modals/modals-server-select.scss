@@ -29,11 +29,7 @@
     }
 
     .btn {
-      align-items: center;
-      border: 1px solid transparent;
       border-radius: $input-border-radius-lg;
-      display: flex;
-      font-size: 15px;
       height: 60px;
       line-height: 1.2;
       padding: 0 21px;
@@ -49,17 +45,6 @@
         height: 94px;
         padding: 15px;
         white-space: normal;
-      }
-
-      &:hover {
-        border-color: $gray-lighter;
-      }
-
-      &:active,
-      &.active {
-        border-color: currentColor;
-        box-shadow: inset 0 0 0 1px $purple-light;
-        color: $purple;
       }
 
       + .btn {
@@ -123,15 +108,6 @@
   .list-servers {
     flex: 0 0 auto;
 
-    // add button
-    .btn-icon {
-      border-radius: $input-border-radius;
-      padding: 3px;
-      right: 10px;
-      top: 10px; // to center
-      width: $input-sm;
-    }
-
     .icons-dockerfile,
     .icons-server {
       height: 14px;
@@ -148,21 +124,8 @@
   }
 
   .list-item {
+    font-size: 18px;
     height: 60px;
-    overflow: hidden;
-
-    // template list
-    &.grid-block {
-      align-items: center;
-
-      .img {
-        margin-right: 15px;
-      }
-    }
-
-    .spinner-wrapper {
-      right: 21px;
-    }
   }
 }
 
@@ -173,9 +136,8 @@
     border: $input-border solid transparent;
     border-radius: $input-border-radius-lg;
     cursor: pointer;
-    font-size: 18px;
     font-weight: $weight-bold;
-    padding: 6px 60px 6px 15px;
+    padding: 6px 15px;
     white-space: nowrap; // reset .multi-line default
 
     &:hover:not(.disabled) {
@@ -184,16 +146,15 @@
     }
 
     &.disabled {
-      color: $gray-light;
       cursor: default;
 
-      > .small {
-        color: $gray-light;
+      > .small,
+      .btn-icon {
+        opacity: .6;
       }
 
       .btn-icon {
         cursor: default;
-        opacity: .5;
       }
     }
 
@@ -203,18 +164,6 @@
       background: $white;
       border-color: currentColor;
       color: $green;
-
-      .small {
-        color: currentColor;
-      }
-    }
-
-    &.multi-line {
-
-      // only if in modal (for templates without descriptions)
-      .modal-dialog & {
-        min-height: 60px;
-      }
     }
 
     + .list-item {
@@ -234,18 +183,15 @@
 
   // next arrow
   .icons-arrow-down {
-    height: 100%;
-    position: absolute;
-    right: 3px;
-    top: 0;
+    height: 36px;
+    padding: 6px;
     transform: rotate3d(0,0,1,-90deg);
+    width: 36px;
   }
 
   // spinner
   .spinner-wrapper {
-    position: absolute;
-    right: 9px;
-    top: 20px;
+    padding: 10px;
   }
 
   // tiled view for template containers

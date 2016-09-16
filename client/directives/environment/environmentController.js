@@ -14,18 +14,36 @@ function EnvironmentController(
   $scope,
   $state,
   $timeout,
+  ahaGuide,
+  currentOrg,
   favico,
-  fetchUser,
   fetchDockerfileForContextVersion,
-  fetchInstancesByPod,
   fetchOrgMembers,
+  fetchUser,
   keypather,
   ModalService,
-  pageName
+  pageName,
+  instancesByPod
 ) {
   var EC = this;
 
   EC.showInviteButton = false;
+  EC.isAddingFirstRepo = ahaGuide.isAddingFirstRepo;
+  EC.isInGuide = ahaGuide.isInGuide;
+  EC.showCreateTemplate = true;
+  EC.showOverview = true;
+  EC.toggleSidebar = function () {
+    EC.showSidebar = !EC.showSidebar;
+    EC.showCreateTemplate = true;
+  };
+  $scope.$on('show-aha-sidebar', EC.toggleSidebar);
+
+  $scope.$on('exitedEarly', function (event, didExitEarly) {
+    EC.showExitedEarly = didExitEarly;
+    if (!didExitEarly) {
+      $rootScope.$broadcast('launchAhaNavPopover');
+    }
+  });
 
   var unbindUpdateTeammateInvitation = $rootScope.$on('updateTeammateInvitations', function (event, invitesCreated) {
     if (invitesCreated) {
@@ -34,7 +52,7 @@ function EnvironmentController(
   });
   $scope.$on('$destroy', unbindUpdateTeammateInvitation);
 
-  function updateShowInviteButton () {
+  function updateShowInviteButton() {
     return $q.all({
       user: fetchUser(),
       members: fetchOrgMembers($state.params.userName)
@@ -80,22 +98,30 @@ function EnvironmentController(
   $scope.$state = $state;
   favico.reset();
   pageName.setTitle('Configure - Runnable');
-  $scope.data = {};
-  fetchInstancesByPod($state.userName)
-    .then(function (instancesCollection) {
-      $scope.data.instances = instancesCollection;
-      // Asynchronously fetch the Dockerfile
-      instancesCollection.forEach(function (instance) {
-        if (instance.hasDockerfileMirroring()) {
-          return fetchDockerfileForContextVersion(instance.contextVersion)
-            .then(function (dockerfile) {
-              instance.mirroredDockerfile = dockerfile;
-            });
-        }
-        // Differentiate between non-fetched and non-existing
-        instance.mirroredDockerfile = null;
-      });
-    });
+  $scope.data = { };
+  $scope.data.instances = instancesByPod;
+
+  var isAddFirstRepo = ahaGuide.isAddingFirstRepo();
+
+  if (isAddFirstRepo && instancesByPod.models.length === 0) {
+    EC.showCreateTemplate = false;
+    EC.showSidebar = true;
+  }
+
+  // Asynchronously fetch the Dockerfile and check for working instances
+  instancesByPod.forEach(function (instance) {
+    if (instance.attrs.build.successful && instance.getRepoName() && isAddFirstRepo) {
+      $rootScope.$broadcast('launchAhaNavPopover');
+    }
+    if (instance.hasDockerfileMirroring()) {
+      return fetchDockerfileForContextVersion(instance.contextVersion)
+        .then(function (dockerfile) {
+          instance.mirroredDockerfile = dockerfile;
+        });
+    }
+    // Differentiate between non-fetched and non-existing
+    instance.mirroredDockerfile = null;
+  });
 
   $scope.state = {
     validation: {

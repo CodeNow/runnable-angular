@@ -1,11 +1,11 @@
 .modal-backdrop.in
   .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
-    ng-if = "$root.featureFlags.aha1"
-    ng-include = "'ahaGuideView'"
-    ng-init = "\
-      state.showStep = 1;\
-      state.showSubStep = 1;\
-    "
+    aha-guide
+    ng-class = "{'p-slide js-animate': AGC.state.subStepIndex > 0}"
+    ng-if = "MC.ahaGuide.isAddingFirstRepo()"
+    step-index = 1
+    sub-step = "containerSelection"
+    sub-step-index = 1
   )
   .modal-dialog.modal-lg
     animated-panel-container.modal-servers
@@ -14,35 +14,37 @@
         name = "containerSelection"
       )
         header.modal-header.grid-block.justify-center(
-          ng-class = "{'lg': !$root.featureFlags.aha1}"
+          ng-class = "{'lg': !MC.ahaGuide.isAddingFirstRepo() || ( MC.instances.models && MC.instances.models.length !== 0 )}"
           ng-click = "MC.changeTab('nameContainer')"
         )
-          .grid-block.shrink.btn(
+          .grid-block.align-center.shrink.btn.btn-radio(
             ng-class = "{'active': MC.state.tabName === 'repos'}"
             ng-click = "MC.changeTab('repos')"
-            ng-if = "!$root.featureFlags.aha1"
+            ng-if = "!MC.ahaGuide.isAddingFirstRepo() || ( MC.instances.models && MC.instances.models.length !== 0 )"
           )
             svg.iconnables.icons-repository.grid-block.shrink
               use(
                 xlink:href = "#icons-new-repository-server"
               )
-            .btn-text.grid-block Repository Template
+            .btn-text.grid-block.vertical.text-left Repository Template
+              small.small From your GitHub org
+
           //- disable this button when loading a repository
-          .grid-block.shrink.btn(
+          .grid-block.align-center.shrink.btn.btn-radio(
             ng-disabled = "$root.isLoading[MC.name + 'SingleRepo']"
             ng-class = "{\
               'active': MC.state.tabName === 'services', \
               'disabled': $root.isLoading[MC.name + 'SingleRepo'] \
             }"
             ng-click = "!$root.isLoading[MC.name + 'SingleRepo'] && MC.changeTab('services')"
-            ng-if = "!$root.featureFlags.aha1"
+            ng-if = "!MC.ahaGuide.isAddingFirstRepo() || ( MC.instances.models && MC.instances.models.length !== 0 )"
           )
             svg.iconnables.icons-template.grid-block.shrink
               use(
                 xlink:href = "#icons-server-new"
               )
             .btn-text.grid-block.vertical.text-left Non-Repository Template
-              small.small For services and databases
+              small.small For a database or service
           svg.iconnables.icons-close(
             ng-click = "MC.close()"
           )
@@ -72,7 +74,7 @@
               xlink:href = "#icons-arrow-down"
             )
           h1.modal-heading(
-            ng-if = "!$root.featureFlags.aha1"
+            ng-if = "!MC.ahaGuide.isInGuide()"
           ) Setup Method
           svg.iconnables.icons-close(
             ng-click = "MC.close()"
@@ -101,7 +103,7 @@
               ng-include = "'spinner'"
               ng-if = "$root.isLoading[MC.name + 'SingleRepo']"
             )
-            span() Next Step: Naming
+            span Next Step: Naming
 
       animated-panel.grid-block.vertical.modals-rename(
         name = "nameContainer"
@@ -115,8 +117,8 @@
               xlink:href = "#icons-arrow-down"
             )
           h1.modal-heading.text-overflow(
-            ng-if = "!$root.featureFlags.aha1"
-          ) Container Name
+            ng-if = "!MC.ahaGuide.isInGuide()"
+          ) Template Name
           svg.iconnables.icons-close(
             ng-click = "MC.close()"
           )
@@ -175,9 +177,9 @@
           )
             //- should say "Next Step: Setup" if a repository container
             //- should say "Create Template" if its a non-repository container
-            .spinner-wrapper.spinner-white.spinner-sm.in(
-              ng-include = "'spinner'"
+            .spinner-wrapper.spinner-white.spinner-sm.float-left(
               ng-if = "$root.isLoading[MC.name + 'SingleRepo']"
+              ng-include = "'spinner'"
             )
             span(
               ng-if = "MC.state.repo"

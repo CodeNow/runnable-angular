@@ -27,6 +27,7 @@ describe('BuildLogsController'.bold.underline.blue, function () {
       on: sinon.spy(),
       off: sinon.spy(),
       id: sinon.stub().returns('instanceID'),
+      getContainerHostname: sinon.spy(),
       attrs: {
         contextVersion: {
           _id: 'ctxId',

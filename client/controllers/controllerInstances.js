@@ -10,6 +10,7 @@ function ControllerInstances(
   $localStorage,
   $scope,
   $state,
+  ahaGuide,
   keypather,
   setLastOrg,
   errs,
@@ -23,12 +24,29 @@ function ControllerInstances(
 ) {
   var CIS = this;
   var userName = $state.params.userName;
+  CIS.isInGuide = ahaGuide.isInGuide;
+  CIS.isAddingFirstBranch = ahaGuide.isAddingFirstBranch;
+  CIS.isSettingUpRunnabot = ahaGuide.isSettingUpRunnabot;
+  CIS.currentOrg = currentOrg;
   CIS.searchBranches = null;
   CIS.instanceBranches = null;
+  CIS.isPopoverOpen = true;
   CIS.unbuiltBranches = null;
   CIS.branchQuery = null;
   CIS.$storage = $localStorage.$default({
     instanceListIsClosed: false
+  });
+
+  $scope.$on('popover-closed', function(event, pop) {
+    if (keypather.get(pop, 'data') !== 'ahaTemplate' && CIS.isAddingFirstBranch()) {
+      CIS.isPopoverOpen = true;
+    }
+  });
+
+  $scope.$on('popover-opened', function(event, pop) {
+    if (keypather.get(pop, 'data') !== 'ahaTemplate') {
+      CIS.isPopoverOpen = false;
+    }
   });
 
   fetchInstancesByPod()
@@ -92,6 +110,19 @@ function ControllerInstances(
     })
     .catch(errs.handler);
 
+  this.filterMatchedAnything = function () {
+    if (!CIS.searchBranches) {
+      return true;
+    }
+    if (!CIS.instancesByPod) {
+      return true;
+    }
+
+    return CIS.instancesByPod.models.some(function (masterPod) {
+      return CIS.filterMasterInstance(masterPod) || CIS.shouldShowParent(masterPod);
+    });
+  };
+
   this.filterMasterInstance = function (masterPod) {
     if (!CIS.searchBranches) {
       return true;
@@ -106,25 +137,10 @@ function ControllerInstances(
       return null;
     }
     if (!CIS.searchBranches) {
-      return CIS.instancesByPod;
+      return CIS.instancesByPod.models;
     }
-    var searchQuery = CIS.searchBranches.toLowerCase();
-    return CIS.instancesByPod
-      .filter(function (masterPod) {
-        var instanceName = masterPod.getRepoAndBranchName() + masterPod.attrs.lowerName;
-        return instanceName.toLowerCase().indexOf(searchQuery) !== -1 ||
-          CIS.getFilteredChildren(masterPod).length > 0;
-      });
-  };
-
-  this.getFilteredChildren = function (masterPod) {
-    if (!CIS.searchBranches) {
-      return masterPod.children.models;
-    }
-    var searchQuery = CIS.searchBranches.toLowerCase();
-    return masterPod.children.models.filter(function (child) {
-      return child.attrs.lowerName.indexOf(searchQuery) !== -1;
-    });
+    return CIS.instancesByPod.models
+      .filter(CIS.filterMasterInstance);
   };
 
   this.getFilteredBranches = function () {
@@ -144,23 +160,17 @@ function ControllerInstances(
       return true;
     }
     var searchQuery = CIS.searchBranches.toLowerCase();
-    return childInstance.attrs.lowerName.indexOf(searchQuery) !== -1;
+    return childInstance.getBranchName().toLowerCase().indexOf(searchQuery) !== -1;
   };
 
   this.shouldShowParent = function (masterPod) {
     if (!CIS.searchBranches) {
       return true;
     }
-    var searchQuery = CIS.searchBranches.toLowerCase();
-
-    var instanceName = masterPod.getRepoAndBranchName() + masterPod.attrs.lowerName;
-    if (instanceName.indexOf(searchQuery) !== -1) {
-      return true;
+    if (!masterPod.children) {
+      return false;
     }
-
-    return !!masterPod.children.models.find(function (child) {
-      return child.attrs.lowerName.indexOf(searchQuery) !== -1;
-    });
+    return masterPod.children.models.some(CIS.shouldShowChild);
   };
 
   this.getUnbuiltBranches = function (instance, branches) {
@@ -179,10 +189,10 @@ function ControllerInstances(
     return unbuiltBranches;
   };
 
-  this.popInstanceOpen = function (instance) {
+  this.popInstanceOpen = function (instance, open) {
+    CIS.instanceBranches = null;
     CIS.poppedInstance = instance;
     loading('fetchingBranches', true);
-    CIS.instanceBranches = null;
     return CIS.getAllBranches(instance)
       .then(function (branches) {
         CIS.totalInstanceBranches = branches.models.length;
@@ -200,13 +210,24 @@ function ControllerInstances(
 
   this.forkBranchFromInstance = function (branch, closePopover) {
     var sha = branch.attrs.commit.sha;
-    var loadingName = 'buildingForkedBranch' + branch.attrs.name;
-    loading(loadingName, true);
-    promisify(CIS.poppedInstance, 'fork')(branch.attrs.name, sha)
-      .then(function () {
-        loading(loadingName, false);
+    var branchName = branch.attrs.name;
+    loading(branchName, true);
+    loading('buildingForkedBranch', true);
+    promisify(CIS.poppedInstance, 'fork')(branchName, sha)
+      .then(function (instance) {
+        var newInstances = instance.children.models.filter(function(childInstance) {
+          return childInstance.attrs.name === branchName + '-' + instance.attrs.name;
+        });
+        loading(branchName, false);
+        loading('buildingForkedBranch', false);
         closePopover();
-      });
+        if (newInstances.length) {
+          $state.go('base.instances.instance', {
+            instanceName: newInstances[0].attrs.name
+          });
+        }
+      })
+      .catch(errs.handler);
   };
 
   this.editInstance = function (instance) {
@@ -230,5 +251,4 @@ function ControllerInstances(
         CIS.poppedInstance.attrs.shouldNotAutofork = !CIS.poppedInstance.attrs.shouldNotAutofork;
       });
   };
-
 }

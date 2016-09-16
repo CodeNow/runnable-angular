@@ -1,11 +1,27 @@
 .popover.menu.right.popover-branch-menu(
   ng-class = "{'in': active}"
-  ng-style = "popoverStyle.getStyle()"
+  ng-style = "popoverStyle.getStyle(CIS.instanceBranches)"
 )
-  .arrow.white
+  .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
+    ng-if = "$root.featureFlags.aha && CIS.instanceBranches.length && CIS.isAddingFirstBranch()"
+    aha-guide
+    step-index = 2
+    sub-step = "dockLoading"
+  )
+  .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
+    ng-if = "$root.featureFlags.aha && CIS.instanceBranches && !CIS.instanceBranches.length && CIS.isAddingFirstBranch()"
+    aha-guide
+    step-index = 2
+    sub-step = "dockLoaded"
+  )
+  
+  .arrow.white(
+    ng-style = "popoverStyle.getArrowStyle(CIS.instanceBranches)"
+  )
   .grid-block.vertical.popover-content.empty(
     ng-if = "$root.featureFlags.autoIsolationSetup"
   )
+
     svg.svg.grid-block
       use(
         xlink:href = "#icons-branch-burst"
@@ -16,7 +32,7 @@
     ) Set Up Branches
 
   animated-panel-container.popover-views(
-    ng-if = "!$root.featureFlags.autoIsolationSetup"
+    ng-if = "!$root.featureFlags.autoIsolationSetup && !CIS.isPopoverOpen"
   )
     //- this should be the default panel when auto-isolation is implemented
     animated-panel(
@@ -79,8 +95,7 @@
               xlink:href = "#icons-arrow-down"
             )
           | Add Branch
-        .popover-content(
-        )
+        .popover-content
           .spinner-wrapper.spinner-sm.spinner-gray.spinner-center.in(
             ng-if = "$root.isLoading.fetchingBranches"
             ng-include = "'spinner'"
@@ -107,27 +122,34 @@
                 )
                 .toggle-group.toggle-sm
             input.input.input-xs.input-search(
+              ng-disabled = "$root.isLoading['buildingForkedBranch']"
               ng-model = "CIS.branchQuery"
-              placeholder = "Filter"
+              placeholder = "Filter by name"
               required
               type = "search"
+              ng-if = "CIS.instanceBranches.length"
             )
           ul.list.popover-list(
             ng-if = "CIS.instanceBranches.length"
           )
-            li.list-item.popover-list-item(
+            li.grid-block.align-center.list-item.popover-list-item(
+              ng-class = "{\
+                'disabled': $root.isLoading['buildingForkedBranch'] && !$root.isLoading[branch.attrs.name],\
+                'active': $root.isLoading['buildingForkedBranch'] && $root.isLoading[branch.attrs.name]\
+              }"
               ng-repeat = "branch in CIS.getFilteredBranches()"
               ng-click = "CIS.forkBranchFromInstance(branch, POC.closePopover);"
-            ) {{ branch.attrs.name }}
-              button.btn.btn-xs.btn-icon.btn-add(
-                ng-if = "!$root.isLoading['buildingForkedBranch' + branch.attrs.name]"
+            )
+              .grid-content {{ branch.attrs.name }}
+              button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add(
+                ng-if = "!$root.isLoading[branch.attrs.name]"
               )
                 svg.iconnables.icons-add
                   use(
                     xlink:href = "#icons-add"
                   )
-              .spinner-wrapper.spinner-sm.spinner-gray(
-                ng-if = "$root.isLoading['buildingForkedBranch' + branch.attrs.name]"
+              .grid-content.shrink.spinner-wrapper.spinner-sm.spinner-green(
+                ng-if = "$root.isLoading[branch.attrs.name]"
                 ng-include = "'spinner'"
               )
 

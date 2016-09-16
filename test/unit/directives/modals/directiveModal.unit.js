@@ -73,7 +73,7 @@ describe('directiveModal'.bold.underline.blue, function () {
 
     ctx = {};
     ctx.template = directiveTemplate.attribute('modal', {
-      'modal-data': 'data',
+      'modal-controller': 'controller',
       'modal-actions': 'actions',
       'modal-template': 'viewModalError',
       'modal-current-model': 'currentModel',
@@ -93,7 +93,7 @@ describe('directiveModal'.bold.underline.blue, function () {
     expect($elScope.$emit.calledWith('open-modal'), 'Called with').to.equal(true);
 
     var lastCallOptions = $elScope.$emit.lastCall.args[1];
-    expect(lastCallOptions.data, 'Called with options.data').to.equal(inputScope.data);
+    expect(lastCallOptions.controller, 'Called with options.data').to.equal(inputScope.controller);
     expect(lastCallOptions.actions, 'Called with options.actions').to.equal(inputScope.actions);
     expect(lastCallOptions.template, 'Called with options.template').to.equal('viewModalError');
     expect(lastCallOptions.currentModel, 'Called with options.currentModel').to.equal(inputScope.currentModel);
@@ -115,7 +115,7 @@ describe('directiveModal'.bold.underline.blue, function () {
     expect($elScope.$emit.calledWith('open-modal'), 'Called with').to.equal(true);
 
     var lastCallOptions = $elScope.$emit.lastCall.args[1];
-    expect(lastCallOptions.data, 'Called with options.data').to.equal(inputScope.data);
+    expect(lastCallOptions.controller, 'Called with options.data').to.equal(inputScope.controller);
     expect(lastCallOptions.actions, 'Called with options.actions').to.equal(inputScope.actions);
     expect(lastCallOptions.template, 'Called with options.template').to.equal('viewModalError');
     expect(lastCallOptions.currentModel, 'Called with options.currentModel').to.equal(inputScope.currentModel);

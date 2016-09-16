@@ -194,6 +194,7 @@ function fetchInstance(
 var fetchByPodCache = {};
 
 function fetchInstancesByPod(
+  $q,
   $state,
   fetchInstances,
   fetchUser,
@@ -201,6 +202,9 @@ function fetchInstancesByPod(
 ) {
   return function (username) {
     username = username || $state.params.userName;
+    if (!username) {
+      return $q.when([]);
+    }
     if (!fetchByPodCache[username]) {
       var userPromise = fetchUser();
       fetchByPodCache[username] = fetchInstances({

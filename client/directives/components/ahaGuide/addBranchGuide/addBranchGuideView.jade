@@ -1,0 +1,37 @@
+.grid-block.shrink.aha-meter(
+  ng-class = "{\
+    'aha-error': AGC.errorState || AGC.showError,\
+    'aha-meter-33': AGC.ahaGuide.isAddingFirstBranch(),\
+    'aha-meter-66': AGC.ahaGuide.isAddingFirstBranch() && subStep === 'dockLoading',\
+    'aha-meter-100': AGC.ahaGuide.getCurrentStep() > ahaGuide.steps.ADD_FIRST_BRANCH\
+  }"
+)
+  svg.iconnables
+    use(
+      ng-if = "!AGC.showError && AGC.ahaGuide.isAddingFirstBranch()"
+      xlink:href = "#icons-octicons-branch"
+    )
+    use(
+      ng-if = "!AGC.showError && AGC.ahaGuide.getCurrentStep() > AGC.ahaGuide.steps.ADD_FIRST_BRANCH"
+      xlink:href = "#icons-check"
+    )
+
+  svg.iconnables.icons-alert(
+    ng-if = "AGC.showError"
+  )
+    use(
+      xlink:href = "#icons-alert-alt"
+    )
+
+.grid-block.vertical.aha-text
+  p.p.small.text-gray-light Add your First Branch
+  p.p(
+    ng-if = "subStep === 'addBranch'"
+  ) Click the ‘Add Branch’ button next to any repo name.
+  p.p(
+    ng-if = "subStep === 'dockLoading'"
+  ) Select a branch to add.
+  //- show in the branch menu if the repository has no branches.
+  p.p(
+    ng-if = "subStep === 'deletedTemplate'"
+  ) You've deleted your repository template. Create another one to continue.

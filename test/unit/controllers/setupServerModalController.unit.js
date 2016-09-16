@@ -77,6 +77,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       this.getElasticHostname = sinon.spy();
       this.getNumberOfOpenTabs = sinon.spy();
       this.getUpdatePromise = sinon.spy();
+      this.handleInstanceUpdate = sinon.spy();
       this.insertHostName = sinon.spy();
       this.isDirty = sinon.spy();
       this.openDockerfile = sinon.spy();
@@ -201,7 +202,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       $scope = $rootScope.$new();
       SMC = $controller('SetupServerModalController', {
         $scope: $scope,
-        dockerfileType: {},
+        dockerfileType: false,
         instanceName: opts.instanceName || instanceName,
         repo: opts.repo || repo,
         build: opts.build || newBuild,

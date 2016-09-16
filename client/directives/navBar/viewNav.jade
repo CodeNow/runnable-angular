@@ -4,9 +4,9 @@
   data = "dataApp.data"
 )
 
-//- aha menu
+//- aha menu --- This should be triggered via an event!
 .popover.right.in.popover-aha(
-  ng-if = "$root.featureFlags.aha2 && !$root.featureFlags.aha1ExitedEarly && !$root.featureFlags.ahaInContainersView"
+  ng-if = "$root.featureFlags.aha && CA.showAhaNavPopover"
   ng-include = "'ahaPopoverView'"
 )
 
@@ -21,7 +21,7 @@ a.a(
   | Templates
 
 a.a.disabled(
-  ng-if = "(dataApp.state.includes('base.config') && CA.instancesByPod && !CA.instancesByPod.models.length) || $root.featureFlags.aha1 || $root.featureFlags.aha1ExitedEarly"
+  ng-if = "(dataApp.state.includes('base.config') && CA.instancesByPod && !CA.instancesByPod.models.length) && !$root.featureFlags.containersViewTemplateControls"
   tooltip = "You don’t have any running containers yet!"
   tooltip-options = "{\"class\":\"right\",\"left\":75,\"top\":17}"
 )
@@ -32,26 +32,19 @@ a.a.disabled(
   | Containers
 
 a.a(
-  ng-if = "(dataApp.state.includes('base.instances') || !CA.instancesByPod || CA.instancesByPod.models.length) && !$root.featureFlags.aha1 && !$root.featureFlags.aha1ExitedEarly && !$root.featureFlags.aha2"
+  ng-if = "(dataApp.state.includes('base.instances') || !CA.instancesByPod || CA.instancesByPod.models.length) || $root.featureFlags.containersViewTemplateControls"
   ui-sref = "base.instances({ userName: CA.activeAccount.oauthName() })"
   ui-sref-active = "active"
 )
+  .aha-overlay-div(
+    ng-if = "$root.featureFlags.aha && CA.ahaGuide.isAddingFirstRepo() && CA.instancesByPod.models.length && !CA.ahaGuide.hasConfirmedSetup()"
+    ng-click = "CA.showAhaConfirmation($event)"
+  )
   svg.iconnables.icons-server-dark
     use(
       xlink:href = "#icons-server-dark"
     )
   | Containers
-
-a.a(
-  ng-if = "$root.featureFlags.aha2"
-  internal-modal-helper = "confirmSetupView"
-)
-  svg.iconnables.icons-server-dark
-    use(
-      xlink:href = "#icons-server-dark"
-    )
-  | Containers
-
 
 a.a.btn-docs(
   href = "https://support.runnable.com"

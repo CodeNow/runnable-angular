@@ -1,0 +1,124 @@
+.grid-block.shrink.aha-meter.js-animate(
+  class = "{{ AGC.className }}"
+  ng-class = "{'aha-error': AGC.showError || AGC.errorState}"
+)
+  svg.iconnables(
+    ng-if = "!AGC.showError && !AGC.errorState"
+  )
+    use(
+      ng-if = "AGC.ahaGuide.isAddingFirstRepo() && AGC.subStep !== 'complete'"
+      xlink:href = "#icons-octicons-repo"
+    )
+    use(
+      ng-if = "AGC.subStep === 'complete' || AGC.ahaGuide.getCurrentStep() > AGC.ahaGuide.steps.ADD_FIRST_REPO"
+      xlink:href = "#icons-check"
+    )
+  svg.iconnables.icons-alert(
+    ng-if = "AGC.showError || AGC.errorState"
+  )
+    use(
+      xlink:href = "#icons-alert-alt"
+    )
+    
+.grid-block.shrink.aha-meter.js-animate(
+  class = "aha-meter-100"
+  ng-class = "{'aha-error': AGC.showError || AGC.errorState}"
+  ng-if = "!state.showVerification && AGC.ahaGuide.getCurrentStep() > AGC.ahaGuide.steps.ADD_FIRST_REPO"
+)
+  svg.iconnables(
+    ng-if = "!AGC.showError"
+  )
+    use(
+      ng-if = "AGC.subStep === 'complete'"
+      xlink:href = "#icons-check"
+    )
+  svg.iconnables.icons-alert(
+    ng-if = "AGC.showError"
+  )
+    use(
+      xlink:href = "#icons-alert-alt"
+    )
+
+.grid-block.vertical.aha-text(
+  ng-if = "$root.featureFlags.aha && AGC.isInGuide() && !AGC.showError && AGC.ahaGuide.isAddingFirstRepo()"
+)
+  p.p.small.text-gray-light {{ AGC.title }}
+  p.p(
+    ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
+    ng-if = "$root.featureFlags.aha && AGC.isInGuide() && !AGC.showError && AGC.subStep === 'addRepository'"
+  ) Add your repository by clicking ‘Create Template’.
+  p.p(
+    ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
+    ng-if = "$root.featureFlags.aha && AGC.isInGuide() && !AGC.showError && AGC.subStep === 'containerSelection'"
+  ) Select a repository to configure.
+  p.p(
+    ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
+    ng-if = "$root.featureFlags.aha && AGC.isInGuide() && !AGC.showError && AGC.subStep === 'dockerfileMirroring'"
+  ) How would you like to configure your repo?
+  p.p(
+    ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
+    ng-if = "$root.featureFlags.aha && AGC.isInGuide() && !AGC.showError && AGC.subStep === 'nameContainer'"
+  ) Give your configuration a name.
+  p.p(
+    ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
+    ng-if = "$root.featureFlags.aha && AGC.isInGuide() && !AGC.showError && AGC.subStep === 'repository'"
+  ) What does your repository run?
+  p.p(
+    ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
+    ng-if = "$root.featureFlags.aha && AGC.isInGuide() && !AGC.showError && AGC.subStep === 'commands'"
+  ) Choose commands and packages.
+  p.p(
+    ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
+    ng-if = "$root.featureFlags.aha && AGC.isInGuide() && !AGC.showError && (AGC.subStep === 'buildfiles' || AGC.subStep === 'default' || AGC.subStep === 'env' || AGC.subStep === 'files' || AGC.subStep === 'ports' || AGC.subStep === 'translation')"
+  ) If your app needs additional configuration…
+  p.p(
+    ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
+    ng-if = "$root.featureFlags.aha && AGC.isInGuide() && !AGC.showError && AGC.subStep === 'filesMirror'"
+  ) We’ve imported your dockerfile, click ‘Save & Build’ to build it!
+  p.p(
+    ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
+    ng-if = "$root.featureFlags.aha && AGC.isInGuide() && !AGC.showError && AGC.subStep === 'logs'"
+  ) We‘re building! Build time varies depending on your template.
+  p.p(
+    ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
+    ng-if = "$root.featureFlags.aha && AGC.isInGuide() && !AGC.showError && AGC.subStep === 'exitedEarly'"
+  ) Your template isn‘t running yet! Check the logs to debug any issues. If you‘re stumped,&#32;
+      a.link(
+        ng-click = "askEngineers()"
+      ) ask our engineers
+      | !
+  p.p(
+    ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
+    ng-if = "$root.featureFlags.aha && AGC.isInGuide() && !AGC.showError && AGC.subStep === 'success'"
+  ) Looking good! Check out your URL, and click ‘Done’ if it looks good to you too.
+  p.p(
+    ng-if = "$root.featureFlags.aha && AGC.isInGuide() && !AGC.showError && AGC.subStep === 'complete'"
+  ) Add more templates if your project requires it. Once you’re done, head to your containers to start adding branches.
+
+
+.grid-block.vertical.aha-text(
+  ng-if = "$root.featureFlags.aha && AGC.isInGuide() && AGC.showError && AGC.subStepIndex > 6"
+)
+  p.p.small.text-gray-light {{ AGC.title }}
+  p.p(
+    ng-if = "$root.featureFlags.aha && AGC.isInGuide() && !AGC.showError"
+  ) {{ AGC.caption }}
+  p.p(
+    ng-if = "$root.featureFlags.aha && AGC.isInGuide() && AGC.showError"
+  ) Uh oh, there was a build error! Inspect your logs for debug info.
+
+
+.grid-block.vertical.aha-text(
+  class = "{{ AGC.className }}"
+  ng-if = "$root.featureFlags.aha && AGC.isInGuide() && !AGC.showError && !AGC.ahaGuide.isAddingFirstRepo()"
+)
+  p.p.small.text-gray-light {{ AGC.title }}
+  p.p(
+    ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
+    ng-if = "$root.featureFlags.aha && AGC.isInGuide() && !AGC.showError"
+  ) Choose a template to configure.
+
+  //- Step 9:
+  p.p(
+    ng-if = "AGC.subStep === 8 && !AGC.showError"
+  ) Looking good! Check out your URL, and click ‘Done’ if it looks good to you too.

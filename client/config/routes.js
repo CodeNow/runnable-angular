@@ -73,6 +73,10 @@ module.exports = [
       },
       whitelistedOrgs: function (fetchWhitelistForDockCreated) {
         return fetchWhitelistForDockCreated();
+      },
+      booted: function (eventTracking, user) {
+        eventTracking.boot(user);
+        eventTracking.visitedOrgSelectPage();
       }
     }
   }, {
@@ -194,7 +198,13 @@ module.exports = [
     url: '^/:userName/configure',
     templateUrl: 'environmentView',
     controller: 'EnvironmentController',
-    controllerAs: 'EC'
+    controllerAs: 'EC',
+    resolve: {
+      instancesByPod: function (fetchInstancesByPod, $stateParams, $state) {
+        $state.params.userName = $stateParams.userName;
+        return fetchInstancesByPod();
+      }
+    }
   }, {
     state: 'base.instances',
     abstract: false,
@@ -207,7 +217,8 @@ module.exports = [
     abstract: false,
     url: '^/:userName/:instanceName',
     templateUrl: 'viewInstance',
-    controller: 'ControllerInstance'
+    controller: 'ControllerInstance',
+    controllerAs: 'CI'
   }
 ];
 Object.freeze(module.exports);

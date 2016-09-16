@@ -12,7 +12,8 @@ function ControllerInstance(
   $state,
   $stateParams,
   $timeout,
-  OpenItems,
+  ahaGuide,
+  currentOrg,
   errs,
   eventTracking,
   favico,
@@ -20,13 +21,21 @@ function ControllerInstance(
   fetchDockerfileForContextVersion,
   fetchInstances,
   fetchSettings,
+  fetchUser,
   getCommitForCurrentlyBuildingBuild,
   keypather,
-  fetchUser,
+  loading,
+  OpenItems,
   pageName,
-  setLastInstance,
-  loading
+  setLastInstance
 ) {
+
+  var CIS = this;
+  CIS.showSidebar = false;
+  CIS.toggleSidebar = function () {
+    CIS.showSidebar = !CIS.showSidebar;
+  };
+  $scope.$on('show-aha-sidebar', CIS.toggleSidebar);
   var dataInstance = $scope.dataInstance = {
     data: {
       unsavedAcvs: []
@@ -98,8 +107,8 @@ function ControllerInstance(
         setLastInstance($stateParams.instanceName);
         loading('main', false);
       })
-      .catch(function (err) { // We ONLY want to handle errors related to fetching instances so this catch is nested.
-        errs.handler(err);
+      .catch(function () {
+        // Don't handle the instance fetch err, because it's super annoying
         loading('main', false);
         setLastInstance(false);
         $state.go('base.instances', {

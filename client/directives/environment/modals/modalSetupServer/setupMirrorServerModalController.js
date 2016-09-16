@@ -4,28 +4,32 @@ require('app')
   .controller('SetupMirrorServerModalController', SetupMirrorServerModalController);
 
 function SetupMirrorServerModalController(
-  $scope,
   $controller,
   $q,
   $rootScope,
+  $scope,
+  ahaGuide,
   cardInfoTypes,
   createAndBuildNewContainer,
   errs,
   eventTracking,
+  fetchInstancesByPod,
   isTabNameValid,
   keypather,
   loading,
   loadingPromises,
   promisify,
-  OpenItems,
-  TAB_VISIBILITY,
+  // everything below comes from the modal open
+  build,
   close,
   instanceName,
+  masterBranch,
+  OpenItems,
   repo,
-  build,
-  masterBranch
+  TAB_VISIBILITY
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
+  SMC.isAddingFirstRepo = ahaGuide.isAddingFirstRepo;
 
   var parentController = $controller('ServerModalController as SMC', { $scope: $scope });
   angular.extend(SMC, {
@@ -37,6 +41,7 @@ function SetupMirrorServerModalController(
     'getElasticHostname': parentController.getElasticHostname.bind(SMC),
     'getNumberOfOpenTabs': parentController.getNumberOfOpenTabs.bind(SMC),
     'getUpdatePromise': parentController.getUpdatePromise.bind(SMC),
+    'handleInstanceUpdate': parentController.handleInstanceUpdate.bind(SMC),
     'insertHostName': parentController.insertHostName.bind(SMC),
     'isDirty': parentController.isDirty.bind(SMC),
     'openDockerfile': parentController.openDockerfile.bind(SMC),
@@ -107,6 +112,11 @@ function SetupMirrorServerModalController(
     repoSelected: true
   });
 
+  fetchInstancesByPod()
+    .then(function (instances) {
+      SMC.data.instances = instances;
+    });
+
   SMC.state.mainRepoContainerFile.name = repo.attrs.name;
   SMC.state.promises.contextVersion = $q.when(SMC.state.contextVersion);
 
@@ -176,6 +186,7 @@ function SetupMirrorServerModalController(
         if (instance) {
           SMC.instance = instance;
           SMC.state.instance = instance;
+          SMC.state.instance.on('update', SMC.handleInstanceUpdate);
           // Reset the opts, in the same way as `EditServerModalController`
           SMC.state.opts  = {
             env: keypather.get(instance, 'attrs.env') || [],
