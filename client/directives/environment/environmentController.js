@@ -23,11 +23,13 @@ function EnvironmentController(
   keypather,
   ModalService,
   pageName,
+  patchOrgMetadata,
   instancesByPod
 ) {
   var EC = this;
 
   EC.showInviteButton = false;
+  EC.endGuide = ahaGuide.endGuide;
   EC.isAddingFirstRepo = ahaGuide.isAddingFirstRepo;
   EC.isInGuide = ahaGuide.isInGuide;
   EC.showCreateTemplate = true;
@@ -35,7 +37,21 @@ function EnvironmentController(
   EC.toggleSidebar = function () {
     EC.showSidebar = !EC.showSidebar;
     EC.showCreateTemplate = true;
+    patchOrgMetadata(currentOrg.poppa.id(), {
+      metadata: {
+        hasAha: true,
+        hasConfirmedSetup: false
+      }
+    })
+      .then(function(updatedOrg) {
+        ahaGuide.updateCurrentOrg(updatedOrg);
+      });
   };
+  EC.popoverActions = {
+    showSidebar: EC.toggleSidebar,
+    endGuide: EC.endGuide
+  };
+
   $scope.$on('show-aha-sidebar', EC.toggleSidebar);
 
   $scope.$on('exitedEarly', function (event, didExitEarly) {
@@ -112,6 +128,8 @@ function EnvironmentController(
   instancesByPod.forEach(function (instance) {
     if (instance.attrs.build.successful && instance.getRepoName() && isAddFirstRepo) {
       $rootScope.$broadcast('launchAhaNavPopover');
+    } else if (isAddFirstRepo) {
+      EC.showExitedEarly = true;
     }
     if (instance.hasDockerfileMirroring()) {
       return fetchDockerfileForContextVersion(instance.contextVersion)

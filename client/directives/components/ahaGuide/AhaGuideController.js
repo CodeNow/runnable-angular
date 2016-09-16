@@ -18,24 +18,6 @@ function AhaGuideController(
   var animatedPanelListener = angular.noop;
 
   AGC.instances = null;
-  if (keypather.has(currentOrg, 'poppa.id')) {
-    fetchInstancesByPod()
-      .then(function (instances) {
-        AGC.instances = instances;
-        if (!keypather.get(instances, 'models.length')) {
-          return patchOrgMetadata(currentOrg.poppa.id(), {
-            metadata: {
-              hasConfirmedSetup: false
-            }
-          })
-            .then(function(updatedOrg) {
-              ahaGuide.updateCurrentOrg(updatedOrg);
-            });
-        }
-        updateCaption(AGC.subStep);
-      })
-      .catch(errs.handler);
-  }
 
   var alertListener = $scope.$on('alert', function (event, alert) {
     // alerts on container creation success
@@ -45,7 +27,7 @@ function AhaGuideController(
     }
   });
 
-  $scope.$on('buildStatusUpdated', function(event, buildStatus) {
+  var buildLogListener = $scope.$on('buildStatusUpdated', function(event, buildStatus) {
     if (ahaGuide.isAddingFirstRepo()) {
       handleBuildUpdate(buildStatus);
     }
@@ -53,7 +35,8 @@ function AhaGuideController(
 
   $scope.$on('exitedEarly', function(event, didExitEarly) {
     if (didExitEarly) {
-      AGC.showError = true;
+      AGC.errorState = true;
+      buildLogListener();
       updateCaption('exitedEarly');
     }
   });
@@ -70,7 +53,7 @@ function AhaGuideController(
   AGC.hasConfirmedSetup = ahaGuide.hasConfirmedSetup;
   AGC.isBuildSuccessful = false;
   AGC.ahaGuide = ahaGuide;
-  AGC.showError = $scope.showError;
+  AGC.errorState = $scope.errorState;
 
   // get the current milestone
   var currentMilestone = ahaGuide.stepList[ahaGuide.getCurrentStep()];
@@ -112,9 +95,6 @@ function AhaGuideController(
     if (AGC.subStepIndex === 7 && !AGC.isBuildSuccessful) {
       $rootScope.$broadcast('exitedEarly', true);
     }
-    if (AGC.subStepIndex < 6) {
-      $rootScope.$broadcast('changed-animated-panel', 'addRepository');
-    }
   });
 
   animatedPanelListener = $rootScope.$on('changed-animated-panel', function (e, panel) {
@@ -122,17 +102,7 @@ function AhaGuideController(
   });
 
   AGC.popoverActions = {
-    endGuide: function () {
-      $rootScope.$broadcast('close-popovers');
-      return patchOrgMetadata(currentOrg.poppa.id(), {
-        metadata: {
-          hasAha: false
-        }
-      })
-      .then(function(updatedOrg) {
-        ahaGuide.updateCurrentOrg(updatedOrg);
-      });
-    },
+    endGuide: ahaGuide.endGuide,
     showSidebar: function () {
       $rootScope.$broadcast('close-popovers');
       $rootScope.$broadcast('show-aha-sidebar');

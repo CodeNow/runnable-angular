@@ -81,7 +81,7 @@
   ) We‘re building! Build time varies depending on your template.
   p.p(
     ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
-    ng-if = "$root.featureFlags.aha && AGC.isInGuide() && !AGC.showError && AGC.subStep === 'exitedEarly'"
+    ng-if = "$root.featureFlags.aha && AGC.isInGuide() && AGC.subStep === 'exitedEarly'"
   ) Your template isn‘t running yet! Check the logs to debug any issues. If you‘re stumped,&#32;
       a.link(
         ng-click = "askEngineers()"
@@ -100,9 +100,6 @@
   ng-if = "$root.featureFlags.aha && AGC.isInGuide() && AGC.showError && AGC.subStepIndex > 6"
 )
   p.p.small.text-gray-light {{ AGC.title }}
-  p.p(
-    ng-if = "$root.featureFlags.aha && AGC.isInGuide() && !AGC.showError"
-  ) {{ AGC.caption }}
   p.p(
     ng-if = "$root.featureFlags.aha && AGC.isInGuide() && AGC.showError"
   ) Uh oh, there was a build error! Inspect your logs for debug info.

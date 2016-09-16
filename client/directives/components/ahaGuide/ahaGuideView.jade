@@ -4,6 +4,11 @@
 )
 
 .grid-block.align-center(
+  ng-if = "staticAddRepo || showAhaNavPopover"
+  ng-include = "'staticAhaGuideTemplates'"
+)
+
+.grid-block.align-center(
   ng-if = "AGC.ahaGuide.isAddingFirstRepo()"
   ng-include = "'setUpRepositoryGuideView'"
 )
@@ -25,7 +30,7 @@ button.btn.btn-xs.white.btn-menu(
   pop-over-active = "ahaMenuGuidePopover.data.show"
   pop-over-options = "{\"centered\":true,\"top\":36}"
   pop-over-template = "ahaGuideMenuPopoverView"
-  pop-over-actions = "AGC.popoverActions"
+  pop-over-actions = "AGC ? AGC.popoverActions : EC.popoverActions"
 )
   svg.iconnables
     use(

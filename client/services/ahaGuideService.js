@@ -15,7 +15,8 @@ function ahaGuide(
   $rootScope,
   currentOrg,
   fetchInstancesByPod,
-  keypather
+  keypather,
+  patchOrgMetadata
 ) {
   var instances = [];
   function refreshInstances() {
@@ -226,12 +227,25 @@ function ahaGuide(
     }
   }
 
+  function endGuide () {
+    $rootScope.$broadcast('close-popovers');
+    return patchOrgMetadata(currentOrg.poppa.id(), {
+      metadata: {
+        hasAha: false
+      }
+    })
+    .then(function(updatedOrg) {
+      updateCurrentOrg(updatedOrg);
+    });
+  }
+
   return {
-    stepList: stepList,
+    endGuide: endGuide,
     getCurrentStep: getCurrentStep,
-    steps: STEPS,
-    isInGuide: isInGuide,
     hasConfirmedSetup: hasConfirmedSetup,
+    isInGuide: isInGuide,
+    stepList: stepList,
+    steps: STEPS,
     updateCurrentOrg: updateCurrentOrg,
     isChoosingOrg: function() {
       return getCurrentStep() === STEPS.CHOOSE_ORGANIZATION;

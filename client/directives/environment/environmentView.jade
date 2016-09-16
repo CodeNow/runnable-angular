@@ -51,9 +51,9 @@
   )
 
   .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
-    ng-if = "$root.featureFlags.aha && EC.showExitedEarly && data.instances.models.length"
+    ng-if = "$root.featureFlags.aha && EC.isInGuide() && EC.showExitedEarly && data.instances.models.length"
     aha-guide
-    error-state = "true"
+    error-state = "EC.showExitedEarly"
     sub-step = 'exitedEarly'
     sub-step-index = 7
   )
@@ -72,9 +72,8 @@
       ng-if = "$root.featureFlags.aha && EC.isInGuide() && EC.isAddingFirstRepo() && EC.showCreateTemplate && !data.instances.models.length"
     )
       .grid-block.align-center.aha-guide.padding-md(
-        aha-guide
-        sub-step = "addRepository"
-        sub-step-index = 0
+        ng-include = "'ahaGuideView'"
+        ng-init = "staticAddRepo = true"
       )
 
     .grid-block.card-grid.clearfix(
