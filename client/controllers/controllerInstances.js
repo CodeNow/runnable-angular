@@ -38,7 +38,7 @@ function ControllerInstances(
 
   var shouldShowPopover = true;
   CIS.isPopoverOpen = function () {
-    return shouldShowPopover && ahaGuide.isInGuide() && !CIS.$storage.instanceListIsClosed;
+    return shouldShowPopover && ahaGuide.isAddingFirstBranch() && !CIS.$storage.instanceListIsClosed;
   };
 
   $scope.$on('popover-closed', function(event, pop) {
