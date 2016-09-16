@@ -9,6 +9,7 @@ function featureFlags(
   var defaultFeatureFlags = {
     addBranches: true,
     aha: false,
+    ahaUrlPopover: false,
     allowIsolatedUpdate: false,
     autoIsolation: false,
     autoIsolationSetup: false,
