@@ -58,8 +58,6 @@ function PopOverController(
       $scope.popoverOptions.left = 0;
     }
 
-    $rootScope.$broadcast('close-popovers');
-
     $timeout(function () {
       // If the click has no target we should close the popover.
       // If the click has a target and that target is on the page but not on our popover we should close the popover.
