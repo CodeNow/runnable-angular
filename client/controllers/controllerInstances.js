@@ -30,22 +30,26 @@ function ControllerInstances(
   CIS.currentOrg = currentOrg;
   CIS.searchBranches = null;
   CIS.instanceBranches = null;
-  CIS.isPopoverOpen = true;
   CIS.unbuiltBranches = null;
   CIS.branchQuery = null;
   CIS.$storage = $localStorage.$default({
     instanceListIsClosed: false
   });
 
+  var shouldShowPopover = true;
+  CIS.isPopoverOpen = function () {
+    return shouldShowPopover && ahaGuide.isInGuide() && !CIS.$storage.instanceListIsClosed;
+  };
+
   $scope.$on('popover-closed', function(event, pop) {
     if (keypather.get(pop, 'data') !== 'ahaTemplate' && CIS.isAddingFirstBranch()) {
-      CIS.isPopoverOpen = true;
+      shouldShowPopover = true;
     }
   });
 
   $scope.$on('popover-opened', function(event, pop) {
     if (keypather.get(pop, 'data') !== 'ahaTemplate') {
-      CIS.isPopoverOpen = false;
+      shouldShowPopover = false;
     }
   });
 
