@@ -32,11 +32,6 @@ function EnvironmentController(
   EC.isInGuide = ahaGuide.isInGuide;
   EC.showCreateTemplate = true;
   EC.showOverview = true;
-  EC.toggleSidebar = function () {
-    EC.showSidebar = !EC.showSidebar;
-    EC.showCreateTemplate = true;
-  };
-  $scope.$on('show-aha-sidebar', EC.toggleSidebar);
 
   $scope.$on('exitedEarly', function (event, didExitEarly) {
     EC.showExitedEarly = didExitEarly;
@@ -111,7 +106,7 @@ function EnvironmentController(
   // Asynchronously fetch the Dockerfile and check for working instances
   instancesByPod.forEach(function (instance) {
     if (instance.attrs.build.successful && instance.getRepoName() && isAddFirstRepo) {
-      $rootScope.$broadcast('launchAhaNavPopover');
+      EC.showAddServicePopover = true;
     }
     if (instance.hasDockerfileMirroring()) {
       return fetchDockerfileForContextVersion(instance.contextVersion)
@@ -158,7 +153,18 @@ function EnvironmentController(
           subTab: 'billingForm'
         }
       });
+    },
+    toggleSidebar: function () {
+      EC.showSidebar = !EC.showSidebar;
+      EC.showCreateTemplate = true;
+    },
+    createTemplate: function() {
+      EC.showAddServicePopover = false;
+      EC.triggerModal.newContainer();
     }
   };
+
+
+  $scope.$on('show-aha-sidebar', EC.actions.toggleSidebar);
 
 }
