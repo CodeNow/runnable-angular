@@ -11,6 +11,7 @@ button.grid-block.shrink.btn.btn-md.green(
 
 //- This is the same markup as the aha guide popover. Just stubbing out a new one here.
 .popover.bottom.in.popover-aha(
+  ng-if = "$root.featureFlags.newMilestone2Step"
   style = "left: 0; margin: 0 auto; right: 0; top: 54px;"
 )
   .arrow.white
