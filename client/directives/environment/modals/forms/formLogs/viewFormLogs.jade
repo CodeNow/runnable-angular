@@ -45,18 +45,14 @@ pre.pre.log-wrapper(
     ng-if = "SMC.page === 'run' && !SMC.showDebugCmd && $root.featureFlags.webToolbar"
   )
 
-  .popover.bottom.padding-sm.popover-aha.popover-sm(
-    ng-class = "{\
-      'in': $root.featureFlags.ahaUrlPopover,\
-      'sans-serif': $root.featureFlags.ahaUrlPopover\
-    }"
-    ng-if = "$root.featureFlags.ahaUrlPopover && SMC.page === 'run' && !SMC.showDebugCmd && $root.featureFlags.webToolbar"
+  .popover.bottom.padding-sm.popover-aha.popover-sm.in.sans-serif(
+    ng-if = "SMC.showUrlToolbar && SMC.page === 'run' && !SMC.showDebugCmd && $root.featureFlags.webToolbar"
     style = "left: 12px; top: 60px;"
   )
     .arrow.white
     small.small.text-gray.float-left Use this URL to check out your application.
     button.btn.btn-xs.gray.float-right(
-      ng-click = "$root.featureFlags.ahaUrlPopover = false"
+      ng-click = "SMC.showUrlToolbar = false"
     ) Dismiss
 
   //- build logs page
