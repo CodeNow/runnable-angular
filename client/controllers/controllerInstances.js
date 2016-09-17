@@ -42,13 +42,13 @@ function ControllerInstances(
   };
 
   $scope.$on('popover-closed', function(event, pop) {
-    if (keypather.get(pop, 'data') !== 'ahaTemplate' && CIS.isAddingFirstBranch()) {
+    if (keypather.get(pop, 'data') === 'branchSelect') {
       shouldShowPopover = true;
     }
   });
 
   $scope.$on('popover-opened', function(event, pop) {
-    if (keypather.get(pop, 'data') !== 'ahaTemplate') {
+    if (keypather.get(pop, 'data') === 'branchSelect') {
       shouldShowPopover = false;
     }
   });
