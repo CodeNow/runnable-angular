@@ -28,7 +28,7 @@ function ahaGuide(
 
   var stepList = {};
   stepList[STEPS.CHOOSE_ORGANIZATION] = {
-    title: 'Create your Environment',
+    title: 'Step 1: Choose your Organization',
     subSteps: {
       orgSelection: {
         caption: 'Choose an organization to create your sandbox for.',
@@ -50,7 +50,7 @@ function ahaGuide(
     }
   };
   stepList[STEPS.ADD_FIRST_REPO] = {
-    title: 'Add your First Repository',
+    title: 'Step 2: Add a Repository',
     subSteps: {
       addRepository: {
         caption: 'Add a repository by clicking ‘Create Template’.',
@@ -151,7 +151,7 @@ function ahaGuide(
   };
 
   stepList[STEPS.ADD_FIRST_BRANCH] = {
-    title: 'Add your First Branch',
+    title: 'Step 3: Add a Branch',
     subSteps: {
       addBranch: {
         caption: 'Almost done! Click the + button next to a repo name to add a branch.',
