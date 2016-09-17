@@ -9,14 +9,14 @@ require('app')
 
 
 var scopeVars = {
-  data: '=? popOverData',
-  popoverOptions: '=? popOverOptions',
-  noBroadcast: '=? popOverNoBroadcast',
   actions: '=? popOverActions',
   active: '=? popOverActive',
-  template: '= popOverTemplate',
   controller: '=? popOverController',
   controllerAs: '@? popOverControllerAs',
+  data: '=? popOverData',
+  noBroadcast: '=? popOverNoBroadcast',
+  popoverOptions: '=? popOverOptions',
+  template: '= popOverTemplate',
   userCannotClose: '=? popOverUncloseable'
 };
 
@@ -25,8 +25,7 @@ function popOver(
   $document,
   keypather,
   $log,
-  exists,
-  $timeout
+  exists
 ) {
   return {
     restrict: 'A',

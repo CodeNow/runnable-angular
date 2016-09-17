@@ -32,10 +32,11 @@ button.btn.btn-xs.white.btn-menu(
   ng-class = "{'active': ahaMenuGuidePopover.data.show}"
   ng-if = "!AGC.ahaGuide.isChoosingOrg() && !AGC.ahaGuide.isSettingUpRunnabot()"
   pop-over
+  pop-over-actions = "AGC ? AGC.popoverActions : EC.popoverActions"
   pop-over-active = "ahaMenuGuidePopover.data.show"
+  pop-over-no-broadcast = "true"
   pop-over-options = "{\"centered\":true,\"top\":36}"
   pop-over-template = "ahaGuideMenuPopoverView"
-  pop-over-actions = "AGC ? AGC.popoverActions : EC.popoverActions"
 )
   svg.iconnables
     use(

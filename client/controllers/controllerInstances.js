@@ -37,14 +37,14 @@ function ControllerInstances(
     instanceListIsClosed: false
   });
 
-  $scope.$on('popover-closed', function(event, pop) {
-    if (keypather.get(pop, 'data') !== 'ahaTemplate' && CIS.isAddingFirstBranch()) {
+  $scope.$on('popover-closed', function (event, pop) {
+    if (keypather.get(pop, 'data') === 'branchSelect') {
       CIS.isPopoverOpen = true;
     }
   });
 
-  $scope.$on('popover-opened', function(event, pop) {
-    if (keypather.get(pop, 'data') !== 'ahaTemplate') {
+  $scope.$on('popover-opened', function (event, pop) {
+    if (keypather.get(pop, 'data') === 'branchSelect') {
       CIS.isPopoverOpen = false;
     }
   });
