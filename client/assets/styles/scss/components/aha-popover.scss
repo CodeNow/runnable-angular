@@ -15,6 +15,17 @@
     }
   }
 
+  &.popover-sm {
+    color: $gray;
+    line-height: $input-xs;
+    max-width: none;
+    width: auto;
+
+    .float-left + .float-right {
+      margin-left: 15px;
+    }
+  }
+
   .arrow {
     @include media(xxs) {
       display: none;
