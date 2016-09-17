@@ -23,7 +23,6 @@ function EnvironmentController(
   keypather,
   ModalService,
   pageName,
-  patchOrgMetadata,
   instancesByPod
 ) {
   var EC = this;
@@ -37,15 +36,6 @@ function EnvironmentController(
   EC.toggleSidebar = function () {
     EC.showSidebar = !EC.showSidebar;
     EC.showCreateTemplate = true;
-    patchOrgMetadata(currentOrg.poppa.id(), {
-      metadata: {
-        hasAha: true,
-        hasConfirmedSetup: false
-      }
-    })
-      .then(function(updatedOrg) {
-        ahaGuide.updateCurrentOrg(updatedOrg);
-      });
   };
   EC.popoverActions = {
     showSidebar: EC.toggleSidebar,
@@ -55,7 +45,7 @@ function EnvironmentController(
   $scope.$on('show-aha-sidebar', EC.toggleSidebar);
 
   $scope.$on('exitedEarly', function (event, didExitEarly) {
-    EC.showExitedEarly = didExitEarly;
+    EC.showErrorState = didExitEarly;
     if (!didExitEarly) {
       $rootScope.$broadcast('launchAhaNavPopover');
     }
@@ -126,11 +116,12 @@ function EnvironmentController(
 
   // Asynchronously fetch the Dockerfile and check for working instances
   instancesByPod.forEach(function (instance) {
-    if (instance.attrs.build.successful && instance.getRepoName() && isAddFirstRepo) {
+    if (instance.status() === 'running' && instance.getRepoName() && isAddFirstRepo) {
       $rootScope.$broadcast('launchAhaNavPopover');
-    } else if (isAddFirstRepo) {
-      EC.showExitedEarly = true;
+    } else {
+      EC.showErrorState = true;
     }
+
     if (instance.hasDockerfileMirroring()) {
       return fetchDockerfileForContextVersion(instance.contextVersion)
         .then(function (dockerfile) {

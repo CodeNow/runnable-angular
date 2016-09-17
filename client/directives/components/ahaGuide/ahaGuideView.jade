@@ -9,6 +9,11 @@
 )
 
 .grid-block.align-center(
+  ng-if = "exitedEarly"
+  ng-include = "'staticAhaGuideTemplates'"
+)
+
+.grid-block.align-center(
   ng-if = "AGC.ahaGuide.isAddingFirstRepo()"
   ng-include = "'setUpRepositoryGuideView'"
 )

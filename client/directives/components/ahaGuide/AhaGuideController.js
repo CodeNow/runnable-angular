@@ -35,7 +35,6 @@ function AhaGuideController(
 
   $scope.$on('exitedEarly', function(event, didExitEarly) {
     if (didExitEarly) {
-      AGC.errorState = true;
       buildLogListener();
       updateCaption('exitedEarly');
     }

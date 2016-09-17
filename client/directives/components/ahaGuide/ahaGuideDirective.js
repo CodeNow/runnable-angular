@@ -18,7 +18,7 @@ function ahaGuide(
     scope: {
       subStep: '@',
       subStepIndex: '=?',
-      errorState: '=?'
+      errorState: '@?'
     }
   };
 }

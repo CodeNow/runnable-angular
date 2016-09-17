@@ -126,8 +126,7 @@ function ahaGuide(
       exitedEarly: {
         caption: 'Your template isn‘t running yet! Check the logs to debug any issues. If you‘re stumped, ask our engineers!',
         className: 'aha-meter-80',
-        step: 7,
-        errorState: true
+        step: 7
       },
       success: {
         caption: 'Looking good! Check out your URL, and click ‘Done’ if it looks good to you too.',

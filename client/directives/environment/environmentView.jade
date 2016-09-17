@@ -51,9 +51,9 @@
   )
 
   .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
-    ng-if = "$root.featureFlags.aha && EC.isInGuide() && EC.showExitedEarly && data.instances.models.length"
+    ng-if = "$root.featureFlags.aha && EC.isInGuide() && EC.isAddingFirstRepo() && EC.showErrorState && data.instances.models.length"
     aha-guide
-    error-state = "EC.showExitedEarly"
+    error-state = "true"
     sub-step = 'exitedEarly'
     sub-step-index = 7
   )
