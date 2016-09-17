@@ -43,13 +43,14 @@ function EnvironmentController(
   };
 
   $scope.$on('show-aha-sidebar', EC.toggleSidebar);
-
-  $scope.$on('exitedEarly', function (event, didExitEarly) {
-    EC.showErrorState = didExitEarly;
-    if (!didExitEarly) {
+  $scope.$on('ahaGuideError', function(event, info) {
+    if (info.isClear) {
+      EC.errorState = null;
       $rootScope.$broadcast('launchAhaNavPopover');
+    } else {
+      EC.errorState = info.cause;
     }
-  });
+  })
 
   var unbindUpdateTeammateInvitation = $rootScope.$on('updateTeammateInvitations', function (event, invitesCreated) {
     if (invitesCreated) {
@@ -116,12 +117,6 @@ function EnvironmentController(
 
   // Asynchronously fetch the Dockerfile and check for working instances
   instancesByPod.forEach(function (instance) {
-    if (instance.status() === 'running' && instance.getRepoName() && isAddFirstRepo) {
-      $rootScope.$broadcast('launchAhaNavPopover');
-    } else {
-      EC.showErrorState = true;
-    }
-
     if (instance.hasDockerfileMirroring()) {
       return fetchDockerfileForContextVersion(instance.contextVersion)
         .then(function (dockerfile) {

@@ -16,8 +16,24 @@ function AhaGuideController(
 ) {
   var AGC = this;
   var animatedPanelListener = angular.noop;
-
-  AGC.instances = null;
+  if (keypather.has(currentOrg, 'poppa.attrs.id')) {
+    fetchInstancesByPod()
+      .then(function (instances) {
+        instances.forEach(function (instance) {
+          var repoName = instance.getRepoName();
+          if (instance.status() === 'running' && repoName) {
+            $rootScope.$broadcast('launchAhaNavPopover');
+          } else if (repoName){
+            AGC.showError = true;
+            AGC.errorState = 'nonRunningContainer';
+            $rootScope.$broadcast('ahaGuideError', {
+              cause: AGC.errorState
+            });
+          }
+        })
+      })
+      .catch(errs.handler);
+  }
 
   var alertListener = $scope.$on('alert', function (event, alert) {
     // alerts on container creation success
@@ -33,10 +49,20 @@ function AhaGuideController(
     }
   });
 
-  $scope.$on('exitedEarly', function(event, didExitEarly) {
-    if (didExitEarly) {
-      buildLogListener();
+  $scope.$on('ahaGuideError', function(event, info) {
+    if (info.cause === 'exitedEarly') {
+      AGC.showError = true;
+      AGC.errorState = info.cause;
       updateCaption('exitedEarly');
+    } else if (info.cause === 'nonRunningContainer') {
+      AGC.showError = true;
+      AGC.errorState = info.cause;
+    } else if (info.cause === 'buildFailed') {
+      AGC.showError = true;
+      AGC.errorState = info.cause;
+    } else if (info.isClear) {
+      AGC.showError = false;
+      AGC.errorState = null;
     }
   });
 
@@ -69,21 +95,25 @@ function AhaGuideController(
       animatedPanelListener();
     }
     AGC.subStep = status;
-    AGC.subStepIndex = currentMilestone.subSteps[status].step;
-    AGC.caption = currentMilestone.subSteps[status].caption;
     AGC.className = currentMilestone.subSteps[status].className;
+    AGC.subStepIndex = currentMilestone.subSteps[status].step;
   }
 
   function handleBuildUpdate(update) {
     var buildStatus = update.status;
     if (buildStatus === 'buildFailed' || buildStatus === 'stopped' || buildStatus === 'crashed') {
       AGC.showError = true;
+      $rootScope.$broadcast('ahaGuideError', {
+        cause: 'buildFailed'
+      });
     } else if (buildStatus === 'starting') {
       AGC.showError = false;
     } else if (buildStatus === 'running') {
       AGC.isBuildSuccessful = true;
       updateCaption('success');
-      $rootScope.$broadcast('exitedEarly', false);
+      $rootScope.$broadcast('ahaGuideError', {
+        isClear: true
+      });
     }
     AGC.buildStatus = buildStatus;
     AGC.caption = currentMilestone.buildStatus[buildStatus] || AGC.caption;
@@ -92,7 +122,9 @@ function AhaGuideController(
   $scope.$on('$destroy', function () {
     animatedPanelListener();
     if (AGC.subStepIndex === 7 && !AGC.isBuildSuccessful) {
-      $rootScope.$broadcast('exitedEarly', true);
+      $rootScope.$broadcast('ahaGuideError', {
+        cause: 'exitedEarly'
+      });
     }
   });
 

@@ -54,8 +54,6 @@
   )
     .grid-block.shrink.aha-meter(
       ng-class = "{\
-          'aha-error': $root.ahaGuide.ahaGuideToggles.showError,\
-          'aha-meter-70': $root.ahaGuide.ahaGuideToggles.exitedEarly,\
           'aha-meter-100': getCurrentStep() > steps.ADD_FIRST_REPO\
         }"
     )
