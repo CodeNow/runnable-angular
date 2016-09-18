@@ -16,30 +16,40 @@ function AhaGuideController(
 ) {
   var AGC = this;
   var animatedPanelListener = angular.noop;
+
   if (keypather.has(currentOrg, 'poppa.attrs.id')) {
     fetchInstancesByPod()
       .then(function (instances) {
-        instances.forEach(function (instance) {
-          var repoName = instance.getRepoName();
-          if (instance.status() === 'running' && repoName) {
-            $rootScope.$broadcast('launchAhaNavPopover');
-          } else if (repoName){
+        if (instances.models.length) {
+          var config = checkContainerInstances(instances);
+          if (!config.workingRepoInstance) {
             AGC.showError = true;
             AGC.errorState = 'nonRunningContainer';
             $rootScope.$broadcast('ahaGuideError', {
               cause: AGC.errorState
             });
+          } else if (ahaGuide.isAddingFirstRepo() && AGC.subStepIndex === 7) {
+            callPopover(config);
           }
-        })
+        } else if (ahaGuide.isAddingFirstBranch()) {
+          AGC.showError = true;
+        }
       })
       .catch(errs.handler);
   }
 
-  var alertListener = $scope.$on('alert', function (event, alert) {
+  $scope.$on('alert', function (event, alert) {
     // alerts on container creation success
-    if (alert.type === 'success') {
+    if (alert.text === 'Container Created' && alert.type === 'success') {
       updateCaption('logs');
-      alertListener();
+      fetchInstancesByPod()
+        .then(function (instances) {
+          var config = checkContainerInstances(instances);
+          if (config) {
+            callPopover(config);
+          }
+        })
+        .catch(errs.handler);
     }
   });
 
@@ -114,9 +124,33 @@ function AhaGuideController(
       $rootScope.$broadcast('ahaGuideError', {
         isClear: true
       });
+      currentMilestone.isBuildSuccessful = true;
     }
     AGC.buildStatus = buildStatus;
     AGC.caption = currentMilestone.buildStatus[buildStatus] || AGC.caption;
+  }
+
+  function checkContainerInstances (instances) {
+    if (!instances) {
+      return null;
+    }
+    var config = {};
+    instances.forEach(function(instance) {
+      if (instance.getRepoName() && instance.status() === 'running') {
+        config.workingRepoInstance = true;
+      } else if (!instance.getRepoName()) {
+        config.nonRepoInstance = true;
+      }
+    });
+    return config;
+  }
+
+  function callPopover(config) {
+    if (config.workingRepoInstance && config.nonRepoInstance) {
+      $rootScope.$broadcast('launchAhaNavPopover');
+    } else if (config.workingRepoInstance) {
+      $rootScope.$broadcast('show-add-services-popover');
+    }
   }
 
   $scope.$on('$destroy', function () {
@@ -125,6 +159,8 @@ function AhaGuideController(
       $rootScope.$broadcast('ahaGuideError', {
         cause: 'exitedEarly'
       });
+    } else if (ahaGuide.isAddingFirstRepo() && AGC.subStep === 'success') {
+      $rootScope.$broadcast('show-add-services-popover');
     }
   });
 

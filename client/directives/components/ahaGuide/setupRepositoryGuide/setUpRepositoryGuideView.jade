@@ -19,7 +19,7 @@
     use(
       xlink:href = "#icons-alert-alt"
     )
-    
+
 .grid-block.shrink.aha-meter.js-animate(
   class = "aha-meter-100"
   ng-class = "{'aha-error': AGC.showError || AGC.errorState}"
@@ -82,7 +82,7 @@
   p.p(
     ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
     ng-if = "$root.featureFlags.aha && AGC.isInGuide() && !AGC.showError && AGC.subStep === 'success'"
-  ) Looking good! Check out your URL, and click ‘Done’ if it looks good to you too.
+  ) Your build finished! Check that it looks good, then click ‘Done’.
   p.p(
     ng-if = "$root.featureFlags.aha && AGC.isInGuide() && !AGC.showError && AGC.subStep === 'complete'"
   ) Add more templates if your project requires it. Once you’re done, head to your containers to start adding branches.
@@ -115,8 +115,3 @@
     ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
     ng-if = "$root.featureFlags.aha && AGC.isInGuide() && !AGC.showError"
   ) Choose a template to configure.
-
-  //- Step 9:
-  p.p(
-    ng-if = "AGC.subStep === 8 && !AGC.showError"
-  ) Looking good! Check out your URL, and click ‘Done’ if it looks good to you too.

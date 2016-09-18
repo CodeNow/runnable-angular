@@ -33,20 +33,10 @@ function EnvironmentController(
   EC.isInGuide = ahaGuide.isInGuide;
   EC.showCreateTemplate = true;
   EC.showOverview = true;
-  EC.toggleSidebar = function () {
-    EC.showSidebar = !EC.showSidebar;
-    EC.showCreateTemplate = true;
-  };
-  EC.popoverActions = {
-    showSidebar: EC.toggleSidebar,
-    endGuide: EC.endGuide
-  };
 
-  $scope.$on('show-aha-sidebar', EC.toggleSidebar);
   $scope.$on('ahaGuideError', function(event, info) {
     if (info.isClear) {
       EC.errorState = null;
-      $rootScope.$broadcast('launchAhaNavPopover');
     } else {
       EC.errorState = info.cause;
     }
@@ -162,7 +152,20 @@ function EnvironmentController(
           subTab: 'billingForm'
         }
       });
+    },
+    toggleSidebar: function () {
+      EC.showSidebar = !EC.showSidebar;
+      EC.showCreateTemplate = true;
+    },
+    createTemplate: function() {
+      EC.showAddServicePopover = false;
+      EC.triggerModal.newContainer();
     }
   };
+
+  $scope.$on('show-aha-sidebar', EC.actions.toggleSidebar);
+  $scope.$on('show-add-services-popover', function() {
+    EC.showAddServicePopover = true;
+  });
 
 }
