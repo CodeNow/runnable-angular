@@ -216,6 +216,10 @@ function ahaGuide(
     return keypather.get(currentOrg, 'poppa.attrs.metadata.hasAha');
   }
 
+  function hasntFinishedAha() {
+    return keypather.get(currentOrg, 'poppa.attrs.metadata.hasAha') && !keypather.get(currentOrg, 'poppa.attrs.metadata.hasConfirmedSetup');
+  }
+
   function hasConfirmedSetup () {
     return keypather.get(currentOrg, 'poppa.attrs.metadata.hasConfirmedSetup');
   }
@@ -233,6 +237,7 @@ function ahaGuide(
     isInGuide: isInGuide,
     hasConfirmedSetup: hasConfirmedSetup,
     updateCurrentOrg: updateCurrentOrg,
+    hasntFinishedAha: hasntFinishedAha,
     isChoosingOrg: function() {
       return getCurrentStep() === STEPS.CHOOSE_ORGANIZATION;
     },
