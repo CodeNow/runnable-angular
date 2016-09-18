@@ -20,10 +20,11 @@ function EnvironmentController(
   fetchDockerfileForContextVersion,
   fetchOrgMembers,
   fetchUser,
+  instancesByPod,
   keypather,
   ModalService,
   pageName,
-  instancesByPod
+  patchOrgMetadata
 ) {
   var EC = this;
 
@@ -156,6 +157,15 @@ function EnvironmentController(
     toggleSidebar: function () {
       EC.showSidebar = !EC.showSidebar;
       EC.showCreateTemplate = true;
+      patchOrgMetadata(currentOrg.poppa.id(), {
+        metadata: {
+          hasAha: true,
+          hasConfirmedSetup: false
+        }
+      })
+      .then(function(updatedOrg) {
+        ahaGuide.updateCurrentOrg(updatedOrg);
+      });
     },
     createTemplate: function() {
       EC.showAddServicePopover = false;
