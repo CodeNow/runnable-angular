@@ -30,7 +30,7 @@ function AhaGuideController(
               cause: AGC.errorState
             });
           }
-        })
+        });
       })
       .catch(errs.handler);
   }

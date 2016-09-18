@@ -50,7 +50,7 @@ function EnvironmentController(
     } else {
       EC.errorState = info.cause;
     }
-  })
+  });
 
   var unbindUpdateTeammateInvitation = $rootScope.$on('updateTeammateInvitations', function (event, invitesCreated) {
     if (invitesCreated) {
