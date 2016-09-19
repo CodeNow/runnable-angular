@@ -50,20 +50,22 @@
     ng-if = "!EC.isInGuide() || EC.showCreateTemplate"
   )
 
-  .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
-    ng-if = "$root.featureFlags.aha && EC.showExitedEarly && data.instances.models.length"
-    aha-guide
-    error-state = "true"
-    sub-step = 'exitedEarly'
-    sub-step-index = 7
+  .environment-view-aha-guide(
+    ng-if = "$root.featureFlags.aha && EC.isInGuide()"
   )
+    .grid-block.align-center.justify-center.padding-sm.aha-guide(
+      ng-show = "EC.isAddingFirstRepo() && EC.errorState && data.instances.models.length"
+      aha-guide
+      error-state = "EC.errorState"
+      sub-step-index = 7
+    )
 
-  .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
-    ng-if = "$root.featureFlags.aha && EC.isInGuide() && !EC.isAddingFirstRepo() && !data.instances.models.length"
-    aha-guide
-    error-state = "true"
-    sub-step = "deletedTemplate"
-  )
+    .grid-block.align-center.justify-center.padding-sm.aha-guide(
+      ng-if = "EC.isInGuide() && !EC.isAddingFirstRepo() && !data.instances.models.length"
+      aha-guide
+      error-state = "EC.errorState"
+      sub-step = "deletedTemplate"
+    )
 
   .grid-block.environment-body.justify-center.clearfix(
     ng-class = "{'align-center justify-center': EC.showCreateTemplate && !data.instances.models.length}"
@@ -72,9 +74,8 @@
       ng-if = "$root.featureFlags.aha && EC.isInGuide() && EC.isAddingFirstRepo() && EC.showCreateTemplate && !data.instances.models.length"
     )
       .grid-block.align-center.aha-guide.padding-md(
-        aha-guide
-        sub-step = "addRepository"
-        sub-step-index = 0
+        ng-include = "'ahaGuideView'"
+        ng-init = "staticAddRepo = true"
       )
 
     .grid-block.card-grid.clearfix(

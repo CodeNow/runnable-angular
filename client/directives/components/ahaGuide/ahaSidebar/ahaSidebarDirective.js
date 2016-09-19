@@ -18,6 +18,8 @@ function ahaSidebar(
       $scope.getCurrentStep = ahaGuide.getCurrentStep;
       $scope.isSettingUpRunnabot = ahaGuide.isSettingUpRunnabot;
       $scope.isAddingFirstRepo = ahaGuide.isAddingFirstRepo;
+      $scope.isAddingFirstBranch = ahaGuide.isAddingFirstBranch;
+      $scope.getFurthestSubstep = ahaGuide.furthestSubstep;
     }
   };
 }

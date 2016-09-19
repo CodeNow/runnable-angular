@@ -28,15 +28,27 @@ function EnvironmentController(
   var EC = this;
 
   EC.showInviteButton = false;
+  EC.endGuide = ahaGuide.endGuide;
   EC.isAddingFirstRepo = ahaGuide.isAddingFirstRepo;
   EC.isInGuide = ahaGuide.isInGuide;
   EC.showCreateTemplate = true;
   EC.showOverview = true;
+  EC.toggleSidebar = function () {
+    EC.showSidebar = !EC.showSidebar;
+    EC.showCreateTemplate = true;
+  };
+  EC.popoverActions = {
+    showSidebar: EC.toggleSidebar,
+    endGuide: EC.endGuide
+  };
 
-  $scope.$on('exitedEarly', function (event, didExitEarly) {
-    EC.showExitedEarly = didExitEarly;
-    if (!didExitEarly) {
+  $scope.$on('show-aha-sidebar', EC.toggleSidebar);
+  $scope.$on('ahaGuideError', function(event, info) {
+    if (info.isClear) {
+      EC.errorState = null;
       $rootScope.$broadcast('launchAhaNavPopover');
+    } else {
+      EC.errorState = info.cause;
     }
   });
 

@@ -54,8 +54,6 @@
   )
     .grid-block.shrink.aha-meter(
       ng-class = "{\
-          'aha-error': $root.ahaGuide.ahaGuideToggles.showError,\
-          'aha-meter-70': $root.ahaGuide.ahaGuideToggles.exitedEarly,\
           'aha-meter-100': getCurrentStep() > steps.ADD_FIRST_REPO\
         }"
     )
@@ -77,8 +75,9 @@
   )
     .grid-block.shrink.aha-meter(
       ng-class = "{\
-        'aha-meter-0': getCurrentStep() <= steps.ADD_FIRST_BRANCH,\
-        'aha-meter-100': getCurrentStep() > steps.ADD_FIRST_BRANCH\
+      'aha-meter-33': isAddingFirstBranch() && getFurthestSubstep(steps.ADD_FIRST_BRANCH) === 'addBranch',\
+      'aha-meter-66': isAddingFirstBranch() && getFurthestSubstep(steps.ADD_FIRST_BRANCH) === 'dockLoading',\
+      'aha-meter-100': getCurrentStep() > steps.ADD_FIRST_BRANCH\
       }"
     )
       svg.iconnables
