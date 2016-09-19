@@ -36,7 +36,7 @@ function ControllerInstances(
     instanceListIsClosed: false
   });
 
-  CIS.shouldshowPopover = true;
+  CIS.shouldShowPopover = true;
   $scope.$on('popover-closed', function (event, pop) {
     if (keypather.get(pop, 'data') === 'branchSelect') {
       CIS.shouldShowPopover = true;
