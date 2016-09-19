@@ -22,10 +22,6 @@
       display: flex; // overwrite default .btn
     }
 
-    &.main-btn {
-      min-height: 121px;
-    }
-
     &:hover .row-commit::after,
     &:active .row-commit::after {
       background: linear-gradient(to right, rgba($white,0), $white);

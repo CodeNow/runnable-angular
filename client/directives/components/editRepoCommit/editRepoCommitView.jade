@@ -2,8 +2,7 @@
 .btn.gray.btn-repository.clearfix(
   ng-class = "{\
     'error': $root.featureFlags.autoDeployError,\
-    'grid-block align-center justify-center': !activeCommit.attrs.commit.message,\
-    'main-btn': !acv.attrs.additionalRepo\
+    'grid-block align-center justify-center': !activeCommit.attrs.commit.message\
   }"
   ng-click = "actions.openRepoDetailsModal()"
 )
