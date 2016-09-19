@@ -44,6 +44,11 @@
       }
     }
 
+    &.error {
+      border-bottom: 0;
+      border-radius: $input-border-radius $input-border-radius 0 0;
+    }
+
     // icon for commmit/branch
     .row {
       min-height: 24px;
@@ -106,6 +111,25 @@
 
   + .sidebar-section-item {
     margin-top: 12px;
+  }
+
+  > .orange {
+    border: $input-border solid $orange;
+    border-radius: 0 0 $input-border-radius $input-border-radius;
+    color: $white;
+
+    .btn {
+      border: 1px solid $white;
+      margin: auto;
+
+      &:hover {
+        background: rgba($white,.15);
+      }
+
+      &:active {
+        background: rgba($white,.3);
+      }
+    }
   }
 }
 
