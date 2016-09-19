@@ -81,8 +81,8 @@
       | {{autoDeploy() ? 'Auto-Deploy Disabled' : 'Auto-Deploy Enabled'}}
 
 //- if behind and auto-deploy is on
-.grid-block.align-center.padding-xs.well.orange(
+.grid-block.align-center.padding-xs.well.well-popover.orange(
   ng-if = "$root.featureFlags.autoDeployError"
 )
   .small Error deploying to the latest commit.
-  button.grid-content.shrink.btn.btn-xs Deploy Now
+  button.grid-content.shrink.btn.btn-xs.orange Deploy Now

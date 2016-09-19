@@ -114,22 +114,8 @@
   }
 
   > .orange {
-    border: $input-border solid $orange;
     border-radius: 0 0 $input-border-radius $input-border-radius;
-    color: $white;
-
-    .btn {
-      border: 1px solid $white;
-      margin: auto;
-
-      &:hover {
-        background: rgba($white,.15);
-      }
-
-      &:active {
-        background: rgba($white,.3);
-      }
-    }
+    margin: 0;
   }
 }
 

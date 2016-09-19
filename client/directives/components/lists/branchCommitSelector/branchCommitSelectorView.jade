@@ -1,5 +1,5 @@
 //- if behind and auto-deploy is on
-.grid-block.shrink.align-center.padding-xs.well.orange(
+.grid-block.shrink.align-center.padding-xs.well.well-popover.orange(
   ng-if = "$root.featureFlags.autoDeployError"
 )
   svg.grid-content.shrink.iconnables
@@ -7,7 +7,7 @@
       xlink:href = "#icons-alert-alt"
     )
   .grid-content.small Error deploying to the latest commit.
-  button.grid-content.shrink.btn.btn-xs Deploy Now
+  button.grid-content.shrink.btn.btn-xs.orange Deploy Now
 
 //- show this element for…
   - additional repositories
