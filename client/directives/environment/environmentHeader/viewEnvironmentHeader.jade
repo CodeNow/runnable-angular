@@ -30,7 +30,7 @@ button.grid-block.shrink.btn.btn-md.green(
 
 button.grid-block.shrink.btn.btn-sm.gray.btn-aha(
   ng-click = "EC.toggleSidebar()"
-  ng-if = "$root.featureFlags.aha"
+  ng-if = "$root.featureFlags.aha && EC.isInGuide()"
   tooltip = "Setup Guide"
   tooltip-options = "{\"class\":\"left\",\"right\":42,\"top\":0}"
 )
