@@ -27,6 +27,7 @@ function ControllerInstances(
   CIS.isInGuide = ahaGuide.isInGuide;
   CIS.isAddingFirstBranch = ahaGuide.isAddingFirstBranch;
   CIS.isSettingUpRunnabot = ahaGuide.isSettingUpRunnabot;
+  CIS.isSettingUpAutoLaunch = ahaGuide.isSettingUpAutoLaunch;
   CIS.currentOrg = currentOrg;
   CIS.searchBranches = null;
   CIS.instanceBranches = null;

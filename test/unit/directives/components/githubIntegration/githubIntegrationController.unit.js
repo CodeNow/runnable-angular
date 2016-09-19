@@ -9,6 +9,7 @@ describe('Github Integration Controller'.bold.underline.blue, function() {
   var GIC;
   var isRunnabotPartOfOrgMock;
   var isRunnabotPartOfOrgResult;
+  var ahaGuideMock;
   var fetchGithubUserIsAdminOfOrgMock;
   var fetchGithubUserIsAdminOfOrgResult;
   var errsMock;
@@ -33,6 +34,9 @@ describe('Github Integration Controller'.bold.underline.blue, function() {
     errsMock = {
       handler: sinon.spy()
     };
+    ahaGuideMock = {
+      hasRunnabot: sinon.stub().returns()
+    };
     angular.mock.module('app');
     angular.mock.module(function ($provide) {
       $provide.value('currentOrg', mockCurrentOrg);
@@ -43,6 +47,9 @@ describe('Github Integration Controller'.bold.underline.blue, function() {
           clear: sinon.stub()
         };
         return isRunnabotPartOfOrgMock;
+      });
+      $provide.factory('ahaGuide', function () {
+        return ahaGuideMock;
       });
       $provide.factory('fetchGithubUserIsAdminOfOrg', function ($q) {
         fetchGithubUserIsAdminOfOrgMock = sinon.stub().returns($q.when(fetchGithubUserIsAdminOfOrgResult));
@@ -106,6 +113,13 @@ describe('Github Integration Controller'.bold.underline.blue, function() {
     $scope.$digest();
     sinon.assert.calledOnce($interval.cancel);
     sinon.assert.calledWith($interval.cancel, GIC.pollingInterval);
+  });
+
+  it('should update ahaGuide when hasRunnabot', function () {
+    isRunnabotPartOfOrgResult = true;
+    injectSetupCompile();
+    $scope.$digest();
+    sinon.assert.calledOnce(ahaGuideMock.hasRunnabot);
   });
 
   it('should stop interval when $destroyed', function () {

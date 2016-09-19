@@ -45,6 +45,7 @@ describe('setupMirrorServerModalController'.bold.underline.blue, function () {
   var populateDockerfileStub;
   var fetchDockerfileFromSourceStub;
   var fetchInstancesByPodStub;
+  var isRunnabotPartOfOrgStub;
   var closeSpy;
   var showModalStub;
   var closeModalStub;
@@ -92,6 +93,10 @@ describe('setupMirrorServerModalController'.bold.underline.blue, function () {
       $provide.factory('updateDockerfileFromState', function ($q) {
         updateDockerfileFromStateStub = sinon.stub().returns($q.when(dockerfile));
         return updateDockerfileFromStateStub;
+      });
+      $provide.factory('isRunnabotPartOfOrg', function ($q) {
+        isRunnabotPartOfOrgStub = sinon.stub().returns($q.when());
+        return isRunnabotPartOfOrgStub;
       });
       $provide.factory('createAndBuildNewContainer', createAndBuildNewContainerMock.fetch());
       $provide.factory('repositoryFormDirective', function () {
