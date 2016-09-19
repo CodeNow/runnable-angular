@@ -26,7 +26,7 @@ label.toggle-wrapper(
   .toggle-group.toggle-sm
 
 label.toggle-wrapper(
-  ng-if = "$root.featureFlags.testingFeature && BCSC.data.acv && !BCSC.data.acv.attrs.additionalRepo"
+  ng-if = "BCSC.data.acv && !BCSC.data.acv.attrs.additionalRepo"
 )
   .strong Auto-Deploy
   .small Rebuild when new commits are pushed to GitHub.

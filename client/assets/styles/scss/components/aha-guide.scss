@@ -1,3 +1,16 @@
+.environment-view-aha-guide {
+  > .aha-guide {
+  margin: 0 auto 15px;
+  max-width: 450px;
+
+    .p-slide {
+      font-size: 15px;
+      position: relative;
+      top: 0;
+    }
+  }
+}
+
 .aha-guide {
   color: $gray;
   overflow: hidden;

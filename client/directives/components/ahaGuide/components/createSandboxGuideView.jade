@@ -5,11 +5,11 @@
 )
   svg.iconnables
     use(
-      ng-if = "$root.featureFlags.aha && AGC.subStep !== 'dockLoaded'"
+      ng-if = "AGC.subStep !== 'dockLoaded'"
       xlink:href = "#icons-cog"
     )
     use(
-      ng-if = "$root.featureFlags.aha && AGC.subStep === 'dockLoaded'"
+      ng-if = "AGC.subStep === 'dockLoaded'"
       xlink:href = "#icons-check"
     )
 .grid-block.vertical.aha-text

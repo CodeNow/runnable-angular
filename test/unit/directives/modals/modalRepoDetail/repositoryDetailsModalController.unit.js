@@ -15,6 +15,7 @@ describe('RepositoryDetailsModalController'.bold.underline.blue, function () {
   var instance;
   var repo = 'helllo/World';
   var branch = 'superBranch';
+  var newCommit;
   var acv;
   var closeStub;
 
@@ -23,6 +24,7 @@ describe('RepositoryDetailsModalController'.bold.underline.blue, function () {
       attrs: {
         repo: repo,
         branch: branch,
+        commit: '1',
         useLatest: false
       }
     };
@@ -38,6 +40,7 @@ describe('RepositoryDetailsModalController'.bold.underline.blue, function () {
       },
       isolation: null
     };
+    newCommit = { attrs: { sha: 2 } };
     closeStub = sinon.stub();
   }
   function initState() {
@@ -46,7 +49,7 @@ describe('RepositoryDetailsModalController'.bold.underline.blue, function () {
       $provide.factory('fetchCommitData', function ($q) {
         fetchCommitDataStub = {
           activeBranch: sinon.stub().returns({}),
-          activeCommit: sinon.stub().returns($q.when(true))
+          activeCommit: sinon.stub().returns($q.when(newCommit))
         };
         return fetchCommitDataStub;
       });
@@ -137,7 +140,7 @@ describe('RepositoryDetailsModalController'.bold.underline.blue, function () {
             {
               contextVersion: {
                 getMainAppCodeVersion: sinon.stub().returns({
-                  attrs: { repo: repo, branch: branch }
+                  attrs: { repo: repo, branch: branch, commit: '1' }
                 })
               }
             }
@@ -151,7 +154,7 @@ describe('RepositoryDetailsModalController'.bold.underline.blue, function () {
     });
 
     describe('Confirmation', function () {
-      it('should update insance without confirmation if not in isolation', function () {
+      it('should update insance without confirmation if not in isolation and if there is a new commit', function () {
         sinon.stub(controller, 'confirmAutoDeploy').returns($q.when(true));
 
         controller.updateInstance();
@@ -164,6 +167,16 @@ describe('RepositoryDetailsModalController'.bold.underline.blue, function () {
           acv,
           controller.data
         );
+      });
+
+      it('should not update the insance if there is no new commit', function () {
+        newCommit.attrs.sha = '1';
+        sinon.stub(controller, 'confirmAutoDeploy').returns($q.when(true));
+
+        controller.updateInstance();
+        $scope.$digest();
+        sinon.assert.notCalled(controller.confirmAutoDeploy);
+        sinon.assert.notCalled(updateInstanceWithNewAcvDataStub);
       });
 
       it('should update insance without confirmation if no other instance has the same branch', function () {

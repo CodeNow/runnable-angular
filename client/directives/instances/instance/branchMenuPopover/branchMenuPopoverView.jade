@@ -14,7 +14,7 @@
     step-index = 2
     sub-step = "dockLoaded"
   )
-  
+
   .arrow.white(
     ng-style = "popoverStyle.getArrowStyle(CIS.instanceBranches)"
   )
@@ -32,7 +32,7 @@
     ) Set Up Branches
 
   animated-panel-container.popover-views(
-    ng-if = "!$root.featureFlags.autoIsolationSetup && !CIS.isPopoverOpen"
+    ng-if = "!$root.featureFlags.autoIsolationSetup && !CIS.isPopoverOpen()"
   )
     //- this should be the default panel when auto-isolation is implemented
     animated-panel(

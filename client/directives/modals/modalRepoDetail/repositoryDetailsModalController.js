@@ -49,12 +49,22 @@ function RepositoryDetailsModalController(
       });
   };
 
+  RDMC.hasCommitBeenUpdated = function () {
+    var newCommitSha = keypather.get(RDMC, 'data.commit.attrs.sha');
+    var oldCommitSha = keypather.get(RDMC, 'appCodeVersion.attrs.commit');
+    return newCommitSha && newCommitSha !== oldCommitSha;
+  };
+
+  RDMC.hasLockedBeenUpdated = function () {
+    return RDMC.data.locked !== RDMC.instance.attrs.locked;
+  };
+
   RDMC.updateInstance = function () {
     var updateInstance = function () {
       return $q.when()
         .then(function () {
           loading('main', true);
-          if (RDMC.data.locked === RDMC.instance.attrs.locked) {
+          if (!RDMC.hasLockedBeenUpdated()) {
             return;
           }
           return promisify(instance, 'update')({
@@ -62,7 +72,9 @@ function RepositoryDetailsModalController(
           });
         })
         .then(function () {
-          return updateInstanceWithNewAcvData(RDMC.instance, RDMC.appCodeVersion, RDMC.data);
+          if (RDMC.hasCommitBeenUpdated()) {
+            return updateInstanceWithNewAcvData(RDMC.instance, RDMC.appCodeVersion, RDMC.data);
+          }
         })
           .finally(function () {
             loading('main', false);

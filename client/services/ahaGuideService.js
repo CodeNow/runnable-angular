@@ -15,7 +15,8 @@ function ahaGuide(
   $rootScope,
   currentOrg,
   fetchInstancesByPod,
-  keypather
+  keypather,
+  patchOrgMetadata
 ) {
   var instances = [];
   function refreshInstances() {
@@ -28,7 +29,7 @@ function ahaGuide(
 
   var stepList = {};
   stepList[STEPS.CHOOSE_ORGANIZATION] = {
-    title: 'Create your Environment',
+    title: 'Step 1: Choose your Organization',
     subSteps: {
       orgSelection: {
         caption: 'Choose an organization to create your sandbox for.',
@@ -50,91 +51,73 @@ function ahaGuide(
     }
   };
   stepList[STEPS.ADD_FIRST_REPO] = {
-    title: 'Add your First Repository',
+    title: 'Step 2: Add a Repository',
     subSteps: {
       addRepository: {
-        caption: 'Add a repository by clicking ‘Create Template’.',
         className: 'aha-meter-10',
         step: 0
       },
       containerSelection: {
-        caption: 'Select a repository to configure.',
         className: 'aha-meter-20',
         step: 1
       },
       dockerfileMirroring: {
-        caption: 'How would you like to configure your repo?',
         className: 'aha-meter-30',
         step: 2
       },
       nameContainer: {
-        caption: 'Give your configuration a name.',
         className: 'aha-meter-40',
         step: 3
       },
       repository: {
-        caption: 'What does your repository run?',
         className: 'aha-meter-50',
         step: 4
       },
       commands: {
-        caption: 'Choose commands and packages.',
         className: 'aha-meter-60',
         step: 5
       },
       buildfiles: {
-        caption: 'If your app needs additional configuration…',
         className: 'aha-meter-70',
         step: 6
       },
       default: {
-        caption: 'If your app needs additional configuration…',
         className: 'aha-meter-70',
         step: 6
       },
       env: {
-        caption: 'If your app needs additional configuration…',
         className: 'aha-meter-70',
         step: 6
       },
       files: {
-        caption: 'If your app needs additional configuration…',
         className: 'aha-meter-70',
         step: 6
       },
       filesMirror: {
-        caption: 'We’ve imported your dockerfile, click ‘Save & Build’ to build it!',
         className: 'aha-meter-70',
         step: 6
       },
       ports: {
-        caption: 'If your app needs additional configuration…',
         className: 'aha-meter-70',
         step: 6
       },
       translation: {
-        caption: 'If your app needs additional configuration…',
         className: 'aha-meter-70',
         step: 6
       },
       logs: {
-        caption: 'We‘re building! Build time varies depending on your template.',
         className: 'aha-meter-80',
         step: 7
       },
       exitedEarly: {
-        caption: 'Your template isn‘t running yet! Check the logs to debug any issues. If you‘re stumped, ask our engineers!',
         className: 'aha-meter-80',
-        step: 7,
-        errorState: true
+        step: 7
       },
       success: {
-        caption: 'Looking good! Check out your URL, and click ‘Done’ if it looks good to you too.',
         className: 'aha-meter-90',
         step: 8
       },
       complete: {
-        caption: 'Add more templates if your project requires it. Once you’re done, head to your containers to start adding branches.',
         className: 'aha-meter-100',
         step: 9
       }
@@ -151,26 +134,31 @@ function ahaGuide(
   };
 
   stepList[STEPS.ADD_FIRST_BRANCH] = {
-    title: 'Add your First Branch',
+    title: 'Step 3: Add a Branch',
     subSteps: {
       addBranch: {
         caption: 'Almost done! Click the + button next to a repo name to add a branch.',
-        className: 'aha-meter-33'
+        className: 'aha-meter-33',
+        value: 33
       },
       dockLoading: {
         caption: 'Hang tight!',
-        className: 'aha-meter-66'
+        className: 'aha-meter-66',
+        value: 66
       },
       dockLoaded: {
         caption: 'Continue to start configuring your project.',
-        className: 'aha-meter-100'
+        className: 'aha-meter-100',
+        value: 100
       },
       deletedTemplate: {
         caption: 'You\'ve deleted your repository template. Create another one to continue.',
-        className: 'aha-meter-20'
+        className: 'aha-meter-20',
+        value: -1
       }
     },
-    panelSteps: { }
+    panelSteps: { },
+    defaultSubstep: 'addBranch'
   };
 
   stepList[STEPS.SETUP_RUNNABOT] = {
@@ -181,6 +169,34 @@ function ahaGuide(
       }
     }
   };
+
+  var cachedSubstep = {};
+
+/**
+ * Furthest Substep getter/setter
+ *
+ * When setting the substep, the new subStep must have a value greater than the previous step to
+ * be updated
+ *
+ * @param step       {Number} Which step to reference when looking at the substep
+ * @param newSubstep {String} new substep to go to
+ * @returns          {String} substep currently on
+ */
+  function furthestSubstep(step, newSubstep) {
+    if (arguments.length > 1) {
+      if (!cachedSubstep[step]) {
+        cachedSubstep[step] = newSubstep;
+      } else {
+        var newStepValue = keypather.get(stepList[step], 'subSteps.' + newSubstep + '.value');
+        var oldSubstepValue = keypather.get(stepList[step], 'subSteps.' + cachedSubstep[step] + '.value');
+        if (newStepValue === -1 || newStepValue > oldSubstepValue) {
+          // automatically allow switch when an error state
+          cachedSubstep[step] = newSubstep;
+        }
+      }
+    }
+    return cachedSubstep[step] || stepList[step].defaultSubstep;
+  }
 
   var cachedStep;
   $rootScope.$watch(function () {
@@ -199,13 +215,20 @@ function ahaGuide(
         cachedStep = STEPS.ADD_FIRST_REPO;
       } else {
         // loop over instances and see if any has ever had a branch launched
-        var hasBranchLaunched = instances.some(function (instance) {
-          return instance.attrs.hasAddedBranches;
+        var hasBranchLaunched = false;
+        var hasAutoLaunch = false;
+        instances.some(function (instance) {
+          hasBranchLaunched = hasBranchLaunched || instance.attrs.hasAddedBranches;
+          hasAutoLaunch = hasAutoLaunch || !instance.attrs.shouldNotAutofork;
+          // This will short circuit once we have found both of these true
+          return hasAutoLaunch && hasBranchLaunched;
         });
-        if (hasBranchLaunched) {
+        if (!hasBranchLaunched) {
+          cachedStep = STEPS.ADD_FIRST_BRANCH;
+        } else if (!hasAutoLaunch) {
           cachedStep = STEPS.SETUP_RUNNABOT;
         } else {
-          cachedStep = STEPS.ADD_FIRST_BRANCH;
+          cachedStep = STEPS.COMPLETED;
         }
       }
     }
@@ -226,13 +249,27 @@ function ahaGuide(
     }
   }
 
+  function endGuide () {
+    $rootScope.$broadcast('close-popovers');
+    return patchOrgMetadata(currentOrg.poppa.id(), {
+      metadata: {
+        hasAha: false
+      }
+    })
+    .then(function(updatedOrg) {
+      updateCurrentOrg(updatedOrg);
+    });
+  }
+
   return {
-    stepList: stepList,
+    endGuide: endGuide,
     getCurrentStep: getCurrentStep,
-    steps: STEPS,
-    isInGuide: isInGuide,
     hasConfirmedSetup: hasConfirmedSetup,
+    isInGuide: isInGuide,
+    stepList: stepList,
+    steps: STEPS,
     updateCurrentOrg: updateCurrentOrg,
+    furthestSubstep: furthestSubstep,
     isChoosingOrg: function() {
       return getCurrentStep() === STEPS.CHOOSE_ORGANIZATION;
     },
