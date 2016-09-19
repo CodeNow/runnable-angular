@@ -22,7 +22,7 @@ function ahaGuide(
   function refreshInstances() {
     return fetchInstancesByPod()
       .then(function (fetchedInstances) {
-        instances = fetchedInstances.models;
+        instances = fetchedInstances;
       });
   }
   refreshInstances();
@@ -217,12 +217,14 @@ function ahaGuide(
         // loop over instances and see if any has ever had a branch launched
         var hasBranchLaunched = false;
         var hasAutoLaunch = false;
-        instances.some(function (instance) {
-          hasBranchLaunched = hasBranchLaunched || instance.attrs.hasAddedBranches;
-          hasAutoLaunch = hasAutoLaunch || !instance.attrs.shouldNotAutofork;
-          // This will short circuit once we have found both of these true
-          return hasAutoLaunch && hasBranchLaunched;
-        });
+        if (keypather.get(instances, 'models.length')) {
+          instances.models.some(function (instance) {
+            hasBranchLaunched = hasBranchLaunched || instance.attrs.hasAddedBranches;
+            hasAutoLaunch = hasAutoLaunch || !instance.attrs.shouldNotAutofork;
+            // This will short circuit once we have found both of these true
+            return hasAutoLaunch && hasBranchLaunched;
+          });
+        }
         if (!hasBranchLaunched) {
           cachedStep = STEPS.ADD_FIRST_BRANCH;
         } else if (!hasAutoLaunch) {
@@ -281,6 +283,6 @@ function ahaGuide(
     },
     isSettingUpRunnabot: function() {
       return getCurrentStep() === STEPS.SETUP_RUNNABOT;
-    },
+    }
   };
 }

@@ -211,7 +211,26 @@ module.exports = [
     url: '^/:userName/',
     templateUrl: 'viewInstances',
     controller: 'ControllerInstances',
-    controllerAs: 'CIS'
+    controllerAs: 'CIS',
+    resolve: {
+      hasConfirmedSetup: function (
+        $rootScope,
+        $state,
+        $stateParams,
+        $timeout,
+        ahaGuide,
+        featureFlags,
+        populateCurrentOrgService // Unused, but required so things are properly populated!
+      ) {
+        if (featureFlags.flags.aha && ahaGuide.isInGuide() && !ahaGuide.hasConfirmedSetup()) {
+          $timeout(function () {
+            $state.go('base.config', {
+              userName: $stateParams.userName
+            });
+          });
+        }
+      }
+    }
   }, {
     state: 'base.instances.instance',
     abstract: false,
