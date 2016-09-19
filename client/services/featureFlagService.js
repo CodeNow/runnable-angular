@@ -36,8 +36,9 @@ function featureFlags(
     multilineStartCmd: false,
     multipleRepositoryContainers: false, // for adding multiple containers with the same repository
     navListFilter: false,
-    nextPayment: false, // show the next payment date under payment summary
+    newMilestone2Step: false,
     newUserPrompt: false, // modal for new users
+    nextPayment: false, // show the next payment date under payment summary
     noBuildLogs: true,
     optionsInModal: false, // allows delete in modal
     renameContainer: false,

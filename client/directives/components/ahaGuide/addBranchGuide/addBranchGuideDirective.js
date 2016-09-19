@@ -16,6 +16,7 @@ function addBranchGuide(
         getCurrentStep: ahaGuide.getCurrentStep
       };
       $scope.subStep = $scope.AGC.subStep;
+      ahaGuide.furthestSubstep(ahaGuide.steps.ADD_FIRST_BRANCH, $scope.subStep);
     }
   };
 }
