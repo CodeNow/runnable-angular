@@ -10,17 +10,17 @@ function ControllerInstances(
   $localStorage,
   $scope,
   $state,
+  activeAccount,
   ahaGuide,
-  keypather,
-  setLastOrg,
+  currentOrg,
   errs,
+  fetchInstancesByPod,
+  keypather,
   loading,
   ModalService,
-  fetchInstancesByPod,
-  activeAccount,
-  user,
   promisify,
-  currentOrg
+  setLastOrg,
+  user
 ) {
   var CIS = this;
   var userName = $state.params.userName;
@@ -36,27 +36,23 @@ function ControllerInstances(
     instanceListIsClosed: false
   });
 
-  var shouldShowPopover = true;
-  CIS.isPopoverOpen = function () {
-    return shouldShowPopover && ahaGuide.isAddingFirstBranch() && !CIS.$storage.instanceListIsClosed;
-  };
-
-  $scope.$on('popover-closed', function(event, pop) {
+  CIS.shouldShowPopover = true;
+  $scope.$on('popover-closed', function (event, pop) {
     if (keypather.get(pop, 'data') === 'branchSelect') {
-      shouldShowPopover = true;
+      CIS.shouldShowPopover = true;
     }
   });
 
-  $scope.$on('popover-opened', function(event, pop) {
+  $scope.$on('popover-opened', function (event, pop) {
     if (keypather.get(pop, 'data') === 'branchSelect') {
-      shouldShowPopover = false;
+      CIS.shouldShowPopover = false;
     }
   });
 
   fetchInstancesByPod()
     .then(function (instancesByPod) {
 
-      // If the state has already changed don't continue with old data. Let the new one execute.
+      // If the state has already changed don'  t continue with old data. Let the new one execute.
       if (userName !== $state.params.userName) {
         return;
       }
