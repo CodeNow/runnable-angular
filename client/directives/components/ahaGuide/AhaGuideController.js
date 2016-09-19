@@ -25,8 +25,8 @@ function AhaGuideController(
           if (!config.workingRepoInstance) {
             AGC.showError = true;
             AGC.errorState = 'nonRunningContainer';
-            $rootScope.$broadcast('ahaGuideError', {
-              cause: AGC.errorState
+            $rootScope.$broadcast('ahaGuideEvent', {
+              error: AGC.errorState
             });
           } else if (ahaGuide.isAddingFirstRepo() && AGC.subStepIndex === 7) {
             callPopover(config);
@@ -59,17 +59,17 @@ function AhaGuideController(
     }
   });
 
-  $scope.$on('ahaGuideError', function(event, info) {
-    if (info.cause === 'exitedEarly') {
+  $scope.$on('ahaGuideEvent', function(event, info) {
+    if (info.error === 'exitedEarly') {
       AGC.showError = true;
-      AGC.errorState = info.cause;
+      AGC.errorState = info.error;
       updateCaption('exitedEarly');
-    } else if (info.cause === 'nonRunningContainer') {
+    } else if (info.error === 'nonRunningContainer') {
       AGC.showError = true;
-      AGC.errorState = info.cause;
-    } else if (info.cause === 'buildFailed') {
+      AGC.errorState = info.error;
+    } else if (info.error === 'buildFailed') {
       AGC.showError = true;
-      AGC.errorState = info.cause;
+      AGC.errorState = info.error;
     } else if (info.isClear) {
       AGC.showError = false;
       AGC.errorState = null;
@@ -113,18 +113,18 @@ function AhaGuideController(
     var buildStatus = update.status;
     if (buildStatus === 'buildFailed' || buildStatus === 'stopped' || buildStatus === 'crashed') {
       AGC.showError = true;
-      $rootScope.$broadcast('ahaGuideError', {
-        cause: 'buildFailed'
+      $rootScope.$broadcast('ahaGuideEvent', {
+        error: 'buildFailed'
       });
     } else if (buildStatus === 'starting') {
       AGC.showError = false;
-    } else if (buildStatus === 'running') {
+      // as long as the build was successful that's ok
       AGC.isBuildSuccessful = true;
+    } else if (buildStatus === 'running') {
       updateCaption('success');
-      $rootScope.$broadcast('ahaGuideError', {
+      $rootScope.$broadcast('ahaGuideEvent', {
         isClear: true
       });
-      currentMilestone.isBuildSuccessful = true;
     }
     AGC.buildStatus = buildStatus;
     AGC.caption = currentMilestone.buildStatus[buildStatus] || AGC.caption;
@@ -136,7 +136,7 @@ function AhaGuideController(
     }
     var config = {};
     instances.forEach(function(instance) {
-      if (instance.getRepoName() && instance.status() === 'running') {
+      if (instance.getRepoName() && instance.status() !== 'building' && instance.status() !== 'buildFailed') {
         config.workingRepoInstance = true;
       } else if (!instance.getRepoName()) {
         config.nonRepoInstance = true;
@@ -156,10 +156,10 @@ function AhaGuideController(
   $scope.$on('$destroy', function () {
     animatedPanelListener();
     if (AGC.subStepIndex === 7 && !AGC.isBuildSuccessful) {
-      $rootScope.$broadcast('ahaGuideError', {
-        cause: 'exitedEarly'
+      $rootScope.$broadcast('ahaGuideEvent', {
+        error: 'exitedEarly'
       });
-    } else if (ahaGuide.isAddingFirstRepo() && AGC.subStep === 'success') {
+    } else if (ahaGuide.isAddingFirstRepo() && AGC.isBuildSuccessful) {
       $rootScope.$broadcast('show-add-services-popover');
     }
   });

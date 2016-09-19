@@ -36,11 +36,13 @@ function EnvironmentController(
   EC.showOverview = true;
 
   $scope.$on('show-aha-sidebar', EC.toggleSidebar);
-  $scope.$on('ahaGuideError', function(event, info) {
+  $scope.$on('ahaGuideEvent', function(event, info) {
     if (info.isClear) {
       EC.errorState = null;
+    } else if (info.buildSuccessful) {
+      EC.showAddServicePopover = true;
     } else {
-      EC.errorState = info.cause;
+      EC.errorState = info.error;
     }
   });
 
@@ -109,9 +111,6 @@ function EnvironmentController(
 
   // Asynchronously fetch the Dockerfile and check for working instances
   instancesByPod.forEach(function (instance) {
-    if (instance.attrs.build.successful && instance.getRepoName() && isAddFirstRepo) {
-      EC.showAddServicePopover = true;
-    }
     if (instance.hasDockerfileMirroring()) {
       return fetchDockerfileForContextVersion(instance.contextVersion)
         .then(function (dockerfile) {
@@ -179,5 +178,7 @@ function EnvironmentController(
 
 
   $scope.$on('show-aha-sidebar', EC.actions.toggleSidebar);
-
+  $scope.$on('show-add-services-popover', function() {
+    EC.showAddServicePopover = true;
+  });
 }
