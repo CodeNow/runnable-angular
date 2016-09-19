@@ -16,7 +16,7 @@ function AhaGuideController(
 ) {
   var AGC = this;
   var animatedPanelListener = angular.noop;
-  if (keypather.has(currentOrg, 'poppa.attrs.id')) {
+  if (keypather.has(currentOrg, 'poppa.attrs.id') && ahaGuide.isAddingFirstRepo()) {
     fetchInstancesByPod()
       .then(function (instances) {
         instances.forEach(function (instance) {

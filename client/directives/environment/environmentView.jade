@@ -61,9 +61,9 @@
     )
 
     .grid-block.align-center.justify-center.padding-sm.aha-guide(
-      ng-if = "$root.featureFlags.aha && EC.isInGuide() && !EC.isAddingFirstRepo() && !data.instances.models.length"
+      ng-if = "EC.isInGuide() && !EC.isAddingFirstRepo() && !data.instances.models.length"
       aha-guide
-      error-state = "deletedTemplate"
+      error-state = "EC.errorState"
       sub-step = "deletedTemplate"
     )
 
