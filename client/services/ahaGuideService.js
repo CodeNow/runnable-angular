@@ -223,12 +223,12 @@ function ahaGuide(
           // This will short circuit once we have found both of these true
           return hasAutoLaunch && hasBranchLaunched;
         });
-        if (hasBranchLaunched) {
-          cachedStep = STEPS.SETUP_RUNNABOT;
-        } else if (hasAutoLaunch) {
-          cachedStep = STEPS.COMPLETED;
-        } else {
+        if (!hasBranchLaunched) {
           cachedStep = STEPS.ADD_FIRST_BRANCH;
+        } else if (!hasAutoLaunch) {
+          cachedStep = STEPS.SETUP_RUNNABOT;
+        } else {
+          cachedStep = STEPS.COMPLETED;
         }
       }
     }
