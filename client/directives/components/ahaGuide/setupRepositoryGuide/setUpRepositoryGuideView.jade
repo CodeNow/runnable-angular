@@ -40,7 +40,7 @@
     )
 
 .grid-block.vertical.aha-text(
-  ng-if = "$root.featureFlags.aha && AGC.isInGuide() && !AGC.showError && AGC.ahaGuide.isAddingFirstRepo()"
+  ng-if = "AGC.isInGuide() && !AGC.showError && AGC.ahaGuide.isAddingFirstRepo()"
 )
   p.p.small.text-gray-light {{ AGC.title }}
   p.p(
@@ -85,7 +85,7 @@
   ) Looking good! Check out your URL, and click ‘Done’ if it looks good to you too.
   p.p(
     ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
-    ng-if = "($root.featureFlags.aha && AGC.isInGuide() && !AGC.showError && AGC.subStep === 'success') || (AGC.subStep === 8 && !AGC.showError)"
+    ng-if = "(AGC.isInGuide() && !AGC.showError && AGC.subStep === 'success') || !AGC.showError"
   ) Your build finished! Check that it looks good, then click ‘Done’.
   p.p(
     ng-if = "AGC.isInGuide() && !AGC.showError && AGC.subStep === 'complete'"
@@ -112,10 +112,10 @@
 
 .grid-block.vertical.aha-text(
   class = "{{ AGC.className }}"
-  ng-if = "$root.featureFlags.aha && AGC.isInGuide() && !AGC.showError && !AGC.ahaGuide.isAddingFirstRepo()"
+  ng-if = "AGC.isInGuide() && !AGC.showError && !AGC.ahaGuide.isAddingFirstRepo()"
 )
   p.p.small.text-gray-light {{ AGC.title }}
   p.p(
     ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
-    ng-if = "$root.featureFlags.aha && AGC.isInGuide() && !AGC.showError"
+    ng-if = "AGC.isInGuide() && !AGC.showError"
   ) Choose a template to configure.
