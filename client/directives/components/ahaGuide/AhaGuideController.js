@@ -137,10 +137,14 @@ function AhaGuideController(
       return null;
     }
     var config = {};
+    var status;
+    var repoName;
     instances.forEach(function(instance) {
-      if (instance.getRepoName() && instance.status() !== 'building' && instance.status() !== 'buildFailed') {
+      status = instance.status();
+      repoName = instance.getRepoName();
+      if (repoName && status !== 'building' && status !== 'buildFailed') {
         config.workingRepoInstance = true;
-      } else if (!instance.getRepoName()) {
+      } else if (!repoName) {
         config.nonRepoInstance = true;
       }
     });
