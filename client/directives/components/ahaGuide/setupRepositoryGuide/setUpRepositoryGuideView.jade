@@ -19,7 +19,7 @@
     use(
       xlink:href = "#icons-alert-alt"
     )
-    
+
 .grid-block.shrink.aha-meter.js-animate(
   class = "aha-meter-100"
   ng-class = "{'aha-error': AGC.showError || AGC.errorState}"
@@ -40,7 +40,7 @@
     )
 
 .grid-block.vertical.aha-text(
-  ng-if = "$root.featureFlags.aha && AGC.isInGuide() && !AGC.showError && AGC.ahaGuide.isAddingFirstRepo()"
+  ng-if = "AGC.isInGuide() && !AGC.showError && AGC.ahaGuide.isAddingFirstRepo()"
 )
   p.p.small.text-gray-light {{ AGC.title }}
   p.p(
@@ -82,7 +82,15 @@
   p.p(
     ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
     ng-if = "AGC.isInGuide() && !AGC.showError && AGC.subStep === 'success'"
-  ) Looking good! Check out your URL, and click ‘Done’ if it looks good to you too.
+  ) Your template isn‘t running yet! Check the logs to debug any issues. If you‘re stumped,&#32;
+      a.link(
+        ng-click = "askEngineers()"
+      ) ask our engineers
+      | !
+  p.p(
+    ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
+    ng-if = "(AGC.isInGuide() && !AGC.showError && AGC.subStep === 'success') || !AGC.showError"
+  ) Your build finished! Check that it looks good, then click ‘Done’.
   p.p(
     ng-if = "AGC.isInGuide() && !AGC.showError && AGC.subStep === 'complete'"
   ) Add more templates if your project requires it. Once you’re done, head to your containers to start adding branches.
@@ -108,15 +116,10 @@
 
 .grid-block.vertical.aha-text(
   class = "{{ AGC.className }}"
-  ng-if = "$root.featureFlags.aha && AGC.isInGuide() && !AGC.showError && !AGC.ahaGuide.isAddingFirstRepo()"
+  ng-if = "AGC.isInGuide() && !AGC.showError && !AGC.ahaGuide.isAddingFirstRepo()"
 )
   p.p.small.text-gray-light {{ AGC.title }}
   p.p(
     ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
-    ng-if = "$root.featureFlags.aha && AGC.isInGuide() && !AGC.showError"
+    ng-if = "AGC.isInGuide() && !AGC.showError"
   ) Choose a template to configure.
-
-  //- Step 9:
-  p.p(
-    ng-if = "AGC.subStep === 8 && !AGC.showError"
-  ) Looking good! Check out your URL, and click ‘Done’ if it looks good to you too.
