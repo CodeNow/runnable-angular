@@ -32,6 +32,7 @@ function ahaGuide(
     return isRunnabotPartOfOrg(keypather.get(currentOrg, 'github.attrs.login'))
       .then(function (runnabot) {
         hasRunnabot = runnabot;
+        return hasRunnabot;
       });
   }
 
@@ -280,6 +281,7 @@ function ahaGuide(
     endGuide: endGuide,
     getCurrentStep: getCurrentStep,
     hasConfirmedSetup: hasConfirmedSetup,
+    hasRunnabot: refreshHasRunnabot,
     isInGuide: isInGuide,
     stepList: stepList,
     steps: STEPS,
