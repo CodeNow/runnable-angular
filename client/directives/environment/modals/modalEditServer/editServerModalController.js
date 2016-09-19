@@ -32,6 +32,7 @@ function EditServerModalController(
     'enableMirrorMode': parentController.enableMirrorMode.bind(SMC),
     'getNumberOfOpenTabs': parentController.getNumberOfOpenTabs.bind(SMC),
     'getUpdatePromise': parentController.getUpdatePromise.bind(SMC),
+    'hasOpenPorts': parentController.hasOpenPorts.bind(SMC),
     'insertHostName': parentController.insertHostName.bind(SMC),
     'isDirty': parentController.isDirty.bind(SMC),
     'openDockerfile': parentController.openDockerfile.bind(SMC),
