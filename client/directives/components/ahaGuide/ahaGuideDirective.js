@@ -16,9 +16,9 @@ function ahaGuide(
     controllerAs: 'AGC',
     bindToController: true,
     scope: {
-      subStep: '@',
+      subStep: '@?',
       subStepIndex: '=?',
-      errorState: '=?'
+      errorState: '@?'
     }
   };
 }
