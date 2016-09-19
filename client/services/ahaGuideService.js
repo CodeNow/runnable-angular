@@ -155,22 +155,27 @@ function ahaGuide(
     subSteps: {
       addBranch: {
         caption: 'Almost done! Click the + button next to a repo name to add a branch.',
-        className: 'aha-meter-33'
+        className: 'aha-meter-33',
+        value: 33
       },
       dockLoading: {
         caption: 'Hang tight!',
-        className: 'aha-meter-66'
+        className: 'aha-meter-66',
+        value: 66
       },
       dockLoaded: {
         caption: 'Continue to start configuring your project.',
-        className: 'aha-meter-100'
+        className: 'aha-meter-100',
+        value: 100
       },
       deletedTemplate: {
         caption: 'You\'ve deleted your repository template. Create another one to continue.',
-        className: 'aha-meter-20'
+        className: 'aha-meter-20',
+        value: -1
       }
     },
-    panelSteps: { }
+    panelSteps: { },
+    defaultSubstep: 'addBranch'
   };
 
   stepList[STEPS.SETUP_RUNNABOT] = {
@@ -181,6 +186,34 @@ function ahaGuide(
       }
     }
   };
+
+  var cachedSubstep = {};
+
+/**
+ * Furthest Substep getter/setter
+ *
+ * When setting the substep, the new subStep must have a value greater than the previous step to
+ * be updated
+ *
+ * @param step       {Number} Which step to reference when looking at the substep
+ * @param newSubstep {String} new substep to go to
+ * @returns          {String} substep currently on
+ */
+  function furthestSubstep(step, newSubstep) {
+    if (arguments.length > 1) {
+      if (!cachedSubstep[step]) {
+        cachedSubstep[step] = newSubstep;
+      } else {
+        var newStepValue = keypather.get(stepList[step], 'subSteps.' + newSubstep + '.value');
+        var oldSubstepValue = keypather.get(stepList[step], 'subSteps.' + cachedSubstep[step] + '.value');
+        if (newStepValue === -1 || newStepValue > oldSubstepValue) {
+          // automatically allow switch when an error state
+          cachedSubstep[step] = newSubstep;
+        }
+      }
+    }
+    return cachedSubstep[step] || stepList[step].defaultSubstep;
+  }
 
   var cachedStep;
   $rootScope.$watch(function () {
@@ -233,6 +266,7 @@ function ahaGuide(
     isInGuide: isInGuide,
     hasConfirmedSetup: hasConfirmedSetup,
     updateCurrentOrg: updateCurrentOrg,
+    furthestSubstep: furthestSubstep,
     isChoosingOrg: function() {
       return getCurrentStep() === STEPS.CHOOSE_ORGANIZATION;
     },
