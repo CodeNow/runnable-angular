@@ -14,7 +14,7 @@
   button.btn.btn-xs.white(
     ng-class = "{'active': SMC.page === 'terminal'}"
     ng-click = "SMC.page = 'terminal'"
-    ng-disabled = "!SMC.instance.containers.models.length && SMC.instance.status() !== 'running'"
+    ng-disabled = "!SMC.instance.containers.models.length || SMC.instance.status() !== 'running'"
     ng-if = "$root.featureFlags.configTerminal"
   ) Terminal
 
