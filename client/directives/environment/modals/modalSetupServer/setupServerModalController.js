@@ -46,6 +46,7 @@ function SetupServerModalController(
     'getNumberOfOpenTabs': parentController.getNumberOfOpenTabs.bind(SMC),
     'getUpdatePromise': parentController.getUpdatePromise.bind(SMC),
     'handleInstanceUpdate': parentController.handleInstanceUpdate.bind(SMC),
+    'hasOpenPorts': parentController.hasOpenPorts.bind(SMC),
     'insertHostName': parentController.insertHostName.bind(SMC),
     'isDirty': parentController.isDirty.bind(SMC),
     'openDockerfile': parentController.openDockerfile.bind(SMC),
