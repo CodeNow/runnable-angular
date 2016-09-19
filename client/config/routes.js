@@ -212,22 +212,12 @@ module.exports = [
     templateUrl: 'viewInstances',
     controller: 'ControllerInstances',
     controllerAs: 'CIS',
-    resolve: {
-      populateCurrentOrgService: function (
-        activeOrg,
-        activeAccount,
-        currentOrg
-      ) {
-        currentOrg.poppa = activeOrg;
-        currentOrg.github = activeAccount;
-      },
-      checkAha: function ($q, $state, $timeout, ahaGuide) {
-        if (ahaGuide.hasntFinishedAha()) {
-          return $timeout(function () {
-            $state.go('base.config');
-            return $q.reject(new Error('Not done with guide'));
-          });
-        }
+    onEnter: function ($q, $state, $timeout, ahaGuide) {
+      if (ahaGuide.hasntFinishedAha()) {
+        return $timeout(function () {
+          $state.go('base.config');
+          return $q.reject(new Error('Not done with guide'));
+        });
       }
     }
   }, {
@@ -237,22 +227,12 @@ module.exports = [
     templateUrl: 'viewInstance',
     controller: 'ControllerInstance',
     controllerAs: 'CI',
-    resolve: {
-      populateCurrentOrgService: function (
-        activeOrg,
-        activeAccount,
-        currentOrg
-      ) {
-        currentOrg.poppa = activeOrg;
-        currentOrg.github = activeAccount;
-      },
-      checkAha: function ($q, $state, $timeout, ahaGuide) {
-        if (ahaGuide.hasntFinishedAha()) {
-          return $timeout(function () {
-            $state.go('base.config');
-            return $q.reject(new Error('Not done with guide'));
-          });
-        }
+    onEnter: function ($q, $state, $timeout, ahaGuide) {
+      if (ahaGuide.hasntFinishedAha()) {
+        return $timeout(function () {
+          $state.go('base.config');
+          return $q.reject(new Error('Not done with guide'));
+        });
       }
     }
   }
