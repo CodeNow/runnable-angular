@@ -30,6 +30,7 @@ function SetupMirrorServerModalController(
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
   SMC.isAddingFirstRepo = ahaGuide.isAddingFirstRepo;
+  SMC.showUrlToolbar = SMC.isAddingFirstRepo();
 
   var parentController = $controller('ServerModalController as SMC', { $scope: $scope });
   angular.extend(SMC, {
@@ -42,6 +43,7 @@ function SetupMirrorServerModalController(
     'getNumberOfOpenTabs': parentController.getNumberOfOpenTabs.bind(SMC),
     'getUpdatePromise': parentController.getUpdatePromise.bind(SMC),
     'handleInstanceUpdate': parentController.handleInstanceUpdate.bind(SMC),
+    'hasOpenPorts': parentController.hasOpenPorts.bind(SMC),
     'insertHostName': parentController.insertHostName.bind(SMC),
     'isDirty': parentController.isDirty.bind(SMC),
     'openDockerfile': parentController.openDockerfile.bind(SMC),

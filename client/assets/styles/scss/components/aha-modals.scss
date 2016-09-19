@@ -23,15 +23,7 @@
   }
 
   + .modal-dialog {
-    margin-top: 45px;
-
-    @include media(lg) {
-      margin-top: 120px;
-    }
-
-    @media (max-height: $screen-xs), (max-width: $screen-sm) {
-      margin-top: 120px;
-    }
+    margin-top: 120px;
   }
 
   .spinner-wrapper,

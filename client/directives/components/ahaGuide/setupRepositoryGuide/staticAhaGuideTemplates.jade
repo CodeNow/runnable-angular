@@ -1,0 +1,25 @@
+.grid-block.shrink.aha-meter.js-animate(
+  ng-class = "{\
+    'aha-meter-10': staticAddRepo,\
+    'aha-meter-100': showAhaNavPopover\
+  }"
+)
+  svg.iconnables(
+  )
+    use(
+      ng-if = "staticAddRepo"
+      xlink:href = "#icons-octicons-repo"
+    )
+    use(
+      ng-if = "showAhaNavPopover"
+      xlink:href = "#icons-check"
+    )
+
+.grid-block.vertical.aha-text
+  p.p.small.text-gray-light Add your First Repository
+  p.p(
+    ng-if = "staticAddRepo"
+  ) Add your repository by clicking ‘Create Template’.
+  p.p(
+    ng-if = "showAhaNavPopover"
+  ) Add more templates if your project requires it. Once you’re done, head to your containers to start adding branches.

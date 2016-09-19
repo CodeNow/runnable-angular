@@ -2,19 +2,16 @@ small.small.sans-serif.label-url.hidden-xxxs URL:&#32;
 a.p.monospace.text-overflow(
   ng-href = "http://{{SMC.state.instance.getContainerHostname()}}"
   target = "_blank"
-) {{ SMC.state.instance.getContainerHostname() }}
+) {{SMC.state.instance.getContainerHostname()}}
   svg.iconnables.icons-external
     use(
       xlink:href = "#icons-link-external"
     )
-.grid-block.shrink.align-center.btn.btn-xs.btn-web-state
+.grid-block.shrink.align-center.btn.btn-xs.btn-web-state(
+  ng-if = "!SMC.hasOpenPorts()"
+)
   svg.iconnables.icons-alert
     use(
       xlink:href = "#icons-alert-alt"
     )
-  | {{!SMC.state.ports.length && SMC.state.advanced !== 'isMirroringDockerfile' ? 'No exposed ports.' : 'Bind to all interfaces.'}}
-  //- | &nbsp;
-  //- a.link(
-  //-   href = "#"
-  //-   target = "_blank"
-  //- ) Learn More
+  | No exposed ports.
