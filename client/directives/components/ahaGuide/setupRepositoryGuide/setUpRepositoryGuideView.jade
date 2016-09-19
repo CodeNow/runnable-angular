@@ -82,11 +82,7 @@
   p.p(
     ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
     ng-if = "AGC.isInGuide() && !AGC.showError && AGC.subStep === 'success'"
-  ) Your template isn‘t running yet! Check the logs to debug any issues. If you‘re stumped,&#32;
-      a.link(
-        ng-click = "askEngineers()"
-      ) ask our engineers
-      | !
+  ) Looking good! Check out your URL, and click ‘Done’ if it looks good to you too.
   p.p(
     ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
     ng-if = "(AGC.isInGuide() && !AGC.showError && AGC.subStep === 'success') || !AGC.showError"
