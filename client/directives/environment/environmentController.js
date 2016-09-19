@@ -20,10 +20,11 @@ function EnvironmentController(
   fetchDockerfileForContextVersion,
   fetchOrgMembers,
   fetchUser,
+  instancesByPod,
   keypather,
   ModalService,
   pageName,
-  instancesByPod
+  patchOrgMetadata
 ) {
   var EC = this;
 
@@ -33,20 +34,11 @@ function EnvironmentController(
   EC.isInGuide = ahaGuide.isInGuide;
   EC.showCreateTemplate = true;
   EC.showOverview = true;
-  EC.toggleSidebar = function () {
-    EC.showSidebar = !EC.showSidebar;
-    EC.showCreateTemplate = true;
-  };
-  EC.popoverActions = {
-    showSidebar: EC.toggleSidebar,
-    endGuide: EC.endGuide
-  };
 
   $scope.$on('show-aha-sidebar', EC.toggleSidebar);
   $scope.$on('ahaGuideError', function(event, info) {
     if (info.isClear) {
       EC.errorState = null;
-      $rootScope.$broadcast('launchAhaNavPopover');
     } else {
       EC.errorState = info.cause;
     }
@@ -169,6 +161,15 @@ function EnvironmentController(
     toggleSidebar: function () {
       EC.showSidebar = !EC.showSidebar;
       EC.showCreateTemplate = true;
+      patchOrgMetadata(currentOrg.poppa.id(), {
+        metadata: {
+          hasAha: true,
+          hasConfirmedSetup: false
+        }
+      })
+      .then(function(updatedOrg) {
+        ahaGuide.updateCurrentOrg(updatedOrg);
+      });
     },
     createTemplate: function() {
       EC.showAddServicePopover = false;
