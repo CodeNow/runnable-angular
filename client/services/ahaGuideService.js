@@ -232,11 +232,18 @@ function ahaGuide(
         cachedStep = STEPS.ADD_FIRST_REPO;
       } else {
         // loop over instances and see if any has ever had a branch launched
-        var hasBranchLaunched = instances.some(function (instance) {
-          return instance.attrs.hasAddedBranches;
+        var hasBranchLaunched = false;
+        var hasAutoLaunch = false;
+        instances.some(function (instance) {
+          hasBranchLaunched = hasBranchLaunched || instance.attrs.hasAddedBranches;
+          hasAutoLaunch = hasAutoLaunch || !instance.attrs.shouldNotAutofork;
+          // This will short circuit once we have found both of these true
+          return hasAutoLaunch && hasBranchLaunched;
         });
         if (hasBranchLaunched) {
           cachedStep = STEPS.SETUP_RUNNABOT;
+        } else if (hasAutoLaunch) {
+          cachedStep = STEPS.COMPLETED;
         } else {
           cachedStep = STEPS.ADD_FIRST_BRANCH;
         }
