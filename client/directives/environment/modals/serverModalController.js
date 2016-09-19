@@ -261,6 +261,10 @@ function ServerModalController(
     }
   };
 
+  this.hasOpenPorts = function() {
+    return !!keypather.get(this, 'instance.attrs.container.ports');
+  };
+
   this.onEnvChange = function (newEnvArray, oldEnvArray) {
     var SMC = this;
     if (!newEnvArray) { return; }

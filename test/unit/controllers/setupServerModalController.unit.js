@@ -78,6 +78,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       this.getNumberOfOpenTabs = sinon.spy();
       this.getUpdatePromise = sinon.spy();
       this.handleInstanceUpdate = sinon.spy();
+      this.hasOpenPorts = sinon.spy();
       this.insertHostName = sinon.spy();
       this.isDirty = sinon.spy();
       this.openDockerfile = sinon.spy();
@@ -200,6 +201,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
 
       keypather.set($rootScope, 'dataApp.data.activeAccount.oauthName', sinon.mock().returns('myOauthName'));
       $scope = $rootScope.$new();
+      $rootScope.featureFlags = {};
       SMC = $controller('SetupServerModalController', {
         $scope: $scope,
         dockerfileType: false,
