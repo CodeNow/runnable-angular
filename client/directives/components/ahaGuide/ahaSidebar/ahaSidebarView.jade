@@ -77,7 +77,7 @@
   )
     .grid-block.shrink.aha-meter(
       ng-class = "{\
-      'aha-meter-33': getFurthestSubstep() === 'addBranch',\
+      'aha-meter-33': isAddingFirstBranch() && getFurthestSubstep(steps.ADD_FIRST_BRANCH) === 'addBranch',\
       'aha-meter-66': isAddingFirstBranch() && getFurthestSubstep(steps.ADD_FIRST_BRANCH) === 'dockLoading',\
       'aha-meter-100': getCurrentStep() > steps.ADD_FIRST_BRANCH\
       }"
