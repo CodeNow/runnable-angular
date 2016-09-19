@@ -23,8 +23,7 @@ function EnvironmentController(
   instancesByPod,
   keypather,
   ModalService,
-  pageName,
-  patchOrgMetadata
+  pageName
 ) {
   var EC = this;
 
@@ -39,8 +38,6 @@ function EnvironmentController(
   $scope.$on('ahaGuideEvent', function(event, info) {
     if (info.isClear) {
       EC.errorState = null;
-    } else if (info.buildSuccessful) {
-      EC.showAddServicePopover = true;
     } else {
       EC.errorState = info.error;
     }
@@ -160,25 +157,12 @@ function EnvironmentController(
     toggleSidebar: function () {
       EC.showSidebar = !EC.showSidebar;
       EC.showCreateTemplate = true;
-      patchOrgMetadata(currentOrg.poppa.id(), {
-        metadata: {
-          hasAha: true,
-          hasConfirmedSetup: false
-        }
-      })
-      .then(function(updatedOrg) {
-        ahaGuide.updateCurrentOrg(updatedOrg);
-      });
-    },
-    createTemplate: function() {
-      EC.showAddServicePopover = false;
-      EC.triggerModal.newContainer();
     }
   };
 
 
   $scope.$on('show-aha-sidebar', EC.actions.toggleSidebar);
-  $scope.$on('show-add-services-popover', function() {
-    EC.showAddServicePopover = true;
+  $scope.$on('show-add-services-popover', function(event, toggle) {
+    EC.showAddServicePopover = toggle;
   });
 }

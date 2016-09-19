@@ -16,6 +16,8 @@ function AhaGuideController(
 ) {
   var AGC = this;
   var animatedPanelListener = angular.noop;
+  // dismiss add service popover if open
+  $rootScope.$broadcast('show-add-services-popover', false)
 
   if (keypather.has(currentOrg, 'poppa.attrs.id') && ahaGuide.isAddingFirstRepo()) {
     fetchInstancesByPod()
@@ -29,7 +31,7 @@ function AhaGuideController(
               error: AGC.errorState
             });
           } else if (ahaGuide.isAddingFirstRepo() && AGC.subStepIndex === 7) {
-            callPopover(config);
+            callPopover(config, instances);
           }
         } else if (ahaGuide.isAddingFirstBranch()) {
           AGC.showError = true;
@@ -46,7 +48,7 @@ function AhaGuideController(
         .then(function (instances) {
           var config = checkContainerInstances(instances);
           if (config) {
-            callPopover(config);
+            callPopover(config, instances);
           }
         })
         .catch(errs.handler);
@@ -119,12 +121,12 @@ function AhaGuideController(
     } else if (buildStatus === 'starting') {
       AGC.showError = false;
       // as long as the build was successful that's ok
-      AGC.isBuildSuccessful = true;
-    } else if (buildStatus === 'running') {
-      updateCaption('success');
       $rootScope.$broadcast('ahaGuideEvent', {
         isClear: true
       });
+      AGC.isBuildSuccessful = true;
+    } else if (buildStatus === 'running') {
+      updateCaption('success');
     }
     AGC.buildStatus = buildStatus;
     AGC.caption = currentMilestone.buildStatus[buildStatus] || AGC.caption;
@@ -145,11 +147,12 @@ function AhaGuideController(
     return config;
   }
 
-  function callPopover(config) {
-    if (config.workingRepoInstance && config.nonRepoInstance) {
+  // this only calls popovers for one specific group. they have built a repo and nonrepo instance only.
+  function callPopover(config, instances) {
+    if (config.workingRepoInstance && config.nonRepoInstance && instances.models.length === 2) {
       $rootScope.$broadcast('launchAhaNavPopover');
-    } else if (config.workingRepoInstance) {
-      $rootScope.$broadcast('show-add-services-popover');
+    } else if (config.workingRepoInstance && instances.models.length === 1) {
+      $rootScope.$broadcast('show-add-services-popover', true);
     }
   }
 
@@ -160,7 +163,7 @@ function AhaGuideController(
         error: 'exitedEarly'
       });
     } else if (ahaGuide.isAddingFirstRepo() && AGC.isBuildSuccessful) {
-      $rootScope.$broadcast('show-add-services-popover');
+      $rootScope.$broadcast('show-add-services-popover', true);
     }
   });
 
