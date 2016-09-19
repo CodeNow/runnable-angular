@@ -201,6 +201,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
 
       keypather.set($rootScope, 'dataApp.data.activeAccount.oauthName', sinon.mock().returns('myOauthName'));
       $scope = $rootScope.$new();
+      $rootScope.featureFlags = {};
       SMC = $controller('SetupServerModalController', {
         $scope: $scope,
         dockerfileType: false,

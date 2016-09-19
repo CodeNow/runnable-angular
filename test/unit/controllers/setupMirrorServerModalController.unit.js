@@ -191,6 +191,7 @@ describe('setupMirrorServerModalController'.bold.underline.blue, function () {
 
       keypather.set($rootScope, 'dataApp.data.activeAccount.oauthName', sinon.mock().returns('myOauthName'));
       $scope = $rootScope.$new();
+      $rootScope.featureFlags = {};
       SMC = $controller('SetupMirrorServerModalController', {
         $scope: $scope,
         instanceName: opts.instanceName || instanceName,
