@@ -281,6 +281,6 @@ function ahaGuide(
     },
     isSettingUpRunnabot: function() {
       return getCurrentStep() === STEPS.SETUP_RUNNABOT;
-    },
+    }
   };
 }
