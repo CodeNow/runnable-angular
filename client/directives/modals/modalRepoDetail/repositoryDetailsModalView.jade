@@ -28,4 +28,5 @@
       ) Cancel
       button.btn.btn-md.green.float-right(
         ng-click = "RDMC.updateInstance()"
-      ) Save & Rebuild
+        ng-disabled = "!RDMC.hasCommitBeenUpdated() && !RDMC.hasLockedBeenUpdated()"
+      ) {{ RDMC.hasCommitBeenUpdated() ? 'Save and Build' : 'Save' }}

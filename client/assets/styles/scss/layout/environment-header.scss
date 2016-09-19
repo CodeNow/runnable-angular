@@ -16,13 +16,8 @@
     }
   }
 
-  .btn-aha {
-    right: 0;
-    top: 3px;
-  }
-
   // new server button
-  .green {
+  > .green {
     display: table;
     margin: 0 auto;
 
@@ -53,5 +48,10 @@
         margin-top: 8px;
       }
     }
+  }
+
+  .btn-aha {
+    right: 0;
+    top: 3px;
   }
 }

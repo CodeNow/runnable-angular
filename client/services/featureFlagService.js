@@ -17,7 +17,7 @@ function featureFlags(
     billing: true,
     cardStatus: false,
     connections: false,
-    configTerminal: false, // flag for terminal in config view
+    configTerminal: true, // flag for terminal in config view
     containersViewTemplateControls: false,
     containersViewEmptyState: false,
     dockerfileMirroringMultiple: false,
@@ -36,8 +36,9 @@ function featureFlags(
     multilineStartCmd: false,
     multipleRepositoryContainers: false, // for adding multiple containers with the same repository
     navListFilter: false,
-    nextPayment: false, // show the next payment date under payment summary
+    newMilestone2Step: false,
     newUserPrompt: false, // modal for new users
+    nextPayment: false, // show the next payment date under payment summary
     noBuildLogs: true,
     optionsInModal: false, // allows delete in modal
     renameContainer: false,
@@ -49,7 +50,7 @@ function featureFlags(
     trial: false, // sets account to trial mode
     undoDelete: false, // undo delete configuration
     webhooks: false,
-    webToolbar: false, // webview toolbar
+    webToolbar: true, // webview toolbar
     whitelistIpFiltering: false
   };
 

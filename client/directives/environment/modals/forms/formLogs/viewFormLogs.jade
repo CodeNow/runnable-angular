@@ -14,7 +14,7 @@
   button.btn.btn-xs.white(
     ng-class = "{'active': SMC.page === 'terminal'}"
     ng-click = "SMC.page = 'terminal'"
-    ng-disabled = "!SMC.instance.containers.models.length"
+    ng-disabled = "!SMC.instance.containers.models.length || SMC.instance.status() !== 'running'"
     ng-if = "$root.featureFlags.configTerminal"
   ) Terminal
 
@@ -44,6 +44,16 @@ pre.pre.log-wrapper(
     ng-include = "'webViewToolbarView'"
     ng-if = "SMC.page === 'run' && !SMC.showDebugCmd && $root.featureFlags.webToolbar"
   )
+
+  .popover.bottom.padding-sm.popover-aha.popover-sm.in.sans-serif(
+    ng-if = "SMC.showUrlToolbar && SMC.page === 'run' && !SMC.showDebugCmd && $root.featureFlags.webToolbar"
+    style = "left: 12px; top: 60px;"
+  )
+    .arrow.white
+    small.small.text-gray.float-left Use this URL to check out your application.
+    button.btn.btn-xs.gray.float-right(
+      ng-click = "SMC.showUrlToolbar = false"
+    ) Dismiss
 
   //- build logs page
   .build-log-wrapper(
@@ -88,11 +98,15 @@ pre.pre.log-wrapper(
     use(
       xlink:href = "#icons-life-preserver"
     )
-  small.grid-content.shrink.small
+  small.grid-content.small
     //- If build error:
-    | Build problems? Sometimes rebuilding the container can resolve errors, otherwise inspect your build logs.
+    | Build problems? Sometimes rebuilding the container can resolve errors, otherwise inspect your build logs.&#32;
     //- IF CMD error:
-    //- | Your container is having trouble running. Check the CMD Logs and your CMD Command.
+    //- | Your container is having trouble running. Check the CMD Logs and your CMD Command.&#32;
+    a.link(
+      href = "https://support.runnable.com"
+      target = "_blank"
+    ) View Documentation
   button.grid-content.shrink.btn.btn-xs.orange(
     ng-click = "SMC.rebuild(true, true)"
   ) Rebuild
