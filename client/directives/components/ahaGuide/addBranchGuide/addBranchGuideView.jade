@@ -7,7 +7,7 @@
   }"
 )
   svg.iconnables(
-    ng-if = "!AGC.showError"
+    ng-if = "!AGC.showError && !AGC.errorState"
   )
     use(
       ng-if = "AGC.ahaGuide.isAddingFirstBranch()"
@@ -19,7 +19,7 @@
     )
 
   svg.iconnables.icons-alert(
-    ng-if = "AGC.showError"
+    ng-if = "AGC.errorState || AGC.showError"
   )
     use(
       xlink:href = "#icons-alert-alt"
