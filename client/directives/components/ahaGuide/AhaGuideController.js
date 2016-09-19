@@ -16,23 +16,21 @@ function AhaGuideController(
 ) {
   var AGC = this;
   var animatedPanelListener = angular.noop;
-
-  AGC.instances = null;
-  if (keypather.has(currentOrg, 'poppa.id')) {
+  if (keypather.has(currentOrg, 'poppa.attrs.id') && ahaGuide.isAddingFirstRepo()) {
     fetchInstancesByPod()
       .then(function (instances) {
-        AGC.instances = instances;
-        if (!keypather.get(instances, 'models.length')) {
-          return patchOrgMetadata(currentOrg.poppa.id(), {
-            metadata: {
-              hasConfirmedSetup: false
-            }
-          })
-            .then(function(updatedOrg) {
-              ahaGuide.updateCurrentOrg(updatedOrg);
+        instances.forEach(function (instance) {
+          var repoName = instance.getRepoName();
+          if (instance.status() === 'running' && repoName) {
+            $rootScope.$broadcast('launchAhaNavPopover');
+          } else if (repoName){
+            AGC.showError = true;
+            AGC.errorState = 'nonRunningContainer';
+            $rootScope.$broadcast('ahaGuideError', {
+              cause: AGC.errorState
             });
-        }
-        updateCaption(AGC.subStep);
+          }
+        });
       })
       .catch(errs.handler);
   }
@@ -45,16 +43,26 @@ function AhaGuideController(
     }
   });
 
-  $scope.$on('buildStatusUpdated', function(event, buildStatus) {
+  var buildLogListener = $scope.$on('buildStatusUpdated', function(event, buildStatus) {
     if (ahaGuide.isAddingFirstRepo()) {
       handleBuildUpdate(buildStatus);
     }
   });
 
-  $scope.$on('exitedEarly', function(event, didExitEarly) {
-    if (didExitEarly) {
+  $scope.$on('ahaGuideError', function(event, info) {
+    if (info.cause === 'exitedEarly') {
       AGC.showError = true;
+      AGC.errorState = info.cause;
       updateCaption('exitedEarly');
+    } else if (info.cause === 'nonRunningContainer') {
+      AGC.showError = true;
+      AGC.errorState = info.cause;
+    } else if (info.cause === 'buildFailed') {
+      AGC.showError = true;
+      AGC.errorState = info.cause;
+    } else if (info.isClear) {
+      AGC.showError = false;
+      AGC.errorState = null;
     }
   });
 
@@ -70,7 +78,7 @@ function AhaGuideController(
   AGC.hasConfirmedSetup = ahaGuide.hasConfirmedSetup;
   AGC.isBuildSuccessful = false;
   AGC.ahaGuide = ahaGuide;
-  AGC.showError = $scope.showError;
+  AGC.errorState = $scope.errorState;
 
   // get the current milestone
   var currentMilestone = ahaGuide.stepList[ahaGuide.getCurrentStep()];
@@ -87,21 +95,25 @@ function AhaGuideController(
       animatedPanelListener();
     }
     AGC.subStep = status;
-    AGC.subStepIndex = currentMilestone.subSteps[status].step;
-    AGC.caption = currentMilestone.subSteps[status].caption;
     AGC.className = currentMilestone.subSteps[status].className;
+    AGC.subStepIndex = currentMilestone.subSteps[status].step;
   }
 
   function handleBuildUpdate(update) {
     var buildStatus = update.status;
     if (buildStatus === 'buildFailed' || buildStatus === 'stopped' || buildStatus === 'crashed') {
       AGC.showError = true;
+      $rootScope.$broadcast('ahaGuideError', {
+        cause: 'buildFailed'
+      });
     } else if (buildStatus === 'starting') {
       AGC.showError = false;
     } else if (buildStatus === 'running') {
       AGC.isBuildSuccessful = true;
       updateCaption('success');
-      $rootScope.$broadcast('exitedEarly', false);
+      $rootScope.$broadcast('ahaGuideError', {
+        isClear: true
+      });
     }
     AGC.buildStatus = buildStatus;
     AGC.caption = currentMilestone.buildStatus[buildStatus] || AGC.caption;
@@ -110,10 +122,9 @@ function AhaGuideController(
   $scope.$on('$destroy', function () {
     animatedPanelListener();
     if (AGC.subStepIndex === 7 && !AGC.isBuildSuccessful) {
-      $rootScope.$broadcast('exitedEarly', true);
-    }
-    if (AGC.subStepIndex < 6) {
-      $rootScope.$broadcast('changed-animated-panel', 'addRepository');
+      $rootScope.$broadcast('ahaGuideError', {
+        cause: 'exitedEarly'
+      });
     }
   });
 
@@ -122,17 +133,7 @@ function AhaGuideController(
   });
 
   AGC.popoverActions = {
-    endGuide: function () {
-      $rootScope.$broadcast('close-popovers');
-      return patchOrgMetadata(currentOrg.poppa.id(), {
-        metadata: {
-          hasAha: false
-        }
-      })
-      .then(function(updatedOrg) {
-        ahaGuide.updateCurrentOrg(updatedOrg);
-      });
-    },
+    endGuide: ahaGuide.endGuide,
     showSidebar: function () {
       $rootScope.$broadcast('close-popovers');
       $rootScope.$broadcast('show-aha-sidebar');

@@ -88,19 +88,6 @@ function ControllerApp(
   $rootScope.featureFlags = featureFlags.flags;
   $rootScope.resetFeatureFlags = featureFlags.reset;
   this.featureFlagsChanged = featureFlags.changed;
-  $rootScope.ahaGuide = {};
-  var ahaGuideToggles = keypather.get($localStorage, 'ahaGuide.toggles');
-
-  if (!ahaGuideToggles) {
-    ahaGuideToggles = {
-      showAha: true,
-      exitedEarly: false,
-      showError: false
-    };
-    keypather.set($localStorage, 'ahaGuide.ahaGuideToggles', ahaGuideToggles);
-  }
-
-  $rootScope.ahaGuide.ahaGuideToggles = $localStorage.ahaGuide.ahaGuideToggles;
 
   $scope.$watch(function () {
     return errs.errors.length;

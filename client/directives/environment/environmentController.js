@@ -28,6 +28,7 @@ function EnvironmentController(
   var EC = this;
 
   EC.showInviteButton = false;
+  EC.endGuide = ahaGuide.endGuide;
   EC.isAddingFirstRepo = ahaGuide.isAddingFirstRepo;
   EC.isInGuide = ahaGuide.isInGuide;
   EC.showCreateTemplate = true;
@@ -36,12 +37,18 @@ function EnvironmentController(
     EC.showSidebar = !EC.showSidebar;
     EC.showCreateTemplate = true;
   };
-  $scope.$on('show-aha-sidebar', EC.toggleSidebar);
+  EC.popoverActions = {
+    showSidebar: EC.toggleSidebar,
+    endGuide: EC.endGuide
+  };
 
-  $scope.$on('exitedEarly', function (event, didExitEarly) {
-    EC.showExitedEarly = didExitEarly;
-    if (!didExitEarly) {
+  $scope.$on('show-aha-sidebar', EC.toggleSidebar);
+  $scope.$on('ahaGuideError', function(event, info) {
+    if (info.isClear) {
+      EC.errorState = null;
       $rootScope.$broadcast('launchAhaNavPopover');
+    } else {
+      EC.errorState = info.cause;
     }
   });
 
@@ -110,9 +117,6 @@ function EnvironmentController(
 
   // Asynchronously fetch the Dockerfile and check for working instances
   instancesByPod.forEach(function (instance) {
-    if (instance.attrs.build.successful && instance.getRepoName() && isAddFirstRepo) {
-      $rootScope.$broadcast('launchAhaNavPopover');
-    }
     if (instance.hasDockerfileMirroring()) {
       return fetchDockerfileForContextVersion(instance.contextVersion)
         .then(function (dockerfile) {

@@ -81,7 +81,7 @@
   ) We‘re building! Build time varies depending on your template.
   p.p(
     ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
-    ng-if = "AGC.isInGuide() && !AGC.showError && AGC.subStep === 'exitedEarly'"
+    ng-if = "AGC.isInGuide() && !AGC.showError && AGC.subStep === 'success'"
   ) Your template isn‘t running yet! Check the logs to debug any issues. If you‘re stumped,&#32;
       a.link(
         ng-click = "askEngineers()"
@@ -97,15 +97,21 @@
 
 
 .grid-block.vertical.aha-text(
-  ng-if = "AGC.isInGuide() && AGC.showError && AGC.subStepIndex > 6"
+  ng-if = "AGC.isInGuide() && AGC.showError && AGC.subStepIndex > 5"
 )
   p.p.small.text-gray-light {{ AGC.title }}
   p.p(
-    ng-if = "AGC.isInGuide() && !AGC.showError"
-  ) {{ AGC.caption }}
-  p.p(
-    ng-if = "AGC.isInGuide() && AGC.showError"
+    ng-if = "AGC.isInGuide() && AGC.showError && AGC.errorState === 'buildFailed'"
   ) Uh oh, there was a build error! Inspect your logs for debug info.
+
+  p.p(
+    ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
+    ng-if = "AGC.isInGuide() && (AGC.errorState === 'nonRunningContainer' || AGC.subStep === 'exitedEarly')"
+  ) Your template isn‘t running yet! Check the logs to debug any issues. If you‘re stumped,&#32;
+      a.link(
+        ng-click = "askEngineers()"
+      ) ask our engineers
+      | !
 
 
 .grid-block.vertical.aha-text(
