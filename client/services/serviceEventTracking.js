@@ -311,7 +311,7 @@ EventTracking.prototype.trackClicked = function (data) {
   var self = this;
   self._mixpanel('track', 'clicked - ' + _keypather.get(data, 'text'), data);
   self.analytics.ready(function () {
-    self.analytics.track('Clicked - ' + _keypather.get(data, 'text'), data);
+    self.analytics.track('Click', data);
   });
   return self;
 };
