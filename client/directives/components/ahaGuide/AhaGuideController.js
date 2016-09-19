@@ -17,7 +17,7 @@ function AhaGuideController(
   var AGC = this;
   var animatedPanelListener = angular.noop;
   // dismiss add service popover if open
-  $rootScope.$broadcast('show-add-services-popover', false)
+  $rootScope.$broadcast('show-add-services-popover', false);
 
   if (keypather.has(currentOrg, 'poppa.attrs.id') && ahaGuide.isAddingFirstRepo()) {
     fetchInstancesByPod()
