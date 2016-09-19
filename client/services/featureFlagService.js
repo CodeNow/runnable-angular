@@ -18,7 +18,7 @@ function featureFlags(
     billing: true,
     cardStatus: false,
     connections: false,
-    configTerminal: false, // flag for terminal in config view
+    configTerminal: true, // flag for terminal in config view
     containersViewTemplateControls: false,
     containersViewEmptyState: false,
     dockerfileMirroringMultiple: false,
