@@ -28,7 +28,6 @@ function EnvironmentController(
   var EC = this;
 
   EC.showInviteButton = false;
-  EC.endGuide = ahaGuide.endGuide;
   EC.isAddingFirstRepo = ahaGuide.isAddingFirstRepo;
   EC.isInGuide = ahaGuide.isInGuide;
   EC.showCreateTemplate = true;
@@ -154,14 +153,15 @@ function EnvironmentController(
         }
       });
     },
-    toggleSidebar: function () {
+    showSidebar: function () {
       EC.showSidebar = !EC.showSidebar;
       EC.showCreateTemplate = true;
-    }
+    },
+    endGuide: ahaGuide.endGuide
   };
 
 
-  $scope.$on('show-aha-sidebar', EC.actions.toggleSidebar);
+  $scope.$on('show-aha-sidebar', EC.actions.showSidebar);
   $scope.$on('show-add-services-popover', function(event, toggle) {
     EC.showAddServicePopover = toggle;
   });
