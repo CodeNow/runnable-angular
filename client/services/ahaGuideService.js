@@ -218,7 +218,7 @@ function ahaGuide(
         var hasBranchLaunched = false;
         var hasAutoLaunch = false;
         if (keypather.get(instances, 'models.length')) {
-          instances.some(function (instance) {
+          instances.models.some(function (instance) {
             hasBranchLaunched = hasBranchLaunched || instance.attrs.hasAddedBranches;
             hasAutoLaunch = hasAutoLaunch || !instance.attrs.shouldNotAutofork;
             // This will short circuit once we have found both of these true
