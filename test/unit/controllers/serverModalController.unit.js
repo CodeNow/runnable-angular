@@ -996,6 +996,16 @@ describe('serverModalController'.bold.underline.blue, function () {
       $scope.$digest();
       expect(SMC.state.dockerfile).to.equal(ctx.anotherDockerfile);
     });
+    
+    it('should update the instance to advanced mode when using a blank dockerfile', function() {
+      SMC.state.advanced = 'blankDockerfile';
+      SMC.openDockerfile(SMC.state, SMC.openItems);
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.state.contextVersion.update);
+      sinon.assert.calledWith(SMC.state.contextVersion.update, {
+        advanced: true
+      });
+    });
   });
 
   describe('getDisplayName', function () {

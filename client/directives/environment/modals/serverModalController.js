@@ -42,6 +42,11 @@ function ServerModalController(
 
   this.openDockerfile = function (state, openItems) {
     var SMC = this;
+    if (SMC.state.advanced === 'blankDockerfile') {
+      promisify(SMC.state.contextVersion, 'update')({
+        advanced: true
+      });
+    }
     return fetchDockerfileForContextVersion(state.contextVersion)
       .then(function (dockerfile) {
         if (keypather.get(SMC, 'instance.hasDockerfileMirroring()') && !SMC.instance.mirroredDockerfile) {
