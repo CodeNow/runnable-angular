@@ -34,7 +34,7 @@
 
 //- During ahas 1-3
 .grid-block.shrink.vertical.aha-guide-wrapper(
-  ng-if = "getCurrentStep() < steps.SETUP_RUNNABOT"
+  ng-if = "!isSettingUpRunnabot()"
 )
   .grid-block.shrink.align-center.padding-sm.aha-guide.disabled
     .grid-block.shrink.aha-meter.aha-meter-100
