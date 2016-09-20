@@ -11,7 +11,7 @@
       ng-if = "isSettingUpRunnabot()"
     )
       //- During aha 4:
-      | You did it!
+      | You did it! 👏
     svg.grid-content.shrink.iconnables.icons-close(
       ng-click = "toggleSidebar()"
       ng-if = "!showOverview"
@@ -27,7 +27,7 @@
   header.grid-block.vertical.shrink.align-center.justify-center.aha-sidebar-header
     h4.grid-content.shrink.text-center.h4 Let‘s get running! 👋
   .grid-block.shrink.vertical.padding-sm
-    p.grid-content.shrink.text-center.p It’ll take a few steps to get everything set up. But don’t worry — we’re here to help!
+    p.grid-content.shrink.text-center.p It takes just three steps to get everything set up. But don’t worry — we’re here to help!
     button.grid-content.shrink.btn.btn-md.green(
       ng-click = "toggleSidebar()"
     ) Get Started
@@ -43,7 +43,7 @@
           xlink:href = "#icons-check"
         )
     .grid-block.vertical.aha-text
-      p.p.strong Choose your Organization
+      p.p.strong Step 1: Choose your Organization
       p.small This is the first step to success.
 
   .grid-block.shrink.align-center.padding-sm.aha-guide(
@@ -68,7 +68,7 @@
         )
     .grid-block.vertical.aha-text
       p.p.strong Add a Repository
-      p.small Set up your project and get it running!
+      p.small Add your templates and get them running!
 
   .grid-block.shrink.align-center.padding-sm.aha-guide(
     ng-class = "{'disabled': getCurrentStep() !== steps.ADD_FIRST_BRANCH}"
@@ -90,7 +90,7 @@
           xlink:href = "#icons-check"
         )
     .grid-block.vertical.aha-text
-      p.p.strong Add a Branch
+      p.p.strong Step 3: Add a Branch
       p.small Your branches will update on every commit you make.
 
 .grid-block.vertical.align-center.form-github(
