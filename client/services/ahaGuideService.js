@@ -15,17 +15,29 @@ function ahaGuide(
   $rootScope,
   currentOrg,
   fetchInstancesByPod,
+  isRunnabotPartOfOrg,
   keypather,
   patchOrgMetadata
 ) {
   var instances = [];
+  var hasRunnabot = false;
   function refreshInstances() {
     return fetchInstancesByPod()
       .then(function (fetchedInstances) {
-        instances = fetchedInstances.models;
+        instances = fetchedInstances;
       });
   }
+  function refreshHasRunnabot() {
+    if (hasRunnabot) { return; }
+    return isRunnabotPartOfOrg(keypather.get(currentOrg, 'github.attrs.login'))
+      .then(function (runnabot) {
+        hasRunnabot = runnabot;
+        return hasRunnabot;
+      });
+  }
+
   refreshInstances();
+  refreshHasRunnabot();
 
   var stepList = {};
   stepList[STEPS.CHOOSE_ORGANIZATION] = {
@@ -204,6 +216,7 @@ function ahaGuide(
   });
   $rootScope.$on('$stateChangeSuccess', function () {
     refreshInstances();
+    refreshHasRunnabot();
   });
   function getCurrentStep() {
     if (!cachedStep) {
@@ -217,12 +230,14 @@ function ahaGuide(
         // loop over instances and see if any has ever had a branch launched
         var hasBranchLaunched = false;
         var hasAutoLaunch = false;
-        instances.some(function (instance) {
-          hasBranchLaunched = hasBranchLaunched || instance.attrs.hasAddedBranches;
-          hasAutoLaunch = hasAutoLaunch || !instance.attrs.shouldNotAutofork;
-          // This will short circuit once we have found both of these true
-          return hasAutoLaunch && hasBranchLaunched;
-        });
+        if (keypather.get(instances, 'models.length')) {
+          instances.models.some(function (instance) {
+            hasBranchLaunched = hasBranchLaunched || instance.attrs.hasAddedBranches;
+            hasAutoLaunch = hasAutoLaunch || !instance.attrs.shouldNotAutofork;
+            // This will short circuit once we have found both of these true
+            return hasAutoLaunch && hasBranchLaunched;
+          });
+        }
         if (!hasBranchLaunched) {
           cachedStep = STEPS.ADD_FIRST_BRANCH;
         } else if (!hasAutoLaunch) {
@@ -265,6 +280,7 @@ function ahaGuide(
     endGuide: endGuide,
     getCurrentStep: getCurrentStep,
     hasConfirmedSetup: hasConfirmedSetup,
+    hasRunnabot: refreshHasRunnabot,
     isInGuide: isInGuide,
     stepList: stepList,
     steps: STEPS,
@@ -280,7 +296,10 @@ function ahaGuide(
       return getCurrentStep() === STEPS.ADD_FIRST_BRANCH;
     },
     isSettingUpRunnabot: function() {
-      return getCurrentStep() === STEPS.SETUP_RUNNABOT;
+      return getCurrentStep() === STEPS.SETUP_RUNNABOT && !hasRunnabot;
     },
+    isSettingUpAutoLaunch: function() {
+      return getCurrentStep() === STEPS.SETUP_RUNNABOT && hasRunnabot;
+    }
   };
 }

@@ -16,6 +16,7 @@ describe('controllerApp'.bold.underline.blue, function () {
   var mockLocalStorage;
   var mockCurrentOrg;
   var showModalStub;
+  var isRunnabotPartOfOrgStub;
   var mockFeatureFlags;
   function createMasterPods() {
     ctx.masterPods = runnable.newInstances(
@@ -87,6 +88,10 @@ describe('controllerApp'.bold.underline.blue, function () {
       $provide.value('$localStorage', mockLocalStorage);
       $provide.value('ModalService', {
         showModal: showModalStub
+      });
+      $provide.factory('isRunnabotPartOfOrg', function ($q) {
+        isRunnabotPartOfOrgStub = sinon.stub().returns($q.when());
+        return isRunnabotPartOfOrgStub;
       });
       $provide.value('featureFlags', mockFeatureFlags);
       $provide.value('currentOrg', mockCurrentOrg);

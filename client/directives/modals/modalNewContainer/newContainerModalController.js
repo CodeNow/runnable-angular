@@ -183,7 +183,7 @@ function NewContainerModalController(
     } else {
       dockerfilePath = '';
     }
-    return createNewBuildAndFetchBranch(currentOrg.github, repo, dockerfilePath)
+    return createNewBuildAndFetchBranch(currentOrg.github, repo, dockerfilePath, configurationMethod)
       .then(function (repoBuildAndBranch) {
         repoBuildAndBranch.instanceName = instanceName;
         if (configurationMethod === 'dockerfile' && dockerfile) {

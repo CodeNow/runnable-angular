@@ -13,7 +13,7 @@ function featureFlags(
     autoIsolation: false,
     autoIsolationSetup: false,
     backup: false,
-    blankDockerfile: false, // allows users to skip the verification flow
+    blankDockerfile: true, // allows users to skip the verification flow
     billing: true,
     cardStatus: false,
     connections: false,
@@ -25,7 +25,7 @@ function featureFlags(
     emptyFolder: false, // shows empty folder markup
     fullScreen: false,  // toggles full screen
     fullScreenToggle: false,  // toggles the button that toggles full screen
-    gitHubIntegration: false,
+    gitHubIntegration: true,
     hostnameNotifications: false,
     hostnameTool: false,
     imAfraidOfTheDark: false, // toggles theme
