@@ -224,7 +224,6 @@ function ahaGuide(
         cachedStep = STEPS.CHOOSE_ORGANIZATION;
       } else if (!$rootScope.featureFlags.aha || !isInGuide()) {
         cachedStep = STEPS.COMPLETED;
-        refreshHasRunnabot();
       } else if (!hasConfirmedSetup()) {
         cachedStep = STEPS.ADD_FIRST_REPO;
       } else {
