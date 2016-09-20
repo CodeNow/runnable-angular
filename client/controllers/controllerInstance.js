@@ -33,6 +33,7 @@ function ControllerInstance(
 
   var CIS = this;
   CIS.showSidebar = false;
+  CIS.isInGuide = ahaGuide.isInGuide;
   CIS.toggleSidebar = function (end) {
     if (end === 'end') {
       ahaGuide.endGuide();
