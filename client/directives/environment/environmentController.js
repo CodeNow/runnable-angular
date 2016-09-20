@@ -32,8 +32,6 @@ function EnvironmentController(
   EC.isInGuide = ahaGuide.isInGuide;
   EC.showCreateTemplate = true;
   EC.showOverview = true;
-
-  $scope.$on('show-aha-sidebar', EC.toggleSidebar);
   $scope.$on('ahaGuideEvent', function(event, info) {
     if (info.isClear) {
       EC.errorState = null;
@@ -161,8 +159,8 @@ function EnvironmentController(
   };
 
 
-  $scope.$on('show-aha-sidebar', EC.actions.showSidebar);
-  $scope.$on('show-add-services-popover', function(event, toggle) {
+  $scope.$on('showAhaSidebar', EC.actions.showSidebar);
+  $scope.$on('showAddServicesPopover', function(event, toggle) {
     EC.showAddServicePopover = toggle;
   });
 }

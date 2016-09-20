@@ -17,7 +17,7 @@ function AhaGuideController(
   var AGC = this;
   var animatedPanelListener = angular.noop;
   // dismiss add service popover if open
-  $rootScope.$broadcast('show-add-services-popover', false);
+  $rootScope.$broadcast('showAddServicesPopover', false);
 
   if (keypather.has(currentOrg, 'poppa.attrs.id') && ahaGuide.isAddingFirstRepo()) {
     fetchInstancesByPod()
@@ -131,7 +131,10 @@ function AhaGuideController(
     AGC.buildStatus = buildStatus;
     AGC.caption = currentMilestone.buildStatus[buildStatus] || AGC.caption;
   }
-
+ /** this checks all instances and whether there is a built repo instance and non repo instance
+  * @param {object} instances an object containing a collection of instances
+  * @return {object} config an object with two boolean properties, nonRepoInstance and workingRepoInstance
+  */
   function checkContainerInstances (instances) {
     if (!instances) {
       return null;
@@ -151,12 +154,15 @@ function AhaGuideController(
     return config;
   }
 
-  // this only calls popovers for one specific group. they have built a repo and nonrepo instance only.
+  /** this only calls popovers for one specific group. they have built a repo and nonrepo instance only.
+   * @param {object} config an object with two boolean properties, nonRepoInstance and workingRepoInstance
+   * @param {object} instances an object containing a collection of instances
+   */
   function callPopover(config, instances) {
     if (config.workingRepoInstance && config.nonRepoInstance && instances.models.length === 2) {
       $rootScope.$broadcast('launchAhaNavPopover');
     } else if (config.workingRepoInstance && instances.models.length === 1) {
-      $rootScope.$broadcast('show-add-services-popover', true);
+      $rootScope.$broadcast('showAddServicesPopover', true);
     }
   }
 
@@ -167,7 +173,7 @@ function AhaGuideController(
         error: 'exitedEarly'
       });
     } else if (ahaGuide.isAddingFirstRepo() && AGC.isBuildSuccessful) {
-      $rootScope.$broadcast('show-add-services-popover', true);
+      $rootScope.$broadcast('showAddServicesPopover', true);
     }
   });
 
@@ -179,7 +185,7 @@ function AhaGuideController(
     endGuide: ahaGuide.endGuide,
     showSidebar: function () {
       $rootScope.$broadcast('close-popovers');
-      $rootScope.$broadcast('show-aha-sidebar');
+      $rootScope.$broadcast('showAhaSidebar');
     }
   };
 }
