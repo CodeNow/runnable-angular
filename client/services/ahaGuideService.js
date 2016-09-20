@@ -68,7 +68,7 @@ function ahaGuide(
   };
 
   stepList[STEPS.ADD_FIRST_REPO] = {
-    title: 'Step 2: Add a Repository',
+    title: 'Step 2: Configure your Application',
     subSteps: {
       addRepository: {
         className: 'aha-meter-11',
