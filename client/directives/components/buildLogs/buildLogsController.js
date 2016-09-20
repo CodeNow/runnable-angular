@@ -6,7 +6,9 @@ function BuildLogsController(
   $scope,
   $rootScope,
   $timeout,
+  ahaGuide,
   errs,
+  keypather,
   launchDebugContainer,
   loading,
   updateInstanceWithNewBuild,
@@ -58,9 +60,25 @@ function BuildLogsController(
     if (oldStream) {
       closeStream(oldStream);
     }
+    var pollingCount = 10;
+    function pollForCv() {
+      promisify(BLC.instance, 'fetch')()
+        .then(function (instance) {
+          keypather.set($scope, 'BLC.instance', instance);
+        })
+        .finally(function () {
+          pollingCount--;
+          if (pollingCount > 0 && keypather.get($scope, 'BLC.instance.attrs.contextVersion.build.dockerContainer')) {
+            $timeout(pollForCv, 1000);
+          }
+        });
+    }
     BLC.streamFailure = false;
     var stream = null;
     if (BLC.instance) {
+      if (ahaGuide.isInGuide()) {
+        $timeout(pollForCv, 1000);
+      }
       BLC.buildStatus = 'starting';
       BLC.buildLogs = [];
       BLC.buildLogTiming = {};
