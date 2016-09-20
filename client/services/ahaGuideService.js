@@ -28,12 +28,12 @@ function ahaGuide(
       });
   }
   function refreshHasRunnabot() {
-    if (hasRunnabot) { 
-      endGuide();
-      return; 
-    }
+    if (hasRunnabot) { return; }
     return isRunnabotPartOfOrg(keypather.get(currentOrg, 'github.attrs.login'))
       .then(function (runnabot) {
+        if (runnabot) {
+          endGuide();
+        }
         hasRunnabot = runnabot;
         return hasRunnabot;
       });
