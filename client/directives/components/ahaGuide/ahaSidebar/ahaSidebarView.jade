@@ -14,7 +14,7 @@
       | You did it! 👏
     svg.grid-content.shrink.iconnables.icons-close(
       ng-click = "toggleSidebar()"
-      ng-if = "!showOverview && (isAddingFirstBranch() || isAddingFirstRepo())"
+      ng-if = "!showOverview && !isSettingUpRunnabot()"
     )
       use(
         xlink:href = "#icons-close"

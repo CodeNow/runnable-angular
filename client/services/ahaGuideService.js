@@ -266,7 +266,6 @@ function ahaGuide(
         } else if (!hasAutoLaunch) {
           cachedStep = STEPS.SETUP_RUNNABOT;
         } else {
-
           cachedStep = STEPS.COMPLETED;
         }
       }
