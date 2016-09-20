@@ -94,6 +94,11 @@
     }
   }
 
+  // for popovers that don’t dismiss normally
+  &.popover-persistent {
+    z-index: $z-modal-backdrop - 1;
+  }
+
   // empty state
   .empty {
     color: $gray;

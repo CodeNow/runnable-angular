@@ -1,4 +1,4 @@
-.popover.menu.right.popover-branch-menu(
+.popover.menu.right.popover-branch-menu.popover-persistent(
   ng-class = "{'in': active}"
   ng-style = "popoverStyle.getStyle()"
 )
@@ -17,7 +17,7 @@
   )
 
   .arrow.white
-  
+
   animated-panel-container.popover-views(
     ng-if = "!$root.featureFlags.autoIsolationSetup && $root.isLoading.fetchingBranches"
   )
