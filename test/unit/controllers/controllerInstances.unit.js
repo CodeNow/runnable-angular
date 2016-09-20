@@ -11,6 +11,7 @@ var $controller,
     promisify,
     mockOrg,
     currentOrg;
+var isRunnabotPartOfOrgStub;
 var apiMocks = require('../apiMocks/index');
 var mockFetch = new (require('../fixtures/mockFetch'))();
 var runnable = window.runnable;
@@ -105,6 +106,10 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       $provide.value('user', ctx.fakeuser);
       $provide.value('activeAccount', ctx.fakeuser);
 
+      $provide.factory('isRunnabotPartOfOrg', function ($q) {
+        isRunnabotPartOfOrgStub = sinon.stub().returns($q.when());
+        return isRunnabotPartOfOrgStub;
+      });
 
       $provide.factory('setLastOrg', function ($q) {
         return sinon.stub().returns($q.when());

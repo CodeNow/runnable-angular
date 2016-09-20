@@ -15,17 +15,29 @@ function ahaGuide(
   $rootScope,
   currentOrg,
   fetchInstancesByPod,
+  isRunnabotPartOfOrg,
   keypather,
   patchOrgMetadata
 ) {
   var instances = [];
+  var hasRunnabot = false;
   function refreshInstances() {
     return fetchInstancesByPod()
       .then(function (fetchedInstances) {
         instances = fetchedInstances;
       });
   }
+  function refreshHasRunnabot() {
+    if (hasRunnabot) { return; }
+    return isRunnabotPartOfOrg(keypather.get(currentOrg, 'github.attrs.login'))
+      .then(function (runnabot) {
+        hasRunnabot = runnabot;
+        return hasRunnabot;
+      });
+  }
+
   refreshInstances();
+  refreshHasRunnabot();
 
   var stepList = {};
   stepList[STEPS.CHOOSE_ORGANIZATION] = {
@@ -204,6 +216,7 @@ function ahaGuide(
   });
   $rootScope.$on('$stateChangeSuccess', function () {
     refreshInstances();
+    refreshHasRunnabot();
   });
   function getCurrentStep() {
     if (!cachedStep) {
@@ -267,6 +280,7 @@ function ahaGuide(
     endGuide: endGuide,
     getCurrentStep: getCurrentStep,
     hasConfirmedSetup: hasConfirmedSetup,
+    hasRunnabot: refreshHasRunnabot,
     isInGuide: isInGuide,
     stepList: stepList,
     steps: STEPS,
@@ -282,7 +296,10 @@ function ahaGuide(
       return getCurrentStep() === STEPS.ADD_FIRST_BRANCH;
     },
     isSettingUpRunnabot: function() {
-      return getCurrentStep() === STEPS.SETUP_RUNNABOT;
+      return getCurrentStep() === STEPS.SETUP_RUNNABOT && !hasRunnabot;
+    },
+    isSettingUpAutoLaunch: function() {
+      return getCurrentStep() === STEPS.SETUP_RUNNABOT && hasRunnabot;
     }
   };
 }

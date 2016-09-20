@@ -19,7 +19,7 @@
 )
 
 .grid-block.align-center(
-  ng-if = "AGC.ahaGuide.isSettingUpRunnabot()"
+  ng-if = "AGC.ahaGuide.isSettingUpAutoLaunch()"
   ng-include = "'setUpRunnabotGuideView'"
 )
 
@@ -27,7 +27,7 @@ button.btn.btn-xs.white.btn-menu(
   ng-class = "{'active': ahaMenuGuidePopover.data.show}"
   ng-if = "!AGC.ahaGuide.isChoosingOrg() && !AGC.ahaGuide.isSettingUpRunnabot()"
   pop-over
-  pop-over-actions = "AGC ? AGC.popoverActions : EC.popoverActions"
+  pop-over-actions = "AGC ? AGC.popoverActions : EC.actions"
   pop-over-active = "ahaMenuGuidePopover.data.show"
   pop-over-no-broadcast = "true"
   pop-over-options = "{\"centered\":true,\"top\":36}"

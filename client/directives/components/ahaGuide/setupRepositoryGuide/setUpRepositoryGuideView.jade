@@ -82,10 +82,6 @@
   p.p(
     ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
     ng-if = "AGC.isInGuide() && !AGC.showError && AGC.subStep === 'success'"
-  ) Looking good! Check out your URL, and click ‘Done’ if it looks good to you too.
-  p.p(
-    ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
-    ng-if = "(AGC.isInGuide() && !AGC.showError && AGC.subStep === 'success') || !AGC.showError"
   ) Your build finished! Verify that it looks good, then click ‘Done’.
   p.p(
     ng-if = "AGC.isInGuide() && !AGC.showError && AGC.subStep === 'complete'"
@@ -98,7 +94,7 @@
   p.p.small.text-gray-light {{ AGC.title }}
   p.p(
     ng-if = "AGC.isInGuide() && AGC.showError && AGC.errorState === 'buildFailed'"
-  ) Uh oh, there was a build error! Inspect your logs for debug info.
+  ) Uh oh, there was an error! Inspect your logs for debug info.
 
   p.p(
     ng-class = "{'p-slide js-animate': AGC.subStepIndex}"

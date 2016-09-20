@@ -34,7 +34,7 @@ function instanceHeader(
           });
       });
       $scope.toggleSidebar = function () {
-        $rootScope.$broadcast('show-aha-sidebar');
+        $rootScope.$broadcast('showAhaSidebar');
       };
     }
   };

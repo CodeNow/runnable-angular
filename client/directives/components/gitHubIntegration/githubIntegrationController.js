@@ -9,6 +9,7 @@ function GithubIntegrationController(
   $interval,
   $q,
   $scope,
+  ahaGuide,
   currentOrg,
   errs,
   fetchGithubUserIsAdminOfOrg,
@@ -24,8 +25,11 @@ function GithubIntegrationController(
     return isRunnabotPartOfOrg(org)
       .then(function (hasRunnabot) {
         GIC.hasRunnabot = hasRunnabot;
-        if (hasRunnabot && GIC.pollingInterval) {
-          $interval.cancel(GIC.pollingInterval);
+        if (hasRunnabot) {
+          if (GIC.pollingInterval) {
+            $interval.cancel(GIC.pollingInterval);
+          }
+          return ahaGuide.hasRunnabot();
         }
       })
       .catch(errs.handler);
