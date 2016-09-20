@@ -163,4 +163,17 @@ function EnvironmentController(
   $scope.$on('showAddServicesPopover', function(event, toggle) {
     EC.showAddServicePopover = toggle;
   });
+
+  if (ahaGuide.isInGuide()) {
+    if (keypather.get(instancesByPod, 'models.length')) {
+      if (instancesByPod.models.some(function (instance) {
+          return instance.attrs.hasAddedBranches || keypather.get(instance, 'children.models.length');
+        })) {
+        // timeout for the animation
+        $timeout(function () {
+          EC.showSidebar = true;
+        });
+      }
+    }
+  }
 }

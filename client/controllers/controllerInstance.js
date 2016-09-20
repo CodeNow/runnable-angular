@@ -26,13 +26,17 @@ function ControllerInstance(
   keypather,
   loading,
   OpenItems,
+  instancesByPod,
   pageName,
   setLastInstance
 ) {
 
   var CIS = this;
   CIS.showSidebar = false;
-  CIS.toggleSidebar = function () {
+  CIS.toggleSidebar = function (end) {
+    if (end) {
+      ahaGuide.endGuide();
+    }
     CIS.showSidebar = !CIS.showSidebar;
   };
   $scope.$on('showAhaSidebar', CIS.toggleSidebar);
@@ -209,4 +213,17 @@ function ControllerInstance(
       favico.setInstanceState(keypather.get($scope, 'dataInstance.data.instance'));
     });
   });
+
+  if (ahaGuide.isInGuide()) {
+    if (keypather.get(instancesByPod, 'models.length')) {
+      if (instancesByPod.models.some(function (instance) {
+          return instance.attrs.hasAddedBranches || keypather.get(instance, 'children.models.length');
+        })) {
+        // timeout for the animation
+        $timeout(function () {
+          CIS.showSidebar = true;
+        });
+      }
+    }
+  }
 }

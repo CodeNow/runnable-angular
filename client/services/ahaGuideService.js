@@ -28,7 +28,10 @@ function ahaGuide(
       });
   }
   function refreshHasRunnabot() {
-    if (hasRunnabot) { return; }
+    if (hasRunnabot) { 
+      endGuide();
+      return; 
+    }
     return isRunnabotPartOfOrg(keypather.get(currentOrg, 'github.attrs.login'))
       .then(function (runnabot) {
         hasRunnabot = runnabot;
@@ -48,7 +51,7 @@ function ahaGuide(
         className: 'aha-meter-33'
       },
       dockLoading: {
-        caption: 'Hang tight!',
+        caption: 'Bear with us!',
         className: 'aha-meter-66'
       },
       dockLoaded: {
@@ -174,7 +177,7 @@ function ahaGuide(
         value: 33
       },
       dockLoading: {
-        caption: 'Hang tight!',
+        caption: 'Bear with us!',
         className: 'aha-meter-66',
         value: 66
       },
@@ -252,7 +255,7 @@ function ahaGuide(
         var hasAutoLaunch = false;
         if (keypather.get(instances, 'models.length')) {
           instances.models.some(function (instance) {
-            hasBranchLaunched = hasBranchLaunched || instance.attrs.hasAddedBranches;
+            hasBranchLaunched = hasBranchLaunched || instance.attrs.hasAddedBranches || keypather.get(instance, 'children.models.length');
             hasAutoLaunch = hasAutoLaunch || !instance.attrs.shouldNotAutofork;
             // This will short circuit once we have found both of these true
             return hasAutoLaunch && hasBranchLaunched;
@@ -263,6 +266,7 @@ function ahaGuide(
         } else if (!hasAutoLaunch) {
           cachedStep = STEPS.SETUP_RUNNABOT;
         } else {
+
           cachedStep = STEPS.COMPLETED;
         }
       }
@@ -291,9 +295,9 @@ function ahaGuide(
         hasAha: false
       }
     })
-    .then(function(updatedOrg) {
-      updateCurrentOrg(updatedOrg);
-    });
+      .then(function (updatedOrg) {
+        updateCurrentOrg(updatedOrg);
+      });
   }
 
   return {
