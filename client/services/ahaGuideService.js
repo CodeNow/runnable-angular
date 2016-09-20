@@ -32,7 +32,7 @@ function ahaGuide(
     title: 'Step 1: Choose your Organization',
     subSteps: {
       orgSelection: {
-        caption: 'Choose an organization to create your sandbox for.',
+        caption: 'Select the organization you want to use with Runnable.',
         className: 'aha-meter-33'
       },
       dockLoading: {
@@ -123,8 +123,8 @@ function ahaGuide(
       }
     },
     buildStatus: {
-      building: 'We‘re building! Build time varies depending on your template.',
-      starting: 'We‘re building! Build time varies depending on your template.',
+      building: 'We‘re building! Build time varies depending on your build commands.',
+      starting: 'We‘re building! Build time varies depending on your build commands.',
       running: 'Looking good! Check out your URL, and click ‘Done’ if it looks good to you too.',
       stopped: 'Your template isn‘t running yet! Check the logs to debug any issues. If you‘re stumped, ask our engineers!',
       cmdFailed: 'Your template isn‘t running yet! Check the logs to debug any issues. If you‘re stumped, ask our engineers!',

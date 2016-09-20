@@ -2,7 +2,7 @@
   img.img(
     src = "/build/images/runnabear-working.png"
   )
-  .modal-dialog.modal-sm
+  .modal-dialog.modal-md
     .modal-body
       svg.iconnables.icons-close(
         ng-click = "CMC.actions.cancel()"
@@ -11,15 +11,21 @@
           xlink:href = "#icons-close"
         )
       .grid-block.vertical.padding-md
-        h3.grid-content.h3.text-center Is your project running?
-        p.grid-content.p.text-center.text-gray We recommend finishing setup before continuing. If you need help getting your project running,&#32;
+        h3.grid-content.h3.text-center Is your application set up?
+        p.grid-content.p.text-center.text-gray Go back to resolve any configuration issues or to add any other templates. Need more help? Head over to our&#32;
+          a.link(
+            href = "https://support.runnable.com/"
+            target = "_blank"
+          ) docs
+          | &#32;or&#32;
           //- Opens Intercom chat, and starts with "I need help setting up!":
-          a.link chat with our devs
-          | .
+          a.link chat
+          | &#32;with our devs.
+        p.grid-content.p.text-center.text-gray If you’re done, continue to the Containers page.
     footer.modal-footer.clearfix
       button.btn.btn-md.btn-cancel.gray.float-left(
         ng-click = "CMC.actions.cancel()"
       ) Go Back
       button.btn.btn-md.green.float-right(
         ng-click = "$root.$broadcast('confirmedSetup');CMC.actions.confirm()"
-      ) It‘s Running!
+      ) Continue
