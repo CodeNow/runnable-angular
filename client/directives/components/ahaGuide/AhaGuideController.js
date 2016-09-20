@@ -27,13 +27,14 @@ function AhaGuideController(
           if (!config.workingRepoInstance) {
             AGC.showError = true;
             AGC.errorState = 'nonRunningContainer';
+            updateCaption('exitedEarly');
             $rootScope.$broadcast('ahaGuideEvent', {
               error: AGC.errorState
             });
           } else if (ahaGuide.isAddingFirstRepo()) {
             if (AGC.subStepIndex === 7) {
               callPopover(config, instances);
-              updateCaption('complete');
+              updateCaption('success');
             }
           }
         } else if (ahaGuide.isAddingFirstBranch()) {

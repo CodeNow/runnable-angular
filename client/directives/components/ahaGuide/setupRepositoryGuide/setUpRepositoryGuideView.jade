@@ -7,21 +7,20 @@
     'aha-meter-44': AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'nameContainer',\
     'aha-meter-55': AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'repository',\
     'aha-meter-66': AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'commands',\
-    'aha-meter-77': (AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'buildFiles' || AGC.ahaGuide.furthestStep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'default' || AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'env' || AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'files' || AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'filesMirror' || AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'ports' || AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'translation'),\
-    'aha-meter-88': AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'logs',\
-    'aha-meter-88': AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'exitedEarly',\
-    'aha-meter-100': ((AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'success' || AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'complete')) || getCurrentStep() > steps.ADD_FIRST_REPO,\
+    'aha-meter-77': AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'buildfiles' || AGC.ahaGuide.furthestStep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'default' || AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'env' || AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'files' || AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'filesMirror' || AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'ports' || AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'translation',\
+    'aha-meter-88': AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'logs' || AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'exitedEarly',\
+    'aha-meter-100': (AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'success') || getCurrentStep() > steps.ADD_FIRST_REPO,\
   }"
 )
   svg.iconnables(
     ng-if = "!AGC.showError && !AGC.errorState"
   )
     use(
-      ng-if = "AGC.ahaGuide.isAddingFirstRepo() && AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) !== 'complete'"
+      ng-if = "AGC.ahaGuide.isAddingFirstRepo() && AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) !== 'success'"
       xlink:href = "#icons-octicons-repo"
     )
     use(
-      ng-if = "AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'complete' || AGC.ahaGuide.getCurrentStep() > AGC.ahaGuide.steps.ADD_FIRST_REPO"
+      ng-if = "AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'success' || AGC.ahaGuide.getCurrentStep() > AGC.ahaGuide.steps.ADD_FIRST_REPO"
       xlink:href = "#icons-check"
     )
   svg.iconnables.icons-alert(
@@ -40,7 +39,7 @@
     ng-if = "!AGC.showError"
   )
     use(
-      ng-if = "AGC.subStep === 'complete' || AGC.isBuildSuccessful"
+      ng-if = "AGC.subStep === 'success' || AGC.isBuildSuccessful"
       xlink:href = "#icons-check"
     )
   svg.iconnables.icons-alert(
@@ -94,9 +93,6 @@
     ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
     ng-if = "AGC.isInGuide() && !AGC.showError && AGC.subStep === 'success'"
   ) Your build finished! Verify that it looks good, then click ‘Done’.
-  p.p(
-    ng-if = "AGC.isInGuide() && !AGC.showError && AGC.subStep === 'complete'"
-  ) Once you’re done configuring, head to your containers to start adding branches.
 
 
 .grid-block.vertical.aha-text(
