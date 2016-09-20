@@ -68,7 +68,7 @@ function BuildLogsController(
         })
         .finally(function () {
           pollingCount--;
-          if (pollingCount > 0 && keypather.get($scope, 'BLC.instance.attrs.contextVersion.build.dockerContainer')) {
+          if (pollingCount > 0 && !keypather.get($scope, 'BLC.instance.attrs.contextVersion.build.dockerContainer')) {
             $timeout(pollForCv, 1000);
           }
         });
