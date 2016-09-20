@@ -1,16 +1,27 @@
 .grid-block.shrink.aha-meter.js-animate(
-  class = "{{ AGC.className }}"
-  ng-class = "{'aha-error': AGC.showError || AGC.errorState}"
+  ng-class = "{\
+    'aha-error': AGC.showError || AGC.errorState,\
+    'aha-meter-11': AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'addRepository',\
+    'aha-meter-22': AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'containerSelection',\
+    'aha-meter-33': AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'dockerfileMirroring',\
+    'aha-meter-44': AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'nameContainer',\
+    'aha-meter-55': AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'repository',\
+    'aha-meter-66': AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'commands',\
+    'aha-meter-77': (AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'buildFiles' || AGC.ahaGuide.furthestStep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'default' || AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'env' || AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'files' || AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'filesMirror' || AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'ports' || AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'translation'),\
+    'aha-meter-88': AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'logs',\
+    'aha-meter-88': AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'exitedEarly',\
+    'aha-meter-100': ((AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'success' || AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'complete')) || getCurrentStep() > steps.ADD_FIRST_REPO,\
+  }"
 )
   svg.iconnables(
     ng-if = "!AGC.showError && !AGC.errorState"
   )
     use(
-      ng-if = "AGC.ahaGuide.isAddingFirstRepo() && AGC.subStep !== 'complete'"
+      ng-if = "AGC.ahaGuide.isAddingFirstRepo() && AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) !== 'complete'"
       xlink:href = "#icons-octicons-repo"
     )
     use(
-      ng-if = "AGC.subStep === 'complete' || AGC.ahaGuide.getCurrentStep() > AGC.ahaGuide.steps.ADD_FIRST_REPO"
+      ng-if = "AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'complete' || AGC.ahaGuide.getCurrentStep() > AGC.ahaGuide.steps.ADD_FIRST_REPO"
       xlink:href = "#icons-check"
     )
   svg.iconnables.icons-alert(
@@ -29,7 +40,7 @@
     ng-if = "!AGC.showError"
   )
     use(
-      ng-if = "AGC.subStep === 'complete'"
+      ng-if = "AGC.subStep === 'complete' || AGC.isBuildSuccessful"
       xlink:href = "#icons-check"
     )
   svg.iconnables.icons-alert(
