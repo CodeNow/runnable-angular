@@ -73,10 +73,11 @@ function ControllerApp(
     actions: {},
     state: $state
   };
-
-  if (user.socket) {
-    user.socket.joinOrgRoom(activeAccount.oauthId());
-  }
+  $scope.$watch('dataApp.data.activeAccount', function (activeAccount) {
+    if (user.socket) {
+      user.socket.joinOrgRoom(activeAccount.oauthId());
+    }
+  });
 
   $rootScope.pageName = pageName;
 
