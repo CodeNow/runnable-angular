@@ -48,7 +48,7 @@ function ahaGuide(
         className: 'aha-meter-33'
       },
       dockLoading: {
-        caption: 'Hang tight!',
+        caption: 'Bear with us!',
         className: 'aha-meter-66'
       },
       dockLoaded: {
@@ -154,7 +154,7 @@ function ahaGuide(
         value: 33
       },
       dockLoading: {
-        caption: 'Hang tight!',
+        caption: 'Bear with us!',
         className: 'aha-meter-66',
         value: 66
       },

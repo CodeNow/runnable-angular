@@ -20,6 +20,7 @@ function featureFlags(
     configTerminal: true, // flag for terminal in config view
     containersViewTemplateControls: false,
     containersViewEmptyState: false,
+    contingencyPlan: false,
     dockerfileMirroringMultiple: false,
     editAnyInstance: false,
     emptyFolder: false, // shows empty folder markup
