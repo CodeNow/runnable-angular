@@ -1,6 +1,6 @@
 {
   "name": "runnable-angular",
-  "version": "4.23.8",
+  "version": "4.23.9",
   "private": true,
   "description": "Frontend for Runnable.io",
   "scripts": {
