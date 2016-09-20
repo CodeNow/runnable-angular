@@ -64,6 +64,7 @@ function EnvironmentController(
 
   EC.triggerModal = {
     newContainer: function () {
+      $rootScope.$broadcast('close-popovers');
       return ModalService.showModal({
         controller: 'NewContainerModalController',
         controllerAs: 'MC', // Shared
