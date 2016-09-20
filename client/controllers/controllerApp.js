@@ -108,6 +108,7 @@ function ControllerApp(
     event.stopPropagation();
     event.preventDefault();
     CA.showAhaNavPopover = false;
+    $rootScope.$broadcast('showAddServicesPopover', false);
     ModalService.showModal({
       controller: 'ConfirmationModalController',
       controllerAs: 'CMC',

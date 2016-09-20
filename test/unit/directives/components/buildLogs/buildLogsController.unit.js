@@ -18,6 +18,7 @@ describe('BuildLogsController'.bold.underline.blue, function () {
   var mockCreateDebugContainer;
   var mockDebugContainer;
   var mockErrs;
+  var isRunnabotPartOfOrgStub;
 
   function setup(useInstance, dontIncludeBuildDockerContainer) {
     mockInstance = {
@@ -75,6 +76,11 @@ describe('BuildLogsController'.bold.underline.blue, function () {
       $provide.factory('createDebugContainer', function ($q) {
         mockCreateDebugContainer = sinon.stub().returns($q.when(mockDebugContainer));
         return mockCreateDebugContainer;
+      });
+
+      $provide.factory('isRunnabotPartOfOrg', function ($q) {
+        isRunnabotPartOfOrgStub = sinon.stub().returns($q.when());
+        return isRunnabotPartOfOrgStub;
       });
     });
     angular.mock.inject(function (
