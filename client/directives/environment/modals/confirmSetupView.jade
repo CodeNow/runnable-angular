@@ -19,7 +19,10 @@
           ) docs
           | &#32;or&#32;
           //- Opens Intercom chat, and starts with "I need help setting up!":
-          a.link chat
+          a.link(
+            href = "https://support.runnable.com/hc/en-us/articles/212930166"
+            target = "_blank"
+          ) chat
           | &#32;with our devs.
         p.grid-content.p.text-center.text-gray If you’re done, continue to the Containers page.
     footer.modal-footer.clearfix
