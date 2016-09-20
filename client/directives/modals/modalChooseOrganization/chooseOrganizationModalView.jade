@@ -128,7 +128,7 @@
             p.p.text-gray.text-center.padding-xs(
               ng-if = "$root.featureFlags.contingencyPlan"
             ) We’ll email you at&#32;
-              span taylor@runnable.com
+              span {{ COS.user.attrs.email }}
               | &#32;as soon we’re done spinning up your infrastructure. Thanks for your patience.
         animated-panel.modal-body.grid-block.vertical(
           name = "dockLoaded"
