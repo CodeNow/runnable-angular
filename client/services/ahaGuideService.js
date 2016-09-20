@@ -232,7 +232,7 @@ function ahaGuide(
         var hasAutoLaunch = false;
         if (keypather.get(instances, 'models.length')) {
           instances.models.some(function (instance) {
-            hasBranchLaunched = hasBranchLaunched || instance.attrs.hasAddedBranches;
+            hasBranchLaunched = hasBranchLaunched || instance.attrs.hasAddedBranches || keypather.get(instance, 'children.models.length');
             hasAutoLaunch = hasAutoLaunch || !instance.attrs.shouldNotAutofork;
             // This will short circuit once we have found both of these true
             return hasAutoLaunch && hasBranchLaunched;
@@ -271,9 +271,9 @@ function ahaGuide(
         hasAha: false
       }
     })
-    .then(function(updatedOrg) {
-      updateCurrentOrg(updatedOrg);
-    });
+      .then(function (updatedOrg) {
+        updateCurrentOrg(updatedOrg);
+      });
   }
 
   return {

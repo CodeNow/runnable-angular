@@ -63,10 +63,12 @@ describe('controllerInstance'.bold.underline.blue, function () {
       $provide.value('ahaGuide', {
         isAddingFirstRepo: sinon.stub().returns(false),
         getCurrentStep: sinon.stub().returns(1),
+        isInGuide: sinon.stub().returns(true),
         steps: {
           ADD_FIRST_BRANCH: 123
         }
       });
+      $provide.value('instancesByPod', {});
       $provide.value('favico', mockFavico);
       $provide.factory('fetchUser', function ($q) {
         return function () {

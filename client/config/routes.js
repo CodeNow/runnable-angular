@@ -213,6 +213,10 @@ module.exports = [
     controller: 'ControllerInstances',
     controllerAs: 'CIS',
     resolve: {
+      instancesByPod: function (fetchInstancesByPod, $stateParams, $state) {
+        $state.params.userName = $stateParams.userName;
+        return fetchInstancesByPod();
+      },
       hasConfirmedSetup: function (
         $rootScope,
         $state,
@@ -237,7 +241,13 @@ module.exports = [
     url: '^/:userName/:instanceName',
     templateUrl: 'viewInstance',
     controller: 'ControllerInstance',
-    controllerAs: 'CI'
+    controllerAs: 'CI',
+    resolve: {
+      instancesByPod: function (fetchInstancesByPod, $stateParams, $state) {
+        $state.params.userName = $stateParams.userName;
+        return fetchInstancesByPod();
+      }
+    }
   }
 ];
 Object.freeze(module.exports);
