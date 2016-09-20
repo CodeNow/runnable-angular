@@ -159,8 +159,9 @@ function AhaGuideController(
    * @param {object} instances an object containing a collection of instances
    */
   function callPopover(config, instances) {
-    if (config.workingRepoInstance && config.nonRepoInstance && instances.models.length === 2) {
+    if (config.workingRepoInstance && instances.models.length === 2) {
       $rootScope.$broadcast('launchAhaNavPopover');
+      AGC.showAhaNavPopover = true;
     } else if (config.workingRepoInstance && instances.models.length === 1) {
       $rootScope.$broadcast('showAddServicesPopover', true);
     }
@@ -172,7 +173,7 @@ function AhaGuideController(
       $rootScope.$broadcast('ahaGuideEvent', {
         error: 'exitedEarly'
       });
-    } else if (ahaGuide.isAddingFirstRepo() && AGC.isBuildSuccessful) {
+    } else if (ahaGuide.isAddingFirstRepo() && AGC.isBuildSuccessful && !AGC.showAhaNavPopover) {
       $rootScope.$broadcast('showAddServicesPopover', true);
     }
   });
