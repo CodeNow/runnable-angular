@@ -64,11 +64,11 @@ function BuildLogsController(
     function pollForCv() {
       promisify(BLC.instance, 'fetch')()
         .then(function (instance) {
-          keypather.get($scope, 'BLC.instance', instance);
+          keypather.set($scope, 'BLC.instance', instance);
         })
         .finally(function () {
           pollingCount--;
-          if (pollingCount > 0) {
+          if (pollingCount > 0 && keypather.get($scope, 'BLC.instance.attrs.contextVersion.build.dockerContainer')) {
             $timeout(pollForCv, 1000);
           }
         });
