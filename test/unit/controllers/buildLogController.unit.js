@@ -30,6 +30,7 @@ describe('BuildLogController'.bold.underline.blue, function () {
       $provide.value('primus', mockPrimus);
       $provide.value('$log', ctx.$log);
       $provide.value('errs', ctx.errs);
+
     });
     angular.mock.inject(function (
       _$controller_,
