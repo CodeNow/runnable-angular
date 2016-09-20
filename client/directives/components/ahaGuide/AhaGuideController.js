@@ -27,14 +27,20 @@ function AhaGuideController(
           if (!config.workingRepoInstance) {
             AGC.showError = true;
             AGC.errorState = 'nonRunningContainer';
+            updateCaption('exitedEarly');
             $rootScope.$broadcast('ahaGuideEvent', {
               error: AGC.errorState
             });
-          } else if (ahaGuide.isAddingFirstRepo() && AGC.subStepIndex === 7) {
-            callPopover(config, instances);
+          } else if (ahaGuide.isAddingFirstRepo()) {
+            if (AGC.subStepIndex === 7) {
+              callPopover(config, instances);
+              updateCaption('success');
+            }
           }
         } else if (ahaGuide.isAddingFirstBranch()) {
           AGC.showError = true;
+        } else {
+          ahaGuide.furthestSubstep(ahaGuide.steps.ADD_FIRST_REPO, 'addRepository');
         }
       })
       .catch(errs.handler);
@@ -109,6 +115,7 @@ function AhaGuideController(
     AGC.subStep = status;
     AGC.className = currentMilestone.subSteps[status].className;
     AGC.subStepIndex = currentMilestone.subSteps[status].step;
+    ahaGuide.furthestSubstep(ahaGuide.steps.ADD_FIRST_REPO, status);
   }
 
   function handleBuildUpdate(update) {

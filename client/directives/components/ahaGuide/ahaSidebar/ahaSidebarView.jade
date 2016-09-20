@@ -14,7 +14,15 @@
       | You did it! 👏
     svg.grid-content.shrink.iconnables.icons-close(
       ng-click = "toggleSidebar()"
-      ng-if = "!showOverview"
+      ng-if = "!showOverview && (isAddingFirstBranch() || isAddingFirstRepo())"
+    )
+      use(
+        xlink:href = "#icons-close"
+      )
+
+    svg.grid-content.shrink.iconnables.icons-close(
+      ng-click = "toggleSidebar('end')"
+      ng-if = "!showOverview && isSettingUpRunnabot()"
     )
       use(
         xlink:href = "#icons-close"
@@ -54,16 +62,25 @@
   )
     .grid-block.shrink.aha-meter(
       ng-class = "{\
-          'aha-meter-100': getCurrentStep() > steps.ADD_FIRST_REPO\
+          'aha-meter-11': isAddingFirstRepo() && getFurthestSubstep(steps.ADD_FIRST_REPO) === 'addRepository',\
+          'aha-meter-22': isAddingFirstRepo() && getFurthestSubstep(steps.ADD_FIRST_REPO) === 'containerSelection',\
+          'aha-meter-33': isAddingFirstRepo() && getFurthestSubstep(steps.ADD_FIRST_REPO) === 'dockerfileMirroring',\
+          'aha-meter-44': isAddingFirstRepo() && getFurthestSubstep(steps.ADD_FIRST_REPO) === 'nameContainer',\
+          'aha-meter-55': isAddingFirstRepo() && getFurthestSubstep(steps.ADD_FIRST_REPO) === 'repository',\
+          'aha-meter-66': isAddingFirstRepo() && getFurthestSubstep(steps.ADD_FIRST_REPO) === 'commands',\
+          'aha-meter-77': isAddingFirstRepo() && (getFurthestSubstep(steps.ADD_FIRST_REPO) === 'buildfiles' || getFurthestSubstep(steps.ADD_FIRST_REPO) === 'default' || getFurthestSubstep(steps.ADD_FIRST_REPO) === 'env' || getFurthestSubstep(steps.ADD_FIRST_REPO) === 'files' || getFurthestSubstep(steps.ADD_FIRST_REPO) === 'filesMirror' || getFurthestSubstep(steps.ADD_FIRST_REPO) === 'ports' || getFurthestSubstep(steps.ADD_FIRST_REPO) === 'translation'),\
+          'aha-meter-88': isAddingFirstRepo() && getFurthestSubstep(steps.ADD_FIRST_REPO) === 'logs',\
+          'aha-meter-88': isAddingFirstRepo() && getFurthestSubstep(steps.ADD_FIRST_REPO) === 'exitedEarly',\
+          'aha-meter-100': (isAddingFirstRepo() && getFurthestSubstep(steps.ADD_FIRST_REPO) === 'success') || getCurrentStep() > steps.ADD_FIRST_REPO,\
         }"
     )
       svg.iconnables
         use(
-          ng-if = "getCurrentStep() <= steps.ADD_FIRST_REPO"
+          ng-if = "getFurthestSubstep(steps.ADD_FIRST_REPO) !== 'success'"
           xlink:href = "#icons-octicons-repo"
         )
         use(
-          ng-if = "getCurrentStep() > steps.ADD_FIRST_REPO"
+          ng-if = "getFurthestSubstep(steps.ADD_FIRST_REPO) === 'success'"
           xlink:href = "#icons-check"
         )
     .grid-block.vertical.aha-text

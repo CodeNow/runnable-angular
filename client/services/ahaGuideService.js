@@ -31,6 +31,9 @@ function ahaGuide(
     if (hasRunnabot) { return; }
     return isRunnabotPartOfOrg(keypather.get(currentOrg, 'github.attrs.login'))
       .then(function (runnabot) {
+        if (runnabot) {
+          endGuide();
+        }
         hasRunnabot = runnabot;
         return hasRunnabot;
       });
@@ -60,78 +63,97 @@ function ahaGuide(
       orgSelection: 0,
       dockLoading: 1,
       dockLoaded: 2
-    }
+    },
+    defaultSubstep: 'orgSelection'
   };
+
   stepList[STEPS.ADD_FIRST_REPO] = {
     title: 'Step 2: Add a Repository',
     subSteps: {
       addRepository: {
-        className: 'aha-meter-10',
-        step: 0
+        className: 'aha-meter-11',
+        step: 0,
+        value: 10
       },
       containerSelection: {
-        className: 'aha-meter-20',
-        step: 1
+        className: 'aha-meter-22',
+        step: 1,
+        value: 20
       },
       dockerfileMirroring: {
-        className: 'aha-meter-30',
-        step: 2
+        className: 'aha-meter-33',
+        step: 2,
+        value: 30
       },
       nameContainer: {
-        className: 'aha-meter-40',
-        step: 3
+        className: 'aha-meter-44',
+        step: 3,
+        value: 40
       },
       repository: {
-        className: 'aha-meter-50',
-        step: 4
+        className: 'aha-meter-55',
+        step: 4,
+        value: 50
       },
       commands: {
-        className: 'aha-meter-60',
-        step: 5
+        className: 'aha-meter-66',
+        step: 5,
+        value: 60
       },
       buildfiles: {
-        className: 'aha-meter-70',
-        step: 6
+        className: 'aha-meter-77',
+        step: 6,
+        value: 70
       },
       default: {
-        className: 'aha-meter-70',
-        step: 6
+        className: 'aha-meter-77',
+        step: 6,
+        value: 70
       },
       env: {
-        className: 'aha-meter-70',
-        step: 6
+        className: 'aha-meter-77',
+        step: 6,
+        value: 70
       },
       files: {
-        className: 'aha-meter-70',
-        step: 6
+        className: 'aha-meter-77',
+        step: 6,
+        value: 70
       },
       filesMirror: {
-        className: 'aha-meter-70',
-        step: 6
+        className: 'aha-meter-77',
+        step: 6,
+        value: 70
       },
       ports: {
-        className: 'aha-meter-70',
-        step: 6
+        className: 'aha-meter-77',
+        step: 6,
+        value: 70
       },
       translation: {
-        className: 'aha-meter-70',
-        step: 6
+        className: 'aha-meter-77',
+        step: 6,
+        value: 70
       },
       logs: {
-        className: 'aha-meter-80',
-        step: 7
+        className: 'aha-meter-88',
+        step: 7,
+        value: 80
       },
       exitedEarly: {
-        className: 'aha-meter-80',
-        step: 7
+        className: 'aha-meter-88',
+        step: 7,
+        value: 80
       },
       success: {
-        className: 'aha-meter-90',
-        step: 8
+        className: 'aha-meter-100',
+        step: 8,
+        value: 90
       },
       complete: {
         className: 'aha-meter-100',
-        step: 9
+        step: 9,
+        value: 100
       }
     },
     buildStatus: {
@@ -142,7 +164,8 @@ function ahaGuide(
       cmdFailed: 'Your template isn‘t running yet! Check the logs to debug any issues. If you‘re stumped, ask our engineers!',
       crashed: 'Your template isn‘t running yet! Check the logs to debug any issues. If you‘re stumped, ask our engineers!',
       buildFailed: 'Your template isn‘t running yet! Check the logs to debug any issues. If you‘re stumped, ask our engineers!'
-    }
+    },
+    defaultSubstep: 'addRepository'
   };
 
   stepList[STEPS.ADD_FIRST_BRANCH] = {
@@ -243,6 +266,7 @@ function ahaGuide(
         } else if (!hasAutoLaunch) {
           cachedStep = STEPS.SETUP_RUNNABOT;
         } else {
+
           cachedStep = STEPS.COMPLETED;
         }
       }

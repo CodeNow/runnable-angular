@@ -4,6 +4,7 @@ var $rootScope,
   $scope;
 var element;
 var $compile;
+var isRunnabotPartOfOrgStub;
 var keypather;
 var $q;
 var $elScope;
@@ -73,6 +74,10 @@ describe('instanceHeaderDirective'.bold.underline.blue, function () {
           terminal: true,
           link: angular.noop
         };
+      });
+      $provide.factory('isRunnabotPartOfOrg', function ($q) {
+        isRunnabotPartOfOrgStub = sinon.stub().returns($q.when());
+        return isRunnabotPartOfOrgStub;
       });
     });
     angular.mock.inject(function (_$compile_, _$timeout_, _$rootScope_, _$q_) {

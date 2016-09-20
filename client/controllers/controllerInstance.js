@@ -33,7 +33,11 @@ function ControllerInstance(
 
   var CIS = this;
   CIS.showSidebar = false;
-  CIS.toggleSidebar = function () {
+  CIS.isInGuide = ahaGuide.isInGuide;
+  CIS.toggleSidebar = function (end) {
+    if (end === 'end') {
+      ahaGuide.endGuide();
+    }
     CIS.showSidebar = !CIS.showSidebar;
   };
   $scope.$on('showAhaSidebar', CIS.toggleSidebar);
