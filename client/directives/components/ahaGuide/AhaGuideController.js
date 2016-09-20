@@ -16,30 +16,42 @@ function AhaGuideController(
 ) {
   var AGC = this;
   var animatedPanelListener = angular.noop;
+  // dismiss add service popover if open
+  $rootScope.$broadcast('showAddServicesPopover', false);
+
   if (keypather.has(currentOrg, 'poppa.attrs.id') && ahaGuide.isAddingFirstRepo()) {
     fetchInstancesByPod()
       .then(function (instances) {
-        instances.forEach(function (instance) {
-          var repoName = instance.getRepoName();
-          if (instance.status() === 'running' && repoName) {
-            $rootScope.$broadcast('launchAhaNavPopover');
-          } else if (repoName){
+        if (instances.models.length) {
+          var config = checkContainerInstances(instances);
+          if (!config.workingRepoInstance) {
             AGC.showError = true;
             AGC.errorState = 'nonRunningContainer';
-            $rootScope.$broadcast('ahaGuideError', {
-              cause: AGC.errorState
+            $rootScope.$broadcast('ahaGuideEvent', {
+              error: AGC.errorState
             });
+          } else if (ahaGuide.isAddingFirstRepo() && AGC.subStepIndex === 7) {
+            callPopover(config, instances);
           }
-        });
+        } else if (ahaGuide.isAddingFirstBranch()) {
+          AGC.showError = true;
+        }
       })
       .catch(errs.handler);
   }
 
-  var alertListener = $scope.$on('alert', function (event, alert) {
+  $scope.$on('alert', function (event, alert) {
     // alerts on container creation success
-    if (alert.type === 'success') {
+    if (alert.text === 'Container Created' && alert.type === 'success') {
       updateCaption('logs');
-      alertListener();
+      fetchInstancesByPod()
+        .then(function (instances) {
+          var config = checkContainerInstances(instances);
+          if (config) {
+            callPopover(config, instances);
+          }
+        })
+        .catch(errs.handler);
     }
   });
 
@@ -49,17 +61,17 @@ function AhaGuideController(
     }
   });
 
-  $scope.$on('ahaGuideError', function(event, info) {
-    if (info.cause === 'exitedEarly') {
+  $scope.$on('ahaGuideEvent', function(event, info) {
+    if (info.error === 'exitedEarly') {
       AGC.showError = true;
-      AGC.errorState = info.cause;
+      AGC.errorState = info.error;
       updateCaption('exitedEarly');
-    } else if (info.cause === 'nonRunningContainer') {
+    } else if (info.error === 'nonRunningContainer') {
       AGC.showError = true;
-      AGC.errorState = info.cause;
-    } else if (info.cause === 'buildFailed') {
+      AGC.errorState = info.error;
+    } else if (info.error === 'buildFailed') {
       AGC.showError = true;
-      AGC.errorState = info.cause;
+      AGC.errorState = info.error;
     } else if (info.isClear) {
       AGC.showError = false;
       AGC.errorState = null;
@@ -103,28 +115,66 @@ function AhaGuideController(
     var buildStatus = update.status;
     if (buildStatus === 'buildFailed' || buildStatus === 'stopped' || buildStatus === 'crashed') {
       AGC.showError = true;
-      $rootScope.$broadcast('ahaGuideError', {
-        cause: 'buildFailed'
+      $rootScope.$broadcast('ahaGuideEvent', {
+        error: 'buildFailed'
       });
     } else if (buildStatus === 'starting') {
       AGC.showError = false;
-    } else if (buildStatus === 'running') {
-      AGC.isBuildSuccessful = true;
-      updateCaption('success');
-      $rootScope.$broadcast('ahaGuideError', {
+      // as long as the build was successful that's ok
+      $rootScope.$broadcast('ahaGuideEvent', {
         isClear: true
       });
+      AGC.isBuildSuccessful = true;
+    } else if (buildStatus === 'running') {
+      updateCaption('success');
     }
     AGC.buildStatus = buildStatus;
     AGC.caption = currentMilestone.buildStatus[buildStatus] || AGC.caption;
+  }
+ /** this checks all instances and whether there is a built repo instance and non repo instance
+  * @param {object} instances an object containing a collection of instances
+  * @return {object} config an object with two boolean properties, nonRepoInstance and workingRepoInstance
+  */
+  function checkContainerInstances (instances) {
+    if (!instances) {
+      return null;
+    }
+    var config = {};
+    var status;
+    var repoName;
+    instances.forEach(function(instance) {
+      status = instance.status();
+      repoName = instance.getRepoName();
+      if (repoName && status !== 'building' && status !== 'buildFailed') {
+        config.workingRepoInstance = true;
+      } else if (!repoName) {
+        config.nonRepoInstance = true;
+      }
+    });
+    return config;
+  }
+
+  /** this only calls popovers for one specific group. they have built a repo and nonrepo instance only.
+   * @param {object} config an object with two boolean properties, nonRepoInstance and workingRepoInstance
+   * @param {object} instances an object containing a collection of instances
+   */
+  function callPopover(config, instances) {
+    if (config.workingRepoInstance && instances.models.length === 2) {
+      $rootScope.$broadcast('launchAhaNavPopover');
+      AGC.showAhaNavPopover = true;
+    } else if (config.workingRepoInstance && instances.models.length === 1) {
+      $rootScope.$broadcast('showAddServicesPopover', true);
+    }
   }
 
   $scope.$on('$destroy', function () {
     animatedPanelListener();
     if (AGC.subStepIndex === 7 && !AGC.isBuildSuccessful) {
-      $rootScope.$broadcast('ahaGuideError', {
-        cause: 'exitedEarly'
+      $rootScope.$broadcast('ahaGuideEvent', {
+        error: 'exitedEarly'
       });
+    } else if (ahaGuide.isAddingFirstRepo() && AGC.isBuildSuccessful && !AGC.showAhaNavPopover) {
+      $rootScope.$broadcast('showAddServicesPopover', true);
     }
   });
 
@@ -136,7 +186,7 @@ function AhaGuideController(
     endGuide: ahaGuide.endGuide,
     showSidebar: function () {
       $rootScope.$broadcast('close-popovers');
-      $rootScope.$broadcast('show-aha-sidebar');
+      $rootScope.$broadcast('showAhaSidebar');
     }
   };
 }

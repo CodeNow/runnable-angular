@@ -20,35 +20,23 @@ function EnvironmentController(
   fetchDockerfileForContextVersion,
   fetchOrgMembers,
   fetchUser,
+  instancesByPod,
   keypather,
   ModalService,
-  pageName,
-  instancesByPod
+  pageName
 ) {
   var EC = this;
 
   EC.showInviteButton = false;
-  EC.endGuide = ahaGuide.endGuide;
   EC.isAddingFirstRepo = ahaGuide.isAddingFirstRepo;
   EC.isInGuide = ahaGuide.isInGuide;
   EC.showCreateTemplate = true;
   EC.showOverview = true;
-  EC.toggleSidebar = function () {
-    EC.showSidebar = !EC.showSidebar;
-    EC.showCreateTemplate = true;
-  };
-  EC.popoverActions = {
-    showSidebar: EC.toggleSidebar,
-    endGuide: EC.endGuide
-  };
-
-  $scope.$on('show-aha-sidebar', EC.toggleSidebar);
-  $scope.$on('ahaGuideError', function(event, info) {
+  $scope.$on('ahaGuideEvent', function(event, info) {
     if (info.isClear) {
       EC.errorState = null;
-      $rootScope.$broadcast('launchAhaNavPopover');
     } else {
-      EC.errorState = info.cause;
+      EC.errorState = info.error;
     }
   });
 
@@ -162,7 +150,17 @@ function EnvironmentController(
           subTab: 'billingForm'
         }
       });
-    }
+    },
+    showSidebar: function () {
+      EC.showSidebar = !EC.showSidebar;
+      EC.showCreateTemplate = true;
+    },
+    endGuide: ahaGuide.endGuide
   };
 
+
+  $scope.$on('showAhaSidebar', EC.actions.showSidebar);
+  $scope.$on('showAddServicesPopover', function(event, toggle) {
+    EC.showAddServicePopover = toggle;
+  });
 }

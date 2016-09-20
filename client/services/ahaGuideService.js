@@ -15,24 +15,36 @@ function ahaGuide(
   $rootScope,
   currentOrg,
   fetchInstancesByPod,
+  isRunnabotPartOfOrg,
   keypather,
   patchOrgMetadata
 ) {
   var instances = [];
+  var hasRunnabot = false;
   function refreshInstances() {
     return fetchInstancesByPod()
       .then(function (fetchedInstances) {
         instances = fetchedInstances;
       });
   }
+  function refreshHasRunnabot() {
+    if (hasRunnabot) { return; }
+    return isRunnabotPartOfOrg(keypather.get(currentOrg, 'github.attrs.login'))
+      .then(function (runnabot) {
+        hasRunnabot = runnabot;
+        return hasRunnabot;
+      });
+  }
+
   refreshInstances();
+  refreshHasRunnabot();
 
   var stepList = {};
   stepList[STEPS.CHOOSE_ORGANIZATION] = {
     title: 'Step 1: Choose your Organization',
     subSteps: {
       orgSelection: {
-        caption: 'Choose an organization to create your sandbox for.',
+        caption: 'Select the organization you want to use with Runnable.',
         className: 'aha-meter-33'
       },
       dockLoading: {
@@ -123,8 +135,8 @@ function ahaGuide(
       }
     },
     buildStatus: {
-      building: 'We‘re building! Build time varies depending on your template.',
-      starting: 'We‘re building! Build time varies depending on your template.',
+      building: 'We‘re building! Build time varies depending on your build commands.',
+      starting: 'We‘re building! Build time varies depending on your build commands.',
       running: 'Looking good! Check out your URL, and click ‘Done’ if it looks good to you too.',
       stopped: 'Your template isn‘t running yet! Check the logs to debug any issues. If you‘re stumped, ask our engineers!',
       cmdFailed: 'Your template isn‘t running yet! Check the logs to debug any issues. If you‘re stumped, ask our engineers!',
@@ -204,6 +216,7 @@ function ahaGuide(
   });
   $rootScope.$on('$stateChangeSuccess', function () {
     refreshInstances();
+    refreshHasRunnabot();
   });
   function getCurrentStep() {
     if (!cachedStep) {
@@ -267,6 +280,7 @@ function ahaGuide(
     endGuide: endGuide,
     getCurrentStep: getCurrentStep,
     hasConfirmedSetup: hasConfirmedSetup,
+    hasRunnabot: refreshHasRunnabot,
     isInGuide: isInGuide,
     stepList: stepList,
     steps: STEPS,
@@ -282,7 +296,10 @@ function ahaGuide(
       return getCurrentStep() === STEPS.ADD_FIRST_BRANCH;
     },
     isSettingUpRunnabot: function() {
-      return getCurrentStep() === STEPS.SETUP_RUNNABOT;
+      return getCurrentStep() === STEPS.SETUP_RUNNABOT && !hasRunnabot;
+    },
+    isSettingUpAutoLaunch: function() {
+      return getCurrentStep() === STEPS.SETUP_RUNNABOT && hasRunnabot;
     }
   };
 }
