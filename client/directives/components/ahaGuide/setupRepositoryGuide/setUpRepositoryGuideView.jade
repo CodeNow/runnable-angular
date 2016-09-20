@@ -57,15 +57,15 @@
   p.p(
     ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
     ng-if = "AGC.isInGuide() && !AGC.showError && AGC.subStep === 'addRepository'"
-  ) Add your repository by clicking ‘Create Template’.
+  ) First, add your repository by clicking ‘Create Template’.
   p.p(
     ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
     ng-if = "AGC.isInGuide() && !AGC.showError && AGC.subStep === 'containerSelection'"
-  ) Select a repository to configure.
+  ) Select a service to configure.
   p.p(
     ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
     ng-if = "AGC.isInGuide() && !AGC.showError && AGC.subStep === 'dockerfileMirroring'"
-  ) How would you like to configure your repo?
+  ) How would you like to configure your repository?
   p.p(
     ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
     ng-if = "AGC.isInGuide() && !AGC.showError && AGC.subStep === 'nameContainer'"
@@ -77,26 +77,26 @@
   p.p(
     ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
     ng-if = "AGC.isInGuide() && !AGC.showError && AGC.subStep === 'commands'"
-  ) Choose commands and packages.
+  ) Configure commands and packages.
   p.p(
     ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
     ng-if = "AGC.isInGuide() && !AGC.showError && (AGC.subStep === 'buildfiles' || AGC.subStep === 'default' || AGC.subStep === 'env' || AGC.subStep === 'files' || AGC.subStep === 'ports' || AGC.subStep === 'translation')"
-  ) If your app needs additional configuration…
+  ) Configure additional settings (if necessary).
   p.p(
     ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
     ng-if = "AGC.isInGuide() && !AGC.showError && AGC.subStep === 'filesMirror'"
-  ) We’ve imported your dockerfile, click ‘Save & Build’ to build it!
+  ) We’ve imported your Dockerfile. Click ‘Save & Build’ to build it!
   p.p(
     ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
     ng-if = "AGC.isInGuide() && !AGC.showError && AGC.subStep === 'logs'"
-  ) We‘re building! Build time varies depending on your template.
+  ) We‘re building! Build time varies depending on your build commands.
   p.p(
     ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
     ng-if = "AGC.isInGuide() && !AGC.showError && AGC.subStep === 'success'"
-  ) Your build finished! Check that it looks good, then click ‘Done’.
+  ) Your build finished! Verify that it looks good, then click ‘Done’.
   p.p(
     ng-if = "AGC.isInGuide() && !AGC.showError && AGC.subStep === 'complete'"
-  ) Add more templates if your project requires it. Once you’re done, head to your containers to start adding branches.
+  ) Once you’re done configuring, head to your containers to start adding branches.
 
 
 .grid-block.vertical.aha-text(
@@ -110,11 +110,12 @@
   p.p(
     ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
     ng-if = "AGC.isInGuide() && (AGC.errorState === 'nonRunningContainer' || AGC.subStep === 'exitedEarly')"
-  ) Your template isn‘t running yet! Check the logs to debug any issues. If you‘re stumped,&#32;
+  ) Your template isn’t running yet! Check the logs to debug any issues. If you’re stumped,&#32;
       a.link(
-        ng-click = "askEngineers()"
-      ) ask our engineers
-      | !
+        href = "https://support.runnable.com/hc/en-us/articles/212930166"
+        target = "_blank"
+      ) chat with our devs
+      | .
 
 
 .grid-block.vertical.aha-text(
