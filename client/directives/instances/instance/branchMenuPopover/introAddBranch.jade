@@ -3,17 +3,16 @@
   ng-style = "popoverStyle.getStyle()"
 )
   .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
-    ng-if = "$root.featureFlags.aha && !$root.isLoading.fetchingBranches && CIS.isAddingFirstBranch()"
+    ng-if = "!$root.isLoading.fetchingBranches && CIS.isAddingFirstBranch()"
     aha-guide
     step-index = 2
     sub-step = "addBranch"
   )
 
-  .grid-block.shrink.align-center.justify-center.padding-sm(
-    ng-if = "$root.featureFlags.aha && !$root.isLoading.fetchingBranches && CIS.isSettingUpAutoLaunch()"
-    aha-guide
-    step-index = 3
-    sub-step = "addBranch"
+  .grid-block.shrink.align-center.justify-center.padding-sm.show-autofork(
+    ng-if = "!CIS.isInGuide() && !$root.isLoading.fetchingBranches && CIS.showAutofork"
+    ng-include = "'ahaGuideView'"
+    ng-init = "showAutofork = true"
   )
 
   .arrow.white

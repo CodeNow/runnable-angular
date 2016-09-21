@@ -8,6 +8,7 @@ require('app')
 function ControllerInstances(
   $filter,
   $localStorage,
+  $rootScope,
   $scope,
   $state,
   activeAccount,
@@ -27,8 +28,8 @@ function ControllerInstances(
   CIS.isInGuide = ahaGuide.isInGuide;
   CIS.isAddingFirstBranch = ahaGuide.isAddingFirstBranch;
   CIS.isSettingUpRunnabot = ahaGuide.isSettingUpRunnabot;
-  CIS.isSettingUpAutoLaunch = ahaGuide.isSettingUpAutoLaunch;
   CIS.currentOrg = currentOrg;
+  CIS.showAutofork = null;
   CIS.searchBranches = null;
   CIS.instanceBranches = null;
   CIS.unbuiltBranches = null;
@@ -107,6 +108,17 @@ function ControllerInstances(
             userName: userName
           }, {location: 'replace'});
         }
+      }
+
+      if (instances.models.length) {
+        ahaGuide.hasRunnabot()
+          .then(function(runnabot) {
+            if (runnabot) {
+              CIS.showAutofork = instances.models.every(function(instance) {
+                return instance.attrs.shouldNotAutofork;
+              });
+            }
+          });
       }
     })
     .catch(errs.handler);
@@ -247,6 +259,19 @@ function ControllerInstances(
 
   this.setAutofork = function () {
     CIS.poppedInstance.attrs.shouldNotAutofork = !CIS.poppedInstance.attrs.shouldNotAutofork;
+    if (CIS.isInGuide() && !CIS.poppedInstance.attrs.shouldNotAutofork) {
+      var children = keypather.get(CIS, 'poppedInstance.children');
+      var childWatcher = $scope.$watchCollection(function() {
+        return children.models;
+      }, function() {
+        if (children.models.length) {
+          $rootScope.$broadcast('showAhaSidebar');
+          childWatcher();
+        }
+      });
+    } else if (!CIS.poppedInstance.attrs.shouldNotAutofork) {
+      CIS.showAutofork = false;
+    }
     promisify(CIS.poppedInstance, 'update')({ shouldNotAutofork: CIS.poppedInstance.attrs.shouldNotAutofork })
       .catch(function () {
         CIS.poppedInstance.attrs.shouldNotAutofork = !CIS.poppedInstance.attrs.shouldNotAutofork;
