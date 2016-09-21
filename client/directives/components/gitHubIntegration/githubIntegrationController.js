@@ -51,7 +51,6 @@ function GithubIntegrationController(
     });
 
   GIC.pollCheckRunnabot = function () {
-    $rootScope.$broadcast('showAutoLaunchPopover');
     GIC.pollingInterval = $interval(checkRunnabot, 2000);
   };
 

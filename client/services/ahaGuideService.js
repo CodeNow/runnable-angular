@@ -33,6 +33,7 @@ function ahaGuide(
       .then(function (runnabot) {
         if (runnabot && isInGuide()) {
           endGuide();
+          $rootScope.$broadcast('showAutoLaunchPopover');
         }
         hasRunnabot = runnabot;
         return hasRunnabot;
