@@ -53,7 +53,7 @@ function ControllerInstances(
 
   $scope.$on('showAutoLaunchPopover', function() {
     CIS.showAutofork = true;
-  })
+  });
 
   fetchInstancesByPod()
     .then(function (instancesByPod) {
