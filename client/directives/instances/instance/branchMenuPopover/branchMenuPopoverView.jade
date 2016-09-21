@@ -140,7 +140,11 @@
               ng-repeat = "branch in CIS.getFilteredBranches()"
               ng-click = "CIS.forkBranchFromInstance(branch, POC.closePopover);"
             )
-              .grid-content {{ branch.attrs.name }}
+              svg.grid-content.shrink.iconnables.icons-branch
+                use(
+                  xlink:href = "#icons-branch-alt"
+                )
+              .grid-content.text-overflow {{ branch.attrs.name }}
               button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add(
                 ng-if = "!$root.isLoading[branch.attrs.name]"
               )

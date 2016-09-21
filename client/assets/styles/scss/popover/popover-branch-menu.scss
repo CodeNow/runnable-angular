@@ -55,6 +55,12 @@
 
   .popover-list-item {
     padding-right: 9px;
+
+    .iconnables.icons-branch {
+      color: $gray-light;
+      height: 18px;
+      margin-right: 0;
+    }
   }
 
   // empty state
