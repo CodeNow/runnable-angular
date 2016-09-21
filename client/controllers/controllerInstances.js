@@ -51,6 +51,10 @@ function ControllerInstances(
     }
   });
 
+  $scope.$on('showAutoLaunchPopover', function() {
+    CIS.showAutofork = true;
+  })
+
   fetchInstancesByPod()
     .then(function (instancesByPod) {
 
@@ -108,17 +112,6 @@ function ControllerInstances(
             userName: userName
           }, {location: 'replace'});
         }
-      }
-
-      if (instances.models.length) {
-        ahaGuide.hasRunnabot()
-          .then(function(runnabot) {
-            if (runnabot) {
-              CIS.showAutofork = instances.models.every(function(instance) {
-                return instance.attrs.shouldNotAutofork;
-              });
-            }
-          });
       }
     })
     .catch(errs.handler);
