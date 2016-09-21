@@ -97,7 +97,7 @@
           )
             //- disabled until an org is selected
             button.btn.btn-md.green(
-              event-name = "Org Confirmed"
+              data-event-name = "Org Confirmed"
               ng-click = "actions.createOrCheckDock(COS.selectedOrgName, goToPanel)"
               ng-disabled = "!COS.selectedOrgName"
             ) Confirm Organization
@@ -144,7 +144,7 @@
             ng-class = "{'in': isActivePanel()}"
           )
             button.btn.btn-md.green(
-              event-name = "Nav to Runnable (after infrastructure wait)"
+              data-event-name = "Nav to Runnable (after infrastructure wait)"
               ng-click = "actions.selectAccount(COS.selectedOrgName)"
             ) Go to Runnable
     .grid-block.justify-center.modal-outer-footer(
