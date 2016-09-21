@@ -147,11 +147,7 @@
               .grid-content.text-overflow {{ branch.attrs.name }}
               button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add(
                 ng-if = "!$root.isLoading[branch.attrs.name]"
-              )
-                svg.iconnables.icons-add
-                  use(
-                    xlink:href = "#icons-add"
-                  )
+              ) Add
               .grid-content.shrink.spinner-wrapper.spinner-sm.spinner-green(
                 ng-if = "$root.isLoading[branch.attrs.name]"
                 ng-include = "'spinner'"
