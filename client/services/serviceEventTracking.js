@@ -372,6 +372,7 @@ EventTracking.prototype.visitedOrgSelectPage = function () {
   var self = this;
   var eventName = 'Visited org-select page';
 
+  self._mixpanel('track', eventName);
   self.analytics.ready(function () {
     self.analytics.track(eventName);
   });
