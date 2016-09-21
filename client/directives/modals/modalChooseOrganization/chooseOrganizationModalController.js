@@ -10,6 +10,7 @@ function ChooseOrganizationModalController(
   ahaGuide,
   createNewSandboxForUserService,
   errs,
+  eventTracking,
   featureFlags,
   fetchWhitelistForDockCreated,
   keypather,
@@ -38,6 +39,9 @@ function ChooseOrganizationModalController(
   };
 
   $scope.actions = {
+    selectedOrg: function(selectedOrgName) {
+      eventTracking.selectedOrg(selectedOrgName);
+    },
     selectAccount: function (selectedOrgName) {
       $state.go('base.instances', {
         userName: selectedOrgName

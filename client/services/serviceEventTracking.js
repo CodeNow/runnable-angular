@@ -365,6 +365,7 @@ EventTracking.prototype.createdNonRepoContainer = function (containerName) {
 /**
  * Track user visit to /orgSelect page
  * Reports to:
+ *   - mixpanel
  *   - segment
  * @return this
  */
@@ -378,6 +379,23 @@ EventTracking.prototype.visitedOrgSelectPage = function () {
   });
   return self;
 };
+
+/**
+ * Track user clicks on an org on the orgSelect page
+ * Reports to:
+ *   - mixpanel
+ * @return this
+ */
+EventTracking.prototype.selectedOrg = function (org) {
+  var self = this;
+  var eventName = 'Selected an org';
+
+  self._mixpanel('track', eventName, {
+    org: org
+  });
+  return self;
+};
+
 
 /**
  * Track org click on /orgSelect page

@@ -79,6 +79,7 @@
               )
               span.grid-block.text-left.text-overflow {{org.oauthName()}}
               input.checkbox.hidden(
+                ng-change = "actions.selectedOrg(org.oauthName())"
                 ng-model = "COS.selectedOrgName"
                 value = "{{org.oauthName()}}"
                 type = "radio"
