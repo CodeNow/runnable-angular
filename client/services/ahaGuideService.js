@@ -263,7 +263,7 @@ function ahaGuide(
         }
         if (!hasBranchLaunched) {
           cachedStep = STEPS.ADD_FIRST_BRANCH;
-        } else if (!hasAutoLaunch) {
+        } else if (!hasRunnabot) {
           cachedStep = STEPS.SETUP_RUNNABOT;
         } else {
           cachedStep = STEPS.COMPLETED;
