@@ -39,9 +39,7 @@ function ChooseOrganizationModalController(
   };
 
   $scope.actions = {
-    selectedOrg: function(selectedOrgName) {
-      eventTracking.selectedOrg(selectedOrgName);
-    },
+    selectedOrg: eventTracking.selectedOrg.bind(eventTracking),
     selectAccount: function (selectedOrgName) {
       $state.go('base.instances', {
         userName: selectedOrgName
