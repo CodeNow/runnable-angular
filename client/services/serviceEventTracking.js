@@ -309,7 +309,8 @@ EventTracking.prototype.update = function () {
  */
 EventTracking.prototype.trackClicked = function (data) {
   var self = this;
-  self._mixpanel('track', 'clicked - ' + _keypather.get(data, 'text'), data);
+
+  self._mixpanel('track', 'Click', data);
   self.analytics.ready(function () {
     self.analytics.track('Click', data);
   });
@@ -388,7 +389,7 @@ EventTracking.prototype.visitedOrgSelectPage = function () {
  */
 EventTracking.prototype.selectedOrg = function (org) {
   var self = this;
-  var eventName = 'Selected an org';
+  var eventName = 'Org Selected';
 
   self._mixpanel('track', eventName, {
     org: org
