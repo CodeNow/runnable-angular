@@ -58,7 +58,9 @@
             xlink:href = "#icons-repository"
           )
         .grid-block.vertical
-          .grid-content.text-overflow button-clicker
+          .grid-content.text-overflow(
+            title = "button-clicker"
+          ) button-clicker
           .grid-block(
             ng-if = "$root.featureFlags.inviteFlows"
           )
@@ -90,7 +92,9 @@
             xlink:href = "#icons-repository"
           )
         .grid-block.vertical
-          .grid-content.text-overflow api
+          .grid-content.text-overflow(
+            title = "api"
+          ) api
           .grid-block(
             ng-if = "$root.featureFlags.inviteFlows"
           )
@@ -116,7 +120,9 @@
             xlink:href = "#icons-repository"
           )
         .grid-block.vertical
-          .grid-content.text-overflow runnable.com
+          .grid-content.text-overflow(
+            title = "runnable.com"
+          ) runnable.com
           .grid-block(
             ng-if = "$root.featureFlags.inviteFlows"
           )

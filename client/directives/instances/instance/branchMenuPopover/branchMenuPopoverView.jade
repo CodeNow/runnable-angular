@@ -144,7 +144,9 @@
                 use(
                   xlink:href = "#icons-branch-alt"
                 )
-              .grid-content.text-overflow {{ branch.attrs.name }}
+              .grid-content.text-overflow(
+                title = "{{ branch.attrs.name }}"
+              ) {{ branch.attrs.name }}
               button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add(
                 ng-if = "!$root.isLoading[branch.attrs.name]"
               ) Add
