@@ -394,6 +394,9 @@ EventTracking.prototype.selectedOrg = function (org) {
   self._mixpanel('track', eventName, {
     org: org
   });
+  self.analytics.ready(function () {
+    self.analytics.track(eventName, {org: org});
+  });
   return self;
 };
 
@@ -413,3 +416,4 @@ EventTracking.prototype.waitingForInfrastructure = function (orgName) {
   });
   return self;
 };
+
