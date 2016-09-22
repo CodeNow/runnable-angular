@@ -1,0 +1,19 @@
+.popover.popover-aha-containers {
+  left: 75px;
+  top: 72px;
+
+  @include media(xxs) {
+    left: 7px;
+    margin-left: 0;
+    top: 234px;
+    width: calc(100vw - 22px);
+  }
+
+  .arrow {
+    @include media(xxs) {
+      left: 30px;
+      top: -6px;
+      transform: rotate(90deg);
+    }
+  }
+}

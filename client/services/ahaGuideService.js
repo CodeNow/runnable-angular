@@ -28,11 +28,14 @@ function ahaGuide(
       });
   }
   function refreshHasRunnabot() {
-    if (hasRunnabot) { return; }
+    if (hasRunnabot) { return true; }
     return isRunnabotPartOfOrg(keypather.get(currentOrg, 'github.attrs.login'))
       .then(function (runnabot) {
-        if (runnabot) {
-          endGuide();
+        if (runnabot && isInGuide()) {
+          endGuide()
+            .then(function() {
+              $rootScope.$broadcast('showAutoLaunchPopover');
+            });
         }
         hasRunnabot = runnabot;
         return hasRunnabot;
@@ -245,20 +248,17 @@ function ahaGuide(
     if (!cachedStep) {
       if ($rootScope.featureFlags.aha && !keypather.get(currentOrg, 'poppa.id')) {
         cachedStep = STEPS.CHOOSE_ORGANIZATION;
-      } else if (!$rootScope.featureFlags.aha || !isInGuide()) {
+      } else if (!isInGuide()) {
         cachedStep = STEPS.COMPLETED;
       } else if (!hasConfirmedSetup()) {
         cachedStep = STEPS.ADD_FIRST_REPO;
       } else {
         // loop over instances and see if any has ever had a branch launched
         var hasBranchLaunched = false;
-        var hasAutoLaunch = false;
         if (keypather.get(instances, 'models.length')) {
           instances.models.some(function (instance) {
-            hasBranchLaunched = hasBranchLaunched || instance.attrs.hasAddedBranches || keypather.get(instance, 'children.models.length');
-            hasAutoLaunch = hasAutoLaunch || !instance.attrs.shouldNotAutofork;
-            // This will short circuit once we have found both of these true
-            return hasAutoLaunch && hasBranchLaunched;
+            hasBranchLaunched = instance.attrs.hasAddedBranches || keypather.get(instance, 'children.models.length');
+            return hasBranchLaunched;
           });
         }
         if (!hasBranchLaunched) {
@@ -320,9 +320,6 @@ function ahaGuide(
     },
     isSettingUpRunnabot: function() {
       return getCurrentStep() === STEPS.SETUP_RUNNABOT && !hasRunnabot;
-    },
-    isSettingUpAutoLaunch: function() {
-      return getCurrentStep() === STEPS.SETUP_RUNNABOT && hasRunnabot;
     }
   };
 }
