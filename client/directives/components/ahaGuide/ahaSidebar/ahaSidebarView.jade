@@ -8,10 +8,15 @@
       //- During ahas 1-3:
       | Setup Guide
     h4.grid-content.strong.text-center.h4(
-      ng-if = "isSettingUpRunnabot()"
+      ng-if = "isSettingUpRunnabot() && !$root.featureFlags.ahaBranchUrlStep"
     )
       //- During aha 4:
       | You did it! 👏
+    h4.grid-content.strong.text-center.h4(
+      ng-if = "isSettingUpRunnabot() && $root.featureFlags.ahaBranchUrlStep"
+    )
+      //- During aha 4:
+      | One more thing…
     svg.grid-content.shrink.iconnables.icons-close(
       ng-click = "toggleSidebar()"
       ng-if = "!showOverview && !isSettingUpRunnabot()"
