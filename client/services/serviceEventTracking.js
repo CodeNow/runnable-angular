@@ -309,7 +309,8 @@ EventTracking.prototype.update = function () {
  */
 EventTracking.prototype.trackClicked = function (data) {
   var self = this;
-  self._mixpanel('track', 'clicked - ' + _keypather.get(data, 'text'), data);
+
+  self._mixpanel('track', 'Click', data);
   self.analytics.ready(function () {
     self.analytics.track('Click', data);
   });
@@ -365,6 +366,7 @@ EventTracking.prototype.createdNonRepoContainer = function (containerName) {
 /**
  * Track user visit to /orgSelect page
  * Reports to:
+ *   - mixpanel
  *   - segment
  * @return this
  */
@@ -372,11 +374,29 @@ EventTracking.prototype.visitedOrgSelectPage = function () {
   var self = this;
   var eventName = 'Visited org-select page';
 
+  self._mixpanel('track', eventName);
   self.analytics.ready(function () {
     self.analytics.track(eventName);
   });
   return self;
 };
+
+/**
+ * Track user clicks on an org on the orgSelect page
+ * Reports to:
+ *   - mixpanel
+ * @return this
+ */
+EventTracking.prototype.selectedOrg = function (org) {
+  var self = this;
+  var eventName = 'Org Selected';
+
+  self._mixpanel('track', eventName, {
+    org: org
+  });
+  return self;
+};
+
 
 /**
  * Track org click on /orgSelect page

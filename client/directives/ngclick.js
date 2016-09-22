@@ -22,6 +22,7 @@ function ngClick(
           });
           eventTracking.trackClicked({
             attrs: cleanedAttrs,
+            eventName: attrs.eventName,
             text: text
           });
         }
