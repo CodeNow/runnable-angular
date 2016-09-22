@@ -37,8 +37,6 @@ function AhaGuideController(
               updateCaption('success');
             }
           }
-        } else if (ahaGuide.isAddingFirstBranch()) {
-          AGC.showError = true;
         } else {
           ahaGuide.furthestSubstep(ahaGuide.steps.ADD_FIRST_REPO, 'addRepository');
         }
