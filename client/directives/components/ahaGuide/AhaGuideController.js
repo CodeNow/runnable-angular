@@ -97,6 +97,7 @@ function AhaGuideController(
   AGC.isBuildSuccessful = false;
   AGC.ahaGuide = ahaGuide;
   AGC.errorState = $scope.errorState;
+  AGC.configSteps = ahaGuide.stepList[ahaGuide.steps.ADD_FIRST_REPO].configSubsteps;
 
   // get the current milestone
   var currentMilestone = ahaGuide.stepList[ahaGuide.getCurrentStep()];

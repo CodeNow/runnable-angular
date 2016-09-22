@@ -79,7 +79,7 @@
   ) Configure commands and packages.
   p.p(
     ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
-    ng-if = "AGC.isInGuide() && !AGC.showError && (AGC.subStep === 'default' || AGC.subStep === 'env' || AGC.subStep === 'files' || AGC.subStep === 'ports' || AGC.subStep === 'translation')"
+    ng-if = "AGC.isInGuide() && !AGC.showError && AGC.configSteps.includes(AGC.subStep)"
   ) Configure additional settings (if necessary).
   p.p(
     ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
