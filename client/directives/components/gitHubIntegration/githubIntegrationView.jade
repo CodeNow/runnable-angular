@@ -1,4 +1,10 @@
-p.grid-content.shrink.p.text-center Now you can invite our bot to your GitHub org to get notifications on your pull requests:
+p.grid-content.shrink.p.text-center(
+  ng-if = "!$root.featureFlags.ahaBranchUrlStep"
+) Now you can invite our bot to your GitHub org to get notifications on your pull requests:
+
+p.grid-content.shrink.p.text-center(
+  ng-if = "$root.featureFlags.ahaBranchUrlStep"
+) Invite our bot to your GitHub org to get notifications on your pull requests:
 
 img.grid-content.shrink.img.img-comment(
   alt = "Runnabot sample comment on a GitHub pull request."

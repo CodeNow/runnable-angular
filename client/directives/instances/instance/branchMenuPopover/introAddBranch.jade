@@ -9,11 +9,10 @@
     sub-step = "addBranch"
   )
 
-  .grid-block.shrink.align-center.justify-center.padding-sm(
-    ng-if = "$root.featureFlags.aha && !$root.isLoading.fetchingBranches && CIS.isSettingUpAutoLaunch()"
-    aha-guide
-    step-index = 3
-    sub-step = "addBranch"
+  .grid-block.shrink.align-center.justify-center.padding-sm.show-autofork(
+    ng-if = "$root.featureFlags.aha && !$root.isLoading.fetchingBranches && CIS.showAutofork"
+    ng-include = "'ahaGuideView'"
+    ng-init = "showAutofork = true"
   )
 
   .arrow.white
