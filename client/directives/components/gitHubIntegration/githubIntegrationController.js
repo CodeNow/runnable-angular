@@ -8,7 +8,6 @@ require('app')
 function GithubIntegrationController(
   $interval,
   $q,
-  $rootScope,
   $scope,
   ahaGuide,
   currentOrg,
