@@ -8,7 +8,6 @@ var patchOrgMetadataStub;
 var apiMocks = require('../apiMocks/index');
 var masterPods;
 var mockInstance;
-var testRunnabot;
 var fetchInstancesByPodMock = new (require('../fixtures/mockFetch'))();
 
 describe('ahaGuide'.bold.underline.blue, function () {
@@ -55,7 +54,7 @@ describe('ahaGuide'.bold.underline.blue, function () {
       $provide.value('currentOrg', mockOrg);
         $provide.factory('fetchInstancesByPod', fetchInstancesByPodMock.fetch());
       $provide.factory('isRunnabotPartOfOrg', function ($q) {
-        isRunnabotPartOfOrgStub = sinon.stub().returns($q.when(testRunnabot));
+        isRunnabotPartOfOrgStub = sinon.stub().returns($q.when(false));
         return isRunnabotPartOfOrgStub;
       });
       $provide.factory('patchOrgMetadata', function ($q) {
