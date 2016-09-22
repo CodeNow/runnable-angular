@@ -7,6 +7,7 @@ require('app')
 function AhaGuideController(
   $scope,
   $rootScope,
+  $state,
   ahaGuide,
   currentOrg,
   errs,
@@ -16,6 +17,7 @@ function AhaGuideController(
 ) {
   var AGC = this;
   var animatedPanelListener = angular.noop;
+  mixpanelEvent();
   // dismiss add service popover if open
   $rootScope.$broadcast('showAddServicesPopover', false);
 
@@ -196,4 +198,12 @@ function AhaGuideController(
       $rootScope.$broadcast('showAhaSidebar');
     }
   };
+
+  function mixpanelEvent () {
+    console.log($state);
+    /* if $state.current.templateUrul === 'environmentView'
+       if $state.current.state === 'base.config'
+       if $state.current.controller === 'EnvironmentController'
+     */
+  }
 }
