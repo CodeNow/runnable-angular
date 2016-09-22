@@ -38,7 +38,7 @@
         )
 
 small.small.text-gray.padding-xxs.label-from(
-  ng-if = "!$root.isLoading.mirrorDockerfile && MDC.state.repo.dockerfiles.length > 0"
+  ng-if = "!$root.isLoading.mirrorDockerfile && MDC.state.repo.dockerfiles.length > 0 && MDC.state.repo.dockerfiles[0].path !== '/undefined'"
 ) Advanced Setup
 
 .grid-content.shrink.list.list-bordered(
@@ -67,7 +67,7 @@ small.small.text-gray.padding-xxs.label-from(
         )
 
 .grid-content.shrink.list.list-bordered(
-  ng-if = "!$root.isLoading.mirrorDockerfile && MDC.state.repo.dockerfiles.length > 0"
+  ng-if = "!$root.isLoading.mirrorDockerfile && MDC.state.repo.dockerfiles.length > 0 && MDC.state.repo.dockerfiles[0].path !== '/undefined'"
 )
   //- 'thisDockerfile' should be the name of the Dockerfile (ie. 'Dockerfile.prod', or 'Dockerfile.staging') to suppot multiple dockerfiles
   //- add .disabled class to the not selected item if loading
