@@ -122,6 +122,7 @@ function AhaGuideController(
     var buildStatus = update.status;
     if (buildStatus === 'buildFailed' || buildStatus === 'stopped' || buildStatus === 'crashed') {
       AGC.showError = true;
+      AGC.errorState = 'nonRunningContainer';
       $rootScope.$broadcast('ahaGuideEvent', {
         error: 'buildFailed'
       });
