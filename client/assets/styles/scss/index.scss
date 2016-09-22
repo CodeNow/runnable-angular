@@ -62,7 +62,6 @@
 @import "components/aha-button";
 @import "components/aha-guide";
 @import "components/aha-modals";
-@import "components/aha-popover";
 @import "components/aha-sidebar";
 @import "components/animated-panel";
 @import "components/badges";
@@ -159,6 +158,9 @@
 @import "popover/popover-account-menu";
 @import "popover/popover-add-branches";
 @import "popover/popover-add-tab";
+@import "popover/popover-aha";
+@import "popover/popover-aha-containers";
+@import "popover/popover-aha-url";
 @import "popover/popover-branch-menu";
 @import "popover/popover-card-status";
 @import "popover/popover-container-menu";

@@ -1,0 +1,18 @@
+.popover.popover-aha-url {
+  left: auto;
+  position: fixed;
+  right: 12px;
+  top: 96px;
+
+  @media (max-width: 810px) {
+    max-width: calc(100vw - 30px);
+    right: 15px;
+    top: 15px;
+  }
+
+  .arrow {
+    @media (max-width: 810px) {
+      display: none;
+    }
+  }
+}

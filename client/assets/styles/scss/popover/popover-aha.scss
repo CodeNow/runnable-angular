@@ -1,0 +1,25 @@
+.popover.popover-aha {
+  max-width: none;
+  width: 450px;
+
+  &.popover-sm {
+    color: $gray;
+    line-height: $input-xs;
+    max-width: none;
+    width: auto;
+
+    .float-left + .float-right {
+      margin-left: 15px;
+
+      @include media(xxs) {
+        float: left;
+        margin-left: 0;
+        margin-top: 3px;
+      }
+    }
+  }
+
+  .popover-content {
+    @extend %padding-sm;
+  }
+}
