@@ -254,9 +254,9 @@ function ControllerInstances(
     CIS.poppedInstance.attrs.shouldNotAutofork = !CIS.poppedInstance.attrs.shouldNotAutofork;
     if (CIS.isInGuide() && !CIS.poppedInstance.attrs.shouldNotAutofork) {
       var children = keypather.get(CIS, 'poppedInstance.children');
-      var childWatcher = $scope.$watchCollection(function() {
-        return children.models;
-      }, function() {
+      var childWatcher = $scope.$watch(function () {
+        return keypather.get(children, 'models.length');
+      }, function () {
         if (children.models.length) {
           $rootScope.$broadcast('showAhaSidebar');
           childWatcher();
