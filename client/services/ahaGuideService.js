@@ -299,8 +299,21 @@ function ahaGuide(
       });
   }
 
+  function resetGuide() {
+    return patchOrgMetadata(currentOrg.poppa.id(), {
+      metadata: {
+        hasAha: true,
+        hasConfirmedSetup: false
+      }
+    })
+      .then(function (updatedOrg) {
+        updateCurrentOrg(updatedOrg);
+      });
+  }
+
   return {
     endGuide: endGuide,
+    resetGuide: resetGuide,
     getCurrentStep: getCurrentStep,
     hasConfirmedSetup: hasConfirmedSetup,
     hasRunnabot: refreshHasRunnabot,

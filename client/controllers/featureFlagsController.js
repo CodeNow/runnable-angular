@@ -4,7 +4,11 @@ require('app')
   .controller('FeatureFlagsController', FeatureFlagsController);
 
 function FeatureFlagsController(
-  $localStorage
+  $localStorage,
+  ahaGuide
 ) {
   this.$localStorage = $localStorage;
+  this.resetAha = function() {
+    ahaGuide.resetGuide();
+  };
 }
