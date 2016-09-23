@@ -46,7 +46,7 @@
         repo in repoSelector.data.githubRepos.models | \
         repos: repoSelector.data.repoFilter | \
         allBut: data.appCodeVersions | \
-        orderBy: '-attrs.updated_at'\
+        orderBy: '-attrs.pushed_at'\
       "
     )
       .grid-content.text-overflow(
@@ -63,12 +63,12 @@
           )
           span.small(
             ng-if = "$root.featureFlags.inviteFlows"
-          ) —{{repo.attrs.updated_at | timeFrom}}
+          ) —{{repo.attrs.pushed_at | timeFrom}}
 
         //- else
         small.small(
           ng-if = "!$root.featureFlags.inviteFlows"
-        ) Updated {{ repo.attrs.updated_at | timeFrom }}
+        ) Updated {{ repo.attrs.pushed_at | timeFrom }}
 
       svg.grid-content.shrink.iconnables.icons-arrow-down(
         ng-if = "!repo.loading"
