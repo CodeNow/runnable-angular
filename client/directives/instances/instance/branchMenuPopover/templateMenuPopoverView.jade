@@ -111,7 +111,7 @@
             ng-if = "!$root.featureFlags.inviteFlows"
           ) Updated 3 days ago
 
-        button.grid-block.shrink.btn.btn-xs.btn-icon.btn-add Choose
+        button.grid-block.shrink.btn.btn-xs.btn-icon.btn-add Select
       li.grid-block.align-center.list-item.popover-list-item.multi-line(
         ng-class = "{'disabled': state.loading}"
       )
@@ -139,7 +139,7 @@
             ng-if = "!$root.featureFlags.inviteFlows"
           ) Updated 3 days ago
 
-        button.grid-block.shrink.btn.btn-xs.btn-icon.btn-add Choose
+        button.grid-block.shrink.btn.btn-xs.btn-icon.btn-add Select
   .popover-content(
     ng-if = "state.tab === 'nonRepo'"
     ng-init = "state.servicesLoaded = null"
@@ -173,7 +173,7 @@
         .grid-content Cassandra
         button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add(
           ng-if = "!state.loading"
-        ) Choose
+        ) Select
         .grid-content.shrink.spinner-wrapper.spinner-sm.spinner-green(
           ng-if = "state.loading"
           ng-include = "'spinner'"
@@ -187,7 +187,7 @@
           width = "24"
         )
         .grid-content Consul-Server
-        button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add Choose
+        button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add Select
       li.grid-block.align-center.list-item.popover-list-item.multi-line(
         ng-class = "{'disabled': state.loading}"
       )
@@ -197,4 +197,4 @@
           width = "24"
         )
         .grid-content ElasticSearch
-        button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add Choose
+        button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add Select
