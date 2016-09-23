@@ -168,6 +168,7 @@ function ahaGuide(
       crashed: 'Your template isn‘t running yet! Check the logs to debug any issues. If you‘re stumped, ask our engineers!',
       buildFailed: 'Your template isn‘t running yet! Check the logs to debug any issues. If you‘re stumped, ask our engineers!'
     },
+    configSubsteps: ['default', 'env', 'files', 'ports', 'translation'],
     defaultSubstep: 'addRepository'
   };
 
