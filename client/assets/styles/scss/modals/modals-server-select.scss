@@ -127,6 +127,11 @@
     font-size: 18px;
     height: 60px;
   }
+
+  .modal-server-select & {
+    padding: 0 9px;
+    width: auto;
+  }
 }
 
 // repository/template list
