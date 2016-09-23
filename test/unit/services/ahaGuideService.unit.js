@@ -1,17 +1,138 @@
 'use strict';
 
+var mockOrg;
+var keypather;
+var $rootScope;
+var isRunnabotPartOfOrgStub;
+var patchOrgMetadataStub;
+var apiMocks = require('../apiMocks/index');
+var masterPods;
+var mockInstance;
+var fetchInstancesByPodMock = new (require('../fixtures/mockFetch'))();
+
 describe('ahaGuide'.bold.underline.blue, function () {
   var ahaGuide;
   function initState () {
-
     angular.mock.module('app');
-
-    angular.mock.inject(function (_ahaGuide_) {
+    angular.mock.module(function($provide) {
+      $provide.value('currentOrg', mockOrg);
+      $provide.factory('fetchInstancesByPod', fetchInstancesByPodMock.fetch());
+      $provide.factory('isRunnabotPartOfOrg', function ($q) {
+        isRunnabotPartOfOrgStub = sinon.stub().returns($q.when(false));
+        return isRunnabotPartOfOrgStub;
+      });
+      $provide.factory('patchOrgMetadata', function ($q) {
+        patchOrgMetadataStub = sinon.stub().returns($q.when());
+        return patchOrgMetadataStub;
+      });
+    })
+    angular.mock.inject(function (
+      _ahaGuide_,
+      _keypather_,
+      _$rootScope_
+      ) {
       ahaGuide = _ahaGuide_;
+      keypather = _keypather_;
+      $rootScope = _$rootScope_;
     });
+    $rootScope.featureFlags = {
+      aha: true
+    };
   }
-  beforeEach(initState);
-
+  beforeEach(function() {
+    mockOrg = {
+      poppa:{
+        id: sinon.stub().returns(101),
+        attrs: {
+          metadata: {
+            hasAha:true,
+            hasConfirmedSetup:false
+          }
+        }
+      }
+    };
+    mockInstance = {
+      models: [{
+        attrs: {
+          name: 'instance',
+          hasAddedBranches: true
+        }
+      }, {
+        attrs: {
+          name: 'instance2'
+        }
+      }, {
+        attrs: {
+          name: 'instance2-copy'
+        }
+      }, {
+        attrs: {
+          name: 'instance2-copy2'
+        }
+      }]
+    };
+    initState();
+  });
+  describe('returning the org\'s aha progress', function () {
+    afterEach(function() {
+      mockOrg.poppa.attrs.metadata.hasAha = true;
+      mockOrg.poppa.attrs.metadata.hasConfirmedSetup = false;
+    })
+    it('should return true when the user\'s aha property is active', function () {
+      var userInGuide = ahaGuide.isInGuide();
+      expect(userInGuide).to.equal(true);
+    });
+    it('should return false when not', function () {
+      mockOrg.poppa.attrs.metadata.hasAha = false;
+      var userInGuide = ahaGuide.isInGuide();
+      expect(userInGuide).to.equal(false);
+    });
+    it('should return true when the user has confirmed setup', function () {
+      var userConfirmedSetup = ahaGuide.hasConfirmedSetup();
+      expect(userConfirmedSetup).to.equal(false);
+    });
+    it('should return true when the user has confirmed setup', function () {
+      mockOrg.poppa.attrs.metadata.hasConfirmedSetup = true;
+      var userConfirmedSetup = ahaGuide.hasConfirmedSetup();
+      expect(userConfirmedSetup).to.equal(true);
+    });
+  });
+  describe('getting the current milestone, pre runnabot', function () {
+    it('should return the choose org step when no poppa id', function () {
+      mockOrg.poppa.id = null;
+      var currentStep = ahaGuide.getCurrentStep();
+      var chooseOrgStep = ahaGuide.isChoosingOrg();
+      expect(currentStep).to.equal(1);
+      expect(chooseOrgStep).to.equal(true);
+    });
+    it('should return the add first repo step if setup is not confirmed', function () {
+      mockOrg.poppa.id = sinon.stub().returns(101);
+      var currentStep = ahaGuide.getCurrentStep();
+      var addRepoStep = ahaGuide.isAddingFirstRepo();
+      expect(currentStep).to.equal(2);
+      expect(addRepoStep).to.equal(true);
+    });
+    it('should return the add first branch step if setup is confirmed', function () {
+      mockOrg.poppa.attrs.metadata.hasConfirmedSetup = true;
+      var currentStep = ahaGuide.getCurrentStep();
+      var addFirstBranch = ahaGuide.isAddingFirstBranch();
+      expect(currentStep).to.equal(3);
+      expect(addFirstBranch).to.equal(true);
+    });
+  });
+  describe('getting the current setupRunnabot milestone', function () {
+    beforeEach(function() {
+      mockOrg.poppa.attrs.metadata.hasConfirmedSetup = true;
+      fetchInstancesByPodMock.triggerPromise(mockInstance);
+      $rootScope.$digest();
+    });
+    it('should reflect the runnabot step', function() {
+      var currentStep = ahaGuide.getCurrentStep();
+      var addRunnabot = ahaGuide.isSettingUpRunnabot();
+      expect(currentStep).to.equal(4);
+      expect(addRunnabot).to.equal(true);
+    });
+  });
   describe('furthestSubstep'.bold, function () {
     describe('getter', function () {
       it('should get the default if nothing is set', function () {
