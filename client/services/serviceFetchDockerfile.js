@@ -72,15 +72,12 @@ function fetchDockerfileForContextVersion (
     if (buildDockerfilePath && repoFullName) {
       var branchName = keypather.get(acv, 'attrs.branch');
       // Get everything before the last '/' and add a '/' at the end
-      var nestedDirs = Math.max(buildDockerfilePath.split('/').length - 2, 1);
-      var nestedPathRegex = '\\/([^\\/]*)'.repeat(nestedDirs);
-      var dockerfileRegex = new RegExp('^(\\/?[^\\/]*)' + nestedPathRegex + '$');
-      var result = dockerfileRegex.exec(buildDockerfilePath);
+      var result = /^((\/?[^\/]*)*)\/([^\/]*)$/.exec(buildDockerfilePath);
       if (keypather.get(result, 'length') < 3) {
         throw new Error('BuilddockerfilePath is invalid');
       }
-      var name = result && result.pop() || '';
-      var path = result && result.slice(1).join('/') || '';
+      var name = result && result[result.length - 1] || '';
+      var path = result && result[1] || '';
       // Get everything after the last '/'
       return fetchRepoDockerfile(repoFullName, branchName, buildDockerfilePath)
         .then(doesDockerfileExist)
