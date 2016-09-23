@@ -18,7 +18,6 @@ function AhaGuideController(
 ) {
   var AGC = this;
   var animatedPanelListener = angular.noop;
-  mixpanelEvent();
   // dismiss add service popover if open
   $rootScope.$broadcast('showAddServicesPopover', false);
 
@@ -119,6 +118,22 @@ function AhaGuideController(
     AGC.className = currentMilestone.subSteps[status].className;
     AGC.subStepIndex = currentMilestone.subSteps[status].step;
     ahaGuide.furthestSubstep(ahaGuide.steps.ADD_FIRST_REPO, status);
+
+    // tracking
+    switch (AGC.subStep) {
+      case 'containerSelection':
+        eventTracking.milestone2SelectTemplate();
+        break;
+      case 'repository':
+        eventTracking.milestone2VerifyRepositoryTab();
+        break;
+      case 'commands':
+        eventTracking.milestone2VerifyCommandsTab();
+        break;
+      case 'success':
+        eventTracking.milestone2BuildSuccess();
+        break;
+    }
   }
 
   function handleBuildUpdate(update) {
@@ -200,15 +215,4 @@ function AhaGuideController(
       $rootScope.$broadcast('showAhaSidebar');
     }
   };
-
-  function mixpanelEvent () {
-    console.log($state);
-    if ($state.current.templateUrl === 'environmentView') {
-      eventTracking.startMilestone2($state);
-    }
-    /* if $state.current.templateUrl === 'environmentView'
-       if $state.current.state === 'base.config'
-       if $state.current.controller === 'EnvironmentController'
-     */
-  }
 }

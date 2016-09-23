@@ -418,14 +418,72 @@ EventTracking.prototype.waitingForInfrastructure = function (orgName) {
 };
 
 /**
- * Track start of milestone 2
+ * Milestone 2: Select repository
  * Reports to:
  *   - mixpanel
  * @return this
  */
-EventTracking.prototype.startMilestone2 = function () {
+EventTracking.prototype.milestone2SelectTemplate = function () {
   var self = this;
-  var eventName = 'Visited template page and started milestone 2';
+  var eventName = 'Milestone 2: Select template';
+
+  self._mixpanel('track', eventName);
+  return self;
+};
+
+/**
+ * Milestone 2: Verify repository tab
+ * Reports to:
+ *   - mixpanel
+ * @return this
+ */
+EventTracking.prototype.milestone2VerifyRepositoryTab = function () {
+  var self = this;
+  var eventName = 'Milestone 2: Verify repository tab';
+
+  self._mixpanel('track', eventName);
+  return self;
+};
+
+/**
+ * Milestone 2: Verify commands tab
+ * Reports to:
+ *   - mixpanel
+ * @return this
+ */
+EventTracking.prototype.milestone2VerifyCommandsTab = function () {
+  var self = this;
+  var eventName = 'Milestone 2: Verify commands tab';
+
+  self._mixpanel('track', eventName);
+  return self;
+};
+
+/**
+ * Milestone 2: Trigger build
+ * Reports to:
+ *   - mixpanel
+ * @return this
+ */
+EventTracking.prototype.milestone2TriggerBuild = function (templateCount) {
+  var self = this;
+  var eventName = 'Milestone 2: Trigger build';
+
+  self._mixpanel('track', eventName, {
+    templateCount: templateCount
+  });
+  return self;
+};
+
+/**
+ * Milestone 2: Container popover
+ * Reports to:
+ *   - mixpanel
+ * @return this
+ */
+EventTracking.prototype.milestone2BuildSuccess = function () {
+  var self = this;
+  var eventName = 'Milestone 2: Build success message (in modal)';
 
   self._mixpanel('track', eventName);
   return self;
