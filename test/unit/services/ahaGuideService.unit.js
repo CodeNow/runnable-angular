@@ -11,48 +11,12 @@ var mockInstance;
 var fetchInstancesByPodMock = new (require('../fixtures/mockFetch'))();
 
 describe('ahaGuide'.bold.underline.blue, function () {
-  var ctx;
   var ahaGuide;
-  mockInstance = {
-    models: [{
-      attrs: {
-        name: 'instance',
-        hasAddedBranches: true
-      }
-    }, {
-      attrs: {
-        name: 'instance2'
-      }
-    }, {
-      attrs: {
-        name: 'instance2-copy'
-      }
-    }, {
-      attrs: {
-        name: 'instance2-copy2'
-      }
-    }]
-  };
-  function setOrg () {
-    mockOrg = {
-      poppa: {
-        id: sinon.stub().returns(101),
-        attrs: {
-          hasPaymentMethod: false,
-          metadata: {
-            hasAha: true,
-            hasConfirmedSetup: false
-          }
-        }
-      }
-    };
-  }
-  setOrg();
   function initState () {
     angular.mock.module('app');
     angular.mock.module(function($provide) {
       $provide.value('currentOrg', mockOrg);
-        $provide.factory('fetchInstancesByPod', fetchInstancesByPodMock.fetch());
+      $provide.factory('fetchInstancesByPod', fetchInstancesByPodMock.fetch());
       $provide.factory('isRunnabotPartOfOrg', function ($q) {
         isRunnabotPartOfOrgStub = sinon.stub().returns($q.when(false));
         return isRunnabotPartOfOrgStub;
@@ -75,15 +39,44 @@ describe('ahaGuide'.bold.underline.blue, function () {
       aha: true
     };
   }
-
-  beforeEach(initState);
+  beforeEach(function() {
+    mockOrg = {
+      poppa:{
+        id: sinon.stub().returns(101),
+        attrs: {
+          metadata: {
+            hasAha:true,
+            hasConfirmedSetup:false
+          }
+        }
+      }
+    };
+    mockInstance = {
+      models: [{
+        attrs: {
+          name: 'instance',
+          hasAddedBranches: true
+        }
+      }, {
+        attrs: {
+          name: 'instance2'
+        }
+      }, {
+        attrs: {
+          name: 'instance2-copy'
+        }
+      }, {
+        attrs: {
+          name: 'instance2-copy2'
+        }
+      }]
+    };
+    initState();
+  });
   describe('returning the org\'s aha progress', function () {
-    beforeEach(function() {
+    afterEach(function() {
       mockOrg.poppa.attrs.metadata.hasAha = true;
       mockOrg.poppa.attrs.metadata.hasConfirmedSetup = false;
-    });
-    afterEach(function() {
-      setOrg();
     })
     it('should return true when the user\'s aha property is active', function () {
       var userInGuide = ahaGuide.isInGuide();
