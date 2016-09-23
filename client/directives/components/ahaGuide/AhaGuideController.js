@@ -11,6 +11,7 @@ function AhaGuideController(
   ahaGuide,
   currentOrg,
   errs,
+  eventTracking,
   fetchInstancesByPod,
   keypather,
   patchOrgMetadata
@@ -201,7 +202,10 @@ function AhaGuideController(
 
   function mixpanelEvent () {
     console.log($state);
-    /* if $state.current.templateUrul === 'environmentView'
+    if ($state.current.templateUrl === 'environmentView') {
+      eventTracking.startMilestone2($state);
+    }
+    /* if $state.current.templateUrl === 'environmentView'
        if $state.current.state === 'base.config'
        if $state.current.controller === 'EnvironmentController'
      */

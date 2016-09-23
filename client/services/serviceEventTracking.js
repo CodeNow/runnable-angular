@@ -417,3 +417,16 @@ EventTracking.prototype.waitingForInfrastructure = function (orgName) {
   return self;
 };
 
+/**
+ * Track start of milestone 2
+ * Reports to:
+ *   - mixpanel
+ * @return this
+ */
+EventTracking.prototype.startMilestone2 = function () {
+  var self = this;
+  var eventName = 'Visited template page and started milestone 2';
+
+  self._mixpanel('track', eventName);
+  return self;
+};
