@@ -81,6 +81,7 @@
 
   &:active:not(.disabled) .btn-add {
     @extend %green;
+    color: $white;
 
     .iconnables {
       color: $white;

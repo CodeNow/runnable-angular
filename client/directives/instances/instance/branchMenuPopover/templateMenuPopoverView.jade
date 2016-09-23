@@ -58,7 +58,9 @@
             xlink:href = "#icons-repository"
           )
         .grid-block.vertical
-          .grid-content button-clicker
+          .grid-content.text-overflow(
+            title = "button-clicker"
+          ) button-clicker
           .grid-block(
             ng-if = "$root.featureFlags.inviteFlows"
           )
@@ -77,11 +79,7 @@
 
         button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add(
           ng-if = "!state.loading"
-        )
-          svg.iconnables.icons-add
-            use(
-              xlink:href = "#icons-add"
-            )
+        ) Select
         .grid-content.shrink.spinner-wrapper.spinner-sm.spinner-green(
           ng-if = "state.loading"
           ng-include = "'spinner'"
@@ -94,7 +92,9 @@
             xlink:href = "#icons-repository"
           )
         .grid-block.vertical
-          .grid-content api
+          .grid-content.text-overflow(
+            title = "api"
+          ) api
           .grid-block(
             ng-if = "$root.featureFlags.inviteFlows"
           )
@@ -111,11 +111,7 @@
             ng-if = "!$root.featureFlags.inviteFlows"
           ) Updated 3 days ago
 
-        button.grid-block.shrink.btn.btn-xs.btn-icon.btn-add
-          svg.iconnables.icons-add
-            use(
-              xlink:href = "#icons-add"
-            )
+        button.grid-block.shrink.btn.btn-xs.btn-icon.btn-add Select
       li.grid-block.align-center.list-item.popover-list-item.multi-line(
         ng-class = "{'disabled': state.loading}"
       )
@@ -124,7 +120,9 @@
             xlink:href = "#icons-repository"
           )
         .grid-block.vertical
-          .grid-content runnable.com
+          .grid-content.text-overflow(
+            title = "runnable.com"
+          ) runnable.com
           .grid-block(
             ng-if = "$root.featureFlags.inviteFlows"
           )
@@ -141,11 +139,7 @@
             ng-if = "!$root.featureFlags.inviteFlows"
           ) Updated 3 days ago
 
-        button.grid-block.shrink.btn.btn-xs.btn-icon.btn-add
-          svg.iconnables.icons-add
-            use(
-              xlink:href = "#icons-add"
-            )
+        button.grid-block.shrink.btn.btn-xs.btn-icon.btn-add Select
   .popover-content(
     ng-if = "state.tab === 'nonRepo'"
     ng-init = "state.servicesLoaded = null"
@@ -179,11 +173,7 @@
         .grid-content Cassandra
         button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add(
           ng-if = "!state.loading"
-        )
-          svg.iconnables.icons-add
-            use(
-              xlink:href = "#icons-add"
-            )
+        ) Select
         .grid-content.shrink.spinner-wrapper.spinner-sm.spinner-green(
           ng-if = "state.loading"
           ng-include = "'spinner'"
@@ -197,11 +187,7 @@
           width = "24"
         )
         .grid-content Consul-Server
-        button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add
-          svg.iconnables.icons-add
-            use(
-              xlink:href = "#icons-add"
-            )
+        button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add Select
       li.grid-block.align-center.list-item.popover-list-item.multi-line(
         ng-class = "{'disabled': state.loading}"
       )
@@ -211,8 +197,4 @@
           width = "24"
         )
         .grid-content ElasticSearch
-        button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add
-          svg.iconnables.icons-add
-            use(
-              xlink:href = "#icons-add"
-            )
+        button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add Select

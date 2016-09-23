@@ -100,7 +100,7 @@
 )
   p.p.small.text-gray-light {{ AGC.title }}
   p.p(
-    ng-if = "AGC.isInGuide() && AGC.showError && AGC.errorState === 'buildFailed'"
+    ng-if = "AGC.isInGuide() && AGC.showError && AGC.errorState === 'buildFailed' && AGC.subStep === 'logs'"
   ) Uh oh, there was an error! Inspect your logs for debug info.
 
   p.p(
