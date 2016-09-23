@@ -460,22 +460,6 @@ EventTracking.prototype.milestone2VerifyCommandsTab = function () {
 };
 
 /**
- * Milestone 2: Trigger build
- * Reports to:
- *   - mixpanel
- * @return this
- */
-EventTracking.prototype.milestone2TriggerBuild = function (templateCount) {
-  var self = this;
-  var eventName = 'Milestone 2: Trigger build';
-
-  self._mixpanel('track', eventName, {
-    templateCount: templateCount
-  });
-  return self;
-};
-
-/**
  * Milestone 2: Container popover
  * Reports to:
  *   - mixpanel
