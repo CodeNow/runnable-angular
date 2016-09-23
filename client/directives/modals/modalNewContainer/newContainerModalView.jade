@@ -73,7 +73,7 @@
               xlink:href = "#icons-arrow-down"
             )
           h1.modal-heading(
-            ng-if = "!MC.ahaGuide.isInGuide()"
+            ng-if = "!MC.ahaGuide.isAddingFirstRepo()"
           ) Setup Method
           svg.iconnables.icons-close(
             ng-click = "MC.close()"
@@ -116,7 +116,7 @@
               xlink:href = "#icons-arrow-down"
             )
           h1.modal-heading.text-overflow(
-            ng-if = "!MC.ahaGuide.isInGuide()"
+            ng-if = "!MC.ahaGuide.isAddingFirstRepo()"
           ) Template Name
           svg.iconnables.icons-close(
             ng-click = "MC.close()"

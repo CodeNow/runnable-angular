@@ -81,11 +81,11 @@
     )
       svg.iconnables
         use(
-          ng-if = "getFurthestSubstep(steps.ADD_FIRST_REPO) !== 'success'"
+          ng-if = "getFurthestSubstep(steps.ADD_FIRST_REPO) !== 'success' && isAddingFirstRepo()"
           xlink:href = "#icons-octicons-repo"
         )
         use(
-          ng-if = "getFurthestSubstep(steps.ADD_FIRST_REPO) === 'success'"
+          ng-if = "getFurthestSubstep(steps.ADD_FIRST_REPO) === 'success' || getCurrentStep() > steps.ADD_FIRST_REPO"
           xlink:href = "#icons-check"
         )
     .grid-block.vertical.aha-text
