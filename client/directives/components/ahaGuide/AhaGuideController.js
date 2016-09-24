@@ -7,7 +7,6 @@ require('app')
 function AhaGuideController(
   $scope,
   $rootScope,
-  $state,
   ahaGuide,
   currentOrg,
   errs,
