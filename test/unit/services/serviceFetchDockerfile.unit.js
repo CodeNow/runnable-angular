@@ -239,11 +239,13 @@ describe('serviceFetchDockerfile'.bold.underline.blue, function () {
         });
       });
       angular.mock.inject(function (
+        _$q_,
         _$rootScope_,
         _fetchDockerfileForContextVersion_,
         _keypather_,
         _moment_
       ) {
+        $q = _$q_;
         $rootScope = _$rootScope_;
         fetchDockerfileForContextVersion = _fetchDockerfileForContextVersion_;
         keypather = _keypather_;
@@ -263,7 +265,7 @@ describe('serviceFetchDockerfile'.bold.underline.blue, function () {
         newFile: sinon.stub().returns(true)
       };
     });
-    it('should not throw any errors for a typical dockerfile path', function () {
+    it('should determine the correct path for a typical dockerfile', function () {
       fetchDockerfileForContextVersion(contextVersionMock);
       $rootScope.$digest();
       sinon.assert.calledOnce(fetchRepoDockerfileStub);
@@ -282,7 +284,7 @@ describe('serviceFetchDockerfile'.bold.underline.blue, function () {
         lastUpdated: 'a month ago'
       })
     });
-    it('should not throw any errors for a dockerfile one directory deep', function () {
+    it('should determine the correct path for a dockerfile one directory deep', function () {
       contextVersionMock.attrs.buildDockerfilePath = '/one/Dockerfile'
       fetchDockerfileForContextVersion(contextVersionMock);
       $rootScope.$digest();
@@ -302,7 +304,7 @@ describe('serviceFetchDockerfile'.bold.underline.blue, function () {
         lastUpdated: 'a month ago'
       })
     });
-    it('should not throw any errors for a dockerfile two directories deep', function () {
+    it('should determine the correct path for a dockerfile two directories deep', function () {
       contextVersionMock.attrs.buildDockerfilePath = '/one/two/Dockerfile'
       fetchDockerfileForContextVersion(contextVersionMock);
       $rootScope.$digest();
@@ -322,7 +324,7 @@ describe('serviceFetchDockerfile'.bold.underline.blue, function () {
         lastUpdated: 'a month ago'
       })
     });
-    it('should not throw any errors for a dockerfile three directories deep', function () {
+    it('should determine the correct path for a dockerfile three directories deep', function () {
       contextVersionMock.attrs.buildDockerfilePath = '/one/two/three/Dockerfile'
       fetchDockerfileForContextVersion(contextVersionMock);
       $rootScope.$digest();
@@ -341,6 +343,30 @@ describe('serviceFetchDockerfile'.bold.underline.blue, function () {
         path: '/one/two/three/',
         lastUpdated: 'a month ago'
       })
+    });
+    it('should throw an error if the dockerfile path is not valid', function () {
+      contextVersionMock.attrs.buildDockerfilePath = 'Dockerfile'
+      var error;
+      var err;
+      fetchDockerfileForContextVersion(contextVersionMock)
+        .catch(function(err) {
+          error = err;
+        })
+      $rootScope.$digest();
+      sinon.assert.notCalled(fetchRepoDockerfileStub);
+      expect(error.message).to.equal('Dockerfile path is invalid');
+    });
+    it('should throw an error if the dockerfile cannot be retrieved from the repo', function () {
+      doesDockerfileExistStub.returns($q.when(null));
+      var error;
+      fetchDockerfileForContextVersion(contextVersionMock)
+        .catch(function(err) {
+          error = err;
+        });
+      $rootScope.$digest();
+      sinon.assert.calledOnce(fetchRepoDockerfileStub);
+      sinon.assert.calledWithExactly(fetchRepoDockerfileStub, 'testRepo', 'testBranch', '/Dockerfile');
+      expect(error.message).to.equal('No Dockerfile in this repo');
     });
   });
 

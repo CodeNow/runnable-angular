@@ -55,6 +55,9 @@ function ServerModalController(
         }
         state.dockerfile = dockerfile;
         return dockerfile;
+      })
+      .catch(function(err) {
+        console.log(err);
       });
   };
 
