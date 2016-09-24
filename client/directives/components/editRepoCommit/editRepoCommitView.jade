@@ -1,8 +1,8 @@
 //- repository
 .btn.gray.btn-repository.clearfix(
   ng-class = "{\
-    'grid-block align-center justify-center': !activeCommit.attrs.commit.message,\
-    'main-btn': !acv.attrs.additionalRepo,\
+    'error': $root.featureFlags.autoDeployError,\
+    'grid-block align-center justify-center': !activeCommit.attrs.commit.message\
   }"
   ng-click = "actions.openRepoDetailsModal()"
 )
@@ -78,3 +78,10 @@
           xlink:href = "#icons-alert-alt"
         )
       | {{autoDeploy() ? 'Auto-Deploy Disabled' : 'Auto-Deploy Enabled'}}
+
+//- if behind and auto-deploy is on
+.grid-block.align-center.padding-xs.well.well-popover.orange(
+  ng-if = "$root.featureFlags.autoDeployError"
+)
+  .grid-content.small Error deploying the latest commit.
+  button.grid-content.shrink.btn.btn-xs.orange Deploy Now
