@@ -8,6 +8,7 @@ function BranchCommitSelectorController(
   keypather
 ) {
   var BCSC = this;
+  BCSC.isLatestCommitDeployed = true;
 
   BCSC.onCommitFetch = function (commits) {
     if (!commits.models.length) { return; }
@@ -15,6 +16,7 @@ function BranchCommitSelectorController(
       BCSC.data.commit = commits.models.find(function (otherCommits) {
         return otherCommits === BCSC.data.commit;
       }) || commits.models[0];
+      BCSC.isLatestCommitDeployed = commits.models[0] === BCSC.data.commit;
     }
   };
 
@@ -35,6 +37,13 @@ function BranchCommitSelectorController(
     BCSC.data.commit = commit;
     $scope.$emit('commit::selected', commit);
   };
+
+  BCSC.deployLatestCommit = function() {
+    if (BCSC.isAutoDeployOn() && !BCSC.isLatestCommitDeployed) {
+      BCSC.data.commit = keypather.get(BCSC.data.branch, 'commits.models[0]');
+      BCSC.updateInstance();
+    }
+  }
 
   BCSC.isAutoDeployOn = function () {
     if (keypather.get(BCSC, 'data.acv.attrs.additionalRepo')) {

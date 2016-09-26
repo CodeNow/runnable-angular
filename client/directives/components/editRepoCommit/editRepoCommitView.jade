@@ -1,7 +1,7 @@
 //- repository
 .btn.gray.btn-repository.clearfix(
   ng-class = "{\
-    'error': $root.featureFlags.autoDeployError && !ERCC.isLatestCommitDeployed,\
+    'error': $root.featureFlags.autoDeployError && ERCC.isLatestCommitDeployed && ERCC.instance.locked,\
     'grid-block align-center justify-center': !ERCC.activeCommit.attrs.commit.message\
   }"
   ng-click = "ERCC.actions.openRepoDetailsModal()"
@@ -81,7 +81,9 @@
 
 //- if behind and auto-deploy is on
 .grid-block.align-center.padding-xs.well.well-popover.orange(
-  ng-if = "$root.featureFlags.autoDeployError && !ERCC.isLatestCommitDeployed"
+  ng-if = "$root.featureFlags.autoDeployError && !ERCC.isLatestCommitDeployed && !ERCC.instance.attrs.locked"
 )
   .grid-content.small Error deploying the latest commit.
-  button.grid-content.shrink.btn.btn-xs.orange Deploy Now
+  button.grid-content.shrink.btn.btn-xs.orange(
+    ng-click = "ERCC.updateInstance()"
+  ) Deploy Now

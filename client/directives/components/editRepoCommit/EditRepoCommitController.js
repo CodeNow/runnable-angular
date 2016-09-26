@@ -15,9 +15,11 @@ function EditRepoCommitController(
   promisify,
   errs,
   loading,
-  ModalService
+  ModalService,
+  updateInstanceWithNewAcvData
 ) {
     var ERCC = this;
+    ERCC.isLatestCommitDeployed = true;
 
     $scope.$watch('ERCC.acv', function (newAcv) {
       if (newAcv) {
@@ -33,6 +35,15 @@ function EditRepoCommitController(
           })
       }
     });
+
+    ERCC.data = {
+      repo: ERCC.acv.githubRepo,
+      acv: ERCC.acv,
+      branch: fetchCommitData.activeBranch(ERCC.acv),
+      useLatest: ERCC.acv.attrs.useLatest,
+      locked: ERCC.instance.attrs.locked,
+      instance: ERCC.instance
+    };
 
     ERCC.actions = {
       toggleEditCommits: function () {
@@ -99,61 +110,15 @@ function EditRepoCommitController(
       }
     };
 
-    ERCC.updateInstance = function () {
-      var updateInstance = function () {
-        return $q.when()
-          .then(function () {
-            loading('main', true);
-            if (!RDMC.hasLockedBeenUpdated()) {
-              return;
-            }
-            return promisify(instance, 'update')({
-              locked: RDMC.data.locked
-            });
-          })
-          .then(function () {
-            if (RDMC.hasCommitBeenUpdated()) {
-              return updateInstanceWithNewAcvData(RDMC.instance, RDMC.appCodeVersion, RDMC.data);
-            }
-          })
-            .finally(function () {
-              loading('main', false);
-            });
-      };
-
-      return $q.when()
-        .then(function () {
-          var mainACV = RDMC.instance.contextVersion.getMainAppCodeVersion();
-          var repo = mainACV.attrs.repo;
-          var branch = mainACV.attrs.branch;
-
-          var isolation = keypather.get(RDMC, 'instance.isolation');
-          if (!isolation) {
-            return true;
+    ERCC.updateInstance = function() {
+      var branch = ERCC.acv.githubRepo.newBranch(ERCC.acv.attrs.branch, {warn: false});
+      promisify(branch.commits, 'fetch')()
+        .then(function(commits) {
+          ERCC.latestBranchCommit = keypather.get(commits, 'models[0]');
+          ERCC.data.commit = ERCC.latestBranchCommit;
+          if (ERCC.activeCommit.attrs.sha !== ERCC.latestBranchCommit.attrs.sha) {
+            return updateInstanceWithNewAcvData(ERCC.instance, ERCC.acv, ERCC.data);
           }
-          var childInstances = isolation.instances.models;
-          var groupMaster = isolation.groupMaster;
-          var instances = childInstances.concat(groupMaster);
-          var instanceWithSameRepoAndBranch = instances.filter(function (i) {
-            if (!i) {
-              return false;
-            }
-            var iACV = i.contextVersion.getMainAppCodeVersion();
-            if (iACV && iACV.attrs.repo === repo && iACV.attrs.branch === branch) {
-              return true;
-            }
-            return false;
-          });
-          if (instanceWithSameRepoAndBranch.length > 1) {
-            return RDMC.confirmAutoDeploy();
-          }
-          return true;
         })
-        .then(function (confirmed) {
-          if (!confirmed) {
-            return;
-          }
-          return RDMC.close(updateInstance());
-        });
-    };
+    }
   };
