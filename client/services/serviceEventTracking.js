@@ -385,6 +385,7 @@ EventTracking.prototype.visitedOrgSelectPage = function () {
  * Track user clicks on an org on the orgSelect page
  * Reports to:
  *   - mixpanel
+ *   - segment
  * @return this
  */
 EventTracking.prototype.selectedOrg = function (org) {
@@ -469,6 +470,20 @@ EventTracking.prototype.milestone2VerifyRepositoryTab = function () {
 EventTracking.prototype.milestone2VerifyCommandsTab = function () {
   var self = this;
   var eventName = 'Milestone 2: Verify commands tab';
+
+  self._mixpanel('track', eventName);
+  return self;
+};
+
+/**
+ * Milestone 2: Building
+ * Reports to:
+ *   - mixpanel
+ * @return this
+ */
+EventTracking.prototype.milestone2Building = function () {
+  var self = this;
+  var eventName = 'Milestone 2: Building';
 
   self._mixpanel('track', eventName);
   return self;

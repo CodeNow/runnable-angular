@@ -131,6 +131,9 @@ function AhaGuideController(
       case 'commands':
         eventTracking.milestone2VerifyCommandsTab();
         break;
+      case 'logs':
+        eventTracking.milestone2Building();
+        break;
       case 'success':
         eventTracking.milestone2BuildSuccess();
         break;
