@@ -131,7 +131,10 @@ function SetupMirrorServerModalController(
     .finally(function () {
       loading(SMC.name, false);
     })
-    .catch(errs.handler);
+    .catch(function(err) {
+      errs.handler(err);
+      close();
+    });
 
   $scope.$on('resetStateContextVersion', function ($event, contextVersion, showSpinner) {
     $event.stopPropagation();
