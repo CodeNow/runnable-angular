@@ -130,6 +130,10 @@ function SetupMirrorServerModalController(
   SMC.openDockerfile(SMC.state, SMC.openItems)
     .finally(function () {
       loading(SMC.name, false);
+    })
+    .catch(function(err) {
+      errs.handler(err);
+      close();
     });
 
   $scope.$on('resetStateContextVersion', function ($event, contextVersion, showSpinner) {
