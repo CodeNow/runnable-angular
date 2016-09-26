@@ -4,7 +4,6 @@ require('app')
   .factory('fetchCommitData', fetchCommitData);
 
 function fetchCommitData (
-  $q,
   errs,
   promisify
 ) {

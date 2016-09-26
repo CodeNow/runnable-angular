@@ -1,41 +1,41 @@
 //- repository
 .btn.gray.btn-repository.clearfix(
   ng-class = "{\
-    'error': $root.featureFlags.autoDeployError,\
-    'grid-block align-center justify-center': !activeCommit.attrs.commit.message\
+    'error': $root.featureFlags.autoDeployError && !ERCC.isLatestCommitDeployed,\
+    'grid-block align-center justify-center': !ERCC.activeCommit.attrs.commit.message\
   }"
-  ng-click = "actions.openRepoDetailsModal()"
+  ng-click = "ERCC.actions.openRepoDetailsModal()"
 )
   .spinner-wrapper.spinner-sm.spinner-gray.in(
-    ng-if = "!activeCommit.attrs.commit.message"
+    ng-if = "!ERCC.activeCommit.attrs.commit.message"
     ng-include = "'spinner'"
   )
 
   .load(
-    ng-if = "activeCommit.attrs.commit.message"
+    ng-if = "ERCC.activeCommit.attrs.commit.message"
   )
     .row.text-overflow
       svg.iconnables.icons-repository-alt.float-left
         use(
           xlink:href = "#icons-repository-alt"
         )
-      | {{acv.githubRepo.attrs.name}}
+      | {{ERCC.acv.githubRepo.attrs.name}}
     .row.text-overflow.js-repository-branch(
-      ng-if = "acv.attrs.additionalRepo && !$root.featureFlags.inviteFlows"
+      ng-if = "ERCC.acv.attrs.additionalRepo && !$root.featureFlags.inviteFlows"
     )
       svg.iconnables.icons-branch.float-left
         use(
           xlink:href = "#icons-branch-alt"
         )
-      | {{acv.attrs.branch}}
+      | {{ERCC.acv.attrs.branch}}
     .row.row-commit.js-repository-commit(
-      title = "{{activeCommit.attrs.commit.message}}"
+      title = "{{ERCC.activeCommit.attrs.commit.message}}"
     )
       svg.iconnables.icons-commit.float-left
         use(
           xlink:href = "#icons-commit-alt"
         )
-      | {{activeCommit.attrs.commit.message}}
+      | {{ERCC.activeCommit.attrs.commit.message}}
     .row.row-author
       //- empty
       svg.iconnables
@@ -51,17 +51,17 @@
       )
       span.small(
         ng-if = "$root.featureFlags.inviteFlows"
-      ) —{{activeCommit.attrs.commit.author.date | timeFrom}}
+      ) —{{ERCC.activeCommit.attrs.commit.author.date | timeFrom}}
       //- else
       span.small(
         ng-if = "!$root.featureFlags.inviteFlows"
-      ) {{activeCommit.attrs.commit.author.date | timeFrom}}
+      ) {{ERCC.activeCommit.attrs.commit.author.date | timeFrom}}
 
     //- auto-deploy w/ commit syncing
     //- show alternate text in autoDeployTooltip.jade if disabled
     .btn.btn-xs.btn-auto-deploy(
       ng-class = "{'btn-permissions': autoDeploy()}"
-      ng-if = "!acv.attrs.additionalRepo"
+      ng-if = "!ERCC.acv.attrs.additionalRepo"
       pop-over
       pop-over-hover-trigger
       pop-over-options = "{\"top\":30,\"centered\":true}"
@@ -70,18 +70,18 @@
     )
       svg.iconnables.float-left
         use(
-          ng-if = "!autoDeploy()"
+          ng-if = "!ERCC.autoDeploy()"
           xlink:href = "#icons-sync-alt"
         )
         use(
-          ng-if = "autoDeploy()"
+          ng-if = "ERCC.autoDeploy()"
           xlink:href = "#icons-alert-alt"
         )
-      | {{autoDeploy() ? 'Auto-Deploy Disabled' : 'Auto-Deploy Enabled'}}
+      | {{ERCC.autoDeploy() ? 'Auto-Deploy Disabled' : 'Auto-Deploy Enabled'}}
 
 //- if behind and auto-deploy is on
 .grid-block.align-center.padding-xs.well.well-popover.orange(
-  ng-if = "$root.featureFlags.autoDeployError"
+  ng-if = "$root.featureFlags.autoDeployError && !ERCC.isLatestCommitDeployed"
 )
   .grid-content.small Error deploying the latest commit.
   button.grid-content.shrink.btn.btn-xs.orange Deploy Now
