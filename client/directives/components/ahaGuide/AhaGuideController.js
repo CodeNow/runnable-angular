@@ -119,6 +119,9 @@ function AhaGuideController(
 
     // tracking
     switch (AGC.subStep) {
+      case 'addRepository':
+        eventTracking.milestone2Started();
+        break;
       case 'containerSelection':
         eventTracking.milestone2SelectTemplate();
         break;

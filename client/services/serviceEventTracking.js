@@ -418,6 +418,21 @@ EventTracking.prototype.waitingForInfrastructure = function (orgName) {
 };
 
 /**
+ * Milestone 2: Started
+ * Reports to:
+ *   - mixpanel
+ * @return this
+ */
+EventTracking.prototype.milestone2Started = function () {
+  var self = this;
+  var eventName = 'Milestone 2: Started';
+
+  self._mixpanel('track', eventName);
+  return self;
+};
+
+
+/**
  * Milestone 2: Select repository
  * Reports to:
  *   - mixpanel
