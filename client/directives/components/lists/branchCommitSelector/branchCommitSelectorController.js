@@ -38,12 +38,12 @@ function BranchCommitSelectorController(
     $scope.$emit('commit::selected', commit);
   };
 
-  BCSC.deployLatestCommit = function() {
+  BCSC.deployLatestCommit = function () {
     if (BCSC.isAutoDeployOn() && !BCSC.isLatestCommitDeployed) {
       BCSC.data.commit = keypather.get(BCSC.data.branch, 'commits.models[0]');
       BCSC.updateInstance();
     }
-  }
+  };
 
   BCSC.isAutoDeployOn = function () {
     if (keypather.get(BCSC, 'data.acv.attrs.additionalRepo')) {

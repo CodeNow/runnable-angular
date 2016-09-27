@@ -1,5 +1,8 @@
 {
   "sha": "1f9a9cf00c32ebd5bd0f929b356b8531314fe744",
+  "attrs" : {
+    "sha": "1f9a9cf00c32ebd5bd0f929b356b8531314fe744"
+  },
   "commit": {
     "author": {
       "name": "Nathan219",

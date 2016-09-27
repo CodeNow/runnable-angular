@@ -23,8 +23,7 @@ function editRepoCommit(
     bindToController: true,
     scope: {
       acv: '= model',
-      instance: '=',
-      update: '&'
+      instance: '='
     }
-  }
+  };
 }

@@ -3,7 +3,7 @@
 require('app')
   .controller('EditRepoCommitController', EditRepoCommitController);
 /**
- * controller RepositoryDetailsModalController
+ * controller EditRepoCommitController
  * @ngInject
  */
 function EditRepoCommitController(
@@ -21,18 +21,19 @@ function EditRepoCommitController(
     var ERCC = this;
     ERCC.isLatestCommitDeployed = true;
 
-    $scope.$watch('ERCC.acv', function (newAcv) {
+    $scope.$watch('ERCC.acv', function (newAcv, oldAcv) {
       if (newAcv) {
         var branch = ERCC.acv.githubRepo.newBranch(ERCC.acv.attrs.branch, {warn: false});
         $q.all({
-          activeCommit: fetchCommitData.activeCommit(ERCC.acv), 
+          activeCommit: fetchCommitData.activeCommit(ERCC.acv),
           branchCommits: promisify(branch.commits, 'fetch')()
         })
           .then(function(commits) {
             ERCC.activeCommit = commits.activeCommit;
+            ERCC.data.branchCommits = commits.branchCommits;
             ERCC.latestBranchCommit = keypather.get(commits, 'branchCommits.models[0]');
             ERCC.isLatestCommitDeployed = ERCC.activeCommit.attrs.sha === ERCC.latestBranchCommit.attrs.sha;
-          })
+          });
       }
     });
 
@@ -86,8 +87,8 @@ function EditRepoCommitController(
       actions: {
         selectCommit: function (commitSha) {
           ERCC.acv.attrs.commit = commitSha;
-          ERCC.$emit('change-commit', commitSha);
-          ERCC.$broadcast('close-popovers');
+          $scope.$emit('change-commit', commitSha);
+          $scope.$broadcast('close-popovers');
         }
       }
     };
@@ -119,6 +120,6 @@ function EditRepoCommitController(
           if (ERCC.activeCommit.attrs.sha !== ERCC.latestBranchCommit.attrs.sha) {
             return updateInstanceWithNewAcvData(ERCC.instance, ERCC.acv, ERCC.data);
           }
-        })
-    }
-  };
+        });
+    };
+  }
