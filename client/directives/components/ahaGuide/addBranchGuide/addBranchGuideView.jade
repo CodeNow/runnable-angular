@@ -2,7 +2,7 @@
   ng-class = "{\
     'aha-error': AGC.errorState || AGC.showError,\
     'aha-meter-33': AGC.ahaGuide.isAddingFirstBranch(),\
-    'aha-meter-66': AGC.ahaGuide.isAddingFirstBranch() && subStep === 'dockLoading',\
+    'aha-meter-66': AGC.ahaGuide.isAddingFirstBranch() && subStep === 'selectBranch',\
     'aha-meter-100': AGC.ahaGuide.getCurrentStep() > ahaGuide.steps.ADD_FIRST_BRANCH\
   }"
 )
@@ -31,11 +31,11 @@
     ng-if = "subStep === 'addBranch'"
   ) Click the ‘Add Branch’ button next to any repo name.
   p.p(
-    ng-if = "subStep === 'dockLoading'"
+    ng-if = "subStep === 'selectBranch'"
   ) Select a branch to add.
   //- show in the branch menu if the repository has no branches.
   p.p(
-    ng-if = "subStep === 'dockLoaded'"
+    ng-if = "subStep === 'noBranches'"
   ) Aw, no branches! Try another repository or &#32;
       a.link(
         ng-click = "AGC.skipBranchMilestone()"

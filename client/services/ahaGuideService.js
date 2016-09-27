@@ -180,13 +180,11 @@ function ahaGuide(
         className: 'aha-meter-33',
         value: 33
       },
-      dockLoading: {
-        caption: 'Bear with us!',
+      selectBranch: {
         className: 'aha-meter-66',
         value: 66
       },
-      dockLoaded: {
-        caption: 'Continue to start configuring your project.',
+      noBranches: {
         className: 'aha-meter-100',
         value: 100
       },
