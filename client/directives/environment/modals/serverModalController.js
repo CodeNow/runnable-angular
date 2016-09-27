@@ -8,6 +8,7 @@ function ServerModalController(
   $q,
   $rootScope,
   $scope,
+  ahaGuide,
   createBuildFromContextVersionId,
   configUserContentDomain,
   errs,
@@ -22,6 +23,7 @@ function ServerModalController(
   updateDockerfileFromState
 ) {
   var parentController = this;
+  this.isAddingFirstRepo = ahaGuide.isAddingFirstRepo;
 
   this.requiresRedeploy = function () {
     var SMC = this;

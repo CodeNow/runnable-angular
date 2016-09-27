@@ -8,7 +8,6 @@ function SetupMirrorServerModalController(
   $q,
   $rootScope,
   $scope,
-  ahaGuide,
   cardInfoTypes,
   createAndBuildNewContainer,
   errs,
@@ -29,8 +28,6 @@ function SetupMirrorServerModalController(
   TAB_VISIBILITY
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
-  SMC.isAddingFirstRepo = ahaGuide.isAddingFirstRepo;
-  SMC.showUrlToolbar = SMC.isAddingFirstRepo();
 
   var parentController = $controller('ServerModalController as SMC', { $scope: $scope });
   angular.extend(SMC, {
@@ -45,6 +42,7 @@ function SetupMirrorServerModalController(
     'handleInstanceUpdate': parentController.handleInstanceUpdate.bind(SMC),
     'hasOpenPorts': parentController.hasOpenPorts.bind(SMC),
     'insertHostName': parentController.insertHostName.bind(SMC),
+    'isAddingFirstRepo': parentController.isAddingFirstRepo.bind(SMC),
     'isDirty': parentController.isDirty.bind(SMC),
     'openDockerfile': parentController.openDockerfile.bind(SMC),
     'populateStateFromData': parentController.populateStateFromData.bind(SMC),
@@ -113,7 +111,8 @@ function SetupMirrorServerModalController(
     branch: masterBranch,
     repoSelected: true
   });
-
+  
+  SMC.showUrlToolbar = SMC.isAddingFirstRepo();
   fetchInstancesByPod()
     .then(function (instances) {
       SMC.data.instances = instances;
