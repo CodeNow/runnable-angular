@@ -35,5 +35,14 @@
   ) Select a branch to add.
   //- show in the branch menu if the repository has no branches.
   p.p(
+    ng-if = "subStep === 'dockLoaded'"
+  ) Aw, no branches! Try another repository or &#32;
+      a.link(
+        ng-click = "AGC.skipBranchMilestone()"
+        target = "_blank"
+      ) skip this step
+      | .
+  //- show in the branch menu if the repository has no branches.
+  p.p(
     ng-if = "subStep === 'deletedTemplate'"
   ) You've deleted your repository template. Create another one to continue.

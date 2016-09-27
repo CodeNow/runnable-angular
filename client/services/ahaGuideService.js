@@ -262,7 +262,7 @@ function ahaGuide(
             return hasBranchLaunched;
           });
         }
-        if (!hasBranchLaunched) {
+        if (!hasBranchLaunched && !ahaGuide.skippedBranchMilestone) {
           cachedStep = STEPS.ADD_FIRST_BRANCH;
         } else if (!hasRunnabot) {
           cachedStep = STEPS.SETUP_RUNNABOT;
@@ -282,10 +282,15 @@ function ahaGuide(
     return keypather.get(currentOrg, 'poppa.attrs.metadata.hasConfirmedSetup');
   }
 
-  function updateCurrentOrg(updatedOrg) {
+  function updateCurrentOrg (updatedOrg) {
     if (keypather.has(updatedOrg, 'metadata.hasAha') && keypather.has(updatedOrg, 'metadata.hasConfirmedSetup')) {
       currentOrg.poppa.attrs.metadata = updatedOrg.metadata;
     }
+  }
+
+  function skipBranchMilestone () {
+    ahaGuide.skippedBranchMilestone = true;
+    $rootScope.$broadcast('showAhaSidebar');
   }
 
   function endGuide () {
@@ -323,6 +328,7 @@ function ahaGuide(
     steps: STEPS,
     updateCurrentOrg: updateCurrentOrg,
     furthestSubstep: furthestSubstep,
+    skipBranchMilestone: skipBranchMilestone,
     isChoosingOrg: function() {
       return getCurrentStep() === STEPS.CHOOSE_ORGANIZATION;
     },
