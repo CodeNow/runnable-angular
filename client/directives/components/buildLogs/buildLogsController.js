@@ -7,7 +7,6 @@ function BuildLogsController(
   $rootScope,
   $timeout,
   errs,
-  intercom,
   launchDebugContainer,
   loading,
   updateInstanceWithNewBuild,

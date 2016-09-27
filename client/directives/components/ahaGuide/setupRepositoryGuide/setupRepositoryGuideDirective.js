@@ -4,8 +4,7 @@ require('app')
   .directive('setupRepositoryGuide', setupRepositoryGuide);
 
 function setupRepositoryGuide(
-  ahaGuide,
-  intercom
+  ahaGuide
 ) {
   return {
     restrict: 'A',
