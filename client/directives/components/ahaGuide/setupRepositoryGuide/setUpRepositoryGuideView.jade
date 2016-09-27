@@ -112,8 +112,7 @@
     ng-if = "AGC.isInGuide() && (AGC.errorState === 'nonRunningContainer' || AGC.subStep === 'exitedEarly')"
   ) Your template isn’t running yet! Check the logs to debug any issues. If you’re stumped,&#32;
       a.link(
-        href = "https://support.runnable.com/hc/en-us/articles/212930166"
-        target = "_blank"
+        ng-click = "$root.$broadcast('intercom::buildFailed')"
       ) chat with our devs
       | .
 

@@ -6,7 +6,8 @@ require('app')
 function ExpiredAccountController(
   close,
   $rootScope,
-  $scope
+  $scope,
+  intercom
 ) {
   var EAC = this;
   EAC.close = close;

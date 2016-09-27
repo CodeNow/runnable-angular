@@ -15,7 +15,7 @@
           | your environments due to inactivity. Give us the go ahead and we’ll get you back up and running.
       footer.grid-block.vertical.modal-footer
         button.grid-content.btn.btn-md.green.icons-intercom(
-          ng-click = "WBC.openIntercom()"
+          ng-click = "$root.$broadcast('intercom::pawsd')"
         ) Chat Now
         a.grid-content.link.text-gray.text-center(
           href = "mailto:support@runnable.com?subject=I’m back! Please get my environments back up and running."
