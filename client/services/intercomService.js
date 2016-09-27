@@ -13,7 +13,7 @@ function intercom(
       'Fudge! This thing won’t build my container. Can you fix it?'
     );
   });
-  $rootScope.$on('intercom::configSetup', function () {
+  $rootScope.$on('intercom::confirmedSetup', function () {
     $window.Intercom(
       'showNewMessage',
       'Hey! I need help setting up my application.'
