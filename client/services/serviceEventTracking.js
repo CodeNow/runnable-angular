@@ -401,7 +401,6 @@ EventTracking.prototype.selectedOrg = function (org) {
   return self;
 };
 
-
 /**
  * Track org click on /orgSelect page
  * Reports to:
@@ -483,6 +482,34 @@ EventTracking.prototype.milestone2Building = function () {
 EventTracking.prototype.milestone2BuildSuccess = function () {
   var self = this;
   var eventName = 'Milestone 2: Build success message (in modal)';
+
+  self._mixpanel('track', eventName);
+  return self;
+};
+
+/**
+ * Milestone 3: Visited containers page
+ * Reports to:
+ *   - mixpanel
+ * @return this
+ */
+EventTracking.prototype.visitedContainersPage = function () {
+  var self = this;
+  var eventName = 'Visited containers page';
+
+  self._mixpanel('track', eventName);
+  return self;
+};
+
+/**
+ * Milestone 3: Added branch
+ * Reports to:
+ *   - mixpanel
+ * @return this
+ */
+EventTracking.prototype.addedBranch = function () {
+  var self = this;
+  var eventName = 'Added branch';
 
   self._mixpanel('track', eventName);
   return self;
