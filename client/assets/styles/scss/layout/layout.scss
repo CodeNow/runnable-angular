@@ -84,11 +84,10 @@
   }
 
   .btn-docs {
-    bottom: 72px;
-    left: 7px;
-    position: absolute;
+    margin-bottom: 15px;
+    margin-top: auto;
 
-    @media (max-height: 420px) {
+    @media (max-height: 360px) {
       display: none;
     }
 
