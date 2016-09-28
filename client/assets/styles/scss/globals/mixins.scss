@@ -32,28 +32,12 @@
     @media (max-width: $screen-sm) { @content; }
   } @else if $point == md {
     @media (max-width: $screen-md) { @content; }
-
-    .intercom-messenger-active & {
-      @media (max-width: $screen-md + $intercom-width) { @content; }
-    }
   } @else if $point == lg {
     @media (max-width: $screen-lg) { @content; }
-
-    .intercom-messenger-active & {
-      @media (max-width: $screen-lg + $intercom-width) { @content; }
-    }
   } @else if $point == xl {
     @media (max-width: $screen-xl) { @content; }
-
-    .intercom-messenger-active & {
-      @media (max-width: $screen-xl + $intercom-width) { @content; }
-    }
   } @else if $point == xxl {
     @media (min-width: $screen-xl) { @content; }
-
-    .intercom-messenger-active & {
-      @media (min-width: $screen-xl + $intercom-width) { @content; }
-    }
   }
 }
 

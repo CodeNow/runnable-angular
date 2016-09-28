@@ -151,20 +151,17 @@ $z-spinner: 6000;
 $layout-navigation-width: 90px;
 $instance-list-width: 300px;
 
-// intercom
-$intercom-width: 370px;
-
 // header
 $header-height: 60px;
 
 // screen sizes
-$screen-xxxs: 350px + $layout-navigation-width;
-$screen-xxs: 400px + $layout-navigation-width;
-$screen-xs: 600px + $layout-navigation-width;
-$screen-sm: 768px + $layout-navigation-width;
-$screen-md: 1024px + $layout-navigation-width;
-$screen-lg: 1440px + $layout-navigation-width;
-$screen-xl: 1920px + $layout-navigation-width;
+$screen-xxxs: 350px;
+$screen-xxs: 400px;
+$screen-xs: 600px;
+$screen-sm: 768px;
+$screen-md: 1024px;
+$screen-lg: 1440px;
+$screen-xl: 1920px;
 
 // logs & terminal
 $terminal-line-height: 19px;
