@@ -90,12 +90,13 @@ function AhaGuideController(
     }
   });
 
-  AGC.isInGuide = ahaGuide.isInGuide;
+  AGC.ahaGuide = ahaGuide;
+  AGC.configSteps = ahaGuide.stepList[ahaGuide.steps.ADD_FIRST_REPO].configSubsteps;
+  AGC.errorState = $scope.errorState;
   AGC.hasConfirmedSetup = ahaGuide.hasConfirmedSetup;
   AGC.isBuildSuccessful = false;
-  AGC.ahaGuide = ahaGuide;
-  AGC.errorState = $scope.errorState;
-  AGC.configSteps = ahaGuide.stepList[ahaGuide.steps.ADD_FIRST_REPO].configSubsteps;
+  AGC.isInGuide = ahaGuide.isInGuide;
+  AGC.skipBranchMilestone = ahaGuide.skipBranchMilestone;
 
   // get the current milestone
   var currentMilestone = ahaGuide.stepList[ahaGuide.getCurrentStep()];

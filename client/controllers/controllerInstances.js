@@ -16,6 +16,7 @@ function ControllerInstances(
   currentOrg,
   errs,
   fetchInstancesByPod,
+  fetchRepoBranches,
   keypather,
   loading,
   ModalService,
@@ -210,7 +211,7 @@ function ControllerInstances(
   this.getAllBranches = function (instance) {
     return promisify(currentOrg.github, 'fetchRepo')(instance.getRepoName())
       .then(function (repo) {
-        return promisify(repo, 'fetchBranches')();
+        return fetchRepoBranches(repo);
       });
   };
 

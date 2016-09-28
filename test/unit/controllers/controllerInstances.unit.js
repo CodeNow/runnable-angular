@@ -12,6 +12,7 @@ var $controller,
     mockOrg,
     currentOrg;
 var isRunnabotPartOfOrgStub;
+var fetchRepoBranchesStub;
 var apiMocks = require('../apiMocks/index');
 var mockFetch = new (require('../fixtures/mockFetch'))();
 var runnable = window.runnable;
@@ -110,7 +111,12 @@ describe('ControllerInstances'.bold.underline.blue, function () {
         isRunnabotPartOfOrgStub = sinon.stub().returns($q.when());
         return isRunnabotPartOfOrgStub;
       });
-
+      $provide.factory('fetchRepoBranches', function($q) {
+        fetchRepoBranchesStub = sinon.stub().returns($q.when({
+          models: apiMocks.branches.bitcoinRepoBranches
+        }));
+        return fetchRepoBranchesStub;
+      });
       $provide.factory('setLastOrg', function ($q) {
         return sinon.stub().returns($q.when());
       });
@@ -345,18 +351,11 @@ describe('ControllerInstances'.bold.underline.blue, function () {
 
     it('should fetch branches for an instance when popInstanceOpen is called', function () {
       setup('myOrg');
-
-      var repo = {
-        fetchBranches: sinon.stub().returns($q.when({
-          models: apiMocks.branches.bitcoinRepoBranches
-        }))
-      };
-
-      mockOrg.github.fetchRepo.returns($q.when(repo));
+      mockOrg.github.fetchRepo.returns($q.when(true));
       CIS.popInstanceOpen(masterInstance);
       $rootScope.$digest();
       sinon.assert.calledOnce(mockOrg.github.fetchRepo);
-      sinon.assert.calledOnce(repo.fetchBranches);
+      sinon.assert.calledOnce(fetchRepoBranchesStub);
       expect(CIS.instanceBranches).to.deep.equal(apiMocks.branches.bitcoinRepoBranches);
       expect(CIS.totalInstanceBranches).to.equal(apiMocks.branches.bitcoinRepoBranches.length);
     });

@@ -181,13 +181,11 @@ function ahaGuide(
         className: 'aha-meter-33',
         value: 33
       },
-      dockLoading: {
-        caption: 'Bear with us!',
+      selectBranch: {
         className: 'aha-meter-66',
         value: 66
       },
-      dockLoaded: {
-        caption: 'Continue to start configuring your project.',
+      noBranches: {
         className: 'aha-meter-100',
         value: 100
       },
@@ -264,7 +262,7 @@ function ahaGuide(
             return hasBranchLaunched;
           });
         }
-        if (!hasBranchLaunched) {
+        if (!hasBranchLaunched && !ahaGuide.skippedBranchMilestone) {
           cachedStep = STEPS.ADD_FIRST_BRANCH;
         } else if (!hasRunnabot) {
           cachedStep = STEPS.SETUP_RUNNABOT;
@@ -284,10 +282,15 @@ function ahaGuide(
     return keypather.get(currentOrg, 'poppa.attrs.metadata.hasConfirmedSetup');
   }
 
-  function updateCurrentOrg(updatedOrg) {
+  function updateCurrentOrg (updatedOrg) {
     if (keypather.has(updatedOrg, 'metadata.hasAha') && keypather.has(updatedOrg, 'metadata.hasConfirmedSetup')) {
       currentOrg.poppa.attrs.metadata = updatedOrg.metadata;
     }
+  }
+
+  function skipBranchMilestone () {
+    ahaGuide.skippedBranchMilestone = true;
+    $rootScope.$broadcast('showAhaSidebar');
   }
 
   function endGuide () {
@@ -351,7 +354,11 @@ function ahaGuide(
     steps: STEPS,
     updateCurrentOrg: updateCurrentOrg,
     furthestSubstep: furthestSubstep,
+<<<<<<< HEAD
     updateTracking: updateTracking,
+=======
+    skipBranchMilestone: skipBranchMilestone,
+>>>>>>> 411ea0df0ed98663503bc85e348520b463eb5ed2
     isChoosingOrg: function() {
       return getCurrentStep() === STEPS.CHOOSE_ORGANIZATION;
     },
