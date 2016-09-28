@@ -179,7 +179,7 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
       getCommitStub.reset();
       $scope.ERCC.updateInstance();
       $scope.$digest();
-      expect($scope.ERCC.data.commit.sha).to.equal(commits.models[0].attrs.sha);
+      expect($scope.ERCC.latestBranchCommit.attrs.sha).to.equal(commits.models[0].attrs.sha);
       sinon.assert.calledOnce(getCommitStub);
       sinon.assert.calledOnce(updateInstanceWithNewAcvDataStub);
     });

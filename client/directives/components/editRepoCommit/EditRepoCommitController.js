@@ -30,20 +30,16 @@ function EditRepoCommitController(
         })
           .then(function(commits) {
             ERCC.activeCommit = commits.activeCommit;
-            ERCC.data.branchCommits = commits.branchCommits;
             ERCC.latestBranchCommit = keypather.get(commits, 'branchCommits.models[0]');
             ERCC.isLatestCommitDeployed = ERCC.activeCommit.attrs.sha === ERCC.latestBranchCommit.attrs.sha;
           });
       }
     });
 
-    ERCC.data = {
-      repo: ERCC.acv.githubRepo,
-      acv: ERCC.acv,
+    ERCC.repoObject = {
       branch: fetchCommitData.activeBranch(ERCC.acv),
       useLatest: ERCC.acv.attrs.useLatest,
-      locked: ERCC.instance.attrs.locked,
-      instance: ERCC.instance
+      commit: ERCC.latestBranchCommit
     };
 
     ERCC.actions = {
@@ -106,19 +102,26 @@ function EditRepoCommitController(
           .then(function () {
             loading('autoDeploy', false);
           });
-      } else {
-        return keypather.get(ERCC.instance, 'attrs.locked');
       }
+      return keypather.get(ERCC.instance, 'attrs.locked');
     };
 
     ERCC.updateInstance = function() {
       var branch = ERCC.acv.githubRepo.newBranch(ERCC.acv.attrs.branch, {warn: false});
+      loading('updatingInstance', true);
       promisify(branch.commits, 'fetch')()
         .then(function(commits) {
           ERCC.latestBranchCommit = keypather.get(commits, 'models[0]');
-          ERCC.data.commit = ERCC.latestBranchCommit;
+          ERCC.repoObject.commit = ERCC.latestBranchCommit;
           if (ERCC.activeCommit.attrs.sha !== ERCC.latestBranchCommit.attrs.sha) {
-            return updateInstanceWithNewAcvData(ERCC.instance, ERCC.acv, ERCC.data);
+            return updateInstanceWithNewAcvData(ERCC.instance, ERCC.acv, ERCC.repoObject)
+              .then(function(instance) {
+                loading('updatingInstance', false);
+              })
+              .catch(function(err) {
+                errs.handler(err);
+                loading('updatingInstance', false)
+              });
           }
         });
     };

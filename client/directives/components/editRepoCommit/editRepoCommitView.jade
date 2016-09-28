@@ -86,4 +86,11 @@
   .grid-content.small Error deploying the latest commit.
   button.grid-content.shrink.btn.btn-xs.orange(
     ng-click = "ERCC.updateInstance()"
+    ng-if = "!$root.isLoading.updatingInstance"
+    ng-disabled = "$root.isLoading.updatingInstance"
   ) Deploy Now
+
+  .spinner-wrapper.spinner-sm.spinner-orange.in(
+    ng-if = "$root.isLoading.updatingInstance"
+    ng-include = "'spinner'"
+  )
