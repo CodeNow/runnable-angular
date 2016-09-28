@@ -28,9 +28,10 @@ function EventTracking(
   $window,
   assign,
   keypather,
+  intercomAppId
   siftApiConfig
 ) {
-  INTERCOM_APP_ID = process.env.INTERCOM_APP_ID || 'xs5g95pd';
+  INTERCOM_APP_ID = intercomAppId;
   var self = this;
   SIFT_API_KEY = siftApiConfig;
 
