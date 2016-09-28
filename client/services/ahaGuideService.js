@@ -354,11 +354,8 @@ function ahaGuide(
     steps: STEPS,
     updateCurrentOrg: updateCurrentOrg,
     furthestSubstep: furthestSubstep,
-<<<<<<< HEAD
     updateTracking: updateTracking,
-=======
     skipBranchMilestone: skipBranchMilestone,
->>>>>>> 411ea0df0ed98663503bc85e348520b463eb5ed2
     isChoosingOrg: function() {
       return getCurrentStep() === STEPS.CHOOSE_ORGANIZATION;
     },
