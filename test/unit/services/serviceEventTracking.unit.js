@@ -24,7 +24,7 @@ describe('serviceEventTracking'.bold.underline.blue, function () {
 
   function tearDownState () {
     $log.error.restore();
-    keypather.get(eventTracking, '_Intercom.restore()');
+    keypather.get(eventTracking, '$window.Intercom.restore()');
     keypather.get(eventTracking, '_mixpanel.restore()');
   }
 
@@ -32,7 +32,7 @@ describe('serviceEventTracking'.bold.underline.blue, function () {
   afterEach(tearDownState);
 
   it('should stub/assign Intercom SDK instance', function () {
-    expect(eventTracking._Intercom).to.be.a('function');
+    expect(eventTracking.$window.Intercom).to.be.a('function');
   });
 
   it('should stub/assign Mixpanel SDK instance', function () {
@@ -51,19 +51,19 @@ describe('serviceEventTracking'.bold.underline.blue, function () {
   });
 
   it('should have universal event data', function () {
-    sinon.stub(eventTracking, '_Intercom', noop);
+    sinon.stub(eventTracking.$window, 'Intercom');
     sinon.stub(eventTracking, '_mixpanel', noop);
     eventTracking.boot(new User(angular.copy(apiMocks.user)));
     eventTracking.triggeredBuild();
-    expect(eventTracking._Intercom.callCount).to.equal(2);
+    expect(eventTracking.$window.Intercom.callCount).to.equal(2);
     expect(eventTracking._mixpanel.callCount).to.equal(4);
-    expect(eventTracking._Intercom.args[1][1]).to.equal('triggered-build');
+    expect(eventTracking.$window.Intercom.args[1][1]).to.equal('triggered-build');
     expect(eventTracking._mixpanel.args[3][1]).to.equal('triggered-build');
     // both analytics SDK event reporting methods should be passed same event data
-    expect(eventTracking._Intercom.args[1][2]).to.deep.equal(eventTracking._mixpanel.args[3][2]);
-    expect(Object.keys(eventTracking._Intercom.args[1][2])).to.contain('state');
-    expect(Object.keys(eventTracking._Intercom.args[1][2])).to.contain('href');
-    eventTracking._Intercom.restore();
+    expect(eventTracking.$window.Intercom.args[1][2]).to.deep.equal(eventTracking._mixpanel.args[3][2]);
+    expect(Object.keys(eventTracking.$window.Intercom.args[1][2])).to.contain('state');
+    expect(Object.keys(eventTracking.$window.Intercom.args[1][2])).to.contain('href');
+    eventTracking.$window.Intercom.restore();
     eventTracking._mixpanel.restore();
   });
 });

@@ -42,7 +42,6 @@ function EventTracking(
   _keypather = keypather;
   _$location = $location;
 
-  self._Intercom = $window.Intercom;
   self.analytics = $window.analytics;
   self._user = null;
   self.$window = $window;
@@ -80,9 +79,9 @@ function EventTracking(
    * Stub Intercom when SDK not present
    * (development/staging environments)
    */
-  if (!self._Intercom || $browser.cookies().isModerating) {
+  if (!self.$window.Intercom || $browser.cookies().isModerating) {
     // stub intercom if not present
-    self._Intercom = angular.noop;
+    self.$window.Intercom = angular.noop;
   }
 
   /**
@@ -137,7 +136,7 @@ function EventTracking(
 EventTracking.prototype.boot = function (user, opts) {
   var self = this;
   opts = opts || {};
-  if (self._user) { return self; }
+  // if (self._user) { return self; }
   if (!(user instanceof User)) {
     throw new Error('arguments[0] must be instance of User');
   }
@@ -186,7 +185,7 @@ EventTracking.prototype.boot = function (user, opts) {
   } else {
     self._mixpanel('identify', user.oauthId());
   }
-  self._Intercom('boot', data);
+  self.$window.Intercom('boot', data);
   var userJSON = user.toJSON();
   var firstName = '';
   var lastName = '';
@@ -263,7 +262,7 @@ EventTracking.prototype.triggeredBuild = function (cache) {
   var eventData = self.extendEventData({
     cache: cache
   });
-  self._Intercom('trackEvent', eventName, eventData);
+  self.$window.Intercom('trackEvent', eventName, eventData);
   self._mixpanel('track', eventName, eventData);
   self.analytics.ready(function () {
     self.analytics.track(eventName, eventData);
@@ -298,7 +297,7 @@ EventTracking.prototype.visitedState = function () {
  */
 EventTracking.prototype.update = function () {
   var self = this;
-  self._Intercom('update');
+  self.$window.Intercom('update');
   return self;
 };
 
