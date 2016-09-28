@@ -16,7 +16,7 @@
 
   .btn-accounts {
     cursor: pointer;
-    margin: 18px auto 7px;
+    margin: 18px auto 12px;
     width: 42px;
 
     &:hover {
@@ -46,10 +46,11 @@
     color: $purple-logo;
     cursor: pointer;
     display: block;
+    flex: 0 0 auto;
     font-size: 12px;
     font-weight: $weight-bold;
     height: 72px;
-    margin: 6px auto;
+    margin: 0 auto 9px;
     position: relative;
     text-align: center;
     width: 75px;
@@ -84,12 +85,7 @@
   }
 
   .btn-docs {
-    margin-bottom: 15px;
     margin-top: auto;
-
-    @media (max-height: 360px) {
-      display: none;
-    }
 
     .icons-link-external {
       height: 10px;
