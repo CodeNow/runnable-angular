@@ -30,7 +30,7 @@
 )
   .p.empty
     .h3.strong Uh oh!
-    | We couldn’t find any repositories for this organization. If you think you think this is a mistake,&#32;
+    | We couldn’t find any repositories for this organization. If you think this is a mistake,&#32;
     a.link(
       intercom-link
       intro-message = "This thing wont fetch my GitHub repos."
@@ -57,7 +57,7 @@ ul.list.list-servers(
     ng-repeat = "\
       repo in MC.githubRepos.models | \
       repos: MC.repoFilter | \
-      orderBy: '-attrs.updated_at' as noResults\
+      orderBy: '-attrs.pushed_at' as noResults\
     "
     ng-class = "{ \
       'active': repo.loading, \
@@ -81,10 +81,10 @@ ul.list.list-servers(
         )
         span.small(
           ng-if = "$root.featureFlags.inviteFlows"
-        ) {{repo.attrs.updated_at | timeFrom}}
+        ) {{repo.attrs.pushed_at | timeFrom}}
       small.small(
         ng-if = "!$root.featureFlags.inviteFlows"
-      ) {{repo.attrs.updated_at | timeFrom}}
+      ) {{repo.attrs.pushed_at | timeFrom}}
         svg.iconnables.icons-server(
           ng-if = "$root.featureFlags.multipleRepositoryContainers"
           pop-over
@@ -98,11 +98,7 @@ ul.list.list-servers(
           )
     button.grid-content.shrink.btn.btn-sm.btn-icon.btn-add(
       ng-if = "!repo.loading"
-    )
-      svg.iconnables.icons-add
-        use(
-          xlink:href = "#icons-add"
-        )
+    ) Select
     .grid-content.shrink.spinner-wrapper.spinner-sm.spinner-green.in(
       ng-if = "repo.loading"
       ng-include = "'spinner'"

@@ -3,7 +3,6 @@
   background: $white;
   flex: 0 0 auto;
   position: relative;
-  z-index: $z-views-header;
 }
 
 .instance-header-title {
@@ -88,6 +87,7 @@
   align-items: top;
   display: flex;
   padding: 0 12px 12px;
+  position: relative;
   width: 100%;
 
   // status, dns mappings, save
@@ -114,7 +114,6 @@
     }
 
     .icons-link-external {
-      left: 1px;
       margin: 0 3px;
       top: -1px;
       width: 15px;

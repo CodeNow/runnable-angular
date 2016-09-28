@@ -2,27 +2,7 @@
 .instance-wrapper {
   height: 100vh;
   overflow: hidden;
-  overflow-x: auto;
   position: relative;
-
-  &.empty {
-    background-color: $gray-lightest;
-    background-image: url(/build/images/confetti.png);
-    flex-direction: row;
-
-    > .instance {
-      min-width: 600px;
-    }
-
-    .instance-header {
-      background: transparent;
-      flex: 0 0 60px;
-    }
-  }
-
-  > .instance-wrapper {
-    min-width: 600px;
-  }
 
   > .spinner-wrapper {
 

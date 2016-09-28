@@ -28,11 +28,14 @@ function ahaGuide(
       });
   }
   function refreshHasRunnabot() {
-    if (hasRunnabot) { return; }
+    if (hasRunnabot) { return true; }
     return isRunnabotPartOfOrg(keypather.get(currentOrg, 'github.attrs.login'))
       .then(function (runnabot) {
-        if (runnabot) {
-          endGuide();
+        if (runnabot && isInGuide()) {
+          endGuide()
+            .then(function() {
+              $rootScope.$broadcast('showAutoLaunchPopover');
+            });
         }
         hasRunnabot = runnabot;
         return hasRunnabot;
@@ -165,6 +168,7 @@ function ahaGuide(
       crashed: 'Your template isn‘t running yet! Check the logs to debug any issues. If you‘re stumped, ask our engineers!',
       buildFailed: 'Your template isn‘t running yet! Check the logs to debug any issues. If you‘re stumped, ask our engineers!'
     },
+    configSubsteps: ['default', 'env', 'files', 'ports', 'translation'],
     defaultSubstep: 'addRepository'
   };
 
@@ -176,13 +180,11 @@ function ahaGuide(
         className: 'aha-meter-33',
         value: 33
       },
-      dockLoading: {
-        caption: 'Bear with us!',
+      selectBranch: {
         className: 'aha-meter-66',
         value: 66
       },
-      dockLoaded: {
-        caption: 'Continue to start configuring your project.',
+      noBranches: {
         className: 'aha-meter-100',
         value: 100
       },
@@ -245,23 +247,20 @@ function ahaGuide(
     if (!cachedStep) {
       if ($rootScope.featureFlags.aha && !keypather.get(currentOrg, 'poppa.id')) {
         cachedStep = STEPS.CHOOSE_ORGANIZATION;
-      } else if (!$rootScope.featureFlags.aha || !isInGuide()) {
+      } else if (!isInGuide()) {
         cachedStep = STEPS.COMPLETED;
       } else if (!hasConfirmedSetup()) {
         cachedStep = STEPS.ADD_FIRST_REPO;
       } else {
         // loop over instances and see if any has ever had a branch launched
         var hasBranchLaunched = false;
-        var hasAutoLaunch = false;
         if (keypather.get(instances, 'models.length')) {
           instances.models.some(function (instance) {
-            hasBranchLaunched = hasBranchLaunched || instance.attrs.hasAddedBranches || keypather.get(instance, 'children.models.length');
-            hasAutoLaunch = hasAutoLaunch || !instance.attrs.shouldNotAutofork;
-            // This will short circuit once we have found both of these true
-            return hasAutoLaunch && hasBranchLaunched;
+            hasBranchLaunched = instance.attrs.hasAddedBranches || keypather.get(instance, 'children.models.length');
+            return hasBranchLaunched;
           });
         }
-        if (!hasBranchLaunched) {
+        if (!hasBranchLaunched && !ahaGuide.skippedBranchMilestone) {
           cachedStep = STEPS.ADD_FIRST_BRANCH;
         } else if (!hasRunnabot) {
           cachedStep = STEPS.SETUP_RUNNABOT;
@@ -281,10 +280,15 @@ function ahaGuide(
     return keypather.get(currentOrg, 'poppa.attrs.metadata.hasConfirmedSetup');
   }
 
-  function updateCurrentOrg(updatedOrg) {
+  function updateCurrentOrg (updatedOrg) {
     if (keypather.has(updatedOrg, 'metadata.hasAha') && keypather.has(updatedOrg, 'metadata.hasConfirmedSetup')) {
       currentOrg.poppa.attrs.metadata = updatedOrg.metadata;
     }
+  }
+
+  function skipBranchMilestone () {
+    ahaGuide.skippedBranchMilestone = true;
+    $rootScope.$broadcast('showAhaSidebar');
   }
 
   function endGuide () {
@@ -299,8 +303,21 @@ function ahaGuide(
       });
   }
 
+  function resetGuide() {
+    return patchOrgMetadata(currentOrg.poppa.id(), {
+      metadata: {
+        hasAha: true,
+        hasConfirmedSetup: false
+      }
+    })
+      .then(function (updatedOrg) {
+        updateCurrentOrg(updatedOrg);
+      });
+  }
+
   return {
     endGuide: endGuide,
+    resetGuide: resetGuide,
     getCurrentStep: getCurrentStep,
     hasConfirmedSetup: hasConfirmedSetup,
     hasRunnabot: refreshHasRunnabot,
@@ -309,6 +326,7 @@ function ahaGuide(
     steps: STEPS,
     updateCurrentOrg: updateCurrentOrg,
     furthestSubstep: furthestSubstep,
+    skipBranchMilestone: skipBranchMilestone,
     isChoosingOrg: function() {
       return getCurrentStep() === STEPS.CHOOSE_ORGANIZATION;
     },
@@ -320,9 +338,6 @@ function ahaGuide(
     },
     isSettingUpRunnabot: function() {
       return getCurrentStep() === STEPS.SETUP_RUNNABOT && !hasRunnabot;
-    },
-    isSettingUpAutoLaunch: function() {
-      return getCurrentStep() === STEPS.SETUP_RUNNABOT && hasRunnabot;
     }
   };
 }
