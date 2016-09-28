@@ -143,6 +143,11 @@
   position: absolute;
   top: 18px;
   z-index: 2; // fix overlap with container-title-wrapper
+
+  &.disabled {
+    color: $gray-lighter;
+    cursor: not-allowed;
+  }
 }
 
 .modal-header > .icons-close,
@@ -171,11 +176,11 @@
   > .icons-arrow-backward {
     left: 15px;
 
-    &:hover {
+    &:hover:not(.disabled) {
       color: $gray;
     }
 
-    &:active {
+    &:active:not(.disabled) {
       color: $purple-light;
     }
   }

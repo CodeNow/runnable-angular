@@ -8,6 +8,7 @@ require('app')
 function ControllerInstances(
   $filter,
   $localStorage,
+  $rootScope,
   $scope,
   $state,
   activeAccount,
@@ -15,6 +16,7 @@ function ControllerInstances(
   currentOrg,
   errs,
   fetchInstancesByPod,
+  fetchRepoBranches,
   keypather,
   loading,
   ModalService,
@@ -27,8 +29,8 @@ function ControllerInstances(
   CIS.isInGuide = ahaGuide.isInGuide;
   CIS.isAddingFirstBranch = ahaGuide.isAddingFirstBranch;
   CIS.isSettingUpRunnabot = ahaGuide.isSettingUpRunnabot;
-  CIS.isSettingUpAutoLaunch = ahaGuide.isSettingUpAutoLaunch;
   CIS.currentOrg = currentOrg;
+  CIS.showAutofork = null;
   CIS.searchBranches = null;
   CIS.instanceBranches = null;
   CIS.unbuiltBranches = null;
@@ -48,6 +50,10 @@ function ControllerInstances(
     if (keypather.get(pop, 'data') === 'branchSelect') {
       CIS.shouldShowPopover = false;
     }
+  });
+
+  $scope.$on('showAutoLaunchPopover', function() {
+    CIS.showAutofork = true;
   });
 
   fetchInstancesByPod()
@@ -205,7 +211,7 @@ function ControllerInstances(
   this.getAllBranches = function (instance) {
     return promisify(currentOrg.github, 'fetchRepo')(instance.getRepoName())
       .then(function (repo) {
-        return promisify(repo, 'fetchBranches')();
+        return fetchRepoBranches(repo);
       });
   };
 
@@ -247,6 +253,16 @@ function ControllerInstances(
 
   this.setAutofork = function () {
     CIS.poppedInstance.attrs.shouldNotAutofork = !CIS.poppedInstance.attrs.shouldNotAutofork;
+    if (CIS.isInGuide() && !CIS.poppedInstance.attrs.shouldNotAutofork) {
+      var childWatcher = $scope.$watch('CIS.poppedInstance.children.models.length', function (length) {
+        if (length) {
+          $rootScope.$broadcast('showAhaSidebar');
+          childWatcher();
+        }
+      });
+    } else if (!CIS.poppedInstance.attrs.shouldNotAutofork) {
+      CIS.showAutofork = false;
+    }
     promisify(CIS.poppedInstance, 'update')({ shouldNotAutofork: CIS.poppedInstance.attrs.shouldNotAutofork })
       .catch(function () {
         CIS.poppedInstance.attrs.shouldNotAutofork = !CIS.poppedInstance.attrs.shouldNotAutofork;

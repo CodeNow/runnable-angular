@@ -56,6 +56,7 @@ function doesDockerfileExist() {
 }
 
 function fetchDockerfileForContextVersion (
+  $q,
   base64,
   doesDockerfileExist,
   fetchCommitsForFile,
@@ -71,18 +72,18 @@ function fetchDockerfileForContextVersion (
     if (buildDockerfilePath && repoFullName) {
       var branchName = keypather.get(acv, 'attrs.branch');
       // Get everything before the last '/' and add a '/' at the end
-      var result = /^(\/?[^\/]*)\/([^\/]*)$/.exec(buildDockerfilePath);
-      if (result.length < 3) {
-        throw new Error('BuilddockerfilePath is invalid');
+      var result = /^((\/?[^\/]*)*)\/([^\/]*)$/.exec(buildDockerfilePath);
+      if (keypather.get(result, 'length') < 3) {
+        return $q.reject(new Error('Dockerfile path is invalid'));
       }
-      var path = result && result[1] || '';
+      var name = result[result.length - 1];
+      var path = result[1];
       // Get everything after the last '/'
-      var name = result && result[2] || '';
       return fetchRepoDockerfile(repoFullName, branchName, buildDockerfilePath)
         .then(doesDockerfileExist)
         .then(function (dockerfile) {
           if (!dockerfile) {
-            return null;
+            return $q.reject(new Error('No Dockerfile in this repo'));
           }
           return fetchCommitsForFile(repoFullName, branchName, buildDockerfilePath)
             .then(function (commits) {

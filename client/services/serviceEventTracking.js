@@ -385,6 +385,7 @@ EventTracking.prototype.visitedOrgSelectPage = function () {
  * Track user clicks on an org on the orgSelect page
  * Reports to:
  *   - mixpanel
+ *   - segment
  * @return this
  */
 EventTracking.prototype.selectedOrg = function (org) {
@@ -393,6 +394,9 @@ EventTracking.prototype.selectedOrg = function (org) {
 
   self._mixpanel('track', eventName, {
     org: org
+  });
+  self.analytics.ready(function () {
+    self.analytics.track(eventName, {org: org});
   });
   return self;
 };
@@ -411,5 +415,75 @@ EventTracking.prototype.waitingForInfrastructure = function (orgName) {
   self.analytics.ready(function () {
     self.analytics.track(eventName, {org: orgName});
   });
+  return self;
+};
+
+/**
+ * Milestone 2: Select repository
+ * Reports to:
+ *   - mixpanel
+ * @return this
+ */
+EventTracking.prototype.milestone2SelectTemplate = function () {
+  var self = this;
+  var eventName = 'Milestone 2: Select template';
+
+  self._mixpanel('track', eventName);
+  return self;
+};
+
+/**
+ * Milestone 2: Verify repository tab
+ * Reports to:
+ *   - mixpanel
+ * @return this
+ */
+EventTracking.prototype.milestone2VerifyRepositoryTab = function () {
+  var self = this;
+  var eventName = 'Milestone 2: Verify repository tab';
+
+  self._mixpanel('track', eventName);
+  return self;
+};
+
+/**
+ * Milestone 2: Verify commands tab
+ * Reports to:
+ *   - mixpanel
+ * @return this
+ */
+EventTracking.prototype.milestone2VerifyCommandsTab = function () {
+  var self = this;
+  var eventName = 'Milestone 2: Verify commands tab';
+
+  self._mixpanel('track', eventName);
+  return self;
+};
+
+/**
+ * Milestone 2: Building
+ * Reports to:
+ *   - mixpanel
+ * @return this
+ */
+EventTracking.prototype.milestone2Building = function () {
+  var self = this;
+  var eventName = 'Milestone 2: Building';
+
+  self._mixpanel('track', eventName);
+  return self;
+};
+
+/**
+ * Milestone 2: Container popover
+ * Reports to:
+ *   - mixpanel
+ * @return this
+ */
+EventTracking.prototype.milestone2BuildSuccess = function () {
+  var self = this;
+  var eventName = 'Milestone 2: Build success message (in modal)';
+
+  self._mixpanel('track', eventName);
   return self;
 };

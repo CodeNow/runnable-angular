@@ -183,6 +183,16 @@
               type = "search"
             )
           label.list-item.popover-list-item.text-overflow(
+            style = "display: block; padding: 0 39px 0 15px;"
+          ) Reset Aha Guide
+            .toggle-wrapper(
+              style = "position: absolute; right: 12px; top: 11px;"
+            )
+              input.toggle-input(
+                ng-click = "FFC.resetAha()"
+                type = "button"
+              )
+          label.list-item.popover-list-item.text-overflow(
             ng-repeat = "(flag, value) in $root.featureFlags"
             ng-show = "!searchText || flag.indexOf(searchText) > -1"
             style = "display: block; padding: 0 39px 0 15px;"

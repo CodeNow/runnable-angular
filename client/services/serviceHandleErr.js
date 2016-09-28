@@ -24,6 +24,10 @@ function errs (
       $window.location = configAPIHost + '/auth/github?redirect=' + $window.location.protocol + '//' + $window.location.host + '/?auth';
       return false;
     }
+    if (err.message === 'collection requires a client') {
+      // Fuck this error
+      return false;
+    }
 
     if (~noDisplayCodes.indexOf(keypather.get(err, 'data.statusCode'))) { return false; }
     return true;

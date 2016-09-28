@@ -38,6 +38,7 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
       $provide.factory('promisify', function ($q) {
         promisifyMock = sinon.spy(function (obj, key) {
           return function () {
+            console.log('obj', obj, key);
             return $q.when(obj[key].apply(obj, arguments));
           };
         });
@@ -83,8 +84,8 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
         },
         rootDir: {
           contents: {
-            create: sinon.spy(),
-            fetch: sinon.spy()
+            create: sinon.stub().returns(),
+            fetch: sinon.stub().returns()
           }
         }
       }
@@ -521,8 +522,10 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
           }
         };
         CFC.state.containerFiles = [];
+        $rootScope.$digest();
 
         CFC.fileUpload.actions.deleteFile(containerFile);
+        $rootScope.$digest();
         sinon.assert.calledOnce(closePopoverSpy);
         sinon.assert.calledOnce(containerFile.fileModel.destroy);
       });
@@ -609,7 +612,7 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
           sinon.assert.calledOnce(loadingPromises.add);
           sinon.assert.calledWith(loadingPromises.add, 'editServerModal');
           sinon.assert.calledOnce(fileModel.destroy);
-          sinon.assert.calledOnce(CFC.state.contextVersion.rootDir.contents.fetch);
+          sinon.assert.calledTwice(CFC.state.contextVersion.rootDir.contents.fetch);
           sinon.assert.calledOnce(updateDockerfileFromStateMock);
           sinon.assert.calledOnce(closePopoverSpy);
           expect(CFC.state.containerFiles.length).to.equal(1);
@@ -629,6 +632,7 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
 
         sinon.assert.calledOnce(loadingPromises.add);
         sinon.assert.calledWith(loadingPromises.add, 'editServerModal');
+        sinon.assert.calledOnce(CFC.state.contextVersion.rootDir.contents.fetch);
         sinon.assert.calledOnce(updateDockerfileFromStateMock);
         sinon.assert.calledOnce(closePopoverSpy);
         expect(CFC.state.containerFiles.length).to.equal(1);
@@ -654,7 +658,7 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
         sinon.assert.calledOnce(loadingPromises.add);
         sinon.assert.calledWith(loadingPromises.add, 'editServerModal');
         sinon.assert.calledOnce(fileModel.destroy);
-        sinon.assert.calledOnce(CFC.state.contextVersion.rootDir.contents.fetch);
+        sinon.assert.calledTwice(CFC.state.contextVersion.rootDir.contents.fetch);
         sinon.assert.calledOnce(updateDockerfileFromStateMock);
         sinon.assert.calledOnce(closePopoverSpy);
         expect(CFC.state.containerFiles.length).to.equal(1);

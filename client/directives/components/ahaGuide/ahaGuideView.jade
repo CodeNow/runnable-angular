@@ -19,13 +19,13 @@
 )
 
 .grid-block.align-center(
-  ng-if = "AGC.ahaGuide.isSettingUpAutoLaunch()"
+  ng-if = "showAutofork"
   ng-include = "'setUpRunnabotGuideView'"
 )
 
 button.btn.btn-xs.white.btn-menu(
   ng-class = "{'active': ahaMenuGuidePopover.data.show}"
-  ng-if = "!AGC.ahaGuide.isChoosingOrg() && !AGC.ahaGuide.isSettingUpAutoLaunch()"
+  ng-if = "(AGC.isInGuide() && !AGC.ahaGuide.isChoosingOrg()) || staticAddRepo"
   pop-over
   pop-over-actions = "AGC ? AGC.popoverActions : EC.actions"
   pop-over-active = "ahaMenuGuidePopover.data.show"
