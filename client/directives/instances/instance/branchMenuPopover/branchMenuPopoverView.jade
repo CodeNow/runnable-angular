@@ -6,13 +6,13 @@
     ng-if = "$root.featureFlags.aha && CIS.instanceBranches.length && CIS.isAddingFirstBranch()"
     aha-guide
     step-index = 2
-    sub-step = "dockLoading"
+    sub-step = "selectBranch"
   )
   .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
     ng-if = "$root.featureFlags.aha && CIS.instanceBranches && !CIS.instanceBranches.length && CIS.isAddingFirstBranch()"
     aha-guide
     step-index = 2
-    sub-step = "dockLoaded"
+    sub-step = "noBranches"
   )
 
   .arrow.white(
