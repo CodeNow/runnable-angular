@@ -513,3 +513,17 @@ EventTracking.prototype.addedBranch = function () {
   self._mixpanel('track', eventName);
   return self;
 };
+
+/**
+ * Milestone 4: Invited Runnabot
+ * Reports to:
+ *   - mixpanel
+ * @return this
+ */
+EventTracking.prototype.invitedRunnabot = function () {
+  var self = this;
+  var eventName = 'Invited Runnabot';
+
+  self._mixpanel('track', eventName);
+  return self;
+};
