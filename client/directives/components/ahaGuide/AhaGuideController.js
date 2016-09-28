@@ -20,7 +20,7 @@ function AhaGuideController(
   // dismiss add service popover if open
   $rootScope.$broadcast('showAddServicesPopover', false);
 
-  if (keypather.has(currentOrg, 'poppa.attrs.id') && ahaGuide.isAddingFirstRepo()) {
+  if (keypather.has(currentOrg, 'poppa.attrs.id') && ahaGuide.isAddingFirstRepo() && AGC.subStepIndex > 6) {
     fetchInstancesByPod()
       .then(function (instances) {
         if (instances.models.length) {
