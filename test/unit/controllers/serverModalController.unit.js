@@ -9,6 +9,7 @@ describe('serverModalController'.bold.underline.blue, function () {
   var $controller;
   var $rootScope;
   var keypather;
+  var isRunnabotPartOfOrgStub;
   var loadingService;
   var $q;
 
@@ -137,6 +138,10 @@ describe('serverModalController'.bold.underline.blue, function () {
           close: sinon.stub(),
           createAndBuild: sinon.stub()
         };
+      });
+      $provide.factory('isRunnabotPartOfOrg', function ($q) {
+        isRunnabotPartOfOrgStub = sinon.stub().returns($q.when());
+        return isRunnabotPartOfOrgStub;
       });
       $provide.factory('fetchStackAnalysis', ctx.fetchStackAnalysisMock.fetch());
       $provide.value('findLinkedServerVariables', sinon.spy());
