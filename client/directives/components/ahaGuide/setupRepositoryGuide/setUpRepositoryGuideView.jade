@@ -7,9 +7,9 @@
     'aha-meter-44': AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'nameContainer',\
     'aha-meter-55': AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'repository',\
     'aha-meter-66': AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'commands',\
-    'aha-meter-77': AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'buildfiles' || AGC.ahaGuide.furthestStep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'default' || AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'env' || AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'files' || AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'filesMirror' || AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'ports' || AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'translation',\
-    'aha-meter-88': AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'logs' || AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'exitedEarly',\
-    'aha-meter-100': (AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'success') || getCurrentStep() > steps.ADD_FIRST_REPO,\
+    'aha-meter-77': AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'buildfiles' || AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'filesMirror' || AGC.ahaGuide.configSteps.includes(AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO)),\
+    'aha-meter-88': AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'logs' || AGC.errorState === 'buildFailed' || AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'exitedEarly',\
+    'aha-meter-100': (AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'success' && !AGC.errorState) || getCurrentStep() > steps.ADD_FIRST_REPO,\
   }"
 )
   svg.iconnables(
@@ -100,7 +100,7 @@
 
 
 .grid-block.vertical.aha-text(
-  ng-if = "AGC.isInGuide() && AGC.showError && AGC.subStepIndex > 5"
+  ng-if = "AGC.isInGuide() && AGC.showError && AGC.ahaGuide.stepList[AGC.ahaGuide.steps.ADD_FIRST_REPO].subSteps[AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO)].step > 6"
 )
   p.p.small.text-gray-light {{ AGC.title }}
   p.p(
@@ -109,7 +109,7 @@
 
   p.p(
     ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
-    ng-if = "AGC.isInGuide() && (AGC.errorState === 'nonRunningContainer' || AGC.subStep === 'exitedEarly')"
+    ng-if = "AGC.isInGuide() && AGC.errorState && AGC.subStep !== 'logs'"
   ) Your template isn’t running yet! Check the logs to debug any issues. If you’re stumped,&#32;
       a.link(
         href = "https://support.runnable.com/hc/en-us/articles/212930166"
