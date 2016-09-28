@@ -155,6 +155,8 @@ function AhaGuideController(
       AGC.isBuildSuccessful = true;
     } else if (buildStatus === 'running') {
       updateCaption('success');
+    } else if (buildStatus === 'building') {
+      updateCaption('logs');
     }
     AGC.buildStatus = buildStatus;
     AGC.caption = currentMilestone.buildStatus[buildStatus] || AGC.caption;
