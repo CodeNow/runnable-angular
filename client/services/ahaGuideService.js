@@ -335,7 +335,7 @@ function ahaGuide(
       default:
         var currentStep = getCurrentStep();
         if (currentStep === 4) {
-          // here we send a message about having added a branch
+          eventTracking.addedBranch();
         }
     }
   }
