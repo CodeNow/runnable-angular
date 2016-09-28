@@ -28,7 +28,7 @@ function EventTracking(
   $window,
   assign,
   keypather,
-  intercomAppId
+  intercomAppId,
   siftApiConfig
 ) {
   INTERCOM_APP_ID = intercomAppId;
