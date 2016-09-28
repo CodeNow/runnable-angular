@@ -16,6 +16,7 @@ function ControllerInstances(
   currentOrg,
   errs,
   fetchInstancesByPod,
+  fetchRepoBranches,
   keypather,
   loading,
   ModalService,
@@ -210,29 +211,7 @@ function ControllerInstances(
   this.getAllBranches = function (instance) {
     return promisify(currentOrg.github, 'fetchRepo')(instance.getRepoName())
       .then(function (repo) {
-        var allBranches = [];
-
-        function fetchPage(page) {
-          return promisify(repo, 'fetchBranches')({
-            page: page
-          }).then(function (branchesCollection) {
-            allBranches = allBranches.concat(branchesCollection.models);
-            // recursive until result set returns fewer than
-            // 100 repos, indicating last paginated result
-            if (branchesCollection.models.length < 100) {
-              return allBranches;
-            }
-            return fetchPage(page + 1);
-          });
-        }
-        return fetchPage(1)
-          .then(function (branchArray) {
-            var branches = repo.newBranches(branchArray, {
-              noStore: true
-            });
-            repo.branches = branches;
-            return branches;
-          });
+        return fetchRepoBranches(repo);
       });
   };
 
