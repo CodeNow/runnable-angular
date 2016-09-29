@@ -56,14 +56,14 @@
     .grid-block.align-center.justify-center.padding-sm.aha-guide(
       ng-show = "EC.isAddingFirstRepo() && EC.errorState && data.instances.models.length"
       aha-guide
-      error-state = "EC.errorState"
+      error-state = "true"
       sub-step-index = 7
     )
 
     .grid-block.align-center.justify-center.padding-sm.aha-guide(
       ng-if = "EC.isInGuide() && !EC.isAddingFirstRepo() && !data.instances.models.length"
       aha-guide
-      error-state = "EC.errorState"
+      error-state = "true"
       sub-step = "deletedTemplate"
     )
 

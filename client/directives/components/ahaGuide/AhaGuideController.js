@@ -47,8 +47,9 @@ function AhaGuideController(
 
   $scope.$on('alert', function (event, alert) {
     // alerts on container creation success
-    if (alert.text === 'Container Created' && alert.type === 'success') {
+    if (alert.text === 'Container Created' && alert.type === 'success' && (AGC.subStepIndex >= 6 || AGC.subStepIndex === 0 || AGC.errorState)) {
       updateCaption('logs');
+      registerListeners();
       fetchInstancesByPod()
         .then(function (instances) {
           var config = checkContainerInstances(instances);
@@ -60,30 +61,11 @@ function AhaGuideController(
     }
   });
 
-  var buildLogListener = $scope.$on('buildStatusUpdated', function(event, buildStatus) {
-    if (ahaGuide.isAddingFirstRepo()) {
-      handleBuildUpdate(buildStatus);
-    }
-  });
+  if (ahaGuide.isAddingFirstRepo() && (AGC.subStepIndex >= 6 || AGC.subStepIndex === 0)) {
+    registerListeners();
+  }
 
-  $scope.$on('ahaGuideEvent', function(event, info) {
-    if (info.error === 'exitedEarly') {
-      AGC.showError = true;
-      AGC.errorState = info.error;
-      updateCaption('exitedEarly');
-    } else if (info.error === 'nonRunningContainer') {
-      AGC.showError = true;
-      AGC.errorState = info.error;
-    } else if (info.error === 'buildFailed') {
-      AGC.showError = true;
-      AGC.errorState = info.error;
-    } else if (info.isClear) {
-      AGC.showError = false;
-      AGC.errorState = null;
-    }
-  });
-
-  var stopTabUpdate = $scope.$on('updatedTab', function(event, tabName) {
+  var stopTabUpdate = $scope.$on('updatedTab', function (event, tabName) {
     if (AGC.subStepIndex > 5) {
       stopTabUpdate();
     } else {
@@ -138,7 +120,32 @@ function AhaGuideController(
     }
   }
 
-  function handleBuildUpdate(update) {
+  function registerListeners () {
+    $scope.$on('buildStatusUpdated', function (event, buildStatus) {
+      if (ahaGuide.isAddingFirstRepo()) {
+        handleBuildUpdate(buildStatus);
+      }
+    });
+
+    $scope.$on('ahaGuideEvent', function (event, info) {
+      if (info.error === 'exitedEarly') {
+        AGC.showError = true;
+        AGC.errorState = info.error;
+        updateCaption('exitedEarly');
+      } else if (info.error === 'nonRunningContainer') {
+        AGC.showError = true;
+        AGC.errorState = info.error;
+      } else if (info.error === 'buildFailed') {
+        AGC.showError = true;
+        AGC.errorState = info.error;
+      } else if (info.isClear) {
+        AGC.showError = false;
+        AGC.errorState = null;
+      }
+    });
+  }
+
+  function handleBuildUpdate (update) {
     var buildStatus = update.status;
     if (buildStatus === 'buildFailed' || buildStatus === 'stopped' || buildStatus === 'crashed') {
       AGC.showError = true;
@@ -186,7 +193,7 @@ function AhaGuideController(
    * @param {object} config an object with two boolean properties, nonRepoInstance and workingRepoInstance
    * @param {object} instances an object containing a collection of instances
    */
-  function callPopover(config, instances) {
+  function callPopover (config, instances) {
     if (config.workingRepoInstance && instances.models.length === 2) {
       $rootScope.$broadcast('launchAhaNavPopover');
       AGC.showAhaNavPopover = true;
