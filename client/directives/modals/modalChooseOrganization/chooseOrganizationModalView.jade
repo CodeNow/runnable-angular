@@ -12,95 +12,48 @@
         'modal-sm': COS.allAccounts.length <= 1\
       }"
     )
-      .grid-block.shrink.align-center.justify-center.padding-md.aha-guide(
-        aha-guide
-        ng-if = "$root.featureFlags.aha && COS.isChoosingOrg()"
-        sub-step = "orgSelection"
-      )
       animated-panel-container
-        animated-panel.modal-body.grid-block.vertical.padding-sm(
+        animated-panel.grid-block.vertical.padding-md(
           default = "true"
           name = "orgSelection"
         )
-
-          p.p.padding-xs.text-center.fade(
-            ng-class = "{'in': isActivePanel()}"
-            ng-if = "!$root.featureFlags.aha"
-          ) Select the organization you want to use with Runnable. If you don’t see your organization, check if you’ve granted access&#32;
-            a.link(
-              href = "https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9"
-              target = "_blank"
-            ) on GitHub
-            | .
-
-          .grid-block.shrink.justify-center.align-center.padding-xs.well.gray.aha-tips.fade(
-            ng-class = "{'in': isActivePanel()}"
-            ng-if = "$root.featureFlags.aha && COS.allAccounts.length"
-          )
-            svg.grid-content.shrink.iconnables
-              use(
-                xlink:href = "#icons-life-preserver"
-              )
-            small.grid-content.small If you don’t see your organization, check if you’ve granted access&#32;
-              a.link(
-                href = "https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9"
-                target = "_blank"
-              ) on GitHub
-              | .
-
-          //- empty state
-          .empty.well.gray.padding-lg(
-            ng-if = "!COS.allAccounts.length"
-          )
-            h3.h3.empty.text-gray.text-center We couldn’t find any organizations.
-            small.small.empty.text-center Check if you’ve granted access to your organization&#32;
-              a.link(
-                href = "https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9"
-                target = "_blank"
-              ) on GitHub
-              | . If you don’t have permission to grant access, you’ll have to ask your admin to give the go ahead.
-
-          form.grid-block.list.fade(
+          .grid-block.vertical.list.fade(
             name = "COS.orgSelectorForm"
             ng-class = "{'in': isActivePanel()}"
-            ng-if = "COS.allAccounts.length"
           )
+            //- ng-if = "COS.allAccounts.length"
             //- add .active class if this org is selected
             //- add [disabled] property when loading NOT class!
-            label.grid-block.align-center.list-item.btn.white(
+            .grid-block.align-center.list-item.btn.white(
               ng-class = "{'active': org.oauthName() === COS.selectedOrgName}"
               ng-repeat = "org in COS.allAccounts"
               title = "{{org.oauthName()}}"
             )
-              img.grid-block.shrink(
-                height = "24"
+              img.grid-content.shrink(
+                height = "30"
                 ng-src = "{{org.gravitar()}}"
-                width = "24"
+                width = "30"
               )
-              span.grid-block.text-left.text-overflow {{org.oauthName()}}
-              input.checkbox.hidden(
-                ng-change = "actions.selectedOrg(org.oauthName())"
-                ng-model = "COS.selectedOrgName"
-                value = "{{org.oauthName()}}"
-                type = "radio"
-              )
-              button.btn.btn-xs.btn-icon.btn-add.no-touching
-                svg.iconnables.icons-check
-                  use(
-                    xlink:href = "#icons-check"
-                  )
+              span.grid-content.text-left.text-overflow {{org.oauthName()}}
+              svg.grid-content.iconnables.icons-arrow-forward.shrink
+                use(
+                  xlink:href = "#icons-arrow-down"
+                )
 
-          //- hide the footer if no orgs are found
-          footer.grid-block.vertical.modal-footer.fade(
+          .grid-block.vertical.list.fade(
             ng-class = "{'in': isActivePanel()}"
-            ng-if = "COS.allAccounts.length"
           )
-            //- disabled until an org is selected
-            button.btn.btn-md.green(
-              data-event-name = "Org Confirmed"
-              ng-click = "actions.createOrCheckDock(COS.selectedOrgName, goToPanel)"
-              ng-disabled = "!COS.selectedOrgName"
-            ) Confirm Organization
+            .grid-block.align-center.list-item.btn.white
+              img.grid-content.shrink(
+                height = "30"
+                src = "{{org.gravitar()}}"
+                width = "30"
+              )
+              span.grid-content.text-left.text-overflow I don’t see my organization
+              svg.grid-content.iconnables.icons-arrow-forward.shrink
+                use(
+                  xlink:href = "#icons-arrow-down"
+                )
 
         animated-panel.modal-body.grid-block.vertical(
           name = "dockLoading"
