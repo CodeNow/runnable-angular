@@ -7,6 +7,7 @@ var keypather = require('keypather')();
 describe('serviceEventTracking'.bold.underline.blue, function () {
 
   var $log;
+  var $window;
   var eventTracking;
 
   function initState () {
@@ -14,17 +15,24 @@ describe('serviceEventTracking'.bold.underline.blue, function () {
     });
     angular.mock.inject(function (
       _$log_,
+      _$window_,
       _eventTracking_
     ) {
       $log = _$log_;
+      $window = _$window_;
       eventTracking = _eventTracking_;
       sinon.stub($log, 'error', noop);
+      if ($window.Intercom) {
+        keypather.get($window, 'Intercom.restore()');
+        sinon.stub($window, 'Intercom', noop);
+      }
+      sinon.stub(eventTracking, '_mixpanel', noop);
     });
   }
 
   function tearDownState () {
     $log.error.restore();
-    keypather.get(eventTracking, '$window.Intercom.restore()');
+    keypather.get($window, 'Intercom.restore()');
     keypather.get(eventTracking, '_mixpanel.restore()');
   }
 
@@ -51,8 +59,6 @@ describe('serviceEventTracking'.bold.underline.blue, function () {
   });
 
   it('should have universal event data', function () {
-    sinon.stub(eventTracking.$window, 'Intercom');
-    sinon.stub(eventTracking, '_mixpanel', noop);
     eventTracking.boot(new User(angular.copy(apiMocks.user)));
     eventTracking.triggeredBuild();
     expect(eventTracking.$window.Intercom.callCount).to.equal(2);
