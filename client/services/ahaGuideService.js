@@ -319,7 +319,9 @@ function ahaGuide(
   }
 
   function updateTracking(step) {
-    if (step) return;
+    if (step) {
+      return;
+    }
     switch (step) {
       case 'containerSelection':
         eventTracking.milestone2SelectTemplate();
@@ -339,7 +341,7 @@ function ahaGuide(
       default:
         var currentStep = getCurrentStep();
         if (currentStep === 4) {
-          eventTracking.addedBranch();
+          eventTracking.milestone3AddedBranch();
         }
     }
   }
