@@ -338,7 +338,7 @@ function ahaGuide(
       default:
         var currentStep = getCurrentStep();
         if (currentStep === 4) {
-          eventTracking.addedBranch();
+          eventTracking.milestone3AddedBranch();
         }
     }
   }
