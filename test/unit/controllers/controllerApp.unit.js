@@ -75,7 +75,7 @@ describe('controllerApp'.bold.underline.blue, function () {
       flags: {},
       reset: sinon.stub(),
       changed: sinon.stub()
-    }
+    };
     mockLocalStorage = {};
     showModalStub = sinon.stub();
     angular.mock.module('app', function ($provide) {
@@ -106,12 +106,12 @@ describe('controllerApp'.bold.underline.blue, function () {
       $rootScope = _$rootScope_;
       $window = _$window_;
       keypather = _keypather_;
-
       $scope = $rootScope.$new();
+      if ($window.Intercom) {
+        keypather.get($window, 'Intercom.restore()');
+        sinon.stub($window, 'Intercom', noop);
+      }
     });
-    if ($window.Intercom) {
-      sinon.stub($window, 'Intercom', noop);
-    }
 
     var controllerInitFn = $controller('ControllerApp', {
       '$scope': $scope
