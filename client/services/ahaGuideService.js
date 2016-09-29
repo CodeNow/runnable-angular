@@ -318,9 +318,6 @@ function ahaGuide(
   }
 
   function updateTracking(step) {
-    if (step) {
-      return;
-    }
     switch (step) {
       case 'containerSelection':
         eventTracking.milestone2SelectTemplate();
