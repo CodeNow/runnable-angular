@@ -507,9 +507,9 @@ EventTracking.prototype.milestone2BuildSuccess = function () {
  *   - mixpanel
  * @return this
  */
-EventTracking.prototype.addedBranch = function () {
+EventTracking.prototype.milestone3AddedBranch = function () {
   var self = this;
-  var eventName = 'Added branch';
+  var eventName = 'Milestone 3: Added branch';
 
   self._mixpanel('track', eventName);
   return self;
