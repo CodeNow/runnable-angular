@@ -17,22 +17,25 @@
           default = "true"
           name = "orgSelection"
         )
+
+          p.p.text-gray.fade.text-center(
+            ng-class = "{'in': isActivePanel()}"
+          ) We’re so glad you made it!
+            br
+            | Now select the organization you want to use.
+
           .grid-block.vertical.list.fade(
             name = "COS.orgSelectorForm"
             ng-class = "{'in': isActivePanel()}"
           )
-            //- ng-if = "COS.allAccounts.length"
-            //- add .active class if this org is selected
-            //- add [disabled] property when loading NOT class!
             .grid-block.align-center.list-item.btn.white(
-              ng-class = "{'active': org.oauthName() === COS.selectedOrgName}"
               ng-repeat = "org in COS.allAccounts"
               title = "{{org.oauthName()}}"
             )
               img.grid-content.shrink(
-                height = "30"
+                height = "36"
                 ng-src = "{{org.gravitar()}}"
-                width = "30"
+                width = "36"
               )
               span.grid-content.text-left.text-overflow {{org.oauthName()}}
               svg.grid-content.iconnables.icons-arrow-forward.shrink
@@ -45,15 +48,19 @@
           )
             .grid-block.align-center.list-item.btn.white
               img.grid-content.shrink(
-                height = "30"
+                height = "36"
                 src = "{{org.gravitar()}}"
-                width = "30"
+                width = "36"
               )
-              span.grid-content.text-left.text-overflow I don’t see my organization
+              span.grid-content.text-left.text-overflow Don’t see your organization?
               svg.grid-content.iconnables.icons-arrow-forward.shrink
                 use(
                   xlink:href = "#icons-arrow-down"
                 )
+
+          .link.small.text-gray.text-center.fade(
+            ng-class = "{'in': isActivePanel()}"
+          ) Looking for your personal account?
 
         animated-panel.modal-body.grid-block.vertical(
           name = "dockLoading"
