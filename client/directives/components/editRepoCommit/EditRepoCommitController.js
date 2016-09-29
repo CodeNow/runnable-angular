@@ -21,6 +21,12 @@ function EditRepoCommitController(
     var ERCC = this;
     ERCC.isLatestCommitDeployed = true;
 
+    var repoObject = {
+      branch: fetchCommitData.activeBranch(ERCC.acv),
+      useLatest: ERCC.acv.attrs.useLatest,
+      commit: ERCC.latestBranchCommit
+    };
+
     $scope.$watch('ERCC.acv', function (newAcv, oldAcv) {
       if (newAcv) {
         var branch = ERCC.acv.githubRepo.newBranch(ERCC.acv.attrs.branch, {warn: false});
@@ -35,12 +41,6 @@ function EditRepoCommitController(
           });
       }
     });
-
-    ERCC.repoObject = {
-      branch: fetchCommitData.activeBranch(ERCC.acv),
-      useLatest: ERCC.acv.attrs.useLatest,
-      commit: ERCC.latestBranchCommit
-    };
 
     ERCC.actions = {
       toggleEditCommits: function () {
@@ -112,9 +112,9 @@ function EditRepoCommitController(
       promisify(branch.commits, 'fetch')()
         .then(function(commits) {
           ERCC.latestBranchCommit = keypather.get(commits, 'models[0]');
-          ERCC.repoObject.commit = ERCC.latestBranchCommit;
+          repoObject.commit = ERCC.latestBranchCommit;
           if (ERCC.activeCommit.attrs.sha !== ERCC.latestBranchCommit.attrs.sha) {
-            return updateInstanceWithNewAcvData(ERCC.instance, ERCC.acv, ERCC.repoObject)
+            return updateInstanceWithNewAcvData(ERCC.instance, ERCC.acv, repoObject)
               .then(function(instance) {
                 loading('updatingInstance', false);
               })
