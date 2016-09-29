@@ -45,6 +45,7 @@ function EventTracking(
   self.analytics = $window.analytics;
   self._user = null;
   self.$window = $window;
+  self.isModerating = !!$browser.cookies().isModerating;
 
   /**
    * Extend per-event data with specific properties
@@ -79,9 +80,15 @@ function EventTracking(
    * Stub Intercom when SDK not present
    * (development/staging environments)
    */
-  if (!self.$window.Intercom || $browser.cookies().isModerating) {
+  if (!self.$window.Intercom) {
     // stub intercom if not present
     self.$window.Intercom = angular.noop;
+  }
+
+  if (self.isModerating) {
+    self.$window.intercomSettings = {
+      hide_default_launcher: true
+    };
   }
 
   /**
@@ -185,7 +192,9 @@ EventTracking.prototype.boot = function (user, opts) {
   } else {
     self._mixpanel('identify', user.oauthId());
   }
-  self.$window.Intercom('boot', data);
+  if (!self.isModerating) {
+    self.$window.Intercom('boot', data);
+  }
   var userJSON = user.toJSON();
   var firstName = '';
   var lastName = '';
@@ -262,7 +271,9 @@ EventTracking.prototype.triggeredBuild = function (cache) {
   var eventData = self.extendEventData({
     cache: cache
   });
-  self.$window.Intercom('trackEvent', eventName, eventData);
+  if (!self.isModerating) {
+    self.$window.Intercom('trackEvent', eventName, eventData);
+  }
   self._mixpanel('track', eventName, eventData);
   self.analytics.ready(function () {
     self.analytics.track(eventName, eventData);
@@ -297,7 +308,9 @@ EventTracking.prototype.visitedState = function () {
  */
 EventTracking.prototype.update = function () {
   var self = this;
-  self.$window.Intercom('update');
+  if (!self.isModerating) {
+    self.$window.Intercom('update');
+  }
   return self;
 };
 
