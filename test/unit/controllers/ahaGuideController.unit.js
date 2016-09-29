@@ -13,6 +13,8 @@ var mockCurrentOrg;
 var isRunnabotPartOfOrgStub;
 var mockAhaGuideMethods;
 var eventStatus;
+var subStep;
+var subStepIndex;
 
 var apiMocks = require('../apiMocks/index');
 
@@ -121,17 +123,18 @@ describe('ahaGuideController'.bold.underline.blue, function () {
       keypather = _keypather_;
 
       $scope = $rootScope.$new();
+      $scope.subStep = subStep;
+      $scope.subStepIndex = subStepIndex;
     });
 
     $rootScope.featureFlags = {
       aha: true
     };
 
-    var controllerInitFn = $controller('AhaGuideController', {
+    AGC = $controller('AhaGuideController', {
       '$scope': $scope
-    }, true);
+    });
 
-    AGC = controllerInitFn();
     $rootScope.$apply();
   }
 
@@ -139,10 +142,13 @@ describe('ahaGuideController'.bold.underline.blue, function () {
     beforeEach(function() {
       getCurrentStepStub.returns(2);
       isAddingFirstRepoStub.returns(true);
+      subStep = 'addRepository';
+      subStepIndex = 0;
       setup();
       $scope.$on('ahaGuideEvent', function(event, status) {
         eventStatus = status;
-      })
+      });
+      $scope.$digest();
     })
 
     it('should update the subStep and index based on a panel change', function() {
@@ -160,6 +166,9 @@ describe('ahaGuideController'.bold.underline.blue, function () {
     });
 
     it('should update the caption and build status based on an update', function() {
+      AGC.subStepIndex = 0;
+      $rootScope.$broadcast('alert', {text:'Container Created', type: 'success'});
+      $scope.$digest();
       $rootScope.$broadcast('buildStatusUpdated', {status:'starting'});
       $scope.$digest();
       expect(AGC.caption).to.equal('We‘re building! Build time varies depending on your build commands.');
@@ -174,10 +183,20 @@ describe('ahaGuideController'.bold.underline.blue, function () {
     });
 
     it('should update the caption on alert', function() {
+      AGC.subStepIndex = 0;
       $rootScope.$broadcast('alert', {text:'Container Created',type:'success'});
       expect(AGC.subStep).to.equal('logs');
       expect(AGC.subStepIndex).to.equal(7);
       sinon.assert.calledWith(mockAhaGuideMethods.furthestSubstep, 2, 'logs');
+    });
+
+    it('should not update the subStep on alert when on container select step', function() {
+      AGC.subStepIndex = 1;
+      $scope.$emit('changed-animated-panel', 'containerSelection');
+      $rootScope.$broadcast('alert', {text:'Container Created',type:'success'});
+      expect(AGC.subStep).to.equal('containerSelection');
+      expect(AGC.subStepIndex).to.equal(1);
+      sinon.assert.calledWith(mockAhaGuideMethods.furthestSubstep, 2, 'containerSelection');
     });
   })
 });
