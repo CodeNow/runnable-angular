@@ -527,3 +527,17 @@ EventTracking.prototype.invitedRunnabot = function () {
   self._mixpanel('track', eventName);
   return self;
 };
+
+/**
+ * Enabled auto-launch
+ * Reports to:
+ *   - mixpanel
+ * @return this
+ */
+EventTracking.prototype.enabledAutoLaunch = function () {
+  var self = this;
+  var eventName = 'Enabled auto-launch';
+
+  self._mixpanel('track', eventName);
+  return self;
+};
