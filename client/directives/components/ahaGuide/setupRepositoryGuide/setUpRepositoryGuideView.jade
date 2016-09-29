@@ -8,7 +8,7 @@
     'aha-meter-55': AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'repository',\
     'aha-meter-66': AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'commands',\
     'aha-meter-77': AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'buildfiles' || AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'filesMirror' || AGC.ahaGuide.configSteps.includes(AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO)),\
-    'aha-meter-88': AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'logs' || AGC.errorState === 'buildFailed' || AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'exitedEarly',\
+    'aha-meter-88': AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'logs' || AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'exitedEarly' || AGC.errorState,\
     'aha-meter-100': (AGC.ahaGuide.furthestSubstep(AGC.ahaGuide.steps.ADD_FIRST_REPO) === 'success' && !AGC.errorState) || getCurrentStep() > steps.ADD_FIRST_REPO,\
   }"
 )
