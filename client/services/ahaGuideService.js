@@ -14,6 +14,7 @@ var STEPS = {
 function ahaGuide(
   $rootScope,
   currentOrg,
+  eventTracking,
   fetchInstancesByPod,
   isRunnabotPartOfOrg,
   keypather,
@@ -229,6 +230,7 @@ function ahaGuide(
         if (newStepValue === -1 || newStepValue > oldSubstepValue) {
           // automatically allow switch when an error state
           cachedSubstep[step] = newSubstep;
+          updateTracking(newSubstep);
         }
       }
     }
@@ -315,6 +317,34 @@ function ahaGuide(
       });
   }
 
+  function updateTracking(step) {
+    if (step) {
+      return;
+    }
+    switch (step) {
+      case 'containerSelection':
+        eventTracking.milestone2SelectTemplate();
+        break;
+      case 'repository':
+        eventTracking.milestone2VerifyRepositoryTab();
+        break;
+      case 'commands':
+        eventTracking.milestone2VerifyCommandsTab();
+        break;
+      case 'logs':
+        eventTracking.milestone2Building();
+        break;
+      case 'success':
+        eventTracking.milestone2BuildSuccess();
+        break;
+      default:
+        var currentStep = getCurrentStep();
+        if (currentStep === 4) {
+          eventTracking.milestone3AddedBranch();
+        }
+    }
+  }
+
   return {
     endGuide: endGuide,
     resetGuide: resetGuide,
@@ -326,6 +356,7 @@ function ahaGuide(
     steps: STEPS,
     updateCurrentOrg: updateCurrentOrg,
     furthestSubstep: furthestSubstep,
+    updateTracking: updateTracking,
     skipBranchMilestone: skipBranchMilestone,
     isChoosingOrg: function() {
       return getCurrentStep() === STEPS.CHOOSE_ORGANIZATION;
