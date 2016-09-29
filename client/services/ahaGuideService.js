@@ -36,6 +36,7 @@ function ahaGuide(
           endGuide()
             .then(function() {
               $rootScope.$broadcast('showAutoLaunchPopover');
+              eventTracking.invitedRunnabot();
             });
         }
         hasRunnabot = runnabot;

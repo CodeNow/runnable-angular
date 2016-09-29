@@ -15,6 +15,7 @@ function ControllerInstances(
   ahaGuide,
   currentOrg,
   errs,
+  eventTracking,
   fetchInstancesByPod,
   fetchRepoBranches,
   keypather,
@@ -253,6 +254,9 @@ function ControllerInstances(
 
   this.setAutofork = function () {
     CIS.poppedInstance.attrs.shouldNotAutofork = !CIS.poppedInstance.attrs.shouldNotAutofork;
+    if (!CIS.poppedInstance.attrs.shouldNotAutofork) {
+      eventTracking.enabledAutoLaunch();
+    }
     if (CIS.isInGuide() && !CIS.poppedInstance.attrs.shouldNotAutofork) {
       var childWatcher = $scope.$watch('CIS.poppedInstance.children.models.length', function (length) {
         if (length) {
