@@ -1,6 +1,6 @@
 'use strict';
 
-describe('directiveEditRepoCommit'.bold.underline.blue, function() {
+describe('EditRepoCommitController'.bold.underline.blue, function() {
   var apiMocks = require('../apiMocks/index');
   var updateInstanceWithNewAcvDataStub;
   var $scope;
@@ -35,7 +35,7 @@ describe('directiveEditRepoCommit'.bold.underline.blue, function() {
         newBranch: newBranchStub
       }
     };
-    commits    = {models: [apiMocks.commit.bitcoinRepoCommit2, ctx.commit]};
+    commits = {models: [apiMocks.commit.bitcoinRepoCommit2, ctx.commit]};
     angular.mock.module('app', function ($provide) {
       $provide.factory('fetchCommitData', function ($q) {
         ctx.fetchCommitData = {

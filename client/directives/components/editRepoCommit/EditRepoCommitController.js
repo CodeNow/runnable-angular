@@ -120,7 +120,7 @@ function EditRepoCommitController(
               })
               .catch(function(err) {
                 errs.handler(err);
-                loading('updatingInstance', false)
+                loading('updatingInstance', false);
               });
           }
         });
