@@ -107,7 +107,7 @@ function ChooseOrganizationModalController(
     });
   };
   COMC.getSelectedOrg = function (selectedOrgName) {
-    return COMC.allAccounts.find(function (org) {
+    return COMC.allAccounts.models.find(function (org) {
       return selectedOrgName.toLowerCase() === org.oauthName().toLowerCase();
     });
   };
