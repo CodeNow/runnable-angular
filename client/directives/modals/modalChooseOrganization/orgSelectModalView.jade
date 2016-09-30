@@ -1,4 +1,4 @@
-.grid-block.vertical.padding-sm
+.grid-block.vertical.padding-sm.org-select-view
   img.grid-block.shrink.img.runnabear(
     height = "130"
     src = "/build/images/runnabear-waving-3.png"
@@ -11,12 +11,8 @@
     ng-class = "{'in': isActivePanel()}"
   ) Now select the organization you want to use.
 
-  .grid-block.vertical.list.fade(
-    name = "COS.orgSelectorForm"
-    ng-class = "{'in': isActivePanel()}"
-    ng-click = "goToPanel('confirmOrg')"
-  )
-    .grid-block.align-center.list-item.btn.white(
+  ol.grid-block.vertical.list
+    li.grid-block.align-center.list-item.btn.white(
       ng-repeat = "org in COS.allAccounts"
       title = "{{org.oauthName()}}"
     )
@@ -31,10 +27,8 @@
           xlink:href = "#icons-arrow-down"
         )
 
-  .grid-block.vertical.list.margin-top-sm.fade(
-    ng-class = "{'in': isActivePanel()}"
-  )
-    .grid-block.align-center.list-item.btn.white
+  ol.margin-top-sm.grid-block.vertical.list
+    li.grid-block.align-center.list-item.btn.white
       img.grid-content.shrink(
         height = "30"
         src = "{{org.gravitar()}}"
@@ -46,6 +40,11 @@
           xlink:href = "#icons-arrow-down"
         )
 
-  .margin-top-md.margin-bottom-md.link.small.text-gray.text-center.fade(
-    ng-class = "{'in': isActivePanel()}"
-  ) Looking for your personal account?
+footer.grid-block.align-center.vertical.footer.padding-sm.margin-top-xs
+  small.small.underline.text-gray(
+    pop-over
+    pop-over-hover-trigger
+    pop-over-options = "{\"top\":-105,\"centered\":true}"
+    pop-over-template = "personalTooltip"
+    pop-over-trigger = "hover"
+  ) Looking to run a personal project?
