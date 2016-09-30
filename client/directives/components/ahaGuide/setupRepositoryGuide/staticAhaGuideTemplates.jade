@@ -1,8 +1,5 @@
 .grid-block.shrink.aha-meter.js-animate(
-  ng-class = "{\
-    'aha-meter-10': staticAddRepo,\
-    'aha-meter-100': showAhaNavPopover\
-  }"
+  class = "{{getClassname()}}"
 )
   svg.iconnables(
   )

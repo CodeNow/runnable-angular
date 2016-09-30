@@ -32,6 +32,7 @@ function EnvironmentController(
   EC.isInGuide = ahaGuide.isInGuide;
   EC.showCreateTemplate = true;
   EC.showOverview = true;
+  EC.getClassForSubstep = ahaGuide.getClassForSubstep;
   $scope.$on('ahaGuideEvent', function(event, info) {
     if (info.isClear) {
       EC.errorState = null;

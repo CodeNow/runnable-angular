@@ -75,7 +75,7 @@
     )
       .grid-block.align-center.aha-guide.padding-md(
         ng-include = "'ahaGuideView'"
-        ng-init = "staticAddRepo = true"
+        ng-init = "staticAddRepo = true; getClassname = EC.getClassForSubstep"
       )
 
     .grid-block.card-grid.clearfix(
