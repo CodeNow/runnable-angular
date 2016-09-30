@@ -53,13 +53,18 @@
 
   .img.runnabear {
     height: auto;
-    left: 0;
+    left: 50px;
     margin: 0 auto;
     position: absolute;
-    right: 0;
+    right: auto;
     top: -120px;
     width: 230px;
     z-index: 1;
+
+    @include media(sm) {
+      left: 0;
+      right: 0;
+    }
   }
 
   .h1 {
