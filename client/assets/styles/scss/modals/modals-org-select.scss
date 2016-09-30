@@ -77,5 +77,15 @@
     + .list-item {
       margin-top: -1px;
     }
+
+    .icons-missing-org {
+      background: $gray-lightest;
+      border-radius: $input-border-radius;
+      font-size: 21px;
+      height: 30px;
+      line-height: 30px;
+      padding-top: 1px;
+      width: 30px;
+    }
   }
 }

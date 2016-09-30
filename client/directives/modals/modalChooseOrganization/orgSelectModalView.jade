@@ -32,11 +32,7 @@
     li.grid-block.align-center.list-item.btn.white(
       ng-click = "welcome.view = 'grantAccess'"
     )
-      img.grid-content.shrink(
-        height = "30"
-        src = "{{org.gravitar()}}"
-        width = "30"
-      )
+      .grid-content.shrink.icons-missing-org 🕵
       span.grid-content.text-left.text-overflow Don’t see your organization?
       svg.grid-content.iconnables.icons-arrow-forward.shrink
         use(
