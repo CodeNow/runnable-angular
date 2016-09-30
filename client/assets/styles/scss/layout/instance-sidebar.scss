@@ -22,10 +22,6 @@
       display: flex; // overwrite default .btn
     }
 
-    &.main-btn {
-      min-height: 121px;
-    }
-
     &:hover .row-commit::after,
     &:active .row-commit::after {
       background: linear-gradient(to right, rgba($white,0), $white);
@@ -42,6 +38,11 @@
         border: 1px solid rgba($purple-light,.25);
         color: rgba($purple-light,.5);
       }
+    }
+
+    &.error {
+      border-bottom: 0;
+      border-radius: $input-border-radius $input-border-radius 0 0;
     }
 
     // icon for commmit/branch
@@ -106,6 +107,11 @@
 
   + .sidebar-section-item {
     margin-top: 12px;
+  }
+
+  > .orange {
+    border-radius: 0 0 $input-border-radius $input-border-radius;
+    margin: 0;
   }
 }
 

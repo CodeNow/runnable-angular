@@ -1,32 +1,34 @@
-.modal-backdrop
-  .welcome
-    //- no orgs or didn't see org
-    .grid-block.shrink.modal-dialog.modal-orgs(
-      ng-include = "'grantAccessModalView'"
-    )
+.modal-backdrop.welcome
+  .grid-block.shrink.modal-dialog.modal-orgs(
+    ng-include = "'grantAccessModalView'"
+  )
+  .grid-block.shrink.margin-bottom-lg.justify-center
+    a.text-gray.small.link(
+      ng-click = "logout()"
+    ) Sign Out
 
-    //- listing orgs
-    .grid-block.shrink.modal-lg.modal-dialog.modal-orgs(
-      ng-include = "'orgSelectModalView'"
-    )
+  //- listing orgs
+  .grid-block.shrink.modal-lg.modal-dialog.modal-orgs(
+    ng-include = "'orgSelectModalView'"
+  )
 
-    //- confirm selected org
-    .grid-block.shrink.modal-dialog.modal-sm(
-      ng-include = "'confirmOrgModalView'"
-    )
+  //- confirm selected org
+  .grid-block.shrink.modal-dialog.modal-sm(
+    ng-include = "'confirmOrgModalView'"
+  )
 
-    //- infrastructure loading
-    .grid-block.shrink.modal-dialog.modal-lg(
-      ng-include = "'infrastructureLoadingModalView'"
-    )
+  //- infrastructure loading
+  .grid-block.shrink.modal-dialog.modal-lg(
+    ng-include = "'infrastructureLoadingModalView'"
+  )
 
-    //- sign out (under modal)
-    .grid-block.shrink.margin-bottom-lg.justify-center
-      a.text-gray.small.link(
-        ng-click = "logout()"
-      ) Sign Out
+  //- sign out (under modal)
+  .grid-block.shrink.margin-bottom-lg.justify-center
+    a.text-gray.small.link(
+      ng-click = "logout()"
+    ) Sign Out
 
-    //- .grid-block.justify-center.modal-outer-footer(
-    //-   grace-period-footer
-    //-   hide-choose-org = "true"
-    //- )
+  //- .grid-block.justify-center.modal-outer-footer(
+  //-   grace-period-footer
+  //-   hide-choose-org = "true"
+  //- )

@@ -7,6 +7,7 @@ describe('branchCommitSelectorController'.bold.underline.blue, function () {
   var $controller;
   var $q;
   var branchCommitSelectorController;
+  var updateInstanceStub;
 
   var ctx;
 
@@ -28,6 +29,7 @@ describe('branchCommitSelectorController'.bold.underline.blue, function () {
       commits: ctx.commits
     };
   }
+  updateInstanceStub = sinon.stub();
   function initState() {
     angular.mock.module('app');
     angular.mock.module(function ($provide) {
@@ -251,6 +253,7 @@ describe('branchCommitSelectorController'.bold.underline.blue, function () {
             additionalRepo: false
           }
         };
+        branchCommitSelectorController.updateInstance = updateInstanceStub;
         sinon.stub(branchCommitSelectorController, 'isAutoDeployOn').returns(true);
       });
       afterEach(function () {
@@ -273,6 +276,20 @@ describe('branchCommitSelectorController'.bold.underline.blue, function () {
         sinon.assert.calledTwice(branchCommitSelectorController.isAutoDeployOn);
         $scope.$digest();
         $rootScope.$destroy();
+      });
+
+      it('should not deploy the latest commit if autoDeploy is not enabled', function() {
+        branchCommitSelectorController.autoDeploy(false);
+        branchCommitSelectorController.deployLatestCommit();
+        sinon.assert.notCalled(updateInstanceStub);
+      });
+
+      it('should deploy the latest commit if autoDeploy is enabled', function() {
+        branchCommitSelectorController.isLatestCommitDeployed = false;
+        branchCommitSelectorController.autoDeploy(true);
+        branchCommitSelectorController.deployLatestCommit();
+        $scope.$digest();
+        sinon.assert.calledOnce(updateInstanceStub);
       });
     });
   });
