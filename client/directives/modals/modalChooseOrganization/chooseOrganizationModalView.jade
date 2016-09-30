@@ -9,22 +9,48 @@
   )
 
   //- listing orgs
-  .grid-block.vertical.shrink.modal-dialog.modal-sm.modal-org-select(
-    ng-if = "welcome.view === 'list'"
-    ng-include = "'orgSelectModalView'"
-  )
+  animated-panel-container.modal-org-select
+    img.grid-block.shrink.img.runnabear(
+      height = "130"
+      src = "/build/images/runnabear-waving-3.png"
+      width = "230"
+    )
+    .grid-block.vertical.shrink.modal-dialog.modal-sm
+      animated-panel(
+        default = "true"
+        name = "orgSelection"
+      )
+        .fade(
+          ng-class = "{'in': isActivePanel()}"
+          ng-include = "'orgSelectModalView'"
+        )
 
-  //- confirm selected org
-  .grid-block.vertical.shrink.modal-dialog.modal-sm.modal-org-select(
-    ng-if = "welcome.view === 'confirm'"
-    ng-include = "'confirmOrgModalView'"
-  )
+      //- confirm selected org
+      animated-panel(
+        name = "orgConfirmation"
+      )
+        .fade(
+          ng-class = "{'in': isActivePanel()}"
+          ng-include = "'confirmOrgModalView'"
+        )
 
-  //- infrastructure loading
-  .grid-block.vertical.shrink.modal-dialog.modal-sm.modal-org-select(
-    ng-if = "welcome.view === 'infrastructure'"
-    ng-include = "'infrastructureLoadingModalView'"
-  )
+      //- infrastructure loading
+      animated-panel(
+        name = "dockLoading"
+      )
+        .fade(
+          ng-class = "{'in': isActivePanel()}"
+          ng-include = "'infrastructureLoadingModalView'"
+        )
+
+      //- infrastructure loaded
+      animated-panel(
+        name = "dockLoaded"
+      )
+        .fade(
+          ng-class = "{'in': isActivePanel()}"
+          ng-include = "'infrastructureLoadedModalView'"
+        )
 
   //- .grid-block.justify-center.modal-outer-footer(
   //-   grace-period-footer

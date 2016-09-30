@@ -1,19 +1,10 @@
 .grid-block.vertical.padding-sm.org-select-view
-  img.grid-block.shrink.img.runnabear(
-    height = "130"
-    src = "/build/images/runnabear-waving-3.png"
-    width = "230"
-  )
-  h1.margin-top-sm.h1.text-center(
-    ng-class = "{'in': isActivePanel()}"
-  ) Welcome aboard!
-  p.margin-top-sm.margin-bottom-md.p.text-center.weight-light(
-    ng-class = "{'in': isActivePanel()}"
-  ) Now select the organization you want to use.
+  h1.margin-top-sm.h1.text-center Welcome aboard!
+  p.margin-top-sm.margin-bottom-md.p.text-center.weight-light Now select the organization you want to use.
 
   ol.grid-block.vertical.list
     li.grid-block.align-center.list-item.btn.white(
-      ng-click = "welcome.view = 'confirm'"
+      ng-click = "goToPanel('orgConfirmation')"
       ng-repeat = "org in COS.allAccounts"
       title = "{{org.oauthName()}}"
     )
@@ -29,9 +20,7 @@
         )
 
   ol.margin-top-sm.grid-block.vertical.list
-    li.grid-block.align-center.list-item.btn.white(
-      ng-click = "welcome.view = 'grantAccess'"
-    )
+    li.grid-block.align-center.list-item.btn.white
       img.grid-content.shrink(
         height = "30"
         src = "{{org.gravitar()}}"

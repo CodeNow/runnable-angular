@@ -1,20 +1,4 @@
-.modal-org-select {
-  margin-top: 150px;
-  overflow: visible;
-
-  > .org-select-view {
-    @include media(xs) {
-      padding-left: $sm;
-      padding-right: $sm;
-    }
-  }
-
-  .infrastructure-view > .padding-md {
-    @include media(xs) {
-      padding-left: $sm;
-      padding-right: $sm;
-    }
-  }
+.welcome {
 
   .runnabear {
     height: auto;
@@ -22,9 +6,26 @@
     margin: 0 auto;
     position: absolute;
     right: 0;
-    top: -120px;
+    top: 32px;
     width: 230px;
     z-index: 1;
+  }
+
+  .animated-panel-container {
+    overflow: visible;
+  }
+}
+
+.modal-org-select .modal-dialog {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 150px;
+
+  .infrastructure-view > .padding-md {
+    @include media(xs) {
+      padding-left: $sm;
+      padding-right: $sm;
+    }
   }
 
   .h1 {
@@ -36,7 +37,6 @@
     border-top: 1px solid $gray-lighter;
 
     @include media(sm) {
-      padding-bottom: $md;
       padding-left: 0;
       padding-right: 0;
     }
