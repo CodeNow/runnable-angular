@@ -1,4 +1,3 @@
-
 // utility
 %clearfix,
 .clearfix {
@@ -64,4 +63,5 @@
 %no-touching {
   // scss-lint:disable ImportantRule
   pointer-events: none !important;
+  // scss-lint:enable ImportantRule
 }

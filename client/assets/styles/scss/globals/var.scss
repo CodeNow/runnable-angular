@@ -185,7 +185,7 @@ $input-xs: 24px;
 $input-line-height-xs: $input-xs - ($input-border * 2);
 
 $input-xxs: 18px;
-$input-line-height-xxs: $input-xxs - 2px;
+$input-line-height-xxs: $input-xxs - ($input-border * 2);
 
 // margin/padding sizes
 $xxs: 9px;

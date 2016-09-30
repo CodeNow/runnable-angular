@@ -1,27 +1,26 @@
 .modal-backdrop
   .welcome
     .grid-block.shrink.modal-dialog.modal-orgs
-      img.grid-block.shrink.img.runnabear(
-        height = "130"
-        src = "/build/images/runnabear-waving-3.png"
-        width = "230"
-      )
-      .grid-block.noscroll
-        .grid-block.vertical.padding-lg
-          h1.grid-content.shrink.h1 Welcome to Runnable
-          p.grid-content.shrink.p Thanks for joining us! Your next step is deciding which GitHub organization you’d like to start creating your environments for.
-          button.grid-content.shrink.btn.btn-lg.green
-            svg.iconnables
-              use(
-                xlink:href = "#icons-octicons-github"
-              )
-            | Choose Org on GitHub
-        figure.grid-block.shrink.vertical.figure.padding-lg
-          img.img(
-            height = "716"
-            src = "/build/images/runnabot-comment.png"
-            width = "412"
-          )
+      .grid-block.align-start.vertical.padding-lg.noscroll
+        img.grid-block.shrink.img.runnabear(
+          height = "130"
+          src = "/build/images/runnabear-waving-3.png"
+          width = "230"
+        )
+        h1.h1 Welcome aboard!
+        p.margin-top-sm.p.weight-light Next, we’ll need access to the GitHub org you’d like to create environments for.
+        button.grid-block.align-center.justify-center.shrink.btn.btn-md.green.margin-top-md
+          svg.iconnables.margin-right-xxs
+            use(
+              xlink:href = "#icons-octicons-github"
+            )
+          | Grant Access
+      figure.grid-block.shrink.vertical.figure.padding-lg
+        img.img(
+          height = "716"
+          src = "/build/images/runnabot-comment.png"
+          width = "412"
+        )
 
     //- .grid-block.shrink.modal-dialog.modal-orgs(
     //-   ng-class = "{\
