@@ -5,8 +5,12 @@
     width = "230"
   )
   .grid-block.vertical.align-center.padding-lg.text-center
+    //- when no orgs exist
     h1.h1 Welcome aboard!
     p.margin-top-sm.p.weight-light Next, we’ll need access to the GitHub org you’d like to create environments for.
+    //- when coming from org list
+    //- h1.h1 Almost there!
+    //- p.margin-top-sm.p.weight-light To use your org in Runnable, you’ll need to grant access to it on GitHub.
     a.grid-block.align-center.justify-center.shrink.btn.btn-md.green.margin-top-md(
       href = ""
     )
@@ -16,13 +20,6 @@
         )
       | Grant Access
   footer.grid-block.align-center.vertical.footer.padding-left-lg.padding-right-lg.padding-bottom-sm.padding-top-xxs
-    small.small.underline.margin-top-sm.text-gray(
-      pop-over
-      pop-over-hover-trigger
-      pop-over-options = "{\"top\":-105,\"centered\":true}"
-      pop-over-template = "personalTooltip"
-      pop-over-trigger = "hover"
-    ) Looking to run a personal project?
     small.small.underline.margin-top-xs.text-gray(
       pop-over
       pop-over-hover-trigger
@@ -30,6 +27,13 @@
       pop-over-template = "notOwnerTooltip"
       pop-over-trigger = "hover"
     ) Not an owner of your org?
+    small.small.underline.margin-top-sm.text-gray(
+      pop-over
+      pop-over-hover-trigger
+      pop-over-options = "{\"top\":-105,\"centered\":true}"
+      pop-over-template = "personalTooltip"
+      pop-over-trigger = "hover"
+    ) Looking to run a personal project?
 figure.grid-block.shrink.vertical.figure.padding-lg.justify-center
   img.img(
     src = "/build/images/github-permissions.svg"
