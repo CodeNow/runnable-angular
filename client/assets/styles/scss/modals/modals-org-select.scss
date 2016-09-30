@@ -59,16 +59,6 @@
       font-size: 27px;
     }
 
-    .footer {
-      background: $gray-lightest;
-      border-top: 1px solid $gray-lighter;
-
-      @include media(sm) {
-        padding-left: 0;
-        padding-right: 0;
-      }
-    }
-
     .icons-link-external {
       height: 12px;
       top: 2px;
