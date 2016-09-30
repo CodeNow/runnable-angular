@@ -16,14 +16,20 @@
         )
       | Grant Access
   footer.grid-block.align-center.vertical.footer.padding-left-lg.padding-right-lg.padding-bottom-sm.padding-top-xxs
-    small.small.underline.margin-top-sm.text-gray Looking to run a personal project?
-    small.small.underline.margin-top-xs.text-gray Not an owner of your org?
-    //- a.grid-block.align-center.small.text-gray.margin-top-xs
-    //-   svg.iconnables.icons-arrow-backward
-    //-     use(
-    //-       xlink:href = "#icons-arrow-down"
-    //-     )
-    //-   | Sign Out
+    small.small.underline.margin-top-sm.text-gray(
+      pop-over
+      pop-over-hover-trigger
+      pop-over-options = "{\"top\":-105,\"centered\":true}"
+      pop-over-template = "personalTooltip"
+      pop-over-trigger = "hover"
+    ) Looking to run a personal project?
+    small.small.underline.margin-top-xs.text-gray(
+      pop-over
+      pop-over-hover-trigger
+      pop-over-options = "{\"top\":-90,\"centered\":true}"
+      pop-over-template = "notOwnerTooltip"
+      pop-over-trigger = "hover"
+    ) Not an owner of your org?
 figure.grid-block.shrink.vertical.figure.padding-lg
   img.img(
     src = "/build/images/github-permissions.svg"
