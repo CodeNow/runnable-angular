@@ -1,16 +1,14 @@
-.modal-backdrop.welcome(
-  ng-init = "state.grantAccess = null"
-)
+.modal-backdrop.welcome
 
   //- no orgs or missing org
   .grid-block.shrink.modal-dialog.modal-grant-access.js-animate(
-    ng-if = "state.grantAccess"
+    ng-if = "COMC.showGrantAccess"
     ng-include = "'grantAccessModalView'"
   )
 
   //- listing orgs
   animated-panel-container.modal-org-select.js-animate(
-    ng-if = "!state.grantAccess"
+    ng-if = "!COMC.showGrantAccess"
   )
     img.grid-block.shrink.img.runnabear(
       height = "130"
@@ -45,13 +43,8 @@
           ng-include = "'infrastructureLoadedModalView'"
         )
 
-  //- .grid-block.justify-center.modal-outer-footer(
-  //-   grace-period-footer
-  //-   hide-choose-org = "true"
-  //- )
-
-  //- sign out (under modal)
-  .grid-block.shrink.margin-bottom-lg.justify-center
-    a.text-gray.small.link(
-      ng-click = "logout()"
-    ) Sign Out
+  //- sign out (always) + change organization (during grace period)
+  .grid-block.shrink.justify-center.margin-bottom-xl(
+    hide-choose-org = "true"
+    grace-period-footer
+  )

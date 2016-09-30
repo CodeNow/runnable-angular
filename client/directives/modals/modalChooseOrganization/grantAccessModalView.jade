@@ -12,16 +12,17 @@
     //- h1.h1 Almost there!
     //- p.margin-top-sm.p.weight-light To use your org in Runnable, you’ll need to grant access to it on GitHub.
     a.grid-block.align-center.justify-center.shrink.btn.btn-md.green.margin-top-md(
-      href = ""
-      ng-click = "state.grantAccess = !state.grantAccess"
+      ng-click = "COMC.grantAccess()"
     )
       svg.iconnables.margin-right-xxs
         use(
           xlink:href = "#icons-octicons-github"
         )
       | Grant Access
-    //- button.grid-block.align-center.shrink.btn.btn-md.btn-cancel.gray.margin-top-xs(
-    //- ) Cancel
+    button.grid-block.align-center.shrink.btn.btn-md.btn-cancel.gray.margin-top-xs(
+      ng-if = "COMC.allAccounts.length > 0"
+      ng-click = "COMC.showGrantAccess = false"
+    ) Cancel
   footer.grid-block.shrink.align-center.vertical.footer.padding-sm.padding-bottom-md
     a.small.link.text-gray(
       href = "https://support.runnable.com/hc/en-us"

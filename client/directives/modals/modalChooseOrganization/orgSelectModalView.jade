@@ -5,7 +5,7 @@
   ol.grid-block.vertical.list
     li.grid-block.align-center.list-item.btn.white(
       ng-click = "goToPanel('dockLoading')"
-      ng-repeat = "org in COS.allAccounts"
+      ng-repeat = "org in COMC.allAccounts"
       title = "{{org.oauthName()}}"
     )
       img.grid-content.shrink(
@@ -21,7 +21,7 @@
 
   ol.margin-top-sm.grid-block.vertical.list
     li.grid-block.align-center.list-item.btn.white(
-      ng-click = "state.grantAccess = !state.grantAccess"
+      ng-click = "COMC.showGrantAccess = true"
     )
       .grid-content.shrink.icons-missing-org 🕵
       span.grid-content.text-left.text-overflow Don’t see your organization?
