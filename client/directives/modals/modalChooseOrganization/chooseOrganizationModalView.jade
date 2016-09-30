@@ -1,24 +1,30 @@
-.modal-backdrop.welcome
+.modal-backdrop.welcome(
+  ng-init = "welcome.view = 'list'"
+)
 
   //- no orgs or missing org
-  //- .grid-block.shrink.modal-dialog.modal-org-select(
-  //-   ng-include = "'grantAccessModalView'"
-  //- )
+  .grid-block.shrink.modal-dialog.modal-org-select(
+    ng-if = "welcome.view === 'grantAccess'"
+    ng-include = "'grantAccessModalView'"
+  )
 
   //- listing orgs
   .grid-block.vertical.shrink.modal-dialog.modal-sm.modal-org-select(
+    ng-if = "welcome.view === 'list'"
     ng-include = "'orgSelectModalView'"
   )
 
   //- //- confirm selected org
-  //- .grid-block.shrink.modal-dialog.modal-sm(
-  //-   ng-include = "'confirmOrgModalView'"
-  //- )
+  .grid-block.shrink.modal-dialog.modal-sm(
+    ng-if = "welcome.view === 'confirm'"
+    ng-include = "'confirmOrgModalView'"
+  )
 
   //- //- infrastructure loading
-  //- .grid-block.shrink.modal-dialog.modal-lg(
-  //-   ng-include = "'infrastructureLoadingModalView'"
-  //- )
+  .grid-block.shrink.modal-dialog.modal-lg(
+    ng-if = "welcome.view === 'infrastructure'"
+    ng-include = "'infrastructureLoadingModalView'"
+  )
 
   //- .grid-block.justify-center.modal-outer-footer(
   //-   grace-period-footer

@@ -1,6 +1,7 @@
 .modal-header
   svg.iconnables.icons-arrow-backward.fade(
     ng-class = "{'in': isActivePanel()}"
+    ng-click = "welcome.view = 'list'"
   )
     use(
       xlink:href = "#icons-arrow-down"
@@ -8,11 +9,13 @@
   h1.modal-heading Great choice!
 .grid-block.vertical.align-center.justify-center.padding-lg
   img.grid-content.shrink.fade(
-    height = "72"
+    height = "90"
     ng-class = "{'in': isActivePanel()}"
     src = "https://avatars.githubusercontent.com/u/20309738?v=3"
-    width = "72"
+    width = "90"
   )
   h3.h3.grid-content.shrink.weight-light taylor-test-org
-footer.grid-block.modal-footer
-  button.grid-block.justify-center.btn.btn-md.green Confirm Organization
+footer.grid-block.modal-footer.margin-top-xxs
+  button.grid-block.justify-center.btn.btn-md.green(
+    ng-click = "welcome.view = 'infrastructure'"
+  ) Confirm Organization
