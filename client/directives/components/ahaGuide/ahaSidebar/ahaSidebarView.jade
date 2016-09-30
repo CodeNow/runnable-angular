@@ -67,10 +67,7 @@
     }"
   )
     .grid-block.shrink.aha-meter(
-      ng-class = "{\
-        'aha-meter-100': getCurrentStep() > steps.ADD_FIRST_REPO,\
-      }"
-      class = "{{getClassForSubstep()}}"
+      ng-class = "getClassForSubstep()"
     )
       svg.iconnables
         use(

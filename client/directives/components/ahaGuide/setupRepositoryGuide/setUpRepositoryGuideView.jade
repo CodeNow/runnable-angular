@@ -1,9 +1,5 @@
 .grid-block.shrink.aha-meter.js-animate(
-  ng-class = "{\
-    'aha-error': AGC.showError || AGC.errorState,\
-    'aha-meter-100': getCurrentStep() > steps.ADD_FIRST_REPO,\
-  }"
-  class = "{{AGC.getClassForSubstep()}}"
+  ng-class = "AGC.getClassForSubstep()"
 )
   svg.iconnables(
     ng-if = "!AGC.showError && !AGC.errorState"

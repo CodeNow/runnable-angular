@@ -275,9 +275,17 @@ function ahaGuide(
     return cachedStep;
   }
 
-  function getClassForSubstep () {
+  function getClassForSubstep (errorState) {
     var step = furthestSubstep(STEPS.ADD_FIRST_REPO);
-    return stepList[STEPS.ADD_FIRST_REPO].subSteps[step].className;
+    var progressDial = stepList[STEPS.ADD_FIRST_REPO].subSteps[step].className;
+    var classNames = [];
+    if (errorState) {
+      classNames.push('aha-error');
+    }
+    if (progressDial) {
+      classNames.push(progressDial);
+    }
+    return classNames;
   }
 
   function isInGuide () {

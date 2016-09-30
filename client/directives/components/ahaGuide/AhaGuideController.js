@@ -81,7 +81,7 @@ function AhaGuideController(
   AGC.isBuildSuccessful = false;
   AGC.isInGuide = ahaGuide.isInGuide;
   AGC.skipBranchMilestone = ahaGuide.skipBranchMilestone;
-  AGC.getClassForSubstep = ahaGuide.getClassForSubstep;
+  AGC.getClassForSubstep = getClassForSubstep;
 
   // get the current milestone
   var currentMilestone = ahaGuide.stepList[ahaGuide.getCurrentStep()];
@@ -183,6 +183,11 @@ function AhaGuideController(
     } else if (config.workingRepoInstance && instances.models.length === 1) {
       $rootScope.$broadcast('showAddServicesPopover', true);
     }
+  }
+
+  function getClassForSubstep () {
+    var err = AGC.showError || AGC.errorState;
+    return ahaGuide.getClassForSubstep(err);
   }
 
   $scope.$on('$destroy', function () {
