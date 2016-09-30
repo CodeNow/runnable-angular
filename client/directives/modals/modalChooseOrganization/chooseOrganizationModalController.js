@@ -26,6 +26,11 @@ function ChooseOrganizationModalController(
   COMC.allAccounts = grantedOrgs.models;
   COMC.whitelistedOrgs = whitelistedOrgs;
 
+  COMC.showGrantAccess = COMC.allAccounts.length === 0;
+  COMC.grantAccess = function () {
+    console.log('Grant access!');
+  };
+
   // otherwise the user can clear away the model
   // this will be re-added when they transition to something else
   keypather.set($rootScope, 'dataApp.documentKeydownEventHandler', null);

@@ -1,16 +1,14 @@
-.modal-backdrop.welcome(
-  ng-init = "state.grantAccess = null"
-)
+.modal-backdrop.welcome
 
   //- no orgs or missing org
   .grid-block.shrink.modal-dialog.modal-grant-access.js-animate(
-    ng-if = "state.grantAccess"
+    ng-if = "COMC.showGrantAccess"
     ng-include = "'grantAccessModalView'"
   )
 
   //- listing orgs
   animated-panel-container.modal-org-select.js-animate(
-    ng-if = "!state.grantAccess"
+    ng-if = "!COMC.showGrantAccess"
   )
     img.grid-block.shrink.img.runnabear(
       height = "130"

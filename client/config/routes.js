@@ -55,7 +55,7 @@ module.exports = [
     url: '^/orgSelect',
     templateUrl: 'viewOrgSelect',
     controller: 'ChooseOrganizationModalController',
-    controllerAs: 'COS',
+    controllerAs: 'COMC',
     onExit: function ($rootScope) {
       $rootScope.$broadcast('app-document-click');
       $rootScope.$broadcast('close-modal');
