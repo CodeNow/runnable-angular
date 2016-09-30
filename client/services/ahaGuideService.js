@@ -272,6 +272,11 @@ function ahaGuide(
     return cachedStep;
   }
 
+  function getClassForSubstep () {
+    var step = furthestSubstep(STEPS.ADD_FIRST_REPO);
+    return stepList[STEPS.ADD_FIRST_REPO].subSteps[step].className;
+  }
+
   function isInGuide () {
     return keypather.get(currentOrg, 'poppa.attrs.metadata.hasAha');
   }
@@ -319,6 +324,7 @@ function ahaGuide(
     endGuide: endGuide,
     resetGuide: resetGuide,
     getCurrentStep: getCurrentStep,
+    getClassForSubstep: getClassForSubstep,
     hasConfirmedSetup: hasConfirmedSetup,
     hasRunnabot: refreshHasRunnabot,
     isInGuide: isInGuide,

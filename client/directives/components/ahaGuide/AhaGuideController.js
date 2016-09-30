@@ -82,6 +82,7 @@ function AhaGuideController(
   AGC.isBuildSuccessful = false;
   AGC.isInGuide = ahaGuide.isInGuide;
   AGC.skipBranchMilestone = ahaGuide.skipBranchMilestone;
+  AGC.getClassForSubstep = ahaGuide.getClassForSubstep;
 
   // get the current milestone
   var currentMilestone = ahaGuide.stepList[ahaGuide.getCurrentStep()];
