@@ -189,14 +189,24 @@ describe('ahaGuideController'.bold.underline.blue, function () {
       expect(AGC.subStepIndex).to.equal(7);
       sinon.assert.calledWith(mockAhaGuideMethods.furthestSubstep, 2, 'logs');
     });
+  });
 
-    it('should not update the subStep on alert when on container select step', function() {
-      AGC.subStepIndex = 1;
+  describe('only update the guide when necessary', function () {
+    beforeEach(function() {
+      getCurrentStepStub.returns(2);
+      isAddingFirstRepoStub.returns(true);
+      subStep = 'containerSelection';
+      subStepIndex = 1;
+      setup();
+      $scope.$digest();
+    })
+
+    it('should not update the subStep on build update when on container select step', function() {
       $scope.$emit('changed-animated-panel', 'containerSelection');
-      $rootScope.$broadcast('alert', {text:'Container Created',type:'success'});
+      $rootScope.$broadcast('buildStatusUpdated', {status:'started'});
       expect(AGC.subStep).to.equal('containerSelection');
       expect(AGC.subStepIndex).to.equal(1);
       sinon.assert.calledWith(mockAhaGuideMethods.furthestSubstep, 2, 'containerSelection');
     });
-  })
+  });
 });
