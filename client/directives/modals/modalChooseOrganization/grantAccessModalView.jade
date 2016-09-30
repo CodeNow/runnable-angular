@@ -13,8 +13,15 @@
     //- p.margin-top-sm.p.weight-light To use your org in Runnable, you’ll need to grant access to it on GitHub.
     a.grid-block.align-center.justify-center.shrink.btn.btn-md.green.margin-top-md(
       ng-click = "COMC.grantAccess()"
+      ng-disabled = "$root.isLoading.grantAccess"
     )
-      svg.iconnables.margin-right-xxs
+      .spinner-wrapper.spinner-sm.in(
+        ng-if = "$root.isLoading.grantAccess"
+        ng-include = "'spinner'"
+      )
+      svg.iconnables.margin-right-xxs(
+        ng-if = "!$root.isLoading.grantAccess"
+      )
         use(
           xlink:href = "#icons-octicons-github"
         )

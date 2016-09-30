@@ -31,6 +31,8 @@ function ChooseOrganizationModalController(
   var stopPolling = angular.noop;
 
   COMC.grantAccess = function () {
+    loading.reset('grantAccess');
+    loading('grantAccess', true);
     stopPolling();
     var originalOrgCount = grantedOrgs.models.length;
     stopPolling = $interval(function () {
@@ -38,6 +40,7 @@ function ChooseOrganizationModalController(
         .then(function (orgs) {
           if (orgs.models.length !== originalOrgCount) {
             COMC.showGrantAccess = false;
+            loading('grantAccess', false);
           }
         });
     }, 1000 * 5);
