@@ -1,0 +1,47 @@
+animated-panel-container
+  animated-panel.modal-body.grid-block.vertical(
+    name = "dockLoading"
+  )
+    .padding-md.fade(
+      ng-class = "{'in': isActivePanel()}"
+    )
+      //- dock spinning up
+      p.p.text-gray.padding-xs.text-center(
+        ng-if = "!$root.featureFlags.contingencyPlan"
+      ) We’re spinning up infrastructure for your org. It’ll take about&#32;
+        strong.strong 10 minutes
+        | . We’ll email you and update this page when it’s ready.
+      .grid-block.align-center.justify-center.padding-sm(
+        ng-if = "!$root.featureFlags.contingencyPlan"
+      )
+        .spinner-wrapper.spinner-md.spinner-gray(
+          ng-include = "'spinner'"
+        )
+        //- ng-if = "isActivePanel()"
+
+      p.p.text-gray.text-center.strong(
+        ng-if = "$root.featureFlags.contingencyPlan"
+      ) We’re running slower than normal due to high demand.
+      p.p.text-gray.text-center.padding-xs(
+        ng-if = "$root.featureFlags.contingencyPlan"
+      ) We’ll email you at&#32;
+        span {{ COS.user.attrs.email }}
+        | &#32;as soon we’re done spinning up your infrastructure. Thanks for your patience.
+
+  animated-panel.modal-body.grid-block.vertical(
+    name = "dockLoaded"
+  )
+    .padding-md.fade(
+      ng-class = "{'in': isActivePanel()}"
+    )
+      //- dock spun up
+      p.p.text-gray.padding-xs.text-center Thanks for waiting, we‘re ready for you now.
+
+    //- show this button when done waiting
+    footer.grid-block.vertical.modal-footer.fade(
+      ng-class = "{'in': isActivePanel()}"
+    )
+      button.btn.btn-md.green(
+        data-event-name = "Nav to Runnable (after infrastructure wait)"
+        ng-click = "actions.selectAccount(COS.selectedOrgName)"
+      ) Go to Runnable

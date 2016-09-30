@@ -67,49 +67,45 @@
     cursor: pointer;
   }
 
-  .list {
-    flex-wrap: wrap;
-    margin: 0 -1%;
+  .small {
+    margin: 30px 0 6px;
+  }
 
-    @include media(xxs) {
-      margin: 0;
-    }
+  .list + .list {
+    margin-top: 18px;
   }
 
   .list-item {
-    border-radius: $input-border-radius-lg;
-    display: flex;
-    flex: 0 0 48%;
-    font-size: 15px;
+    border-radius: 0;
+    font-size: 18px;
+    font-weight: $weight-normal;
     height: 60px;
-    margin: 4px 1%;
 
-    @include media(xxs) {
-      flex: 1 1 100%;
-      margin: 4px 0;
+    &:hover,
+    &:active {
+      z-index: 1;
     }
 
-    &:only-child {
-      flex: 1 1 100%;
+    &:not(:hover),
+    &:not(:active) {
+      .icons-arrow-forward {
+        color: $gray-light;
+      }
     }
-  }
 
-  .text-left {
-    margin-left: 9px;
-  }
-
-  .checkbox {
-
-    &:checked + .btn-add {
-      background: $green;
-      border-color: $green;
-      color: $white;
+    &:first-child {
+      border-top-left-radius: $input-border-radius-lg;
+      border-top-right-radius: $input-border-radius-lg;
     }
-  }
 
-  .btn-add {
-    border-radius: 50%;
-    flex: 0 0 auto;
+    &:last-child {
+      border-bottom-left-radius: $input-border-radius-lg;
+      border-bottom-right-radius: $input-border-radius-lg;
+    }
+
+    + .list-item {
+      margin-top: -1px;
+    }
   }
 }
 

@@ -1,0 +1,18 @@
+.modal-header
+  svg.iconnables.icons-arrow-backward.fade(
+    ng-class = "{'in': isActivePanel()}"
+  )
+    use(
+      xlink:href = "#icons-arrow-down"
+    )
+  h1.modal-heading Ready to Go?
+.grid-block.vertical.align-center.justify-center.padding-xl
+  img.grid-content.shrink.fade(
+    height = "66"
+    ng-class = "{'in': isActivePanel()}"
+    src = "https://avatars.githubusercontent.com/u/20309738?v=3"
+    width = "66"
+  )
+  h3.h3.grid-content.shrink.text-gray taylor-test-org
+footer.grid-block.modal-footer
+  button.grid-block.justify-center.btn.btn-md.green Confirm Organization

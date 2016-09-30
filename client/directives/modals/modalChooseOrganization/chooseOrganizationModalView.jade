@@ -1,160 +1,31 @@
 .modal-backdrop
   .welcome
+    //- no orgs or didn't see org
     .grid-block.shrink.modal-dialog.modal-orgs(
       ng-include = "'grantAccessModalView'"
     )
+
+    //- listing orgs
+    .grid-block.shrink.modal-lg.modal-dialog.modal-orgs(
+      ng-include = "'orgSelectModalView'"
+    )
+
+    //- confirm selected org
+    .grid-block.shrink.modal-dialog.modal-sm(
+      ng-include = "'confirmOrgModalView'"
+    )
+
+    //- infrastructure loading
+    .grid-block.shrink.modal-dialog.modal-lg(
+      ng-include = "'infrastructureLoadingModalView'"
+    )
+
+    //- sign out (under modal)
     .grid-block.shrink.margin-bottom-lg.justify-center
       a.text-gray.small.link(
         ng-click = "logout()"
       ) Sign Out
 
-
-    //- .grid-block.shrink.modal-dialog.modal-orgs(
-    //-   ng-class = "{\
-    //-     'modal-lg': COS.allAccounts.length > 1,\
-    //-     'modal-sm': COS.allAccounts.length <= 1\
-    //-   }"
-    //- )
-      img.grid-block.shrink.img.runnabear(
-        height = "130"
-        src = "/build/images/runnabear-waving-3.png"
-        width = "230"
-      )
-      .grid-block.shrink.align-center.justify-center.padding-md.aha-guide(
-        aha-guide
-        ng-if = "$root.featureFlags.aha && COS.isChoosingOrg()"
-        sub-step = "orgSelection"
-      )
-      animated-panel-container
-        animated-panel.modal-body.grid-block.vertical.padding-sm(
-          default = "true"
-          name = "orgSelection"
-        )
-
-          p.p.padding-xs.text-center.fade(
-            ng-class = "{'in': isActivePanel()}"
-            ng-if = "!$root.featureFlags.aha"
-          ) Select the organization you want to use with Runnable. If you don’t see your organization, check if you’ve granted access&#32;
-            a.link(
-              href = "https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9"
-              target = "_blank"
-            ) on GitHub
-            | .
-
-          .grid-block.shrink.justify-center.align-center.padding-xs.well.gray.aha-tips.fade(
-            ng-class = "{'in': isActivePanel()}"
-            ng-if = "$root.featureFlags.aha && COS.allAccounts.length"
-          )
-            svg.grid-content.shrink.iconnables
-              use(
-                xlink:href = "#icons-life-preserver"
-              )
-            small.grid-content.small If you don’t see your organization, check if you’ve granted access&#32;
-              a.link(
-                href = "https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9"
-                target = "_blank"
-              ) on GitHub
-              | .
-
-          //- empty state
-          .empty.well.gray.padding-lg(
-            ng-if = "!COS.allAccounts.length"
-          )
-            h3.h3.empty.text-gray.text-center We couldn’t find any organizations.
-            small.small.empty.text-center Check if you’ve granted access to your organization&#32;
-              a.link(
-                href = "https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9"
-                target = "_blank"
-              ) on GitHub
-              | . If you don’t have permission to grant access, you’ll have to ask your admin to give the go ahead.
-
-          form.grid-block.list.fade(
-            name = "COS.orgSelectorForm"
-            ng-class = "{'in': isActivePanel()}"
-            ng-if = "COS.allAccounts.length"
-          )
-            //- add .active class if this org is selected
-            //- add [disabled] property when loading NOT class!
-            label.grid-block.align-center.list-item.btn.white(
-              ng-class = "{'active': org.oauthName() === COS.selectedOrgName}"
-              ng-repeat = "org in COS.allAccounts"
-              title = "{{org.oauthName()}}"
-            )
-              img.grid-block.shrink(
-                height = "24"
-                ng-src = "{{org.gravitar()}}"
-                width = "24"
-              )
-              span.grid-block.text-left.text-overflow {{org.oauthName()}}
-              input.checkbox.hidden(
-                ng-change = "actions.selectedOrg(org.oauthName())"
-                ng-model = "COS.selectedOrgName"
-                value = "{{org.oauthName()}}"
-                type = "radio"
-              )
-              button.btn.btn-xs.btn-icon.btn-add.no-touching
-                svg.iconnables.icons-check
-                  use(
-                    xlink:href = "#icons-check"
-                  )
-
-          //- hide the footer if no orgs are found
-          footer.grid-block.vertical.modal-footer.fade(
-            ng-class = "{'in': isActivePanel()}"
-            ng-if = "COS.allAccounts.length"
-          )
-            //- disabled until an org is selected
-            button.btn.btn-md.green(
-              data-event-name = "Org Confirmed"
-              ng-click = "actions.createOrCheckDock(COS.selectedOrgName, goToPanel)"
-              ng-disabled = "!COS.selectedOrgName"
-            ) Confirm Organization
-
-        animated-panel.modal-body.grid-block.vertical(
-          name = "dockLoading"
-        )
-          .padding-md.fade(
-            ng-class = "{'in': isActivePanel()}"
-          )
-            //- dock spinning up
-            p.p.text-gray.padding-xs.text-center(
-              ng-if = "!$root.featureFlags.contingencyPlan"
-            ) We’re spinning up infrastructure for your org. It’ll take about&#32;
-              strong.strong 10 minutes
-              | . We’ll email you and update this page when it’s ready.
-            .grid-block.align-center.justify-center.padding-sm(
-              ng-if = "!$root.featureFlags.contingencyPlan"
-            )
-              .spinner-wrapper.spinner-md.spinner-gray(
-                ng-include = "'spinner'"
-              )
-              //- ng-if = "isActivePanel()"
-
-            p.p.text-gray.text-center.strong(
-              ng-if = "$root.featureFlags.contingencyPlan"
-            ) We’re running slower than normal due to high demand.
-            p.p.text-gray.text-center.padding-xs(
-              ng-if = "$root.featureFlags.contingencyPlan"
-            ) We’ll email you at&#32;
-              span {{ COS.user.attrs.email }}
-              | &#32;as soon we’re done spinning up your infrastructure. Thanks for your patience.
-        animated-panel.modal-body.grid-block.vertical(
-          name = "dockLoaded"
-        )
-          .padding-md.fade(
-            ng-class = "{'in': isActivePanel()}"
-          )
-            //- dock spun up
-            p.p.text-gray.padding-xs.text-center Thanks for waiting, we‘re ready for you now.
-
-          //- show this button when done waiting
-          footer.grid-block.vertical.modal-footer.fade(
-            ng-class = "{'in': isActivePanel()}"
-          )
-            button.btn.btn-md.green(
-              data-event-name = "Nav to Runnable (after infrastructure wait)"
-              ng-click = "actions.selectAccount(COS.selectedOrgName)"
-            ) Go to Runnable
     //- .grid-block.justify-center.modal-outer-footer(
     //-   grace-period-footer
     //-   hide-choose-org = "true"
