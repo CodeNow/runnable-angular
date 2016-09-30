@@ -1,12 +1,15 @@
-.grid-block.vertical.padding-md.org-select-view
+.grid-block.vertical.padding-sm.org-select-view
   img.grid-block.shrink.img.runnabear(
     height = "130"
     src = "/build/images/runnabear-waving-3.png"
     width = "230"
   )
-  p.margin-bottom-sm.p.weight-light.text-center Welcome! We’re so glad you made it.
-    br.hidden-xxxs
-    | &#32;Now select the organization you want to use.
+  h1.margin-top-sm.h1.text-center(
+    ng-class = "{'in': isActivePanel()}"
+  ) Welcome aboard!
+  p.margin-top-sm.margin-bottom-md.p.text-center.weight-light(
+    ng-class = "{'in': isActivePanel()}"
+  ) Now select the organization you want to use.
 
   ol.grid-block.vertical.list
     li.grid-block.align-center.list-item.btn.white(
@@ -24,7 +27,7 @@
           xlink:href = "#icons-arrow-down"
         )
 
-  ol.grid-block.vertical.list
+  ol.margin-top-sm.grid-block.vertical.list
     li.grid-block.align-center.list-item.btn.white
       img.grid-content.shrink(
         height = "30"
@@ -37,7 +40,7 @@
           xlink:href = "#icons-arrow-down"
         )
 
-footer.grid-block.align-center.vertical.footer.padding-sm
+footer.grid-block.align-center.vertical.footer.padding-sm.margin-top-xs
   small.small.underline.text-gray(
     pop-over
     pop-over-hover-trigger
