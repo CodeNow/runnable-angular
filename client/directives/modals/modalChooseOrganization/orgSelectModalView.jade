@@ -20,7 +20,9 @@
         )
 
   ol.margin-top-sm.grid-block.vertical.list
-    li.grid-block.align-center.list-item.btn.white
+    li.grid-block.align-center.list-item.btn.white(
+      ng-click = "state.grantAccess = !state.grantAccess"
+    )
       .grid-content.shrink.icons-missing-org 🕵
       span.grid-content.text-left.text-overflow Don’t see your organization?
       svg.grid-content.iconnables.icons-arrow-forward.shrink

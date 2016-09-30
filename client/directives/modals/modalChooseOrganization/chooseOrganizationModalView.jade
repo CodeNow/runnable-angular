@@ -1,15 +1,17 @@
 .modal-backdrop.welcome(
-  ng-init = "welcome.view = 'list'"
+  ng-init = "state.grantAccess = null"
 )
 
   //- no orgs or missing org
-  .grid-block.shrink.modal-dialog.modal-grant-access(
-    ng-if = "welcome.view === 'grantAccess'"
+  .grid-block.shrink.modal-dialog.modal-grant-access.js-animate(
+    ng-if = "state.grantAccess"
     ng-include = "'grantAccessModalView'"
   )
 
   //- listing orgs
-  animated-panel-container.modal-org-select
+  animated-panel-container.modal-org-select.js-animate(
+    ng-if = "!state.grantAccess"
+  )
     img.grid-block.shrink.img.runnabear(
       height = "130"
       src = "/build/images/runnabear-waving-3.png"

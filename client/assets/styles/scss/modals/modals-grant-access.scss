@@ -5,6 +5,7 @@
   min-height: 390px;
   overflow: visible;
   position: relative;
+  transition: opacity .3s ease-in-out, transform .3s ease-in-out;
 
   @include media(sm) {
     flex-direction: column;
@@ -26,11 +27,31 @@
     max-width: 300px;
   }
 
+  &.ng-enter {
+    opacity: 0;
+    transform: scale3d(.97,.97,1) translate3d(-135px,0,0);
+  }
+
+  &.ng-enter-active {
+    opacity: 1;
+    transform: scale3d(1,1,1) translate3d(0,0,0);
+  }
+
+  &.ng-leave {
+    opacity: 1;
+    transform: scale3d(1,1,1) translate3d(0,0,0);
+  }
+
+  &.ng-leave-active {
+    opacity: 0;
+    transform: scale3d(.97,.97,1) translate3d(-135px,0,0);
+  }
+
   > .grant-access-view {
     flex: 0 0 330px;
   }
 
-  .runnabear {
+  .img.runnabear {
     height: auto;
     left: 0;
     margin: 0 auto;
