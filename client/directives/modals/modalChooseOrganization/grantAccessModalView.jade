@@ -23,10 +23,14 @@
     //- button.grid-block.align-center.shrink.btn.btn-md.btn-cancel.gray.margin-top-xs(
     //- ) Cancel
   footer.grid-block.shrink.align-center.vertical.footer.padding-sm.padding-bottom-md
-    small.small.link.text-gray(
-      href = "//support.runnable.com"
+    a.small.link.text-gray(
+      href = "https://support.runnable.com/hc/en-us"
       target = "_blank"
     ) Looking to run a personal repo?
+      svg.iconnables.icons-link-external.text-gray
+        use(
+          xlink:href = "#icons-link-external-alt"
+        )
 figure.grid-block.shrink.vertical.figure.padding-lg.justify-center
   img.img(
     src = "/build/images/github-permissions.svg"
