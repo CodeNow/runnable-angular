@@ -19,7 +19,7 @@
     max-width: 300px;
   }
 
-  > .noscroll {
+  > .grant-access-view {
     flex: 0 0 330px;
     position: relative;
 
@@ -30,6 +30,13 @@
         padding-left: $sm;
         padding-right: $sm;
       }
+    }
+  }
+
+  > .org-select-view {
+    @include media(xs) {
+      padding-left: $sm;
+      padding-right: $sm;
     }
   }
 
