@@ -13,6 +13,7 @@
 
   ol.grid-block.vertical.list
     li.grid-block.align-center.list-item.btn.white(
+      ng-click = "welcome.view = 'confirm'"
       ng-repeat = "org in COS.allAccounts"
       title = "{{org.oauthName()}}"
     )
@@ -28,7 +29,9 @@
         )
 
   ol.margin-top-sm.grid-block.vertical.list
-    li.grid-block.align-center.list-item.btn.white
+    li.grid-block.align-center.list-item.btn.white(
+      ng-click = "welcome.view = 'grantAccess'"
+    )
       img.grid-content.shrink(
         height = "30"
         src = "{{org.gravitar()}}"

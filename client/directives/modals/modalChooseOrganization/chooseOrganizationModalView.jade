@@ -1,22 +1,28 @@
-.modal-backdrop.welcome
+.modal-backdrop.welcome(
+  ng-init = "welcome.view = 'list'"
+)
 
   //- no orgs or missing org
-  //- .grid-block.shrink.modal-dialog.modal-grant-access(
-  //-   ng-include = "'grantAccessModalView'"
-  //- )
+  .grid-block.shrink.modal-dialog.modal-grant-access(
+    ng-if = "welcome.view === 'grantAccess'"
+    ng-include = "'grantAccessModalView'"
+  )
 
   //- listing orgs
-  //- .grid-block.vertical.shrink.modal-dialog.modal-sm.modal-org-select(
-  //-   ng-include = "'orgSelectModalView'"
-  //- )
+  .grid-block.vertical.shrink.modal-dialog.modal-sm.modal-org-select(
+    ng-if = "welcome.view === 'list'"
+    ng-include = "'orgSelectModalView'"
+  )
 
   //- confirm selected org
-  //- .grid-block.vertical.shrink.modal-dialog.modal-sm.modal-org-select(
-  //-   ng-include = "'confirmOrgModalView'"
-  //- )
+  .grid-block.vertical.shrink.modal-dialog.modal-sm.modal-org-select(
+    ng-if = "welcome.view === 'confirm'"
+    ng-include = "'confirmOrgModalView'"
+  )
 
   //- infrastructure loading
   .grid-block.vertical.shrink.modal-dialog.modal-sm.modal-org-select(
+    ng-if = "welcome.view === 'infrastructure'"
     ng-include = "'infrastructureLoadingModalView'"
   )
 
