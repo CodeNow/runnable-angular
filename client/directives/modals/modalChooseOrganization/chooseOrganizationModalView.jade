@@ -1,19 +1,17 @@
 .modal-backdrop.welcome
+
+  //- no orgs or missing org
   .grid-block.shrink.modal-dialog.modal-orgs(
     ng-include = "'grantAccessModalView'"
   )
-  .grid-block.shrink.margin-bottom-lg.justify-center
-    a.text-gray.small.link(
-      ng-click = "logout()"
-    ) Sign Out
 
   //- listing orgs
-  .grid-block.shrink.modal-lg.modal-dialog.modal-orgs(
+  .grid-block.shrink.modal-sm.modal-dialog.modal-orgs(
     ng-include = "'orgSelectModalView'"
   )
 
   //- confirm selected org
-  .grid-block.shrink.modal-dialog.modal-sm(
+  .grid-block.shrink.modal-sm.modal-dialog(
     ng-include = "'confirmOrgModalView'"
   )
 
