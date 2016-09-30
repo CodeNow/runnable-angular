@@ -19,15 +19,18 @@
           xlink:href = "#icons-octicons-github"
         )
       | Grant Access
-  footer.grid-block.align-center.vertical.footer.padding-left-lg.padding-right-lg.padding-bottom-sm.padding-top-xxs
-    small.small.underline.margin-top-xs.text-gray(
+    button.grid-block.align-center.shrink.btn.btn-md.btn-cancel.gray.margin-top-xs(
+      ng-click = "state.grantAccess = !state.grantAccess"
+    ) Cancel
+  footer.grid-block.align-center.vertical.footer.padding-sm
+    small.small.underline.text-gray(
       pop-over
       pop-over-hover-trigger
       pop-over-options = "{\"top\":-90,\"centered\":true}"
       pop-over-template = "notOwnerTooltip"
       pop-over-trigger = "hover"
     ) Not an owner of your org?
-    small.small.underline.margin-top-sm.text-gray(
+    small.small.underline.margin-top-xs.text-gray(
       pop-over
       pop-over-hover-trigger
       pop-over-options = "{\"top\":-105,\"centered\":true}"
