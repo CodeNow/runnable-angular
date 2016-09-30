@@ -47,4 +47,7 @@ module.exports = angular.module('app', [
         ]
       }]
     });
+  })
+  .run(function (intercom) {
+    // Loading intercom
   });

@@ -77,8 +77,7 @@ module.exports = [
       booted: function (eventTracking, user) {
         eventTracking.boot(user);
         eventTracking.visitedOrgSelectPage();
-      },
-      attachIntercom: function (intercom) {}
+      }
     }
   }, {
     state: 'paused',
@@ -191,8 +190,7 @@ module.exports = [
       ) {
         currentOrg.poppa = activeOrg;
         currentOrg.github = activeAccount;
-      },
-      attachIntercom: function (intercom) {}
+      }
     }
   }, {
     state: 'base.config',
