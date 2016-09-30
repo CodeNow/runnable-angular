@@ -235,6 +235,9 @@ module.exports = [
             });
           });
         }
+      },
+      booted: function (eventTracking) {
+        eventTracking.visitedContainersPage();
       }
     }
   }, {

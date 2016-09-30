@@ -22,6 +22,7 @@ img.grid-content.shrink.img.img-comment(
 //- add 'disabled' attr if inviting runnabot, or if user isn't an admin
     hide after successfully inviting runnabot
 a.grid-content.shrink.btn.btn-md.green(
+  data-event-name = "Clicked Invite Runnabot button"
   ng-disabled = "!GIC.isAdmin"
   ng-click = "GIC.pollCheckRunnabot()"
   ng-hide = "$root.isLoading.checkRunnabot || GIC.hasRunnabot"

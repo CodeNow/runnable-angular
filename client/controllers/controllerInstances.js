@@ -15,7 +15,9 @@ function ControllerInstances(
   ahaGuide,
   currentOrg,
   errs,
+  eventTracking,
   fetchInstancesByPod,
+  fetchRepoBranches,
   keypather,
   loading,
   ModalService,
@@ -210,7 +212,7 @@ function ControllerInstances(
   this.getAllBranches = function (instance) {
     return promisify(currentOrg.github, 'fetchRepo')(instance.getRepoName())
       .then(function (repo) {
-        return promisify(repo, 'fetchBranches')();
+        return fetchRepoBranches(repo);
       });
   };
 
@@ -252,6 +254,9 @@ function ControllerInstances(
 
   this.setAutofork = function () {
     CIS.poppedInstance.attrs.shouldNotAutofork = !CIS.poppedInstance.attrs.shouldNotAutofork;
+    if (!CIS.poppedInstance.attrs.shouldNotAutofork) {
+      eventTracking.enabledAutoLaunch();
+    }
     if (CIS.isInGuide() && !CIS.poppedInstance.attrs.shouldNotAutofork) {
       var childWatcher = $scope.$watch('CIS.poppedInstance.children.models.length', function (length) {
         if (length) {

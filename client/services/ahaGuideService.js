@@ -14,6 +14,7 @@ var STEPS = {
 function ahaGuide(
   $rootScope,
   currentOrg,
+  eventTracking,
   fetchInstancesByPod,
   isRunnabotPartOfOrg,
   keypather,
@@ -35,6 +36,7 @@ function ahaGuide(
           endGuide()
             .then(function() {
               $rootScope.$broadcast('showAutoLaunchPopover');
+              eventTracking.invitedRunnabot();
             });
         }
         hasRunnabot = runnabot;
@@ -180,13 +182,11 @@ function ahaGuide(
         className: 'aha-meter-33',
         value: 33
       },
-      dockLoading: {
-        caption: 'Bear with us!',
+      selectBranch: {
         className: 'aha-meter-66',
         value: 66
       },
-      dockLoaded: {
-        caption: 'Continue to start configuring your project.',
+      noBranches: {
         className: 'aha-meter-100',
         value: 100
       },
@@ -231,6 +231,7 @@ function ahaGuide(
         if (newStepValue === -1 || newStepValue > oldSubstepValue) {
           // automatically allow switch when an error state
           cachedSubstep[step] = newSubstep;
+          updateTracking(newSubstep);
         }
       }
     }
@@ -262,7 +263,7 @@ function ahaGuide(
             return hasBranchLaunched;
           });
         }
-        if (!hasBranchLaunched) {
+        if (!hasBranchLaunched && !ahaGuide.skippedBranchMilestone) {
           cachedStep = STEPS.ADD_FIRST_BRANCH;
         } else if (!hasRunnabot) {
           cachedStep = STEPS.SETUP_RUNNABOT;
@@ -282,10 +283,15 @@ function ahaGuide(
     return keypather.get(currentOrg, 'poppa.attrs.metadata.hasConfirmedSetup');
   }
 
-  function updateCurrentOrg(updatedOrg) {
+  function updateCurrentOrg (updatedOrg) {
     if (keypather.has(updatedOrg, 'metadata.hasAha') && keypather.has(updatedOrg, 'metadata.hasConfirmedSetup')) {
       currentOrg.poppa.attrs.metadata = updatedOrg.metadata;
     }
+  }
+
+  function skipBranchMilestone () {
+    ahaGuide.skippedBranchMilestone = true;
+    $rootScope.$broadcast('showAhaSidebar');
   }
 
   function endGuide () {
@@ -312,6 +318,31 @@ function ahaGuide(
       });
   }
 
+  function updateTracking(step) {
+    switch (step) {
+      case 'containerSelection':
+        eventTracking.milestone2SelectTemplate();
+        break;
+      case 'repository':
+        eventTracking.milestone2VerifyRepositoryTab();
+        break;
+      case 'commands':
+        eventTracking.milestone2VerifyCommandsTab();
+        break;
+      case 'logs':
+        eventTracking.milestone2Building();
+        break;
+      case 'success':
+        eventTracking.milestone2BuildSuccess();
+        break;
+      default:
+        var currentStep = getCurrentStep();
+        if (currentStep === 4) {
+          eventTracking.milestone3AddedBranch();
+        }
+    }
+  }
+
   return {
     endGuide: endGuide,
     resetGuide: resetGuide,
@@ -323,6 +354,8 @@ function ahaGuide(
     steps: STEPS,
     updateCurrentOrg: updateCurrentOrg,
     furthestSubstep: furthestSubstep,
+    updateTracking: updateTracking,
+    skipBranchMilestone: skipBranchMilestone,
     isChoosingOrg: function() {
       return getCurrentStep() === STEPS.CHOOSE_ORGANIZATION;
     },
