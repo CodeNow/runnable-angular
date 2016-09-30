@@ -10,7 +10,6 @@ function AhaGuideController(
   ahaGuide,
   currentOrg,
   errs,
-  eventTracking,
   fetchInstancesByPod,
   keypather,
   patchOrgMetadata
@@ -102,25 +101,6 @@ function AhaGuideController(
     AGC.className = currentMilestone.subSteps[status].className;
     AGC.subStepIndex = currentMilestone.subSteps[status].step;
     ahaGuide.furthestSubstep(ahaGuide.steps.ADD_FIRST_REPO, status);
-
-    // tracking
-    switch (AGC.subStep) {
-      case 'containerSelection':
-        eventTracking.milestone2SelectTemplate();
-        break;
-      case 'repository':
-        eventTracking.milestone2VerifyRepositoryTab();
-        break;
-      case 'commands':
-        eventTracking.milestone2VerifyCommandsTab();
-        break;
-      case 'logs':
-        eventTracking.milestone2Building();
-        break;
-      case 'success':
-        eventTracking.milestone2BuildSuccess();
-        break;
-    }
   }
 
   function registerListeners () {

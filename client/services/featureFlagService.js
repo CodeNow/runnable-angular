@@ -11,6 +11,7 @@ function featureFlags(
     aha: true,
     ahaBranchUrlStep: false,
     allowIsolatedUpdate: false,
+    autoDeployError: false,
     autoIsolation: false,
     autoIsolationSetup: false,
     backup: false,

@@ -71,6 +71,7 @@ p.p.text-center.text-gray-light.padding-sm(
       title = "{{masterInstance.getName()}}"
     ) {{masterInstance.getName()}}
     .grid-block.align-center.shrink.btn.btn-xxs.white(
+      data-event-name = "Clicked Add Branch button"
       ng-if = "$root.featureFlags.addBranches"
       ng-click = "CIS.popInstanceOpen(masterInstance)"
       pop-over

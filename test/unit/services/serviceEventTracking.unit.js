@@ -5,34 +5,35 @@ var apiMocks = require('../apiMocks/index');
 var keypather = require('keypather')();
 
 describe('serviceEventTracking'.bold.underline.blue, function () {
-
   var $log;
+  var $window;
   var eventTracking;
 
-  function initState () {
+  beforeEach(function () {
     angular.mock.module('app', function ($provide) {
     });
     angular.mock.inject(function (
       _$log_,
+      _$window_,
       _eventTracking_
     ) {
       $log = _$log_;
+      $window = _$window_;
       eventTracking = _eventTracking_;
       sinon.stub($log, 'error', noop);
+      sinon.stub(eventTracking, 'Intercom', noop);
+      sinon.stub(eventTracking, '_mixpanel', noop);
     });
-  }
+  });
 
-  function tearDownState () {
+  afterEach(function () {
     $log.error.restore();
-    keypather.get(eventTracking, '_Intercom.restore()');
-    keypather.get(eventTracking, '_mixpanel.restore()');
-  }
-
-  beforeEach(initState);
-  afterEach(tearDownState);
+    eventTracking.Intercom.restore();
+    eventTracking._mixpanel.restore();
+  });
 
   it('should stub/assign Intercom SDK instance', function () {
-    expect(eventTracking._Intercom).to.be.a('function');
+    expect(eventTracking.Intercom).to.be.a('function');
   });
 
   it('should stub/assign Mixpanel SDK instance', function () {
@@ -51,19 +52,15 @@ describe('serviceEventTracking'.bold.underline.blue, function () {
   });
 
   it('should have universal event data', function () {
-    sinon.stub(eventTracking, '_Intercom', noop);
-    sinon.stub(eventTracking, '_mixpanel', noop);
     eventTracking.boot(new User(angular.copy(apiMocks.user)));
     eventTracking.triggeredBuild();
-    expect(eventTracking._Intercom.callCount).to.equal(2);
+    expect(eventTracking.Intercom.callCount).to.equal(2);
     expect(eventTracking._mixpanel.callCount).to.equal(4);
-    expect(eventTracking._Intercom.args[1][1]).to.equal('triggered-build');
+    expect(eventTracking.Intercom.args[1][1]).to.equal('triggered-build');
     expect(eventTracking._mixpanel.args[3][1]).to.equal('triggered-build');
     // both analytics SDK event reporting methods should be passed same event data
-    expect(eventTracking._Intercom.args[1][2]).to.deep.equal(eventTracking._mixpanel.args[3][2]);
-    expect(Object.keys(eventTracking._Intercom.args[1][2])).to.contain('state');
-    expect(Object.keys(eventTracking._Intercom.args[1][2])).to.contain('href');
-    eventTracking._Intercom.restore();
-    eventTracking._mixpanel.restore();
+    expect(eventTracking.Intercom.args[1][2]).to.deep.equal(eventTracking._mixpanel.args[3][2]);
+    expect(Object.keys(eventTracking.Intercom.args[1][2])).to.contain('state');
+    expect(Object.keys(eventTracking.Intercom.args[1][2])).to.contain('href');
   });
 });

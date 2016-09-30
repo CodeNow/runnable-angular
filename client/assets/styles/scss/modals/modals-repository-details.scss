@@ -1,3 +1,15 @@
-.modal-repository-details .modal-heading {
-  font-weight: $weight-normal; // so that the branch is bold
+.modal-repository-details {
+  max-height: calc(100vh - 180px);
+
+  @include media(lg) {
+    max-height: calc(100vh - 60px);
+  }
+
+  @media (max-height: $screen-xs), (max-width: $screen-sm) {
+    max-height: calc(100vh - 30px);
+  }
+
+  .modal-heading {
+    font-weight: $weight-normal; // so that the branch is bold
+  }
 }
