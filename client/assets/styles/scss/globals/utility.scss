@@ -39,7 +39,7 @@
   // margin
   %margin-#{nth($size-list,$i)},
   .margin-#{nth($size-list,$i)} {
-    background: nth($sizes,$i);
+    margin: nth($sizes,$i);
   }
 
   @for $x from 1 to 5 {

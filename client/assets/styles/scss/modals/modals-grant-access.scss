@@ -1,0 +1,68 @@
+.modal-grant-access {
+  flex-direction: row;
+  margin-top: 150px;
+  max-width: 870px;
+  min-height: 390px;
+  overflow: visible;
+  position: relative;
+
+  @include media(sm) {
+    flex-direction: column;
+    max-width: 420px;
+    min-height: 0;
+  }
+
+  @include media(xs) {
+    flex: 0 0 auto;
+    max-width: 360px;
+
+    .padding-lg {
+      padding-left: $sm;
+      padding-right: $sm;
+    }
+  }
+
+  @include media(xxs) {
+    max-width: 300px;
+  }
+
+  > .grant-access-view {
+    flex: 0 0 330px;
+  }
+
+  .runnabear {
+    height: auto;
+    left: 0;
+    margin: 0 auto;
+    position: absolute;
+    right: 0;
+    top: -120px;
+    width: 230px;
+    z-index: 1;
+  }
+
+  .figure {
+    background: linear-gradient($purple-light, $purple-dark);
+    border-left: 1px solid $purple-dark;
+    border-radius: 0 $input-border-radius-lg $input-border-radius-lg 0;
+    box-shadow: inset 0 -1px 0 rgba($white,.1);
+    margin: (-$input-border-lg) (-$input-border-lg) (-$input-border-lg) 0;
+
+    @include media(md) {
+      flex: 1 1 auto;
+    }
+
+    @include media(sm) {
+      display: none;
+    }
+
+    .img {
+      height: auto;
+      width: 450px;
+
+      @include media(md) {
+        width: 100%;
+      }
+    }
+  }
+}

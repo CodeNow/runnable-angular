@@ -1,7 +1,7 @@
 .modal-backdrop.welcome
 
   //- no orgs or missing org
-  //- .grid-block.shrink.modal-dialog.modal-org-select(
+  //- .grid-block.shrink.modal-dialog.modal-grant-access(
   //-   ng-include = "'grantAccessModalView'"
   //- )
 
@@ -11,14 +11,14 @@
   //- )
 
   //- confirm selected org
-  .grid-block.vertical.shrink.modal-dialog.modal-sm.modal-org-select(
-    ng-include = "'confirmOrgModalView'"
-  )
-
-  //- //- infrastructure loading
-  //- .grid-block.shrink.modal-dialog.modal-lg(
-  //-   ng-include = "'infrastructureLoadingModalView'"
+  //- .grid-block.vertical.shrink.modal-dialog.modal-sm.modal-org-select(
+  //-   ng-include = "'confirmOrgModalView'"
   //- )
+
+  //- infrastructure loading
+  .grid-block.vertical.shrink.modal-dialog.modal-sm.modal-org-select(
+    ng-include = "'infrastructureLoadingModalView'"
+  )
 
   //- .grid-block.justify-center.modal-outer-footer(
   //-   grace-period-footer
