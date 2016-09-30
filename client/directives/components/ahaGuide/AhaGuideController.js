@@ -46,7 +46,7 @@ function AhaGuideController(
 
   $scope.$on('alert', function (event, alert) {
     // alerts on container creation success
-    if (alert.text === 'Container Created' && alert.type === 'success' && (AGC.subStepIndex >= 6 || AGC.subStepIndex === 0 || AGC.errorState)) {
+    if (alert.text === 'Container Created' && alert.type === 'success') {
       if (!AGC.errorState) {
         updateCaption('logs');
       }
