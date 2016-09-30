@@ -1,24 +1,16 @@
 .grace-period,
 .welcome {
-  width: 100%;
+  width: 100vw;
 
-  // runnabear
   .runnabear {
     height: auto;
+    left: 0;
     margin: 0 auto;
-    position: relative;
-    width: 180px;
+    position: absolute;
+    right: 0;
+    top: -120px;
+    width: 230px;
     z-index: 1;
-
-    + .modal-dialog {
-      margin-top: -9px;
-    }
-  }
-
-  // modal
-  .modal-dialog {
-    color: $gray-dark;
-    margin: 30px auto;
   }
 }
 
@@ -29,16 +21,32 @@
   min-height: 390px;
   overflow: visible;
 
-  > .noscroll {
-    position: relative;
+  @include media(sm) {
+    flex-direction: column;
+    max-width: 420px;
+    min-height: 0;
   }
 
-  .runnabear {
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: -120px;
-    width: 230px;
+  @include media(xs) {
+    max-width: 360px;
+  }
+
+  @include media(xxs) {
+    max-width: 300px;
+  }
+
+  > .noscroll {
+    flex: 0 0 330px;
+    position: relative;
+
+    @include media(xs) {
+      flex: 0 0 auto;
+
+      .padding-lg {
+        padding-left: $sm;
+        padding-right: $sm;
+      }
+    }
   }
 
   .h1 {
@@ -52,15 +60,33 @@
     box-shadow: inset 0 -1px 0 rgba($white,.1);
     margin: (-$input-border-lg) (-$input-border-lg) (-$input-border-lg) 0;
 
+    @include media(md) {
+      flex: 1 1 auto;
+    }
+
+    @include media(sm) {
+      display: none;
+    }
+
     .img {
       height: auto;
       width: 450px;
+
+      @include media(md) {
+        width: 100%;
+      }
     }
   }
 
   .footer {
     background: $gray-lightest;
     border-top: 1px solid $gray-lighter;
+
+    @include media(sm) {
+      padding-bottom: $md;
+      padding-left: 0;
+      padding-right: 0;
+    }
   }
 
   .underline {
