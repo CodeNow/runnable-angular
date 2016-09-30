@@ -43,13 +43,8 @@
           ng-include = "'infrastructureLoadedModalView'"
         )
 
-  //- .grid-block.justify-center.modal-outer-footer(
-  //-   grace-period-footer
-  //-   hide-choose-org = "true"
-  //- )
-
-  //- sign out (under modal)
-  .grid-block.shrink.margin-bottom-lg.justify-center
-    a.text-gray.small.link(
-      ng-click = "logout()"
-    ) Sign Out
+  //- sign out (always) + change organization (during grace period)
+  .grid-block.shrink.justify-center.margin-bottom-xl(
+    hide-choose-org = "true"
+    grace-period-footer
+  )
