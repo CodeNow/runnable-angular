@@ -1,9 +1,10 @@
 .grid-block.vertical.padding-sm
-  p.p.weight-light.fade.text-center(
+  h1.margin-top-sm.h1.text-center(
     ng-class = "{'in': isActivePanel()}"
-  ) Welcome! We’re so glad you made it.
-    br
-    | Now select the organization you want to use.
+  ) Welcome aboard!
+  p.margin-top-sm.margin-bottom-md.p.text-center.weight-light(
+    ng-class = "{'in': isActivePanel()}"
+  ) Now select the organization you want to use.
 
   .grid-block.vertical.list.fade(
     name = "COS.orgSelectorForm"
@@ -25,7 +26,7 @@
           xlink:href = "#icons-arrow-down"
         )
 
-  .grid-block.vertical.list.fade(
+  .grid-block.vertical.list.margin-top-sm.fade(
     ng-class = "{'in': isActivePanel()}"
   )
     .grid-block.align-center.list-item.btn.white
@@ -40,6 +41,6 @@
           xlink:href = "#icons-arrow-down"
         )
 
-  .link.small.text-gray.text-center.fade(
+  .margin-top-md.margin-bottom-md.link.small.text-gray.text-center.fade(
     ng-class = "{'in': isActivePanel()}"
   ) Looking for your personal account?
