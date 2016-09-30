@@ -2,7 +2,9 @@
   //- dock spinning up
   p.p.text-center.weight-light(
     ng-if = "!$root.featureFlags.contingencyPlan"
-  ) We’re spinning up infrastructure for your org. It’ll take about&#32;
+  ) We’re spinning up infrastructure for&#32;
+    span CodeNow
+    | . It’ll take about&#32;
     strong.strong 10 minutes
     | . We’ll email you and update this page when it’s ready.
   //- .grid-block.align-center.justify-center.padding-sm(
@@ -20,3 +22,7 @@
   ) We’ll email you at&#32;
     span {{ COS.user.attrs.email }}
     | &#32;as soon we’re done spinning up your infrastructure. Thanks for your patience.
+
+  p.small.link.text-center.text-gray.margin-top-md(
+    ng-click = "goToPanel('orgSelection', 'back')"
+  ) Wanna use a different org?

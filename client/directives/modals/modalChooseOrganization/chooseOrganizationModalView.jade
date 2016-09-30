@@ -27,15 +27,6 @@
           ng-include = "'orgSelectModalView'"
         )
 
-      //- confirm selected org
-      animated-panel(
-        name = "orgConfirmation"
-      )
-        .fade(
-          ng-class = "{'in': isActivePanel()}"
-          ng-include = "'confirmOrgModalView'"
-        )
-
       //- infrastructure loading
       animated-panel(
         name = "dockLoading"
