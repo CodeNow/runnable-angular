@@ -1,7 +1,7 @@
 .modal-grant-access {
   flex-direction: row;
   margin-top: 150px;
-  max-width: 870px;
+  max-width: 875px;
   min-height: 390px;
   overflow: visible;
   position: relative;
@@ -29,22 +29,22 @@
 
   &.ng-enter {
     opacity: 0;
-    transform: scale3d(.97,.97,1) translate3d(-135px,0,0);
+    transform: scale3d(.97,.97,1) translateX(-135px);
   }
 
   &.ng-enter-active {
     opacity: 1;
-    transform: scale3d(1,1,1) translate3d(0,0,0);
+    transform: scale3d(1,1,1) translateX(0);
   }
 
   &.ng-leave {
     opacity: 1;
-    transform: scale3d(1,1,1) translate3d(0,0,0);
+    transform: scale3d(1,1,1) translateX(0);
   }
 
   &.ng-leave-active {
     opacity: 0;
-    transform: scale3d(.97,.97,1) translate3d(-135px,0,0);
+    transform: scale3d(.97,.97,1) translateX(-135px);
   }
 
   > .grant-access-view {
@@ -72,11 +72,10 @@
   }
 
   .figure {
-    background: linear-gradient($purple-light, $purple-dark);
-    border-left: 1px solid $purple-dark;
+    background: $gray-lightest;
+    border-left: 1px solid $gray-lighter;
     border-radius: 0 $input-border-radius-lg $input-border-radius-lg 0;
     box-shadow: inset 0 -1px 0 rgba($white,.1);
-    margin: (-$input-border-lg) (-$input-border-lg) (-$input-border-lg) 0;
 
     @include media(md) {
       flex: 1 1 auto;
@@ -97,9 +96,6 @@
   }
 
   .footer {
-    background: $gray-lightest;
-    border-top: 1px solid $gray-lighter;
-
     @include media(sm) {
       padding-bottom: $md;
       padding-left: 0;
