@@ -50,16 +50,17 @@
     border-left: 1px solid $purple-dark;
     border-radius: 0 $input-border-radius-lg $input-border-radius-lg 0;
     box-shadow: inset 0 -1px 0 rgba($white,.1);
-    margin: -$input-border-lg;
+    margin: (-$input-border-lg) (-$input-border-lg) (-$input-border-lg) 0;
 
     .img {
-      height: 206px;
-      width: auto;
+      height: auto;
+      width: 450px;
     }
   }
 
-  .empty .h3 {
-    margin-bottom: 15px;
+  .footer {
+    background: $gray-lightest;
+    border-top: 1px solid $gray-lighter;
   }
 
   .list {

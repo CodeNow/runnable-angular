@@ -1,25 +1,35 @@
 .modal-backdrop
   .welcome
     .grid-block.shrink.modal-dialog.modal-orgs
-      .grid-block.align-start.vertical.padding-lg.noscroll
+      .grid-block.vertical.noscroll
         img.grid-block.shrink.img.runnabear(
           height = "130"
           src = "/build/images/runnabear-waving-3.png"
           width = "230"
         )
-        h1.h1 Welcome aboard!
-        p.margin-top-sm.p.weight-light Next, we’ll need access to the GitHub org you’d like to create environments for.
-        button.grid-block.align-center.justify-center.shrink.btn.btn-md.green.margin-top-md
-          svg.iconnables.margin-right-xxs
-            use(
-              xlink:href = "#icons-octicons-github"
-            )
-          | Grant Access
+        .grid-block.vertical.align-start.padding-lg
+          h1.h1 Welcome aboard!
+          p.margin-top-sm.p.weight-light Next, we’ll need access to the GitHub org you’d like to create environments for.
+          a.grid-block.align-center.justify-center.shrink.btn.btn-md.green.margin-top-md(
+            href = ""
+          )
+            svg.iconnables.margin-right-xxs
+              use(
+                xlink:href = "#icons-octicons-github"
+              )
+            | Grant Access
+        footer.grid-block.align-start.vertical.footer.padding-left-lg.padding-right-lg.padding-bottom-sm.padding-top-xxs
+          small.small.underline.margin-top-sm.text-gray Looking to run a personal project?
+          small.small.underline.margin-top-xs.text-gray Not an owner of your org?
+          //- a.grid-block.align-center.small.text-gray.margin-top-xs
+          //-   svg.iconnables.icons-arrow-backward
+          //-     use(
+          //-       xlink:href = "#icons-arrow-down"
+          //-     )
+          //-   | Sign Out
       figure.grid-block.shrink.vertical.figure.padding-lg
         img.img(
-          height = "716"
-          src = "/build/images/runnabot-comment.png"
-          width = "412"
+          src = "/build/images/github-permissions.svg"
         )
 
     //- .grid-block.shrink.modal-dialog.modal-orgs(
