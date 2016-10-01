@@ -1,4 +1,6 @@
-.modal-backdrop.welcome
+.modal-backdrop.welcome.js-animate(
+  ng-if = "COMC.showGrantAccess || !COMC.showGrantAccess"
+)
 
   //- no orgs or missing org
   .grid-block.shrink.modal-dialog.modal-grant-access.js-animate(
@@ -44,7 +46,7 @@
         )
 
   //- sign out (always) + change organization (during grace period)
-  .grid-block.shrink.justify-center.margin-bottom-xl(
+  .grid-block.shrink.justify-center.margin-bottom-xl.welcome-footer(
     grace-period-footer
     hide-choose-org = "true"
   )

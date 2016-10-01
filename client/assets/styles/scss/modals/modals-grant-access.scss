@@ -1,4 +1,5 @@
 .modal-grant-access {
+  animation: none;
   flex-direction: row;
   margin-top: 150px;
   max-width: 875px;
@@ -29,22 +30,26 @@
 
   &.ng-enter {
     opacity: 0;
-    transform: scale3d(.97,.97,1) translateX(-135px);
+    position: absolute;
+    transform: scale3d(.97,.97,1) translate3d(-135px,0,0);
   }
 
   &.ng-enter-active {
     opacity: 1;
-    transform: scale3d(1,1,1) translateX(0);
+    position: absolute;
+    transform: scale3d(1,1,1) translate3d(0,0,0);
   }
 
   &.ng-leave {
     opacity: 1;
-    transform: scale3d(1,1,1) translateX(0);
+    position: absolute;
+    transform: scale3d(1,1,1) translate3d(0,0,0);
   }
 
   &.ng-leave-active {
     opacity: 0;
-    transform: scale3d(.97,.97,1) translateX(-135px);
+    position: absolute;
+    transform: scale3d(.97,.97,1) translate3d(-135px,0,0);
   }
 
   > .grant-access-view {
