@@ -43,7 +43,12 @@
     transform: scale3d(.97,.97,1) translate3d(135px,0,0);
   }
 
+  &.ng-animate ~ .welcome-footer {
+    display: none;
+  }
+
   .modal-dialog {
+    animation: none;
     margin-left: auto;
     margin-right: auto;
     margin-top: 150px;
