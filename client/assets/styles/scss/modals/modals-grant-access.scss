@@ -54,6 +54,10 @@
 
   > .grant-access-view {
     flex: 0 0 330px;
+
+    @include media(xxs) {
+      flex-basis: auto;
+    }
   }
 
   .img.runnabear {
@@ -109,17 +113,9 @@
     width: 18px;
   }
 
-  .footer {
-    @include media(sm) {
-      padding-bottom: $md;
-      padding-left: 0;
-      padding-right: 0;
-    }
-
-    .icons-link-external {
-      height: 9px;
-      top: 1px;
-      width: 18px;
-    }
+  .footer .icons-link-external {
+    height: 9px;
+    top: 1px;
+    width: 18px;
   }
 }
