@@ -6,7 +6,7 @@
   min-height: 390px;
   overflow: visible;
   position: relative;
-  transition: opacity .3s ease-in-out, transform .3s ease-in-out;
+  transition: opacity .15s ease-in-out, transform .15s ease-in-out;
 
   @include media(sm) {
     flex-direction: column;
@@ -29,27 +29,43 @@
   }
 
   &.ng-enter {
+    left: 0;
+    margin-left: auto;
+    margin-right: auto;
     opacity: 0;
     position: absolute;
-    transform: scale3d(.97,.97,1) translate3d(-135px,0,0);
+    right: 0;
+    transform: scale3d(.97,.97,1);
   }
 
   &.ng-enter-active {
+    left: 0;
+    margin-left: auto;
+    margin-right: auto;
     opacity: 1;
     position: absolute;
-    transform: scale3d(1,1,1) translate3d(0,0,0);
+    right: 0;
+    transform: scale3d(1,1,1);
   }
 
   &.ng-leave {
+    left: 0;
+    margin-left: auto;
+    margin-right: auto;
     opacity: 1;
     position: absolute;
-    transform: scale3d(1,1,1) translate3d(0,0,0);
+    right: 0;
+    transform: scale3d(1,1,1);
   }
 
   &.ng-leave-active {
+    left: 0;
+    margin-left: auto;
+    margin-right: auto;
     opacity: 0;
     position: absolute;
-    transform: scale3d(.97,.97,1) translate3d(-135px,0,0);
+    right: 0;
+    transform: scale3d(.97,.97,1);
   }
 
   > .grant-access-view {
