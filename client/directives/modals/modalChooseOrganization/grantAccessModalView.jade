@@ -8,18 +8,18 @@
     //- when no orgs exist
     h1.h1 Welcome aboard!
     p.margin-top-sm.p.weight-light Next, we’ll need access to the GitHub org you’d like to create environments for.
+
     //- when coming from org list
     //- h1.h1 Almost there!
     //- p.margin-top-sm.p.weight-light To use your org in Runnable, you’ll need to grant access to it on GitHub.
+
+    //- hide after clicked
     a.grid-block.align-center.justify-center.shrink.btn.btn-md.green.margin-top-md(
       href = "https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9"
       ng-click = "COMC.grantAccess()"
+      ng-if = "!$root.isLoading.grantAccess"
       target = "_blank"
     )
-      .spinner-wrapper.spinner-sm.in(
-        ng-if = "$root.isLoading.grantAccess"
-        ng-include = "'spinner'"
-      )
       svg.iconnables.margin-right-xxs(
         ng-if = "!$root.isLoading.grantAccess"
       )
@@ -31,10 +31,21 @@
         use(
           xlink:href = "#icons-link-external-alt"
         )
-    button.grid-block.align-center.shrink.btn.btn-md.btn-cancel.gray.margin-top-xs(
-      ng-if = "COMC.allAccounts.models.length > 0"
+
+    //- show after user clicks "grant access"
+    .well.gray.align-center.small.padding-xs.margin-top-md(
+      ng-if = "$root.isLoading.grantAccess"
+    ) We’ll update this page once you grant access to an org&#32;
+      a.link(
+        ng-click = "COMC.grantAccess()"
+        target = "_blank"
+      ) on GitHub
+      | .
+    button.grid-block.align-center.shrink.btn.btn-md.btn-cancel.gray.margin-top-sm(
+      ng-if = "COMC.allAccounts.length > 0"
       ng-click = "COMC.showGrantAccess = false"
     ) Cancel
+
   footer.grid-block.shrink.align-center.vertical.footer.padding-sm.padding-bottom-md
     a.small.link.text-gray(
       href = "https://support.runnable.com/hc/en-us/articles/213363706"
