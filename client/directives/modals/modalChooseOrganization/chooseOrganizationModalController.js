@@ -13,9 +13,10 @@ function ChooseOrganizationModalController(
   eventTracking,
   featureFlags,
   fetchWhitelistForDockCreated,
+  grantedOrgs,
   keypather,
   loading,
-  grantedOrgs,
+  promisify,
   user,
   whitelistedOrgs
 ) {
@@ -23,13 +24,31 @@ function ChooseOrganizationModalController(
   COMC.user = user;
   loading.reset('chooseOrg');
   $rootScope.featureFlags = featureFlags.flags;
-  COMC.allAccounts = grantedOrgs.models;
+  COMC.allAccounts = grantedOrgs;
   COMC.whitelistedOrgs = whitelistedOrgs;
 
   COMC.showGrantAccess = COMC.allAccounts.length === 0;
+  var stopPolling = angular.noop;
+
   COMC.grantAccess = function () {
-    console.log('Grant access!');
+    loading.reset('grantAccess');
+    loading('grantAccess', true);
+    stopPolling();
+    var originalOrgCount = grantedOrgs.models.length;
+    stopPolling = $interval(function () {
+      promisify(grantedOrgs, 'fetch')({'_bustCache': Math.random()})
+        .then(function (orgs) {
+          if (orgs.models.length !== originalOrgCount) {
+            COMC.showGrantAccess = false;
+            loading('grantAccess', false);
+          }
+        });
+    }, 1000 * 5);
   };
+
+  $scope.$on('$destroy', function () {
+    stopPolling();
+  });
 
   // otherwise the user can clear away the model
   // this will be re-added when they transition to something else
@@ -88,7 +107,7 @@ function ChooseOrganizationModalController(
     });
   };
   COMC.getSelectedOrg = function (selectedOrgName) {
-    return COMC.allAccounts.find(function (org) {
+    return COMC.allAccounts.models.find(function (org) {
       return selectedOrgName.toLowerCase() === org.oauthName().toLowerCase();
     });
   };

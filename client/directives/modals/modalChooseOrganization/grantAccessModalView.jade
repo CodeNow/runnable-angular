@@ -16,7 +16,13 @@
       ng-click = "COMC.grantAccess()"
       target = "_blank"
     )
-      svg.iconnables.margin-right-xxs
+      .spinner-wrapper.spinner-sm.in(
+        ng-if = "$root.isLoading.grantAccess"
+        ng-include = "'spinner'"
+      )
+      svg.iconnables.margin-right-xxs(
+        ng-if = "!$root.isLoading.grantAccess"
+      )
         use(
           xlink:href = "#icons-octicons-github"
         )
@@ -26,7 +32,7 @@
           xlink:href = "#icons-link-external-alt"
         )
     button.grid-block.align-center.shrink.btn.btn-md.btn-cancel.gray.margin-top-xs(
-      ng-if = "COMC.allAccounts.length > 0"
+      ng-if = "COMC.allAccounts.models.length > 0"
       ng-click = "COMC.showGrantAccess = false"
     ) Cancel
   footer.grid-block.shrink.align-center.vertical.footer.padding-sm.padding-bottom-md

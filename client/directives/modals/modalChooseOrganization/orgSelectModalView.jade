@@ -5,7 +5,7 @@
   ol.grid-block.vertical.list
     li.grid-block.align-center.list-item.btn.white(
       ng-click = "goToPanel('dockLoading')"
-      ng-repeat = "org in COMC.allAccounts"
+      ng-repeat = "org in COMC.allAccounts.models"
       title = "{{org.oauthName()}}"
     )
       img.grid-content.shrink(
