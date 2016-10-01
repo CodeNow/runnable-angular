@@ -95,21 +95,22 @@
     }
   }
 
+  .green .icons-link-external {
+    height: 12px;
+    width: 18px;
+  }
+
   .footer {
     @include media(sm) {
       padding-bottom: $md;
       padding-left: 0;
       padding-right: 0;
     }
-  }
 
-  .icons-link-external {
-    height: 12px;
-    top: 2px;
-    width: 18px;
-  }
-
-  .underline {
-    cursor: pointer;
+    .icons-link-external {
+      height: 9px;
+      top: 1px;
+      width: 18px;
+    }
   }
 }
