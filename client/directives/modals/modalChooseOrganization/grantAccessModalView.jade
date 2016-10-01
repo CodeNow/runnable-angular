@@ -6,12 +6,20 @@
   )
   .grid-block.vertical.align-center.padding-lg.text-center
     //- when no orgs exist
-    h1.h1 Welcome aboard!
-    p.margin-top-sm.p.weight-light Next, we’ll need access to the GitHub org you’d like to create environments for.
+    h1.h1(
+      ng-if = "COMC.allAccounts.models.length === 0"
+    ) Welcome aboard!
+    p.margin-top-sm.p.weight-light(
+      ng-if = "COMC.allAccounts.models.length === 0"
+    ) Next, we’ll need access to the GitHub org you’d like to create environments for.
 
-    //- when coming from org list
-    //- h1.h1 Almost there!
-    //- p.margin-top-sm.p.weight-light To use your org in Runnable, you’ll need to grant access to it on GitHub.
+    //- when orgs exist
+    h1.h1(
+      ng-if = "COMC.allAccounts.models.length > 0"
+    ) Almost there!
+    p.margin-top-sm.p.weight-light(
+      ng-if = "COMC.allAccounts.models.length > 0"
+    ) To use your org in Runnable, you’ll need to grant access to it on GitHub.
 
     //- hide after clicked
     a.grid-block.align-center.justify-center.shrink.btn.btn-md.green.margin-top-md(
@@ -42,8 +50,8 @@
       ) on GitHub
       | .
     button.grid-block.align-center.shrink.btn.btn-md.btn-cancel.gray.margin-top-sm(
-      ng-if = "COMC.allAccounts.length > 0"
       ng-click = "COMC.showGrantAccess = false"
+      ng-if = "COMC.allAccounts.models.length > 0"
     ) Cancel
 
   footer.grid-block.shrink.align-center.vertical.footer.padding-sm.padding-bottom-md
