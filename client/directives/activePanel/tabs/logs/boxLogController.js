@@ -73,7 +73,6 @@ function BoxLogController(
     }
   });
   $scope.connectStreams = function (terminal) {
-    var streamCleanser = dockerStreamCleanser('hex', true);
     buffer = new streamBuffers.ReadableStreamBuffer({
       frequency: 250,      // in milliseconds.
       chunkSize: 16000     // in bytes.
@@ -81,14 +80,13 @@ function BoxLogController(
     buffer.setEncoding('utf8');
     primus.joinStreams(
       $scope.stream,
-      streamCleanser
-    )
-      .pipe(through(
+      through(
         function write(data) {
           buffer.put(data.toString().replace(/\r?\n/gm, '\r\n'));
         },
         buffer.destroySoon
-      ));
+      )
+    );
 
     buffer.pipe(terminal, { end: false });
   };
