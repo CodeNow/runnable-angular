@@ -43,6 +43,7 @@
     transform: scale3d(.97,.97,1) translate3d(135px,0,0);
   }
 
+  // hide during transitions
   &.ng-animate ~ .welcome-footer {
     display: none;
   }

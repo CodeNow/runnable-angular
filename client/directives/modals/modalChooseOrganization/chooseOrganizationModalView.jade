@@ -1,4 +1,6 @@
-.modal-backdrop.welcome
+.modal-backdrop.welcome.js-animate(
+  ng-if = "COMC.showGrantAccess || !COMC.showGrantAccess"
+)
 
   //- no orgs or missing org
   .grid-block.shrink.modal-dialog.modal-grant-access.js-animate(
