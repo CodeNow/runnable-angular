@@ -19,6 +19,7 @@ var mockFetchWhitelistForDockCreated;
 var mockOrg;
 var mockState;
 var mockUser;
+var closeStub;
 
 var codenowWhitelistedOrg;
 var createdDockOrg;
@@ -89,6 +90,7 @@ describe('ChooseOrganizationModalController', function () {
     mockAhaGuide = {
       isChoosingOrg: sinon.stub()
     };
+    closeStub = sinon.stub();
     angular.mock.module('app', function ($provide) {
       $provide.value('$state', mockState);
       $provide.value('ahaGuide', mockAhaGuide);
@@ -104,6 +106,7 @@ describe('ChooseOrganizationModalController', function () {
       $provide.value('whitelistedOrgs', mockWhitelistedOrgs);
       $provide.value('grantedOrgs', mockGrantedOrgs);
       $provide.value('user', mockUser);
+      $provide.value('close', closeStub);
     });
     angular.mock.inject(function (
       _$controller_,
@@ -127,7 +130,6 @@ describe('ChooseOrganizationModalController', function () {
     $rootScope.$apply();
   }
 
-
   describe('searching methods', function () {
     beforeEach(function () {
       initialize();
@@ -135,28 +137,6 @@ describe('ChooseOrganizationModalController', function () {
 
     beforeEach(function () {
       setup();
-    });
-
-
-    describe('getFirstDockOrg', function () {
-      it('should return nothing when no whitelistedOrg has firstDockCreated', function () {
-        expect(COMC.getFirstDockOrg()).to.be.undefined;
-      });
-
-      it('should return the first firstDockCreated it finds', function () {
-        var createdDockOrg = {
-          attrs: {
-            _id: '1312312',
-            name: 'Runnable',
-            lowername: 'runnable',
-            githubId: 1231233,
-            firstDockCreated: true,
-            allowed: true
-          }
-        };
-        COMC.whitelistedOrgs.push(createdDockOrg);
-        expect(COMC.getFirstDockOrg()).to.equal(createdDockOrg);
-      });
     });
 
     describe('matchWhitelistedOrgByName', function () {
@@ -184,7 +164,6 @@ describe('ChooseOrganizationModalController', function () {
     beforeEach(function () {
       sinon.stub(COMC, 'fetchUpdatedWhitelistedOrg').returns($q.when(codenowWhitelistedOrg));
     });
-
 
     describe('cancelPolling', function () {
       it('should cancel the polling when pollingInterval is running', function () {
@@ -280,7 +259,7 @@ describe('ChooseOrganizationModalController', function () {
       it('should go nowhere if no org was selected', function () {
         COMC.getSelectedOrg.returns();
 
-        $scope.actions.createOrCheckDock();
+        COMC.actions.createOrCheckDock();
 
         sinon.assert.notCalled(COMC.fetchUpdatedWhitelistedOrg);
       });
@@ -288,7 +267,7 @@ describe('ChooseOrganizationModalController', function () {
         COMC.getSelectedOrg.returns(codenowWhitelistedOrg);
 
         var gotoPanelStub = sinon.stub().returns();
-        $scope.actions.createOrCheckDock('CodeNow', gotoPanelStub);
+        COMC.actions.createOrCheckDock('CodeNow', gotoPanelStub);
 
         sinon.assert.calledOnce(COMC.fetchUpdatedWhitelistedOrg);
         sinon.assert.calledWith(COMC.fetchUpdatedWhitelistedOrg, 'CodeNow');
@@ -306,16 +285,14 @@ describe('ChooseOrganizationModalController', function () {
         COMC.fetchUpdatedWhitelistedOrg.returns($q.when(createdDockOrg));
 
         var gotoPanelStub = sinon.stub().returns();
-        $scope.actions.createOrCheckDock('Runnable', gotoPanelStub);
+        COMC.actions.createOrCheckDock('Runnable', gotoPanelStub);
 
         sinon.assert.calledOnce(COMC.fetchUpdatedWhitelistedOrg);
         sinon.assert.calledWith(COMC.fetchUpdatedWhitelistedOrg, 'Runnable');
         $rootScope.$digest();
 
         sinon.assert.notCalled(mockCreateNewSandboxForUserService);
-
-        sinon.assert.calledOnce(COMC.pollForDockCreated);
-        sinon.assert.calledWith(COMC.pollForDockCreated, createdDockOrg, 'Runnable', gotoPanelStub);
+        sinon.assert.notCalled(COMC.pollForDockCreated);
       });
     });
   });
