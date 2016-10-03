@@ -10,17 +10,20 @@ function ChooseOrganizationModalController(
   ahaGuide,
   createNewSandboxForUserService,
   errs,
-  eventTracking,
   featureFlags,
   fetchWhitelistForDockCreated,
-  grantedOrgs,
   keypather,
   loading,
   promisify,
+
+  // Injected
+  close,
+  grantedOrgs,
   user,
   whitelistedOrgs
 ) {
   var COMC = this;
+  COMC.close = close;
   COMC.user = user;
   loading.reset('chooseOrg');
   $rootScope.featureFlags = featureFlags.flags;
@@ -28,14 +31,14 @@ function ChooseOrganizationModalController(
   COMC.whitelistedOrgs = whitelistedOrgs;
 
   COMC.showGrantAccess = COMC.allAccounts.length === 0;
-  var stopPolling = angular.noop;
+  var pollingPromise = angular.noop;
 
   COMC.grantAccess = function () {
     loading.reset('grantAccess');
     loading('grantAccess', true);
-    stopPolling();
+    $interval.cancel(pollingPromise);
     var originalOrgCount = grantedOrgs.models.length;
-    stopPolling = $interval(function () {
+    pollingPromise = $interval(function () {
       promisify(grantedOrgs, 'fetch')({'_bustCache': Math.random()})
         .then(function (orgs) {
           if (orgs.models.length !== originalOrgCount) {
@@ -47,7 +50,7 @@ function ChooseOrganizationModalController(
   };
 
   $scope.$on('$destroy', function () {
-    stopPolling();
+    $interval.cancel(pollingPromise);
   });
 
   // otherwise the user can clear away the model
@@ -62,13 +65,7 @@ function ChooseOrganizationModalController(
       });
   };
 
-  $scope.actions = {
-    selectedOrg: eventTracking.selectedOrg.bind(eventTracking),
-    selectAccount: function (selectedOrgName) {
-      $state.go('base.instances', {
-        userName: selectedOrgName
-      }, {}, { reload: true });
-    },
+  COMC.actions = {
     createOrCheckDock: function (selectedOrgName, goToPanelCb) {
       var selectedOrg = COMC.getSelectedOrg(selectedOrgName);
       if (!selectedOrg) {
@@ -86,21 +83,26 @@ function ChooseOrganizationModalController(
             });
         })
         .then(function (org) {
+          if (keypather.get(org, 'attrs.firstDockCreated')) {
+            return COMC.actions.selectAccount(selectedOrgName);
+          }
+
           COMC.pollForDockCreated(org, selectedOrgName, goToPanelCb);
         })
         .catch(errs.handler)
         .finally(function () {
           loading('chooseOrg', false);
         });
+    },
+    selectAccount: function (selectedOrgName) {
+      close();
+      $state.go('base.instances', {
+        userName: selectedOrgName
+      });
     }
   };
 
   // Searching methods
-  COMC.getFirstDockOrg = function () {
-    return COMC.whitelistedOrgs.find(function (org) {
-      return keypather.get(org, 'attrs.firstDockCreated');
-    });
-  };
   COMC.matchWhitelistedOrgByName = function (selectedOrgName) {
     return COMC.whitelistedOrgs.find(function (org) {
       return selectedOrgName.toLowerCase() === org.attrs.name.toLowerCase();
@@ -119,7 +121,10 @@ function ChooseOrganizationModalController(
       $interval.cancel(COMC.pollingInterval);
     }
   };
+
+  COMC.selectedOrgName = null;
   COMC.pollForDockCreated = function (whitelistedDock, selectedOrgName, goToPanelCb) {
+    COMC.selectedOrgName = selectedOrgName;
     COMC.cancelPolling();
     if (keypather.get(whitelistedDock, 'attrs.firstDockCreated')) {
       return goToPanelCb('dockLoaded');

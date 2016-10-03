@@ -5,7 +5,7 @@
   ol.grid-block.vertical.list
     li.grid-block.align-center.list-item.btn.white(
       data-event-name = "Org Selected"
-      ng-click = "goToPanel('dockLoading')"
+      ng-click = "COMC.actions.createOrCheckDock(org.oauthName(), goToPanel)"
       ng-repeat = "org in COMC.allAccounts.models"
       title = "{{org.oauthName()}}"
     )

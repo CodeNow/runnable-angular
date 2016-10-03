@@ -1,8 +1,5 @@
 //- this js-animate prevents any child js-animates from activating on load
-.modal-backdrop.welcome.js-animate(
-  ng-if = "COMC.showGrantAccess || !COMC.showGrantAccess"
-)
-
+.modal-backdrop.welcome.js-animate
   //- no orgs or missing org
   .grid-block.shrink.modal-dialog.modal-grant-access.js-animate(
     ng-if = "COMC.showGrantAccess"

@@ -53,13 +53,7 @@ module.exports = [
     state: 'orgSelect',
     abstract: false,
     url: '^/orgSelect',
-    templateUrl: 'viewOrgSelect',
-    controller: 'ChooseOrganizationModalController',
-    controllerAs: 'COMC',
-    onExit: function ($rootScope) {
-      $rootScope.$broadcast('app-document-click');
-      $rootScope.$broadcast('close-modal');
-    },
+    controller: 'OrgSelectController',
     resolve: {
       grantedOrgs: function (fetchGrantedGithubOrgs) {
         return fetchGrantedGithubOrgs();
