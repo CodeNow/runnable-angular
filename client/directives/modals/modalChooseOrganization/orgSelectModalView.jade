@@ -6,7 +6,7 @@
     li.grid-block.align-center.list-item.btn.white(
       data-event-name = "Org Selected"
       ng-click = "COMC.actions.createOrCheckDock(org.oauthName(), goToPanel)"
-      ng-repeat = "org in COMC.allAccounts.models"
+      ng-repeat = "org in COMC.allAccounts.models | orderBy:'attrs.login'"
       title = "{{org.oauthName()}}"
     )
       img.grid-content.shrink(
