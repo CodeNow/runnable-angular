@@ -54,6 +54,12 @@ module.exports = [
     abstract: false,
     url: '^/orgSelect',
     controller: 'OrgSelectController',
+    onExit: function (
+      ModalService,
+      keypather
+    ) {
+      keypather.get(ModalService, 'modalLayers[0].modal.controller.close()');
+    },
     resolve: {
       grantedOrgs: function (fetchGrantedGithubOrgs) {
         return fetchGrantedGithubOrgs();

@@ -31,14 +31,26 @@ function ChooseOrganizationModalController(
   COMC.whitelistedOrgs = whitelistedOrgs;
 
   COMC.showGrantAccess = COMC.allAccounts.length === 0;
-  var pollingPromise = angular.noop;
+  var pollForWhitelistPromise;
+  function cancelPollingForWhitelisted() {
+    if (pollForWhitelistPromise) {
+      $interval.cancel(pollForWhitelistPromise);
+    }
+  }
+
+  var pollForDockCreatedPromise;
+  function cancelPollingForDockCreated() {
+    if (pollForDockCreatedPromise) {
+      $interval.cancel(pollForDockCreatedPromise);
+    }
+  };
 
   COMC.grantAccess = function () {
     loading.reset('grantAccess');
     loading('grantAccess', true);
-    $interval.cancel(pollingPromise);
+    cancelPollingForWhitelisted();
     var originalOrgCount = grantedOrgs.models.length;
-    pollingPromise = $interval(function () {
+    pollForWhitelistPromise = $interval(function () {
       promisify(grantedOrgs, 'fetch')({'_bustCache': Math.random()})
         .then(function (orgs) {
           if (orgs.models.length !== originalOrgCount) {
@@ -50,8 +62,10 @@ function ChooseOrganizationModalController(
   };
 
   $scope.$on('$destroy', function () {
-    $interval.cancel(pollingPromise);
+    cancelPollingForWhitelisted();
+    cancelPollingForDockCreated();
   });
+
 
   // otherwise the user can clear away the model
   // this will be re-added when they transition to something else
@@ -115,27 +129,20 @@ function ChooseOrganizationModalController(
   };
   COMC.isChoosingOrg = ahaGuide.isChoosingOrg;
 
-  // Polling stuff
-  COMC.cancelPolling = function () {
-    if (COMC.pollingInterval) {
-      $interval.cancel(COMC.pollingInterval);
-    }
-  };
-
   COMC.selectedOrgName = null;
   COMC.pollForDockCreated = function (whitelistedDock, selectedOrgName, goToPanelCb) {
     COMC.selectedOrgName = selectedOrgName;
-    COMC.cancelPolling();
+    cancelPollingForDockCreated();
     if (keypather.get(whitelistedDock, 'attrs.firstDockCreated')) {
       return goToPanelCb('dockLoaded');
     }
     goToPanelCb('dockLoading');
 
-    COMC.pollingInterval = $interval(function () {
+    pollForDockCreatedPromise = $interval(function () {
       COMC.fetchUpdatedWhitelistedOrg(selectedOrgName)
         .then(function (updatedOrg) {
           if (keypather.get(updatedOrg, 'attrs.firstDockCreated')) {
-            COMC.cancelPolling();
+            cancelPollingForDockCreated();
             return goToPanelCb('dockLoaded');
           }
         });
