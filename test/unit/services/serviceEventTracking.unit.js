@@ -39,7 +39,9 @@ describe('serviceEventTracking'.bold.underline.blue, function () {
       $provide.factory('currentOrg', function ($q) {
         currentOrgMock = {
           poppa: {
-            name: currentOrgName
+            attrs: {
+              name: currentOrgName
+            }
           }
         };
         return currentOrgMock;

@@ -554,7 +554,7 @@ function EventTracking(
 
         ETS._mixpanel('people.set', {
           'FurthestStep': currentStep,
-          'CurrentOrg': keypather.get(currentOrg, 'poppa.name'),
+          'CurrentOrg': keypather.get(currentOrg, 'poppa.attrs.name'),
           'NumberOfOrgsWithGrantedAccess': keypather.get(grantedOrgs, 'models.length'),
           'NumberOfOrgs': keypather.get(userJSON, 'bigPoppaUser.organizations.length'),
           'HasAnyOrgCompletedAha': hasAnyOrgCompletedAha
