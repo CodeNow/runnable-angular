@@ -287,6 +287,7 @@ module.exports = function(grunt) {
             var locals = {
               version: version,
               env: require('./client/config/json/environment.json').environment,
+              intercomAppId: require('./client/config/json/environment.json').intercomAppId,
               commitHash: require('./client/config/json/commit.json').commitHash,
               commitTime: require('./client/config/json/commit.json').commitTime,
               apiHost: require('./client/config/json/api.json').host
@@ -478,7 +479,8 @@ module.exports = function(grunt) {
       },
       function (cb) {
         var configObj = {
-          environment: environment || process.env.NODE_ENV || 'development'
+          environment: environment || process.env.NODE_ENV || 'development',
+          intercomAppId: process.env.INTERCOM_APP_ID || 'xs5g95pd'
         };
         var configJSON = JSON.stringify(configObj);
         fs.writeFile(path.join(clientPath, 'config', 'json', 'environment.json'), configJSON, function () {

@@ -182,11 +182,6 @@ html(
           ) Dismiss
 
     //- Intercom
-    if env === 'production'
-      script(
-        src = "https://widget.intercom.io/widget/wqzm3rju"
-      )
-    else
-      script(
-        src = "https://widget.intercom.io/widget/xs5g95pd"
-      )
+    script(
+      src = "https://widget.intercom.io/widget/#{locals.intercomAppId}"
+    )

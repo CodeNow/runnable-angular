@@ -28,17 +28,13 @@ function EventTracking(
   $window,
   assign,
   keypather,
-  configEnvironment,
+  intercomAppId,
   siftApiConfig
 ) {
+  INTERCOM_APP_ID = intercomAppId;
   var self = this;
   SIFT_API_KEY = siftApiConfig;
 
-  if (configEnvironment === 'production') {
-    INTERCOM_APP_ID = 'wqzm3rju'; // production ID
-  } else {
-    INTERCOM_APP_ID = 'xs5g95pd'; // test ID
-  }
   _keypather = keypather;
   _$location = $location;
 
