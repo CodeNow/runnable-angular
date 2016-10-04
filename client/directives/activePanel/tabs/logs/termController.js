@@ -7,22 +7,14 @@ require('app')
  */
 function TermController(
   $scope,
+  keypather,
   primus,
   $timeout,
   WatchOnlyOnce
 ) {
-  if (!$scope.tabItem) {
-    $scope.tabItem = {
-      attrs: {
-        terminalId: null
-      },
-      state: {
-        saveState: function() {return null;}
-      }
-    };
-  }
 
   var termOnFn;
+  var terminalId = keypather.get($scope,' tabItem.attrs.terminalId');
   var watchOnlyOnce = new WatchOnlyOnce($scope);
   $scope.termOpts = {
     hideCursor: false,
@@ -44,15 +36,17 @@ function TermController(
     } else if ($scope.debugContainer) {
       streamModel = $scope.debugContainer.attrs.inspect;
     }
-    var streams = primus.createTermStreams(streamModel, !!$scope.debugContainer, $scope.tabItem.attrs.terminalId);
+    var streams = primus.createTermStreams(streamModel, !!$scope.debugContainer, terminalId);
     $scope.stream = streams.termStream;
     $scope.eventStream = streams.eventStream;
 
     function checkForTerminalCreation(streamData) {
       if (streamData.event === 'TERMINAL_STREAM_CREATED' && streamData.data.substreamId === streams.uniqueId) {
-        $scope.tabItem.attrs.terminalId = streamData.data.terminalId;
+        keypather.set($scope, 'tabItem.attrs.terminalId', streamData.data.terminalId);
         primus.off('data', checkForTerminalCreation);
-        $scope.tabItem.state.saveState();
+        if (keypather.has($scope, 'tabItem.state.saveState')) {
+          $scope.tabItem.state.saveState();
+        }
       }
     }
     primus.on('data', checkForTerminalCreation);
