@@ -208,8 +208,8 @@ describe('serviceFetchDockerfile'.bold.underline.blue, function () {
       angular.mock.module('app');
       angular.mock.module(function ($provide) {
         $provide.factory('doesDockerfileExist', function ($q) {
-            doesDockerfileExistStub = sinon.stub().returns($q.when(dockerfileMock));
-            return doesDockerfileExistStub;
+          doesDockerfileExistStub = sinon.stub().returns($q.when(dockerfileMock));
+          return doesDockerfileExistStub;
         });
         $provide.factory('base64', base64Mock);
         $provide.factory('promisify', function ($q) {
@@ -225,12 +225,12 @@ describe('serviceFetchDockerfile'.bold.underline.blue, function () {
           fetchRepoDockerfileStub = sinon.stub().returns($q.when(dockerfileMock));
           return fetchRepoDockerfileStub;
         });
-        $provide.factory('fetchCommitsForFile', function ($q) {
+        $provide.factory('fetchCommitsForFile', function ($q, moment) {
           fetchCommitsForFileStub = sinon.stub().returns($q.when([
             {
               commit: {
                 committer: {
-                  date: '2016-08-18T23:11:41Z'
+                  date: moment().subtract(1, 'month').format()
                 }
               }
             }
