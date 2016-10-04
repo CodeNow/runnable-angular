@@ -539,8 +539,7 @@ function EventTracking(
         var grantedOrgs = res[1];
         var userJSON = res[0].toJSON();
         var orgs = keypather.get(userJSON, 'bigPoppaUser.organizations');
-        var hasAnyOrgCompletedAha = orgs && orgs.reduce(function (prev, org) {
-          if (prev) { return true; }
+        var hasAnyOrgCompletedAha = orgs && orgs.some(function (org) {
           if (!keypather.get(org, 'metadata.hasAha')) { return true; }
           return false;
         }, false);
