@@ -231,8 +231,8 @@
     letter-spacing: 0;
   }
 
-  &.btn-xxs {
-    border-width: 1px;
+  &.btn-lg {
+    border-width: $input-border-lg;
   }
 }
 

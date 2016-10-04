@@ -32,6 +32,7 @@ function EnvironmentController(
   EC.isInGuide = ahaGuide.isInGuide;
   EC.showCreateTemplate = true;
   EC.showOverview = true;
+  EC.getClassForSubstep = ahaGuide.getClassForSubstep;
   $scope.$on('ahaGuideEvent', function(event, info) {
     if (info.isClear) {
       EC.errorState = null;
@@ -65,6 +66,7 @@ function EnvironmentController(
   EC.triggerModal = {
     newContainer: function () {
       $rootScope.$broadcast('close-popovers');
+      EC.showSidebar = false;
       return ModalService.showModal({
         controller: 'NewContainerModalController',
         controllerAs: 'MC', // Shared

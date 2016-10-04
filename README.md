@@ -1,5 +1,5 @@
 # [Runnable](http://runnable.com/)
-The front-end for Runnable's sandbox management platform.
+The front-end for Runnable's environment management platform.
 
 [![
   CircleCI Status

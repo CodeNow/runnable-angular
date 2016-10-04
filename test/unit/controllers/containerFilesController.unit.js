@@ -38,7 +38,6 @@ describe('ContainerFilesController'.bold.underline.blue, function () {
       $provide.factory('promisify', function ($q) {
         promisifyMock = sinon.spy(function (obj, key) {
           return function () {
-            console.log('obj', obj, key);
             return $q.when(obj[key].apply(obj, arguments));
           };
         });

@@ -1,8 +1,6 @@
 .grid-block.shrink.aha-meter.js-animate(
-  ng-class = "{\
-    'aha-meter-10': staticAddRepo,\
-    'aha-meter-100': showAhaNavPopover\
-  }"
+  //- this is environment controller EC.getClassForSubstep passed in ng-init
+  ng-class = "getClassname()"
 )
   svg.iconnables(
   )
