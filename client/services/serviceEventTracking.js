@@ -23,13 +23,15 @@ function EventTracking(
   $browser,
   $location,
   $log,
+  $q,
   $state,
   $stateParams,
   $window,
-  // ahaGuide,
   assign,
   currentOrg,
   configEnvironment,
+  fetchUser,
+  fetchGrantedGithubOrgs,
   keypather,
   siftApiConfig
 ) {
@@ -208,11 +210,7 @@ function EventTracking(
       '$first_name': firstName,
       '$last_name': lastName,
       '$created': _keypather.get(userJSON, 'created'),
-      '$email': _keypather.get(userJSON, 'email'),
-      // '$furthestStep': ahaGuide.getCurrentStep(),
-      'CurrentOrg': currentOrg.poppa.name,
-      'NumberOfOrgs': keypather.get(userJSON, 'bigPoppaUser.organizations.length'),
-      'HasAnyOrgCompletedAha': hasAnyOrgCompletedAha
+      '$email': _keypather.get(userJSON, 'email')
     });
 
     // Segment
@@ -534,6 +532,31 @@ function EventTracking(
     var eventName = 'Enabled auto-launch';
     ET._mixpanel('track', eventName);
     return ET;
+  };
+
+  ET.updateCurrentPersonProfile = function (currentStep) {
+    return $q.all([
+      fetchUser(),
+      fetchGrantedGithubOrgs()
+    ])
+      .then(function (res) {
+        var grantedOrgs = res[1];
+        var userJSON = res[0].toJSON();
+        var orgs = keypather.get(userJSON, 'bigPoppaUser.organizations');
+        var hasAnyOrgCompletedAha = orgs && orgs.reduce(function (prev, org) {
+          if (prev) { return true; }
+          if (!keypather.get(org, 'metadata.hasAha')) { return true; }
+          return false;
+        }, false);
+
+        ET._mixpanel('people.set', {
+          'FurthestStep': currentStep,
+          'CurrentOrg': keypather.get(currentOrg, 'poppa.name'),
+          'NumberOfOrgsWithGrantedAccess': keypather.get(grantedOrgs, 'models.length'),
+          'NumberOfOrgs': keypather.get(userJSON, 'bigPoppaUser.organizations.length'),
+          'HasAnyOrgCompletedAha': hasAnyOrgCompletedAha
+        });
+      });
   };
 
   return ET;
