@@ -10,8 +10,8 @@ require('app')
   .service('eventTracking', EventTracking);
 var User = require('@runnable/api-client/lib/models/user');
 var UUID = require('node-uuid');
-var _keypather;
-var _$location;
+var keypather;
+var $location;
 var INTERCOM_APP_ID;
 var SIFT_API_KEY;
 
@@ -35,7 +35,7 @@ function EventTracking(
   keypather,
   siftApiConfig
 ) {
-  var ET = this;
+  var ETS = this;
   SIFT_API_KEY = siftApiConfig;
 
   if (configEnvironment === 'production') {
@@ -43,12 +43,9 @@ function EventTracking(
   } else {
     INTERCOM_APP_ID = 'xs5g95pd'; // test ID
   }
-  _keypather = keypather;
-  _$location = $location;
 
-  ET.analytics = $window.analytics;
-  ET._user = null;
-  ET.$window = $window;
+  ETS.analytics = $window.analytics;
+  ETS._user = null;
 
   /**
    * Extend per-event data with specific properties
@@ -56,8 +53,8 @@ function EventTracking(
    * @param {Object} data - data for given event to be extended
    * @return Object - extended event object
    */
-  ET.extendEventData = function (data) {
-    if (!ET._user) {
+  ETS.extendEventData = function (data) {
+    if (!ETS._user) {
       $log.error('eventTracking.boot() must be invoked before reporting events');
     }
     // username owner if server page
@@ -67,8 +64,8 @@ function EventTracking(
       state: $state.$current.name,
       href: $window.location.href
     };
-    if (angular.isFunction(keypather.get(ET._user, 'oauthName'))) {
-      baseData.userName = ET._user.oauthName();
+    if (angular.isFunction(keypather.get(ETS._user, 'oauthName'))) {
+      baseData.userName = ETS._user.oauthName();
     }
     if ($stateParams.userName) {
       baseData.instanceOwner = $stateParams.userName;
@@ -80,14 +77,14 @@ function EventTracking(
   };
 
   var isModerating = !!$browser.cookies().isModerating;
-  ET.Intercom = function () {
-    if (ET.$window.Intercom && !isModerating) {
-      ET.$window.Intercom.apply($window.Intercom, arguments);
+  ETS.Intercom = function () {
+    if ($window.Intercom && !isModerating) {
+      $window.Intercom.apply($window.Intercom, arguments);
     }
   };
 
   if (isModerating) {
-    ET.$window.intercomSettings = {
+    $window.intercomSettings = {
       hide_default_launcher: true
     };
   }
@@ -96,9 +93,9 @@ function EventTracking(
    * Stub Segment when SDK not present
    * (development/staging environments)
    */
-  if (!ET.analytics) {
+  if (!ETS.analytics) {
     // stub segment (analytics) if not present
-    ET.analytics = {
+    ETS.analytics = {
       ready: angular.noop,
       track: angular.noop,
       identify: angular.noop,
@@ -119,7 +116,7 @@ function EventTracking(
    * @param {String} mixpanel SDK API method name
    * @params [1..n] optional arguments passed to mixpanel SDK
    */
-  ET._mixpanel = function () {
+  ETS._mixpanel = function () {
     if (!angular.isFunction(keypather.get($window, 'mixpanel.'+arguments[0]))) {
       return;
     }
@@ -138,9 +135,9 @@ function EventTracking(
    * @param {Object} user - User Model instance
    * @return this
    */
-  ET.boot = function (user, opts) {
+  ETS.boot = function (user, opts) {
     opts = opts || {};
-    // if (ET._user) { return ET; }
+    // if (ETS._user) { return ETS; }
     if (!(user instanceof User)) {
       throw new Error('arguments[0] must be instance of User');
     }
@@ -160,14 +157,14 @@ function EventTracking(
       _sift.push(['_setSessionId', session]);
       _sift.push(['_trackPageview']);
 
-      ET.analytics.ready(function () {
-        ET.analytics.track('ViewContent', {
+      ETS.analytics.ready(function () {
+        ETS.analytics.track('ViewContent', {
           action: 'LoggedIn'
         });
       });
     }
 
-    ET._user = user;
+    ETS._user = user;
     var data = {
       name: user.oauthName(),
       email: user.attrs.email,
@@ -184,54 +181,53 @@ function EventTracking(
     // Mixpanel uses a string GUID to track anon users
     // If we're still tracking the user via GUID, we need to alias
     // Otherwise, we can just identify ourselves
-    if (angular.isString(ET._mixpanel('get_distinct_id'))) {
-      ET._mixpanel('alias', user.oauthId());
+    if (angular.isString(ETS._mixpanel('get_distinct_id'))) {
+      ETS._mixpanel('alias', user.oauthId());
     } else {
-      ET._mixpanel('identify', user.oauthId());
+      ETS._mixpanel('identify', user.oauthId());
     }
 
-    ET.Intercom('boot', data);
+    ETS.Intercom('boot', data);
     var userJSON = user.toJSON();
     var firstName = '';
     var lastName = '';
-    var displayName = _keypather.get(userJSON, 'accounts.github.displayName');
+    var displayName = keypather.get(userJSON, 'accounts.github.displayName');
     if (displayName) {
       firstName = displayName.split(/ (.+)/)[0];
       lastName = displayName.split(/ (.+)/)[1];
     }
     var orgs = keypather.get(user, 'attrs.bigPoppaUser.organizations');
-    var hasAnyOrgCompletedAha = orgs && orgs.reduce(function (prev, org) {
-      if (prev) { return true; }
+    var hasAnyOrgCompletedAha = orgs && orgs.some(function (org) {
       if (!keypather.get(org, 'metadata.hasAha')) { return true; }
       return false;
-    }, false);
+    });
 
-    ET._mixpanel('people.set', {
+    ETS._mixpanel('people.set', {
       '$first_name': firstName,
       '$last_name': lastName,
-      '$created': _keypather.get(userJSON, 'created'),
-      '$email': _keypather.get(userJSON, 'email')
+      '$created': keypather.get(userJSON, 'created'),
+      '$email': keypather.get(userJSON, 'email')
     });
 
     // Segment
-    ET.analytics.ready(function () {
-      ET.analytics.identify(data.name, {
+    ETS.analytics.ready(function () {
+      ETS.analytics.identify(data.name, {
         firstName: firstName,
         lastName: lastName,
         username: data.name,
-        email: _keypather.get(userJSON, 'email'),
-        createdAt: _keypather.get(userJSON, 'created'),
-        avatar: _keypather.get(userJSON, 'gravatar')
+        email: keypather.get(userJSON, 'email'),
+        createdAt: keypather.get(userJSON, 'created'),
+        avatar: keypather.get(userJSON, 'gravatar')
       });
-      ET.analytics.alias(user.oauthId());
-      ET.analytics.alias(_keypather.get(userJSON, '_id'));
+      ETS.analytics.alias(user.oauthId());
+      ETS.analytics.alias(keypather.get(userJSON, '_id'));
       if (opts.orgName) {
-        ET.analytics.group(data.company.id, {
+        ETS.analytics.group(data.company.id, {
           name: data.company.name
         });
       }
     });
-    return ET;
+    return ETS;
   };
 
   /**
@@ -245,17 +241,17 @@ function EventTracking(
      *   - slectedCommit: Object (ACV Model)
    * @return this
    */
-  ET.toggledCommit = function (data) {
+  ETS.toggledCommit = function (data) {
     var eventName = 'toggled-commit';
-    var eventData = ET.extendEventData({
+    var eventData = ETS.extendEventData({
       triggeredBuild: !!data.triggeredBuild,
       selectedCommit: data.acv
     });
-    ET._mixpanel('track', eventName, eventData);
-    ET.analytics.ready(function () {
-      ET.analytics.track(eventName, eventData);
+    ETS._mixpanel('track', eventName, eventData);
+    ETS.analytics.ready(function () {
+      ETS.analytics.track(eventName, eventData);
     });
-    return ET;
+    return ETS;
   };
 
   /**
@@ -267,17 +263,17 @@ function EventTracking(
    * @param {Boolean} cache - build triggered without cache
    * @return this
    */
-  ET.triggeredBuild = function (cache) {
+  ETS.triggeredBuild = function (cache) {
     var eventName = 'triggered-build';
-    var eventData = ET.extendEventData({
+    var eventData = ETS.extendEventData({
       cache: cache
     });
-    ET.Intercom('trackEvent', eventName, eventData);
-    ET._mixpanel('track', eventName, eventData);
-    ET.analytics.ready(function () {
-      ET.analytics.track(eventName, eventData);
+    ETS.Intercom('trackEvent', eventName, eventData);
+    ETS._mixpanel('track', eventName, eventData);
+    ETS.analytics.ready(function () {
+      ETS.analytics.track(eventName, eventData);
     });
-    return ET;
+    return ETS;
   };
 
   /**
@@ -287,16 +283,16 @@ function EventTracking(
    *   - segment
    * @return this
    */
-  ET.visitedState = function () {
+  ETS.visitedState = function () {
     var eventName = 'visited-state';
-    var eventData = ET.extendEventData({
-      referral: _$location.search().ref || 'direct'
+    var eventData = ETS.extendEventData({
+      referral: $location.search().ref || 'direct'
     });
-    ET._mixpanel('track', eventName, eventData);
-    ET.analytics.ready(function () {
-      ET.analytics.track(eventName, eventData);
+    ETS._mixpanel('track', eventName, eventData);
+    ETS.analytics.ready(function () {
+      ETS.analytics.track(eventName, eventData);
     });
-    return ET;
+    return ETS;
   };
 
   /**
@@ -304,9 +300,9 @@ function EventTracking(
    * Checks for & displays new messages from Intercom
    * @return this
    */
-  ET.update = function () {
-    ET.Intercom('update');
-    return ET;
+  ETS.update = function () {
+    ETS.Intercom('update');
+    return ETS;
   };
 
   /**
@@ -314,13 +310,13 @@ function EventTracking(
    * @param data
    * @returns {EventTracking}
    */
-  ET.trackClicked = function (data) {
+  ETS.trackClicked = function (data) {
 
-    ET._mixpanel('track', 'Click', data);
-    ET.analytics.ready(function () {
-      ET.analytics.track('Click', data);
+    ETS._mixpanel('track', 'Click', data);
+    ETS.analytics.ready(function () {
+      ETS.analytics.track('Click', data);
     });
-    return ET;
+    return ETS;
   };
 
   /**
@@ -329,16 +325,16 @@ function EventTracking(
    * @param {String} repoName
    * @returns {EventTracking}
    */
-  ET.createdRepoContainer = function (org, repo) {
-    if (ET._mixpanel) {
-      ET._mixpanel('track', 'createRepoContainer', {
+  ETS.createdRepoContainer = function (org, repo) {
+    if (ETS._mixpanel) {
+      ETS._mixpanel('track', 'createRepoContainer', {
         org: org,
         repo: repo
       });
     }
 
-    ET.analytics.ready(function () {
-      ET.analytics.track('ViewContent', {
+    ETS.analytics.ready(function () {
+      ETS.analytics.track('ViewContent', {
         action: 'CreateContainer',
         type: 'Repo',
         containerName: repo
@@ -351,15 +347,15 @@ function EventTracking(
    * @param {String} containerName
    * @returns {EventTracking}
    */
-  ET.createdNonRepoContainer = function (containerName) {
-    if (ET._mixpanel) {
-      ET._mixpanel('track', 'createNonRepoContainer', {
+  ETS.createdNonRepoContainer = function (containerName) {
+    if (ETS._mixpanel) {
+      ETS._mixpanel('track', 'createNonRepoContainer', {
         containerName: containerName
       });
     }
 
-    ET.analytics.ready(function () {
-      ET.analytics.track('ViewContent', {
+    ETS.analytics.ready(function () {
+      ETS.analytics.track('ViewContent', {
         action: 'CreateContainer',
         type: 'NonRepo',
         containerName: containerName
@@ -374,14 +370,14 @@ function EventTracking(
    *   - segment
    * @return this
    */
-  ET.visitedOrgSelectPage = function () {
+  ETS.visitedOrgSelectPage = function () {
     var eventName = 'Visited org-select page';
 
-    ET._mixpanel('track', eventName);
-    ET.analytics.ready(function () {
-      ET.analytics.track(eventName);
+    ETS._mixpanel('track', eventName);
+    ETS.analytics.ready(function () {
+      ETS.analytics.track(eventName);
     });
-    return ET;
+    return ETS;
   };
 
   /**
@@ -390,11 +386,11 @@ function EventTracking(
    *   - mixpanel
    * @return this
    */
-  ET.visitedContainersPage = function () {
+  ETS.visitedContainersPage = function () {
     var eventName = 'Visited containers page';
 
-    ET._mixpanel('track', eventName);
-    return ET;
+    ETS._mixpanel('track', eventName);
+    return ETS;
   };
 
   /**
@@ -404,16 +400,16 @@ function EventTracking(
    *   - segment
    * @return this
    */
-  ET.selectedOrg = function (org) {
+  ETS.selectedOrg = function (org) {
     var eventName = 'Org Selected';
 
-    ET._mixpanel('track', eventName, {
+    ETS._mixpanel('track', eventName, {
       org: org
     });
-    ET.analytics.ready(function () {
-      ET.analytics.track(eventName, {org: org});
+    ETS.analytics.ready(function () {
+      ETS.analytics.track(eventName, {org: org});
     });
-    return ET;
+    return ETS;
   };
 
   /**
@@ -422,13 +418,13 @@ function EventTracking(
    *   - segment
    * @return this
    */
-  ET.waitingForInfrastructure = function (orgName) {
+  ETS.waitingForInfrastructure = function (orgName) {
     var eventName = 'Waiting for infrastrucuture';
 
-    ET.analytics.ready(function () {
-      ET.analytics.track(eventName, {org: orgName});
+    ETS.analytics.ready(function () {
+      ETS.analytics.track(eventName, {org: orgName});
     });
-    return ET;
+    return ETS;
   };
 
   /**
@@ -437,11 +433,11 @@ function EventTracking(
    *   - mixpanel
    * @return this
    */
-  ET.milestone2SelectTemplate = function () {
+  ETS.milestone2SelectTemplate = function () {
     var eventName = 'Milestone 2: Select template';
 
-    ET._mixpanel('track', eventName);
-    return ET;
+    ETS._mixpanel('track', eventName);
+    return ETS;
   };
 
   /**
@@ -450,11 +446,11 @@ function EventTracking(
    *   - mixpanel
    * @return this
    */
-  ET.milestone2VerifyRepositoryTab = function () {
+  ETS.milestone2VerifyRepositoryTab = function () {
     var eventName = 'Milestone 2: Verify repository tab';
 
-    ET._mixpanel('track', eventName);
-    return ET;
+    ETS._mixpanel('track', eventName);
+    return ETS;
   };
 
   /**
@@ -463,11 +459,11 @@ function EventTracking(
    *   - mixpanel
    * @return this
    */
-  ET.milestone2VerifyCommandsTab = function () {
+  ETS.milestone2VerifyCommandsTab = function () {
     var eventName = 'Milestone 2: Verify commands tab';
 
-    ET._mixpanel('track', eventName);
-    return ET;
+    ETS._mixpanel('track', eventName);
+    return ETS;
   };
 
   /**
@@ -476,11 +472,11 @@ function EventTracking(
    *   - mixpanel
    * @return this
    */
-  ET.milestone2Building = function () {
+  ETS.milestone2Building = function () {
     var eventName = 'Milestone 2: Building';
 
-    ET._mixpanel('track', eventName);
-    return ET;
+    ETS._mixpanel('track', eventName);
+    return ETS;
   };
 
   /**
@@ -489,11 +485,11 @@ function EventTracking(
    *   - mixpanel
    * @return this
    */
-  ET.milestone2BuildSuccess = function () {
+  ETS.milestone2BuildSuccess = function () {
     var eventName = 'Milestone 2: Build success message (in modal)';
 
-    ET._mixpanel('track', eventName);
-    return ET;
+    ETS._mixpanel('track', eventName);
+    return ETS;
   };
 
   /**
@@ -502,11 +498,11 @@ function EventTracking(
    *   - mixpanel
    * @return this
    */
-  ET.milestone3AddedBranch = function () {
+  ETS.milestone3AddedBranch = function () {
     var eventName = 'Milestone 3: Added branch';
 
-    ET._mixpanel('track', eventName);
-    return ET;
+    ETS._mixpanel('track', eventName);
+    return ETS;
   };
 
   /**
@@ -515,11 +511,11 @@ function EventTracking(
    *   - mixpanel
    * @return this
    */
-  ET.invitedRunnabot = function () {
+  ETS.invitedRunnabot = function () {
     var eventName = 'Invited Runnabot';
 
-    ET._mixpanel('track', eventName);
-    return ET;
+    ETS._mixpanel('track', eventName);
+    return ETS;
   };
 
   /**
@@ -528,13 +524,13 @@ function EventTracking(
    *   - mixpanel
    * @return this
    */
-  ET.enabledAutoLaunch = function () {
+  ETS.enabledAutoLaunch = function () {
     var eventName = 'Enabled auto-launch';
-    ET._mixpanel('track', eventName);
-    return ET;
+    ETS._mixpanel('track', eventName);
+    return ETS;
   };
 
-  ET.updateCurrentPersonProfile = function (currentStep) {
+  ETS.updateCurrentPersonProfile = function (currentStep) {
     return $q.all([
       fetchUser(),
       fetchGrantedGithubOrgs()
@@ -549,7 +545,7 @@ function EventTracking(
           return false;
         }, false);
 
-        ET._mixpanel('people.set', {
+        ETS._mixpanel('people.set', {
           'FurthestStep': currentStep,
           'CurrentOrg': keypather.get(currentOrg, 'poppa.name'),
           'NumberOfOrgsWithGrantedAccess': keypather.get(grantedOrgs, 'models.length'),
@@ -559,5 +555,5 @@ function EventTracking(
       });
   };
 
-  return ET;
+  return ETS;
 }
