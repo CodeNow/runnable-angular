@@ -26,6 +26,7 @@ function EventTracking(
   $state,
   $stateParams,
   $window,
+  // ahaGuide,
   assign,
   currentOrg,
   configEnvironment,
@@ -45,7 +46,6 @@ function EventTracking(
 
   ET.analytics = $window.analytics;
   ET._user = null;
-  ET.currentOrg = currentOrg;
   ET.$window = $window;
 
   /**
@@ -119,8 +119,6 @@ function EventTracking(
    */
   ET._mixpanel = function () {
     if (!angular.isFunction(keypather.get($window, 'mixpanel.'+arguments[0]))) {
-      // $log.info('Mixpanel JS SDK stubbed');
-      // $log.info(arguments);
       return;
     }
     var args = Array.prototype.slice.call(arguments);
@@ -189,6 +187,7 @@ function EventTracking(
     } else {
       ET._mixpanel('identify', user.oauthId());
     }
+
     ET.Intercom('boot', data);
     var userJSON = user.toJSON();
     var firstName = '';
@@ -198,15 +197,22 @@ function EventTracking(
       firstName = displayName.split(/ (.+)/)[0];
       lastName = displayName.split(/ (.+)/)[1];
     }
+    var orgs = keypather.get(user, 'attrs.bigPoppaUser.organizations');
+    var hasAnyOrgCompletedAha = orgs && orgs.reduce(function (prev, org) {
+      if (prev) { return true; }
+      if (!keypather.get(org, 'metadata.hasAha')) { return true; }
+      return false;
+    }, false);
+
     ET._mixpanel('people.set', {
       '$first_name': firstName,
       '$last_name': lastName,
       '$created': _keypather.get(userJSON, 'created'),
       '$email': _keypather.get(userJSON, 'email'),
-      'furthestStep': '',
-      'currentOrg': ET.currentOrg.poppa.name,
-      'orgCount': keypather.get(user, 'bigPoppaUser.organizations.length'),
-      'hasAnyOrgCompletedAha': ''
+      // '$furthestStep': ahaGuide.getCurrentStep(),
+      'CurrentOrg': currentOrg.poppa.name,
+      'NumberOfOrgs': keypather.get(userJSON, 'bigPoppaUser.organizations.length'),
+      'HasAnyOrgCompletedAha': hasAnyOrgCompletedAha
     });
 
     // Segment
