@@ -196,11 +196,6 @@ function EventTracking(
       firstName = displayName.split(/ (.+)/)[0];
       lastName = displayName.split(/ (.+)/)[1];
     }
-    var orgs = keypather.get(user, 'attrs.bigPoppaUser.organizations');
-    var hasAnyOrgCompletedAha = orgs && orgs.some(function (org) {
-      if (!keypather.get(org, 'metadata.hasAha')) { return true; }
-      return false;
-    });
 
     ETS._mixpanel('people.set', {
       '$first_name': firstName,
@@ -539,10 +534,9 @@ function EventTracking(
         var grantedOrgs = res[1];
         var userJSON = res[0].toJSON();
         var orgs = keypather.get(userJSON, 'bigPoppaUser.organizations');
-        var hasAnyOrgCompletedAha = orgs && orgs.some(function (org) {
-          if (!keypather.get(org, 'metadata.hasAha')) { return true; }
-          return false;
-        }, false);
+        var hasAnyOrgCompletedAha = !!orgs && orgs.some(function (org) {
+          return !keypather.get(org, 'metadata.hasAha');
+        });
 
         ETS._mixpanel('people.set', {
           'FurthestStep': currentStep,
