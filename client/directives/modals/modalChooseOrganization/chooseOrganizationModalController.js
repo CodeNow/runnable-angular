@@ -10,21 +10,61 @@ function ChooseOrganizationModalController(
   ahaGuide,
   createNewSandboxForUserService,
   errs,
-  eventTracking,
   featureFlags,
   fetchWhitelistForDockCreated,
   keypather,
   loading,
+  promisify,
+
+  // Injected
+  close,
   grantedOrgs,
   user,
   whitelistedOrgs
 ) {
   var COMC = this;
+  COMC.close = close;
   COMC.user = user;
   loading.reset('chooseOrg');
   $rootScope.featureFlags = featureFlags.flags;
-  COMC.allAccounts = grantedOrgs.models;
+  COMC.allAccounts = grantedOrgs;
   COMC.whitelistedOrgs = whitelistedOrgs;
+
+  COMC.showGrantAccess = COMC.allAccounts.length === 0;
+
+  COMC.cancelPollingForWhitelisted = function () {
+    if (COMC.pollForWhitelistPromise) {
+      $interval.cancel(COMC.pollForWhitelistPromise);
+    }
+  };
+
+  COMC.cancelPollingForDockCreated = function () {
+    if (COMC.pollForDockCreatedPromise) {
+      $interval.cancel(COMC.pollForDockCreatedPromise);
+    }
+  };
+
+  COMC.grantAccess = function () {
+    loading.reset('grantAccess');
+    loading('grantAccess', true);
+    COMC.cancelPollingForWhitelisted();
+    var originalOrgCount = grantedOrgs.models.length;
+    COMC.pollForWhitelistPromise = $interval(function () {
+      promisify(grantedOrgs, 'fetch')({'_bustCache': Math.random()})
+        .then(function (orgs) {
+          if (orgs.models.length !== originalOrgCount) {
+            COMC.showGrantAccess = false;
+            loading('grantAccess', false);
+          }
+        });
+    }, 1000 * 5);
+  };
+
+  $scope.$on('$destroy', function () {
+    COMC.cancelPollingForWhitelisted();
+    COMC.cancelPollingForDockCreated();
+  });
+
 
   // otherwise the user can clear away the model
   // this will be re-added when they transition to something else
@@ -38,13 +78,7 @@ function ChooseOrganizationModalController(
       });
   };
 
-  $scope.actions = {
-    selectedOrg: eventTracking.selectedOrg.bind(eventTracking),
-    selectAccount: function (selectedOrgName) {
-      $state.go('base.instances', {
-        userName: selectedOrgName
-      }, {}, { reload: true });
-    },
+  COMC.actions = {
     createOrCheckDock: function (selectedOrgName, goToPanelCb) {
       var selectedOrg = COMC.getSelectedOrg(selectedOrgName);
       if (!selectedOrg) {
@@ -62,51 +96,52 @@ function ChooseOrganizationModalController(
             });
         })
         .then(function (org) {
+          if (keypather.get(org, 'attrs.firstDockCreated')) {
+            return COMC.actions.selectAccount(selectedOrgName);
+          }
+
           COMC.pollForDockCreated(org, selectedOrgName, goToPanelCb);
         })
         .catch(errs.handler)
         .finally(function () {
           loading('chooseOrg', false);
         });
+    },
+    selectAccount: function (selectedOrgName) {
+      close();
+      $state.go('base.instances', {
+        userName: selectedOrgName
+      });
     }
   };
 
   // Searching methods
-  COMC.getFirstDockOrg = function () {
-    return COMC.whitelistedOrgs.find(function (org) {
-      return keypather.get(org, 'attrs.firstDockCreated');
-    });
-  };
   COMC.matchWhitelistedOrgByName = function (selectedOrgName) {
     return COMC.whitelistedOrgs.find(function (org) {
       return selectedOrgName.toLowerCase() === org.attrs.name.toLowerCase();
     });
   };
   COMC.getSelectedOrg = function (selectedOrgName) {
-    return COMC.allAccounts.find(function (org) {
+    return COMC.allAccounts.models.find(function (org) {
       return selectedOrgName.toLowerCase() === org.oauthName().toLowerCase();
     });
   };
   COMC.isChoosingOrg = ahaGuide.isChoosingOrg;
 
-  // Polling stuff
-  COMC.cancelPolling = function () {
-    if (COMC.pollingInterval) {
-      $interval.cancel(COMC.pollingInterval);
-    }
-  };
+  COMC.selectedOrgName = null;
   COMC.pollForDockCreated = function (whitelistedDock, selectedOrgName, goToPanelCb) {
-    COMC.cancelPolling();
+    COMC.selectedOrgName = selectedOrgName;
+    COMC.cancelPollingForDockCreated();
     if (keypather.get(whitelistedDock, 'attrs.firstDockCreated')) {
       return goToPanelCb('dockLoaded');
     }
     goToPanelCb('dockLoading');
 
-    COMC.pollingInterval = $interval(function () {
+    COMC.pollForDockCreatedPromise = $interval(function () {
       COMC.fetchUpdatedWhitelistedOrg(selectedOrgName)
         .then(function (updatedOrg) {
           if (keypather.get(updatedOrg, 'attrs.firstDockCreated')) {
-            COMC.cancelPolling();
+            COMC.cancelPollingForDockCreated();
             return goToPanelCb('dockLoaded');
           }
         });
