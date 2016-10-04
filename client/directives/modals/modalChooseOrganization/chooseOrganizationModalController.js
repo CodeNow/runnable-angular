@@ -80,9 +80,7 @@ function ChooseOrganizationModalController(
   };
 
   COMC.actions = {
-    trackPersonalAccount: function () {
-      eventTracking.trackPersonalAccount();
-    },
+    trackPersonalAccount: eventTracking.trackPersonalAccount(),
     createOrCheckDock: function (selectedOrgName, goToPanelCb) {
       var selectedOrg = COMC.getSelectedOrg(selectedOrgName);
       if (!selectedOrg) {
