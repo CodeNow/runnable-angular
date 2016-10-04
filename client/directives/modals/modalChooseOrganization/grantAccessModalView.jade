@@ -4,22 +4,21 @@
     src = "/build/images/runnabear-waving-3.png"
     width = "230"
   )
-  .grid-block.vertical.align-center.padding-lg.text-center
+  .grid-block.vertical.align-center.padding-lg.padding-bottom-sm.text-center
     //- when no orgs exist
     h1.h1(
       ng-if = "COMC.allAccounts.models.length === 0"
     ) Welcome aboard!
     p.margin-top-sm.p.weight-light(
       ng-if = "COMC.allAccounts.models.length === 0"
-    ) Next, we’ll need access to the GitHub org you’d like to create environments for.
-
+    ) Next, we’ll need access to your organization on GitHub.
     //- when orgs exist
     h1.h1(
       ng-if = "COMC.allAccounts.models.length > 0"
     ) Almost there!
     p.margin-top-sm.p.weight-light(
       ng-if = "COMC.allAccounts.models.length > 0"
-    ) To use your org in Runnable, you’ll need to grant access to it on GitHub.
+    ) To use your organization in Runnable, you’ll need to grant access to it on GitHub.
 
     //- hide after clicked
     a.grid-block.align-center.justify-center.shrink.btn.btn-md.green.margin-top-md(
@@ -55,7 +54,7 @@
       ng-if = "COMC.allAccounts.models.length > 0"
     ) Cancel
 
-  footer.grid-block.shrink.align-center.vertical.footer.padding-sm.padding-bottom-md
+  footer.grid-block.shrink.align-center.vertical.footer.padding-bottom-lg
     a.small.link.text-gray(
       href = "https://support.runnable.com/hc/en-us/articles/213363706"
       target = "_blank"
@@ -68,3 +67,4 @@ figure.grid-block.shrink.vertical.figure.padding-lg.justify-center
   img.img(
     src = "/build/images/github-permissions.svg"
   )
+  figcaption.small.text-gray.text-center.margin-top-md Click “Grant Access” to your org on GitHub.

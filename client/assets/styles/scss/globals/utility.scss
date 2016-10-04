@@ -30,16 +30,20 @@
     padding: nth($sizes,$i);
   }
 
-  @for $x from 1 to 5 {
-    .padding-#{nth($size-directions,$x)}-#{nth($size-list,$i)} {
-      padding-#{nth($size-directions,$x)}: nth($sizes,$i);
-    }
-  }
-
   // margin
   %margin-#{nth($size-list,$i)},
   .margin-#{nth($size-list,$i)} {
     margin: nth($sizes,$i);
+  }
+}
+
+// keeping this in a separate loop allows specific sizes to override default ones
+@for $i from 1 to 7 {
+
+  @for $x from 1 to 5 {
+    .padding-#{nth($size-directions,$x)}-#{nth($size-list,$i)} {
+      padding-#{nth($size-directions,$x)}: nth($sizes,$i);
+    }
   }
 
   @for $x from 1 to 5 {
