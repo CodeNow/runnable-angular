@@ -436,6 +436,20 @@ function EventTracking(
   };
 
   /**
+   * Milestone 1: Track personal account
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.trackPersonalAccount = function () {
+    var self = this;
+    var eventName = 'Clicked personal account link';
+
+    self._mixpanel('track', eventName);
+    return self;
+  };
+
+  /**
    * Milestone 2: Verify repository tab
    * Reports to:
    *   - mixpanel

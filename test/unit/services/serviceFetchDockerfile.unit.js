@@ -208,8 +208,8 @@ describe('serviceFetchDockerfile'.bold.underline.blue, function () {
       angular.mock.module('app');
       angular.mock.module(function ($provide) {
         $provide.factory('doesDockerfileExist', function ($q) {
-            doesDockerfileExistStub = sinon.stub().returns($q.when(dockerfileMock));
-            return doesDockerfileExistStub;
+          doesDockerfileExistStub = sinon.stub().returns($q.when(dockerfileMock));
+          return doesDockerfileExistStub;
         });
         $provide.factory('base64', base64Mock);
         $provide.factory('promisify', function ($q) {
@@ -261,7 +261,7 @@ describe('serviceFetchDockerfile'.bold.underline.blue, function () {
             branch: 'testBranch'
           }
         }),
-        fetchFile: sinon.stub().returns(function () {return true}),
+        fetchFile: sinon.stub().returns(function () { return true }),
         newFile: sinon.stub().returns(true)
       };
     });

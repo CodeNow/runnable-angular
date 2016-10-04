@@ -53,12 +53,12 @@ module.exports = [
     state: 'orgSelect',
     abstract: false,
     url: '^/orgSelect',
-    templateUrl: 'viewOrgSelect',
-    controller: 'ChooseOrganizationModalController',
-    controllerAs: 'COS',
-    onExit: function ($rootScope) {
-      $rootScope.$broadcast('app-document-click');
-      $rootScope.$broadcast('close-modal');
+    controller: 'OrgSelectController',
+    onExit: function (
+      ModalService,
+      keypather
+    ) {
+      keypather.get(ModalService, 'modalLayers[0].modal.controller.close()');
     },
     resolve: {
       grantedOrgs: function (fetchGrantedGithubOrgs) {

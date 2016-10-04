@@ -1,0 +1,44 @@
+.grid-block.vertical.padding-sm.org-select-view
+  h1.margin-top-sm.h1.text-center Welcome aboard!
+  p.margin-top-sm.margin-bottom-md.p.text-center.weight-light Now select the organization you want to use.
+
+  ol.grid-block.vertical.list
+    li.grid-block.align-center.list-item.btn.white(
+      data-event-name = "Org Selected"
+      ng-click = "COMC.actions.createOrCheckDock(org.oauthName(), goToPanel)"
+      ng-repeat = "org in COMC.allAccounts.models | orderBy:'attrs.login'"
+      title = "{{org.oauthName()}}"
+    )
+      img.grid-content.shrink(
+        height = "30"
+        ng-src = "{{org.gravitar()}}"
+        width = "30"
+      )
+      span.grid-content.text-left.text-overflow {{org.oauthName()}}
+      svg.grid-content.iconnables.icons-arrow-forward.shrink
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+
+  ol.margin-top-sm.grid-block.vertical.list
+    li.grid-block.align-center.list-item.btn.white(
+      data-event-name = "Clicked to Grant Access View"
+      ng-click = "COMC.showGrantAccess = true"
+    )
+      .grid-content.shrink.icons-missing-org 🕵
+      span.grid-content.text-left.text-overflow Don’t see your organization?
+      svg.grid-content.iconnables.icons-arrow-forward.shrink
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+
+footer.grid-block.align-center.vertical.footer.margin-top-sm.margin-bottom-md
+  a.small.link.text-gray(
+    ng-click = "COMC.actions.trackPersonalAccount()"
+    href = "https://support.runnable.com/hc/en-us/articles/213363706"
+    target = "_blank"
+  ) Looking for your personal account?
+    svg.iconnables.icons-link-external.text-gray
+      use(
+        xlink:href = "#icons-link-external-alt"
+      )

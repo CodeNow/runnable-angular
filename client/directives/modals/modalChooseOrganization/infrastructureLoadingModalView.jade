@@ -1,0 +1,27 @@
+.padding-md.infrastructure-view
+  //- dock spinning up
+  p.p.text-center.weight-light(
+    ng-if = "!$root.featureFlags.contingencyPlan"
+  ) We’re spinning up infrastructure for&#32;
+    span {{COMC.selectedOrgName}}
+    | . It’ll take about&#32;
+    strong.strong 10 minutes
+    | . We’ll email you and update this page when it’s ready.
+  .spinner-wrapper.spinner-md.spinner-gray.margin-top-md(
+    ng-if = "!$root.featureFlags.contingencyPlan"
+    ng-include = "'spinner'"
+  )
+
+  p.p.text-center.weight-light(
+    ng-if = "$root.featureFlags.contingencyPlan"
+  ) We’re running slower than normal due to high demand.
+  p.p.text-center.weight-light.margin-top-xs(
+    ng-if = "$root.featureFlags.contingencyPlan"
+  ) We’ll email you at&#32;
+    span {{ COMC.user.attrs.email }}
+    | &#32;as soon we’re done spinning up your infrastructure. Thanks for your patience.
+
+  p.small.link.text-center.text-gray.margin-top-md(
+    data-event-name = "Clicked 'Wanna use a different org?'"
+    ng-click = "goToPanel('orgSelection', 'back')"
+  ) Wanna use a different org?

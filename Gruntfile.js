@@ -286,7 +286,7 @@ module.exports = function(grunt) {
           data: function () {
             var locals = {
               version: version,
-              env: require('./client/config/json/environment.json').environment,
+              env: 'production', // require('./client/config/json/environment.json').environment,
               commitHash: require('./client/config/json/commit.json').commitHash,
               commitTime: require('./client/config/json/commit.json').commitTime,
               apiHost: require('./client/config/json/api.json').host
