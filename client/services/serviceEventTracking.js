@@ -435,6 +435,20 @@ EventTracking.prototype.waitingForInfrastructure = function (orgName) {
 };
 
 /**
+ * Milestone 1: Track personal account
+ * Reports to:
+ *   - mixpanel
+ * @return this
+ */
+EventTracking.prototype.trackPersonalAccount = function () {
+  var self = this;
+  var eventName = 'Clicked personal account link';
+
+  self._mixpanel('track', eventName);
+  return self;
+};
+
+/**
  * Milestone 2: Select repository
  * Reports to:
  *   - mixpanel
