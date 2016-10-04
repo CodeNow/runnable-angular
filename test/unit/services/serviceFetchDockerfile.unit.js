@@ -225,12 +225,12 @@ describe('serviceFetchDockerfile'.bold.underline.blue, function () {
           fetchRepoDockerfileStub = sinon.stub().returns($q.when(dockerfileMock));
           return fetchRepoDockerfileStub;
         });
-        $provide.factory('fetchCommitsForFile', function ($q) {
+        $provide.factory('fetchCommitsForFile', function ($q, moment) {
           fetchCommitsForFileStub = sinon.stub().returns($q.when([
             {
               commit: {
                 committer: {
-                  date: '2016-08-18T23:11:41Z'
+                  date: moment().subtract(1, 'months').toISOString()
                 }
               }
             }

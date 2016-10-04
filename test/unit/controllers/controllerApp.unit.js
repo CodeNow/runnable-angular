@@ -18,6 +18,7 @@ describe('controllerApp'.bold.underline.blue, function () {
   var showModalStub;
   var isRunnabotPartOfOrgStub;
   var mockFeatureFlags;
+  var ahaGuideStub;
   function createMasterPods() {
     ctx.masterPods = runnable.newInstances(
       [apiMocks.instances.building, apiMocks.instances.runningWithContainers[0]],
@@ -86,6 +87,12 @@ describe('controllerApp'.bold.underline.blue, function () {
       $provide.value('activeAccount', ctx.fakeuser);
       $provide.value('errs', ctx.fakeErrs);
       $provide.value('$localStorage', mockLocalStorage);
+      $provide.factory('ahaGuide', function ($q) {
+        ahaGuideStub = {
+          updateCurrentOrg: sinon.stub()
+        };
+        return ahaGuideStub;
+      });
       $provide.value('ModalService', {
         showModal: showModalStub
       });
