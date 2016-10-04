@@ -275,6 +275,19 @@ function ahaGuide(
     return cachedStep;
   }
 
+  function getClassForSubstep (errorState) {
+    var step = furthestSubstep(STEPS.ADD_FIRST_REPO);
+    var progressDial = stepList[STEPS.ADD_FIRST_REPO].subSteps[step].className;
+    var classNames = [];
+    if (errorState) {
+      classNames.push('aha-error');
+    }
+    if (progressDial) {
+      classNames.push(progressDial);
+    }
+    return classNames;
+  }
+
   function isInGuide () {
     return keypather.get(currentOrg, 'poppa.attrs.metadata.hasAha');
   }
@@ -347,6 +360,7 @@ function ahaGuide(
     endGuide: endGuide,
     resetGuide: resetGuide,
     getCurrentStep: getCurrentStep,
+    getClassForSubstep: getClassForSubstep,
     hasConfirmedSetup: hasConfirmedSetup,
     hasRunnabot: refreshHasRunnabot,
     isInGuide: isInGuide,

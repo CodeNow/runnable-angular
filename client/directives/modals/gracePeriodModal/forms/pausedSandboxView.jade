@@ -1,26 +1,25 @@
-.modal-backdrop
-  .grace-period
-    h1.h1.text-center.padding-sm Welcome back!
-    img.grid-block.img.runnabear(
-      height = "130"
-      src = "/build/images/runnabear-waving-3.png"
-      width = "230"
-    )
-    .modal-dialog.modal-welcome
-      section.modal-body
-        p.p.padding-xs We’ve temporarily&#32;
-          span(
-            title = "paws’d"
-          ) paused&#32;
-          | your environments due to inactivity. Give us the go ahead and we’ll get you back up and running.
-      footer.grid-block.vertical.modal-footer
-        button.grid-content.btn.btn-md.green.icons-intercom(
-          ng-click = "$root.$broadcast('intercom::pawsd')"
-        ) Chat Now
-        a.grid-content.link.text-gray.text-center(
-          href = "mailto:support@runnable.com?subject=I’m back! Please get my environments back up and running."
-        ) Email Support
-    .grid-block.justify-center.modal-outer-footer(
-      grace-period-footer
-      close = "WBC.close"
-    )
+.modal-backdrop.grace-period
+  h1.h1.text-center.padding-sm Welcome back!
+  img.grid-block.img.runnabear(
+    height = "130"
+    src = "/build/images/runnabear-waving-3.png"
+    width = "230"
+  )
+  .modal-dialog.modal-welcome
+    section.modal-body
+      p.p.padding-xs We’ve temporarily&#32;
+        span(
+          title = "paws’d"
+        ) paused&#32;
+        | your environments due to inactivity. Give us the go ahead and we’ll get you back up and running.
+    footer.grid-block.vertical.modal-footer
+      button.grid-content.btn.btn-md.green.icons-intercom(
+        ng-click = "$root.$broadcast('intercom::pawsd')"
+      ) Chat Now
+      a.grid-content.link.text-gray.text-center(
+        href = "mailto:support@runnable.com?subject=I’m back! Please get my environments back up and running."
+      ) Email Support
+  .grid-block.justify-center.modal-outer-footer(
+    grace-period-footer
+    close = "WBC.close"
+  )

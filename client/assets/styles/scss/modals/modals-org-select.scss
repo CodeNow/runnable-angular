@@ -1,0 +1,133 @@
+.welcome {
+
+  .runnabear {
+    height: auto;
+    left: 0;
+    margin: 0 auto;
+    position: absolute;
+    right: 0;
+    top: 32px;
+    width: 230px;
+    z-index: 1;
+  }
+
+  .animated-panel-container {
+    overflow: visible;
+  }
+}
+
+.modal-org-select {
+  transition: opacity .15s ease-in-out, transform .15s ease-in-out;
+
+  &.ng-enter {
+    left: 0;
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    transform: scale3d(.97,.97,1);
+  }
+
+  &.ng-enter-active {
+    left: 0;
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 1;
+    position: absolute;
+    right: 0;
+    transform: scale3d(1,1,1);
+  }
+
+  &.ng-leave {
+    left: 0;
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 1;
+    position: absolute;
+    right: 0;
+    transform: scale3d(1,1,1);
+  }
+
+  &.ng-leave-active {
+    left: 0;
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    transform: scale3d(.97,.97,1);
+  }
+
+  // hide during transitions
+  &.ng-animate ~ .welcome-footer {
+    display: none;
+  }
+
+  .modal-dialog {
+    animation: none;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 150px;
+
+    .infrastructure-view > .padding-md {
+      @include media(xs) {
+        padding-left: $sm;
+        padding-right: $sm;
+      }
+    }
+
+    .h1 {
+      font-size: 27px;
+    }
+
+    .icons-link-external {
+      height: 9px;
+      top: 1px;
+      width: 18px;
+    }
+
+    .list-item {
+      border-radius: 0;
+      font-size: 18px;
+      font-weight: $weight-normal;
+      height: 60px;
+
+      &:hover,
+      &:active {
+        z-index: 1;
+      }
+
+      &:not(:hover),
+      &:not(:active) {
+        .icons-arrow-forward {
+          color: $gray-light;
+        }
+      }
+
+      &:first-child {
+        border-top-left-radius: $input-border-radius-lg;
+        border-top-right-radius: $input-border-radius-lg;
+      }
+
+      &:last-child {
+        border-bottom-left-radius: $input-border-radius-lg;
+        border-bottom-right-radius: $input-border-radius-lg;
+      }
+
+      + .list-item {
+        margin-top: -1px;
+      }
+
+      .icons-missing-org {
+        background: $gray-lightest;
+        border-radius: $input-border-radius;
+        font-size: 21px;
+        height: 30px;
+        line-height: 30px;
+        padding-top: 1px;
+        width: 30px;
+      }
+    }
+  }
+}

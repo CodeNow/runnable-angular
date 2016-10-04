@@ -1,5 +1,8 @@
 {
   "sha": "1f27c310a4bcca758f708358601fa25976d56d90",
+  "attrs" : {
+    "sha": "1f27c310a4bcca758f708358601fa25976d56d90"
+  },
   "commit": {
     "author": {
       "name": "Pieter Wuille",

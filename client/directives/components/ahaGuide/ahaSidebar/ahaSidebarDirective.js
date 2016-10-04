@@ -20,6 +20,7 @@ function ahaSidebar(
       $scope.isAddingFirstRepo = ahaGuide.isAddingFirstRepo;
       $scope.isAddingFirstBranch = ahaGuide.isAddingFirstBranch;
       $scope.getFurthestSubstep = ahaGuide.furthestSubstep;
+      $scope.getClassForSubstep = ahaGuide.getClassForSubstep;
       ahaGuide.updateTracking();
     }
   };

@@ -98,6 +98,10 @@
       color: $green;
     }
 
+    &.aha-error .iconnables {
+      color: $orange;
+    }
+
     .iconnables {
       background: $white;
       border-radius: 50%;

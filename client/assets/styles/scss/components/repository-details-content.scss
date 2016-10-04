@@ -2,18 +2,6 @@
   display: flex;
   flex-direction: column;
 
-  &.modal-body {
-    max-height: calc(100vh - 195px);
-
-    @media (max-height: $screen-xs), (max-width: $screen-sm) {
-      max-height: calc(100vh - 165px);
-    }
-
-    @include media(xxxs) {
-      max-height: calc(100vh - 212px);
-    }
-  }
-
   > .label {
     display: table;
     margin: 0 auto 12px;
@@ -24,6 +12,11 @@
       height: 100%;
       padding-left: 6px;
     }
+  }
+
+  > .orange .iconnables {
+    height: 15px;
+    width: 15px;
   }
 
   .list-servers.list-servers {

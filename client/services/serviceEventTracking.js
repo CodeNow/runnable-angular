@@ -75,13 +75,17 @@ function EventTracking(
     return assign(data, baseData);
   };
 
-  /**
-   * Stub Intercom when SDK not present
-   * (development/staging environments)
-   */
-  if (!self.$window.Intercom || $browser.cookies().isModerating) {
-    // stub intercom if not present
-    self.$window.Intercom = angular.noop;
+  var isModerating = !!$browser.cookies().isModerating;
+  self.Intercom = function () {
+    if (self.$window.Intercom && !isModerating) {
+      self.$window.Intercom.apply($window.Intercom, arguments);
+    }
+  };
+
+  if (isModerating) {
+    self.$window.intercomSettings = {
+      hide_default_launcher: true
+    };
   }
 
   /**
@@ -185,7 +189,7 @@ EventTracking.prototype.boot = function (user, opts) {
   } else {
     self._mixpanel('identify', user.oauthId());
   }
-  self.$window.Intercom('boot', data);
+  self.Intercom('boot', data);
   var userJSON = user.toJSON();
   var firstName = '';
   var lastName = '';
@@ -262,7 +266,7 @@ EventTracking.prototype.triggeredBuild = function (cache) {
   var eventData = self.extendEventData({
     cache: cache
   });
-  self.$window.Intercom('trackEvent', eventName, eventData);
+  self.Intercom('trackEvent', eventName, eventData);
   self._mixpanel('track', eventName, eventData);
   self.analytics.ready(function () {
     self.analytics.track(eventName, eventData);
@@ -297,7 +301,7 @@ EventTracking.prototype.visitedState = function () {
  */
 EventTracking.prototype.update = function () {
   var self = this;
-  self.$window.Intercom('update');
+  self.Intercom('update');
   return self;
 };
 
@@ -427,6 +431,20 @@ EventTracking.prototype.waitingForInfrastructure = function (orgName) {
   self.analytics.ready(function () {
     self.analytics.track(eventName, {org: orgName});
   });
+  return self;
+};
+
+/**
+ * Milestone 1: Track personal account
+ * Reports to:
+ *   - mixpanel
+ * @return this
+ */
+EventTracking.prototype.trackPersonalAccount = function () {
+  var self = this;
+  var eventName = 'Clicked personal account link';
+
+  self._mixpanel('track', eventName);
   return self;
 };
 
