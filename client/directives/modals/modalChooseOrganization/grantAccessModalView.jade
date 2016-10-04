@@ -22,6 +22,7 @@
 
     //- hide after clicked
     a.grid-block.align-center.justify-center.shrink.btn.btn-md.green.margin-top-md(
+      data-event-name = "Clicked Grant Access"
       href = "https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9"
       ng-click = "COMC.grantAccess()"
       ng-if = "!$root.isLoading.grantAccess"
