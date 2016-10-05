@@ -22,6 +22,7 @@
 
   ol.margin-top-sm.grid-block.vertical.list
     li.grid-block.align-center.list-item.btn.white(
+      data-event-name = "Clicked to Grant Access View"
       ng-click = "COMC.showGrantAccess = true"
     )
       .grid-content.shrink.icons-missing-org 🕵
@@ -33,6 +34,7 @@
 
 footer.grid-block.align-center.vertical.footer.margin-top-sm.margin-bottom-md
   a.small.link.text-gray(
+    ng-click = "COMC.actions.trackPersonalAccount()"
     href = "https://support.runnable.com/hc/en-us/articles/213363706"
     target = "_blank"
   ) Looking for your personal account?

@@ -10,16 +10,10 @@ function setupRepositoryGuide(
     restrict: 'A',
     templateUrl: 'setupRepositoryGuideView',
     scope: true,
-    link: function ($scope, elem, attrs) {
+    link: function ($scope) {
       $scope.ahaGuide = {
         steps: ahaGuide.steps,
         getCurrentStep: ahaGuide.getCurrentStep
-      };
-      $scope.askEngineers = function () {
-        window.Intercom(
-          'showNewMessage',
-          'I’m having trouble getting my first container up and running.'
-        );
       };
     }
   };
