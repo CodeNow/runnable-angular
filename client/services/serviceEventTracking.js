@@ -442,11 +442,36 @@ function EventTracking(
    * @return this
    */
   ETS.trackPersonalAccount = function () {
-    var self = this;
     var eventName = 'Clicked personal account link';
 
-    self._mixpanel('track', eventName);
-    return self;
+    ETS._mixpanel('track', eventName);
+    return ETS;
+  };
+
+  /**
+   * Milestone 1: Track create org link
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.trackCreateOrgLink = function () {
+    var eventName = 'Clicked create org link';
+
+    ETS._mixpanel('track', eventName);
+    return ETS;
+  };
+
+  /**
+   * Milestone 1: Track clicks on figure
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.trackFigureAction = function () {
+    var eventName = 'Clicked figure';
+
+    ETS._mixpanel('track', eventName);
+    return ETS;
   };
 
   /**

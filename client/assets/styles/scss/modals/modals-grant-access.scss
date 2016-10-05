@@ -68,11 +68,17 @@
     transform: scale3d(.97,.97,1);
   }
 
-  > .grant-access-view {
+  .grant-access-view {
     flex: 0 0 330px;
 
-    @include media(xxs) {
-      flex-basis: auto;
+    @include media(sm) {
+      flex: 0 0 auto;
+    }
+  }
+
+  .grant-access-body {
+    @include media(sm) {
+      flex: 0 0 auto;
     }
   }
 
