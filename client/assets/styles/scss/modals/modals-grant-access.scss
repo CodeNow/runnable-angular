@@ -79,6 +79,7 @@
   .grant-access-body {
     @include media(sm) {
       flex: 0 0 auto;
+      padding-bottom: $lg;
     }
   }
 
@@ -151,5 +152,41 @@
     height: 9px;
     top: 1px;
     width: 18px;
+  }
+
+  .nav {
+    border: 1px solid $gray-lighter;
+    border-radius: $input-border-radius-lg;
+
+    .li.active {
+      background: $white;
+      overflow: visible;
+      position: relative;
+
+      &::before,
+      &::after {
+        content: '';
+        display: block;
+        position: absolute;
+        right: -18px;
+        top: 0;
+      }
+
+      &::before {
+        border-bottom: 18px solid transparent;
+        border-left: 12px solid $gray-lighter;
+        border-top: 18px solid transparent;
+        right: -12px;
+        z-index: 1;
+      }
+
+      &::after {
+        border-bottom: 18px solid transparent;
+        border-left: 12px solid $white;
+        border-top: 18px solid transparent;
+        right: -11px;
+        z-index: 2;
+      }
+    }
   }
 }

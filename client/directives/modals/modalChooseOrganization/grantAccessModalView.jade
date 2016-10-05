@@ -4,18 +4,22 @@
     src = "/build/images/runnabear-waving-3.png"
     width = "230"
   )
-  animated-panel-container
-    animated-panel(
+  animated-panel-container.grid-block
+    animated-panel.grid-block(
       default = "true"
       name = "grantAccess"
     )
-      .fade(
+      .grid-block.vertical.fade(
         ng-class = "{'in': isActivePanel()}"
         ng-include = "'grantAccessView'"
       )
-    animated-panel(
+    animated-panel.grid-block(
       name = "createOrg"
     )
+      .grid-block.vertical.fade(
+        ng-class = "{'in': isActivePanel()}"
+        ng-include = "'createOrganizationView'"
+      )
 figure.grid-block.shrink.vertical.figure.padding-lg.justify-center
   img.img(
     ng-click = "COMC.actions.trackFigureAction()"

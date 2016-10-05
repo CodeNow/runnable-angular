@@ -1,6 +1,12 @@
-.grid-block.vertical.align-center.padding-lg.padding-bottom-sm.text-center
-  h1.h1 Create a free org on GitHub.
-  p.margin-top-sm.p.weight-light We’ll use this org for your demo app.
+nav.grid-block.shrink.align-center.justify-center.well.margin-sm.nav
+  ol.grid-block
+    li.grid-block.align-center.justify-center.small.text-gray.li.padding-xxs.active Create
+    li.grid-block.align-center.justify-center.small.text-gray.li.padding-xxs Authorize
+    li.grid-block.align-center.justify-center.small.text-gray.li.padding-xxs Fork
+
+.grid-block.vertical.align-center.padding-lg.padding-top-md.text-center
+  h1.h1 Create a free organization.
+  p.margin-top-sm.p.weight-light We’ll use your new GitHub organization to create your demo app.
 
   //- hide after clicked
   a.grid-block.align-center.justify-center.shrink.btn.btn-md.green.margin-top-md(
@@ -14,7 +20,7 @@
       use(
         xlink:href = "#icons-octicons-github"
       )
-    | Create Org
+    | Create Organization
     svg.iconnables.icons-link-external.text-white
       use(
         xlink:href = "#icons-link-external-alt"
