@@ -20,6 +20,19 @@
         ng-class = "{'in': isActivePanel()}"
         ng-include = "'createOrganizationView'"
       )
+    animated-panel.grid-block(
+      name = "authorizeOrg"
+    )
+      .grid-block.vertical.fade(
+        ng-class = "{'in': isActivePanel()}"
+      )
+    animated-panel.grid-block(
+      name = "stackType"
+    )
+      .grid-block.vertical.fade(
+        ng-class = "{'in': isActivePanel()}"
+        ng-include = "'chooseStackTypeView'"
+      )
 figure.grid-block.shrink.vertical.figure.padding-lg.justify-center
   img.img(
     ng-click = "COMC.actions.trackFigureAction()"
