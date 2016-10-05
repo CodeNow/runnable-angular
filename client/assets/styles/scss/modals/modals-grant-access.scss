@@ -189,4 +189,34 @@
       }
     }
   }
+
+  .list-stack-type {
+    width: 100%;
+
+    .list-item {
+      border-radius: 0;
+      height: 60px;
+
+      &:hover,
+      &:active {
+        z-index: 1;
+      }
+
+      &:first-child {
+        border-radius: $input-border-radius-lg $input-border-radius-lg 0 0;
+      }
+
+      &:last-child {
+        border-radius: 0 0 $input-border-radius-lg $input-border-radius-lg;
+      }
+
+      + .list-item {
+        margin-top: -1px;
+      }
+    }
+
+    .icons-arrow-forward {
+      color: $gray-light;
+    }
+  }
 }

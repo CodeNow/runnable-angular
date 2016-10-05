@@ -1,9 +1,68 @@
 nav.grid-block.shrink.align-center.justify-center.well.margin-sm.nav
   ol.grid-block
-    li.grid-block.align-center.justify-center.small.text-gray.li.padding-xxs.active Create
+    //- this ng-click is for testing only
+    li.grid-block.align-center.justify-center.small.text-gray.li.padding-xxs.active(
+      ng-click = "goToPanel('createOrg', 'back')"
+    ) Create
     li.grid-block.align-center.justify-center.small.text-gray.li.padding-xxs.active Authorize
     li.grid-block.align-center.justify-center.small.text-gray.li.padding-xxs.active Fork
 
-.grid-block.vertical.align-center.padding-lg.padding-top-md.text-center
-  h1.h1 Choose one.
-  p.margin-top-sm.p.weight-light We’ll use your new GitHub organization to create your demo app.
+.grid-block.vertical.align-center.padding-sm.padding-top-md.text-center
+  h1.h1 Choose your stack.
+  p.margin-top-sm.p.weight-light We’ll fork demo repos into your new organization to get started.
+  ol.grid-block.vertical.margin-top-md.list.list-stack-type
+    li.grid-block.shrink.align-center.list-item.btn.white
+      img.grid-content.shrink(
+        height = "30"
+        src = "/build/images/logos/logo-icon-nodejs.svg"
+        width = "30"
+      )
+      span.grid-content.text-left.text-overflow node.js
+      svg.grid-content.iconnables.icons-arrow-forward.shrink
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+    li.grid-block.shrink.align-center.list-item.btn.white
+      img.grid-content.shrink(
+        height = "30"
+        src = "/build/images/logos/logo-icon-python.svg"
+        width = "30"
+      )
+      span.grid-content.text-left.text-overflow Python
+      svg.grid-content.iconnables.icons-arrow-forward.shrink
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+    li.grid-block.shrink.align-center.list-item.btn.white
+      img.grid-content.shrink(
+        height = "30"
+        src = "/build/images/logos/logo-icon-ruby.svg"
+        width = "30"
+      )
+      span.grid-content.text-left.text-overflow Ruby
+      svg.grid-content.iconnables.icons-arrow-forward.shrink
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+    li.grid-block.shrink.align-center.list-item.btn.white
+      img.grid-content.shrink(
+        height = "30"
+        src = "/build/images/logos/logo-icon-rails.svg"
+        width = "30"
+      )
+      span.grid-content.text-left.text-overflow Rails
+      svg.grid-content.iconnables.icons-arrow-forward.shrink
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+    li.grid-block.shrink.align-center.list-item.btn.white
+      img.grid-content.shrink(
+        height = "30"
+        src = "/build/images/logos/logo-icon-go.svg"
+        width = "30"
+      )
+      span.grid-content.text-left.text-overflow Go
+      svg.grid-content.iconnables.icons-arrow-forward.shrink
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
