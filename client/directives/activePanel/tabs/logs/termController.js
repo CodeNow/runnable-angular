@@ -14,7 +14,7 @@ function TermController(
 ) {
 
   var termOnFn;
-  var terminalId = keypather.get($scope,' tabItem.attrs.terminalId');
+  var terminalId = keypather.get($scope, 'tabItem.attrs.terminalId');
   var watchOnlyOnce = new WatchOnlyOnce($scope);
   $scope.termOpts = {
     hideCursor: false,
