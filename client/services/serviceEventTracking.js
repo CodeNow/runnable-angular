@@ -551,14 +551,17 @@ function EventTracking(
         var hasAnyOrgCompletedAha = !!orgs && orgs.some(function (org) {
           return !keypather.get(org, 'metadata.hasAha');
         });
-
-        ETS._mixpanel('people.set', {
+        var updates = {
+          'bigPoppaId': keypather.get(userJSON, 'bigPoppaUser.id'),
+          'userName': keypather.get(userJSON, 'accounts.github.username'),
+          'email': keypather.get(userJSON, 'email'),
           'FurthestStep': currentStep,
           'CurrentOrg': keypather.get(currentOrg, 'poppa.attrs.name'),
           'NumberOfOrgsWithGrantedAccess': keypather.get(grantedOrgs, 'models.length'),
-          'NumberOfOrgs': keypather.get(userJSON, 'bigPoppaUser.organizations.length'),
+          'NumberOfOrgs': keypather.get(userJSON, 'bigPoppaUser.organizations.length') || 0,
           'HasAnyOrgCompletedAha': hasAnyOrgCompletedAha
-        });
+        };
+        ETS._mixpanel('people.set', updates);
       });
   };
 
