@@ -40,8 +40,8 @@
           xlink:href = "#icons-link-external-alt"
         )
     a.grid-block.shrink.margin-top-sm.btn.btn-xs.text-gray.btn-skip(
-      ng-if = "$root.featureFlags.demoProject"
-    ) Skip, and create a new org
+      ng-if = "$root.featureFlags.demoProject && !$root.isLoading.grantAccess"
+    ) Skip and create a new org
       svg.iconnables.icons-arrow-forward
         use(
           xlink:href = "#icons-arrow-down"
