@@ -7,17 +7,17 @@
   .grid-block.vertical.align-center.padding-lg.padding-bottom-sm.text-center
     //- when no orgs exist
     h1.h1(
-      ng-if = "COMC.allAccounts.models.length === 0"
+      ng-if = "COMC.allAccounts.models.length === 0 || $root.featureFlags.demoProject"
     ) Welcome aboard!
     p.margin-top-sm.p.weight-light(
-      ng-if = "COMC.allAccounts.models.length === 0"
+      ng-if = "COMC.allAccounts.models.length === 0 || $root.featureFlags.demoProject"
     ) Next, we’ll need access to your organization on GitHub.
     //- when orgs exist
     h1.h1(
-      ng-if = "COMC.allAccounts.models.length > 0"
+      ng-if = "COMC.allAccounts.models.length > 0 && !$root.featureFlags.demoProject"
     ) Almost there!
     p.margin-top-sm.p.weight-light(
-      ng-if = "COMC.allAccounts.models.length > 0"
+      ng-if = "COMC.allAccounts.models.length > 0 && !$root.featureFlags.demoProject"
     ) To use your organization in Runnable, you’ll need to grant access to it on GitHub.
 
     //- hide after clicked
@@ -39,6 +39,13 @@
         use(
           xlink:href = "#icons-link-external-alt"
         )
+    a.grid-block.shrink.margin-top-sm.btn.btn-xs.text-gray.btn-skip(
+      ng-if = "$root.featureFlags.demoProject"
+    ) Skip, and create a new org
+      svg.iconnables.icons-arrow-forward
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
 
     //- show after user clicks "grant access"
     .well.gray.align-center.small.padding-xs.margin-top-md(
@@ -52,10 +59,12 @@
       | .
     button.grid-block.align-center.shrink.btn.btn-md.btn-cancel.gray.margin-top-sm(
       ng-click = "COMC.showGrantAccess = false"
-      ng-if = "COMC.allAccounts.models.length > 0"
+      ng-if = "COMC.allAccounts.models.length > 0 && !$root.featureFlags.demoProject"
     ) Cancel
 
-  footer.grid-block.shrink.align-center.vertical.footer.padding-bottom-lg
+  footer.grid-block.shrink.align-center.vertical.footer.padding-bottom-lg(
+    ng-if = "!$root.featureFlags.demoProject"
+  )
     a.small.link.text-gray(
       ng-click = "COMC.actions.trackPersonalAccount()"
       href = "https://support.runnable.com/hc/en-us/articles/213363706"

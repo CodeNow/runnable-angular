@@ -129,6 +129,18 @@
     width: 18px;
   }
 
+  .btn-skip {
+
+    &:hover .iconnables,
+    &:active .iconnables {
+      transform: rotate(-90deg) translate3d(0,2px,0);
+    }
+
+    .iconnables {
+      width: 18px;
+    }
+  }
+
   .footer .icons-link-external {
     height: 9px;
     top: 1px;
