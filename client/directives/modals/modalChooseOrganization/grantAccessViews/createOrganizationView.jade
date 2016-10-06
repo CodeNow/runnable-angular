@@ -7,21 +7,14 @@ nav.grid-block.shrink.align-center.justify-center.margin-sm.nav
       ng-click = "goToPanel('stackType')"
     ) 3
 
-.grid-block.vertical.align-center.padding-sm.padding-top-md.text-center(
-  ng-init = "state.clickedCreate = null"
-)
+.grid-block.vertical.align-center.padding-sm.padding-top-md.text-center
   h1.h1 Create a demo organization.
   p.margin-top-sm.p.weight-light We’ll use your new GitHub organization to create your demo app.
 
   //- hide after clicked
   a.grid-block.align-center.justify-center.shrink.btn.btn-md.green.margin-top-md(
-    href = "https://github.com/organizations/new"
-    ng-click = "\
-      COMC.createOrg();\
-      state.clickedCreate = true;\
-    "
-    ng-if = "!state.clickedCreate"
-    target = "_blank"
+    ng-click = "COMC.createOrg();"
+    ng-if = "!COMC.creatingOrg"
   )
     svg.iconnables.margin-right-xxs(
       ng-if = "!$root.isLoading.grantAccess"
@@ -37,15 +30,15 @@ nav.grid-block.shrink.align-center.justify-center.margin-sm.nav
 
   //- show after user clicks "create org"
   .grid-block.shrink.vertical.well.gray.align-center.padding-xs.margin-top-md(
-    ng-if = "state.clickedCreate"
+    ng-if = "COMC.creatingOrg"
   )
     .grid-block.shrink.small Were you able to successfully create an organization?
     a.grid-block.shrink.btn.btn-sm.green.margin-top-xs(
-      href = "https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9"
       ng-click = "COMC.grantAccess()"
-      target = "_blank"
     ) Yes, I created one!
-    a.grid-block.shrink.margin-top-xs.link.small No, let’s retry.
+    a.grid-block.shrink.margin-top-xs.link.small(
+      ng-click = "COMC.createOrg();"
+    ) No, let’s retry.
       svg.iconnables.icons-link-external.text-white
         use(
           xlink:href = "#icons-link-external-alt"
