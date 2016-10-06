@@ -1,11 +1,21 @@
-nav.grid-block.shrink.align-center.justify-center.well.margin-sm.nav
-  ol.grid-block
-    //- this ng-click is for testing only
-    li.grid-block.align-center.justify-center.small.text-gray.li.padding-xxs.active(
+nav.grid-block.shrink.align-center.justify-center.margin-sm.nav
+  ol.grid-block.justify-center
+    li.grid-block.align-center.justify-center.li.weight-strong.active(
       ng-click = "goToPanel('createOrg', 'back')"
-    ) Create
-    li.grid-block.align-center.justify-center.small.text-gray.li.padding-xxs.active Authorize
-    li.grid-block.align-center.justify-center.small.text-gray.li.padding-xxs.active Fork
+    )
+      svg.iconnables
+        use(
+          xlink:href = "#icons-check"
+        )
+    li.grid-block.align-center.justify-center.li.weight-strong.active
+      svg.iconnables
+        use(
+          xlink:href = "#icons-check"
+        )
+    //- this ng-click is for testing only
+    li.grid-block.align-center.justify-center.li.weight-strong.active(
+      ng-click = "goToPanel('stackType')"
+    ) 3
 
 .grid-block.vertical.align-center.padding-sm.padding-top-md.text-center
   h1.h1 Choose your stack.

@@ -70,6 +70,7 @@
 
   .grant-access-view {
     flex: 0 0 330px;
+    overflow: hidden;
 
     @include media(sm) {
       flex: 0 0 auto;
@@ -155,37 +156,24 @@
   }
 
   .nav {
-    border: 1px solid $gray-lighter;
-    border-radius: $input-border-radius-lg;
+    position: relative;
 
-    .li.active {
-      background: $white;
-      overflow: visible;
-      position: relative;
+    .li {
+      background: $gray-lighter;
+      border: 1px solid transparent;
+      border-radius: 50%;
+      color: $white;
+      flex: 0 0 $input-xs;
+      height: $input-xs;
+      z-index: 1;
 
-      &::before,
-      &::after {
-        content: '';
-        display: block;
-        position: absolute;
-        right: -18px;
-        top: 0;
+      &.active {
+        background: $green;
+        border-color: darken($green,5%);
       }
 
-      &::before {
-        border-bottom: 18px solid transparent;
-        border-left: 12px solid $gray-lighter;
-        border-top: 18px solid transparent;
-        right: -12px;
-        z-index: 1;
-      }
-
-      &::after {
-        border-bottom: 18px solid transparent;
-        border-left: 12px solid $white;
-        border-top: 18px solid transparent;
-        right: -11px;
-        z-index: 2;
+      + .li {
+        margin-left: 15px;
       }
     }
   }

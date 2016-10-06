@@ -1,13 +1,15 @@
-nav.grid-block.shrink.align-center.justify-center.well.margin-sm.nav
-  ol.grid-block
-    li.grid-block.align-center.justify-center.small.text-gray.li.padding-xxs.active Create
-    li.grid-block.align-center.justify-center.small.text-gray.li.padding-xxs Authorize
+nav.grid-block.shrink.align-center.justify-center.margin-sm.nav
+  ol.grid-block.justify-center
+    li.grid-block.align-center.justify-center.li.weight-strong.active 1
+    li.grid-block.align-center.justify-center.li.weight-strong 2
     //- this ng-click is for testing only
-    li.grid-block.align-center.justify-center.small.text-gray.li.padding-xxs(
+    li.grid-block.align-center.justify-center.li.weight-strong(
       ng-click = "goToPanel('stackType')"
-    ) Fork
+    ) 3
 
-.grid-block.vertical.align-center.padding-sm.padding-top-md.text-center
+.grid-block.vertical.align-center.padding-sm.padding-top-md.text-center(
+  ng-init = "state.clickedCreate = null"
+)
   h1.h1 Create a demo organization.
   p.margin-top-sm.p.weight-light We’ll use your new GitHub organization to create your demo app.
 
@@ -15,6 +17,7 @@ nav.grid-block.shrink.align-center.justify-center.well.margin-sm.nav
   a.grid-block.align-center.justify-center.shrink.btn.btn-md.green.margin-top-md(
     href = "https://github.com/organizations/new"
     ng-click = "state.clickedCreate = true"
+    ng-if = "!state.clickedCreate"
     target = "_blank"
   )
     svg.iconnables.margin-right-xxs(
