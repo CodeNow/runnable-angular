@@ -106,6 +106,21 @@
 
   .well {
     background: $gray-lightest;
+
+    .icons-github-listening {
+      color: $gray-light;
+      display: block;
+      height: 45px;
+      margin: 0 auto $xxs;
+      width: 45px;
+    }
+
+    .icons-sync {
+      height: 12px;
+      margin-right: 3px;
+      top: 2px;
+      width: 12px;
+    }
   }
 
   .figure {
