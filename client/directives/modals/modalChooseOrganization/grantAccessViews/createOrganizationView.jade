@@ -32,16 +32,18 @@ nav.grid-block.shrink.align-center.justify-center.margin-sm.nav
         xlink:href = "#icons-link-external-alt"
       )
 
-  .well.gray.align-center.small.padding-xs.margin-top-md(
+  //- show after user clicks "create org"
+  .grid-block.shrink.vertical.well.gray.align-center.padding-xs.margin-top-md(
     ng-if = "state.clickedCreate"
-  ) Continue if you’ve successfully created an org&#32;
-    a.link(
+  )
+    .grid-block.shrink.small Were you able to successfully create an organization?
+    a.grid-block.shrink.btn.btn-sm.green.margin-top-xs(
       href = "https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9"
       ng-click = "COMC.grantAccess()"
       target = "_blank"
-    ) on GitHub
-    | .
-    button.grid-block.align-center.shrink.btn.btn-md.btn-cancel.gray.margin-top-sm(
-      ng-if = "state.clickedCreate"
-    ) I created an org!
-    a.link I need some help.
+    ) Yes, I created one!
+    a.grid-block.shrink.margin-top-xs.link.small No, let’s retry.
+      svg.iconnables.icons-link-external.text-white
+        use(
+          xlink:href = "#icons-link-external-alt"
+        )
