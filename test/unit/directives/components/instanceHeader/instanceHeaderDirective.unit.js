@@ -8,6 +8,7 @@ var isRunnabotPartOfOrgStub;
 var keypather;
 var $q;
 var $elScope;
+var ahaGuideStub;
 var readOnlySwitchController;
 var apiMocks = require('./../../../apiMocks/index');
 
@@ -43,6 +44,14 @@ describe('instanceHeaderDirective'.bold.underline.blue, function () {
         };
       });
       $provide.value('errs', ctx.errsMock);
+      $provide.factory('ahaGuide', function ($q) {
+        ahaGuideStub = {
+          isInGuide: sinon.stub(),
+          isAddingFirstBranch: sinon.stub(),
+          isSettingUpRunnabot: sinon.stub()
+        };
+        return ahaGuideStub;
+      });
       $provide.factory('fetchPullRequest', function ($q) {
         mockFetchPr = sinon.stub().returns($q.when(ctx.fetchPullRequestMock));
         return mockFetchPr;

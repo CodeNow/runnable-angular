@@ -230,7 +230,7 @@ describe('serviceFetchDockerfile'.bold.underline.blue, function () {
             {
               commit: {
                 committer: {
-                  date: moment().subtract(1, 'month').format()
+                  date: moment().subtract(1, 'months').toISOString()
                 }
               }
             }
@@ -261,7 +261,7 @@ describe('serviceFetchDockerfile'.bold.underline.blue, function () {
             branch: 'testBranch'
           }
         }),
-        fetchFile: sinon.stub().returns(function () {return true}),
+        fetchFile: sinon.stub().returns(function () { return true }),
         newFile: sinon.stub().returns(true)
       };
     });
