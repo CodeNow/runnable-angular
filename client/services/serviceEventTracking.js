@@ -576,14 +576,21 @@ function EventTracking(
         var hasAnyOrgCompletedAha = !!orgs && orgs.some(function (org) {
           return !keypather.get(org, 'metadata.hasAha');
         });
+        var bigPoppaUserId = keypather.get(userJSON, 'bigPoppaUser.id');
+        var organizations = keypather.get(userJSON, 'bigPoppaUser.organizations');
+        var orgsWhereUserIsCreator = Array.isArray(organizations) && organizations.filter(function (x) {
+          return x.creator === bigPoppaUserId;
+        });
         var updates = {
-          'bigPoppaId': keypather.get(userJSON, 'bigPoppaUser.id'),
+          'bigPoppaId': bigPoppaUserId,
           'userName': keypather.get(userJSON, 'accounts.github.username'),
           'email': keypather.get(userJSON, 'email'),
           'FurthestStep': currentStep,
           'CurrentOrg': keypather.get(currentOrg, 'poppa.attrs.name'),
           'NumberOfOrgsWithGrantedAccess': keypather.get(grantedOrgs, 'models.length'),
-          'NumberOfOrgs': keypather.get(userJSON, 'bigPoppaUser.organizations.length') || 0,
+          'NumberOfOrgs': keypather.get(organizations, 'length') || 0,
+          'NumberOfOrgsWhereCreator': keypather.get(orgsWhereUserIsCreator, 'length') || 0,
+          'IsCreatorOfCurrentOrg': bigPoppaUserId === keypather.get(currentOrg, 'poppa.attrs.creator'),
           'HasAnyOrgCompletedAha': hasAnyOrgCompletedAha
         };
         ETS._mixpanel('people.set', updates);
