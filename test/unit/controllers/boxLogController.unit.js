@@ -110,7 +110,6 @@ describe('BoxLogController'.bold.underline.blue, function () {
       var term = mockPrimus.createBuildStream();
       expect($scope.connectStreams, 'connectStreams').to.be.ok;
       $scope.connectStreams(term);
-      sinon.assert.calledWith(ctx.streamCleanserMock, 'hex');
       sinon.assert.calledWith(ctx.streamBuffer.setEncoding, 'utf8');
       sinon.assert.calledOnce(ctx.streamBuffer.pipe);
     });
@@ -122,7 +121,6 @@ describe('BoxLogController'.bold.underline.blue, function () {
       expect($scope.connectStreams, 'connectStreams').to.be.ok;
       $scope.connectStreams(term);
       $rootScope.$digest();
-      sinon.assert.calledWith(ctx.streamCleanserMock, 'hex');
       sinon.assert.calledOnce(ctx.streamBuffer.pipe);
       sinon.assert.calledWith(ctx.streamBuffer.setEncoding, 'utf8');
       stream.write('Hello');
