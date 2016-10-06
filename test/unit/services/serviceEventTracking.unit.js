@@ -49,6 +49,7 @@ describe('serviceEventTracking'.bold.underline.blue, function () {
         currentOrgMock = {
           poppa: {
             attrs: {
+              creator: 9878,
               name: currentOrgName
             }
           }
@@ -133,8 +134,10 @@ describe('serviceEventTracking'.bold.underline.blue, function () {
         'email': email,
         'FurthestStep': step,
         'CurrentOrg': currentOrgName,
-        'NumberOfOrgsWithGrantedAccess': grantedOrgs.length,
+        'IsCreatorOfCurrentOrg': false,
         'NumberOfOrgs': bigPoppaUser.organizations.length,
+        'NumberOfOrgsWithGrantedAccess': grantedOrgs.length,
+        'NumberOfOrgsWhereCreator': 0,
         'HasAnyOrgCompletedAha': sinon.match.bool
       });
     });
@@ -151,8 +154,10 @@ describe('serviceEventTracking'.bold.underline.blue, function () {
         'email': email,
         'FurthestStep': step,
         'CurrentOrg': currentOrgName,
-        'NumberOfOrgsWithGrantedAccess': grantedOrgs.length,
+        'IsCreatorOfCurrentOrg': false,
         'NumberOfOrgs': bigPoppaUser.organizations.length,
+        'NumberOfOrgsWithGrantedAccess': grantedOrgs.length,
+        'NumberOfOrgsWhereCreator': 0,
         'HasAnyOrgCompletedAha': true
       });
     });
@@ -169,11 +174,12 @@ describe('serviceEventTracking'.bold.underline.blue, function () {
         'email': email,
         'FurthestStep': step,
         'CurrentOrg': currentOrgName,
-        'NumberOfOrgsWithGrantedAccess': grantedOrgs.length,
+        'IsCreatorOfCurrentOrg': false,
         'NumberOfOrgs': bigPoppaUser.organizations.length,
+        'NumberOfOrgsWithGrantedAccess': grantedOrgs.length,
+        'NumberOfOrgsWhereCreator': 0,
         'HasAnyOrgCompletedAha': false
       });
-
     });
   });
 });
