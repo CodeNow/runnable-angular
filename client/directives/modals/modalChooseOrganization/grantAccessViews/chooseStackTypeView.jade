@@ -21,18 +21,29 @@ nav.grid-block.shrink.align-center.justify-center.margin-sm.nav
   h1.h1 Choose your stack.
   p.margin-top-sm.p.weight-light We’ll fork demo repos into your new organization to get started.
   ol.grid-block.vertical.margin-top-md.list.list-stack-type
-    li.grid-block.shrink.align-center.list-item.btn.white
+    li.grid-block.shrink.align-center.list-item.btn.white(
+      ng-class = "{'disabled': state.loading}"
+      ng-click = "state.loading = !state.loading"
+    )
       img.grid-content.shrink(
         height = "30"
         src = "/build/images/logos/logo-icon-nodejs.svg"
         width = "30"
       )
       span.grid-content.text-left.text-overflow node.js
-      svg.grid-content.iconnables.icons-arrow-forward.shrink
+      svg.grid-content.iconnables.icons-arrow-forward.shrink(
+        ng-if = "!state.loading"
+      )
         use(
           xlink:href = "#icons-arrow-down"
         )
-    li.grid-block.shrink.align-center.list-item.btn.white
+      .spinner-wrapper.spinner-sm.spinner-gray(
+        ng-if = "state.loading"
+        ng-include = "'spinner'"
+      )
+    li.grid-block.shrink.align-center.list-item.btn.white(
+      ng-class = "{'disabled': state.loading}"
+    )
       img.grid-content.shrink(
         height = "30"
         src = "/build/images/logos/logo-icon-python.svg"
@@ -43,7 +54,9 @@ nav.grid-block.shrink.align-center.justify-center.margin-sm.nav
         use(
           xlink:href = "#icons-arrow-down"
         )
-    li.grid-block.shrink.align-center.list-item.btn.white
+    li.grid-block.shrink.align-center.list-item.btn.white(
+      ng-class = "{'disabled': state.loading}"
+    )
       img.grid-content.shrink(
         height = "30"
         src = "/build/images/logos/logo-icon-ruby.svg"
@@ -54,7 +67,9 @@ nav.grid-block.shrink.align-center.justify-center.margin-sm.nav
         use(
           xlink:href = "#icons-arrow-down"
         )
-    li.grid-block.shrink.align-center.list-item.btn.white
+    li.grid-block.shrink.align-center.list-item.btn.white(
+      ng-class = "{'disabled': state.loading}"
+    )
       img.grid-content.shrink(
         height = "30"
         src = "/build/images/logos/logo-icon-rails.svg"
@@ -65,7 +80,9 @@ nav.grid-block.shrink.align-center.justify-center.margin-sm.nav
         use(
           xlink:href = "#icons-arrow-down"
         )
-    li.grid-block.shrink.align-center.list-item.btn.white
+    li.grid-block.shrink.align-center.list-item.btn.white(
+      ng-class = "{'disabled': state.loading}"
+    )
       img.grid-content.shrink(
         height = "30"
         src = "/build/images/logos/logo-icon-go.svg"

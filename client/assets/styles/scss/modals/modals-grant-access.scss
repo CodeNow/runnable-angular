@@ -176,6 +176,7 @@
     width: 18px;
   }
 
+  // progress for demo org
   .nav {
     position: relative;
 
@@ -199,6 +200,7 @@
     }
   }
 
+  // stack type list
   .list-stack-type {
     width: 100%;
 
@@ -207,8 +209,23 @@
       height: 60px;
 
       &:hover,
-      &:active {
+      &:active,
+      &.active {
         z-index: 1;
+      }
+
+      &.active {
+        cursor: not-allowed;
+      }
+
+      &.disabled,
+      &.disabled:hover,
+      &.disabled:active {
+        background: $white;
+        border-color: $gray-lighter;
+        color: $gray;
+        cursor: not-allowed;
+        z-index: 0;
       }
 
       &:first-child {
@@ -225,7 +242,11 @@
     }
 
     .icons-arrow-forward {
-      color: $gray-light;
+      opacity: .3;
+    }
+
+    .spinner-wrapper {
+      width: 24px;
     }
   }
 }
