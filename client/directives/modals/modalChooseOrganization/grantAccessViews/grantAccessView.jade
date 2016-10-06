@@ -55,11 +55,12 @@
       ng-click = "COMC.grantAccess()"
       target = "_blank"
     )
-      svg.iconnables.icons-sync
+      svg.iconnables.icons-github
         use(
-          xlink:href = "#icons-sync-alt"
+          xlink:href = "#icons-octicons-github"
         )
-      | Retry
+      | Grant Access…
+
   button.grid-block.align-center.shrink.btn.btn-md.btn-cancel.gray.margin-top-sm(
     ng-click = "COMC.showGrantAccess = false"
     ng-if = "COMC.allAccounts.models.length > 0 && !$root.featureFlags.demoProject"

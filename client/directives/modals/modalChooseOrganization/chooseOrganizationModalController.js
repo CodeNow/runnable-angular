@@ -68,6 +68,11 @@ function ChooseOrganizationModalController(
     }, 1000 * 5);
   };
 
+  COMC.createOrg = function () {
+    var connectionUrl = 'https://github.com/organizations/new';
+    customWindowService(connectionUrl);
+  };
+
   $scope.$on('$destroy', function () {
     COMC.cancelPollingForWhitelisted();
     COMC.cancelPollingForDockCreated();

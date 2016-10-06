@@ -16,7 +16,10 @@ nav.grid-block.shrink.align-center.justify-center.margin-sm.nav
   //- hide after clicked
   a.grid-block.align-center.justify-center.shrink.btn.btn-md.green.margin-top-md(
     href = "https://github.com/organizations/new"
-    ng-click = "state.clickedCreate = true"
+    ng-click = "\
+      COMC.createOrg();\
+      state.clickedCreate = true;\
+    "
     ng-if = "!state.clickedCreate"
     target = "_blank"
   )
