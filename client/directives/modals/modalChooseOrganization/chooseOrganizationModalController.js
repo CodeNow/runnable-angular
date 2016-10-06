@@ -8,7 +8,9 @@ function ChooseOrganizationModalController(
   $scope,
   $state,
   ahaGuide,
+  configEnvironment,
   createNewSandboxForUserService,
+  customWindowService,
   errs,
   eventTracking,
   featureFlags,
@@ -46,6 +48,11 @@ function ChooseOrganizationModalController(
   };
 
   COMC.grantAccess = function () {
+    var connectionUrl = 'https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9';
+    if (configEnvironment === 'development') {
+      connectionUrl = 'https://github.com/settings/applications';
+    }
+    customWindowService(connectionUrl);
     loading.reset('grantAccess');
     loading('grantAccess', true);
     COMC.cancelPollingForWhitelisted();

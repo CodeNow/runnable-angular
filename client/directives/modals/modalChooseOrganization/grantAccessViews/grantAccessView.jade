@@ -22,9 +22,7 @@
     ng-if = "!$root.isLoading.grantAccess"
     target = "_blank"
   )
-    svg.iconnables.margin-right-xxs(
-      ng-if = "!$root.isLoading.grantAccess"
-    )
+    svg.iconnables.margin-right-xxs
       use(
         xlink:href = "#icons-octicons-github"
       )
@@ -58,7 +56,7 @@
   ) Cancel
 
 footer.grid-block.shrink.align-center.vertical.footer.padding-bottom-lg(
-  ng-if = "!$root.featureFlags.demoProject"
+  ng-if = "COMC.allAccounts.models.length > 0 && !$root.featureFlags.demoProject"
 )
   a.small.link.text-gray(
     ng-click = "COMC.actions.trackPersonalAccount()"
@@ -69,3 +67,17 @@ footer.grid-block.shrink.align-center.vertical.footer.padding-bottom-lg(
       use(
         xlink:href = "#icons-link-external-alt"
       )
+
+footer.grid-block.shrink.align-center.vertical.footer.padding-bottom-lg(
+    ng-if = "COMC.allAccounts.models.length === 0"
+  )
+    | Don’t have an org?&#32;
+    a.link(
+      ng-click = "COMC.actions.trackCreateOrgLink()"
+      href = "https://github.com/organizations/new"
+      target = "_blank"
+    ) Create one free on GitHub.
+      svg.iconnables.icons-link-external.text-gray
+        use(
+          xlink:href = "#icons-link-external-alt"
+        )

@@ -16,12 +16,21 @@ describe('serviceEventTracking'.bold.underline.blue, function () {
   var currentOrgMock;
   var currentOrgName = 'Runnable';
   var grantedOrgs = [{}, {}, {}];
-  var bigPoppaUser = { organizations: [{}, {}] };
+  var bigPoppaId = 23423;
+  var email = 'jorge@runnable.com';
+  var userName = 'thejsj';
+  var bigPoppaUser = { id: bigPoppaId, organizations: [{}, {}] };
 
   beforeEach(function () {
     userMock = {
       toJSON: sinon.stub().returns({
-        bigPoppaUser: bigPoppaUser
+        bigPoppaUser: bigPoppaUser,
+        email: email,
+        accounts: {
+          github: {
+            username: userName
+          }
+        }
       })
     };
     orgsMock = {
@@ -103,9 +112,7 @@ describe('serviceEventTracking'.bold.underline.blue, function () {
 
   describe('updateCurrentPersonProfile', function () {
     var step = 1;
-    beforeEach(function () {
 
-    });
     it('should fetch the user', function () {
       eventTracking.updateCurrentPersonProfile(step);
       sinon.assert.calledOnce(fetchUserStub);
@@ -121,6 +128,9 @@ describe('serviceEventTracking'.bold.underline.blue, function () {
       $rootScope.$digest();
       sinon.assert.calledOnce(eventTracking._mixpanel);
       sinon.assert.calledWithExactly(eventTracking._mixpanel, 'people.set', {
+        'bigPoppaId': bigPoppaId,
+        'userName': userName,
+        'email': email,
         'FurthestStep': step,
         'CurrentOrg': currentOrgName,
         'NumberOfOrgsWithGrantedAccess': grantedOrgs.length,
@@ -136,6 +146,9 @@ describe('serviceEventTracking'.bold.underline.blue, function () {
       $rootScope.$digest();
       sinon.assert.calledOnce(eventTracking._mixpanel);
       sinon.assert.calledWithExactly(eventTracking._mixpanel, 'people.set', {
+        'bigPoppaId': bigPoppaId,
+        'userName': userName,
+        'email': email,
         'FurthestStep': step,
         'CurrentOrg': currentOrgName,
         'NumberOfOrgsWithGrantedAccess': grantedOrgs.length,
@@ -151,6 +164,9 @@ describe('serviceEventTracking'.bold.underline.blue, function () {
       $rootScope.$digest();
       sinon.assert.calledOnce(eventTracking._mixpanel);
       sinon.assert.calledWithExactly(eventTracking._mixpanel, 'people.set', {
+        'bigPoppaId': bigPoppaId,
+        'userName': userName,
+        'email': email,
         'FurthestStep': step,
         'CurrentOrg': currentOrgName,
         'NumberOfOrgsWithGrantedAccess': grantedOrgs.length,
