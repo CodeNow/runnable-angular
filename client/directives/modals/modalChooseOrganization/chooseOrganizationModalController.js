@@ -48,11 +48,9 @@ function ChooseOrganizationModalController(
   };
 
   COMC.grantAccess = function () {
-    var connectionUrl = 'https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9';
-    if (configEnvironment === 'development') {
-      connectionUrl = 'https://github.com/settings/applications';
-    }
-    customWindowService(connectionUrl);
+    // var customWindow = customWindowService('/githubAuth');
+    // console.log(customWindow);
+
     loading.reset('grantAccess');
     loading('grantAccess', true);
     COMC.cancelPollingForWhitelisted();
@@ -66,6 +64,14 @@ function ChooseOrganizationModalController(
           }
         });
     }, 1000 * 5);
+
+    var topBar = window.outerHeight - window.innerHeight;
+    var padding = 30;
+    var width = 770;
+    var height = 730;
+    var top = window.screenTop + padding + topBar;
+    var left = (window.screen.width/2) - (width/2);
+    return window.open('/githubAuth', 'page', 'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=0,width=' + width + ',height=' + height + ',left=' + left + ',top=' + top + ',titlebar=yes');
   };
 
   COMC.creatingOrg = false;

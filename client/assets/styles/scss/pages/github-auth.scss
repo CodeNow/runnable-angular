@@ -1,13 +1,27 @@
 .layout-github {
   background: $gray-lighterest;
+  height: 100vh;
+  min-height: 510px;
+  overflow: hidden;
+
+  .header {
+    @media (max-height: 520px) {
+      margin-top: 30px;
+    }
+  }
 
   .p {
     max-width: 360px;
+
+    @include media(xxs) {
+      max-width: 290px;
+    }
   }
 
   .figure {
     border: 1px solid $gray-lighter;
-    border-radius: $input-border-radius-lg;
+    border-bottom: 0;
+    border-radius: $input-border-radius-lg $input-border-radius-lg 0 0;
     flex: 0 0 auto;
     margin: 0 auto;
     max-height: 462px;
@@ -16,6 +30,19 @@
     position: relative;
     user-select: none;
     z-index: 1; // for border clipping
+
+    @include media(sm) {
+      height: 462px;
+      width: 510px;
+    }
+
+    @media (max-width: 540px) {
+      border-left: 0;
+      border-radius: 0;
+      border-right: 0;
+      height: 462px;
+      width: 100vw;
+    }
 
     &::after {
       animation: scrollbarIn 2.5s 1s 1 forwards;
@@ -36,6 +63,11 @@
     animation: figureIn 2s 1s 1 forwards;
     height: auto;
     width: 660px;
+
+    @include media(sm) {
+      position: absolute;
+      right: 0;
+    }
   }
 
   .cursor {
@@ -50,9 +82,21 @@
     width: 45px;
   }
 
-  .icons-arrow-next {
-    margin-left: 6px;
-    transform: rotate3d(0,0,1,180deg);
+  .footer {
+    background: $gray-lighterest;
+    border-top: 1px solid $gray-lighter;
+    height: 73px;
+    width: 720px;
+    z-index: 1;
+
+    @media (max-height: 695px) {
+      bottom: 0;
+      position: fixed;
+    }
+
+    @include media(sm) {
+      width: 570px;
+    }
   }
 }
 

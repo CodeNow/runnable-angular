@@ -1,17 +1,17 @@
-.grid-block.justify-center.vertical.layout-main.layout-github
-  header.grid-block.vertical.justify-center.align-center.shrink.padding-xs.header
+main.grid-block.vertical.align-center.layout-github
+  header.grid-block.vertical.justify-center.align-center.shrink.header.margin-top-lg.margin-bottom-sm
     h1.p.text-center.weight-strong Grant Access
-    p.p.text-center.weight-light.margin-top-xxs.margin-bottom-sm We‘ll need some GitHub permissions to run your app. You may have to scroll down.
+    p.p.text-center.weight-light.margin-top-xxs.margin-bottom-xs We‘ll need some GitHub permissions to run your app. You may have to scroll down.
   figure.figure
     img.grid-block.img(
       src = "/build/images/github-permissions-lg.svg"
     )
     .cursor
-  footer.grid-block.justify-center.shrink.padding-xs.footer.margin-top-xs
-    a.grid-block.shrink.align-center.btn.btn-lg.green(
-      href = "#"
-    ) I got it! Take me to GitHub.
-      svg.iconnables.icons-arrow-next
+  footer.grid-block.shrink.justify-center.align-center.padding-sm.footer
+    a.grid-block.shrink.align-center.btn.btn-md.green(
+      href = "https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9"
+    ) Got it! Take me to GitHub
+      svg.iconnables.icons-arrow-forward
         use(
-          xlink:href = "#icons-arrow-back"
+          xlink:href = "#icons-arrow-down"
         )

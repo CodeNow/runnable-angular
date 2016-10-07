@@ -1,9 +1,9 @@
 'use strict';
 
 require('app')
-  .controller('GitHubAuthController', GitHubAuthController);
+  .controller('GithubAuthController', GithubAuthController);
 
-function GitHubAuthController(
+function GithubAuthController(
   $rootScope,
   keypather
 ) {
