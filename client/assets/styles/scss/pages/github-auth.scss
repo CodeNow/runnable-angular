@@ -1,13 +1,19 @@
 .layout-github {
   background: $gray-lighterest;
+  min-height: 100vh;
 
   .p {
     max-width: 360px;
   }
 
+  .figure-wrapper {
+    position: relative;
+  }
+
   .figure {
     border: 1px solid $gray-lighter;
-    border-radius: $input-border-radius-lg;
+    border-bottom: 0;
+    border-radius: $input-border-radius-lg $input-border-radius-lg 0 0;
     flex: 0 0 auto;
     margin: 0 auto;
     max-height: 462px;
@@ -50,9 +56,14 @@
     width: 45px;
   }
 
-  .icons-arrow-next {
-    margin-left: 6px;
-    transform: rotate3d(0,0,1,180deg);
+  .footer {
+    background: $gray-lighterest;
+    border-top: 1px solid $gray-lighter;
+    bottom: -73px;
+    height: 73px;
+    position: absolute;
+    width: 720px;
+    z-index: 1;
   }
 }
 
