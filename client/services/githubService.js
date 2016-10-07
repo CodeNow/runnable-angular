@@ -3,18 +3,32 @@
 require('app')
   .factory('github', github);
 
-function github(fetchUser, $http) {
+function github(
+  $http,
+  $q,
+  fetchUser,
+  keypather
+) {
   var githubAPIUrl = 'https://api.github.com';
   function makeGhRequest(options) {
     return fetchUser()
       .then(function (user) {
-        var ghToken = user.attrs.bigPoppaUser.accessToken;
+        var ghToken = keypather.get(user, 'attrs.bigPoppaUser.accessToken');
+        if (!ghToken) {
+          return $q.reject('Unable to get your access token to github. Please reload the page.');
+        }
         options.params = options.params || {};
         options.params.access_token = ghToken;
         options.withCredentials = false;
         options.headers = options.headers || {};
         options.headers['X-CSRF-TOKEN'] = undefined;
-        return $http(options);
+        return $http(options)
+          .then(function (respoonse) {
+            if (respoonse.status > 300) {
+              return $q.reject(respoonse.data);
+            }
+            return respoonse.data;
+          });
       });
   }
   return {
