@@ -1,4 +1,4 @@
-.modal-backdrop.welcome
+.grid-block.vertical.modal-backdrop.welcome
   img.grid-block.shrink.img.runnabear(
     height = "130"
     src = "/build/images/runnabear-waving-3.png"
@@ -38,13 +38,19 @@
           ng-class = "{'in': isActivePanel()}"
           ng-include = "'authorizeOrganizationView'"
         )
-      //- select stack type
+      animated-panel.grid-block(
+        name = "selectNewOrg"
+      )
+        .grid-block.vertical.align-center.padding-sm.text-center.fade(
+          ng-class = "{'in': isActivePanel()}"
+          ng-include = "'selectNewOrgView'"
+        )
       animated-panel.grid-block(
         name = "stackType"
       )
         .grid-block.vertical.align-center.padding-sm.text-center.fade(
+          choose-stack-type
           ng-class = "{'in': isActivePanel()}"
-          ng-include = "'chooseStackTypeView'"
         )
       animated-panel(
         name = "dockLoading"

@@ -22,8 +22,8 @@ p.margin-top-sm.p.weight-light We need access to your new org so we can set up y
 
 //- hide after clicked
 a.grid-block.align-center.justify-center.shrink.btn.btn-md.green.margin-top-md(
+  ng-click = "goToPanel('selectNewOrg')"
   href = "https://github.com/organizations/new"
-  ng-click = "state.clickedCreate = true"
   target = "_blank"
 )
   svg.iconnables.margin-right-xxs
