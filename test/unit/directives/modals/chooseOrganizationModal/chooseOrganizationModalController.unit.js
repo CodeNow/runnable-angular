@@ -23,6 +23,7 @@ var mockState;
 var mockUser;
 var mockWhitelistedOrgs;
 var promisifyMock;
+var eventTrackingStub;
 
 var codenowWhitelistedOrg;
 var createdDockOrg;
@@ -100,7 +101,8 @@ describe('ChooseOrganizationModalController', function () {
       go: sinon.stub()
     };
     mockAhaGuide = {
-      isChoosingOrg: sinon.stub()
+      isChoosingOrg: sinon.stub(),
+      getCurrentStep: sinon.stub().returns(-1)
     };
     closeStub = sinon.stub();
     mockLoading = sinon.stub();
@@ -116,6 +118,12 @@ describe('ChooseOrganizationModalController', function () {
       $provide.value('loading', mockLoading);
       $provide.value('$state', mockState);
       $provide.value('ahaGuide', mockAhaGuide);
+      $provide.factory('eventTracking', function ($q) {
+        eventTrackingStub = {
+          updateCurrentPersonProfile: sinon.stub(),
+        };
+        return eventTrackingStub;
+      });
       $provide.factory('createNewSandboxForUserService', function ($q) {
         mockCreateNewSandboxForUserService = sinon.stub().returns($q.when(true));
         return mockCreateNewSandboxForUserService;
