@@ -6,10 +6,6 @@
     max-width: 360px;
   }
 
-  .figure-wrapper {
-    position: relative;
-  }
-
   .figure {
     border: 1px solid $gray-lighter;
     border-bottom: 0;
@@ -59,11 +55,14 @@
   .footer {
     background: $gray-lighterest;
     border-top: 1px solid $gray-lighter;
-    bottom: -73px;
     height: 73px;
-    position: absolute;
     width: 720px;
     z-index: 1;
+
+    @media (max-height: 695px) {
+      bottom: 0;
+      position: fixed;
+    }
   }
 }
 
