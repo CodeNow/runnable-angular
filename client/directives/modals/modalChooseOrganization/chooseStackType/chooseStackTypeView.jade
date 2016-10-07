@@ -1,0 +1,45 @@
+nav.grid-block.shrink.align-center.justify-center.margin-sm.nav
+  ol.grid-block.justify-center
+    li.grid-block.align-center.justify-center.li.weight-strong.active(
+      ng-click = "goToPanel('createOrg', 'back')"
+    )
+      svg.iconnables
+        use(
+          xlink:href = "#icons-check"
+        )
+    li.grid-block.align-center.justify-center.li.weight-strong.active
+      svg.iconnables
+        use(
+          xlink:href = "#icons-check"
+        )
+    //- this ng-click is for testing only
+    li.grid-block.align-center.justify-center.li.weight-strong.active(
+      ng-click = "goToPanel('stackType')"
+    ) 3
+
+.grid-block.vertical.align-center.padding-sm.padding-top-md.text-center
+  h1.h1 Choose your stack.
+  p.margin-top-sm.p.weight-light We’ll fork demo repos into your new organization to get started.
+  ol.grid-block.vertical.margin-top-md.list.list-stack-type
+
+    li.grid-block.shrink.align-center.list-item.btn.white(
+      ng-repeat = "stack in stacks"
+      ng-class = "{'disabled': $root.isLoading.demoStack}"
+      ng-click = "CSTC.pickStack(stack.id, stack.repo)"
+    )
+      img.grid-content.shrink(
+        height = "30"
+        ng-src = "{{ stack.icon }}"
+        width = "30"
+      )
+      span.grid-content.text-left.text-overflow {{ stack.displayName }}
+      svg.grid-content.iconnables.icons-arrow-forward.shrink(
+        ng-if = "!$root.isLoading.demoStack"
+      )
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+      .spinner-wrapper.spinner-sm.spinner-gray(
+        ng-if = "$root.isLoading['stack' + stack.id]"
+        ng-include = "'spinner'"
+      )
