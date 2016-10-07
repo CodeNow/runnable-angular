@@ -1,5 +1,6 @@
-nav.grid-block.shrink.align-center.justify-center.margin-sm.nav
+nav.margin-bottom-md.nav
   ol.grid-block.justify-center
+    //- this ng-click is for testing only
     li.grid-block.align-center.justify-center.li.weight-strong.active(
       ng-click = "goToPanel('createOrg', 'back')"
     )
@@ -7,89 +8,89 @@ nav.grid-block.shrink.align-center.justify-center.margin-sm.nav
         use(
           xlink:href = "#icons-check"
         )
-    li.grid-block.align-center.justify-center.li.weight-strong.active
+    //- this ng-click is for testing only
+    li.grid-block.align-center.justify-center.li.weight-strong.active(
+      ng-click = "goToPanel('authorizeOrg', 'back')"
+    )
       svg.iconnables
         use(
           xlink:href = "#icons-check"
         )
     //- this ng-click is for testing only
-    li.grid-block.align-center.justify-center.li.weight-strong.active(
-      ng-click = "goToPanel('stackType')"
-    ) 3
+    li.grid-block.align-center.justify-center.li.weight-strong.active 3
 
-.grid-block.vertical.align-center.padding-sm.padding-top-md.text-center
-  h1.h1 Choose your stack.
-  p.margin-top-sm.p.weight-light We’ll fork demo repos into your new organization to get started.
-  ol.grid-block.vertical.margin-top-md.list.list-stack-type
-    li.grid-block.shrink.align-center.list-item.btn.white(
-      ng-class = "{'disabled': state.loading}"
-      ng-click = "state.loading = !state.loading"
+h1.h1 Choose your stack.
+p.padding-sm.p.weight-light We’ll fork demo repos into your new organization to get started.
+ol.grid-block.vertical.margin-top-sm.list.list-stack-type
+  li.grid-block.shrink.align-center.list-item.btn.white(
+    ng-class = "{'disabled': state.loading}"
+    ng-click = "state.loading = !state.loading"
+  )
+    img.grid-content.shrink(
+      height = "30"
+      src = "/build/images/logos/logo-icon-nodejs.svg"
+      width = "30"
     )
-      img.grid-content.shrink(
-        height = "30"
-        src = "/build/images/logos/logo-icon-nodejs.svg"
-        width = "30"
-      )
-      span.grid-content.text-left.text-overflow node.js
-      svg.grid-content.iconnables.icons-arrow-forward.shrink(
-        ng-if = "!state.loading"
-      )
-        use(
-          xlink:href = "#icons-arrow-down"
-        )
-      .spinner-wrapper.spinner-sm.spinner-gray(
-        ng-if = "state.loading"
-        ng-include = "'spinner'"
-      )
-    li.grid-block.shrink.align-center.list-item.btn.white(
-      ng-class = "{'disabled': state.loading}"
+    span.grid-content.text-left.text-overflow node.js
+    svg.grid-content.iconnables.icons-arrow-forward.shrink(
+      ng-if = "!state.loading"
     )
-      img.grid-content.shrink(
-        height = "30"
-        src = "/build/images/logos/logo-icon-python.svg"
-        width = "30"
+      use(
+        xlink:href = "#icons-arrow-down"
       )
-      span.grid-content.text-left.text-overflow Python
-      svg.grid-content.iconnables.icons-arrow-forward.shrink
-        use(
-          xlink:href = "#icons-arrow-down"
-        )
-    li.grid-block.shrink.align-center.list-item.btn.white(
-      ng-class = "{'disabled': state.loading}"
+    .spinner-wrapper.spinner-sm.spinner-gray(
+      ng-if = "state.loading"
+      ng-include = "'spinner'"
     )
-      img.grid-content.shrink(
-        height = "30"
-        src = "/build/images/logos/logo-icon-ruby.svg"
-        width = "30"
-      )
-      span.grid-content.text-left.text-overflow Ruby
-      svg.grid-content.iconnables.icons-arrow-forward.shrink
-        use(
-          xlink:href = "#icons-arrow-down"
-        )
-    li.grid-block.shrink.align-center.list-item.btn.white(
-      ng-class = "{'disabled': state.loading}"
+  li.grid-block.shrink.align-center.list-item.btn.white(
+    ng-class = "{'disabled': state.loading}"
+  )
+    img.grid-content.shrink(
+      height = "30"
+      src = "/build/images/logos/logo-icon-python.svg"
+      width = "30"
     )
-      img.grid-content.shrink(
-        height = "30"
-        src = "/build/images/logos/logo-icon-rails.svg"
-        width = "30"
+    span.grid-content.text-left.text-overflow Python
+    svg.grid-content.iconnables.icons-arrow-forward.shrink
+      use(
+        xlink:href = "#icons-arrow-down"
       )
-      span.grid-content.text-left.text-overflow Rails
-      svg.grid-content.iconnables.icons-arrow-forward.shrink
-        use(
-          xlink:href = "#icons-arrow-down"
-        )
-    li.grid-block.shrink.align-center.list-item.btn.white(
-      ng-class = "{'disabled': state.loading}"
+  li.grid-block.shrink.align-center.list-item.btn.white(
+    ng-class = "{'disabled': state.loading}"
+  )
+    img.grid-content.shrink(
+      height = "30"
+      src = "/build/images/logos/logo-icon-ruby.svg"
+      width = "30"
     )
-      img.grid-content.shrink(
-        height = "30"
-        src = "/build/images/logos/logo-icon-go.svg"
-        width = "30"
+    span.grid-content.text-left.text-overflow Ruby
+    svg.grid-content.iconnables.icons-arrow-forward.shrink
+      use(
+        xlink:href = "#icons-arrow-down"
       )
-      span.grid-content.text-left.text-overflow Go
-      svg.grid-content.iconnables.icons-arrow-forward.shrink
-        use(
-          xlink:href = "#icons-arrow-down"
-        )
+  li.grid-block.shrink.align-center.list-item.btn.white(
+    ng-class = "{'disabled': state.loading}"
+  )
+    img.grid-content.shrink(
+      height = "30"
+      src = "/build/images/logos/logo-icon-rails.svg"
+      width = "30"
+    )
+    span.grid-content.text-left.text-overflow Rails
+    svg.grid-content.iconnables.icons-arrow-forward.shrink
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
+  li.grid-block.shrink.align-center.list-item.btn.white(
+    ng-class = "{'disabled': state.loading}"
+  )
+    img.grid-content.shrink(
+      height = "30"
+      src = "/build/images/logos/logo-icon-go.svg"
+      width = "30"
+    )
+    span.grid-content.text-left.text-overflow Go
+    svg.grid-content.iconnables.icons-arrow-forward.shrink
+      use(
+        xlink:href = "#icons-arrow-down"
+      )

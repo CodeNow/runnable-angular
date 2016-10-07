@@ -1,21 +1,13 @@
-//- this js-animate prevents any child js-animates from activating on load
-.modal-backdrop.welcome.js-animate
-  //- no orgs or missing org
-  .grid-block.shrink.modal-dialog.modal-grant-access.js-animate(
-    ng-if = "COMC.showGrantAccess"
-    ng-include = "'grantAccessModalView'"
+.modal-backdrop.welcome
+  img.grid-block.shrink.img.runnabear(
+    height = "130"
+    src = "/build/images/runnabear-waving-3.png"
+    width = "230"
   )
 
-  //- listing orgs
-  animated-panel-container.modal-org-select.js-animate(
-    ng-if = "!COMC.showGrantAccess"
-  )
-    img.grid-block.shrink.img.runnabear(
-      height = "130"
-      src = "/build/images/runnabear-waving-3.png"
-      width = "230"
-    )
-    .grid-block.vertical.shrink.modal-dialog.modal-sm
+  .grid-block.vertical.shrink.modal-dialog.modal-sm.modal-org-select
+    animated-panel-container
+      //- this is the default panel if the user has one or more orgs
       animated-panel(
         default = "true"
         name = "orgSelection"
@@ -24,8 +16,36 @@
           ng-class = "{'in': isActivePanel()}"
           ng-include = "'orgSelectModalView'"
         )
-
-      //- infrastructure loading
+      //- this is the default panel if the user has no orgs
+      animated-panel(
+        name = "grantAccess"
+      )
+        .grid-block.vertical.align-center.padding-lg.text-center.fade(
+          ng-class = "{'in': isActivePanel()}"
+          ng-include = "'grantAccessView'"
+        )
+      animated-panel.grid-block(
+        name = "createOrg"
+      )
+        .grid-block.vertical.align-center.padding-lg.padding-top-sm.text-center.fade(
+          ng-class = "{'in': isActivePanel()}"
+          ng-include = "'createOrganizationView'"
+        )
+      animated-panel.grid-block(
+        name = "authorizeOrg"
+      )
+        .grid-block.vertical.align-center.padding-lg.padding-top-sm.text-center.fade(
+          ng-class = "{'in': isActivePanel()}"
+          ng-include = "'authorizeOrganizationView'"
+        )
+      //- select stack type
+      animated-panel.grid-block(
+        name = "stackType"
+      )
+        .grid-block.vertical.align-center.padding-sm.text-center.fade(
+          ng-class = "{'in': isActivePanel()}"
+          ng-include = "'chooseStackTypeView'"
+        )
       animated-panel(
         name = "dockLoading"
       )
@@ -33,8 +53,6 @@
           ng-class = "{'in': isActivePanel()}"
           ng-include = "'infrastructureLoadingModalView'"
         )
-
-      //- infrastructure loaded
       animated-panel(
         name = "dockLoaded"
       )
