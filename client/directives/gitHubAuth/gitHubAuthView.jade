@@ -1,0 +1,17 @@
+.grid-block.justify-center.vertical.layout-main.layout-github
+  header.grid-block.vertical.justify-center.align-center.shrink.padding-xs.header
+    h1.p.text-center.weight-strong Grant Access
+    p.p.text-center.weight-light.margin-top-xxs.margin-bottom-sm We‘ll need some GitHub permissions to run your app. You may have to scroll down.
+  figure.figure
+    img.grid-block.img(
+      src = "/build/images/github-permissions-lg.svg"
+    )
+    .cursor
+  footer.grid-block.justify-center.shrink.padding-xs.footer.margin-top-xs
+    a.grid-block.shrink.align-center.btn.btn-lg.green(
+      href = "#"
+    ) I got it! Take me to GitHub.
+      svg.iconnables.icons-arrow-next
+        use(
+          xlink:href = "#icons-arrow-back"
+        )
