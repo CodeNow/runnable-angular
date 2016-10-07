@@ -20,25 +20,25 @@ function chooseStackType() {
           displayName: 'Python',
           icon: '/build/images/logos/logo-icon-python.svg',
           id: 'python',
-          repo: 'rails-app'
+          repo: 'node-web'
         },
         {
           displayName: 'Ruby',
           icon: '/build/images/logos/logo-icon-ruby.svg',
           id: 'ruby',
-          repo: 'ruby-app'
+          repo: 'node-web'
         },
         {
           displayName: 'Rails',
           icon: '/build/images/logos/logo-icon-rails.svg',
           id: 'rails',
-          repo: 'rails-app'
+          repo: 'node-web'
         },
         {
           displayName: 'Go',
           icon: '/build/images/logos/logo-icon-go.svg',
           id: 'go',
-          repo: 'go-app'
+          repo: 'node-web'
         }
       ];
     }
