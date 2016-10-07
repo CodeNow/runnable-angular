@@ -1,9 +1,21 @@
 .layout-github {
   background: $gray-lighterest;
-  min-height: 100vh;
+  height: 100vh;
+  min-height: 510px;
+  overflow: hidden;
+
+  .header {
+    @media (max-height: 520px) {
+      margin-top: 30px;
+    }
+  }
 
   .p {
     max-width: 360px;
+
+    @include media(xxs) {
+      max-width: 290px;
+    }
   }
 
   .figure {
@@ -18,6 +30,19 @@
     position: relative;
     user-select: none;
     z-index: 1; // for border clipping
+
+    @include media(sm) {
+      height: 462px;
+      width: 510px;
+    }
+
+    @media (max-width: 540px) {
+      border-left: 0;
+      border-radius: 0;
+      border-right: 0;
+      height: 462px;
+      width: 100vw;
+    }
 
     &::after {
       animation: scrollbarIn 2.5s 1s 1 forwards;
@@ -38,6 +63,11 @@
     animation: figureIn 2s 1s 1 forwards;
     height: auto;
     width: 660px;
+
+    @include media(sm) {
+      position: absolute;
+      right: 0;
+    }
   }
 
   .cursor {
@@ -62,6 +92,10 @@
     @media (max-height: 695px) {
       bottom: 0;
       position: fixed;
+    }
+
+    @include media(sm) {
+      width: 570px;
     }
   }
 }
