@@ -27,6 +27,12 @@ animated-panel-container.grid-block
       ng-include = "'authorizeOrganizationView'"
     )
   animated-panel.grid-block(
+        ng-class = "{'in': isActivePanel()}"
+        choose-stack-type
+      )
+figure.grid-block.shrink.vertical.figure.padding-lg.justify-center
+  img.img(
+    ng-click = "COMC.actions.trackFigureAction()"
     name = "stackType"
   )
     .grid-block.vertical.fade(
