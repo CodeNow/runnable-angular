@@ -3,13 +3,14 @@
 require('app')
   .controller('ChooseStackTypeController', ChooseStackTypeController);
 function ChooseStackTypeController(
+  $window,
   errs,
   github,
   loading
 ) {
   var CSTC = this;
   CSTC.pickStack = function (stackId, repoName) {
-    var targetOrg = prompt('Org Name', 'P4L-kahn-1');
+    var targetOrg = $window.prompt('Org Name', 'P4L-kahn-1');
     if (targetOrg) {
       loading('stack' + stackId, true);
       loading('demoStack', true);
