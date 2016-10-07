@@ -6,6 +6,7 @@ var GithubOrgCollection = require('@runnable/api-client/lib/collections/github-o
 require('app')
   // User + Orgs
   .factory('fetchUser', fetchUser)
+  .factory('fetchUserUnCached', fetchUserUnCached)
   .factory('fetchWhitelistForDockCreated', fetchWhitelistForDockCreated)
   .factory('fetchWhitelistedOrgs', fetchWhitelistedOrgs)
   .factory('fetchWhitelists', fetchWhitelists)
@@ -44,16 +45,15 @@ require('app')
   .factory('fetchInvoices', fetchInvoices)
   .factory('fetchPaymentMethod', fetchPaymentMethod);
 
-function fetchUser(
+function fetchUserUnCached(
   $q,
   $window,
   apiClientBridge,
   keypather,
-  memoize,
   promisify,
   report
 ) {
-  return memoize(function () {
+  return function () {
     return promisify(apiClientBridge, 'fetchUser')('me')
       .then(function (user) {
         user.createSocket();
@@ -70,6 +70,15 @@ function fetchUser(
         // Allow other .catch blocks to grab it
         return $q.reject(err);
       });
+  };
+}
+
+function fetchUser(
+  fetchUserUnCached,
+  memoize
+) {
+  return memoize(function () {
+    return fetchUserUnCached();
   });
 }
 
