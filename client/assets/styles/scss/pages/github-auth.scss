@@ -1,0 +1,77 @@
+.layout-github {
+
+  .p {
+    max-width: 360px;
+  }
+
+  .figure {
+    border: 1px solid $gray-lighter;
+    border-radius: $input-border-radius-lg;
+    flex: 0 0 auto;
+    margin: 0 auto;
+    max-height: 462px;
+    max-width: 660px;
+    overflow: hidden;
+    position: relative;
+    z-index: 1; // for border clipping
+  }
+
+  .img {
+    animation: figureIn 2s 1s 1 forwards;
+    height: auto;
+    width: 660px;
+  }
+
+  .cursor {
+    animation: cursorIn 1s 3s 1 forwards ease-in-out;
+    background: url(/build/images/cursor-default.svg);
+    bottom: 180px;
+    height: 45px;
+    position: absolute;
+    right: 10px;
+    transform: scale3d(1,1,1) translate3d(-10px,220px,0);
+    width: 45px;
+  }
+
+  .icons-arrow-next {
+    margin-left: 6px;
+    transform: rotate3d(0,0,1,180deg);
+  }
+}
+
+@keyframes figureIn {
+  0% {
+    transform: translate3d(0,0,0);
+  }
+
+  100% {
+    transform: translate3d(0,-240px,0);
+  }
+}
+
+@keyframes cursorIn {
+  0% {
+    background: url(/build/images/cursor-default.svg);
+    transform: scale3d(1,1,1) translate3d(-10px,220px,0);
+  }
+
+  70% {
+    background: url(/build/images/cursor-default.svg);
+  }
+
+  80%,
+  90% {
+    background: url(/build/images/cursor-pointer.svg);
+    transform: scale3d(1,1,1) translate3d(0,0,0);
+  }
+
+  95% {
+    background: url(/build/images/cursor-pointer.svg);
+    transform: scale3d(.9,.9,1) translate3d(0,0,0);
+  }
+
+  100% {
+    background: url(/build/images/cursor-pointer.svg);
+    transform: scale3d(1,1,1) translate3d(0,0,0);
+  }
+}
