@@ -10,87 +10,48 @@
     width: 230px;
     z-index: 1;
   }
-
-  .animated-panel-container {
-    overflow: visible;
-  }
 }
 
 .modal-org-select {
-  transition: opacity .15s ease-in-out, transform .15s ease-in-out;
+  margin-top: 0;
+  top: 150px;
 
-  &.ng-enter {
-    left: 0;
-    margin-left: auto;
-    margin-right: auto;
-    opacity: 0;
-    position: absolute;
-    right: 0;
-    transform: scale3d(.97,.97,1);
+  .h1 {
+    font-size: 27px;
   }
 
-  &.ng-enter-active {
-    left: 0;
-    margin-left: auto;
-    margin-right: auto;
-    opacity: 1;
-    position: absolute;
-    right: 0;
-    transform: scale3d(1,1,1);
+  .well {
+    background: $gray-lightest;
   }
 
-  &.ng-leave {
-    left: 0;
-    margin-left: auto;
-    margin-right: auto;
-    opacity: 1;
-    position: absolute;
-    right: 0;
-    transform: scale3d(1,1,1);
+  .green .icons-link-external {
+    height: 12px;
+    width: 18px;
   }
 
-  &.ng-leave-active {
-    left: 0;
-    margin-left: auto;
-    margin-right: auto;
-    opacity: 0;
-    position: absolute;
-    right: 0;
-    transform: scale3d(.97,.97,1);
-  }
+  .btn-skip {
 
-  // hide during transitions
-  &.ng-animate ~ .welcome-footer {
-    display: none;
-  }
-
-  .modal-dialog {
-    animation: none;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 150px;
-
-    .infrastructure-view > .padding-md {
-      @include media(xs) {
-        padding-left: $sm;
-        padding-right: $sm;
-      }
+    &:hover .iconnables,
+    &:active .iconnables {
+      transform: rotate(-90deg) translate3d(0,2px,0);
     }
 
-    .h1 {
-      font-size: 27px;
-    }
-
-    .icons-link-external {
-      height: 9px;
-      top: 1px;
+    .iconnables {
       width: 18px;
     }
+  }
+
+  .footer .icons-link-external {
+    height: 9px;
+    top: 1px;
+    width: 18px;
+  }
+
+  .list-stack-type {
+    width: 100%;
 
     .list-item {
       border-radius: 0;
-      font-size: 18px;
-      font-weight: $weight-normal;
       height: 60px;
 
       &:hover,
@@ -98,36 +59,77 @@
         z-index: 1;
       }
 
-      &:not(:hover),
-      &:not(:active) {
-        .icons-arrow-forward {
-          color: $gray-light;
-        }
-      }
-
       &:first-child {
-        border-top-left-radius: $input-border-radius-lg;
-        border-top-right-radius: $input-border-radius-lg;
+        border-radius: $input-border-radius-lg $input-border-radius-lg 0 0;
       }
 
       &:last-child {
-        border-bottom-left-radius: $input-border-radius-lg;
-        border-bottom-right-radius: $input-border-radius-lg;
+        border-radius: 0 0 $input-border-radius-lg $input-border-radius-lg;
       }
 
       + .list-item {
         margin-top: -1px;
       }
+    }
 
-      .icons-missing-org {
-        background: $gray-lightest;
-        border-radius: $input-border-radius;
-        font-size: 21px;
-        height: 30px;
-        line-height: 30px;
-        padding-top: 1px;
-        width: 30px;
+    .icons-arrow-forward {
+      color: $gray-light;
+    }
+  }
+
+  .infrastructure-view > .padding-md {
+    @include media(xs) {
+      padding-left: $sm;
+      padding-right: $sm;
+    }
+  }
+
+  .icons-link-external {
+    height: 9px;
+    top: 1px;
+    width: 18px;
+  }
+
+  .list-item {
+    border-radius: 0;
+    font-size: 18px;
+    font-weight: $weight-normal;
+    height: 60px;
+
+    &:hover,
+    &:active {
+      z-index: 1;
+    }
+
+    &:not(:hover),
+    &:not(:active) {
+      .icons-arrow-forward {
+        color: $gray-light;
       }
+    }
+
+    &:first-child {
+      border-top-left-radius: $input-border-radius-lg;
+      border-top-right-radius: $input-border-radius-lg;
+    }
+
+    &:last-child {
+      border-bottom-left-radius: $input-border-radius-lg;
+      border-bottom-right-radius: $input-border-radius-lg;
+    }
+
+    + .list-item {
+      margin-top: -1px;
+    }
+
+    .icons-missing-org {
+      background: $gray-lightest;
+      border-radius: $input-border-radius;
+      font-size: 21px;
+      height: 30px;
+      line-height: 30px;
+      padding-top: 1px;
+      width: 30px;
     }
   }
 }

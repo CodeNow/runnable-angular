@@ -1,61 +1,61 @@
-.grid-block.vertical.align-center.padding-lg.padding-bottom-sm.text-center.grant-access-body
-  //- when no orgs exist
-  h1.h1(
-    ng-if = "COMC.allAccounts.models.length === 0 || $root.featureFlags.demoProject"
-  ) Welcome aboard!
-  p.margin-top-sm.p.weight-light(
-    ng-if = "COMC.allAccounts.models.length === 0 || $root.featureFlags.demoProject"
-  ) Next, we’ll need access to your organization on GitHub.
-  //- when orgs exist
-  h1.h1(
-    ng-if = "COMC.allAccounts.models.length > 0 && !$root.featureFlags.demoProject"
-  ) Almost there!
-  p.margin-top-sm.p.weight-light(
-    ng-if = "COMC.allAccounts.models.length > 0 && !$root.featureFlags.demoProject"
-  ) To use your organization in Runnable, you’ll need to grant access to it on GitHub.
+//- .grid-block.vertical.align-center.padding-lg.text-center
+//- when no orgs exist
+h1.h1(
+  ng-if = "COMC.allAccounts.models.length === 0 || $root.featureFlags.demoProject"
+) Welcome aboard!
+p.margin-top-sm.p.weight-light(
+  ng-if = "COMC.allAccounts.models.length === 0 || $root.featureFlags.demoProject"
+) Next, we’ll need access to your organization on GitHub.
+//- when orgs exist
+h1.h1(
+  ng-if = "COMC.allAccounts.models.length > 0 && !$root.featureFlags.demoProject"
+) Almost there!
+p.margin-top-sm.p.weight-light(
+  ng-if = "COMC.allAccounts.models.length > 0 && !$root.featureFlags.demoProject"
+) To use your organization in Runnable, you’ll need to grant access to it on GitHub.
 
-  //- hide after clicked
-  a.grid-block.align-center.justify-center.shrink.btn.btn-md.green.margin-top-md(
-    data-event-name = "Clicked Grant Access"
+//- hide after clicked
+a.grid-block.align-center.justify-center.shrink.btn.btn-md.green.margin-top-md(
+  data-event-name = "Clicked Grant Access"
+  href = "https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9"
+  ng-click = "COMC.grantAccess()"
+  ng-if = "!$root.isLoading.grantAccess"
+  target = "_blank"
+)
+  svg.iconnables.margin-right-xxs(
+    ng-if = "!$root.isLoading.grantAccess"
+  )
+    use(
+      xlink:href = "#icons-octicons-github"
+    )
+  | Grant Access
+  svg.iconnables.icons-link-external.text-white
+    use(
+      xlink:href = "#icons-link-external-alt"
+    )
+a.grid-block.shrink.margin-top-sm.btn.btn-xs.text-gray.btn-skip(
+  ng-click = "goToPanel('createOrg')"
+  ng-if = "$root.featureFlags.demoProject && !$root.isLoading.grantAccess"
+) Skip and try a demo
+  svg.iconnables.icons-arrow-forward
+    use(
+      xlink:href = "#icons-arrow-down"
+    )
+
+//- show after user clicks "grant access"
+.well.gray.align-center.small.padding-xs.margin-top-md(
+  ng-if = "$root.isLoading.grantAccess"
+) We’ll update this page once you grant access to an org&#32;
+  a.link(
     href = "https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9"
     ng-click = "COMC.grantAccess()"
-    ng-if = "!$root.isLoading.grantAccess"
     target = "_blank"
-  )
-    svg.iconnables.margin-right-xxs(
-      ng-if = "!$root.isLoading.grantAccess"
-    )
-      use(
-        xlink:href = "#icons-octicons-github"
-      )
-    | Grant Access
-    svg.iconnables.icons-link-external.text-white
-      use(
-        xlink:href = "#icons-link-external-alt"
-      )
-  a.grid-block.shrink.margin-top-sm.btn.btn-xs.text-gray.btn-skip(
-    ng-click = "goToPanel('createOrg')"
-    ng-if = "$root.featureFlags.demoProject && !$root.isLoading.grantAccess"
-  ) Skip and try a demo
-    svg.iconnables.icons-arrow-forward
-      use(
-        xlink:href = "#icons-arrow-down"
-      )
-
-  //- show after user clicks "grant access"
-  .well.gray.align-center.small.padding-xs.margin-top-md(
-    ng-if = "$root.isLoading.grantAccess"
-  ) We’ll update this page once you grant access to an org&#32;
-    a.link(
-      href = "https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9"
-      ng-click = "COMC.grantAccess()"
-      target = "_blank"
-    ) on GitHub
-    | .
-  button.grid-block.align-center.shrink.btn.btn-md.btn-cancel.gray.margin-top-sm(
-    ng-click = "COMC.showGrantAccess = false"
-    ng-if = "COMC.allAccounts.models.length > 0 && !$root.featureFlags.demoProject"
-  ) Cancel
+  ) on GitHub
+  | .
+button.grid-block.align-center.shrink.btn.btn-md.btn-cancel.gray.margin-top-sm(
+  ng-click = "COMC.showGrantAccess = false"
+  ng-if = "COMC.allAccounts.models.length > 0 && !$root.featureFlags.demoProject"
+) Cancel
 
 footer.grid-block.shrink.align-center.vertical.footer.padding-bottom-lg(
   ng-if = "!$root.featureFlags.demoProject"

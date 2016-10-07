@@ -1,10 +1,12 @@
-nav.grid-block.shrink.align-center.justify-center.well.margin-sm.nav
+//- nav.grid-block.shrink.align-center.justify-center.well.margin-sm.nav
   ol.grid-block
     //- this ng-click is for testing only
     li.grid-block.align-center.justify-center.small.text-gray.li.padding-xxs.active(
       ng-click = "goToPanel('createOrg', 'back')"
     ) Create
-    li.grid-block.align-center.justify-center.small.text-gray.li.padding-xxs.active Authorize
+    li.grid-block.align-center.justify-center.small.text-gray.li.padding-xxs.active(
+      ng-click = "goToPanel('authorizeOrg', 'back')"
+    ) Authorize
     li.grid-block.align-center.justify-center.small.text-gray.li.padding-xxs.active Fork
 
 .grid-block.vertical.align-center.padding-sm.padding-top-md.text-center

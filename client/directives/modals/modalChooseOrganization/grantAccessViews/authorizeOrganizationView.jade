@@ -1,0 +1,44 @@
+//- nav.grid-block.shrink.align-center.justify-center.well.margin-sm.nav
+  ol.grid-block
+    li.grid-block.align-center.justify-center.small.text-gray.li.padding-xxs.active(
+      ng-click = "goToPanel('createOrg', 'back')"
+    ) Create
+    li.grid-block.align-center.justify-center.small.text-gray.li.padding-xxs.active Authorize
+    //- this ng-click is for testing only
+    li.grid-block.align-center.justify-center.small.text-gray.li.padding-xxs(
+      ng-click = "goToPanel('stackType')"
+    ) Fork
+
+//- .grid-block.vertical.align-center.padding-sm.padding-top-md.text-center
+h1.h1 Grant access.
+p.margin-top-sm.p.weight-light We need access to your new org so we can set up your demo. Grant access on GitHub, then meet us back here.
+
+//- hide after clicked
+a.grid-block.align-center.justify-center.shrink.btn.btn-md.green.margin-top-md(
+  href = "https://github.com/organizations/new"
+  ng-click = "state.clickedCreate = true"
+  target = "_blank"
+)
+  svg.iconnables.margin-right-xxs(
+    ng-if = "!$root.isLoading.grantAccess"
+  )
+    use(
+      xlink:href = "#icons-octicons-github"
+    )
+  | Go to Org Settings
+  svg.iconnables.icons-link-external.text-white
+    use(
+      xlink:href = "#icons-link-external-alt"
+    )
+//- show after user clicks "grant access"
+.grid-block.shrink.well.gray.align-center.small.padding-sm.margin-top-md
+  .spinner-wrapper.spinner-gray.spinner-sm.in(
+    ng-include = "'spinner'"
+  )
+  .text-left.margin-left-xs We’ll update this page when you grant us access&#32;
+    a.link(
+      href = "https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9"
+      ng-click = "COMC.grantAccess()"
+      target = "_blank"
+    ) in your organization settings
+    | &#32;on GitHub.

@@ -1,39 +1,40 @@
-.grid-block.vertical.grant-access-view
-  img.grid-block.shrink.img.runnabear(
-    height = "130"
-    src = "/build/images/runnabear-waving-3.png"
-    width = "230"
+//- .grid-block.vertical
+img.grid-block.shrink.img.runnabear(
+  height = "130"
+  src = "/build/images/runnabear-waving-3.png"
+  width = "230"
+)
+animated-panel-container.grid-block
+  animated-panel.grid-block(
+    default = "true"
+    name = "grantAccess"
   )
-  animated-panel-container.grid-block
-    animated-panel.grid-block(
-      default = "true"
-      name = "grantAccess"
+    .grid-block.vertical.fade(
+      ng-class = "{'in': isActivePanel()}"
+      ng-include = "'grantAccessView'"
     )
-      .grid-block.vertical.fade(
-        ng-class = "{'in': isActivePanel()}"
-        ng-include = "'grantAccessView'"
-      )
-    animated-panel.grid-block(
-      name = "createOrg"
+  animated-panel.grid-block(
+    name = "createOrg"
+  )
+    .grid-block.vertical.fade(
+      ng-class = "{'in': isActivePanel()}"
+      ng-include = "'createOrganizationView'"
     )
-      .grid-block.vertical.fade(
-        ng-class = "{'in': isActivePanel()}"
-        ng-include = "'createOrganizationView'"
-      )
-    animated-panel.grid-block(
-      name = "authorizeOrg"
+  animated-panel.grid-block(
+    name = "authorizeOrg"
+  )
+    .grid-block.vertical.fade(
+      ng-class = "{'in': isActivePanel()}"
+      ng-include = "'authorizeOrganizationView'"
     )
-      .grid-block.vertical.fade(
-        ng-class = "{'in': isActivePanel()}"
-      )
-    animated-panel.grid-block(
-      name = "stackType"
+  animated-panel.grid-block(
+    name = "stackType"
+  )
+    .grid-block.vertical.fade(
+      ng-class = "{'in': isActivePanel()}"
+      ng-include = "'chooseStackTypeView'"
     )
-      .grid-block.vertical.fade(
-        ng-class = "{'in': isActivePanel()}"
-        ng-include = "'chooseStackTypeView'"
-      )
-figure.grid-block.shrink.vertical.figure.padding-lg.justify-center
+//- figure.grid-block.shrink.vertical.figure.padding-lg.justify-center
   img.img(
     ng-click = "COMC.actions.trackFigureAction()"
     src = "/build/images/github-permissions.svg"
