@@ -1,4 +1,5 @@
 .layout-github {
+  background: $gray-lighterest;
 
   .p {
     max-width: 360px;
@@ -13,7 +14,22 @@
     max-width: 660px;
     overflow: hidden;
     position: relative;
+    user-select: none;
     z-index: 1; // for border clipping
+
+    &::after {
+      animation: scrollbarIn 2.5s 1s 1 forwards;
+      background: rgba($black,.3);
+      border: 1px solid rgba($white,.1);
+      border-radius: 9px;
+      content: '';
+      display: block;
+      height: 210px;
+      position: absolute;
+      right: 3px;
+      top: 3px;
+      width: 6px;
+    }
   }
 
   .img {
@@ -24,7 +40,8 @@
 
   .cursor {
     animation: cursorIn 1s 3s 1 forwards ease-in-out;
-    background: url(/build/images/cursor-default.svg);
+    background-image: url(/build/images/cursor-default.svg);
+    background-repeat: no-repeat;
     bottom: 180px;
     height: 45px;
     position: absolute;
@@ -51,27 +68,43 @@
 
 @keyframes cursorIn {
   0% {
-    background: url(/build/images/cursor-default.svg);
+    background-image: url(/build/images/cursor-default.svg);
     transform: scale3d(1,1,1) translate3d(-10px,220px,0);
   }
 
   70% {
-    background: url(/build/images/cursor-default.svg);
+    background-image: url(/build/images/cursor-default.svg);
   }
 
   80%,
   90% {
-    background: url(/build/images/cursor-pointer.svg);
+    background-image: url(/build/images/cursor-pointer.svg);
     transform: scale3d(1,1,1) translate3d(0,0,0);
   }
 
   95% {
-    background: url(/build/images/cursor-pointer.svg);
+    background-image: url(/build/images/cursor-pointer.svg);
     transform: scale3d(.9,.9,1) translate3d(0,0,0);
   }
 
   100% {
-    background: url(/build/images/cursor-pointer.svg);
+    background-image: url(/build/images/cursor-pointer.svg);
     transform: scale3d(1,1,1) translate3d(0,0,0);
+  }
+}
+
+@keyframes scrollbarIn {
+  0% {
+    transform: translate3d(0,0,0);
+  }
+
+  80% {
+    opacity: 1;
+    transform: translate3d(0,244px,0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(0,244px,0);
   }
 }
