@@ -77,8 +77,9 @@
       border: 1px solid transparent;
       border-radius: 50%;
       color: $white;
-      flex: 0 0 $input-xs;
-      height: $input-xs;
+      flex: 0 0 $input-xxs;
+      font-size: 13px;
+      height: $input-xxs;
       z-index: 1;
 
       &.active {
