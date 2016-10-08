@@ -10,9 +10,9 @@ nav.grid-block.align-center.modal-header.nav(
   ol.grid-block.vertical.margin-top-sm.list
 
     li.grid-block.shrink.align-center.list-item.btn.white(
-      ng-repeat = "stack in stacks"
-      ng-class = "{'disabled': $root.isLoading.demoStack}"
       ng-click = "CSTC.pickStack(stack.id, stack.repo)"
+      ng-disabled = "{'disabled': $root.isLoading.demoStack}"
+      ng-repeat = "stack in stacks"
     )
       img.grid-content.shrink(
         height = "30"
@@ -20,6 +20,7 @@ nav.grid-block.align-center.modal-header.nav(
         width = "30"
       )
       span.grid-content.text-left.text-overflow {{ stack.displayName }}
+      //- button.grid-content.shrink.btn.btn-xs.gray.no-touching Coming Soon
       svg.grid-content.iconnables.icons-arrow-forward.shrink(
         ng-if = "!$root.isLoading.demoStack"
       )
