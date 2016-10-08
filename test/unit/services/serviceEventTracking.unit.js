@@ -12,6 +12,7 @@ describe('serviceEventTracking'.bold.underline.blue, function () {
   var userMock;
   var orgsMock;
   var fetchUserStub;
+  var fetchUserUnCachedStub;
   var fetchGrantedGithubOrgsStub;
   var currentOrgMock;
   var currentOrgName = 'Runnable';
@@ -40,6 +41,10 @@ describe('serviceEventTracking'.bold.underline.blue, function () {
       $provide.factory('fetchUser', function ($q) {
         fetchUserStub = sinon.stub().returns($q.when(userMock));
         return fetchUserStub;
+      });
+      $provide.factory('fetchUserUnCached', function ($q) {
+        fetchUserUnCachedStub = sinon.stub().returns($q.when(userMock));
+        return fetchUserUnCachedStub;
       });
       $provide.factory('fetchGrantedGithubOrgs', function ($q) {
         fetchGrantedGithubOrgsStub = sinon.stub().returns($q.when(orgsMock));
@@ -116,7 +121,7 @@ describe('serviceEventTracking'.bold.underline.blue, function () {
 
     it('should fetch the user', function () {
       eventTracking.updateCurrentPersonProfile(step);
-      sinon.assert.calledOnce(fetchUserStub);
+      sinon.assert.calledOnce(fetchUserUnCachedStub);
     });
 
     it('should fetch the granted orgs', function () {

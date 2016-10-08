@@ -30,7 +30,7 @@ function EventTracking(
   assign,
   currentOrg,
   configEnvironment,
-  fetchUser,
+  fetchUserUnCached,
   fetchGrantedGithubOrgs,
   keypather,
   siftApiConfig
@@ -566,7 +566,7 @@ function EventTracking(
 
   ETS.updateCurrentPersonProfile = function (currentStep) {
     return $q.all([
-      fetchUser(),
+      fetchUserUnCached(),
       fetchGrantedGithubOrgs()
     ])
       .then(function (res) {
@@ -593,6 +593,7 @@ function EventTracking(
           'IsCreatorOfCurrentOrg': bigPoppaUserId === keypather.get(currentOrg, 'poppa.attrs.creator'),
           'HasAnyOrgCompletedAha': hasAnyOrgCompletedAha
         };
+        console.log('updates', updates);
         ETS._mixpanel('people.set', updates);
       });
   };

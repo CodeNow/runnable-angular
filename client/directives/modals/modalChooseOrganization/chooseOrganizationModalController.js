@@ -110,7 +110,6 @@ function ChooseOrganizationModalController(
           if (keypather.get(org, 'attrs.firstDockCreated')) {
             return COMC.actions.selectAccount(selectedOrgName);
           }
-
           COMC.pollForDockCreated(org, selectedOrgName, goToPanelCb);
         })
         .catch(errs.handler)
@@ -119,6 +118,8 @@ function ChooseOrganizationModalController(
         });
     },
     selectAccount: function (selectedOrgName) {
+      // Update number of orgs for user
+      eventTracking.updateCurrentPersonProfile(ahaGuide.getCurrentStep());
       close();
       $state.go('base.instances', {
         userName: selectedOrgName
@@ -152,6 +153,8 @@ function ChooseOrganizationModalController(
       COMC.fetchUpdatedWhitelistedOrg(selectedOrgName)
         .then(function (updatedOrg) {
           if (keypather.get(updatedOrg, 'attrs.firstDockCreated')) {
+            // Update number of orgs for user
+            eventTracking.updateCurrentPersonProfile(ahaGuide.getCurrentStep());
             COMC.cancelPollingForDockCreated();
             return goToPanelCb('dockLoaded');
           }
