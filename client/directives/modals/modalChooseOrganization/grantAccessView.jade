@@ -57,7 +57,7 @@ nav.grid-block.justify-center.align-center.modal-header.nav(
   )
 
   button.grid-block.align-center.shrink.btn.btn-md.btn-cancel.gray.margin-top-sm(
-    ng-click = "COMC.showGrantAccess = false"
+    ng-click = "goToPanel('orgSelection', 'back')"
     ng-if = "COMC.allAccounts.models.length > 0 && !$root.featureFlags.demoProject"
   ) Cancel
 
