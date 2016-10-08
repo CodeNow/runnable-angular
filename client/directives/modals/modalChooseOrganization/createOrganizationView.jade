@@ -1,14 +1,8 @@
-nav.margin-bottom-md.nav
-  ol.grid-block.justify-center
-    li.grid-block.align-center.justify-center.li.weight-strong.active 1
-    //- this ng-click is for testing only
-    li.grid-block.align-center.justify-center.li.weight-strong(
-      ng-click = "goToPanel('authorizeOrg')"
-    ) 2
-    //- this ng-click is for testing only
-    li.grid-block.align-center.justify-center.li.weight-strong(
-      ng-click = "goToPanel('stackType')"
-    ) 3
+nav.margin-bottom-md.nav(
+  progress
+  active-step="1"
+  steps="3"
+)
 
 h1.h1 Create a demo organization.
 p.margin-top-sm.p.weight-light We’ll use your new GitHub organization to create your demo app.
