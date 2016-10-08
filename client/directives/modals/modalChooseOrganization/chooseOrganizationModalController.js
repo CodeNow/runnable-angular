@@ -48,9 +48,10 @@ function ChooseOrganizationModalController(
   };
 
   COMC.grantAccess = function () {
-    // var customWindow = customWindowService('/githubAuth');
-    // console.log(customWindow);
-
+    var customWindow = customWindowService('/githubAuth', {
+      width: 770,
+      height: 730
+    });
     loading.reset('grantAccess');
     loading('grantAccess', true);
     COMC.cancelPollingForWhitelisted();
@@ -61,17 +62,10 @@ function ChooseOrganizationModalController(
           if (orgs.models.length !== originalOrgCount) {
             COMC.showGrantAccess = false;
             loading('grantAccess', false);
+            customWindow.close();
           }
         });
     }, 1000 * 5);
-
-    var topBar = window.outerHeight - window.innerHeight;
-    var padding = 30;
-    var width = 770;
-    var height = 730;
-    var top = window.screenTop + padding + topBar;
-    var left = (window.screen.width/2) - (width/2);
-    return window.open('/githubAuth', 'page', 'toolbar=0,scrollbars=1,location=0,statusbar=0,menubar=0,resizable=0,width=' + width + ',height=' + height + ',left=' + left + ',top=' + top + ',titlebar=yes');
   };
 
   COMC.creatingOrg = false;
