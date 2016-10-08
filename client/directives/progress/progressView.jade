@@ -1,5 +1,5 @@
 ol.grid-block.justify-center
   li.grid-block.align-center.justify-center.li.weight-strong(
-    ng-class = "{active: activeStep === $index + 1}"
+    ng-class = "{'active': activeStep === $index + 1}"
     ng-repeat = "i in stepArr track by $index"
   ) {{$index + 1}}

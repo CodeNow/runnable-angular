@@ -1,41 +1,30 @@
-nav.margin-bottom-md.nav
-  ol.grid-block.justify-center
-    //- this ng-click is for testing only
-    li.grid-block.align-center.justify-center.li.weight-strong.active(
-      ng-click = "goToPanel('createOrg', 'back')"
-    )
-      svg.iconnables
-        use(
-          xlink:href = "#icons-check"
-        )
-    //- this ng-click is for testing only
-    li.grid-block.align-center.justify-center.li.weight-strong.active(
-      ng-click = "goToPanel('authorizeOrg')"
-    ) 2
-    //- this ng-click is for testing only
-    li.grid-block.align-center.justify-center.li.weight-strong(
-      ng-click = "goToPanel('stackType')"
-    ) 3
-h1.h1.text-center Confirm Your Organization.
-//- if they've granted access to only one org
-p.padding-sm.p.weight-light Is this the organization you want to use?
-//- if they've granted access to multiple orgs
-//- p.margin-top-sm.margin-bottom-md.p.text-center.weight-light Select the organization you want to use.
+nav.grid-block.align-center.modal-header.nav(
+  active-step = "3"
+  progress
+  steps = "4"
+)
 
-ol.grid-block.vertical.margin-top-sm.list
-  li.grid-block.align-center.list-item.btn.white(
-    data-event-name = "Org Selected"
-    ng-click = "COMC.actions.createOrCheckDock(org.oauthName(), goToPanel)"
-    ng-repeat = "org in COMC.allAccounts.models | orderBy:'attrs.login'"
-    title = "{{org.oauthName()}}"
-  )
-    img.grid-content.shrink(
-      height = "30"
-      ng-src = "{{org.gravitar()}}"
-      width = "30"
+.grid-block.vertical.align-center.padding-sm
+  h1.h1.text-center Confirm Your Organization.
+  //- if they've granted access to only one org
+  p.padding-sm.p.weight-light Is this the organization you want to use?
+  //- if they've granted access to multiple orgs
+  //- p.margin-top-sm.margin-bottom-md.p.text-center.weight-light Select the organization you want to use.
+
+  ol.grid-block.vertical.margin-top-sm.list
+    li.grid-block.align-center.list-item.btn.white(
+      data-event-name = "Org Selected"
+      ng-click = "COMC.actions.createOrCheckDock(org.oauthName(), goToPanel)"
+      ng-repeat = "org in COMC.allAccounts.models | orderBy:'attrs.login'"
+      title = "{{org.oauthName()}}"
     )
-    span.grid-content.text-left.text-overflow {{org.oauthName()}}
-    svg.grid-content.iconnables.icons-arrow-forward.shrink
-      use(
-        xlink:href = "#icons-arrow-down"
+      img.grid-content.shrink(
+        height = "30"
+        ng-src = "{{org.gravitar()}}"
+        width = "30"
       )
+      span.grid-content.text-left.text-overflow {{org.oauthName()}}
+      svg.grid-content.iconnables.icons-arrow-forward.shrink
+        use(
+          xlink:href = "#icons-arrow-down"
+        )

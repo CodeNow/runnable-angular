@@ -1,46 +1,32 @@
-nav.margin-bottom-md.nav
-  ol.grid-block.justify-center
-    //- this ng-click is for testing only
-    li.grid-block.align-center.justify-center.li.weight-strong.active(
-      ng-click = "goToPanel('createOrg', 'back')"
-    )
-      svg.iconnables
-        use(
-          xlink:href = "#icons-check"
-        )
-    //- this ng-click is for testing only
-    li.grid-block.align-center.justify-center.li.weight-strong.active(
-      ng-click = "goToPanel('authorizeOrg', 'back')"
-    )
-      svg.iconnables
-        use(
-          xlink:href = "#icons-check"
-        )
-    //- this ng-click is for testing only
-    li.grid-block.align-center.justify-center.li.weight-strong.active 3
+nav.grid-block.align-center.modal-header.nav(
+  active-step = "4"
+  progress
+  steps = "4"
+)
 
-h1.h1 Choose your stack.
-p.padding-sm.p.weight-light We’ll fork demo repos into your new organization to get started.
-ol.grid-block.vertical.margin-top-sm.list
+.grid-block.vertical.padding-sm
+  h1.h1 Choose your stack.
+  p.padding-sm.p.weight-light We’ll fork demo repos into your new organization to get started.
+  ol.grid-block.vertical.margin-top-sm.list
 
-  li.grid-block.shrink.align-center.list-item.btn.white(
-    ng-repeat = "stack in stacks"
-    ng-class = "{'disabled': $root.isLoading.demoStack}"
-    ng-click = "CSTC.pickStack(stack.id, stack.repo)"
-  )
-    img.grid-content.shrink(
-      height = "30"
-      ng-src = "{{ stack.icon }}"
-      width = "30"
+    li.grid-block.shrink.align-center.list-item.btn.white(
+      ng-repeat = "stack in stacks"
+      ng-class = "{'disabled': $root.isLoading.demoStack}"
+      ng-click = "CSTC.pickStack(stack.id, stack.repo)"
     )
-    span.grid-content.text-left.text-overflow {{ stack.displayName }}
-    svg.grid-content.iconnables.icons-arrow-forward.shrink(
-      ng-if = "!$root.isLoading.demoStack"
-    )
-      use(
-        xlink:href = "#icons-arrow-down"
+      img.grid-content.shrink(
+        height = "30"
+        ng-src = "{{ stack.icon }}"
+        width = "30"
       )
-    .spinner-wrapper.spinner-sm.spinner-gray(
-      ng-if = "$root.isLoading['stack' + stack.id]"
-      ng-include = "'spinner'"
-    )
+      span.grid-content.text-left.text-overflow {{ stack.displayName }}
+      svg.grid-content.iconnables.icons-arrow-forward.shrink(
+        ng-if = "!$root.isLoading.demoStack"
+      )
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+      .spinner-wrapper.spinner-sm.spinner-gray(
+        ng-if = "$root.isLoading['stack' + stack.id]"
+        ng-include = "'spinner'"
+      )
