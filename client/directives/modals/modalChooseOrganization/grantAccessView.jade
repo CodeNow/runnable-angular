@@ -1,91 +1,101 @@
-//- when no orgs exist
-h1.h1(
-  ng-if = "COMC.allAccounts.models.length === 0"
-) Welcome aboard!
-p.margin-top-sm.p.weight-light(
-  ng-if = "COMC.allAccounts.models.length === 0"
-) Next, we’ll need access to your organization on GitHub.
 //- when orgs exist
-h1.h1(
+nav.grid-block.justify-center.align-center.modal-header.nav(
   ng-if = "COMC.allAccounts.models.length > 0"
-) Almost there!
-p.margin-top-sm.p.weight-light(
-  ng-if = "COMC.allAccounts.models.length > 0"
-) To use your organization in Runnable, you’ll need to grant access to it on GitHub.
-
-//- hide after clicked
-a.grid-block.align-center.justify-center.shrink.btn.btn-md.green.margin-top-md(
-  data-event-name = "Clicked Grant Access"
-  ng-click = "COMC.grantAccess()"
-  ng-if = "!$root.isLoading.grantAccess"
 )
-  svg.iconnables.margin-right-xxs
-    use(
-      xlink:href = "#icons-octicons-github"
-    )
-  | Grant Access
-  svg.iconnables.icons-link-external.text-white
-    use(
-      xlink:href = "#icons-link-external-alt"
-    )
-a.grid-block.shrink.margin-top-sm.btn.btn-xs.text-gray.btn-skip(
-  ng-click = "goToPanel('createOrg')"
-  ng-if = "$root.featureFlags.demoProject && !$root.isLoading.grantAccess"
-) Skip and try a demo
-  svg.iconnables.icons-arrow-forward
+  svg.iconnables.icons-arrow-backward
     use(
       xlink:href = "#icons-arrow-down"
-      )
-
-//- show after user clicks "grant access"
-.well.gray.align-center.small.padding-xs.margin-top-md(
-  ng-if = "$root.isLoading.grantAccess"
-)
-  svg.iconnables.icons-github-listening
-    use(
-      xlink:href = "#icons-github-listening"
     )
-  | We’ll update this page once you grant access to an org on GitHub.
-  br
-  a.btn.btn-xs.green.margin-top-xs(
-    href = "https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9"
+  h1.modal-heading Add Organization
+
+.grid-block.align-center.vertical.padding-lg.padding-top-md
+
+  //- when orgs exist
+  p.margin-top-sm.p.weight-light(
+    ng-if = "COMC.allAccounts.models.length > 0"
+  ) To use your organization in Runnable, you’ll need to grant access to it on GitHub.
+
+  //- when no orgs exist
+  h1.h1(
+    ng-if = "COMC.allAccounts.models.length === 0"
+  ) Welcome aboard!
+  p.margin-top-sm.p.weight-light(
+    ng-if = "COMC.allAccounts.models.length === 0"
+  ) Next, we’ll need access to your organization on GitHub.
+
+  //- hide after clicked
+  a.grid-block.align-center.justify-center.shrink.btn.btn-md.green.margin-top-md(
+    data-event-name = "Clicked Grant Access"
     ng-click = "COMC.grantAccess()"
-    target = "_blank"
+    ng-if = "!$root.isLoading.grantAccess"
   )
-    svg.iconnables.icons-github
+    svg.iconnables.margin-right-xxs
       use(
         xlink:href = "#icons-octicons-github"
       )
-    | Grant Access…
-
-button.grid-block.align-center.shrink.btn.btn-md.btn-cancel.gray.margin-top-sm(
-  ng-click = "COMC.showGrantAccess = false"
-  ng-if = "COMC.allAccounts.models.length > 0 && !$root.featureFlags.demoProject"
-) Cancel
-
-footer.grid-block.shrink.align-center.vertical.footer.padding-bottom-lg(
-  ng-if = "COMC.allAccounts.models.length > 0 && !$root.featureFlags.demoProject"
-)
-  a.small.link.text-gray(
-    ng-click = "COMC.actions.trackPersonalAccount()"
-    href = "https://support.runnable.com/hc/en-us/articles/213363706"
-    target = "_blank"
-  ) Looking to run a personal repo?
-    svg.iconnables.icons-link-external.text-gray
+    | Grant Access
+    svg.iconnables.icons-link-external.text-white
       use(
         xlink:href = "#icons-link-external-alt"
       )
-
-footer.grid-block.shrink.align-center.vertical.footer.padding-bottom-lg(
-  ng-if = "COMC.allAccounts.models.length === 0 && !$root.featureFlags.demoProject"
-)
-  | Don’t have an org?&#32;
-  a.link(
-    ng-click = "COMC.actions.trackCreateOrgLink()"
-    href = "https://github.com/organizations/new"
-    target = "_blank"
-  ) Create one free on GitHub.
-    svg.iconnables.icons-link-external.text-gray
+  a.grid-block.shrink.margin-top-sm.btn.btn-xs.text-gray.btn-skip(
+    ng-click = "goToPanel('createOrg')"
+    ng-if = "$root.featureFlags.demoProject && !$root.isLoading.grantAccess"
+  ) Skip and try a demo
+    svg.iconnables.icons-arrow-forward
       use(
-        xlink:href = "#icons-link-external-alt"
+        xlink:href = "#icons-arrow-down"
+        )
+
+  //- show after user clicks "grant access"
+  .well.gray.align-center.small.padding-xs.margin-top-md(
+    ng-if = "$root.isLoading.grantAccess"
+  )
+    svg.iconnables.icons-github-listening
+      use(
+        xlink:href = "#icons-github-listening"
       )
+    | We’ll update this page once you grant access to an org on GitHub.
+    br
+    a.btn.btn-xs.green.margin-top-xs(
+      href = "https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9"
+      ng-click = "COMC.grantAccess()"
+      target = "_blank"
+    )
+      svg.iconnables.icons-github
+        use(
+          xlink:href = "#icons-octicons-github"
+        )
+      | Grant Access…
+
+  button.grid-block.align-center.shrink.btn.btn-md.btn-cancel.gray.margin-top-sm(
+    ng-click = "COMC.showGrantAccess = false"
+    ng-if = "COMC.allAccounts.models.length > 0 && !$root.featureFlags.demoProject"
+  ) Cancel
+
+  footer.grid-block.shrink.align-center.vertical.footer.padding-bottom-lg(
+    ng-if = "COMC.allAccounts.models.length > 0 && !$root.featureFlags.demoProject"
+  )
+    a.small.link.text-gray(
+      ng-click = "COMC.actions.trackPersonalAccount()"
+      href = "https://support.runnable.com/hc/en-us/articles/213363706"
+      target = "_blank"
+    ) Looking to run a personal repo?
+      svg.iconnables.icons-link-external.text-gray
+        use(
+          xlink:href = "#icons-link-external-alt"
+        )
+
+  footer.grid-block.shrink.align-center.vertical.footer.padding-bottom-lg(
+    ng-if = "COMC.allAccounts.models.length === 0 && !$root.featureFlags.demoProject"
+  )
+    | Don’t have an org?&#32;
+    a.link(
+      ng-click = "COMC.actions.trackCreateOrgLink()"
+      href = "https://github.com/organizations/new"
+      target = "_blank"
+    ) Create one free on GitHub.
+      svg.iconnables.icons-link-external.text-gray
+        use(
+          xlink:href = "#icons-link-external-alt"
+        )
