@@ -5,6 +5,15 @@ svg.iconnables.icons-arrow-backward
 
 ol.grid-block.justify-center
   li.grid-block.align-center.justify-center.li.weight-strong(
-    ng-class = "{'active': activeStep === $index + 1}"
+    ng-class = "{'active': activeStep >= $index + 1}"
     ng-repeat = "i in stepArr track by $index"
-  ) {{$index + 1}}
+  )
+    svg.iconnables.icons-check(
+      ng-if = "activeStep > $index + 1"
+    )
+      use(
+        xlink:href = "#icons-check"
+      )
+    span(
+      ng-if = "activeStep <= $index + 1"
+    ) {{$index + 1}}
