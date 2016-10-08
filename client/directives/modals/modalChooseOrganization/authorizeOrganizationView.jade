@@ -10,9 +10,11 @@ nav.grid-block.align-center.modal-header.nav(
 
   //- hide after clicked
   a.grid-block.align-center.justify-center.shrink.btn.btn-md.green.margin-top-md(
-    ng-click = "goToPanel('selectNewOrg')"
-    href = "https://github.com/organizations/new"
-    target = "_blank"
+    ng-click = "\
+      COMC.grantAccess();\
+      goToPanel('selectNewOrg');\
+    "
+    ng-if = "!$root.isLoading.grantAccess"
   )
     svg.iconnables.margin-right-xxs
       use(
@@ -25,20 +27,7 @@ nav.grid-block.align-center.modal-header.nav(
       )
 
   //- show after user clicks "grant access"
-  //- .well.gray.align-center.small.padding-xs.margin-top-md
-    svg.iconnables.icons-github-listening
-      use(
-        xlink:href = "#icons-github-listening"
-      )
-    | We’ll update this page once you grant access to an org on GitHub.
-    br
-    a.btn.btn-xs.green.margin-top-xs(
-      href = "https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9"
-      ng-click = "COMC.grantAccess()"
-      target = "_blank"
-    )
-      svg.iconnables.icons-github
-        use(
-          xlink:href = "#icons-octicons-github"
-        )
-      | Grant Access…
+  .well.gray.align-center.small.padding-xs.margin-top-md(
+    ng-if = "$root.isLoading.grantAccess"
+    ng-include = "'grantAccessWaitView'"
+  )
