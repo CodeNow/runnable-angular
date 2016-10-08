@@ -1,56 +1,44 @@
-nav.margin-bottom-md.nav
-  ol.grid-block.justify-center
-    //- this ng-click is for testing only
-    li.grid-block.align-center.justify-center.li.weight-strong.active(
-      ng-click = "goToPanel('createOrg', 'back')"
-    )
-      svg.iconnables
-        use(
-          xlink:href = "#icons-check"
-        )
-    //- this ng-click is for testing only
-    li.grid-block.align-center.justify-center.li.weight-strong.active(
-      ng-click = "goToPanel('authorizeOrg')"
-    ) 2
-    //- this ng-click is for testing only
-    li.grid-block.align-center.justify-center.li.weight-strong(
-      ng-click = "goToPanel('stackType')"
-    ) 3
-
-h1.h1 Grant access.
-p.margin-top-sm.p.weight-light We need access to your new org so we can set up your demo. Grant access on GitHub, then meet us back here.
-
-//- hide after clicked
-a.grid-block.align-center.justify-center.shrink.btn.btn-md.green.margin-top-md(
-  ng-click = "goToPanel('selectNewOrg')"
-  href = "https://github.com/organizations/new"
-  target = "_blank"
+nav.grid-block.align-center.modal-header.nav(
+  active-step = "2"
+  progress
+  steps = "4"
 )
-  svg.iconnables.margin-right-xxs
-    use(
-      xlink:href = "#icons-octicons-github"
-    )
-  | Grant Access
-  svg.iconnables.icons-link-external.text-white
-    use(
-      xlink:href = "#icons-link-external-alt"
-    )
 
-//- show after user clicks "grant access"
-//- .well.gray.align-center.small.padding-xs.margin-top-md
-  svg.iconnables.icons-github-listening
-    use(
-      xlink:href = "#icons-github-listening"
-    )
-  | We’ll update this page once you grant access to an org on GitHub.
-  br
-  a.btn.btn-xs.green.margin-top-xs(
-    href = "https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9"
-    ng-click = "COMC.grantAccess()"
+.grid-block.align-center.vertical.padding-lg
+  h1.h1 Grant access.
+  p.margin-top-sm.p.weight-light We need access to your new org so we can set up your demo. Grant access on GitHub, then meet us back here.
+
+  //- hide after clicked
+  a.grid-block.align-center.justify-center.shrink.btn.btn-md.green.margin-top-md(
+    ng-click = "goToPanel('selectNewOrg')"
+    href = "https://github.com/organizations/new"
     target = "_blank"
   )
-    svg.iconnables.icons-github
+    svg.iconnables.margin-right-xxs
       use(
         xlink:href = "#icons-octicons-github"
       )
-    | Grant Access…
+    | Grant Access
+    svg.iconnables.icons-link-external.text-white
+      use(
+        xlink:href = "#icons-link-external-alt"
+      )
+
+  //- show after user clicks "grant access"
+  //- .well.gray.align-center.small.padding-xs.margin-top-md
+    svg.iconnables.icons-github-listening
+      use(
+        xlink:href = "#icons-github-listening"
+      )
+    | We’ll update this page once you grant access to an org on GitHub.
+    br
+    a.btn.btn-xs.green.margin-top-xs(
+      href = "https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9"
+      ng-click = "COMC.grantAccess()"
+      target = "_blank"
+    )
+      svg.iconnables.icons-github
+        use(
+          xlink:href = "#icons-octicons-github"
+        )
+      | Grant Access…
