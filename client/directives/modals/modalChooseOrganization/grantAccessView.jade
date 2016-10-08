@@ -77,15 +77,15 @@ footer.grid-block.shrink.align-center.vertical.footer.padding-bottom-lg(
       )
 
 footer.grid-block.shrink.align-center.vertical.footer.padding-bottom-lg(
-    ng-if = "COMC.allAccounts.models.length === 0"
-  )
-    | Don’t have an org?&#32;
-    a.link(
-      ng-click = "COMC.actions.trackCreateOrgLink()"
-      href = "https://github.com/organizations/new"
-      target = "_blank"
-    ) Create one free on GitHub.
-      svg.iconnables.icons-link-external.text-gray
-        use(
-          xlink:href = "#icons-link-external-alt"
-        )
+  ng-if = "COMC.allAccounts.models.length === 0 && !$root.featureFlags.demoProject"
+)
+  | Don’t have an org?&#32;
+  a.link(
+    ng-click = "COMC.actions.trackCreateOrgLink()"
+    href = "https://github.com/organizations/new"
+    target = "_blank"
+  ) Create one free on GitHub.
+    svg.iconnables.icons-link-external.text-gray
+      use(
+        xlink:href = "#icons-link-external-alt"
+      )
