@@ -3,12 +3,14 @@
 require('app')
   .factory('customWindowService', customWindowService);
 
-function customWindowService() {
+function customWindowService(
+  keypather
+) {
   return function (targetUrl, options) {
     var padding = 60;
     var width = window.innerWidth - padding - padding;
     var height = window.innerHeight - padding - padding - 50;
-    if (options.width && options.height) {
+    if (keypather.has(options, 'width') && keypather.has(options, 'height')) {
       width = options.width;
       height = options.height;
     }
