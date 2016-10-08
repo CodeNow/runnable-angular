@@ -10,6 +10,7 @@ nav.grid-block.align-center.modal-header.nav(
 
   //- hide after clicked
   a.grid-block.align-center.justify-center.shrink.btn.btn-md.green.margin-top-md(
+    data-event-name = "Clicked 'Create Organization'"
     ng-click = "COMC.createOrg();"
     ng-if = "!COMC.creatingOrg"
   )
@@ -29,6 +30,7 @@ nav.grid-block.align-center.modal-header.nav(
   )
     .grid-block.shrink.small Were you able to successfully create an organization?
     .grid-block.shrink.btn.btn-sm.green.margin-top-xs(
+      data-event-name = "Confirmed created org"
       ng-click = "goToPanel('authorizeOrg')"
     ) Yes, I created one!
     a.grid-block.shrink.margin-top-xs.link.small(

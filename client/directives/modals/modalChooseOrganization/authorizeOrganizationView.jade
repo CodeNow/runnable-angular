@@ -10,6 +10,7 @@ nav.grid-block.align-center.modal-header.nav(
 
   //- hide after clicked
   a.grid-block.align-center.justify-center.shrink.btn.btn-md.green.margin-top-md(
+    data-event-name = "Granted access to demo org"
     ng-click = "\
       COMC.grantAccess();\
       goToPanel('selectNewOrg');\

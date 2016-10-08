@@ -41,6 +41,7 @@ nav.grid-block.justify-center.align-center.modal-header.nav(
         xlink:href = "#icons-link-external-alt"
       )
   a.grid-block.shrink.margin-top-sm.btn.btn-xs.text-gray.btn-skip(
+    data-event-name = "Clicked 'Skip and try a demo'"
     ng-click = "goToPanel('createOrg')"
     ng-if = "$root.featureFlags.demoProject && !$root.isLoading.grantAccess"
   ) Skip and try a demo
