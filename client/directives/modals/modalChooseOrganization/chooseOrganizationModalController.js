@@ -48,7 +48,14 @@ function ChooseOrganizationModalController(
   };
 
   COMC.grantAccess = function () {
-    var customWindow = customWindowService('/githubAuth', {
+    var connectionUrl = 'https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9';
+    if (configEnvironment === 'development') {
+      connectionUrl = 'https://github.com/settings/applications';
+    }
+    if ($rootScope.featureFlags.demoProject) {
+      connectionUrl = '/githubAuth';
+    }
+    var customWindow = customWindowService(connectionUrl, {
       width: 770,
       height: 730
     });
