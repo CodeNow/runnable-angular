@@ -4,7 +4,7 @@ nav.grid-block.align-center.modal-header.nav(
   steps = "4"
 )
 
-.grid-block.vertical.padding-sm.padding-top-lg.padding-bottom-lg
+.grid-block.vertical.padding-sm.padding-top-lg
   h1.h1.text-center Confirm Your Organization.
   //- if they've granted access to only one org
   p.padding-sm.p.weight-light Is this the organization you want to use?
@@ -13,8 +13,7 @@ nav.grid-block.align-center.modal-header.nav(
 
   ol.grid-block.vertical.margin-top-sm.list
     li.grid-block.align-center.list-item.btn.white(
-      data-event-name = "Org Selected"
-      ng-click = "COMC.actions.createOrCheckDock(org.oauthName(), goToPanel)"
+      ng-click = "goToPanel('stackType')"
       ng-repeat = "org in COMC.allAccounts.models | orderBy:'attrs.login'"
       title = "{{org.oauthName()}}"
     )
