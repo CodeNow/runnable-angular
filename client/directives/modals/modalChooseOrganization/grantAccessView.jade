@@ -2,7 +2,9 @@
 nav.grid-block.justify-center.align-center.modal-header.nav(
   ng-if = "COMC.allAccounts.models.length > 0"
 )
-  svg.iconnables.icons-arrow-backward
+  svg.iconnables.icons-arrow-backward(
+    ng-if = "$root.featureFlags.demoProject"
+  )
     use(
       xlink:href = "#icons-arrow-down"
     )
@@ -58,7 +60,7 @@ nav.grid-block.justify-center.align-center.modal-header.nav(
     ng-if = "COMC.allAccounts.models.length > 0 && !$root.featureFlags.demoProject"
   ) Cancel
 
-  footer.grid-block.shrink.align-center.vertical.footer.padding-bottom-lg(
+  footer.grid-block.shrink.align-center.vertical.footer.margin-top-md(
     ng-if = "COMC.allAccounts.models.length > 0 && !$root.featureFlags.demoProject"
   )
     a.small.link.text-gray(
