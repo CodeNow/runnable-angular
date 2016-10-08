@@ -32,13 +32,12 @@
           xlink:href = "#icons-arrow-down"
         )
 
-footer.grid-block.align-center.vertical.footer.margin-top-sm.margin-bottom-md
-  a.small.link.text-gray(
-    ng-click = "COMC.actions.trackPersonalAccount()"
-    href = "https://support.runnable.com/hc/en-us/articles/213363706"
-    target = "_blank"
-  ) Looking for your personal account?
-    svg.iconnables.icons-link-external.text-gray
-      use(
-        xlink:href = "#icons-link-external-alt"
+//- footer.grid-block.align-center.vertical.footer.margin-top-sm.margin-bottom-md
+a.grid-block.justify-center.shrink.btn.btn-xs.text-gray.margin-top-sm.margin-bottom-md.btn-skip(
+  ng-click = "goToPanel('createOrg')"
+  ng-if = "$root.featureFlags.demoProject"
+) Skip and try a demo
+  svg.iconnables.icons-arrow-forward
+    use(
+      xlink:href = "#icons-arrow-down"
       )
