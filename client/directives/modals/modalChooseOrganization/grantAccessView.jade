@@ -1,16 +1,16 @@
 //- when no orgs exist
 h1.h1(
-  ng-if = "COMC.allAccounts.models.length === 0 || $root.featureFlags.demoProject"
+  ng-if = "COMC.allAccounts.models.length === 0"
 ) Welcome aboard!
 p.margin-top-sm.p.weight-light(
-  ng-if = "COMC.allAccounts.models.length === 0 || $root.featureFlags.demoProject"
+  ng-if = "COMC.allAccounts.models.length === 0"
 ) Next, we’ll need access to your organization on GitHub.
 //- when orgs exist
 h1.h1(
-  ng-if = "COMC.allAccounts.models.length > 0 && !$root.featureFlags.demoProject"
+  ng-if = "COMC.allAccounts.models.length > 0"
 ) Almost there!
 p.margin-top-sm.p.weight-light(
-  ng-if = "COMC.allAccounts.models.length > 0 && !$root.featureFlags.demoProject"
+  ng-if = "COMC.allAccounts.models.length > 0"
 ) To use your organization in Runnable, you’ll need to grant access to it on GitHub.
 
 //- hide after clicked
