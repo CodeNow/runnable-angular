@@ -42,7 +42,7 @@ nav.grid-block.justify-center.align-center.modal-header.nav(
         xlink:href = "#icons-link-external-alt"
       )
   a.grid-block.shrink.margin-top-sm.btn.btn-xs.text-gray.btn-skip(
-    data-event-name = "Clicked 'Skip and try a demo'"
+    data-event-name = "Demo: Clicked Skip"
     ng-click = "goToPanel('createOrg')"
     ng-if = "$root.featureFlags.demoProject && !$root.isLoading.grantAccess"
   ) Skip and try a demo
@@ -69,7 +69,7 @@ nav.grid-block.justify-center.align-center.modal-header.nav(
       ng-click = "COMC.actions.trackPersonalAccount()"
       href = "https://support.runnable.com/hc/en-us/articles/213363706"
       target = "_blank"
-    ) Looking to run a personal repo?
+    ) Looking for your personal account?
       svg.iconnables.icons-link-external.text-gray
         use(
           xlink:href = "#icons-link-external-alt"

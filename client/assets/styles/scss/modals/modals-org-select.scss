@@ -68,7 +68,7 @@
 
     .li {
       background: $gray-lighter;
-      border: 1px solid transparent;
+      border: $input-border solid transparent;
       border-radius: 50%;
       color: $white;
       flex: 0 0 $input-xxs;

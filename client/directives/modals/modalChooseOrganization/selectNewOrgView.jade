@@ -13,6 +13,7 @@ nav.grid-block.align-center.modal-header.nav(
 
   ol.grid-block.vertical.margin-top-sm.list
     li.grid-block.align-center.list-item.btn.white(
+      data-event-name = "Demo: Confirmed org to use"
       ng-click = "goToPanel('stackType')"
       ng-repeat = "org in COMC.allAccounts.models | orderBy:'attrs.login'"
       title = "{{org.oauthName()}}"
