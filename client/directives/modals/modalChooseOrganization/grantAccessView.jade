@@ -3,6 +3,7 @@ nav.grid-block.justify-center.align-center.modal-header.nav(
   ng-if = "COMC.allAccounts.models.length > 0"
 )
   svg.iconnables.icons-arrow-backward(
+    ng-click = "goToPanel('orgSelection', 'back')"
     ng-if = "$root.featureFlags.demoProject"
   )
     use(
