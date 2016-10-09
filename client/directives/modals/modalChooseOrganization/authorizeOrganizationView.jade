@@ -1,0 +1,34 @@
+nav.grid-block.align-center.modal-header.nav(
+  active-step = "2"
+  progress
+  steps = "4"
+)
+
+.grid-block.align-center.vertical.padding-lg
+  h1.h1 Grant access.
+  p.margin-top-sm.p.weight-light We need access to your new org so we can set up your demo. Grant access on GitHub, then meet us back here.
+
+  //- hide after clicked
+  a.grid-block.align-center.justify-center.shrink.btn.btn-md.green.margin-top-md(
+    data-event-name = "Demo: Clicked Grant Access"
+    ng-click = "\
+      COMC.grantAccess();\
+      goToPanel('selectNewOrg');\
+    "
+    ng-if = "!$root.isLoading.grantAccess"
+  )
+    svg.iconnables.margin-right-xxs
+      use(
+        xlink:href = "#icons-octicons-github"
+      )
+    | Grant Access
+    svg.iconnables.icons-link-external.text-white
+      use(
+        xlink:href = "#icons-link-external-alt"
+      )
+
+  //- show after user clicks "grant access"
+  .well.gray.align-center.small.padding-xs.margin-top-md(
+    ng-if = "$root.isLoading.grantAccess"
+    ng-include = "'grantAccessWaitView'"
+  )

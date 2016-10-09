@@ -1,0 +1,42 @@
+nav.grid-block.align-center.modal-header.nav(
+  active-step = "1"
+  progress
+  steps = "4"
+)
+
+.grid-block.align-center.vertical.padding-lg
+  h1.h1 Create a demo organization.
+  p.margin-top-sm.p.weight-light We’ll use your new GitHub organization to create your demo app.
+
+  //- hide after clicked
+  a.grid-block.align-center.justify-center.shrink.btn.btn-md.green.margin-top-md(
+    data-event-name = "Demo: Clicked 'Create Organization'"
+    ng-click = "COMC.createOrg();"
+    ng-if = "!COMC.creatingOrg"
+  )
+    svg.iconnables.margin-right-xxs
+      use(
+        xlink:href = "#icons-octicons-github"
+      )
+    | Create Organization
+    svg.iconnables.icons-link-external.text-white
+      use(
+        xlink:href = "#icons-link-external-alt"
+      )
+
+  //- show after user clicks "create org"
+  .grid-block.shrink.vertical.well.gray.align-center.padding-xs.margin-top-md(
+    ng-if = "COMC.creatingOrg"
+  )
+    .grid-block.shrink.small Were you able to successfully create an organization?
+    .grid-block.shrink.btn.btn-sm.green.margin-top-xs(
+      data-event-name = "Demo: Confirmed created org"
+      ng-click = "goToPanel('authorizeOrg')"
+    ) Yes, I created one!
+    a.grid-block.shrink.margin-top-xs.link.small(
+      ng-click = "COMC.createOrg();"
+    ) No, let’s retry.
+      svg.iconnables.icons-link-external.text-white
+        use(
+          xlink:href = "#icons-link-external-alt"
+        )

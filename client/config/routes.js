@@ -80,6 +80,15 @@ module.exports = [
       }
     }
   }, {
+    state: 'githubAuth',
+    abstract: false,
+    url: '^/githubAuth',
+    templateUrl: 'githubAuthView',
+    controller: 'GithubAuthController',
+    data: {
+      anon: true
+    }
+  }, {
     state: 'paused',
     abstract: false,
     url: '^/paws’d',

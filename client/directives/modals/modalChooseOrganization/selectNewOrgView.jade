@@ -1,0 +1,30 @@
+nav.grid-block.align-center.modal-header.nav(
+  active-step = "3"
+  progress
+  steps = "4"
+)
+
+.grid-block.vertical.padding-sm.padding-top-lg
+  h1.h1.text-center Confirm Your Organization.
+  //- if they've granted access to only one org
+  p.padding-sm.p.weight-light Is this the organization you want to use?
+  //- if they've granted access to multiple orgs
+  //- p.margin-top-sm.margin-bottom-md.p.text-center.weight-light Select the organization you want to use.
+
+  ol.grid-block.vertical.margin-top-sm.list
+    li.grid-block.align-center.list-item.btn.white(
+      data-event-name = "Demo: Confirmed org to use"
+      ng-click = "goToPanel('stackType')"
+      ng-repeat = "org in COMC.allAccounts.models | orderBy:'attrs.login'"
+      title = "{{org.oauthName()}}"
+    )
+      img.grid-content.shrink(
+        height = "30"
+        ng-src = "{{org.gravitar()}}"
+        width = "30"
+      )
+      span.grid-content.text-left.text-overflow {{org.oauthName()}}
+      svg.grid-content.iconnables.icons-arrow-forward.shrink
+        use(
+          xlink:href = "#icons-arrow-down"
+        )

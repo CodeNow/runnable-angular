@@ -134,7 +134,6 @@
 @import "modals/modals-edit-ace";
 @import "modals/modals-edit-dockerfile";
 @import "modals/modals-error";
-@import "modals/modals-grant-access";
 @import "modals/modals-guide";
 @import "modals/modals-integrations";
 @import "modals/modals-invite";
@@ -195,6 +194,7 @@
 @import "layout/environment-footer";
 
 // pages
+@import "pages/github-auth";
 @import "pages/grace-period";
 @import "pages/server-selection";
 

@@ -52,7 +52,13 @@ function ChooseOrganizationModalController(
     if (configEnvironment === 'development') {
       connectionUrl = 'https://github.com/settings/applications';
     }
-    customWindowService(connectionUrl);
+    if ($rootScope.featureFlags.demoProject) {
+      connectionUrl = '/githubAuth';
+    }
+    var customWindow = customWindowService(connectionUrl, {
+      width: 770,
+      height: 730
+    });
     loading.reset('grantAccess');
     loading('grantAccess', true);
     COMC.cancelPollingForWhitelisted();
@@ -63,9 +69,17 @@ function ChooseOrganizationModalController(
           if (orgs.models.length !== originalOrgCount) {
             COMC.showGrantAccess = false;
             loading('grantAccess', false);
+            customWindow.close();
           }
         });
     }, 1000 * 5);
+  };
+
+  COMC.creatingOrg = false;
+
+  COMC.createOrg = function () {
+    COMC.creatingOrg = true;
+    customWindowService('https://github.com/organizations/new');
   };
 
   $scope.$on('$destroy', function () {

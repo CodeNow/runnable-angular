@@ -23,6 +23,7 @@ function featureFlags(
     containersViewTemplateControls: false,
     containersViewEmptyState: false,
     contingencyPlan: false,
+    demoProject: false,
     dockerfileMirroringMultiple: false,
     editAnyInstance: false,
     emptyFolder: false, // shows empty folder markup
