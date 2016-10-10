@@ -40,6 +40,9 @@ describe('ChooseOrganizationModalController', function () {
         githubId: 2131231,
         firstDockCreated: false,
         allowed: true
+      },
+      oauthName: function () {
+        return 'CodeNow';
       }
     };
     createdDockOrg = {
@@ -50,6 +53,9 @@ describe('ChooseOrganizationModalController', function () {
         githubId: 1231233,
         firstDockCreated: true,
         allowed: true
+      },
+      oauthName: function () {
+        return 'Runnable';
       }
     };
     mockWhitelistedOrgs = [codenowWhitelistedOrg];
