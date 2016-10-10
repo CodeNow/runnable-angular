@@ -423,6 +423,19 @@ function EventTracking(
   };
 
   /**
+   * Milestone 1: GitHub Primer
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.trackPrimer = function () {
+    var eventName = 'Demo: Advanced to GitHub from primer step';
+
+    ETS._mixpanel('track', eventName);
+    return ETS;
+  };
+
+  /**
    * Milestone 2: Select repository
    * Reports to:
    *   - mixpanel

@@ -85,8 +85,21 @@ module.exports = [
     url: '^/githubAuth',
     templateUrl: 'githubAuthView',
     controller: 'GithubAuthController',
+    controllerAs: 'GAC',
     data: {
       anon: true
+    },
+    resolve: {
+      user: function (fetchUser, $rootScope, keypather) {
+        return fetchUser()
+          .then(function (user) {
+            keypather.set($rootScope, 'dataApp.data.user', user);
+            return user;
+          });
+      },
+      booted: function (eventTracking, user) {
+        return eventTracking.boot(user);
+      }
     }
   }, {
     state: 'paused',
