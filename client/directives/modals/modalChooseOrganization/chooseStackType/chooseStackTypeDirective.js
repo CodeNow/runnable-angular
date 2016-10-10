@@ -10,8 +10,9 @@ function chooseStackType() {
     templateUrl: 'chooseStackTypeView',
     bindToController: true,
     scope: {
-      targetOrg: '=',
-      createDock: '='
+      createDock: '=',
+      goToPanel: '=',
+      targetOrg: '='
     },
     link: function ($scope) {
       $scope.stacks = [
