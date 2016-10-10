@@ -9,7 +9,8 @@ function progress(
     templateUrl: 'progressView',
     scope: {
       steps: '=',
-      activeStep: '='
+      activeStep: '=',
+      backMethod: '=?'
     },
     link: function ($scope) {
       $scope.stepArr = new Array($scope.steps);

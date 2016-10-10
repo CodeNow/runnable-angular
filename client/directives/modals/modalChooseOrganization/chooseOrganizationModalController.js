@@ -33,7 +33,12 @@ function ChooseOrganizationModalController(
   COMC.allAccounts = grantedOrgs;
   COMC.whitelistedOrgs = whitelistedOrgs;
 
-  COMC.showGrantAccess = COMC.allAccounts.models.length === 0;
+  COMC.defaultBasePanel = 'orgSelection';
+  if (COMC.allAccounts.models.length === 0) {
+    COMC.defaultBasePanel = 'grantAccess';
+  }
+
+  $scope.$broadcast('go-to-panel', COMC.defaultBasePanel, 'immediate');
 
   COMC.cancelPollingForWhitelisted = function () {
     if (COMC.pollForWhitelistPromise) {
