@@ -84,6 +84,7 @@ function ChooseOrganizationModalController(
             COMC.showGrantAccess = false;
             loading('grantAccess', false);
             customWindow.close();
+            COMC.cancelPollingForWhitelisted();
           }
         });
     }, 1000 * 5);
