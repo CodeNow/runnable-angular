@@ -71,7 +71,7 @@ function ChooseOrganizationModalController(
     COMC.cancelPollingForWhitelisted();
     var originalOrgCount = grantedOrgs.models.length;
     var originalOrgList = grantedOrgs.models.map(function (org) {
-      return org.attrs.login;
+      return org.oauthName().toLowerCase();
     });
     COMC.newOrgList = [];
     COMC.pollForWhitelistPromise = $interval(function () {
@@ -79,7 +79,7 @@ function ChooseOrganizationModalController(
         .then(function (orgs) {
           if (orgs.models.length !== originalOrgCount) {
             COMC.newOrgList = orgs.models.filter(function (org) {
-              return !originalOrgList.includes(org.attrs.login);
+              return !originalOrgList.includes(org.oauthName().toLowerCase());
             });
             COMC.showGrantAccess = false;
             loading('grantAccess', false);
