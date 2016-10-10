@@ -66,6 +66,12 @@
     align-self: stretch;
     position: relative;
 
+    + .padding-lg {
+      @include media(xxs) {
+        padding: $md;
+      }
+    }
+
     .li {
       background: $gray-lighter;
       border: $input-border solid transparent;
