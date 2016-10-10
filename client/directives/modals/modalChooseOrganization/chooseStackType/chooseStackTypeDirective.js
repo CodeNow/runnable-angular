@@ -15,6 +15,7 @@ function chooseStackType() {
       targetOrg: '='
     },
     link: function ($scope) {
+      $scope.goToPanel = $scope.CSTC.goToPanel;
       $scope.stacks = [
         {
           displayName: 'node.js',
