@@ -8,6 +8,10 @@ function chooseStackType() {
     controller: 'ChooseStackTypeController',
     controllerAs: 'CSTC',
     templateUrl: 'chooseStackTypeView',
+    bindToController: true,
+    scope: {
+      targetOrg: '='
+    },
     link: function ($scope) {
       $scope.stacks = [
         {
@@ -20,25 +24,29 @@ function chooseStackType() {
           displayName: 'Python',
           icon: '/build/images/logos/logo-icon-python.svg',
           id: 'python',
-          repo: 'node-web'
+          repo: 'node-web',
+          disabled: true
         },
         {
           displayName: 'Ruby',
           icon: '/build/images/logos/logo-icon-ruby.svg',
           id: 'ruby',
-          repo: 'node-web'
+          repo: 'node-web',
+          disabled: true
         },
         {
           displayName: 'Rails',
           icon: '/build/images/logos/logo-icon-rails.svg',
           id: 'rails',
-          repo: 'node-web'
+          repo: 'node-web',
+          disabled: true
         },
         {
           displayName: 'Go',
           icon: '/build/images/logos/logo-icon-go.svg',
           id: 'go',
-          repo: 'node-web'
+          repo: 'node-web',
+          disabled: true
         }
       ];
     }

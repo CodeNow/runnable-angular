@@ -3,18 +3,21 @@
 require('app')
   .controller('ChooseStackTypeController', ChooseStackTypeController);
 function ChooseStackTypeController(
-  $window,
   errs,
   github,
-  loading
+  loading,
+  keypather,
+
+  // Bound to controller
+  targetOrg
 ) {
   var CSTC = this;
   CSTC.pickStack = function (stackId, repoName) {
-    var targetOrg = $window.prompt('Org Name', 'P4L-kahn-1');
-    if (targetOrg) {
+    var orgName = keypather.get(targetOrg, 'attrs.login');
+    if (orgName) {
       loading('stack' + stackId, true);
       loading('demoStack', true);
-      github.forkRepo('RunnableDemo', repoName, targetOrg)
+      github.forkRepo('RunnableDemo', repoName, orgName)
         .catch(errs.handler)
         .finally(function () {
           loading('stack' + stackId, false);

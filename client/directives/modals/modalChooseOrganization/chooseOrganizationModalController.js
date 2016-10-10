@@ -32,6 +32,7 @@ function ChooseOrganizationModalController(
   $rootScope.featureFlags = featureFlags.flags;
   COMC.allAccounts = grantedOrgs;
   COMC.whitelistedOrgs = whitelistedOrgs;
+  COMC.demoOrg = null;
 
   COMC.defaultBasePanel = 'orgSelection';
   if (COMC.allAccounts.models.length === 0) {
