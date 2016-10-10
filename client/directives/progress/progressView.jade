@@ -1,19 +1,13 @@
-svg.iconnables.icons-arrow-backward
-  use(
-    xlink:href = "#icons-arrow-down"
+li.grid-block.align-center.justify-center.li.weight-strong(
+  ng-class = "{'active': activeStep >= $index + 1}"
+  ng-repeat = "i in stepArr track by $index"
+)
+  svg.iconnables.icons-check(
+    ng-if = "activeStep > $index + 1"
   )
-
-ol.grid-block.justify-center
-  li.grid-block.align-center.justify-center.li.weight-strong(
-    ng-class = "{'active': activeStep >= $index + 1}"
-    ng-repeat = "i in stepArr track by $index"
-  )
-    svg.iconnables.icons-check(
-      ng-if = "activeStep > $index + 1"
+    use(
+      xlink:href = "#icons-check"
     )
-      use(
-        xlink:href = "#icons-check"
-      )
-    span(
-      ng-if = "activeStep <= $index + 1"
-    ) {{$index + 1}}
+  span(
+    ng-if = "activeStep <= $index + 1"
+  ) {{$index + 1}}

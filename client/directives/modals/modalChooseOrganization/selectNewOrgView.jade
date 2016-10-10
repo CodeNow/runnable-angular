@@ -1,8 +1,15 @@
-nav.grid-block.align-center.modal-header.nav(
-  active-step = "3"
-  progress
-  steps = "4"
-)
+nav.grid-block.align-center.modal-header.nav
+  svg.iconnables.icons-arrow-backward(
+    ng-click = "goToPanel('authorizeOrg', 'back')"
+  )
+    use(
+      xlink:href = "#icons-arrow-down"
+    )
+  ol.grid-block.justify-center(
+    active-step = "3"
+    progress
+    steps = "4"
+  )
 
 .grid-block.vertical.padding-sm.padding-top-lg
   h1.h1.text-center Confirm Your Organization.
