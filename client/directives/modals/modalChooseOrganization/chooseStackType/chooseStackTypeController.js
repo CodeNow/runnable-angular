@@ -6,14 +6,11 @@ function ChooseStackTypeController(
   errs,
   github,
   loading,
-  keypather,
-
-  // Bound to controller
-  targetOrg
+  keypather
 ) {
   var CSTC = this;
   CSTC.pickStack = function (stackId, repoName) {
-    var orgName = keypather.get(targetOrg, 'attrs.login');
+    var orgName = keypather.get(CSTC.targetOrg, 'attrs.login');
     if (orgName) {
       loading('stack' + stackId, true);
       loading('demoStack', true);
