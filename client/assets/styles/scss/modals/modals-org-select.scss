@@ -74,6 +74,7 @@
       flex: 0 0 $input-xxs;
       font-size: 13px;
       height: $input-xxs;
+      line-height: $input-line-height-xxs;
       z-index: 1;
 
       &.active {
@@ -83,6 +84,11 @@
 
       + .li {
         margin-left: 15px;
+      }
+
+      .iconnables {
+        height: 100%;
+        width: 100%;
       }
     }
   }
