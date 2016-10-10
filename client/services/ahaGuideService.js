@@ -46,6 +46,7 @@ function ahaGuide(
 
   refreshInstances();
   refreshHasRunnabot();
+  eventTracking.updateCurrentPersonProfile(getCurrentStep());
 
   var stepList = {};
   stepList[STEPS.CHOOSE_ORGANIZATION] = {
@@ -248,7 +249,7 @@ function ahaGuide(
   });
   function getCurrentStep() {
     if (!cachedStep) {
-      if ($rootScope.featureFlags.aha && !keypather.get(currentOrg, 'poppa.id')) {
+      if (keypather.get($rootScope, 'featureFlags.aha') && !keypather.get(currentOrg, 'poppa.id')) {
         cachedStep = STEPS.CHOOSE_ORGANIZATION;
       } else if (!isInGuide()) {
         cachedStep = STEPS.COMPLETED;
@@ -273,6 +274,19 @@ function ahaGuide(
       }
     }
     return cachedStep;
+  }
+
+  function getClassForSubstep (errorState) {
+    var step = furthestSubstep(STEPS.ADD_FIRST_REPO);
+    var progressDial = stepList[STEPS.ADD_FIRST_REPO].subSteps[step].className;
+    var classNames = [];
+    if (errorState) {
+      classNames.push('aha-error');
+    }
+    if (progressDial) {
+      classNames.push(progressDial);
+    }
+    return classNames;
   }
 
   function isInGuide () {
@@ -319,6 +333,7 @@ function ahaGuide(
   }
 
   function updateTracking(step) {
+    var currentStep = getCurrentStep();
     switch (step) {
       case 'containerSelection':
         eventTracking.milestone2SelectTemplate();
@@ -336,17 +351,18 @@ function ahaGuide(
         eventTracking.milestone2BuildSuccess();
         break;
       default:
-        var currentStep = getCurrentStep();
         if (currentStep === 4) {
           eventTracking.milestone3AddedBranch();
         }
     }
+    eventTracking.updateCurrentPersonProfile(currentStep);
   }
 
   return {
     endGuide: endGuide,
     resetGuide: resetGuide,
     getCurrentStep: getCurrentStep,
+    getClassForSubstep: getClassForSubstep,
     hasConfirmedSetup: hasConfirmedSetup,
     hasRunnabot: refreshHasRunnabot,
     isInGuide: isInGuide,

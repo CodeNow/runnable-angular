@@ -14,9 +14,13 @@
     background-image: repeating-linear-gradient(36deg, darken($purple-light,2.5%), darken($purple-light,2.5%) 18px, transparent 18px, transparent 36px);
   }
 
+  + .layout-main {
+    padding-left: $layout-navigation-width;
+  }
+
   .btn-accounts {
     cursor: pointer;
-    margin: 18px auto 12px;
+    margin: 18px auto 7px;
     width: 42px;
 
     &:hover {
@@ -100,6 +104,5 @@
 // layout main
 .layout-main {
   height: 100vh;
-  padding-left: $layout-navigation-width;
   width: 100%;
 }

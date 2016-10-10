@@ -13,6 +13,7 @@ var $controller,
     currentOrg;
 var isRunnabotPartOfOrgStub;
 var fetchRepoBranchesStub;
+var ahaGuideStub;
 var apiMocks = require('../apiMocks/index');
 var mockFetch = new (require('../fixtures/mockFetch'))();
 var runnable = window.runnable;
@@ -103,6 +104,14 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       });
       $provide.value('$stateParams', ctx.stateParams);
       $provide.value('$localStorage', localStorageData);
+      $provide.factory('ahaGuide', function ($q) {
+        ahaGuideStub = {
+          isInGuide: sinon.stub(),
+          isAddingFirstBranch: sinon.stub(),
+          isSettingUpRunnabot: sinon.stub()
+        };
+        return ahaGuideStub;
+      });
 
       $provide.value('user', ctx.fakeuser);
       $provide.value('activeAccount', ctx.fakeuser);

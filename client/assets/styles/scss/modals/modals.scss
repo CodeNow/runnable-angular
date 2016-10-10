@@ -27,7 +27,7 @@
 .modal-dialog {
   animation: scale-in-modal .15s ease-out;
   background: $gray-lighterest;
-  border: 2px solid $gray-lighter;
+  border: $input-border-lg solid $gray-lighter;
   border-radius: $input-border-radius-lg;
   display: flex;
   flex: 0 0 auto;
@@ -53,7 +53,7 @@
     width: 100%;
   }
 
-  @include media(xxxs) {
+  @include media(xxs) {
     min-width: 100%;
   }
 
@@ -529,8 +529,4 @@
     line-height: $input-md;
     padding-left: 12px;
   }
-}
-
-.modal-outer-footer {
-  padding-bottom: 30px;
 }

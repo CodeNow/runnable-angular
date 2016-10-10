@@ -1,0 +1,34 @@
+nav.grid-block.align-center.modal-header.nav(
+  active-step = "4"
+  progress
+  steps = "4"
+)
+
+.grid-block.align-center.vertical.padding-sm.padding-top-lg
+  h1.h1 Choose your stack.
+  p.padding-sm.p.weight-light We’ll fork demo repos into your new organization to get started.
+  ol.grid-block.vertical.margin-top-sm.list
+
+    li.grid-block.shrink.align-center.list-item.btn.white(
+      data-event-name = "Demo: Selected demo stack"
+      ng-click = "CSTC.pickStack(stack.id, stack.repo)"
+      ng-disabled = "{'disabled': $root.isLoading.demoStack}"
+      ng-repeat = "stack in stacks"
+    )
+      img.grid-content.shrink(
+        height = "30"
+        ng-src = "{{ stack.icon }}"
+        width = "30"
+      )
+      span.grid-content.text-left.text-overflow {{ stack.displayName }}
+      //- button.grid-content.shrink.btn.btn-xs.gray.no-touching Coming Soon
+      svg.grid-content.iconnables.icons-arrow-forward.shrink(
+        ng-if = "!$root.isLoading.demoStack"
+      )
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+      .spinner-wrapper.spinner-sm.spinner-gray(
+        ng-if = "$root.isLoading['stack' + stack.id]"
+        ng-include = "'spinner'"
+      )

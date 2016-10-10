@@ -1,0 +1,90 @@
+//- when orgs exist
+nav.grid-block.justify-center.align-center.modal-header.nav(
+  ng-if = "COMC.allAccounts.models.length > 0"
+)
+  svg.iconnables.icons-arrow-backward(
+    ng-click = "goToPanel('orgSelection', 'back')"
+    ng-if = "$root.featureFlags.demoProject"
+  )
+    use(
+      xlink:href = "#icons-arrow-down"
+    )
+  h1.modal-heading Add Organization
+
+.grid-block.align-center.vertical.padding-lg.padding-top-md
+
+  //- when orgs exist
+  p.margin-top-sm.p.weight-light(
+    ng-if = "COMC.allAccounts.models.length > 0"
+  ) To use your organization in Runnable, you’ll need to grant access to it on GitHub.
+
+  //- when no orgs exist
+  h1.h1(
+    ng-if = "COMC.allAccounts.models.length === 0"
+  ) Welcome aboard!
+  p.margin-top-sm.p.weight-light(
+    ng-if = "COMC.allAccounts.models.length === 0"
+  ) Next, we’ll need access to your organization on GitHub.
+
+  //- hide after clicked
+  a.grid-block.align-center.justify-center.shrink.btn.btn-md.green.margin-top-md(
+    data-event-name = "Clicked Grant Access"
+    ng-click = "COMC.grantAccess()"
+    ng-if = "!$root.isLoading.grantAccess"
+  )
+    svg.iconnables.margin-right-xxs
+      use(
+        xlink:href = "#icons-octicons-github"
+      )
+    | Grant Access
+    svg.iconnables.icons-link-external.text-white
+      use(
+        xlink:href = "#icons-link-external-alt"
+      )
+  a.grid-block.shrink.margin-top-sm.btn.btn-xs.text-gray.btn-skip(
+    data-event-name = "Demo: Clicked Skip"
+    ng-click = "goToPanel('createOrg')"
+    ng-if = "$root.featureFlags.demoProject && !$root.isLoading.grantAccess"
+  ) Skip and try a demo
+    svg.iconnables.icons-arrow-forward
+      use(
+        xlink:href = "#icons-arrow-down"
+        )
+
+  //- show after user clicks "grant access"
+  .well.gray.align-center.small.padding-xs.margin-top-md(
+    ng-if = "$root.isLoading.grantAccess"
+    ng-include = "'grantAccessWaitView'"
+  )
+
+  button.grid-block.align-center.shrink.btn.btn-md.btn-cancel.gray.margin-top-sm(
+    ng-click = "goToPanel('orgSelection', 'back')"
+    ng-if = "COMC.allAccounts.models.length > 0 && !$root.featureFlags.demoProject"
+  ) Cancel
+
+  footer.grid-block.shrink.align-center.vertical.footer.margin-top-md(
+    ng-if = "COMC.allAccounts.models.length > 0 && !$root.featureFlags.demoProject"
+  )
+    a.small.link.text-gray(
+      ng-click = "COMC.actions.trackPersonalAccount()"
+      href = "https://support.runnable.com/hc/en-us/articles/213363706"
+      target = "_blank"
+    ) Looking for your personal account?
+      svg.iconnables.icons-link-external.text-gray
+        use(
+          xlink:href = "#icons-link-external-alt"
+        )
+
+  footer.grid-block.shrink.align-center.vertical.footer.padding-bottom-lg(
+    ng-if = "COMC.allAccounts.models.length === 0 && !$root.featureFlags.demoProject"
+  )
+    | Don’t have an org?&#32;
+    a.link(
+      ng-click = "COMC.actions.trackCreateOrgLink()"
+      href = "https://github.com/organizations/new"
+      target = "_blank"
+    ) Create one free on GitHub.
+      svg.iconnables.icons-link-external.text-gray
+        use(
+          xlink:href = "#icons-link-external-alt"
+        )

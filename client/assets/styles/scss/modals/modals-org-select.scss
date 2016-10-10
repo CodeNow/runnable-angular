@@ -1,0 +1,149 @@
+.welcome {
+
+  .runnabear {
+    height: auto;
+    left: 0;
+    margin: 0 auto;
+    position: absolute;
+    right: 0;
+    top: 32px;
+    width: 230px;
+    z-index: 1;
+  }
+}
+
+.modal-org-select {
+  margin-top: 150px;
+
+  .h1 {
+    font-size: 27px;
+  }
+
+  .well {
+    background: $gray-lightest;
+
+    .icons-github-listening {
+      color: $gray-light;
+      display: block;
+      height: 45px;
+      margin: 0 auto $xxs;
+      width: 45px;
+    }
+
+    .icons-github {
+      height: 12px;
+      margin-right: 4px;
+      top: 1px;
+      width: 12px;
+    }
+
+    .icons-link-external {
+      height: 9px;
+      top: 5px;
+      width: 15px;
+    }
+  }
+
+  .green .icons-link-external {
+    height: 12px;
+    width: 18px;
+  }
+
+  .btn-skip {
+
+    &:hover .iconnables,
+    &:active .iconnables {
+      transform: rotate(-90deg) translate3d(0,2px,0);
+    }
+
+    .iconnables {
+      width: 18px;
+    }
+  }
+
+  // progress for demo org
+  .nav {
+    align-self: stretch;
+    position: relative;
+
+    .li {
+      background: $gray-lighter;
+      border: $input-border solid transparent;
+      border-radius: 50%;
+      color: $white;
+      flex: 0 0 $input-xxs;
+      font-size: 13px;
+      height: $input-xxs;
+      z-index: 1;
+
+      &.active {
+        background: $green;
+        border-color: darken($green,5%);
+      }
+
+      + .li {
+        margin-left: 15px;
+      }
+    }
+  }
+
+  .list {
+    width: 100%;
+  }
+
+  .infrastructure-view > .padding-md {
+    @include media(xs) {
+      padding-left: $sm;
+      padding-right: $sm;
+    }
+  }
+
+  .icons-link-external {
+    height: 9px;
+    top: 1px;
+    width: 18px;
+  }
+
+  .list-item {
+    border-radius: 0;
+    font-size: 18px;
+    font-weight: $weight-normal;
+    height: 60px;
+
+    &:hover,
+    &:active {
+      z-index: 1;
+    }
+
+    &:not(:hover),
+    &:not(:active) {
+      .icons-arrow-forward {
+        color: $gray-light;
+      }
+    }
+
+    &:first-child {
+      border-top-left-radius: $input-border-radius-lg;
+      border-top-right-radius: $input-border-radius-lg;
+    }
+
+    &:last-child {
+      border-bottom-left-radius: $input-border-radius-lg;
+      border-bottom-right-radius: $input-border-radius-lg;
+    }
+
+    + .list-item {
+      margin-top: -1px;
+    }
+
+    .icons-missing-org {
+      background: $gray-lightest;
+      border-radius: $input-border-radius;
+      font-size: 21px;
+      height: 30px;
+      line-height: 30px;
+      padding-top: 1px;
+      width: 30px;
+    }
+  }
+}

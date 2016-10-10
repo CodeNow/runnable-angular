@@ -10,8 +10,8 @@ require('app')
   .service('eventTracking', EventTracking);
 var User = require('@runnable/api-client/lib/models/user');
 var UUID = require('node-uuid');
-var _keypather;
-var _$location;
+var keypather;
+var $location;
 var INTERCOM_APP_ID;
 var SIFT_API_KEY;
 
@@ -23,15 +23,19 @@ function EventTracking(
   $browser,
   $location,
   $log,
+  $q,
   $state,
   $stateParams,
   $window,
   assign,
-  keypather,
+  currentOrg,
   configEnvironment,
+  fetchUserUnCached,
+  fetchGrantedGithubOrgs,
+  keypather,
   siftApiConfig
 ) {
-  var self = this;
+  var ETS = this;
   SIFT_API_KEY = siftApiConfig;
 
   if (configEnvironment === 'production') {
@@ -39,12 +43,9 @@ function EventTracking(
   } else {
     INTERCOM_APP_ID = 'xs5g95pd'; // test ID
   }
-  _keypather = keypather;
-  _$location = $location;
 
-  self.analytics = $window.analytics;
-  self._user = null;
-  self.$window = $window;
+  ETS.analytics = $window.analytics;
+  ETS._user = null;
 
   /**
    * Extend per-event data with specific properties
@@ -52,8 +53,8 @@ function EventTracking(
    * @param {Object} data - data for given event to be extended
    * @return Object - extended event object
    */
-  self.extendEventData = function (data) {
-    if (!self._user) {
+  ETS.extendEventData = function (data) {
+    if (!ETS._user) {
       $log.error('eventTracking.boot() must be invoked before reporting events');
     }
     // username owner if server page
@@ -63,8 +64,8 @@ function EventTracking(
       state: $state.$current.name,
       href: $window.location.href
     };
-    if (angular.isFunction(keypather.get(self._user, 'oauthName'))) {
-      baseData.userName = self._user.oauthName();
+    if (angular.isFunction(keypather.get(ETS._user, 'oauthName'))) {
+      baseData.userName = ETS._user.oauthName();
     }
     if ($stateParams.userName) {
       baseData.instanceOwner = $stateParams.userName;
@@ -76,14 +77,14 @@ function EventTracking(
   };
 
   var isModerating = !!$browser.cookies().isModerating;
-  self.Intercom = function () {
-    if (self.$window.Intercom && !isModerating) {
-      self.$window.Intercom.apply($window.Intercom, arguments);
+  ETS.Intercom = function () {
+    if ($window.Intercom && !isModerating) {
+      $window.Intercom.apply($window.Intercom, arguments);
     }
   };
 
   if (isModerating) {
-    self.$window.intercomSettings = {
+    $window.intercomSettings = {
       hide_default_launcher: true
     };
   }
@@ -92,9 +93,9 @@ function EventTracking(
    * Stub Segment when SDK not present
    * (development/staging environments)
    */
-  if (!self.analytics) {
+  if (!ETS.analytics) {
     // stub segment (analytics) if not present
-    self.analytics = {
+    ETS.analytics = {
       ready: angular.noop,
       track: angular.noop,
       identify: angular.noop,
@@ -115,10 +116,8 @@ function EventTracking(
    * @param {String} mixpanel SDK API method name
    * @params [1..n] optional arguments passed to mixpanel SDK
    */
-  self._mixpanel = function () {
+  ETS._mixpanel = function () {
     if (!angular.isFunction(keypather.get($window, 'mixpanel.'+arguments[0]))) {
-      // $log.info('Mixpanel JS SDK stubbed');
-      // $log.info(arguments);
       return;
     }
     var args = Array.prototype.slice.call(arguments);
@@ -129,419 +128,475 @@ function EventTracking(
     keypather.get($window, 'mixpanel.' + arguments[0])
       .apply(context, args.slice(1, args.length));
   };
-}
 
-/**
- * Intercom, Mixpanel, and Segment user identification
- * @throws Error
- * @param {Object} user - User Model instance
- * @return this
- */
-EventTracking.prototype.boot = function (user, opts) {
-  var self = this;
-  opts = opts || {};
-  // if (self._user) { return self; }
-  if (!(user instanceof User)) {
-    throw new Error('arguments[0] must be instance of User');
-  }
-
-  if (user.attrs._beingModerated) {
-    user = new User(user.attrs._beingModerated, { noStore: true });
-  } else {
-    var session = window.sessionStorage.getItem('sessionId');
-    if (!session) {
-      session = UUID.v4();
-      window.sessionStorage.setItem('sessionId', session);
+  /**
+   * Intercom, Mixpanel, and Segment user identification
+   * @throws Error
+   * @param {Object} user - User Model instance
+   * @return this
+   */
+  ETS.boot = function (user, opts) {
+    opts = opts || {};
+    // if (ETS._user) { return ETS; }
+    if (!(user instanceof User)) {
+      throw new Error('arguments[0] must be instance of User');
     }
 
-    var _sift = window._sift = window._sift || [];
-    _sift.push(['_setAccount', SIFT_API_KEY]);
-    _sift.push(['_setUserId', user.name]);
-    _sift.push(['_setSessionId', session]);
-    _sift.push(['_trackPageview']);
+    if (user.attrs._beingModerated) {
+      user = new User(user.attrs._beingModerated, { noStore: true });
+    } else {
+      var session = window.sessionStorage.getItem('sessionId');
+      if (!session) {
+        session = UUID.v4();
+        window.sessionStorage.setItem('sessionId', session);
+      }
 
-    self.analytics.ready(function () {
-      self.analytics.track('ViewContent', {
-        action: 'LoggedIn'
+      var _sift = window._sift = window._sift || [];
+      _sift.push(['_setAccount', SIFT_API_KEY]);
+      _sift.push(['_setUserId', user.name]);
+      _sift.push(['_setSessionId', session]);
+      _sift.push(['_trackPageview']);
+
+      ETS.analytics.ready(function () {
+        ETS.analytics.track('ViewContent', {
+          action: 'LoggedIn'
+        });
       });
-    });
-  }
+    }
 
-  self._user = user;
-  var data = {
-    name: user.oauthName(),
-    email: user.attrs.email,
-    created_at: new Date(user.attrs.created) / 1000 || 0,
-    app_id: INTERCOM_APP_ID
-  };
-  if (opts.orgName) {
-    data.company = {
-      id: opts.orgName.toLowerCase(),
-      name: opts.orgName
+    ETS._user = user;
+    var data = {
+      name: user.oauthName(),
+      email: user.attrs.email,
+      created_at: new Date(user.attrs.created) / 1000 || 0,
+      app_id: INTERCOM_APP_ID
     };
-  }
-
-  // Mixpanel uses a string GUID to track anon users
-  // If we're still tracking the user via GUID, we need to alias
-  // Otherwise, we can just identify ourselves
-  if (angular.isString(self._mixpanel('get_distinct_id'))) {
-    self._mixpanel('alias', user.oauthId());
-  } else {
-    self._mixpanel('identify', user.oauthId());
-  }
-  self.Intercom('boot', data);
-  var userJSON = user.toJSON();
-  var firstName = '';
-  var lastName = '';
-  var displayName = _keypather.get(userJSON, 'accounts.github.displayName');
-  if (displayName) {
-    firstName = displayName.split(/ (.+)/)[0];
-    lastName = displayName.split(/ (.+)/)[1];
-  }
-  self._mixpanel('people.set', {
-    '$first_name': firstName,
-    '$last_name': lastName,
-    '$created': _keypather.get(userJSON, 'created'),
-    '$email': _keypather.get(userJSON, 'email')
-  });
-
-  // Segment
-  self.analytics.ready(function () {
-    self.analytics.identify(data.name, {
-      firstName: firstName,
-      lastName: lastName,
-      username: data.name,
-      email: _keypather.get(userJSON, 'email'),
-      createdAt: _keypather.get(userJSON, 'created'),
-      avatar: _keypather.get(userJSON, 'gravatar')
-    });
-    self.analytics.alias(user.oauthId());
-    self.analytics.alias(_keypather.get(userJSON, '_id'));
     if (opts.orgName) {
-      self.analytics.group(data.company.id, {
-        name: data.company.name
+      data.company = {
+        id: opts.orgName.toLowerCase(),
+        name: opts.orgName
+      };
+    }
+
+    // Mixpanel uses a string GUID to track anon users
+    // If we're still tracking the user via GUID, we need to alias
+    // Otherwise, we can just identify ourselves
+    if (angular.isString(ETS._mixpanel('get_distinct_id'))) {
+      ETS._mixpanel('alias', user.oauthId());
+    } else {
+      ETS._mixpanel('identify', user.oauthId());
+    }
+
+    ETS.Intercom('boot', data);
+    var userJSON = user.toJSON();
+    var firstName = '';
+    var lastName = '';
+    var displayName = keypather.get(userJSON, 'accounts.github.displayName');
+    if (displayName) {
+      firstName = displayName.split(/ (.+)/)[0];
+      lastName = displayName.split(/ (.+)/)[1];
+    }
+
+    ETS._mixpanel('people.set', {
+      '$first_name': firstName,
+      '$last_name': lastName,
+      '$created': keypather.get(userJSON, 'created'),
+      '$email': keypather.get(userJSON, 'email')
+    });
+
+    // Segment
+    ETS.analytics.ready(function () {
+      ETS.analytics.identify(data.name, {
+        firstName: firstName,
+        lastName: lastName,
+        username: data.name,
+        email: keypather.get(userJSON, 'email'),
+        createdAt: keypather.get(userJSON, 'created'),
+        avatar: keypather.get(userJSON, 'gravatar')
+      });
+      ETS.analytics.alias(user.oauthId());
+      ETS.analytics.alias(keypather.get(userJSON, '_id'));
+      if (opts.orgName) {
+        ETS.analytics.group(data.company.id, {
+          name: data.company.name
+        });
+      }
+    });
+    return ETS;
+  };
+
+  /**
+   * Record user event toggling of selected commit in repository
+   * Reports to:
+   *   - mixpanel
+   *   - segment
+   * @param {Object} data - key/value pairs of event data
+   *   - keys
+     *   - triggeredBuild: Boolean
+     *   - slectedCommit: Object (ACV Model)
+   * @return this
+   */
+  ETS.toggledCommit = function (data) {
+    var eventName = 'toggled-commit';
+    var eventData = ETS.extendEventData({
+      triggeredBuild: !!data.triggeredBuild,
+      selectedCommit: data.acv
+    });
+    ETS._mixpanel('track', eventName, eventData);
+    ETS.analytics.ready(function () {
+      ETS.analytics.track(eventName, eventData);
+    });
+    return ETS;
+  };
+
+  /**
+   * Record user-initiated build triggered event from throughout UI
+   * Reports to:
+   *   - intercom
+   *   - mixpanel
+   *   - segment
+   * @param {Boolean} cache - build triggered without cache
+   * @return this
+   */
+  ETS.triggeredBuild = function (cache) {
+    var eventName = 'triggered-build';
+    var eventData = ETS.extendEventData({
+      cache: cache
+    });
+    ETS.Intercom('trackEvent', eventName, eventData);
+    ETS._mixpanel('track', eventName, eventData);
+    ETS.analytics.ready(function () {
+      ETS.analytics.track(eventName, eventData);
+    });
+    return ETS;
+  };
+
+  /**
+   * Record user visit to states
+   * Reports to:
+   *   - mixpanel
+   *   - segment
+   * @return this
+   */
+  ETS.visitedState = function () {
+    var eventName = 'visited-state';
+    var eventData = ETS.extendEventData({
+      referral: $location.search().ref || 'direct'
+    });
+    ETS._mixpanel('track', eventName, eventData);
+    ETS.analytics.ready(function () {
+      ETS.analytics.track(eventName, eventData);
+    });
+    return ETS;
+  };
+
+  /**
+   * Intercom JS SDK API update method wrapper
+   * Checks for & displays new messages from Intercom
+   * @return this
+   */
+  ETS.update = function () {
+    ETS.Intercom('update');
+    return ETS;
+  };
+
+  /**
+   * Track clicks on the page
+   * @param data
+   * @returns {EventTracking}
+   */
+  ETS.trackClicked = function (data) {
+
+    ETS._mixpanel('track', 'Click', data);
+    ETS.analytics.ready(function () {
+      ETS.analytics.track('Click', data);
+    });
+    return ETS;
+  };
+
+  /**
+   * Track creating repo containers
+   * @param {String} orgName
+   * @param {String} repoName
+   * @returns {EventTracking}
+   */
+  ETS.createdRepoContainer = function (org, repo) {
+    if (ETS._mixpanel) {
+      ETS._mixpanel('track', 'createRepoContainer', {
+        org: org,
+        repo: repo
       });
     }
-  });
-  return self;
-};
 
-/**
- * Record user event toggling of selected commit in repository
- * Reports to:
- *   - mixpanel
- *   - segment
- * @param {Object} data - key/value pairs of event data
- *   - keys
-   *   - triggeredBuild: Boolean
-   *   - slectedCommit: Object (ACV Model)
- * @return this
- */
-EventTracking.prototype.toggledCommit = function (data) {
-  var self = this;
-  var eventName = 'toggled-commit';
-  var eventData = self.extendEventData({
-    triggeredBuild: !!data.triggeredBuild,
-    selectedCommit: data.acv
-  });
-  self._mixpanel('track', eventName, eventData);
-  self.analytics.ready(function () {
-    self.analytics.track(eventName, eventData);
-  });
-  return self;
-};
-
-/**
- * Record user-initiated build triggered event from throughout UI
- * Reports to:
- *   - intercom
- *   - mixpanel
- *   - segment
- * @param {Boolean} cache - build triggered without cache
- * @return this
- */
-EventTracking.prototype.triggeredBuild = function (cache) {
-  var self = this;
-  var eventName = 'triggered-build';
-  var eventData = self.extendEventData({
-    cache: cache
-  });
-  self.Intercom('trackEvent', eventName, eventData);
-  self._mixpanel('track', eventName, eventData);
-  self.analytics.ready(function () {
-    self.analytics.track(eventName, eventData);
-  });
-  return self;
-};
-
-/**
- * Record user visit to states
- * Reports to:
- *   - mixpanel
- *   - segment
- * @return this
- */
-EventTracking.prototype.visitedState = function () {
-  var self = this;
-  var eventName = 'visited-state';
-  var eventData = self.extendEventData({
-    referral: _$location.search().ref || 'direct'
-  });
-  self._mixpanel('track', eventName, eventData);
-  self.analytics.ready(function () {
-    self.analytics.track(eventName, eventData);
-  });
-  return self;
-};
-
-/**
- * Intercom JS SDK API update method wrapper
- * Checks for & displays new messages from Intercom
- * @return this
- */
-EventTracking.prototype.update = function () {
-  var self = this;
-  self.Intercom('update');
-  return self;
-};
-
-/**
- * Track clicks on the page
- * @param data
- * @returns {EventTracking}
- */
-EventTracking.prototype.trackClicked = function (data) {
-  var self = this;
-
-  self._mixpanel('track', 'Click', data);
-  self.analytics.ready(function () {
-    self.analytics.track('Click', data);
-  });
-  return self;
-};
-
-/**
- * Track creating repo containers
- * @param {String} orgName
- * @param {String} repoName
- * @returns {EventTracking}
- */
-EventTracking.prototype.createdRepoContainer = function (org, repo) {
-  var self = this;
-  if (self._mixpanel) {
-    self._mixpanel('track', 'createRepoContainer', {
-      org: org,
-      repo: repo
+    ETS.analytics.ready(function () {
+      ETS.analytics.track('ViewContent', {
+        action: 'CreateContainer',
+        type: 'Repo',
+        containerName: repo
+      });
     });
-  }
+  };
 
-  self.analytics.ready(function () {
-    self.analytics.track('ViewContent', {
-      action: 'CreateContainer',
-      type: 'Repo',
-      containerName: repo
+  /**
+   * Track creating non repo containers
+   * @param {String} containerName
+   * @returns {EventTracking}
+   */
+  ETS.createdNonRepoContainer = function (containerName) {
+    if (ETS._mixpanel) {
+      ETS._mixpanel('track', 'createNonRepoContainer', {
+        containerName: containerName
+      });
+    }
+
+    ETS.analytics.ready(function () {
+      ETS.analytics.track('ViewContent', {
+        action: 'CreateContainer',
+        type: 'NonRepo',
+        containerName: containerName
+      });
     });
-  });
-};
+  };
 
-/**
- * Track creating non repo containers
- * @param {String} containerName
- * @returns {EventTracking}
- */
-EventTracking.prototype.createdNonRepoContainer = function (containerName) {
-  var self = this;
-  if (self._mixpanel) {
-    self._mixpanel('track', 'createNonRepoContainer', {
-      containerName: containerName
+  /**
+   * Track user visit to /orgSelect page
+   * Reports to:
+   *   - mixpanel
+   *   - segment
+   * @return this
+   */
+  ETS.visitedOrgSelectPage = function () {
+    var eventName = 'Visited org-select page';
+
+    ETS._mixpanel('track', eventName);
+    ETS.analytics.ready(function () {
+      ETS.analytics.track(eventName);
     });
-  }
+    return ETS;
+  };
 
-  self.analytics.ready(function () {
-    self.analytics.track('ViewContent', {
-      action: 'CreateContainer',
-      type: 'NonRepo',
-      containerName: containerName
+  /**
+   * Track user visit to /containers page
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.visitedContainersPage = function () {
+    var eventName = 'Visited containers page';
+
+    ETS._mixpanel('track', eventName);
+    return ETS;
+  };
+
+  /**
+   * Track user clicks on an org on the orgSelect page
+   * Reports to:
+   *   - mixpanel
+   *   - segment
+   * @return this
+   */
+  ETS.selectedOrg = function (org) {
+    var eventName = 'Org Selected';
+
+    ETS._mixpanel('track', eventName, {
+      org: org
     });
-  });
-};
+    ETS.analytics.ready(function () {
+      ETS.analytics.track(eventName, {org: org});
+    });
+    return ETS;
+  };
 
-/**
- * Track user visit to /orgSelect page
- * Reports to:
- *   - mixpanel
- *   - segment
- * @return this
- */
-EventTracking.prototype.visitedOrgSelectPage = function () {
-  var self = this;
-  var eventName = 'Visited org-select page';
+  /**
+   * Track org click on /orgSelect page
+   * Reports to:
+   *   - segment
+   * @return this
+   */
+  ETS.waitingForInfrastructure = function (orgName) {
+    var eventName = 'Waiting for infrastrucuture';
 
-  self._mixpanel('track', eventName);
-  self.analytics.ready(function () {
-    self.analytics.track(eventName);
-  });
-  return self;
-};
+    ETS.analytics.ready(function () {
+      ETS.analytics.track(eventName, {org: orgName});
+    });
+    return ETS;
+  };
 
-/**
- * Track user visit to /containers page
- * Reports to:
- *   - mixpanel
- * @return this
- */
-EventTracking.prototype.visitedContainersPage = function () {
-  var self = this;
-  var eventName = 'Visited containers page';
+  /**
+   * Milestone 2: Select repository
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.milestone2SelectTemplate = function () {
+    var eventName = 'Milestone 2: Select template';
 
-  self._mixpanel('track', eventName);
-  return self;
-};
+    ETS._mixpanel('track', eventName);
+    return ETS;
+  };
 
-/**
- * Track user clicks on an org on the orgSelect page
- * Reports to:
- *   - mixpanel
- *   - segment
- * @return this
- */
-EventTracking.prototype.selectedOrg = function (org) {
-  var self = this;
-  var eventName = 'Org Selected';
+  /**
+   * Milestone 1: Track personal account
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.trackPersonalAccount = function () {
+    var eventName = 'Clicked personal account link';
 
-  self._mixpanel('track', eventName, {
-    org: org
-  });
-  self.analytics.ready(function () {
-    self.analytics.track(eventName, {org: org});
-  });
-  return self;
-};
+    ETS._mixpanel('track', eventName);
+    return ETS;
+  };
 
-/**
- * Track org click on /orgSelect page
- * Reports to:
- *   - segment
- * @return this
- */
-EventTracking.prototype.waitingForInfrastructure = function (orgName) {
-  var self = this;
-  var eventName = 'Waiting for infrastrucuture';
+  /**
+   * Milestone 1: Track create org link
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.trackCreateOrgLink = function () {
+    var eventName = 'Clicked create org link';
 
-  self.analytics.ready(function () {
-    self.analytics.track(eventName, {org: orgName});
-  });
-  return self;
-};
+    ETS._mixpanel('track', eventName);
+    return ETS;
+  };
 
-/**
- * Milestone 2: Select repository
- * Reports to:
- *   - mixpanel
- * @return this
- */
-EventTracking.prototype.milestone2SelectTemplate = function () {
-  var self = this;
-  var eventName = 'Milestone 2: Select template';
+  /**
+   * Milestone 1: Track clicks on figure
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.trackFigureAction = function () {
+    var eventName = 'Clicked figure';
 
-  self._mixpanel('track', eventName);
-  return self;
-};
+    ETS._mixpanel('track', eventName);
+    return ETS;
+  };
 
-/**
- * Milestone 2: Verify repository tab
- * Reports to:
- *   - mixpanel
- * @return this
- */
-EventTracking.prototype.milestone2VerifyRepositoryTab = function () {
-  var self = this;
-  var eventName = 'Milestone 2: Verify repository tab';
+  /**
+   * Milestone 2: Verify repository tab
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.milestone2VerifyRepositoryTab = function () {
+    var eventName = 'Milestone 2: Verify repository tab';
 
-  self._mixpanel('track', eventName);
-  return self;
-};
+    ETS._mixpanel('track', eventName);
+    return ETS;
+  };
 
-/**
- * Milestone 2: Verify commands tab
- * Reports to:
- *   - mixpanel
- * @return this
- */
-EventTracking.prototype.milestone2VerifyCommandsTab = function () {
-  var self = this;
-  var eventName = 'Milestone 2: Verify commands tab';
+  /**
+   * Milestone 2: Verify commands tab
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.milestone2VerifyCommandsTab = function () {
+    var eventName = 'Milestone 2: Verify commands tab';
 
-  self._mixpanel('track', eventName);
-  return self;
-};
+    ETS._mixpanel('track', eventName);
+    return ETS;
+  };
 
-/**
- * Milestone 2: Building
- * Reports to:
- *   - mixpanel
- * @return this
- */
-EventTracking.prototype.milestone2Building = function () {
-  var self = this;
-  var eventName = 'Milestone 2: Building';
+  /**
+   * Milestone 2: Building
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.milestone2Building = function () {
+    var eventName = 'Milestone 2: Building';
 
-  self._mixpanel('track', eventName);
-  return self;
-};
+    ETS._mixpanel('track', eventName);
+    return ETS;
+  };
 
-/**
- * Milestone 2: Container popover
- * Reports to:
- *   - mixpanel
- * @return this
- */
-EventTracking.prototype.milestone2BuildSuccess = function () {
-  var self = this;
-  var eventName = 'Milestone 2: Build success message (in modal)';
+  /**
+   * Milestone 2: Container popover
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.milestone2BuildSuccess = function () {
+    var eventName = 'Milestone 2: Build success message (in modal)';
 
-  self._mixpanel('track', eventName);
-  return self;
-};
+    ETS._mixpanel('track', eventName);
+    return ETS;
+  };
 
-/**
- * Milestone 3: Added branch
- * Reports to:
- *   - mixpanel
- * @return this
- */
-EventTracking.prototype.milestone3AddedBranch = function () {
-  var self = this;
-  var eventName = 'Milestone 3: Added branch';
+  /**
+   * Milestone 3: Added branch
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.milestone3AddedBranch = function () {
+    var eventName = 'Milestone 3: Added branch';
 
-  self._mixpanel('track', eventName);
-  return self;
-};
+    ETS._mixpanel('track', eventName);
+    return ETS;
+  };
 
-/**
- * Milestone 4: Invited Runnabot
- * Reports to:
- *   - mixpanel
- * @return this
- */
-EventTracking.prototype.invitedRunnabot = function () {
-  var self = this;
-  var eventName = 'Invited Runnabot';
+  /**
+   * Milestone 4: Invited Runnabot
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.invitedRunnabot = function () {
+    var eventName = 'Invited Runnabot';
 
-  self._mixpanel('track', eventName);
-  return self;
-};
+    ETS._mixpanel('track', eventName);
+    return ETS;
+  };
 
-/**
- * Enabled auto-launch
- * Reports to:
- *   - mixpanel
- * @return this
- */
-EventTracking.prototype.enabledAutoLaunch = function () {
-  var self = this;
-  var eventName = 'Enabled auto-launch';
+  /**
+   * Enabled auto-launch
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.enabledAutoLaunch = function () {
+    var eventName = 'Enabled auto-launch';
+    ETS._mixpanel('track', eventName);
+    return ETS;
+  };
 
-  self._mixpanel('track', eventName);
-  return self;
-};
+  ETS.updateCurrentPersonProfile = function (currentStep) {
+    return $q.all([
+      fetchUserUnCached(),
+      fetchGrantedGithubOrgs()
+    ])
+      .then(function (res) {
+        var grantedOrgs = res[1];
+        var userJSON = res[0].toJSON();
+        var orgs = keypather.get(userJSON, 'bigPoppaUser.organizations');
+        var hasAnyOrgCompletedAha = !!orgs && orgs.some(function (org) {
+          return !keypather.get(org, 'metadata.hasAha');
+        });
+        var bigPoppaUserId = keypather.get(userJSON, 'bigPoppaUser.id');
+        var organizations = keypather.get(userJSON, 'bigPoppaUser.organizations');
+        var orgsWhereUserIsCreator = Array.isArray(organizations) && organizations.filter(function (x) {
+          return x.creator === bigPoppaUserId;
+        });
+        var updates = {
+          'bigPoppaId': bigPoppaUserId,
+          'userName': keypather.get(userJSON, 'accounts.github.username'),
+          'email': keypather.get(userJSON, 'email'),
+          'FurthestStep': currentStep,
+          'CurrentOrg': keypather.get(currentOrg, 'poppa.attrs.name'),
+          'NumberOfOrgsWithGrantedAccess': keypather.get(grantedOrgs, 'models.length'),
+          'NumberOfOrgs': keypather.get(organizations, 'length') || 0,
+          'NumberOfOrgsWhereCreator': keypather.get(orgsWhereUserIsCreator, 'length') || 0,
+          'IsCreatorOfCurrentOrg': bigPoppaUserId === keypather.get(currentOrg, 'poppa.attrs.creator'),
+          'HasAnyOrgCompletedAha': hasAnyOrgCompletedAha
+        };
+        console.log('updates', updates);
+        ETS._mixpanel('people.set', updates);
+      });
+  };
+
+  return ETS;
+}

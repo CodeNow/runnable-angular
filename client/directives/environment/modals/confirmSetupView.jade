@@ -20,8 +20,7 @@
           | &#32;or&#32;
           //- Opens Intercom chat, and starts with "I need help setting up!":
           a.link(
-            href = "https://support.runnable.com/hc/en-us/articles/212930166"
-            target = "_blank"
+            ng-click = "$root.$broadcast('intercom::confirmedSetup')"
           ) chat
           | &#32;with our devs.
         p.grid-content.p.text-center.text-gray If you’re done, continue to the Containers page.
@@ -30,5 +29,5 @@
         ng-click = "CMC.actions.cancel()"
       ) Go Back
       button.btn.btn-md.green.float-right(
-        ng-click = "$root.$broadcast('confirmedSetup');CMC.actions.confirm()"
+        ng-click = "CMC.actions.confirm()"
       ) Continue

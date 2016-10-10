@@ -23,7 +23,7 @@
     .small
       | or&#32;
       a.link.icons-intercom(
-        ng-click = "BLC.actions.openIntercom()"
+        ng-click = "$root.$broadcast('intercom::buildFailed')"
       ) chat with our devs
 
 .pre.build-log(

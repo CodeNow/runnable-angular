@@ -49,6 +49,7 @@ describe('setupMirrorServerModalController'.bold.underline.blue, function () {
   var closeSpy;
   var showModalStub;
   var closeModalStub;
+  var eventTrackingStub;
   var createAndBuildNewContainerMock;
 
   var instanceName = 'HelloWorldInstanceName';
@@ -86,6 +87,13 @@ describe('setupMirrorServerModalController'.bold.underline.blue, function () {
       $provide.value('errs', errsMock);
       $provide.factory('fetchStackAnalysis', fetchStackAnalysisMock.fetch());
       $provide.factory('fetchUser', mockUserFetch.autoTrigger(org1));
+      $provide.factory('eventTracking', function ($q) {
+        eventTrackingStub = {
+          createdRepoContainer: sinon.stub(),
+          updateCurrentPersonProfile: sinon.stub()
+        };
+        return eventTrackingStub;
+      });
       $provide.factory('fetchInstancesByPod', function ($q) {
         fetchInstancesByPodStub = sinon.stub().returns($q.when(instances));
         return fetchInstancesByPodStub;

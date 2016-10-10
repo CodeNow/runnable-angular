@@ -148,12 +148,6 @@ function BuildLogsController(
 
   this.generatingDebug = false;
   this.actions = {
-    openIntercom: function () {
-      window.Intercom(
-        'showNewMessage',
-        'Fudge! This thing won’t build my container. Can you fix it?'
-      );
-    },
     rebuildWithoutCache: function () {
       loading('buildLogsController', true);
       promisify(BLC.instance.build, 'deepCopy')()

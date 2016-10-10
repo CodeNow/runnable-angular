@@ -1,0 +1,154 @@
+.layout-github {
+  background: $gray-lighterest;
+  height: 100vh;
+  min-height: 510px;
+  overflow: hidden;
+
+  .header {
+    @media (max-height: 520px) {
+      margin-top: 30px;
+    }
+  }
+
+  .p {
+    max-width: 360px;
+
+    @include media(xxs) {
+      max-width: 290px;
+    }
+  }
+
+  .figure {
+    border: 1px solid $gray-lighter;
+    border-bottom: 0;
+    border-radius: $input-border-radius-lg $input-border-radius-lg 0 0;
+    flex: 0 0 auto;
+    margin: 0 auto;
+    max-height: 462px;
+    max-width: 660px;
+    overflow: hidden;
+    position: relative;
+    user-select: none;
+    z-index: 1; // for border clipping
+
+    @include media(sm) {
+      height: 462px;
+      width: 510px;
+    }
+
+    @media (max-width: 540px) {
+      border-left: 0;
+      border-radius: 0;
+      border-right: 0;
+      height: 462px;
+      width: 100vw;
+    }
+
+    &::after {
+      animation: scrollbarIn 2.5s 1s 1 forwards;
+      background: rgba($black,.3);
+      border: 1px solid rgba($white,.1);
+      border-radius: 9px;
+      content: '';
+      display: block;
+      height: 210px;
+      position: absolute;
+      right: 3px;
+      top: 3px;
+      width: 6px;
+    }
+  }
+
+  .img {
+    animation: figureIn 2s 1s 1 forwards;
+    height: auto;
+    width: 660px;
+
+    @include media(sm) {
+      position: absolute;
+      right: 0;
+    }
+  }
+
+  .cursor {
+    animation: cursorIn 1s 3s 1 forwards ease-in-out;
+    background-image: url(/build/images/cursor-default.svg);
+    background-repeat: no-repeat;
+    bottom: 180px;
+    height: 45px;
+    position: absolute;
+    right: 10px;
+    transform: scale3d(1,1,1) translate3d(-10px,220px,0);
+    width: 45px;
+  }
+
+  .footer {
+    background: $gray-lighterest;
+    border-top: 1px solid $gray-lighter;
+    height: 73px;
+    width: 720px;
+    z-index: 1;
+
+    @media (max-height: 695px) {
+      bottom: 0;
+      position: fixed;
+    }
+
+    @include media(sm) {
+      width: 570px;
+    }
+  }
+}
+
+@keyframes figureIn {
+  0% {
+    transform: translate3d(0,0,0);
+  }
+
+  100% {
+    transform: translate3d(0,-240px,0);
+  }
+}
+
+@keyframes cursorIn {
+  0% {
+    background-image: url(/build/images/cursor-default.svg);
+    transform: scale3d(1,1,1) translate3d(-10px,220px,0);
+  }
+
+  70% {
+    background-image: url(/build/images/cursor-default.svg);
+  }
+
+  80%,
+  90% {
+    background-image: url(/build/images/cursor-pointer.svg);
+    transform: scale3d(1,1,1) translate3d(0,0,0);
+  }
+
+  95% {
+    background-image: url(/build/images/cursor-pointer.svg);
+    transform: scale3d(.9,.9,1) translate3d(0,0,0);
+  }
+
+  100% {
+    background-image: url(/build/images/cursor-pointer.svg);
+    transform: scale3d(1,1,1) translate3d(0,0,0);
+  }
+}
+
+@keyframes scrollbarIn {
+  0% {
+    transform: translate3d(0,0,0);
+  }
+
+  80% {
+    opacity: 1;
+    transform: translate3d(0,244px,0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(0,244px,0);
+  }
+}
