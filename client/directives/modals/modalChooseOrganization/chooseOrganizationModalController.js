@@ -63,7 +63,7 @@ function ChooseOrganizationModalController(
       connectionUrl = '/githubAuth';
     }
     var customWindow = customWindowService(connectionUrl, {
-      width: 770,
+      width: 1020, // match github minimum width
       height: 730
     });
     loading.reset('grantAccess');
