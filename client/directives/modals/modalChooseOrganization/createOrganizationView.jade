@@ -1,8 +1,23 @@
-nav.grid-block.align-center.modal-header.nav(
-  active-step = "1"
-  progress
-  steps = "4"
-)
+nav.grid-block.align-center.modal-header.nav
+  //- if from grant access
+  //- svg.iconnables.icons-arrow-backward(
+  //-   ng-click = "goToPanel('grantAccess', 'back')"
+  //- )
+    use(
+      xlink:href = "#icons-arrow-down"
+    )
+  //- if from org select
+  svg.iconnables.icons-arrow-backward(
+    ng-click = "goToPanel('orgSelection', 'back')"
+  )
+    use(
+      xlink:href = "#icons-arrow-down"
+    )
+  ol.grid-block.justify-center(
+    active-step = "1"
+    progress
+    steps = "4"
+  )
 
 .grid-block.align-center.vertical.padding-lg
   h1.h1 Create a demo organization.
