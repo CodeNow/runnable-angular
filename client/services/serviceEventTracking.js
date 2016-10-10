@@ -581,16 +581,19 @@ function EventTracking(
         var orgsWhereUserIsCreator = Array.isArray(organizations) && organizations.filter(function (x) {
           return x.creator === bigPoppaUserId;
         });
+        var numberOfOrgs = keypather.get(organizations, 'length') || 0;
+        var isCreatorOfCurrengOrg = bigPoppaUserId === keypather.get(currentOrg, 'poppa.attrs.creator');
         var updates = {
           'bigPoppaId': bigPoppaUserId,
           'userName': keypather.get(userJSON, 'accounts.github.username'),
           'email': keypather.get(userJSON, 'email'),
           'FurthestStep': currentStep,
           'CurrentOrg': keypather.get(currentOrg, 'poppa.attrs.name'),
+          'IsCreatorOfCurrentOrg': isCreatorOfCurrengOrg,
+          'IsFirstUser': numberOfOrgs === 0 || isCreatorOfCurrengOrg,
           'NumberOfOrgsWithGrantedAccess': keypather.get(grantedOrgs, 'models.length'),
-          'NumberOfOrgs': keypather.get(organizations, 'length') || 0,
+          'NumberOfOrgs': numberOfOrgs,
           'NumberOfOrgsWhereCreator': keypather.get(orgsWhereUserIsCreator, 'length') || 0,
-          'IsCreatorOfCurrentOrg': bigPoppaUserId === keypather.get(currentOrg, 'poppa.attrs.creator'),
           'HasAnyOrgCompletedAha': hasAnyOrgCompletedAha
         };
         console.log('updates', updates);
