@@ -43,7 +43,7 @@ nav.grid-block.justify-center.align-center.modal-header.nav(
       )
   a.grid-block.shrink.margin-top-sm.btn.btn-xs.text-gray.btn-skip(
     data-event-name = "Demo: Clicked Skip"
-    ng-click = "goToPanel('createOrg')"
+    ng-click = "COMC.isInDemoFlow = true; goToPanel('createOrg')"
     ng-if = "$root.featureFlags.demoProject && !$root.isLoading.grantAccess"
   ) Skip and try a demo
     svg.iconnables.icons-arrow-forward

@@ -38,6 +38,8 @@ function ChooseOrganizationModalController(
     COMC.defaultBasePanel = 'grantAccess';
   }
 
+  COMC.isInDemoFlow = false;
+
   $scope.$broadcast('go-to-panel', COMC.defaultBasePanel, 'immediate');
 
   COMC.cancelPollingForWhitelisted = function () {
@@ -51,7 +53,6 @@ function ChooseOrganizationModalController(
       $interval.cancel(COMC.pollForDockCreatedPromise);
     }
   };
-
   COMC.grantAccess = function () {
     var connectionUrl = 'https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9';
     if (configEnvironment === 'development') {
@@ -68,10 +69,17 @@ function ChooseOrganizationModalController(
     loading('grantAccess', true);
     COMC.cancelPollingForWhitelisted();
     var originalOrgCount = grantedOrgs.models.length;
+    var originalOrgList = grantedOrgs.models.map(function (org) {
+      return org.attrs.login;
+    });
+    COMC.newOrgList = [];
     COMC.pollForWhitelistPromise = $interval(function () {
       promisify(grantedOrgs, 'fetch')({'_bustCache': Math.random()})
         .then(function (orgs) {
           if (orgs.models.length !== originalOrgCount) {
+            COMC.newOrgList = orgs.models.filter(function (org) {
+              return !originalOrgList.includes(org.attrs.login);
+            });
             COMC.showGrantAccess = false;
             loading('grantAccess', false);
             customWindow.close();
