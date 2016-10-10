@@ -4,7 +4,7 @@ var User = require('@runnable/api-client/lib/models/user');
 var apiMocks = require('../apiMocks/index');
 var keypather = require('keypather')();
 
-describe('serviceEventTracking'.bold.underline.blue, function () {
+describe.only('serviceEventTracking'.bold.underline.blue, function () {
   var $rootScope;
   var $log;
   var $window;
@@ -141,6 +141,8 @@ describe('serviceEventTracking'.bold.underline.blue, function () {
         'CurrentOrg': currentOrgName,
         'IsFirstUser': false,
         'IsCreatorOfCurrentOrg': false,
+        'IsCreatorOfWaitingOrg': false,
+        'IsWaitingForOrg': false,
         'NumberOfOrgs': bigPoppaUser.organizations.length,
         'NumberOfOrgsWithGrantedAccess': grantedOrgs.length,
         'NumberOfOrgsWhereCreator': 0,
@@ -161,7 +163,9 @@ describe('serviceEventTracking'.bold.underline.blue, function () {
         'FurthestStep': step,
         'CurrentOrg': currentOrgName,
         'IsFirstUser': false,
-        'IsCreatorOfCurrentOrg': false,
+        'IsCreatorOfCurrentOrg':  false,
+        'IsCreatorOfWaitingOrg': false,
+        'IsWaitingForOrg': false,
         'NumberOfOrgs': bigPoppaUser.organizations.length,
         'NumberOfOrgsWithGrantedAccess': grantedOrgs.length,
         'NumberOfOrgsWhereCreator': 0,
@@ -183,6 +187,8 @@ describe('serviceEventTracking'.bold.underline.blue, function () {
         'CurrentOrg': currentOrgName,
         'IsFirstUser': false,
         'IsCreatorOfCurrentOrg': false,
+        'IsCreatorOfWaitingOrg': false,
+        'IsWaitingForOrg': false,
         'NumberOfOrgs': bigPoppaUser.organizations.length,
         'NumberOfOrgsWithGrantedAccess': grantedOrgs.length,
         'NumberOfOrgsWhereCreator': 0,
