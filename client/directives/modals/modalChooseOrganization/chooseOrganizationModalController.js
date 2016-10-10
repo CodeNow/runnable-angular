@@ -158,7 +158,7 @@ function ChooseOrganizationModalController(
   // Searching methods
   COMC.matchWhitelistedOrgByName = function (selectedOrgName) {
     return COMC.whitelistedOrgs.find(function (org) {
-      return selectedOrgName.toLowerCase() === org.attrs.name.toLowerCase();
+      return selectedOrgName.toLowerCase() === org.oauthName().toLowerCase();
     });
   };
   COMC.getSelectedOrg = function (selectedOrgName) {
