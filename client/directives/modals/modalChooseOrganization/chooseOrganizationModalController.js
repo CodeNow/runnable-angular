@@ -119,6 +119,7 @@ function ChooseOrganizationModalController(
     trackCreateOrgLink: eventTracking.trackCreateOrgLink,
     trackPersonalAccount: eventTracking.trackPersonalAccount,
     createOrCheckDock: function (selectedOrgName, goToPanelCb) {
+      goToPanelCb = goToPanelCb || angular.noop;
       var selectedOrg = COMC.getSelectedOrg(selectedOrgName);
       if (!selectedOrg) {
         return;
@@ -158,7 +159,7 @@ function ChooseOrganizationModalController(
   // Searching methods
   COMC.matchWhitelistedOrgByName = function (selectedOrgName) {
     return COMC.whitelistedOrgs.find(function (org) {
-      return selectedOrgName.toLowerCase() === org.oauthName().toLowerCase();
+      return selectedOrgName.toLowerCase() === org.attrs.name.toLowerCase();
     });
   };
   COMC.getSelectedOrg = function (selectedOrgName) {
