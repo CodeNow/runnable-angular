@@ -4,7 +4,7 @@ var User = require('@runnable/api-client/lib/models/user');
 var apiMocks = require('../apiMocks/index');
 var keypather = require('keypather')();
 
-describe.only('serviceEventTracking'.bold.underline.blue, function () {
+describe('serviceEventTracking'.bold.underline.blue, function () {
   var $rootScope;
   var $log;
   var $window;
