@@ -92,9 +92,9 @@ function ChooseOrganizationModalController(
             if (COMC.newOrgList.length) {
               COMC.showGrantAccess = false;
               loading('grantAccess', false);
-              customWindow.close();
-              COMC.cancelPollingForWhitelisted();
               resolve();
+              COMC.cancelPollingForWhitelisted();
+              customWindow.close();
             }
           });
       }, 1000 * 5);
