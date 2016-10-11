@@ -9,15 +9,15 @@ function defaultContainerUrl(
   return function (instance) {
     var defaultPort = '';
     var ports = extractInstancePorts(instance);
+    var preamble = 'http://';
     if (ports.length) {
       if (!ports.includes('80')) {
-        defaultPort = ':' + ports[0];
+        if (ports.includes('443')) {
+          preamble = 'https://';
+        } else {
+          defaultPort = ':' + ports[0];
+        }
       }
-    }
-    var preamble = 'http://';
-    if (defaultPort === ':443') {
-      defaultPort = '';
-      preamble = 'https://';
     }
 
     return preamble + instance.getContainerHostname() + defaultPort;
