@@ -55,10 +55,10 @@ function ChooseOrganizationModalController(
       $interval.cancel(COMC.pollForDockCreatedPromise);
     }
   };
-  COMC.grantAccessToNewOrg = function (goToPanel, panelTarget) {
+  COMC.grantAccessToNewOrg = function (panelTarget) {
     COMC.grantAccess()
       .then(function () {
-        goToPanel(panelTarget);
+        $scope.$broadcast('go-to-panel', panelTarget);
       });
   };
 
@@ -79,7 +79,6 @@ function ChooseOrganizationModalController(
     COMC.cancelPollingForWhitelisted();
 
     return $q(function (resolve) {
-      var originalOrgCount = grantedOrgs.models.length;
       var originalOrgList = grantedOrgs.models.map(function (org) {
         return org.oauthName().toLowerCase();
       });
@@ -87,15 +86,15 @@ function ChooseOrganizationModalController(
       COMC.pollForWhitelistPromise = $interval(function () {
         promisify(grantedOrgs, 'fetch')({'_bustCache': Math.random()})
           .then(function (orgs) {
-            if (orgs.models.length !== originalOrgCount) {
-              COMC.newOrgList = orgs.models.filter(function (org) {
-                return !originalOrgList.includes(org.oauthName().toLowerCase());
-              });
+            COMC.newOrgList = orgs.models.filter(function (org) {
+              return !originalOrgList.includes(org.oauthName().toLowerCase());
+            });
+            if (COMC.newOrgList.length) {
               COMC.showGrantAccess = false;
               loading('grantAccess', false);
-              customWindow.close();
-              COMC.cancelPollingForWhitelisted();
               resolve();
+              COMC.cancelPollingForWhitelisted();
+              customWindow.close();
             }
           });
       }, 1000 * 5);
