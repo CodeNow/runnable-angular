@@ -21,13 +21,13 @@ describe('containerUrlDirective'.bold.underline.blue, function () {
     ctx.errsMock = {
       handler: sinon.spy()
     };
-    ctx.extractInstancePortsValueMock = [];
-    ctx.extractInstancePortsMock = sinon.spy(function () {
-      return ctx.extractInstancePortsValueMock;
+    ctx.defaultContainerUrlValueMock = 'http://defaultUrlMock.foo:1234';
+    ctx.defaultContainerUrlMock = sinon.spy(function () {
+      return ctx.defaultContainerUrlValueMock;
     });
     ctx.loadingMock = sinon.spy();
     angular.mock.module('app', function ($provide) {
-      $provide.value('extractInstancePorts', ctx.extractInstancePortsMock);
+      $provide.value('defaultContainerUrl', ctx.defaultContainerUrlMock);
       if (replacementWindow) {
         $provide.value('$window', replacementWindow);
       }
@@ -114,45 +114,13 @@ describe('containerUrlDirective'.bold.underline.blue, function () {
       expect($elScope.shouldShowCopyButton).to.be.false;
     });
   });
-  describe('Extracting Ports', function () {
+  describe('Should expose container url', function () {
     beforeEach(function () {
       setup();
     });
-    it('with 80', function () {
-      ctx.extractInstancePortsValueMock = ['80', '101'];
-      $scope.instance = mockInstance;
+    it('should expose the getContainerUrl as defaultContainerUrl service', function () {
       $scope.$digest();
-      expect($elScope.defaultPort).to.equal('');
-    });
-    it('without 80', function () {
-      ctx.extractInstancePortsValueMock = ['280', '101'];
-      $scope.instance = mockInstance;
-      $scope.$digest();
-      expect($elScope.defaultPort).to.equal(':280');
-    });
-    it('Changing the ports', function () {
-      ctx.extractInstancePortsValueMock = ['280', '101'];
-      $scope.instance = mockInstance;
-      $scope.$digest();
-      expect($elScope.defaultPort).to.equal(':280');
-      ctx.extractInstancePortsValueMock = ['11', '22'];
-      keypather.set(mockInstance, 'containers.models[0].attrs.ports', ['123', '1234']);
-      $scope.$digest();
-      expect($elScope.defaultPort).to.equal(':11');
-    });
-    it('When the instance is rebuilding, the container with port info is added later', function () {
-      ctx.extractInstancePortsValueMock = ['280', '101'];
-      var containers = mockInstance.containers;
-      mockInstance.containers = {};
-      $scope.instance = mockInstance;
-      $scope.$digest();
-      expect($elScope.defaultPort).to.equal('');
-      mockInstance.containers = containers;
-      $scope.$digest();
-      expect($elScope.defaultPort).to.equal(':280');
-      mockInstance.containers = {};
-      $scope.$digest();
-      expect($elScope.defaultPort).to.equal('');
+      expect(ctx.defaultContainerUrlMock).to.equal($scope.getContainerUrl);
     });
   });
 });
