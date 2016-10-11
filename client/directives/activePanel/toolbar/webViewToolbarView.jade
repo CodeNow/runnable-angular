@@ -1,8 +1,8 @@
 small.small.sans-serif.label-url.hidden-xxxs URL:&#32;
 a.p.monospace.text-overflow(
-  ng-href = "http://{{SMC.state.instance.getContainerHostname()}}"
+  ng-href = "{{SMC.getContainerUrl(SMC.state.instance)}}"
   target = "_blank"
-) {{SMC.state.instance.getContainerHostname()}}
+) {{SMC.getContainerUrl(SMC.state.instance)}}
   svg.iconnables.icons-external
     use(
       xlink:href = "#icons-link-external"

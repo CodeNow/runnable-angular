@@ -15,7 +15,7 @@ var UNAVAILABLE_OS_LIST = [
  */
 function containerUrl(
   $window,
-  extractInstancePorts
+  defaultContainerUrl
 ) {
   return {
     restrict: 'A',
@@ -24,18 +24,7 @@ function containerUrl(
       instance: '='
     },
     link: function ($scope) {
-      $scope.$watchCollection('instance.containers.models[0].attrs.ports', function (newValue) {
-        $scope.defaultPort = '';
-        if (!newValue) {
-          return;
-        }
-        var ports = extractInstancePorts($scope.instance);
-        if (ports.length) {
-          if (!ports.includes('80')) {
-            $scope.defaultPort = ':' + ports[0];
-          }
-        }
-      });
+      $scope.getContainerUrl = defaultContainerUrl;
       function getModifierKey() {
         return $window.navigator.platform.toLowerCase().indexOf('mac') > -1 ? '⌘' : 'CTRL';
       }
