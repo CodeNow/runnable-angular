@@ -72,14 +72,34 @@
 
   .cursor {
     animation: cursorIn 1s 3s 1 forwards ease-in-out;
-    background-image: url(/build/images/cursor-default.svg);
-    background-repeat: no-repeat;
     bottom: 180px;
     height: 45px;
     position: absolute;
     right: 10px;
-    transform: scale3d(1,1,1) translate3d(-10px,220px,0);
+    transform: translate3d(-10px,220px,0);
     width: 45px;
+
+    &::after,
+    &::before {
+      background-repeat: no-repeat;
+      background-size: 45px 45px;
+      content: '';
+      display: block;
+      height: 45px;
+      position: absolute;
+      top: 0;
+      width: 45px;
+    }
+
+    &::after {
+      animation: cursorSwap 1s 3s 1 forwards ease-in-out;
+      background-image: url(/build/images/cursor-default.svg);
+    }
+
+    &::before {
+      animation: cursorSwapPointer 1s 3s 1 forwards ease-in-out;
+      background-image: url(/build/images/cursor-pointer.svg);
+    }
   }
 
   .footer {
@@ -93,8 +113,8 @@
       bottom: 0;
       left: 0;
       margin: 0 auto;
-      right: 0;
       position: fixed;
+      right: 0;
     }
 
     @include media(sm) {
@@ -114,29 +134,50 @@
 }
 
 @keyframes cursorIn {
-  0% {
-    background-image: url(/build/images/cursor-default.svg);
-    transform: scale3d(1,1,1) translate3d(-10px,220px,0);
+  0% {;
+    transform: translate3d(-10px,220px,0);
   }
 
+  80%,
+  100% {
+    transform: translate3d(0,0,0);
+  }
+}
+
+@keyframes cursorSwap {
+  0%,
   70% {
-    background-image: url(/build/images/cursor-default.svg);
+    opacity: 1;
+  }
+
+  80%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes cursorSwapPointer {
+  0%,
+  70% {
+    opacity: 0;
   }
 
   80%,
   90% {
-    background-image: url(/build/images/cursor-pointer.svg);
+    opacity: 1;
     transform: scale3d(1,1,1) translate3d(0,0,0);
   }
 
   95% {
-    background-image: url(/build/images/cursor-pointer.svg);
     transform: scale3d(.9,.9,1) translate3d(0,0,0);
   }
 
   100% {
-    background-image: url(/build/images/cursor-pointer.svg);
     transform: scale3d(1,1,1) translate3d(0,0,0);
+  }
+
+  100% {
+    opacity: 1;
   }
 }
 
