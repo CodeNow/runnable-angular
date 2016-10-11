@@ -34,10 +34,11 @@ function SetupMirrorServerModalController(
 
   var parentController = $controller('ServerModalController as SMC', { $scope: $scope });
   angular.extend(SMC, {
-    'closeWithConfirmation': parentController.closeWithConfirmation.bind(SMC),
     'changeTab': parentController.changeTab.bind(SMC),
+    'closeWithConfirmation': parentController.closeWithConfirmation.bind(SMC),
     'disableMirrorMode': parentController.disableMirrorMode.bind(SMC),
     'enableMirrorMode': parentController.enableMirrorMode.bind(SMC),
+    'getContainerUrl': parentController.getContainerUrl.bind(SMC),
     'getDisplayName': parentController.getDisplayName.bind(SMC),
     'getElasticHostname': parentController.getElasticHostname.bind(SMC),
     'getNumberOfOpenTabs': parentController.getNumberOfOpenTabs.bind(SMC),
@@ -54,9 +55,9 @@ function SetupMirrorServerModalController(
     'resetStateContextVersion': parentController.resetStateContextVersion.bind(SMC),
     'saveInstanceAndRefreshCards': parentController.saveInstanceAndRefreshCards.bind(SMC),
     'switchBetweenAdvancedAndMirroring': parentController.switchBetweenAdvancedAndMirroring.bind(SMC),
-    'switchToMirrorMode': parentController.switchToMirrorMode.bind(SMC),
     'switchToAdvancedMode': parentController.switchToAdvancedMode.bind(SMC),
-    'updateInstanceAndReset': parentController.updateInstanceAndReset.bind(SMC),
+    'switchToMirrorMode': parentController.switchToMirrorMode.bind(SMC),
+    'updateInstanceAndReset': parentController.updateInstanceAndReset.bind(SMC)
   });
 
   var mainRepoContainerFile = new cardInfoTypes.MainRepository();

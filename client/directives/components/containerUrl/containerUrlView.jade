@@ -1,21 +1,13 @@
 .label.gray URL
 
 input.input.input-sm(
-  ng-if = "instance.getBranchName()"
   readonly
   select-all
-  value = "{{instance.getContainerHostname()}}{{defaultPort}}"
-)
-
-input.input.input-sm(
-  ng-if = "!instance.getBranchName()"
-  readonly
-  select-all
-  value = "{{instance.getContainerHostname()}}{{defaultPort}}"
+  value = "{{getContainerUrl(instance)}}"
 )
 
 a.btn.btn-xs.btn-icon-xs.gray.link(
-  ng-href = "http://{{instance.getContainerHostname()}}{{defaultPort}}"
+  ng-href = "{{getContainerUrl(instance)}}"
   target = "_blank"
   title = "Open in a new tab"
 )
