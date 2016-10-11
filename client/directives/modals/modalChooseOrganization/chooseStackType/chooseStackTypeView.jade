@@ -32,7 +32,7 @@ nav.grid-block.align-center.modal-header.nav
         ng-if = "stack.disabled"
       ) Coming Soon
       svg.grid-content.iconnables.icons-arrow-forward.shrink(
-        ng-if = "!$root.isLoading.demoStack"
+        ng-if = "!$root.isLoading.demoStack && !stack.disabled"
       )
         use(
           xlink:href = "#icons-arrow-down"
