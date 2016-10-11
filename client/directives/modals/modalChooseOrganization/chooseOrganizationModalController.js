@@ -7,6 +7,7 @@ function ChooseOrganizationModalController(
   $rootScope,
   $scope,
   $state,
+  $q,
   ahaGuide,
   configEnvironment,
   createNewSandboxForUserService,
@@ -54,6 +55,13 @@ function ChooseOrganizationModalController(
       $interval.cancel(COMC.pollForDockCreatedPromise);
     }
   };
+  COMC.grantAccessToNewOrg = function (goToPanel, panelTarget) {
+    COMC.grantAccess()
+      .then(function () {
+        goToPanel(panelTarget);
+      });
+  };
+
   COMC.grantAccess = function () {
     var connectionUrl = 'https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9';
     if (configEnvironment === 'development') {
@@ -69,25 +77,29 @@ function ChooseOrganizationModalController(
     loading.reset('grantAccess');
     loading('grantAccess', true);
     COMC.cancelPollingForWhitelisted();
-    var originalOrgCount = grantedOrgs.models.length;
-    var originalOrgList = grantedOrgs.models.map(function (org) {
-      return org.oauthName().toLowerCase();
+
+    return $q(function (resolve) {
+      var originalOrgCount = grantedOrgs.models.length;
+      var originalOrgList = grantedOrgs.models.map(function (org) {
+        return org.oauthName().toLowerCase();
+      });
+      COMC.newOrgList = [];
+      COMC.pollForWhitelistPromise = $interval(function () {
+        promisify(grantedOrgs, 'fetch')({'_bustCache': Math.random()})
+          .then(function (orgs) {
+            if (orgs.models.length !== originalOrgCount) {
+              COMC.newOrgList = orgs.models.filter(function (org) {
+                return !originalOrgList.includes(org.oauthName().toLowerCase());
+              });
+              COMC.showGrantAccess = false;
+              loading('grantAccess', false);
+              customWindow.close();
+              COMC.cancelPollingForWhitelisted();
+              resolve();
+            }
+          });
+      }, 1000 * 5);
     });
-    COMC.newOrgList = [];
-    COMC.pollForWhitelistPromise = $interval(function () {
-      promisify(grantedOrgs, 'fetch')({'_bustCache': Math.random()})
-        .then(function (orgs) {
-          if (orgs.models.length !== originalOrgCount) {
-            COMC.newOrgList = orgs.models.filter(function (org) {
-              return !originalOrgList.includes(org.oauthName().toLowerCase());
-            });
-            COMC.showGrantAccess = false;
-            loading('grantAccess', false);
-            customWindow.close();
-            COMC.cancelPollingForWhitelisted();
-          }
-        });
-    }, 1000 * 5);
   };
 
   COMC.creatingOrg = false;
