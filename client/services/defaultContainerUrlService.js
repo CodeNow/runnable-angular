@@ -14,6 +14,12 @@ function defaultContainerUrl(
         defaultPort = ':' + ports[0];
       }
     }
-    return instance.getContainerHostname() + defaultPort;
+    var preamble = 'http://';
+    if (defaultPort === ':443') {
+      defaultPort = '';
+      preamble = 'https://';
+    }
+
+    return preamble + instance.getContainerHostname() + defaultPort;
   };
 }
