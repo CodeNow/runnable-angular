@@ -18,10 +18,7 @@ nav.grid-block.align-center.modal-header.nav
   //- hide after clicked
   a.grid-block.align-center.justify-center.shrink.btn.btn-md.green.margin-top-md(
     data-event-name = "Demo: Clicked Grant Access"
-    ng-click = "\
-      COMC.grantAccess();\
-      goToPanel('selectNewOrg');\
-    "
+    ng-click = "COMC.grantAccessToNewOrg(goToPanel, 'selectNewOrg')"
     ng-if = "!$root.isLoading.grantAccess"
   )
     svg.iconnables.margin-right-xxs
@@ -35,7 +32,7 @@ nav.grid-block.align-center.modal-header.nav
       )
 
   //- show after user clicks "grant access"
-  .well.gray.align-center.small.padding-xs.margin-top-md(
+  .well.gray.align-center.small.padding-sm.padding-top-xs.margin-top-md(
     ng-if = "$root.isLoading.grantAccess"
     ng-include = "'grantAccessWaitView'"
   )

@@ -24,7 +24,9 @@ nav.grid-block.justify-center.align-center.modal-header.nav(
   ) Welcome aboard!
   p.margin-top-sm.p.weight-light(
     ng-if = "COMC.allAccounts.models.length === 0"
-  ) Next, we’ll need access to your organization on GitHub.
+  ) Next, we’ll need access to your&#32;
+    br.hidden-xxs
+    | organization on GitHub.
 
   //- hide after clicked
   a.grid-block.align-center.justify-center.shrink.btn.btn-md.green.margin-top-md(
@@ -41,21 +43,22 @@ nav.grid-block.justify-center.align-center.modal-header.nav(
       use(
         xlink:href = "#icons-link-external-alt"
       )
+
+  //- show after user clicks "grant access"
+  .well.gray.align-center.small.padding-sm.padding-top-xs.margin-top-md(
+    ng-if = "$root.isLoading.grantAccess"
+    ng-include = "'grantAccessWaitView'"
+  )
+
   a.grid-block.shrink.margin-top-sm.btn.btn-xs.text-gray.btn-skip(
     data-event-name = "Demo: Clicked Skip"
-    ng-click = "goToPanel('createOrg')"
-    ng-if = "$root.featureFlags.demoProject && !$root.isLoading.grantAccess"
+    ng-click = "COMC.isInDemoFlow = true; goToPanel('createOrg')"
+    ng-if = "$root.featureFlags.demoProject"
   ) Skip and try a demo
     svg.iconnables.icons-arrow-forward
       use(
         xlink:href = "#icons-arrow-down"
         )
-
-  //- show after user clicks "grant access"
-  .well.gray.align-center.small.padding-xs.margin-top-md(
-    ng-if = "$root.isLoading.grantAccess"
-    ng-include = "'grantAccessWaitView'"
-  )
 
   button.grid-block.align-center.shrink.btn.btn-md.btn-cancel.gray.margin-top-sm(
     ng-click = "goToPanel('orgSelection', 'back')"
@@ -75,7 +78,7 @@ nav.grid-block.justify-center.align-center.modal-header.nav(
           xlink:href = "#icons-link-external-alt"
         )
 
-  footer.grid-block.shrink.align-center.vertical.footer.padding-bottom-lg(
+  footer.grid-block.shrink.align-center.vertical.footer.padding-bottom-lg.margin-top-sm.small.text-gray(
     ng-if = "COMC.allAccounts.models.length === 0 && !$root.featureFlags.demoProject"
   )
     | Don’t have an org?&#32;
