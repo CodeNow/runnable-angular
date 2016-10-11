@@ -26,10 +26,11 @@ function EditServerModalController(
 
   var parentController = $controller('ServerModalController as SMC', { $scope: $scope });
   angular.extend(SMC, {
-    'closeWithConfirmation': parentController.closeWithConfirmation.bind(SMC),
     'changeTab': parentController.changeTab.bind(SMC),
+    'closeWithConfirmation': parentController.closeWithConfirmation.bind(SMC),
     'disableMirrorMode': parentController.disableMirrorMode.bind(SMC),
     'enableMirrorMode': parentController.enableMirrorMode.bind(SMC),
+    'getContainerUrl': parentController.getContainerUrl.bind(SMC),
     'getNumberOfOpenTabs': parentController.getNumberOfOpenTabs.bind(SMC),
     'getUpdatePromise': parentController.getUpdatePromise.bind(SMC),
     'hasOpenPorts': parentController.hasOpenPorts.bind(SMC),
@@ -44,8 +45,8 @@ function EditServerModalController(
     'saveInstanceAndRefreshCards': parentController.saveInstanceAndRefreshCards.bind(SMC),
     'showAdvancedModeConfirm': parentController.showAdvancedModeConfirm.bind(SMC),
     'switchBetweenAdvancedAndMirroring': parentController.switchBetweenAdvancedAndMirroring.bind(SMC),
-    'switchToMirrorMode': parentController.switchToMirrorMode.bind(SMC),
     'switchToAdvancedMode': parentController.switchToAdvancedMode.bind(SMC),
+    'switchToMirrorMode': parentController.switchToMirrorMode.bind(SMC),
     'updateInstanceAndReset': parentController.updateInstanceAndReset.bind(SMC)
   });
 

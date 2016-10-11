@@ -8,20 +8,23 @@ function ServerModalController(
   $q,
   $rootScope,
   $scope,
-  createBuildFromContextVersionId,
   configUserContentDomain,
+  createBuildFromContextVersionId,
+  defaultContainerUrl,
   errs,
   eventTracking,
   fetchDockerfileForContextVersion,
   keypather,
-  ModalService,
   loading,
   loadingPromises,
+  ModalService,
   parseDockerfileForCardInfoFromInstance,
   promisify,
   updateDockerfileFromState
 ) {
   var parentController = this;
+
+  this.getContainerUrl = defaultContainerUrl;
 
   this.requiresRedeploy = function () {
     var SMC = this;
