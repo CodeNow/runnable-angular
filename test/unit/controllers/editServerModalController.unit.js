@@ -9,6 +9,7 @@ describe('editServerModalController'.bold.underline.blue, function () {
   var $scope;
   var $controller;
   var $rootScope;
+  var isRunnabotPartOfOrgStub;
   var keypather;
   var loadingService;
 
@@ -82,6 +83,10 @@ describe('editServerModalController'.bold.underline.blue, function () {
           close: sinon.stub(),
           createAndBuild: sinon.stub(),
         };
+      });
+      $provide.factory('isRunnabotPartOfOrg', function ($q) {
+        isRunnabotPartOfOrgStub = sinon.stub().returns($q.when());
+        return isRunnabotPartOfOrgStub;
       });
       $provide.factory('OpenItems', function ($q) {
         ctx.openItemsMock = function () {

@@ -9,7 +9,6 @@ function SetupServerModalController(
   $filter,
   $q,
   $rootScope,
-  ahaGuide,
   cardInfoTypes,
   createAndBuildNewContainer,
   createBuildFromContextVersionId,
@@ -33,9 +32,6 @@ function SetupServerModalController(
   masterBranch
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
-  SMC.isAddingFirstRepo = ahaGuide.isAddingFirstRepo;
-  SMC.showUrlToolbar = SMC.isAddingFirstRepo();
-
   var parentController = $controller('ServerModalController as SMC', { $scope: $scope });
   angular.extend(SMC, {
     'closeWithConfirmation': parentController.closeWithConfirmation.bind(SMC),
@@ -49,6 +45,7 @@ function SetupServerModalController(
     'handleInstanceUpdate': parentController.handleInstanceUpdate.bind(SMC),
     'hasOpenPorts': parentController.hasOpenPorts.bind(SMC),
     'insertHostName': parentController.insertHostName.bind(SMC),
+    'isAddingFirstRepo': parentController.isAddingFirstRepo.bind(SMC),
     'isDirty': parentController.isDirty.bind(SMC),
     'openDockerfile': parentController.openDockerfile.bind(SMC),
     'populateStateFromData': parentController.populateStateFromData.bind(SMC),
@@ -123,7 +120,8 @@ function SetupServerModalController(
     repo: repo,
     repoSelected: true
   });
-
+  
+  SMC.showUrlToolbar = SMC.isAddingFirstRepo();
   fetchInstancesByPod()
     .then(function (instances) {
       SMC.data.instances = instances;

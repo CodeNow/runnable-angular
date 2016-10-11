@@ -32,9 +32,11 @@ function EditServerModalController(
     'enableMirrorMode': parentController.enableMirrorMode.bind(SMC),
     'getNumberOfOpenTabs': parentController.getNumberOfOpenTabs.bind(SMC),
     'getUpdatePromise': parentController.getUpdatePromise.bind(SMC),
+    'handleInstanceUpdate': parentController.handleInstanceUpdate.bind(SMC),
     'hasOpenPorts': parentController.hasOpenPorts.bind(SMC),
     'insertHostName': parentController.insertHostName.bind(SMC),
     'isDirty': parentController.isDirty.bind(SMC),
+    'isAddingFirstRepo': parentController.isAddingFirstRepo.bind(SMC),
     'openDockerfile': parentController.openDockerfile.bind(SMC),
     'populateStateFromData': parentController.populateStateFromData.bind(SMC),
     'rebuildAndOrRedeploy': parentController.rebuildAndOrRedeploy.bind(SMC),
@@ -124,6 +126,7 @@ function EditServerModalController(
   function loadInitialState(instance) {
     loading.reset(SMC.name);
     loading(SMC.name, true);
+    SMC.instance.on('update', SMC.handleInstanceUpdate);
     return SMC.resetStateContextVersion(instance.contextVersion, true)
       .catch(errs.handler)
       .finally(function () {

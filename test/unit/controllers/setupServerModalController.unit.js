@@ -82,6 +82,7 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       this.handleInstanceUpdate = sinon.spy();
       this.hasOpenPorts = sinon.spy();
       this.insertHostName = sinon.spy();
+      this.isAddingFirstRepo = sinon.spy();
       this.isDirty = sinon.spy();
       this.openDockerfile = sinon.spy();
       this.populateStateFromData = sinon.spy();
