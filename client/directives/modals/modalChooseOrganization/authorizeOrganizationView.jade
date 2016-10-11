@@ -52,3 +52,11 @@ nav.grid-block.align-center.modal-header.nav
         )
       | Grant Access…
 
+  a.grid-block.shrink.margin-top-sm.btn.btn-xs.text-gray.btn-skip(
+    ng-click = "goToPanel('selectNewOrg')"
+    ng-if = "COMC.newOrgList.length > 0"
+  ) Continue
+    svg.iconnables.icons-arrow-forward
+      use(
+        xlink:href = "#icons-arrow-down"
+        )
