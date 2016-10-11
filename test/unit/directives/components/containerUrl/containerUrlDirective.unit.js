@@ -120,7 +120,7 @@ describe('containerUrlDirective'.bold.underline.blue, function () {
     });
     it('should expose the getContainerUrl as defaultContainerUrl service', function () {
       $scope.$digest();
-      expect(ctx.defaultContainerUrlMock).to.equal($scope.getContainerUrl);
+      expect(ctx.defaultContainerUrlMock).to.equal($elScope.getContainerUrl);
     });
   });
 });
