@@ -577,7 +577,7 @@ function EventTracking(
     return ETS;
   };
 
-  ETS.updateCurrentPersonProfile = function (currentStep) {
+  ETS.updateCurrentPersonProfile = function (currentStep, orgNameInOrgSelect) {
     return $q.all([
       fetchUserUnCached(),
       fetchGrantedGithubOrgs()
@@ -591,8 +591,14 @@ function EventTracking(
         });
         var bigPoppaUserId = keypather.get(userJSON, 'bigPoppaUser.id');
         var organizations = keypather.get(userJSON, 'bigPoppaUser.organizations');
-        var orgsWhereUserIsCreator = Array.isArray(organizations) && organizations.filter(function (x) {
-          return x.creator === bigPoppaUserId;
+        var orgsWhereUserIsCreator = Array.isArray(organizations) && organizations.filter(function (org) {
+          return org.creator === bigPoppaUserId;
+        });
+        var creator = keypather.get(currentOrg, 'poppa.attrs.creator');
+        var numberOfOrgs = keypather.get(organizations, 'length') || 0;
+        var isCreatorOfCurrengOrg = bigPoppaUserId === creator;
+        var isCreatorOfWaitingOrg = !!orgsWhereUserIsCreator.find(function (org) {
+          return org.name === orgNameInOrgSelect;
         });
         var updates = {
           'bigPoppaId': bigPoppaUserId,
@@ -600,13 +606,15 @@ function EventTracking(
           'email': keypather.get(userJSON, 'email'),
           'FurthestStep': currentStep,
           'CurrentOrg': keypather.get(currentOrg, 'poppa.attrs.name'),
+          'IsCreatorOfCurrentOrg': isCreatorOfCurrengOrg,
+          'IsCreatorOfWaitingOrg': isCreatorOfWaitingOrg,
+          'IsFirstUser': numberOfOrgs === 0 || isCreatorOfCurrengOrg || isCreatorOfWaitingOrg,
+          'IsWaitingForOrg': !!orgNameInOrgSelect,
           'NumberOfOrgsWithGrantedAccess': keypather.get(grantedOrgs, 'models.length'),
-          'NumberOfOrgs': keypather.get(organizations, 'length') || 0,
+          'NumberOfOrgs': numberOfOrgs,
           'NumberOfOrgsWhereCreator': keypather.get(orgsWhereUserIsCreator, 'length') || 0,
-          'IsCreatorOfCurrentOrg': bigPoppaUserId === keypather.get(currentOrg, 'poppa.attrs.creator'),
           'HasAnyOrgCompletedAha': hasAnyOrgCompletedAha
         };
-        console.log('updates', updates);
         ETS._mixpanel('people.set', updates);
       });
   };

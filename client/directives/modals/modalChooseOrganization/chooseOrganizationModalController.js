@@ -152,6 +152,7 @@ function ChooseOrganizationModalController(
           if (keypather.get(org, 'attrs.firstDockCreated')) {
             return COMC.actions.selectAccount(selectedOrgName);
           }
+          eventTracking.updateCurrentPersonProfile(ahaGuide.getCurrentStep(), selectedOrgName);
           COMC.pollForDockCreated(org, selectedOrgName, goToPanelCb);
         })
         .catch(errs.handler)
@@ -161,7 +162,7 @@ function ChooseOrganizationModalController(
     },
     selectAccount: function (selectedOrgName) {
       // Update number of orgs for user
-      eventTracking.updateCurrentPersonProfile(ahaGuide.getCurrentStep());
+      eventTracking.updateCurrentPersonProfile(ahaGuide.getCurrentStep(), selectedOrgName);
       close();
       $state.go('base.instances', {
         userName: selectedOrgName
@@ -196,7 +197,7 @@ function ChooseOrganizationModalController(
         .then(function (updatedOrg) {
           if (keypather.get(updatedOrg, 'attrs.firstDockCreated')) {
             // Update number of orgs for user
-            eventTracking.updateCurrentPersonProfile(ahaGuide.getCurrentStep());
+            eventTracking.updateCurrentPersonProfile(ahaGuide.getCurrentStep(), keypather.get(updatedOrg, 'attra.name'));
             COMC.cancelPollingForDockCreated();
             return goToPanelCb('dockLoaded');
           }
