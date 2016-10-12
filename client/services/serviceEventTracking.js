@@ -204,12 +204,18 @@ function EventTracking(
       '$email': keypather.get(userJSON, 'email')
     });
 
+    var fullName = firstName + ' ' + lastName;
+    if (fullName === ' ') {
+      fullName = data.name;
+    }
+
     // Segment
     ETS.analytics.ready(function () {
       ETS.analytics.identify(data.name, {
         firstName: firstName,
         lastName: lastName,
         username: data.name,
+        displayName: fullName,
         email: keypather.get(userJSON, 'email'),
         createdAt: keypather.get(userJSON, 'created'),
         avatar: keypather.get(userJSON, 'gravatar')
