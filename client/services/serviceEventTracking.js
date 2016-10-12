@@ -210,6 +210,7 @@ function EventTracking(
         firstName: firstName,
         lastName: lastName,
         username: data.name,
+        displayName: displayName || data.name,
         email: keypather.get(userJSON, 'email'),
         createdAt: keypather.get(userJSON, 'created'),
         avatar: keypather.get(userJSON, 'gravatar')
