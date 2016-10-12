@@ -21,7 +21,7 @@ function chooseStackType() {
           displayName: 'node.js',
           icon: '/build/images/logos/logo-icon-nodejs.svg',
           id: 'nodejs',
-          repo: 'node-web'
+          repo: 'node-starter'
         },
         {
           displayName: 'Python',
