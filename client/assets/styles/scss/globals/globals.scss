@@ -17,6 +17,12 @@ body {
 
   &.modal-open {
     overflow: hidden;
+
+    .intercom-notifications-frame {
+      // scss-lint:disable ImportantRule
+      display: none !important;
+      // scss-lint:enable ImportantRule
+    }
   }
 }
 
