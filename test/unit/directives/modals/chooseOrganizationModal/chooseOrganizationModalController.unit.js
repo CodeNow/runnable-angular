@@ -21,6 +21,7 @@ var mockOrg1;
 var mockOrg;
 var mockState;
 var mockUser;
+var stubGoToPanel;
 var mockWhitelistedOrgs;
 var promisifyMock;
 var eventTrackingStub;
@@ -158,7 +159,8 @@ describe('ChooseOrganizationModalController', function () {
       $scope = $rootScope.$new();
       keypather = _keypather_;
     });
-
+    stubGoToPanel = sinon.stub();
+    $scope.$on('go-to-panel', stubGoToPanel);
     var laterController = $controller('ChooseOrganizationModalController', {
       $scope: $scope
     }, true);
@@ -225,22 +227,20 @@ describe('ChooseOrganizationModalController', function () {
       });
 
       it('should return and goToPanel dockLoaded if whitelistedDock is ready', function () {
-        var stubGoToPanelCb = sinon.stub().returns();
-        COMC.pollForDockCreated(createdDockOrg, 'name', stubGoToPanelCb);
+        COMC.pollForDockCreated(createdDockOrg, 'name');
         $rootScope.$digest();
 
-        sinon.assert.calledOnce(stubGoToPanelCb);
-        sinon.assert.calledWith(stubGoToPanelCb, 'dockLoaded');
+        sinon.assert.calledTwice(stubGoToPanel);
+        sinon.assert.calledWith(stubGoToPanel, sinon.match.object, 'dockLoaded');
         sinon.assert.calledOnce(COMC.cancelPollingForDockCreated);
       });
 
       it('should go to dockLoading, then poll for update', function () {
-        var stubGoToPanelCb = sinon.stub().returns();
-        COMC.pollForDockCreated(codenowWhitelistedOrg, 'name', stubGoToPanelCb);
+        COMC.pollForDockCreated(codenowWhitelistedOrg, 'name', stubGoToPanel);
 
         sinon.assert.calledOnce(COMC.cancelPollingForDockCreated);
-        sinon.assert.calledOnce(stubGoToPanelCb);
-        sinon.assert.calledWith(stubGoToPanelCb, 'dockLoading');
+        sinon.assert.calledTwice(stubGoToPanel);
+        sinon.assert.calledWith(stubGoToPanel, sinon.match.object, 'dockLoading');
         expect(COMC.pollForDockCreatedPromise).to.be.truthy;
 
         codenowWhitelistedOrg.attrs.firstDockCreated = true;
@@ -248,8 +248,8 @@ describe('ChooseOrganizationModalController', function () {
         $rootScope.$digest();
 
         sinon.assert.calledTwice(COMC.cancelPollingForDockCreated);
-        sinon.assert.calledTwice(stubGoToPanelCb);
-        sinon.assert.calledWith(stubGoToPanelCb, 'dockLoaded');
+        sinon.assert.calledThrice(stubGoToPanel);
+        sinon.assert.calledWith(stubGoToPanel, sinon.match.object, 'dockLoaded');
       });
     });
   });
@@ -362,8 +362,7 @@ describe('ChooseOrganizationModalController', function () {
       it('should create the sandbox, then start polling ', function () {
         COMC.getSelectedOrg.returns(codenowWhitelistedOrg);
 
-        var gotoPanelStub = sinon.stub().returns();
-        COMC.actions.createOrCheckDock('CodeNow', gotoPanelStub);
+        COMC.actions.createOrCheckDock('CodeNow');
 
         sinon.assert.calledOnce(COMC.fetchUpdatedWhitelistedOrg);
         sinon.assert.calledWith(COMC.fetchUpdatedWhitelistedOrg, 'CodeNow');
@@ -373,15 +372,14 @@ describe('ChooseOrganizationModalController', function () {
         sinon.assert.calledWith(mockCreateNewSandboxForUserService, 'CodeNow');
 
         sinon.assert.calledOnce(COMC.pollForDockCreated);
-        sinon.assert.calledWith(COMC.pollForDockCreated, null, 'CodeNow', gotoPanelStub);
+        sinon.assert.calledWith(COMC.pollForDockCreated, null, 'CodeNow');
       });
 
       it('should go to created panel since this org is ready', function () {
         COMC.getSelectedOrg.returns(createdDockOrg);
         COMC.fetchUpdatedWhitelistedOrg.returns($q.when(createdDockOrg));
 
-        var gotoPanelStub = sinon.stub().returns();
-        COMC.actions.createOrCheckDock('Runnable', gotoPanelStub);
+        COMC.actions.createOrCheckDock('Runnable');
 
         sinon.assert.calledOnce(COMC.fetchUpdatedWhitelistedOrg);
         sinon.assert.calledWith(COMC.fetchUpdatedWhitelistedOrg, 'Runnable');
