@@ -18,7 +18,7 @@ nav.grid-block.align-center.modal-header.nav
   //- hide after clicked
   a.grid-block.align-center.justify-center.shrink.btn.btn-md.green.margin-top-md(
     data-event-name = "Demo: Clicked Grant Access"
-    ng-click = "COMC.grantAccessToNewOrg('selectNewOrg')"
+    ng-click = "COMC.grantAccess('selectNewOrg')"
     ng-if = "!$root.isLoading.grantAccess"
   )
     svg.iconnables.margin-right-xxs
@@ -44,7 +44,7 @@ nav.grid-block.align-center.modal-header.nav
     | access to an org on GitHub.
     br
     a.btn.btn-xs.green.margin-top-xs(
-      ng-click = "COMC.grantAccessToNewOrg('selectNewOrg')"
+      ng-click = "COMC.grantAccess('selectNewOrg')"
     )
       svg.iconnables.icons-github
         use(
