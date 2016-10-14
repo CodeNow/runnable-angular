@@ -231,7 +231,7 @@ describe('ChooseOrganizationModalController', function () {
         $rootScope.$digest();
 
         sinon.assert.calledTwice(stubGoToPanel);
-        sinon.assert.calledWith(stubGoToPanel, 'dockLoaded');
+        sinon.assert.calledWith(stubGoToPanel, sinon.match.object, 'dockLoaded');
         sinon.assert.calledOnce(COMC.cancelPollingForDockCreated);
       });
 
@@ -240,7 +240,7 @@ describe('ChooseOrganizationModalController', function () {
 
         sinon.assert.calledOnce(COMC.cancelPollingForDockCreated);
         sinon.assert.calledTwice(stubGoToPanel);
-        sinon.assert.calledWith(stubGoToPanel, 'dockLoading');
+        sinon.assert.calledWith(stubGoToPanel, sinon.match.object, 'dockLoading');
         expect(COMC.pollForDockCreatedPromise).to.be.truthy;
 
         codenowWhitelistedOrg.attrs.firstDockCreated = true;
@@ -249,7 +249,7 @@ describe('ChooseOrganizationModalController', function () {
 
         sinon.assert.calledTwice(COMC.cancelPollingForDockCreated);
         sinon.assert.calledTwice(stubGoToPanel);
-        sinon.assert.calledWith(stubGoToPanel, 'dockLoaded');
+        sinon.assert.calledWith(stubGoToPanel, sinon.match.object, 'dockLoaded');
       });
     });
   });
