@@ -50,6 +50,8 @@
   }
 
   .btn-skip {
+    border-bottom: 1px solid $gray-light;
+    cursor: pointer;
 
     &:hover .iconnables,
     &:active .iconnables {
@@ -57,6 +59,7 @@
     }
 
     .iconnables {
+      height: 18px;
       width: 18px;
     }
   }
@@ -157,5 +160,10 @@
       padding-top: 1px;
       width: 30px;
     }
+  }
+
+  .footer {
+    align-self: stretch;
+    border-top: 1px solid $gray-lighter;
   }
 }

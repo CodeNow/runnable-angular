@@ -9,27 +9,22 @@ nav.grid-block.justify-center.align-center.modal-header.nav(
     use(
       xlink:href = "#icons-arrow-down"
     )
-  h1.modal-heading Add Organization
+  h1.modal-heading Add Your Team
 
-.grid-block.align-center.vertical.padding-lg.padding-top-md
+//- when no orgs exist
+nav.grid-block.justify-center.align-center.modal-header.nav(
+  ng-if = "COMC.allAccounts.models.length === 0"
+)
+  h1.modal-heading Welcome Aboard!
 
-  //- when orgs exist
-  p.margin-top-sm.p.weight-light(
-    ng-if = "COMC.allAccounts.models.length > 0"
-  ) To use your organization in Runnable, you’ll need to grant access to it on GitHub.
+.grid-block.align-center.vertical.padding-xl.padding-top-lg
 
-  //- when no orgs exist
-  h1.h1(
-    ng-if = "COMC.allAccounts.models.length === 0"
-  ) Welcome aboard!
-  p.margin-top-sm.p.weight-light(
-    ng-if = "COMC.allAccounts.models.length === 0"
-  ) Next, we’ll need access to your&#32;
-    br.hidden-xxs
-    | organization on GitHub.
+  p.margin-top-sm.p.weight-light Add your GitHub team to use
+    br
+    | its code in Runnable.
 
   //- hide after clicked
-  a.grid-block.align-center.justify-center.shrink.btn.btn-md.green.margin-top-md(
+  a.grid-block.align-center.justify-center.shrink.btn.btn-md.green.margin-top-sm(
     data-event-name = "Clicked Grant Access"
     ng-click = "COMC.grantAccess()"
     ng-if = "!$root.isLoading.grantAccess"
@@ -38,56 +33,36 @@ nav.grid-block.justify-center.align-center.modal-header.nav(
       use(
         xlink:href = "#icons-octicons-github"
       )
-    | Grant Access
+    | Add Your Team
     svg.iconnables.icons-link-external.text-white
       use(
         xlink:href = "#icons-link-external-alt"
       )
 
-  //- show after user clicks "grant access"
+  //- show after user clicks "add your team"
   .well.gray.align-center.small.padding-sm.padding-top-xs.margin-top-md(
     ng-if = "$root.isLoading.grantAccess"
     ng-include = "'grantAccessWaitView'"
   )
 
-  a.grid-block.shrink.margin-top-sm.btn.btn-xs.text-gray.btn-skip(
+footer.grid-block.align-center.vertical.footer.padding-md
+
+  //- when orgs exist
+  p.grid-block.shrink.p.weight-light.text-gray(
+    ng-if = "COMC.allAccounts.models.length > 0"
+  ) Can’t add your team yet? We’ve got you covered.
+
+  //- when no orgs exist
+  p.grid-block.shrink.p.weight-light.text-gray(
+    ng-if = "COMC.allAccounts.models.length === 0"
+  ) Don’t have a team, or can’t add yours yet?
+
+  a.grid-block.shrink.align-center.btn-skip.text-gray(
     data-event-name = "Demo: Clicked Skip"
     ng-click = "COMC.isInDemoFlow = true; goToPanel('createOrg')"
     ng-if = "$root.featureFlags.demoProject"
-  ) Skip and try a demo
+  ) Try a Demo
     svg.iconnables.icons-arrow-forward
       use(
         xlink:href = "#icons-arrow-down"
-        )
-
-  button.grid-block.align-center.shrink.btn.btn-md.btn-cancel.gray.margin-top-sm(
-    ng-click = "goToPanel('orgSelection', 'back')"
-    ng-if = "COMC.allAccounts.models.length > 0 && !$root.featureFlags.demoProject"
-  ) Cancel
-
-  footer.grid-block.shrink.align-center.vertical.footer.margin-top-md(
-    ng-if = "COMC.allAccounts.models.length > 0 && !$root.featureFlags.demoProject"
-  )
-    a.small.link.text-gray(
-      ng-click = "COMC.actions.trackPersonalAccount()"
-      href = "https://support.runnable.com/hc/en-us/articles/213363706"
-      target = "_blank"
-    ) Looking for your personal account?
-      svg.iconnables.icons-link-external.text-gray
-        use(
-          xlink:href = "#icons-link-external-alt"
-        )
-
-  footer.grid-block.shrink.align-center.vertical.footer.padding-bottom-lg.margin-top-sm.small.text-gray(
-    ng-if = "COMC.allAccounts.models.length === 0 && !$root.featureFlags.demoProject"
-  )
-    | Don’t have an org?&#32;
-    a.link(
-      ng-click = "COMC.actions.trackCreateOrgLink()"
-      href = "https://github.com/organizations/new"
-      target = "_blank"
-    ) Create one free on GitHub.
-      svg.iconnables.icons-link-external.text-gray
-        use(
-          xlink:href = "#icons-link-external-alt"
-        )
+      )
