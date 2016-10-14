@@ -248,7 +248,7 @@ describe('ChooseOrganizationModalController', function () {
         $rootScope.$digest();
 
         sinon.assert.calledTwice(COMC.cancelPollingForDockCreated);
-        sinon.assert.calledTwice(stubGoToPanel);
+        sinon.assert.calledThrice(stubGoToPanel);
         sinon.assert.calledWith(stubGoToPanel, sinon.match.object, 'dockLoaded');
       });
     });
