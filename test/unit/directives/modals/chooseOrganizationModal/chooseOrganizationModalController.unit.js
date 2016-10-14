@@ -230,7 +230,7 @@ describe('ChooseOrganizationModalController', function () {
         COMC.pollForDockCreated(createdDockOrg, 'name');
         $rootScope.$digest();
 
-        sinon.assert.calledOnce(stubGoToPanel);
+        sinon.assert.calledTwice(stubGoToPanel);
         sinon.assert.calledWith(stubGoToPanel, 'dockLoaded');
         sinon.assert.calledOnce(COMC.cancelPollingForDockCreated);
       });
@@ -239,7 +239,7 @@ describe('ChooseOrganizationModalController', function () {
         COMC.pollForDockCreated(codenowWhitelistedOrg, 'name', stubGoToPanel);
 
         sinon.assert.calledOnce(COMC.cancelPollingForDockCreated);
-        sinon.assert.calledOnce(stubGoToPanel);
+        sinon.assert.calledTwice(stubGoToPanel);
         sinon.assert.calledWith(stubGoToPanel, 'dockLoading');
         expect(COMC.pollForDockCreatedPromise).to.be.truthy;
 
@@ -362,8 +362,7 @@ describe('ChooseOrganizationModalController', function () {
       it('should create the sandbox, then start polling ', function () {
         COMC.getSelectedOrg.returns(codenowWhitelistedOrg);
 
-        var gotoPanelStub = sinon.stub().returns();
-        COMC.actions.createOrCheckDock('CodeNow', gotoPanelStub);
+        COMC.actions.createOrCheckDock('CodeNow');
 
         sinon.assert.calledOnce(COMC.fetchUpdatedWhitelistedOrg);
         sinon.assert.calledWith(COMC.fetchUpdatedWhitelistedOrg, 'CodeNow');
@@ -373,15 +372,14 @@ describe('ChooseOrganizationModalController', function () {
         sinon.assert.calledWith(mockCreateNewSandboxForUserService, 'CodeNow');
 
         sinon.assert.calledOnce(COMC.pollForDockCreated);
-        sinon.assert.calledWith(COMC.pollForDockCreated, null, 'CodeNow', gotoPanelStub);
+        sinon.assert.calledWith(COMC.pollForDockCreated, null, 'CodeNow');
       });
 
       it('should go to created panel since this org is ready', function () {
         COMC.getSelectedOrg.returns(createdDockOrg);
         COMC.fetchUpdatedWhitelistedOrg.returns($q.when(createdDockOrg));
 
-        var gotoPanelStub = sinon.stub().returns();
-        COMC.actions.createOrCheckDock('Runnable', gotoPanelStub);
+        COMC.actions.createOrCheckDock('Runnable');
 
         sinon.assert.calledOnce(COMC.fetchUpdatedWhitelistedOrg);
         sinon.assert.calledWith(COMC.fetchUpdatedWhitelistedOrg, 'Runnable');
