@@ -21,6 +21,7 @@ var mockOrg1;
 var mockOrg;
 var mockState;
 var mockUser;
+var stubGoToPanel;
 var mockWhitelistedOrgs;
 var promisifyMock;
 var eventTrackingStub;
@@ -158,7 +159,8 @@ describe('ChooseOrganizationModalController', function () {
       $scope = $rootScope.$new();
       keypather = _keypather_;
     });
-
+    stubGoToPanel = sinon.stub();
+    $scope.$on('go-to-panel', stubGoToPanel);
     var laterController = $controller('ChooseOrganizationModalController', {
       $scope: $scope
     }, true);
@@ -225,22 +227,20 @@ describe('ChooseOrganizationModalController', function () {
       });
 
       it('should return and goToPanel dockLoaded if whitelistedDock is ready', function () {
-        var stubGoToPanelCb = sinon.stub().returns();
-        COMC.pollForDockCreated(createdDockOrg, 'name', stubGoToPanelCb);
+        COMC.pollForDockCreated(createdDockOrg, 'name');
         $rootScope.$digest();
 
-        sinon.assert.calledOnce(stubGoToPanelCb);
-        sinon.assert.calledWith(stubGoToPanelCb, 'dockLoaded');
+        sinon.assert.calledOnce(stubGoToPanel);
+        sinon.assert.calledWith(stubGoToPanel, 'dockLoaded');
         sinon.assert.calledOnce(COMC.cancelPollingForDockCreated);
       });
 
       it('should go to dockLoading, then poll for update', function () {
-        var stubGoToPanelCb = sinon.stub().returns();
-        COMC.pollForDockCreated(codenowWhitelistedOrg, 'name', stubGoToPanelCb);
+        COMC.pollForDockCreated(codenowWhitelistedOrg, 'name', stubGoToPanel);
 
         sinon.assert.calledOnce(COMC.cancelPollingForDockCreated);
-        sinon.assert.calledOnce(stubGoToPanelCb);
-        sinon.assert.calledWith(stubGoToPanelCb, 'dockLoading');
+        sinon.assert.calledOnce(stubGoToPanel);
+        sinon.assert.calledWith(stubGoToPanel, 'dockLoading');
         expect(COMC.pollForDockCreatedPromise).to.be.truthy;
 
         codenowWhitelistedOrg.attrs.firstDockCreated = true;
@@ -248,8 +248,8 @@ describe('ChooseOrganizationModalController', function () {
         $rootScope.$digest();
 
         sinon.assert.calledTwice(COMC.cancelPollingForDockCreated);
-        sinon.assert.calledTwice(stubGoToPanelCb);
-        sinon.assert.calledWith(stubGoToPanelCb, 'dockLoaded');
+        sinon.assert.calledTwice(stubGoToPanel);
+        sinon.assert.calledWith(stubGoToPanel, 'dockLoaded');
       });
     });
   });
