@@ -1,6 +1,10 @@
+nav.grid-block.justify-center.align-center.modal-header.nav
+  h1.modal-heading Welcome Aboard!
+
 .grid-block.vertical.padding-sm
-  h1.margin-top-sm.h1.text-center Welcome aboard!
-  p.margin-top-sm.margin-bottom-md.p.text-center.weight-light Now select the organization you want to use.
+  p.margin-top-sm.margin-bottom-md.p.text-center.weight-light Which team’s code do you want
+    br
+    | to use with Runnable?
 
   ol.grid-block.vertical.list
     li.grid-block.align-center.list-item.btn.white(
@@ -26,31 +30,19 @@
       ng-click = "goToPanel('grantAccess')"
     )
       .grid-content.shrink.icons-missing-org 🕵
-      span.grid-content.text-left.text-overflow Don’t see your organization?
+      span.grid-content.text-left.text-overflow Don’t see your team?
       svg.grid-content.iconnables.icons-arrow-forward.shrink
         use(
           xlink:href = "#icons-arrow-down"
         )
 
-footer.grid-block.align-center.vertical.footer.margin-top-sm.margin-bottom-md(
-  ng-if = "!$root.featureFlags.demoProject"
-)
-  a.small.link.text-gray(
-    ng-click = "COMC.actions.trackPersonalAccount()"
-    href = "https://support.runnable.com/hc/en-us/articles/213363706"
-    target = "_blank"
-  ) Looking for your personal account?
-    svg.iconnables.icons-link-external.text-gray
+footer.grid-block.align-center.vertical.padding-top-sm.padding-bottom-md
+  a.grid-block.shrink.align-center.btn-skip.text-gray(
+    data-event-name = "Demo: Clicked Skip"
+    ng-click = "COMC.isInDemoFlow = true; goToPanel('createOrg')"
+    ng-if = "$root.featureFlags.demoProject"
+  ) Try a Demo
+    svg.iconnables.icons-arrow-forward
       use(
-        xlink:href = "#icons-link-external-alt"
+        xlink:href = "#icons-arrow-down"
       )
-
-a.grid-block.justify-center.shrink.btn.btn-xs.text-gray.margin-top-sm.margin-bottom-md.btn-skip(
-  data-event-name = "Demo: Clicked Skip"
-  ng-click = "COMC.isInDemoFlow = true; goToPanel('createOrg')"
-  ng-if = "$root.featureFlags.demoProject"
-) Skip and try a demo
-  svg.iconnables.icons-arrow-forward
-    use(
-      xlink:href = "#icons-arrow-down"
-    )

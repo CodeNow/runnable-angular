@@ -17,8 +17,7 @@ nav.grid-block.justify-center.align-center.modal-header.nav(
 )
   h1.modal-heading Welcome Aboard!
 
-.grid-block.align-center.vertical.padding-xl.padding-top-lg
-
+.grid-block.align-center.vertical.padding-lg.padding-top-md
   p.margin-top-sm.p.weight-light Add your GitHub team to use
     br
     | its code in Runnable.
@@ -40,17 +39,16 @@ nav.grid-block.justify-center.align-center.modal-header.nav(
       )
 
   //- show after user clicks "add your team"
-  .well.gray.align-center.small.padding-sm.padding-top-xs.margin-top-md(
+  .well.gray.align-center.small.padding-sm.margin-top-md(
     ng-if = "$root.isLoading.grantAccess"
     ng-include = "'grantAccessWaitView'"
   )
 
 footer.grid-block.align-center.vertical.footer.padding-md
-
   //- when orgs exist
   p.grid-block.shrink.p.weight-light.text-gray(
     ng-if = "COMC.allAccounts.models.length > 0"
-  ) Can’t add your team yet? We’ve got you covered.
+  ) Can’t add your team yet?
 
   //- when no orgs exist
   p.grid-block.shrink.p.weight-light.text-gray(
