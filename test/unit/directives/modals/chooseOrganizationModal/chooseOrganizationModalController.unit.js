@@ -241,7 +241,7 @@ describe('ChooseOrganizationModalController', function () {
         COMC.pollForDockCreated(codenowWhitelistedOrg, 'name', stubGoToPanel);
 
         sinon.assert.calledOnce(COMC.cancelPollingForDockCreated);
-        sinon.assert.calledTwice(stubGoToPanel);
+        sinon.assert.calledOnce(stubGoToPanel);
         sinon.assert.calledOnce(stubGoToPanel, sinon.match.object, 'dockLoading');
         expect(COMC.pollForDockCreatedPromise).to.be.truthy;
 
