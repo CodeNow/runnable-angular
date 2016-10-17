@@ -46,6 +46,20 @@
       ng-click = "toggleSidebar()"
     ) Get Started
 
+//- KAHN: This is the area where we want to have specific instructions per each milestone.
+.grid-block.vertical.shrink.aha-overview(
+  ng-if = "state.kahn"
+)
+  //- This list should be reuseable incase we get to put it on add
+  ul
+    li
+      img
+      button Fork node.js Demo
+    li
+      img
+      button Use your own repositories
+//- END KAHN
+
 //- During ahas 1-3
 .grid-block.shrink.vertical.aha-guide-wrapper(
   ng-if = "!isSettingUpRunnabot()"
