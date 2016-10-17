@@ -23,6 +23,13 @@
   }
 }
 
+.modal-backdrop-error {
+  display: none;
+  &.in {
+    display: flex;
+  }
+}
+
 // div.modal-dialog
 .modal-dialog {
   animation: scale-in-modal .15s ease-out;

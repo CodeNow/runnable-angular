@@ -150,8 +150,16 @@ html(
 
     .spinner-wrapper.spinner-md.spinner-purple.spinner-backdrop.spinner-fixed.in(
       ng-if = "!dataApp"
-      ng-include = "'spinner'"
     )
+      svg.spinner(
+        viewbox = '0 0 16 16'
+      )
+        circle.path(
+          cx = '8'
+          cy = '8'
+          r = '7'
+          stroke-linecap = 'round'
+        )
 
     //- page
     .layout-wrapper(
@@ -159,9 +167,10 @@ html(
     )
 
     //- error modal
-    .modal-backdrop.modal-backdrop-error.in(
+    .modal-backdrop.modal-backdrop-error(
       ng-click = "$event.stopPropagation()"
       ng-if = "dataApp.data.modalError.data.in"
+      ng-class = "{ in: dataApp.data.modalError.data.in }"
     )
       .modal-dialog.modal-md.modal-error
         header.modal-header
