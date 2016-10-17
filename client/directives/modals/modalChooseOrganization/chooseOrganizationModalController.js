@@ -58,6 +58,10 @@ function ChooseOrganizationModalController(
   };
 
   COMC.grantAccess = function (isDemo) {
+    var loadingString = 'grantAccess';
+    if (isDemo) {
+      loadingString = 'grantAccessDemo';
+    }
     var connectionUrl = 'https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9';
     if (configEnvironment === 'development') {
       connectionUrl = 'https://github.com/settings/applications';
@@ -72,8 +76,8 @@ function ChooseOrganizationModalController(
       width: 1020, // match github minimum width
       height: 730
     });
-    loading.reset('grantAccess');
-    loading('grantAccess', true);
+    loading.reset(loadingString);
+    loading(loadingString, true);
     COMC.cancelPollingForWhitelisted();
 
     return $q(function (resolve) {
@@ -89,7 +93,7 @@ function ChooseOrganizationModalController(
             });
             if (COMC.newOrgList.length) {
               COMC.showGrantAccess = false;
-              loading('grantAccess', false);
+              loading(loadingString, false);
               resolve();
               COMC.cancelPollingForWhitelisted();
               customWindow.close();

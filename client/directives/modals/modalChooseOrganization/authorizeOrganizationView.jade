@@ -14,7 +14,7 @@
   a.grid-block.align-center.justify-center.shrink.btn.btn-md.green.margin-top-md(
     data-event-name = "Demo: Clicked Grant Access"
     ng-click = "COMC.grantAccess(true)"
-    ng-if = "!$root.isLoading.grantAccess"
+    ng-if = "!$root.isLoading.grantAccessDemo"
   )
     svg.iconnables.margin-right-xxs
       use(
@@ -28,6 +28,6 @@
 
   //- show after user clicks "grant access"
   .well.gray.align-center.small.padding-sm.margin-top-md(
-    ng-if = "$root.isLoading.grantAccess"
+    ng-if = "$root.isLoading.grantAccessDemo"
     ng-include = "'grantAccessWaitView'"
   )
