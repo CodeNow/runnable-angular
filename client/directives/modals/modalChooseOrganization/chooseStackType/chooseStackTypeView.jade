@@ -18,7 +18,7 @@ nav.grid-block.align-center.modal-header.nav
 
     li.grid-block.shrink.align-center.list-item.btn.white(
       data-event-name = "Demo: Selected demo stack"
-      ng-click = "CSTC.pickStack(stack.id, stack.repo, CSTC.goToPanel)"
+      ng-click = "CSTC.pickStack(stack.id, stack.repo)"
       ng-disabled = "$root.isLoading.demoStack || stack.disabled"
       ng-repeat = "stack in stacks"
     )
