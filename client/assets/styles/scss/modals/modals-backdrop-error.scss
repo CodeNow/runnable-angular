@@ -1,0 +1,7 @@
+.modal-backdrop-error {
+  display: none;
+
+  &.in {
+    display: flex;
+  }
+}
