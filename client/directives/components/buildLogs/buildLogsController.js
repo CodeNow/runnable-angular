@@ -40,7 +40,7 @@ function BuildLogsController(
         fetchRepoDockerfile(repoName, branchName, dockerfilePath)
           .then(function (dockerfile) {
             BLC.showNoDockerfileError = (BLC.instance.hasDockerfileMirroring() && dockerfile.message === 'Not Found');
-          })
+          });
       }
     } else if (status === 'building') {
       BLC.buildStatus = 'running';
