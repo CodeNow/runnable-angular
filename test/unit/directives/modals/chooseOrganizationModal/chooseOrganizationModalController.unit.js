@@ -227,20 +227,22 @@ describe('ChooseOrganizationModalController', function () {
       });
 
       it('should return and goToPanel dockLoaded if whitelistedDock is ready', function () {
+        stubGoToPanel.reset();
         COMC.pollForDockCreated(createdDockOrg, 'name');
         $rootScope.$digest();
 
-        sinon.assert.calledTwice(stubGoToPanel);
+        sinon.assert.calledOnce(stubGoToPanel);
         sinon.assert.calledWith(stubGoToPanel, sinon.match.object, 'dockLoaded');
         sinon.assert.calledOnce(COMC.cancelPollingForDockCreated);
       });
 
       it('should go to dockLoading, then poll for update', function () {
+        stubGoToPanel.reset();
         COMC.pollForDockCreated(codenowWhitelistedOrg, 'name', stubGoToPanel);
 
         sinon.assert.calledOnce(COMC.cancelPollingForDockCreated);
         sinon.assert.calledTwice(stubGoToPanel);
-        sinon.assert.calledWith(stubGoToPanel, sinon.match.object, 'dockLoading');
+        sinon.assert.calledOnce(stubGoToPanel, sinon.match.object, 'dockLoading');
         expect(COMC.pollForDockCreatedPromise).to.be.truthy;
 
         codenowWhitelistedOrg.attrs.firstDockCreated = true;
@@ -248,7 +250,7 @@ describe('ChooseOrganizationModalController', function () {
         $rootScope.$digest();
 
         sinon.assert.calledTwice(COMC.cancelPollingForDockCreated);
-        sinon.assert.calledThrice(stubGoToPanel);
+        sinon.assert.calledTwice(stubGoToPanel);
         sinon.assert.calledWith(stubGoToPanel, sinon.match.object, 'dockLoaded');
       });
     });
