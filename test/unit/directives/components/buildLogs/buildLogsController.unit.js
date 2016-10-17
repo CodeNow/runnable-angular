@@ -17,8 +17,10 @@ describe('BuildLogsController'.bold.underline.blue, function () {
   var BLC;
   var mockCreateDebugContainer;
   var mockDebugContainer;
+  var mockDockerfile;
   var mockErrs;
   var isRunnabotPartOfOrgStub;
+  var fetchRepoDockerfileStub;
 
   function setup(useInstance, dontIncludeBuildDockerContainer) {
     mockInstance = {
@@ -36,6 +38,13 @@ describe('BuildLogsController'.bold.underline.blue, function () {
             dockerContainer: dontIncludeBuildDockerContainer ? undefined : 'asdsdfsd'
           }
         }
+      },
+      getRepoAndBranchName: sinon.stub().returns('test/master'),
+      mirroredDockerfile: {
+        attrs: {
+          path: '/',
+          name: 'Dockerfile'
+        }
       }
     };
     mockDebugContainer = {
@@ -51,7 +60,7 @@ describe('BuildLogsController'.bold.underline.blue, function () {
       logs: []
     };
     mockStreamingLog = sinon.stub().returns(mockStreamingLogContents);
-
+    mockDockerfile = {message: 'Not Found'};
     mockPrimus = {
       createBuildStream: sinon.spy(function () {
         mockStream = new EventEmitter();
@@ -77,7 +86,10 @@ describe('BuildLogsController'.bold.underline.blue, function () {
         mockCreateDebugContainer = sinon.stub().returns($q.when(mockDebugContainer));
         return mockCreateDebugContainer;
       });
-
+      $provide.factory('fetchRepoDockerfile', function ($q) {
+        fetchRepoDockerfileStub = sinon.stub().returns($q.when(mockDockerfile));
+        return fetchRepoDockerfileStub;
+      });
       $provide.factory('isRunnabotPartOfOrg', function ($q) {
         isRunnabotPartOfOrgStub = sinon.stub().returns($q.when());
         return isRunnabotPartOfOrgStub;
@@ -188,6 +200,12 @@ describe('BuildLogsController'.bold.underline.blue, function () {
         mockInstance.on.lastCall.args[1]();
         expect(BLC.showDebug).to.be.ok;
       });
+      it('should display a dockerfile error if absent', function () {
+        mockInstance.status.returns('buildFailed');
+        mockInstance.on.lastCall.args[1]();
+        $scope.$digest();
+        expect(BLC.showNoDockerfileError).to.equal(true);
+      })
     });
     describe('actions', function () {
       describe('launchDebugContainer', function () {
