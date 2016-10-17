@@ -167,3 +167,18 @@
     border-top: 1px solid $gray-lighter;
   }
 }
+
+.welcome-footer {
+
+  .a {
+
+    &:hover {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    &:active {
+      color: $purple-light;
+    }
+  }
+}
