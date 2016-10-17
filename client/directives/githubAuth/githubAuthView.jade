@@ -1,14 +1,22 @@
 main.grid-block.vertical.align-center.layout-github
   header.grid-block.vertical.justify-center.align-center.shrink.header.margin-top-lg.margin-bottom-sm
-    h1.p.text-center.weight-strong How to Grant Access
-    p.p.text-center.weight-light.margin-top-xxs.margin-bottom-xs Scroll to the bottom and click Grant Access on the&#32;
-      span(
-        ng-if = "COMC.isInDemoFlow"
-      ) organization
-      span(
-        ng-if = "!COMC.isInDemoFlow"
-      ) team
-      | &#32;you want to use.
+
+    //- if not in demo flow
+    h1.p.text-center.weight-strong(
+      ng-if = "COMC.isInDemoFlow"
+    ) How to Add Your Organization
+    p.p.text-center.weight-light.margin-top-xxs.margin-bottom-xs(
+      ng-if = "COMC.isInDemoFlow"
+    ) Scroll to the bottom and click Grant Access on the organization you want to use.
+
+    //- if in demo flow
+    h1.p.text-center.weight-strong(
+      ng-if = "!COMC.isInDemoFlow"
+    ) How to Add a Team
+    p.p.text-center.weight-light.margin-top-xxs.margin-bottom-xs(
+      ng-if = "!COMC.isInDemoFlow"
+    ) Scroll to the bottom and click Grant Access on the team you want to use.
+
   figure.figure
     img.grid-block.img(
       src = "/build/images/github-permissions-lg.svg"
