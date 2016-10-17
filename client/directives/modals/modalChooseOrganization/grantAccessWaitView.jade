@@ -7,5 +7,10 @@ br.hidden-xxs
 | you&#32;
 a.link(
   ng-click = "COMC.grantAccess()"
+  ng-if = "!COMC.isInDemoFlow"
 ) add a team
+a.link(
+  ng-click = "COMC.grantAccess()"
+  ng-if = "COMC.isInDemoFlow"
+) add an organization
 | &#32;on GitHub.

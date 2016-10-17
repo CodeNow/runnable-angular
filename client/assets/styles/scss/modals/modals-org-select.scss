@@ -64,44 +64,6 @@
     }
   }
 
-  // progress for demo org
-  .nav {
-    align-self: stretch;
-    position: relative;
-
-    + .padding-lg {
-      @include media(xxs) {
-        padding: $md;
-      }
-    }
-
-    .li {
-      background: $gray-lighter;
-      border: $input-border solid transparent;
-      border-radius: 50%;
-      color: $white;
-      flex: 0 0 $input-xxs;
-      font-size: 13px;
-      height: $input-xxs;
-      line-height: $input-line-height-xxs;
-      z-index: 1;
-
-      &.active {
-        background: $green;
-        border-color: darken($green,5%);
-      }
-
-      + .li {
-        margin-left: 15px;
-      }
-
-      .iconnables {
-        height: 100%;
-        width: 100%;
-      }
-    }
-  }
-
   .list {
     width: 100%;
   }
