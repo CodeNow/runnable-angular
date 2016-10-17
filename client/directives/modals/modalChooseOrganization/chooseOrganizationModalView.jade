@@ -38,22 +38,6 @@
           ng-class = "{'in': isActivePanel()}"
           ng-include = "'authorizeOrganizationView'"
         )
-      animated-panel.grid-block(
-        name = "selectNewOrg"
-      )
-        .grid-block.vertical.text-center.fade(
-          ng-class = "{'in': isActivePanel()}"
-          ng-include = "'selectNewOrgView'"
-        )
-      animated-panel.grid-block(
-        name = "stackType"
-      )
-        .grid-block.vertical.align-center.text-center.fade(
-          choose-stack-type
-          create-dock="COMC.actions.createOrCheckDock"
-          target-org="COMC.demoOrg"
-          ng-class = "{'in': isActivePanel()}"
-        )
       animated-panel(
         name = "dockLoading"
       )
