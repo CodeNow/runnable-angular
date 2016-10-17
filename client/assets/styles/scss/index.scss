@@ -63,7 +63,6 @@
 @import "components/aha-button";
 @import "components/aha-guide";
 @import "components/aha-modals";
-@import "components/aha-sidebar";
 @import "components/animated-panel";
 @import "components/badges";
 @import "components/cards";
@@ -127,6 +126,7 @@
 @import "modals/modals-sheets";
 
 // modal specific
+@import "modals/modals-aha";
 @import "modals/modals-backup";
 @import "modals/modals-branch-setup";
 @import "modals/modals-confirm-setup";

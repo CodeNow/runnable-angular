@@ -96,9 +96,9 @@
       | Invite a teammate
     | &#32;to help you set up your project.
 
-.grid-block.vertical.aha-sidebar.padding-sm.js-animate(
+.grid-block.vertical.modal-backdrop(
   aha-sidebar
-  toggle-sidebar = "EC.actions.showSidebar"
-  show-overview = "!EC.showCreateTemplate"
   ng-if = "$root.featureFlags.aha && EC.isInGuide() && EC.showSidebar"
+  show-overview = "!EC.showCreateTemplate"
+  toggle-sidebar = "EC.actions.showSidebar"
 )
