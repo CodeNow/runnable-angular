@@ -131,11 +131,17 @@ function EnvironmentController(
 
   $scope.$on('alert', function (evt, data) {
     EC.alert = data;
-    if (!data.planChanged) {
-      $timeout(function () {
-        EC.actions.closeAlert();
-      }, 5000);
-    }
+    var timeoutDelay = 5000;
+    if (data.newPlan) {
+      if (keypather.get(currentOrg, 'poppa.attrs.hasPaymentMethod')) {
+        timeoutDelay *= 2;
+      } else {
+        EC.alert.newPlan = null;
+      }
+    } 
+    $timeout(function () {
+      EC.actions.closeAlert();
+    }, timeoutDelay);
   });
 
   EC.actions = {

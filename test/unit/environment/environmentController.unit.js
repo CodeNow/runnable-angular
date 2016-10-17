@@ -3,6 +3,7 @@
 var apiMocks = require('../apiMocks/index');
 var keypather = require('keypather')();
 var runnable = window.runnable;
+var hasPaymentMethod;
 
 var $controller;
 var $q;
@@ -41,6 +42,11 @@ describe('environmentController'.bold.underline.blue, function () {
       attrs: angular.copy(apiMocks.user),
       oauthName: function () {
         return 'org1';
+      },
+      poppa: {
+        attrs: {
+          hasPaymentMethod: hasPaymentMethod
+        }
       }
     };
     ctx.fakeUser = {
@@ -78,6 +84,7 @@ describe('environmentController'.bold.underline.blue, function () {
           ADD_FIRST_REPO: 'addFirstRepo?!'
         }
       });
+      $provide.value('currentOrg', ctx.fakeOrg1);
       $provide.value('instancesByPod', ctx.masterPods);
       $provide.factory('fetchDockerfileForContextVersion', function ($q) {
         fetchDockerfileForContextVersionStub = sinon.stub().returns($q.when(ctx.dockerfile));
@@ -169,6 +176,29 @@ describe('environmentController'.bold.underline.blue, function () {
       ctx.state.params.userName = 'thejsj';
       $rootScope.$digest();
       expect(EC.showInviteButton).to.equal(false);
+    });
+  });
+
+  describe('plan upgrade notification', function () {
+
+    it('should not show the \'bumped to next plan\' notification if the user does not have a credit card', function () {
+      hasPaymentMethod = false;
+      setup();
+      sinon.stub(EC.actions, 'closeAlert');
+      $rootScope.$broadcast('alert', {newPlan: true});
+      expect(EC.alert.newPlan).to.equal(null);
+      $timeout.flush();
+      sinon.assert.calledOnce(EC.actions.closeAlert);
+    });
+
+    it('should show the \'bumped to next plan\' notification if the user has a credit card', function () {
+      hasPaymentMethod = true;
+      setup();
+      sinon.stub(EC.actions, 'closeAlert');
+      $rootScope.$broadcast('alert', {newPlan: true});
+      expect(EC.alert.newPlan).to.equal(true);
+      $timeout.flush();
+      sinon.assert.calledOnce(EC.actions.closeAlert);
     });
   });
 
