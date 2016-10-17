@@ -15,7 +15,6 @@ function EnvironmentController(
   $state,
   $timeout,
   ahaGuide,
-  currentOrg,
   favico,
   fetchDockerfileForContextVersion,
   fetchOrgMembers,
@@ -66,7 +65,6 @@ function EnvironmentController(
   EC.triggerModal = {
     newContainer: function () {
       $rootScope.$broadcast('close-popovers');
-      EC.showSidebar = false;
       return ModalService.showModal({
         controller: 'NewContainerModalController',
         controllerAs: 'MC', // Shared
@@ -102,8 +100,7 @@ function EnvironmentController(
   var isAddFirstRepo = ahaGuide.isAddingFirstRepo();
 
   if (isAddFirstRepo && instancesByPod.models.length === 0) {
-    EC.showCreateTemplate = false;
-    EC.showSidebar = true;
+    launchAhaModal(true);
   }
 
   // Asynchronously fetch the Dockerfile and check for working instances
@@ -161,6 +158,17 @@ function EnvironmentController(
     endGuide: ahaGuide.endGuide
   };
 
+  function launchAhaModal (showOverview) {
+    ModalService.showModal({
+      controller: 'AhaModalController',
+      controllerAs: 'AMC',
+      templateUrl: 'ahaModal',
+      inputs: {
+        showOverview: !!showOverview
+      }
+    });
+  }
+
 
   $scope.$on('showAhaSidebar', EC.actions.showSidebar);
   $scope.$on('showAddServicesPopover', function(event, toggle) {
@@ -174,7 +182,7 @@ function EnvironmentController(
         })) {
         // timeout for the animation
         $timeout(function () {
-          EC.showSidebar = true;
+          launchAhaModal();
         });
       }
     }

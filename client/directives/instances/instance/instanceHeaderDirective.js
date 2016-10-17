@@ -35,6 +35,7 @@ function instanceHeader(
           });
       });
       $scope.toggleSidebar = function () {
+        console.log('Show aha sidebar');
         $rootScope.$broadcast('showAhaSidebar');
       };
       $scope.isInGuide = ahaGuide.isInGuide;

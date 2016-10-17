@@ -14,7 +14,7 @@
       //- During aha 4:
       | You did it! 👏
     h4.grid-content.strong.text-center.h4(
-      ng-if = "isSettingUpRunnabot() && $root.featureFlags.ahaBranchUrlStep ** !showOverview"
+      ng-if = "isSettingUpRunnabot() && $root.featureFlags.ahaBranchUrlStep && !showOverview"
     )
       //- During aha 4:
       | One more thing…

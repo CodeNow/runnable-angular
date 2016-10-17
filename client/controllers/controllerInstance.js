@@ -28,7 +28,8 @@ function ControllerInstance(
   OpenItems,
   instancesByPod,
   pageName,
-  setLastInstance
+  setLastInstance,
+  ModalService
 ) {
 
   var CIS = this;
@@ -222,7 +223,14 @@ function ControllerInstance(
         })) {
         // timeout for the animation
         $timeout(function () {
-          CIS.showSidebar = true;
+          ModalService.showModal({
+            controller: 'AhaModalController',
+            controllerAs: 'AMC',
+            templateUrl: 'ahaModal',
+            inputs: {
+              showOverview: false
+            }
+          });
         });
       }
     }

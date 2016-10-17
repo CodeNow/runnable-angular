@@ -223,6 +223,9 @@ function ahaGuide(
  * @returns          {String} substep currently on
  */
   function furthestSubstep(step, newSubstep) {
+    if (!step) {
+      return;
+    }
     if (arguments.length > 1) {
       if (!cachedSubstep[step]) {
         cachedSubstep[step] = newSubstep;
@@ -305,6 +308,7 @@ function ahaGuide(
 
   function skipBranchMilestone () {
     ahaGuide.skippedBranchMilestone = true;
+    console.log('Show aha sidebar');
     $rootScope.$broadcast('showAhaSidebar');
   }
 

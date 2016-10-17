@@ -210,6 +210,7 @@ function AhaGuideController(
     showSidebar: function () {
       $rootScope.$broadcast('close-popovers');
       $rootScope.$broadcast('showAhaSidebar');
+      console.log('Show aha sidebar');
     }
   };
 }
