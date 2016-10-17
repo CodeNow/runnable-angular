@@ -4,10 +4,10 @@ require('app')
   .controller('ChooseOrganizationModalController', ChooseOrganizationModalController);
 function ChooseOrganizationModalController(
   $interval,
+  $q,
   $rootScope,
   $scope,
   $state,
-  $q,
   ahaGuide,
   configEnvironment,
   createNewSandboxForUserService,
@@ -16,6 +16,7 @@ function ChooseOrganizationModalController(
   eventTracking,
   featureFlags,
   fetchWhitelistForDockCreated,
+  github,
   keypather,
   loading,
   promisify,
@@ -56,7 +57,7 @@ function ChooseOrganizationModalController(
     }
   };
 
-  COMC.grantAccess = function () {
+  COMC.grantAccess = function (isDemo) {
     var connectionUrl = 'https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9';
     if (configEnvironment === 'development') {
       connectionUrl = 'https://github.com/settings/applications';
@@ -91,6 +92,9 @@ function ChooseOrganizationModalController(
               customWindow.close();
               if (COMC.newOrgList.length === 1) {
                 COMC.actions.createOrCheckDock(COMC.newOrgList[0].oauthName());
+                if (isDemo) {
+                  github.forkRepo('RunnableDemo', 'node-starter', COMC.newOrgList[0].oauthName());
+                }
               } else if (COMC.newOrgList.length > 1) {
                 $scope.$broadcast('go-to-panel', 'orgSelection');
               }
