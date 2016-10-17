@@ -1,105 +1,38 @@
-.aha-sidebar {
-  background: $white;
-  border: 1px solid $gray-lighter;
-  border-radius: $input-border-radius-lg;
-  box-shadow: 0 1px 3px rgba($black,.06);
-  flex: 0 0 390px;
-  height: calc(100vh - 24px);
-  position: fixed;
-  right: 12px;
-  top: 12px;
-  transition: transform .3s ease-in-out;
-  width: 390px;
-  z-index: $z-popover;
-
-  @include media(xxxs) {
-    left: 12px;
-    width: auto;
-  }
-
-  &.ng-enter {
-    transform: translate3d(100%,0,0);
-  }
-
-  &.ng-enter-active {
-    transform: translate3d(0,0,0);
-  }
-
-  &.ng-leave {
-    transform: translate3d(0,0,0);
-  }
-
-  &.ng-leave-active {
-    transform: translate3d(100%,0,0);
-  }
-
-  .aha-sidebar-header {
-    border-bottom: 1px solid $gray-lightest;
-    height: $input-md;
-    margin-bottom: 15px;
-    padding-bottom: 15px;
-    position: relative;
-    width: 100%;
-  }
-
-  .icons-close {
-    color: $gray-light;
-    cursor: pointer;
-    pointer-events: auto;
-    position: absolute;
-    right: 0;
-    top: 0;
-
-    &:hover,
-    &:active {
-      color: $red;
-    }
-  }
+.modal-aha {
 
   .aha-overview {
-    border-bottom: 1px solid $gray-lightest;
-    margin-bottom: 15px;
+    padding: $md 0;
 
-    &:last-child {
-      border-bottom: 0;
-    }
-
-    .p {
-      margin-top: 15px;
-    }
-
-    .btn {
-      margin-bottom: 30px;
-      margin-left: auto;
-      margin-right: auto;
+    &.well {
+      border-radius: $input-border-radius-lg;
+      margin-top: $sm;
     }
   }
 
   .aha-guide {
-    animation: slide-left .45s ease-in-out forwards;
-    background: $white;
-    border: 1px solid $gray-lighter;
-    border-radius: $input-border-radius-lg;
-    opacity: 0;
-    transform: translate3d(100%,0,0);
-
-    @for $i from 1 to 5 {
-      &:nth-child(#{$i}) {
-        animation-delay: ($i * .05s);
-      }
-    }
-
-    &.disabled {
-      background: $gray-lighterest;
-      color: rgba($gray,.4);
-
-      .iconnables {
-        background: $gray-lighterest;
-      }
-    }
+    width: 420px;
 
     + .aha-guide {
-      margin-top: 15px;
+      margin-top: $sm;
+    }
+  }
+
+  // override default
+  .aha-meter.aha-meter {
+
+    .iconnables {
+      color: $gray-light;
+    }
+
+    .icons-check {
+      background: $green;
+      bottom: 0;
+      color: $white;
+      height: 18px;
+      left: 0;
+      padding: 0;
+      position: absolute;
+      width: 18px;
     }
   }
 }

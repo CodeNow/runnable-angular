@@ -37,8 +37,8 @@ a.a(
   ui-sref-active = "active"
 )
   .aha-overlay-div(
-    ng-if = "$root.featureFlags.aha && CA.ahaGuide.isAddingFirstRepo() && CA.instancesByPod.models.length && !CA.ahaGuide.hasConfirmedSetup()"
     ng-click = "CA.showAhaConfirmation($event)"
+    ng-if = "$root.featureFlags.aha && CA.ahaGuide.isAddingFirstRepo() && CA.instancesByPod.models.length && !CA.ahaGuide.hasConfirmedSetup()"
   )
   svg.iconnables.icons-server-dark
     use(
