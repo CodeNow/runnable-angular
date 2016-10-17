@@ -65,6 +65,9 @@ function ChooseOrganizationModalController(
     if ($rootScope.featureFlags.demoProject) {
       connectionUrl = '/githubAuth';
     }
+    if (isDemo) {
+      connectionUrl = connectionUrl + '?isDemo=true';
+    }
     var customWindow = customWindowService(connectionUrl, {
       width: 1020, // match github minimum width
       height: 730
