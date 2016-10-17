@@ -1,6 +1,6 @@
 .modal-header
   svg.iconnables.icons-arrow-backward(
-    ng-click = "goToPanel(COMC.defaultBasePanel, 'back')"
+    ng-click = "COMC.isInDemoFlow = false; goToPanel(COMC.defaultBasePanel, 'back')"
   )
     use(
       xlink:href = "#icons-arrow-down"
