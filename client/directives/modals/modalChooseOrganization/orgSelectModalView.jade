@@ -37,7 +37,7 @@
         )
 
 footer.grid-block.align-center.vertical.padding-top-xxs.padding-bottom-md
-  a.grid-block.shrink.align-center.btn-skip.text-gray.weight-light(
+  a.grid-block.shrink.align-center.btn-skip.text-gray.weight-light.link(
     data-event-name = "Demo: Clicked Skip"
     ng-click = "COMC.isInDemoFlow = true; goToPanel('createOrg')"
     ng-if = "$root.featureFlags.demoProject"

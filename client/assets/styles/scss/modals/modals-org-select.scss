@@ -47,16 +47,10 @@
   }
 
   .btn-skip {
-    border-bottom: 1px solid $gray-light;
-    cursor: pointer;
 
-    &:hover,
-    &:active {
-      border-bottom-color: transparent;
-
-      .iconnables {
-        transform: rotate(-90deg) translate3d(0,2px,0);
-      }
+    &:hover .iconnables,
+    &:active .iconnables {
+      transform: rotate(-90deg) translate3d(0,2px,0);
     }
 
     .iconnables {
