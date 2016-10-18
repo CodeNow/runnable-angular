@@ -6,12 +6,15 @@ require('app')
 function GithubAuthController(
   $rootScope,
   $window,
+  $location,
   eventTracking,
   keypather
 ) {
   var GAC = this;
 
   keypather.set($rootScope, 'dataApp', {});
+
+  GAC.isInDemoFlow = $location.search().isDemo;
 
   GAC.actions = {
     confirmGitHub: function () {

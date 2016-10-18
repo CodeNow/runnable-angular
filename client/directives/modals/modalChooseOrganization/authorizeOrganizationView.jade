@@ -1,25 +1,20 @@
-nav.grid-block.align-center.modal-header.nav
+header.modal-header
   svg.iconnables.icons-arrow-backward(
     ng-click = "goToPanel('createOrg', 'back')"
   )
     use(
       xlink:href = "#icons-arrow-down"
     )
-  ol.grid-block.noscroll.justify-center(
-    active-step = "2"
-    progress
-    steps = "4"
-  )
+  h1.modal-heading Add your new organization.
 
 .grid-block.align-center.vertical.padding-lg
-  h1.h1 Grant access.
-  p.margin-top-sm.p.weight-light We need access to your new org so we can set up your demo. Grant access on GitHub, then meet us back here.
+  p.p.weight-light Now add your new org to Runnable by granting access on GitHub. Then we’ll fork a demo repo into it to get you started.
 
   //- hide after clicked
   a.grid-block.align-center.justify-center.shrink.btn.btn-md.green.margin-top-md(
     data-event-name = "Demo: Clicked Grant Access"
-    ng-click = "COMC.grantAccessToNewOrg('selectNewOrg')"
-    ng-if = "!$root.isLoading.grantAccess"
+    ng-click = "COMC.grantAccess(true)"
+    ng-if = "!$root.isLoading.grantAccessDemo"
   )
     svg.iconnables.margin-right-xxs
       use(
@@ -32,31 +27,7 @@ nav.grid-block.align-center.modal-header.nav
       )
 
   //- show after user clicks "grant access"
-  .well.gray.align-center.small.padding-sm.padding-top-xs.margin-top-md(
-    ng-if = "$root.isLoading.grantAccess"
+  .well.gray.align-center.small.padding-sm.margin-top-md(
+    ng-if = "$root.isLoading.grantAccessDemo"
+    ng-include = "'grantAccessWaitView'"
   )
-    svg.iconnables.icons-github-listening
-      use(
-        xlink:href = "#icons-github-listening"
-      )
-    | We’ll update this page once you grant&#32;
-    br.hidden-xxs
-    | access to an org on GitHub.
-    br
-    a.btn.btn-xs.green.margin-top-xs(
-      ng-click = "COMC.grantAccessToNewOrg('selectNewOrg')"
-    )
-      svg.iconnables.icons-github
-        use(
-          xlink:href = "#icons-octicons-github"
-        )
-      | Grant Access…
-
-  a.grid-block.shrink.margin-top-sm.btn.btn-xs.text-gray.btn-skip(
-    ng-click = "goToPanel('selectNewOrg')"
-    ng-if = "COMC.newOrgList.length > 0"
-  ) Continue
-    svg.iconnables.icons-arrow-forward
-      use(
-        xlink:href = "#icons-arrow-down"
-        )
