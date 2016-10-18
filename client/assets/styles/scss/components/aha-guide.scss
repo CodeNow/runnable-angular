@@ -31,7 +31,7 @@
   .aha-meter {
     background-image: linear-gradient(90deg, $gray-lightest 50%, transparent 50%, transparent), linear-gradient(0deg, $gray-lightest 50%, $gray-lightest 50%, $gray-lightest);
     border-radius: 50%;
-    box-shadow: inset 0 0 0 2px rgba($black,.1);
+    box-shadow: inset 0 0 0 2px rgba($black,.05);
     height: $input-md;
     left: 15px;
     padding: 2px;

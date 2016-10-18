@@ -1,5 +1,5 @@
 .modal-backdrop
-  .modal-dialog.modal-md.modal-aha
+  .modal-dialog.modal-lg.modal-aha
     header.modal-header
       h1.modal-heading(
         ng-if = "AMC.showOverview"
@@ -49,7 +49,7 @@
         ) Get Started
 
       //- During ahas 1-3
-      .grid-block.shrink.vertical.align-center.noscroll.well.gray.aha-overview(
+      .grid-block.shrink.vertical.align-center.noscroll.aha-overview(
         ng-if = "!AMC.isSettingUpRunnabot()"
       )
         .grid-block.shrink.align-center.padding-sm.aha-guide.disabled
@@ -62,7 +62,7 @@
               use(
                 xlink:href = "#icons-check"
               )
-          p.grid-block.align-center.aha-text.p Step 1: Choose your Organization
+          p.grid-block.align-center.aha-text.p.weight-light Step 1: Choose your Organization
 
         .grid-block.vertical.shrink.align-center.aha-guide(
           ng-class = "{\
@@ -84,7 +84,7 @@
                 use(
                   xlink:href = "#icons-check"
                 )
-            p.grid-block.align-center.aha-text.p Step 2: Configure your Application
+            p.grid-block.align-center.aha-text.p.weight-light Step 2: Configure your Application
           .grid-block.shrink.vertical.align-center.aha-overview(
             ng-if = "AMC.showOverview && $root.featureFlags.demoProject"
           )
@@ -93,7 +93,7 @@
               | start building one of your own projects.
             //- KAHN: This is the area where we want to have specific instructions per each milestone.
             //- This list should be reuseable incase we get to put it on add
-            ul.grid-block.shrink.list-fork(
+            ul.grid-block.shrink.list-fork.margin-top-sm.margin-bottom-md(
               ng-include = "'setupDemoGuideView'"
             )
             //- END KAHN
@@ -118,7 +118,7 @@
               use(
                 xlink:href = "#icons-check"
               )
-          p.grid-block.align-center.aha-text.p Step 3: Add a Branch
+          p.grid-block.align-center.aha-text.p.weight-light Step 3: Add a Branch
 
       .grid-block.vertical.align-center.form-github(
         ng-if = "AMC.isSettingUpRunnabot()"

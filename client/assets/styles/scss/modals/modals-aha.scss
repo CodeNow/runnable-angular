@@ -1,18 +1,12 @@
 .modal-aha {
 
-  .modal-header {
-    background: transparent;
-    border-color: transparent;
-    padding-top: $sm;
-  }
-
   .modal-body {
     padding-top: 0;
   }
 
   .aha-overview {
-    margin: 0 45px;
-    width: 390px;
+    margin: $sm auto 0;
+    width: 480px;
 
     &.well {
       border-radius: $input-border-radius-lg;
@@ -23,7 +17,7 @@
   .aha-guide {
     padding-left: $md;
     padding-right: $md;
-    width: 390px;
+    width: 360px;
 
     &.active {
       background: $white;
@@ -31,12 +25,24 @@
       border-radius: $input-border-radius-lg;
       box-shadow: 0 1px 3px rgba($black,.06);
       margin: 0 (-$sm);
-      width: 450px;
+      width: 540px;
+    }
+
+    &.disabled {
+      opacity: .6;
+    }
+
+    .aha-text {
+      font-size: 15px;
     }
   }
 
   // override default
   .aha-meter.aha-meter {
+    height: 36px;
+    left: 36px;
+    top: 18px;
+    width: 36px;
 
     .iconnables {
       color: $gray-light;
@@ -46,18 +52,19 @@
       background: $green;
       bottom: 0;
       color: $white;
-      height: 18px;
+      height: 15px;
       left: 0;
       padding: 0;
       position: absolute;
-      width: 18px;
+      width: 15px;
     }
   }
 
   .list-item-fork {
-    border: $input-border solid $gray-lighter;
+    padding: 0 $md;
 
     + .list-item-fork {
+      border-left: $input-border solid $gray-lighter;
       margin-left: -$input-border;
     }
   }
