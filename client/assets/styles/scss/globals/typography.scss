@@ -8,7 +8,7 @@ h4 {
   margin: 0;
 
   &.header-thin {
-    font-weight: 300;
+    font-weight: $weight-light;
   }
 }
 
@@ -59,7 +59,7 @@ h4 {
 // inline styles
 .small {
   font-size: 13px; // percentage was unreliable
-  font-weight: $weight-normal; // reset if within header tags
+  font-weight: $weight-light;
 }
 
 
