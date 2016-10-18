@@ -1,5 +1,5 @@
 .modal-backdrop
-  .modal-dialog.modal-md.modal-aha
+  .modal-dialog.modal-lg.modal-aha
     header.modal-header
       h1.modal-heading(
         ng-if = "AMC.showOverview"
@@ -38,7 +38,7 @@
 
     .modal-body
       .grid-block.shrink.vertical.align-center.aha-overview(
-        ng-if = "AMC.showOverview"
+        ng-if = "AMC.showOverview && !$root.featureFlags.demoProject"
       )
         p.grid-content.shrink.text-center.p.weight-light It takes just 3 steps to get everything set up.&#32;
           br
@@ -48,18 +48,17 @@
           ng-click = "AMC.toggleSidebar()"
         ) Get Started
 
+      .grid-block.shrink.vertical.align-center.aha-overview(
+        ng-if = "AMC.showOverview && $root.featureFlags.demoProject"
+      )
+        p.grid-content.shrink.text-center.p.weight-light Choose a stack to start a demo app, or
+          br
+          | start building one of your own projects.
         //- KAHN: This is the area where we want to have specific instructions per each milestone.
-        .grid-block.vertical.shrink.aha-overview(
-          ng-if = "state.kahn"
+        //- This list should be reuseable incase we get to put it on add
+        ul.grid-block.shrink.padding-top-md.list-fork(
+          ng-include = "'setupDemoGuideView'"
         )
-          //- This list should be reuseable incase we get to put it on add
-          ul
-            li
-              img
-              button Fork node.js Demo
-            li
-              img
-              button Use your own repositories
         //- END KAHN
 
       //- During ahas 1-3
@@ -76,9 +75,7 @@
               use(
                 xlink:href = "#icons-check"
               )
-          .grid-block.vertical.aha-text
-            p.p.strong Step 1: Choose your Organization
-            p.small This is the first step to success.
+          p.grid-block.align-center.aha-text.p Step 1: Choose your Organization
 
         .grid-block.shrink.align-center.padding-sm.aha-guide(
           ng-class = "{\
@@ -99,9 +96,7 @@
               use(
                 xlink:href = "#icons-check"
               )
-          .grid-block.vertical.aha-text
-            p.p.strong Step 2: Configure your Application
-            p.small Add your templates and get them running!
+          p.grid-block.align-center.aha-text.p Step 2: Configure your Application
 
         .grid-block.shrink.align-center.padding-sm.aha-guide(
           ng-class = "{'disabled': AMC.getCurrentStep() !== steps.ADD_FIRST_BRANCH}"
@@ -123,9 +118,7 @@
               use(
                 xlink:href = "#icons-check"
               )
-          .grid-block.vertical.aha-text
-            p.p.strong Step 3: Add a Branch
-            p.small Your branches will update on every commit you make.
+          p.grid-block.align-center.aha-text.p Step 3: Add a Branch
 
       .grid-block.vertical.align-center.form-github(
         ng-if = "AMC.isSettingUpRunnabot()"

@@ -10,7 +10,7 @@
   }
 
   .aha-guide {
-    width: 420px;
+    width: 360px;
 
     + .aha-guide {
       margin-top: $sm;
@@ -33,6 +33,15 @@
       padding: 0;
       position: absolute;
       width: 18px;
+    }
+  }
+
+  .list-item-fork {
+    border: 1px solid $gray-lighter;
+    border-radius: $input-border-radius-lg;
+
+    + .list-item-fork {
+      margin-left: 15px;
     }
   }
 }
