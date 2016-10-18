@@ -50,9 +50,13 @@
     border-bottom: 1px solid $gray-light;
     cursor: pointer;
 
-    &:hover .iconnables,
-    &:active .iconnables {
-      transform: rotate(-90deg) translate3d(0,2px,0);
+    &:hover,
+    &:active {
+      border-bottom-color: transparent;
+
+      .iconnables {
+        transform: rotate(-90deg) translate3d(0,2px,0);
+      }
     }
 
     .iconnables {
@@ -128,17 +132,5 @@
   .footer {
     align-self: stretch;
     border-top: 1px solid $gray-lighter;
-  }
-}
-
-.welcome-footer .a {
-
-  &:hover {
-    cursor: pointer;
-    text-decoration: underline;
-  }
-
-  &:active {
-    color: $purple-light;
   }
 }
