@@ -392,6 +392,8 @@ describe('ChooseOrganizationModalController', function () {
 
         sinon.assert.notCalled(mockCreateNewSandboxForUserService);
         sinon.assert.notCalled(COMC.pollForDockCreated);
+
+        sinon.assert.calledOnce(eventTrackingStub.spunUpInfrastructure);
       });
     });
   });
