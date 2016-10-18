@@ -128,6 +128,7 @@ describe('ChooseOrganizationModalController', function () {
       $provide.factory('eventTracking', function ($q) {
         eventTrackingStub = {
           updateCurrentPersonProfile: sinon.stub(),
+          spunUpInfrastructure: sinon.stub()
         };
         return eventTrackingStub;
       });
@@ -375,6 +376,8 @@ describe('ChooseOrganizationModalController', function () {
 
         sinon.assert.calledOnce(COMC.pollForDockCreated);
         sinon.assert.calledWith(COMC.pollForDockCreated, null, 'CodeNow');
+
+        sinon.assert.calledOnce(eventTrackingStub.spunUpInfrastructure);
       });
 
       it('should go to created panel since this org is ready', function () {
