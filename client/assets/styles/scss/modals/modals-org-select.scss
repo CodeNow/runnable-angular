@@ -1,15 +1,12 @@
-.welcome {
-
-  .runnabear {
-    height: auto;
-    left: 0;
-    margin: 0 auto;
-    position: absolute;
-    right: 0;
-    top: 32px;
-    width: 230px;
-    z-index: 1;
-  }
+.welcome .runnabear {
+  height: auto;
+  left: 0;
+  margin: 0 auto;
+  position: absolute;
+  right: 0;
+  top: 32px;
+  width: 230px;
+  z-index: 1;
 }
 
 .modal-org-select {
@@ -134,17 +131,14 @@
   }
 }
 
-.welcome-footer {
+.welcome-footer .a {
 
-  .a {
+  &:hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
 
-    &:hover {
-      cursor: pointer;
-      text-decoration: underline;
-    }
-
-    &:active {
-      color: $purple-light;
-    }
+  &:active {
+    color: $purple-light;
   }
 }
