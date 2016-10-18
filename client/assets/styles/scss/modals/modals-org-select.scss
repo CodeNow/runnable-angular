@@ -1,15 +1,12 @@
-.welcome {
-
-  .runnabear {
-    height: auto;
-    left: 0;
-    margin: 0 auto;
-    position: absolute;
-    right: 0;
-    top: 32px;
-    width: 230px;
-    z-index: 1;
-  }
+.welcome .runnabear {
+  height: auto;
+  left: 0;
+  margin: 0 auto;
+  position: absolute;
+  right: 0;
+  top: 32px;
+  width: 230px;
+  z-index: 1;
 }
 
 .modal-org-select {
@@ -57,46 +54,13 @@
     }
 
     .iconnables {
-      width: 18px;
+      height: 15px;
+      width: 15px;
     }
   }
 
-  // progress for demo org
-  .nav {
+  .modal-header {
     align-self: stretch;
-    position: relative;
-
-    + .padding-lg {
-      @include media(xxs) {
-        padding: $md;
-      }
-    }
-
-    .li {
-      background: $gray-lighter;
-      border: $input-border solid transparent;
-      border-radius: 50%;
-      color: $white;
-      flex: 0 0 $input-xxs;
-      font-size: 13px;
-      height: $input-xxs;
-      line-height: $input-line-height-xxs;
-      z-index: 1;
-
-      &.active {
-        background: $green;
-        border-color: darken($green,5%);
-      }
-
-      + .li {
-        margin-left: 15px;
-      }
-
-      .iconnables {
-        height: 100%;
-        width: 100%;
-      }
-    }
   }
 
   .list {
@@ -157,5 +121,10 @@
       padding-top: 1px;
       width: 30px;
     }
+  }
+
+  .footer {
+    align-self: stretch;
+    border-top: 1px solid $gray-lighter;
   }
 }

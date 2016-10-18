@@ -9,14 +9,14 @@ function ChooseStackTypeController(
   loading
 ) {
   var CSTC = this;
-  CSTC.pickStack = function (stackId, repoName, goToPanelCb) {
+  CSTC.pickStack = function (stackId, repoName) {
     var orgName = keypather.get(CSTC.targetOrg, 'attrs.login');
     if (orgName) {
       loading('stack' + stackId, true);
       loading('demoStack', true);
       github.forkRepo('RunnableDemo', repoName, orgName)
         .then(function () {
-          return CSTC.createDock(orgName, goToPanelCb);
+          return CSTC.createDock(orgName);
         })
         .catch(errs.handler)
         .finally(function () {

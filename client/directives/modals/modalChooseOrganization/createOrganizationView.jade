@@ -1,19 +1,17 @@
-nav.grid-block.align-center.modal-header.nav
+header.modal-header
   svg.iconnables.icons-arrow-backward(
-    ng-click = "goToPanel(COMC.defaultBasePanel)"
+    ng-click = "\
+      COMC.isInDemoFlow = false;\
+      goToPanel(COMC.defaultBasePanel, 'back');\
+    "
   )
     use(
       xlink:href = "#icons-arrow-down"
     )
-  ol.grid-block.justify-center(
-    active-step = "1"
-    progress
-    steps = "4"
-  )
+  h1.modal-heading First, create an organization.
 
 .grid-block.align-center.vertical.padding-lg
-  h1.h1 Create a demo organization.
-  p.margin-top-sm.p.weight-light We’ll use your new GitHub organization to create your demo app.
+  p.p.weight-light Runnable is made to be used with GitHub organizations. Create one for free to use with your demo.
 
   //- hide after clicked
   a.grid-block.align-center.justify-center.shrink.btn.btn-md.green.margin-top-md(
