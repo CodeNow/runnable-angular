@@ -18,9 +18,9 @@ function AhaModalController(
   close
 ) {
   var AMC = this;
-  // AMC.actions = {
-  //   close: angular.noop
-  // };
+  AMC.actions = {
+    close: angular.noop
+  };
   AMC.showOverview = showOverview;
 
   AMC.steps = ahaGuide.steps;
