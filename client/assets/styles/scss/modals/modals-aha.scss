@@ -37,7 +37,7 @@
     padding-right: $md;
     width: 360px;
 
-    @include media(xxs) {
+    @media (max-width: 430px) {
       padding-left: $sm;
       padding-right: $sm;
       width: 100%;
@@ -175,9 +175,7 @@
       }
 
       @media (max-width: 430px) {
-        height: $input-sm;
         margin: 0 auto $sm;
-        width: $input-sm;
       }
     }
 
@@ -201,8 +199,16 @@
       }
 
       @media (max-width: 430px) {
-        max-width: 300px;
         text-align: center;
+        width: 100%;
+      }
+    }
+
+    .br {
+      display: none;
+
+      @media (max-width: 430px) {
+        display: block;
       }
     }
   }
