@@ -15,6 +15,7 @@ function EnvironmentController(
   $state,
   $timeout,
   ahaGuide,
+  currentOrg,
   favico,
   fetchDockerfileForContextVersion,
   fetchOrgMembers,
@@ -135,7 +136,7 @@ function EnvironmentController(
       } else {
         EC.alert.newPlan = null;
       }
-    } 
+    }
     $timeout(function () {
       EC.actions.closeAlert();
     }, timeoutDelay);

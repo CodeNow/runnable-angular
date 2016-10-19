@@ -90,12 +90,12 @@
             p.grid-block.align-center.aha-text.p.weight-light Step 2: Configure your Application
           ul.grid-block.shrink.align-center.aha-overview.list-fork.padding-bottom-md(
             ng-class = "{\
-              'grid-2': state.ifAccountHasRepos,\
-              'grid-3': !state.ifAccountHasRepos\
+              'grid-2': AMC.accountHasRepos,\
+              'grid-3': !AMC.accountHasRepos\
             }"
             ng-if = "AMC.showOverview && $root.featureFlags.demoProject"
             ng-include = "'setupDemoGuideView'"
-            ng-init = "state.ifAccountHasRepos = false"
+            ng-init = "AMC.accountHasRepos = false"
           )
 
         //- step 3

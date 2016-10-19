@@ -5,11 +5,22 @@ require('app')
 
 function AhaModalController(
   ahaGuide,
+  createNewBuildAndFetchBranch,
+  currentOrg,
+  errs,
+  fetchOwnerRepos,
+  github,
+  loading,
+  ModalService,
 
   // Injected inputs
-  showOverview
+  showOverview,
+  close
 ) {
   var AMC = this;
+  // AMC.actions = {
+  //   close: angular.noop
+  // };
   AMC.showOverview = showOverview;
 
   AMC.steps = ahaGuide.steps;
@@ -19,5 +30,53 @@ function AhaModalController(
   AMC.isAddingFirstBranch = ahaGuide.isAddingFirstBranch;
   AMC.getFurthestSubstep = ahaGuide.furthestSubstep;
   AMC.getClassForSubstep = ahaGuide.getClassForSubstep;
+  AMC.accountHasRepos = false;
   ahaGuide.updateTracking();
+
+  var repoMapping = {
+    nodejs: 'node-starter',
+    python: 'python-starter',
+    ruby: 'ruby-starter'
+  };
+
+  AMC.startDemo = function (stack) {
+    loading('startDemo', true);
+    github.forkRepo('RunnableDemo', repoMapping[stack], currentOrg.github.oauthName())
+      .then(function () {
+        return fetchOwnerRepos(currentOrg.github.oauthName());
+      })
+      .then(function (repos) {
+        var repoModel = repos.models.find(function (repo) {
+          return repo.attrs.name === repoMapping[stack];
+        });
+        if (!repoModel) {
+          throw new Error('We were unable to find the repo we just forked. Please try again!');
+        }
+        return createNewBuildAndFetchBranch(currentOrg.github, repoModel, '', false);
+      })
+      .then(function (repoBuildAndBranch) {
+        repoBuildAndBranch.instanceName = repoMapping[stack];
+        close();
+        return ModalService.showModal({
+          controller: 'SetupServerModalController',
+          controllerAs: 'SMC',
+          templateUrl: 'setupServerModalView',
+          inputs: angular.extend({
+            dockerfileType: false,
+            instanceName: null,
+            repo: null,
+            build: null,
+            masterBranch: null
+          }, repoBuildAndBranch)
+        });
+      })
+      .catch(errs.handler)
+      .finally(function () {
+        loading('startDemo', false);
+      });
+  };
+
+  AMC.addOwnRepo = function () {
+    console.log('Add own repo!');
+  };
 }
