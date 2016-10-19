@@ -66,6 +66,7 @@
       flex-wrap: wrap;
 
       .list-item-fork {
+        height: 180px;
         padding: $sm;
 
         &:nth-child(2n) {
