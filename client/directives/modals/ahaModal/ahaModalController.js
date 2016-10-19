@@ -39,15 +39,15 @@ function AhaModalController(
     ruby: 'ruby-starter'
   };
 
-  AMC.startDemo = function (stack) {
+  AMC.startDemo = function (stackName) {
     loading('startDemo', true);
-    github.forkRepo('RunnableDemo', repoMapping[stack], currentOrg.github.oauthName())
+    github.forkRepo('RunnableDemo', repoMapping[stackName], currentOrg.github.oauthName())
       .then(function () {
         return fetchOwnerRepos(currentOrg.github.oauthName());
       })
       .then(function (repos) {
         var repoModel = repos.models.find(function (repo) {
-          return repo.attrs.name === repoMapping[stack];
+          return repo.attrs.name === repoMapping[stackName];
         });
         if (!repoModel) {
           throw new Error('We were unable to find the repo we just forked. Please try again!');
@@ -55,7 +55,7 @@ function AhaModalController(
         return createNewBuildAndFetchBranch(currentOrg.github, repoModel, '', false);
       })
       .then(function (repoBuildAndBranch) {
-        repoBuildAndBranch.instanceName = repoMapping[stack];
+        repoBuildAndBranch.instanceName = repoMapping[stackName];
         close();
         return ModalService.showModal({
           controller: 'SetupServerModalController',
