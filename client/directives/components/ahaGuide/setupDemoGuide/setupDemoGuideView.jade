@@ -22,3 +22,13 @@ li.grid-block.vertical.align-center.list-item-fork
   )
   button.btn.btn-sm.green Start Demo
   small.small.text-center.text-gray.margin-top-sm We’ll fork a Ruby repository to your GitHub account.
+li.grid-block.vertical.align-center.list-item-fork(
+  ng-if = "state.ifAccountHasRepos"
+)
+  img.img.margin-bottom-sm(
+    height = "48"
+    src = "https://avatars0.githubusercontent.com/u/5341618?v=3&s=466"
+    width = "48"
+  )
+  button.btn.btn-sm.white Use Existing Repos
+  small.small.text-center.text-gray.margin-top-sm Continue with the repos you already have (for experienced users).

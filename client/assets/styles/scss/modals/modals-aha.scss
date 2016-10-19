@@ -60,12 +60,35 @@
     }
   }
 
-  .list-item-fork {
-    padding: 0 $md;
+  .list-fork {
 
-    + .list-item-fork {
-      border-left: $input-border solid $gray-lighter;
-      margin-left: -$input-border;
+    &.grid-2 {
+      flex-wrap: wrap;
+
+      .list-item-fork {
+        padding: $sm;
+
+        &:nth-child(2n) {
+          border-left: $input-border solid $gray-lighter;
+        }
+
+        &:nth-child(n+3) {
+          border-top: $input-border solid $gray-lighter;
+        }
+      }
+    }
+
+    &.grid-3 .list-item-fork {
+      padding: 0 $sm;
+
+      + .list-item-fork {
+        border-left: $input-border solid $gray-lighter;
+        margin-left: -$input-border;
+      }
+    }
+
+    .img {
+      border-radius: $input-border-radius-lg;
     }
   }
 }
