@@ -8,9 +8,22 @@
     margin: $sm auto;
     width: 480px;
 
+    @include media(xs) {
+      max-width: 420px;
+      width: auto;
+    }
+
     &.well {
       border-radius: $input-border-radius-lg;
       margin-top: $sm;
+    }
+
+    //- wrapper only
+    > .aha-guide {
+      @include media(sm) {
+        padding-left: $sm;
+        padding-right: $sm;
+      }
     }
   }
 
@@ -26,6 +39,15 @@
       box-shadow: 0 1px 3px rgba($black,.06);
       margin: 0 (-$sm);
       width: 540px;
+
+      @include media(sm) {
+        width: 510px;
+      }
+
+      @include media(xs) {
+        margin: 0;
+        width: auto;
+      }
     }
 
     &.disabled {
@@ -62,6 +84,11 @@
 
   .list-fork {
 
+    @include media(xs) {
+      flex-direction: column;
+      padding-bottom: $sm;
+    }
+
     &.grid-2 {
       flex-wrap: wrap;
 
@@ -69,12 +96,24 @@
         height: 180px;
         padding: $sm;
 
+        @include media(xs) {
+          flex: 0 0 auto;
+        }
+
         &:nth-child(2n) {
           border-left: $input-border solid $gray-lighter;
+
+          @include media(xs) {
+            border-left: 0;
+          }
         }
 
         &:nth-child(n+3) {
           border-top: $input-border solid $gray-lighter;
+
+          @include media(xs) {
+            border-top: 0;
+          }
         }
       }
     }
@@ -82,9 +121,39 @@
     &.grid-3 .list-item-fork {
       padding: 0 $sm;
 
+      @include media(xs) {
+        flex: 0 0 auto;
+        flex-direction: row;
+        max-width: none;
+
+        .img {
+          margin: 0 $sm 0 0;
+          order: 0;
+        }
+
+        .small {
+          margin: 0;
+          order: 1;
+          text-align: left;
+        }
+
+        .btn {
+          margin-left: $sm;
+          order: 2;
+        }
+      }
+
       + .list-item-fork {
         border-left: $input-border solid $gray-lighter;
         margin-left: -$input-border;
+
+        @include media(xs) {
+          border-left: 0;
+          border-top: $input-border solid $gray-lighter;
+          margin-left: 0;
+          margin-top: $sm;
+          padding-top: $sm;
+        }
       }
     }
 
