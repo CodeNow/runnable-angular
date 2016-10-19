@@ -578,6 +578,18 @@ function EventTracking(
     return ETS;
   };
 
+  /**
+   * Spun up infrastructure
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.spunUpInfrastructure = function () {
+    var eventName = 'Spun up infrastructure';
+    ETS._mixpanel('track', eventName);
+    return ETS;
+  };
+
   ETS.updateCurrentPersonProfile = function (currentStep, orgNameInOrgSelect) {
     return $q.all([
       fetchUserUnCached(),

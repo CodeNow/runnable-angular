@@ -157,6 +157,7 @@ function ChooseOrganizationModalController(
             });
         })
         .then(function (org) {
+          eventTracking.spunUpInfrastructure();
           if (keypather.get(org, 'attrs.firstDockCreated')) {
             return COMC.actions.selectAccount(selectedOrgName);
           }
