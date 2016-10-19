@@ -69,8 +69,8 @@
         //- step 2
         .grid-block.vertical.shrink.align-center.aha-guide(
           ng-class = "{\
-            disabled: !AMC.isAddingFirstRepo(),\
-            active: AMC.isAddingFirstRepo()\
+            'active': AMC.isAddingFirstRepo(),\
+            'disabled': !AMC.isAddingFirstRepo()\
           }"
         )
           .grid-block.shrink.align-center.padding-sm.aha-guide
@@ -121,6 +121,14 @@
                   xlink:href = "#icons-check"
                 )
             p.grid-block.align-center.aha-text.p.weight-light Step 3: Add a Branch
+          //- figure.grid-block.vertical.shrink.align-center.aha-overview.padding-bottom-md.figure
+            img.img(
+              src="/build/images/add-branches.svg"
+            )
+            a.link.margin-top-sm(
+              href = "https://support.runnable.com/hc/en-us/articles/214221203-Adding-Your-Branches"
+              target = "_blank"
+            ) Learn how to add branches.
 
       .grid-block.vertical.align-center.form-github(
         ng-if = "AMC.isSettingUpRunnabot()"

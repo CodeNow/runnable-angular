@@ -92,4 +92,11 @@
       border-radius: $input-border-radius-lg;
     }
   }
+
+  .figure .img {
+    border: $input-border solid $gray-lighter;
+    border-radius: $input-border-radius-lg;
+    height: 240px;
+    width: auto;
+  }
 }
