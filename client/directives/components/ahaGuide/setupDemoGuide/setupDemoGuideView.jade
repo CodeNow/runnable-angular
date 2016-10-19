@@ -4,7 +4,10 @@ li.grid-block.vertical.align-center.list-item-fork
     src = "/build/images/logos/logo-icon-nodejs.svg"
     width = "48"
   )
-  button.btn.btn-sm.green Start Demo
+  button.btn.btn-sm.green(
+    ng-click = "AMC.startDemo('nodejs')"
+    ng-disabled = "$root.isLoading.startDemo"
+  ) Start Demo
   small.small.text-center.text-gray.margin-top-sm We’ll fork a node.js repository to your GitHub account.
 li.grid-block.vertical.align-center.list-item-fork
   img.img.margin-bottom-sm(
@@ -12,7 +15,10 @@ li.grid-block.vertical.align-center.list-item-fork
     src = "/build/images/logos/logo-icon-python.svg"
     width = "48"
   )
-  button.btn.btn-sm.green Start Demo
+  button.btn.btn-sm.green(
+    ng-click = "AMC.startDemo('python')"
+    ng-disabled = "$root.isLoading.startDemo"
+  ) Start Demo
   small.small.text-center.text-gray.margin-top-sm We’ll fork a Python repository to your GitHub account.
 li.grid-block.vertical.align-center.list-item-fork
   img.img.margin-bottom-sm(
@@ -20,15 +26,21 @@ li.grid-block.vertical.align-center.list-item-fork
     src = "/build/images/logos/logo-icon-ruby.svg"
     width = "48"
   )
-  button.btn.btn-sm.green Start Demo
+  button.btn.btn-sm.green(
+    ng-click = "AMC.startDemo('ruby')"
+    ng-disabled = "$root.isLoading.startDemo"
+  ) Start Demo
   small.small.text-center.text-gray.margin-top-sm We’ll fork a Ruby repository to your GitHub account.
 li.grid-block.vertical.align-center.list-item-fork(
-  ng-if = "state.ifAccountHasRepos"
+  ng-if = "AMC.accountHasRepos"
 )
   img.img.margin-bottom-sm(
     height = "48"
     src = "https://avatars0.githubusercontent.com/u/5341618?v=3&s=466"
     width = "48"
   )
-  button.btn.btn-sm.white Use Existing Repos
+  button.btn.btn-sm.white(
+    ng-click = "AMC.addOwnRepo()"
+    ng-disabled = "$root.isLoading.startDemo"
+  ) Use Existing Repos
   small.small.text-center.text-gray.margin-top-sm Continue with the repos you already have (experienced users).
