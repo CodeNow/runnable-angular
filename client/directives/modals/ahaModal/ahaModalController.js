@@ -5,6 +5,7 @@ require('app')
 
 function AhaModalController(
   $q,
+  $timeout,
   $rootScope,
   ahaGuide,
   createNewBuildAndFetchBranch,
@@ -65,21 +66,34 @@ function AhaModalController(
     ruby: 'ruby-starter'
   };
 
+  function findRepo (repoName, count) {
+    count = count || 0;
+    if (count > 10) {
+      return $q.reject('We were unable to find the repo we just forked. Please try again!')
+    }
+    return fetchOwnerRepos(currentOrg.github.oauthName())
+      .then(function (repos) {
+        var repoModel = repos.models.find(function (repo) {
+          return repo.attrs.name === repoName;
+        });
+        if (repoModel) {
+          return repoModel;
+        }
+        return $timeout(function () {
+          return findRepo(repoName, ++count);
+        }, 100);
+      });
+  }
+
   AMC.startDemo = function (stackName) {
     loading('startDemo', true);
     var loadingName = 'startDemo' + stackName.charAt(0).toUpperCase() + stackName.slice(1);
     loading(loadingName, true);
     github.forkRepo('RunnableDemo', repoMapping[stackName], currentOrg.github.oauthName())
       .then(function () {
-        return fetchOwnerRepos(currentOrg.github.oauthName());
+        return findRepo(repoMapping[stackName]);
       })
-      .then(function (repos) {
-        var repoModel = repos.models.find(function (repo) {
-          return repo.attrs.name === repoMapping[stackName];
-        });
-        if (!repoModel) {
-          throw new Error('We were unable to find the repo we just forked. Please try again!');
-        }
+      .then(function (repoModel) {
         return $q.all({
           repoBuildAndBranch: createNewBuildAndFetchBranch(currentOrg.github, repoModel, '', false),
           stacks: fetchStackInfo()
