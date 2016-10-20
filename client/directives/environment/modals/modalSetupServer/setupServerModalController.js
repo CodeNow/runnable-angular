@@ -4,15 +4,16 @@ require('app')
   .controller('SetupServerModalController', SetupServerModalController);
 
 function SetupServerModalController(
-  $scope,
   $controller,
   $filter,
   $q,
   $rootScope,
+  $scope,
   ahaGuide,
   cardInfoTypes,
   createAndBuildNewContainer,
   createBuildFromContextVersionId,
+  createDockerfileFromSource,
   dockerfileType,
   errs,
   eventTracking,
@@ -24,13 +25,16 @@ function SetupServerModalController(
   loadingPromises,
   OpenItems,
   promisify,
-  updateDockerfileFromState,
   TAB_VISIBILITY,
-  close,
-  instanceName,
-  repo,
+  updateDockerfileFromState,
+
+
   build,
-  masterBranch
+  close,
+  defaults,
+  instanceName,
+  masterBranch,
+  repo
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
   SMC.isAddingFirstRepo = ahaGuide.isAddingFirstRepo;
@@ -105,6 +109,7 @@ function SetupServerModalController(
     data: {},
     selectedTab: 'repository'
   });
+  angular.extend(SMC.state, defaults);
   loading.reset(SMC.name);
   loadingPromises.clear(SMC.name);
   loading.reset(SMC.name + 'IsBuilding');
@@ -123,6 +128,28 @@ function SetupServerModalController(
     repo: repo,
     repoSelected: true
   });
+
+  // If a stack is already selected, pick it.
+  if (SMC.state.selectedStack) {
+    loading(SMC.name, true);
+    createDockerfileFromSource(SMC.state.contextVersion, SMC.state.selectedStack.key)
+      .then(function (dockerfile) {
+        SMC.state.dockerfile = dockerfile;
+        return updateDockerfileFromState(SMC.state);
+      })
+      .then(function () {
+        return loadAllOptions();
+      })
+      .then(function () {
+        if (SMC.state.step === 3) {
+          SMC.changeTab('default');
+        }
+      })
+      .catch(errs.handler)
+      .finally(function () {
+        loading(SMC.name, false);
+      });
+  }
 
   fetchInstancesByPod()
     .then(function (instances) {

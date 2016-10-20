@@ -217,7 +217,8 @@ function NewContainerModalController(
         instanceName: null,
         repo: null,
         build: null,
-        masterBranch: null
+        masterBranch: null,
+        defaults: {}
       }, inputs)
     });
   };

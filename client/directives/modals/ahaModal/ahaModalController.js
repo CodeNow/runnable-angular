@@ -4,6 +4,7 @@ require('app')
   .controller('AhaModalController', AhaModalController);
 
 function AhaModalController(
+  $q,
   ahaGuide,
   createNewBuildAndFetchBranch,
   currentOrg,
@@ -12,6 +13,7 @@ function AhaModalController(
   github,
   loading,
   ModalService,
+  fetchStackInfo,
 
   // Injected inputs
   showOverview,
@@ -52,10 +54,24 @@ function AhaModalController(
         if (!repoModel) {
           throw new Error('We were unable to find the repo we just forked. Please try again!');
         }
-        return createNewBuildAndFetchBranch(currentOrg.github, repoModel, '', false);
+        return $q.all({
+          repoBuildAndBranch: createNewBuildAndFetchBranch(currentOrg.github, repoModel, '', false),
+          stacks: fetchStackInfo()
+        });
       })
-      .then(function (repoBuildAndBranch) {
+      .then(function (promiseResults) {
+        var repoBuildAndBranch = promiseResults.repoBuildAndBranch;
         repoBuildAndBranch.instanceName = repoMapping[stackName];
+        var selectedStack = promiseResults.stacks.find(function (stack) {
+          return stack.key === stackName;
+        });
+        selectedStack.selectedVersion = selectedStack.suggestedVersion;
+        repoBuildAndBranch.defaults = {
+          selectedStack: selectedStack,
+          startCommand: selectedStack.startCommand[0],
+          keepStartCmd: true,
+          step: 3
+        };
         close();
         return ModalService.showModal({
           controller: 'SetupServerModalController',
@@ -66,7 +82,8 @@ function AhaModalController(
             instanceName: null,
             repo: null,
             build: null,
-            masterBranch: null
+            masterBranch: null,
+            defaults: {}
           }, repoBuildAndBranch)
         });
       })

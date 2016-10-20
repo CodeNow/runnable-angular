@@ -72,14 +72,6 @@ function EnvironmentController(
         templateUrl: 'newContainerModalView'
       });
     },
-    repoContainer: function () {
-      $rootScope.$broadcast('close-popovers');
-      ModalService.showModal({
-        controller: 'SetupServerModalController',
-        controllerAs: 'SMC',
-        templateUrl: 'setupServerModalView'
-      });
-    },
     inviteTeammate: function () {
       return ModalService.showModal({
         controller: 'InviteModalController',
