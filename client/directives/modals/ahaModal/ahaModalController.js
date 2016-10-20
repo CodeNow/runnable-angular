@@ -49,7 +49,12 @@ function AhaModalController(
       }
     });
 
-  // accountHasRepos
+  loading('fetchAccountRepos', true);
+  fetchOwnerRepos(currentOrg.github.oauthName())
+    .then(function (ownerRepos) {
+      AMC.accountHasRepos = ownerRepos.models.length;
+      loading('fetchAccountRepos', false);
+    });
 
   ahaGuide.updateTracking();
 
