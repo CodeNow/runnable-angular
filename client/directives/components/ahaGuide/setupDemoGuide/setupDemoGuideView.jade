@@ -5,15 +5,15 @@ li.grid-block.vertical.align-center.list-item-fork
     width = "48"
   )
   button.btn.btn-sm.green(
-    ng-class = "{'loading': $root.isLoading.startDemo}"
+    ng-class = "{'loading': $root.isLoading.startDemoNodejs}"
     ng-click = "AMC.startDemo('nodejs')"
     ng-disabled = "$root.isLoading.startDemo"
   )
     span.span Start Demo
-    //- .spinner-wrapper.spinner-sm.spinner-white.in(
-    //-   ng-if = "$root.isLoading.startDemo"
-    //-   ng-include = "'spinner'"
-    //- )
+    .spinner-wrapper.spinner-sm.spinner-white.in(
+      ng-if = "$root.isLoading.startDemoNodejs"
+      ng-include = "'spinner'"
+    )
   small.small.text-center.text-gray.margin-top-sm We’ll fork a node.js repo&#32;
     br.br
     | to your GitHub account.
@@ -24,15 +24,15 @@ li.grid-block.vertical.align-center.list-item-fork
     width = "48"
   )
   button.btn.btn-sm.green(
-    ng-class = "{'loading': $root.isLoading.startDemo}"
+    ng-class = "{'loading': $root.isLoading.startDemoPython}"
     ng-click = "AMC.startDemo('python')"
     ng-disabled = "$root.isLoading.startDemo"
   )
     span.span Start Demo
-    //- .spinner-wrapper.spinner-sm.spinner-white.in(
-    //-   ng-if = "$root.isLoading.startDemo"
-    //-   ng-include = "'spinner'"
-    //- )
+    .spinner-wrapper.spinner-sm.spinner-white.in(
+      ng-if = "$root.isLoading.startDemoPython"
+      ng-include = "'spinner'"
+    )
   small.small.text-center.text-gray.margin-top-sm We’ll fork a Python repo&#32;
     br.br
     | to your GitHub account.
@@ -43,15 +43,15 @@ li.grid-block.vertical.align-center.list-item-fork
     width = "48"
   )
   button.btn.btn-sm.green(
-    ng-class = "{'loading': $root.isLoading.startDemo}"
+    ng-class = "{'loading': $root.isLoading.startDemoRuby}"
     ng-click = "AMC.startDemo('ruby')"
     ng-disabled = "$root.isLoading.startDemo"
   )
     span.span Start Demo
-    //- .spinner-wrapper.spinner-sm.spinner-white.in(
-    //-   ng-if = "$root.isLoading.startDemo"
-    //-   ng-include = "'spinner'"
-    //- )
+    .spinner-wrapper.spinner-sm.spinner-white.in(
+      ng-if = "$root.isLoading.startDemoRuby"
+      ng-include = "'spinner'"
+    )
   small.small.text-center.text-gray.margin-top-sm We’ll fork a Ruby repo&#32;
     br.br
     | to your GitHub account.
@@ -60,7 +60,7 @@ li.grid-block.vertical.align-center.list-item-fork(
 )
   img.img.margin-bottom-sm(
     height = "48"
-    src = "https://avatars0.githubusercontent.com/u/5341618?v=3&s=466"
+    ng-src = "{{AMC.currentOrg.github.gravitar()}}"
     width = "48"
   )
   button.btn.btn-sm.white(

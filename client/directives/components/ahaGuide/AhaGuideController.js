@@ -5,14 +5,13 @@ require('app')
   .controller('AhaGuideController', AhaGuideController);
 
 function AhaGuideController(
-  $scope,
   $rootScope,
+  $scope,
   ahaGuide,
   currentOrg,
   errs,
   fetchInstancesByPod,
-  keypather,
-  patchOrgMetadata
+  keypather
 ) {
   var AGC = this;
   var animatedPanelListener = angular.noop;
@@ -206,11 +205,6 @@ function AhaGuideController(
   });
 
   AGC.popoverActions = {
-    endGuide: ahaGuide.endGuide,
-    showSidebar: function () {
-      $rootScope.$broadcast('close-popovers');
-      $rootScope.$broadcast('showAhaSidebar');
-      console.log('Show aha sidebar');
-    }
+    endGuide: ahaGuide.endGuide
   };
 }

@@ -5,25 +5,32 @@ require('app')
 
 function AhaModalController(
   $q,
+  $rootScope,
   ahaGuide,
   createNewBuildAndFetchBranch,
   currentOrg,
   errs,
+  fetchInstancesByPod,
   fetchOwnerRepos,
+  fetchStackInfo,
   github,
   loading,
   ModalService,
-  fetchStackInfo,
 
   // Injected inputs
-  showOverview,
   close
 ) {
   var AMC = this;
   AMC.actions = {
-    close: angular.noop
+    close: function (endGuide) {
+      if (!$rootScope.featureFlags.demoProject || AMC.hasInstances) {
+        if (endGuide) {
+          ahaGuide.endGuide();
+        }
+        close();
+      }
+    }
   };
-  AMC.showOverview = showOverview;
 
   AMC.steps = ahaGuide.steps;
   AMC.getCurrentStep = ahaGuide.getCurrentStep;
@@ -32,7 +39,24 @@ function AhaModalController(
   AMC.isAddingFirstBranch = ahaGuide.isAddingFirstBranch;
   AMC.getFurthestSubstep = ahaGuide.furthestSubstep;
   AMC.getClassForSubstep = ahaGuide.getClassForSubstep;
+  AMC.hasInstances = false;
   AMC.accountHasRepos = false;
+  AMC.currentOrg = currentOrg;
+
+  fetchInstancesByPod()
+    .then(function (instances) {
+      if (instances.length) {
+        AMC.hasInstances = true;
+      }
+    });
+
+  loading('fetchAccountRepos', true);
+  fetchOwnerRepos(currentOrg.github.oauthName())
+    .then(function (ownerRepos) {
+      AMC.accountHasRepos = ownerRepos.models.length;
+      loading('fetchAccountRepos', false);
+    });
+
   ahaGuide.updateTracking();
 
   var repoMapping = {
@@ -43,6 +67,8 @@ function AhaModalController(
 
   AMC.startDemo = function (stackName) {
     loading('startDemo', true);
+    var loadingName = 'startDemo' + stackName.charAt(0).toUpperCase() + stackName.slice(1);
+    loading(loadingName, true);
     github.forkRepo('RunnableDemo', repoMapping[stackName], currentOrg.github.oauthName())
       .then(function () {
         return fetchOwnerRepos(currentOrg.github.oauthName());
@@ -90,10 +116,20 @@ function AhaModalController(
       .catch(errs.handler)
       .finally(function () {
         loading('startDemo', false);
+        loading(loadingName, false);
       });
   };
 
   AMC.addOwnRepo = function () {
-    console.log('Add own repo!');
+    close();
+    ModalService.showModal({
+      controller: 'NewContainerModalController',
+      controllerAs: 'MC', // Shared
+      templateUrl: 'newContainerModalView'
+    });
+  };
+
+  AMC.getStarted = function () {
+    close();
   };
 }

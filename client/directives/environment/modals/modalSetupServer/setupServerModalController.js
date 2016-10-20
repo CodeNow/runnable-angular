@@ -27,7 +27,7 @@ function SetupServerModalController(
   promisify,
   TAB_VISIBILITY,
   updateDockerfileFromState,
-
+  parseDockerfileForDefaults,
 
   build,
   close,
@@ -42,10 +42,11 @@ function SetupServerModalController(
 
   var parentController = $controller('ServerModalController as SMC', { $scope: $scope });
   angular.extend(SMC, {
-    'closeWithConfirmation': parentController.closeWithConfirmation.bind(SMC),
     'changeTab': parentController.changeTab.bind(SMC),
+    'closeWithConfirmation': parentController.closeWithConfirmation.bind(SMC),
     'disableMirrorMode': parentController.disableMirrorMode.bind(SMC),
     'enableMirrorMode': parentController.enableMirrorMode.bind(SMC),
+    'getContainerUrl': parentController.getContainerUrl.bind(SMC),
     'getDisplayName': parentController.getDisplayName.bind(SMC),
     'getElasticHostname': parentController.getElasticHostname.bind(SMC),
     'getNumberOfOpenTabs': parentController.getNumberOfOpenTabs.bind(SMC),
@@ -63,8 +64,8 @@ function SetupServerModalController(
     'saveInstanceAndRefreshCards': parentController.saveInstanceAndRefreshCards.bind(SMC),
     'showAdvancedModeConfirm': parentController.showAdvancedModeConfirm.bind(SMC),
     'switchBetweenAdvancedAndMirroring': parentController.switchBetweenAdvancedAndMirroring.bind(SMC),
-    'switchToMirrorMode': parentController.switchToMirrorMode.bind(SMC),
     'switchToAdvancedMode': parentController.switchToAdvancedMode.bind(SMC),
+    'switchToMirrorMode': parentController.switchToMirrorMode.bind(SMC),
     'updateInstanceAndReset': parentController.updateInstanceAndReset.bind(SMC)
   });
 
@@ -132,9 +133,19 @@ function SetupServerModalController(
   // If a stack is already selected, pick it.
   if (SMC.state.selectedStack) {
     loading(SMC.name, true);
+
     createDockerfileFromSource(SMC.state.contextVersion, SMC.state.selectedStack.key)
       .then(function (dockerfile) {
         SMC.state.dockerfile = dockerfile;
+        return fetchDockerfileFromSource(SMC.state.selectedStack.key)
+          .then(function (sourceDockerfile) {
+            var defaults = parseDockerfileForDefaults(sourceDockerfile, ['run', 'dst']);
+            mainRepoContainerFile.commands = defaults.run.map(function (run) {
+              return new cardInfoTypes.Command('RUN ' + run);
+            });
+          });
+      })
+      .then(function () {
         return updateDockerfileFromState(SMC.state);
       })
       .then(function () {
