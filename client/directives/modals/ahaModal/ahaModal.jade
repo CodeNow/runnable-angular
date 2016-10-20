@@ -93,8 +93,12 @@
               'grid-2': AMC.accountHasRepos,\
               'grid-3': !AMC.accountHasRepos\
             }"
-            ng-if = "$root.featureFlags.demoProject"
+            ng-if = "$root.featureFlags.demoProject && !$root.isLoading.fetchAccountRepos"
             ng-include = "'setupDemoGuideView'"
+          )
+          .spinner-wrapper.spinner-md.spinner-gray.padding-lg.padding-top-md(
+            ng-if = "$root.isLoading.fetchAccountRepos"
+            ng-include = "'spinner'"
           )
 
         //- step 3
