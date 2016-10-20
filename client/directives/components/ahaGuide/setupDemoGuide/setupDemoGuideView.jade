@@ -9,9 +9,7 @@ li.grid-block.vertical.align-center.list-item-fork
     ng-click = "AMC.startDemo('nodejs')"
     ng-disabled = "$root.isLoading.startDemo"
   )
-    span.span(
-      ng-if = "!$root.isLoading.startDemoNodejs"
-    ) Start Demo
+    span.span Start Demo
     .spinner-wrapper.spinner-sm.spinner-white.in(
       ng-if = "$root.isLoading.startDemoNodejs"
       ng-include = "'spinner'"
@@ -30,9 +28,7 @@ li.grid-block.vertical.align-center.list-item-fork
     ng-click = "AMC.startDemo('python')"
     ng-disabled = "$root.isLoading.startDemo"
   )
-    span.span(
-      ng-if = "!$root.isLoading.startDemoPython"
-    ) Start Demo
+    span.span Start Demo
     .spinner-wrapper.spinner-sm.spinner-white.in(
       ng-if = "$root.isLoading.startDemoPython"
       ng-include = "'spinner'"
@@ -51,9 +47,7 @@ li.grid-block.vertical.align-center.list-item-fork
     ng-click = "AMC.startDemo('ruby')"
     ng-disabled = "$root.isLoading.startDemo"
   )
-    span.span(
-      ng-if = "!$root.isLoading.startDemoRuby"
-    ) Start Demo
+    span.span Start Demo
     .spinner-wrapper.spinner-sm.spinner-white.in(
       ng-if = "$root.isLoading.startDemoRuby"
       ng-include = "'spinner'"
