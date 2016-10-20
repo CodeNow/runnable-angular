@@ -5,9 +5,15 @@ li.grid-block.vertical.align-center.list-item-fork
     width = "48"
   )
   button.btn.btn-sm.green(
+    ng-class = "{'loading': $root.isLoading.startDemo}"
     ng-click = "AMC.startDemo('nodejs')"
     ng-disabled = "$root.isLoading.startDemo"
-  ) Start Demo
+  )
+    span.span Start Demo
+    //- .spinner-wrapper.spinner-sm.spinner-white.in(
+    //-   ng-if = "$root.isLoading.startDemo"
+    //-   ng-include = "'spinner'"
+    //- )
   small.small.text-center.text-gray.margin-top-sm We’ll fork a node.js repo&#32;
     br.br
     | to your GitHub account.
@@ -18,9 +24,15 @@ li.grid-block.vertical.align-center.list-item-fork
     width = "48"
   )
   button.btn.btn-sm.green(
+    ng-class = "{'loading': $root.isLoading.startDemo}"
     ng-click = "AMC.startDemo('python')"
     ng-disabled = "$root.isLoading.startDemo"
-  ) Start Demo
+  )
+    span.span Start Demo
+    //- .spinner-wrapper.spinner-sm.spinner-white.in(
+    //-   ng-if = "$root.isLoading.startDemo"
+    //-   ng-include = "'spinner'"
+    //- )
   small.small.text-center.text-gray.margin-top-sm We’ll fork a Python repo&#32;
     br.br
     | to your GitHub account.
@@ -31,9 +43,15 @@ li.grid-block.vertical.align-center.list-item-fork
     width = "48"
   )
   button.btn.btn-sm.green(
+    ng-class = "{'loading': $root.isLoading.startDemo}"
     ng-click = "AMC.startDemo('ruby')"
     ng-disabled = "$root.isLoading.startDemo"
-  ) Start Demo
+  )
+    span.span Start Demo
+    //- .spinner-wrapper.spinner-sm.spinner-white.in(
+    //-   ng-if = "$root.isLoading.startDemo"
+    //-   ng-include = "'spinner'"
+    //- )
   small.small.text-center.text-gray.margin-top-sm We’ll fork a Ruby repo&#32;
     br.br
     | to your GitHub account.
