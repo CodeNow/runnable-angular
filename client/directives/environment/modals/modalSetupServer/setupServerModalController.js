@@ -27,7 +27,7 @@ function SetupServerModalController(
   promisify,
   TAB_VISIBILITY,
   updateDockerfileFromState,
-
+  parseDockerfileForDefaults,
 
   build,
   close,
@@ -132,9 +132,19 @@ function SetupServerModalController(
   // If a stack is already selected, pick it.
   if (SMC.state.selectedStack) {
     loading(SMC.name, true);
+
     createDockerfileFromSource(SMC.state.contextVersion, SMC.state.selectedStack.key)
       .then(function (dockerfile) {
         SMC.state.dockerfile = dockerfile;
+        return fetchDockerfileFromSource(SMC.state.selectedStack.key)
+          .then(function (sourceDockerfile) {
+            var defaults = parseDockerfileForDefaults(sourceDockerfile, ['run', 'dst']);
+            mainRepoContainerFile.commands = defaults.run.map(function (run) {
+              return new cardInfoTypes.Command('RUN ' + run);
+            });
+          });
+      })
+      .then(function () {
         return updateDockerfileFromState(SMC.state);
       })
       .then(function () {
