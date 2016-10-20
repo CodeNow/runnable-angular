@@ -117,7 +117,7 @@
         padding: $sm;
 
         @include media(xs) {
-          flex: 0 0 auto;
+          height: auto;
         }
 
         &:nth-child(2n) {
@@ -130,10 +130,6 @@
 
         &:nth-child(n+3) {
           border-top: $input-border solid $gray-lighter;
-
-          @include media(xs) {
-            border-top: 0;
-          }
         }
       }
     }
@@ -141,6 +137,13 @@
     &.grid-3 .list-item-fork {
       padding: 0 $sm;
 
+      + .list-item-fork {
+        border-left: $input-border solid $gray-lighter;
+        margin-left: -$input-border;
+      }
+    }
+
+    .list-item-fork {
       @include media(xs) {
         flex: 0 0 auto;
         flex-direction: row;
@@ -153,9 +156,6 @@
       }
 
       + .list-item-fork {
-        border-left: $input-border solid $gray-lighter;
-        margin-left: -$input-border;
-
         @include media(xs) {
           border-left: 0;
           border-top: $input-border solid $gray-lighter;
