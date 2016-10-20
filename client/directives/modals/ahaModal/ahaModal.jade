@@ -3,7 +3,7 @@
     header.modal-header
       h1.modal-heading(
         ng-if = "AMC.showOverview"
-      ) Let‘s get running! 👋
+      ) Let’s get running! 👋
       h1.modal-heading(
         ng-if = "!AMC.isSettingUpRunnabot() && !AMC.showOverview"
       )
@@ -54,7 +54,7 @@
         ng-if = "!AMC.isSettingUpRunnabot()"
       )
         //- step 1
-        .grid-block.shrink.align-center.padding-sm.aha-guide.disabled
+        .grid-block.vertical.shrink.align-center.padding-sm.aha-guide.disabled
           .grid-block.shrink.aha-meter.aha-meter-100
             svg.iconnables
               use(
@@ -72,6 +72,7 @@
             'active': AMC.isAddingFirstRepo(),\
             'disabled': !AMC.isAddingFirstRepo()\
           }"
+          ng-init = "AMC.accountHasRepos = true"
         )
           .grid-block.shrink.align-center.padding-sm.aha-guide
             .grid-block.shrink.aha-meter(
@@ -88,14 +89,13 @@
                   xlink:href = "#icons-check"
                 )
             p.grid-block.align-center.aha-text.p.weight-light Step 2: Configure your Application
-          ul.grid-block.shrink.align-center.aha-overview.list-fork.padding-bottom-md(
+          ul.grid-block.shrink.align-center.aha-overview.list-fork.padding-bottom-sm(
             ng-class = "{\
               'grid-2': AMC.accountHasRepos,\
               'grid-3': !AMC.accountHasRepos\
             }"
             ng-if = "AMC.showOverview && $root.featureFlags.demoProject"
             ng-include = "'setupDemoGuideView'"
-            ng-init = "AMC.accountHasRepos = false"
           )
 
         //- step 3

@@ -308,7 +308,6 @@ function ahaGuide(
 
   function skipBranchMilestone () {
     ahaGuide.skippedBranchMilestone = true;
-    console.log('Show aha sidebar');
     $rootScope.$broadcast('showAhaSidebar');
   }
 

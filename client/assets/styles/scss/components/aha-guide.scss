@@ -23,10 +23,6 @@
     overflow: visible;
   }
 
-  .spinner-wrapper {
-    overflow: hidden;
-  }
-
   // anchor image
   .aha-meter {
     background-image: linear-gradient(90deg, $gray-lightest 50%, transparent 50%, transparent), linear-gradient(0deg, $gray-lightest 50%, $gray-lightest 50%, $gray-lightest);

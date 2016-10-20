@@ -5,12 +5,30 @@
   }
 
   .aha-overview {
-    margin: $sm auto;
+    margin: 0 auto;
     width: 480px;
+
+    @include media(xs) {
+      max-width: 420px;
+      width: auto;
+    }
 
     &.well {
       border-radius: $input-border-radius-lg;
       margin-top: $sm;
+    }
+
+    //- wrapper only
+    > .aha-guide {
+      @include media(sm) {
+        padding-left: $sm;
+        padding-right: $sm;
+      }
+
+      @include media(xs) {
+        padding-left: 0;
+        padding-right: 0;
+      }
     }
   }
 
@@ -19,6 +37,12 @@
     padding-right: $md;
     width: 360px;
 
+    @media (max-width: 430px) {
+      padding-left: $sm;
+      padding-right: $sm;
+      width: 100%;
+    }
+
     &.active {
       background: $white;
       border: 1px solid $gray-lighter;
@@ -26,6 +50,15 @@
       box-shadow: 0 1px 3px rgba($black,.06);
       margin: 0 (-$sm);
       width: 540px;
+
+      @include media(sm) {
+        width: 510px;
+      }
+
+      @include media(xs) {
+        margin: 0;
+        width: auto;
+      }
     }
 
     &.disabled {
@@ -34,6 +67,11 @@
 
     .aha-text {
       font-size: 15px;
+
+      @media (max-width: 430px) {
+        justify-content: center;
+        margin: 0;
+      }
     }
   }
 
@@ -43,6 +81,10 @@
     left: 36px;
     top: 18px;
     width: 36px;
+
+    @media (max-width: 430px) {
+      display: none;
+    }
 
     .iconnables {
       color: $gray-light;
@@ -62,15 +104,28 @@
 
   .list-fork {
 
+    @include media(xs) {
+      flex-direction: column;
+      margin: 0;
+      padding-bottom: 0;
+    }
+
     &.grid-2 {
       flex-wrap: wrap;
 
       .list-item-fork {
         height: 180px;
-        padding: $sm;
+
+        @include media(xs) {
+          height: auto;
+        }
 
         &:nth-child(2n) {
           border-left: $input-border solid $gray-lighter;
+
+          @include media(xs) {
+            border-left: 0;
+          }
         }
 
         &:nth-child(n+3) {
@@ -80,7 +135,6 @@
     }
 
     &.grid-3 .list-item-fork {
-      padding: 0 $sm;
 
       + .list-item-fork {
         border-left: $input-border solid $gray-lighter;
@@ -88,8 +142,86 @@
       }
     }
 
+    .list-item-fork {
+      padding: $sm;
+
+      @include media(xs) {
+        flex: 0 0 auto;
+        flex-direction: row;
+        max-width: none;
+      }
+
+      @media (max-width: 430px) {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      + .list-item-fork {
+        @include media(xs) {
+          border-left: 0;
+          border-top: $input-border solid $gray-lighter;
+          margin-left: 0;
+          padding-top: $sm;
+        }
+      }
+    }
+
     .img {
       border-radius: $input-border-radius-lg;
+
+      @include media(xs) {
+        margin: 0 $sm 0 0;
+        order: 0;
+      }
+
+      @media (max-width: 430px) {
+        margin: 0 auto $sm;
+      }
+    }
+
+    .btn {
+      @include media(xs) {
+        margin-left: $sm;
+        order: 2;
+      }
+
+      @media (max-width: 430px) {
+        margin-left: 0;
+        margin-top: $sm;
+      }
+
+      &.loading .span {
+        opacity: 0;
+      }
+
+      .spinner-wrapper {
+        left: 0;
+        margin: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+    }
+
+    .small {
+      @include media(xs) {
+        margin: 0;
+        order: 1;
+        text-align: left;
+      }
+
+      @media (max-width: 430px) {
+        text-align: center;
+        width: 100%;
+      }
+    }
+
+    .br {
+      display: none;
+
+      @media (max-width: 430px) {
+        display: block;
+      }
     }
   }
 
