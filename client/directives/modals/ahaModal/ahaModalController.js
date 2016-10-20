@@ -41,6 +41,7 @@ function AhaModalController(
   AMC.getClassForSubstep = ahaGuide.getClassForSubstep;
   AMC.hasInstances = false;
   AMC.accountHasRepos = false;
+  AMC.currentOrg = currentOrg;
 
   fetchInstancesByPod()
     .then(function (instances) {
