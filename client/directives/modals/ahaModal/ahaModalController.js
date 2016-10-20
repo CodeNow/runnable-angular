@@ -117,7 +117,12 @@ function AhaModalController(
   };
 
   AMC.addOwnRepo = function () {
-    console.log('Add own repo!');
+    close();
+    ModalService.showModal({
+      controller: 'NewContainerModalController',
+      controllerAs: 'MC', // Shared
+      templateUrl: 'newContainerModalView'
+    });
   };
 
   AMC.getStarted = function () {
