@@ -214,11 +214,12 @@ section.modal-body(
     ng-if = "SMC.selectedTab === 'logs'"
   )
 
-.popover.top.in.popover-aha.popover-aha-demo(
+.popover.top.in.popover-aha(
   ng-if = "$root.featureFlags.demoFlowPhase2"
+  style = "bottom: 63px; left: auto; right: 15px; top: auto;"
 )
   .arrow.white(
-    style = "right: 60px; left: auto;"
+    style = "left: auto; right: 60px;"
   )
   .popover-content
     .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide
