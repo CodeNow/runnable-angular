@@ -5,7 +5,7 @@
   }
 
   .aha-overview {
-    margin: $sm auto;
+    margin: 0 auto;
     width: 480px;
 
     @include media(xs) {
@@ -106,6 +106,7 @@
 
     @include media(xs) {
       flex-direction: column;
+      margin: 0;
       padding-bottom: 0;
     }
 
@@ -114,7 +115,6 @@
 
       .list-item-fork {
         height: 180px;
-        padding: $sm;
 
         @include media(xs) {
           height: auto;
@@ -135,7 +135,6 @@
     }
 
     &.grid-3 .list-item-fork {
-      padding: 0 $sm;
 
       + .list-item-fork {
         border-left: $input-border solid $gray-lighter;
@@ -144,6 +143,8 @@
     }
 
     .list-item-fork {
+      padding: $sm;
+
       @include media(xs) {
         flex: 0 0 auto;
         flex-direction: row;
@@ -160,7 +161,6 @@
           border-left: 0;
           border-top: $input-border solid $gray-lighter;
           margin-left: 0;
-          margin-top: $sm;
           padding-top: $sm;
         }
       }
