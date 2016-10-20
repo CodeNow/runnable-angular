@@ -68,7 +68,7 @@ function AhaModalController(
 
   function findRepo (repoName, count) {
     count = count || 0;
-    if (count > 10) {
+    if (count > 30) {
       return $q.reject('We were unable to find the repo we just forked. Please try again!');
     }
     return fetchOwnerRepos(currentOrg.github.oauthName())
@@ -81,7 +81,7 @@ function AhaModalController(
         }
         return $timeout(function () {
           return findRepo(repoName, ++count);
-        }, 100);
+        }, 1000);
       });
   }
 
