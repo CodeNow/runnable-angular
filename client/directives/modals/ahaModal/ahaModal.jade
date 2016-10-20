@@ -17,14 +17,14 @@
 
       //- close buttons
       svg.grid-content.shrink.iconnables.icons-close(
-        ng-click = "AMC.toggleSidebar()"
-        ng-if = "!AMC.isSettingUpRunnabot()"
+        ng-click = "AMC.actions.close()"
+        ng-if = "!AMC.isSettingUpRunnabot() && AMC.hasInstances"
       )
         use(
           xlink:href = "#icons-close"
         )
       svg.grid-content.shrink.iconnables.icons-close(
-        ng-click = "AMC.toggleSidebar('end')"
+        ng-click = "AMC.actions.close(true)"
         ng-if = "AMC.isSettingUpRunnabot()"
       )
         use(

@@ -11,8 +11,7 @@ function AhaGuideController(
   currentOrg,
   errs,
   fetchInstancesByPod,
-  keypather,
-  ModalService
+  keypather
 ) {
   var AGC = this;
   var animatedPanelListener = angular.noop;
@@ -206,14 +205,6 @@ function AhaGuideController(
   });
 
   AGC.popoverActions = {
-    endGuide: ahaGuide.endGuide,
-    showAhaModal: function () {
-      ModalService.showModal({
-        controller: 'AhaModalController',
-        controllerAs: 'AMC',
-        templateUrl: 'ahaModal'
-      });
-      $rootScope.$broadcast('close-popovers');
-    }
+    endGuide: ahaGuide.endGuide
   };
 }

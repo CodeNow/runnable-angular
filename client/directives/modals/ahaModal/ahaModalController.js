@@ -5,24 +5,28 @@ require('app')
 
 function AhaModalController(
   $q,
+  $rootScope,
   ahaGuide,
   createNewBuildAndFetchBranch,
   currentOrg,
   errs,
+  fetchInstancesByPod,
   fetchOwnerRepos,
+  fetchStackInfo,
   github,
   loading,
   ModalService,
-  fetchStackInfo,
-  fetchInstancesByPod,
 
   // Injected inputs
   close
 ) {
   var AMC = this;
   AMC.actions = {
-    close: function () {
-      if (AMC.accountHasRepos) {
+    close: function (endGuide) {
+      if (!$rootScope.featureFlags.demoProject || AMC.hasInstances) {
+        if (endGuide) {
+          ahaGuide.endGuide();
+        }
         close();
       }
     }
@@ -35,13 +39,17 @@ function AhaModalController(
   AMC.isAddingFirstBranch = ahaGuide.isAddingFirstBranch;
   AMC.getFurthestSubstep = ahaGuide.furthestSubstep;
   AMC.getClassForSubstep = ahaGuide.getClassForSubstep;
+  AMC.hasInstances = false;
   AMC.accountHasRepos = false;
+
   fetchInstancesByPod()
     .then(function (instances) {
       if (instances.length) {
-        AMC.accountHasRepos = true;
+        AMC.hasInstances = true;
       }
     });
+
+  // accountHasRepos
 
   ahaGuide.updateTracking();
 
@@ -108,6 +116,6 @@ function AhaModalController(
   };
 
   AMC.getStarted = function () {
-    close()
-  }
+    close();
+  };
 }
