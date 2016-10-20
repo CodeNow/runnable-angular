@@ -293,8 +293,7 @@ function ahaGuide(
   }
 
   function isInGuide () {
-    return true;
-    // return keypather.get(currentOrg, 'poppa.attrs.metadata.hasAha');
+    return keypather.get(currentOrg, 'poppa.attrs.metadata.hasAha');
   }
 
   function hasConfirmedSetup () {
