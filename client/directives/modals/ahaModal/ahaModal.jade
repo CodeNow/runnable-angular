@@ -1,5 +1,10 @@
 .modal-backdrop
-  .modal-dialog.modal-lg.modal-aha
+  .modal-dialog.modal-aha(
+    ng-class = "{\
+      'modal-lg': $root.featureFlags.demoProject,\
+      'modal-md': !$root.featureFlags.demoProject\
+    }"
+  )
     header.modal-header
       h1.modal-heading(
         ng-if = "AMC.showOverview"
@@ -38,7 +43,7 @@
 
     .modal-body
       //- if demo feature is off
-      .grid-block.shrink.vertical.align-center.aha-overview(
+      .grid-block.shrink.vertical.align-center.aha-overview.padding-md.padding-bottom-sm(
         ng-if = "AMC.showOverview && !$root.featureFlags.demoProject"
       )
         p.grid-content.shrink.text-center.p.weight-light It takes just 3 steps to get everything set up.&#32;
@@ -51,7 +56,7 @@
 
       //- if demo feature is on
       .grid-block.shrink.vertical.align-center.noscroll.aha-overview(
-        ng-if = "!AMC.isSettingUpRunnabot()"
+        ng-if = "!AMC.isSettingUpRunnabot() && $root.featureFlags.demoProject"
       )
         //- step 1
         .grid-block.vertical.shrink.align-center.padding-sm.aha-guide.disabled
@@ -94,8 +99,12 @@
               'grid-2': AMC.accountHasRepos,\
               'grid-3': !AMC.accountHasRepos\
             }"
-            ng-if = "AMC.showOverview && $root.featureFlags.demoProject"
+            ng-if = "AMC.showOverview && $root.featureFlags.demoProject && !$root.isLoading.fetchAccountRepos"
             ng-include = "'setupDemoGuideView'"
+          )
+          .spinner-wrapper.spinner-md.spinner-gray.padding-lg.padding-top-md(
+            ng-if = "$root.isLoading.fetchAccountRepos"
+            ng-include = "'spinner'"
           )
 
         //- step 3
