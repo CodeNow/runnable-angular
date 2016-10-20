@@ -66,6 +66,8 @@ function AhaModalController(
 
   AMC.startDemo = function (stackName) {
     loading('startDemo', true);
+    var loadingName = 'startDemo' + stackName.charAt(0).toUpperCase() + stackName.slice(1);
+    loading(loadingName, true);
     github.forkRepo('RunnableDemo', repoMapping[stackName], currentOrg.github.oauthName())
       .then(function () {
         return fetchOwnerRepos(currentOrg.github.oauthName());
@@ -113,6 +115,7 @@ function AhaModalController(
       .catch(errs.handler)
       .finally(function () {
         loading('startDemo', false);
+        loading(loadingName, false);
       });
   };
 

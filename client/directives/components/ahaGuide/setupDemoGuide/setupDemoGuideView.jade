@@ -9,11 +9,13 @@ li.grid-block.vertical.align-center.list-item-fork
     ng-click = "AMC.startDemo('nodejs')"
     ng-disabled = "$root.isLoading.startDemo"
   )
-    span.span Start Demo
-    //- .spinner-wrapper.spinner-sm.spinner-white.in(
-    //-   ng-if = "$root.isLoading.startDemo"
-    //-   ng-include = "'spinner'"
-    //- )
+    span.span(
+      ng-if = "!$root.isLoading.startDemoNodejs"
+    ) Start Demo
+    .spinner-wrapper.spinner-sm.spinner-white.in(
+      ng-if = "$root.isLoading.startDemoNodejs"
+      ng-include = "'spinner'"
+    )
   small.small.text-center.text-gray.margin-top-sm We’ll fork a node.js repo&#32;
     br.br
     | to your GitHub account.
@@ -28,11 +30,13 @@ li.grid-block.vertical.align-center.list-item-fork
     ng-click = "AMC.startDemo('python')"
     ng-disabled = "$root.isLoading.startDemo"
   )
-    span.span Start Demo
-    //- .spinner-wrapper.spinner-sm.spinner-white.in(
-    //-   ng-if = "$root.isLoading.startDemo"
-    //-   ng-include = "'spinner'"
-    //- )
+    span.span(
+      ng-if = "!$root.isLoading.startDemoPython"
+    ) Start Demo
+    .spinner-wrapper.spinner-sm.spinner-white.in(
+      ng-if = "$root.isLoading.startDemoPython"
+      ng-include = "'spinner'"
+    )
   small.small.text-center.text-gray.margin-top-sm We’ll fork a Python repo&#32;
     br.br
     | to your GitHub account.
@@ -47,11 +51,13 @@ li.grid-block.vertical.align-center.list-item-fork
     ng-click = "AMC.startDemo('ruby')"
     ng-disabled = "$root.isLoading.startDemo"
   )
-    span.span Start Demo
-    //- .spinner-wrapper.spinner-sm.spinner-white.in(
-    //-   ng-if = "$root.isLoading.startDemo"
-    //-   ng-include = "'spinner'"
-    //- )
+    span.span(
+      ng-if = "!$root.isLoading.startDemoRuby"
+    ) Start Demo
+    .spinner-wrapper.spinner-sm.spinner-white.in(
+      ng-if = "$root.isLoading.startDemoRuby"
+      ng-include = "'spinner'"
+    )
   small.small.text-center.text-gray.margin-top-sm We’ll fork a Ruby repo&#32;
     br.br
     | to your GitHub account.
