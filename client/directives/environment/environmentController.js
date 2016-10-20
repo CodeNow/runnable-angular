@@ -31,7 +31,6 @@ function EnvironmentController(
   EC.isAddingFirstRepo = ahaGuide.isAddingFirstRepo;
   EC.isInGuide = ahaGuide.isInGuide;
   EC.showCreateTemplate = true;
-  EC.showOverview = true;
   EC.getClassForSubstep = ahaGuide.getClassForSubstep;
   $scope.$on('ahaGuideEvent', function(event, info) {
     if (info.isClear) {
@@ -93,7 +92,7 @@ function EnvironmentController(
   var isAddFirstRepo = ahaGuide.isAddingFirstRepo();
 
   if (isAddFirstRepo && instancesByPod.models.length === 0) {
-    launchAhaModal(true);
+    launchAhaModal();
   }
 
   // Asynchronously fetch the Dockerfile and check for working instances
@@ -150,26 +149,24 @@ function EnvironmentController(
         }
       });
     },
-    showSidebar: function () {
-      EC.showSidebar = !EC.showSidebar;
-      EC.showCreateTemplate = true;
+    showAhaModal: function () {
+      EC.showAddServicePopover = false;
+      launchAhaModal();
     },
     endGuide: ahaGuide.endGuide
   };
 
-  function launchAhaModal (showOverview) {
+  function launchAhaModal () {
+    $rootScope.$broadcast('close-popovers');
     ModalService.showModal({
       controller: 'AhaModalController',
       controllerAs: 'AMC',
-      templateUrl: 'ahaModal',
-      inputs: {
-        showOverview: !!showOverview
-      }
+      templateUrl: 'ahaModal'
     });
   }
 
 
-  $scope.$on('showAhaSidebar', EC.actions.showSidebar);
+  $scope.$on('showAhaSidebar', EC.actions.showAhaModal);
   $scope.$on('showAddServicesPopover', function(event, toggle) {
     EC.showAddServicePopover = toggle;
   });

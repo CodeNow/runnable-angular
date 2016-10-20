@@ -56,10 +56,3 @@
         ng-class = "{'full-screen': $root.featureFlags.fullScreen}"
         open-items = "dataInstance.data.openItems"
       )
-
-.grid-block.vertical.modal-backdrop(
-  aha-sidebar
-  toggle-sidebar = "CI.toggleSidebar"
-  show-overview = "false"
-  ng-if = "$root.featureFlags.aha && CI.isInGuide() && CI.showSidebar"
-)

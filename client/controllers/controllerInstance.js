@@ -226,10 +226,7 @@ function ControllerInstance(
           ModalService.showModal({
             controller: 'AhaModalController',
             controllerAs: 'AMC',
-            templateUrl: 'ahaModal',
-            inputs: {
-              showOverview: false
-            }
+            templateUrl: 'ahaModal'
           });
         });
       }

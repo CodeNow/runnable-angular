@@ -2,20 +2,15 @@
   .modal-dialog.modal-lg.modal-aha
     header.modal-header
       h1.modal-heading(
-        ng-if = "AMC.showOverview"
+        ng-if = "!AMC.isSettingUpRunnabot()"
       ) Let’s get running! 👋
       h1.modal-heading(
-        ng-if = "!AMC.isSettingUpRunnabot() && !AMC.showOverview"
-      )
-        //- During ahas 1-3:
-        | Setup Guide
-      h1.modal-heading(
-        ng-if = "AMC.isSettingUpRunnabot() && !$root.featureFlags.ahaBranchUrlStep && !AMC.showOverview"
+        ng-if = "AMC.isSettingUpRunnabot() && !$root.featureFlags.ahaBranchUrlStep"
       )
         //- During aha 4:
         | You did it! 👏
       h1.modal-heading(
-        ng-if = "AMC.isSettingUpRunnabot() && $root.featureFlags.ahaBranchUrlStep && !AMC.showOverview"
+        ng-if = "AMC.isSettingUpRunnabot() && $root.featureFlags.ahaBranchUrlStep"
       )
         //- During aha 4:
         | One more thing…
@@ -23,14 +18,14 @@
       //- close buttons
       svg.grid-content.shrink.iconnables.icons-close(
         ng-click = "AMC.toggleSidebar()"
-        ng-if = "!AMC.showOverview && !AMC.isSettingUpRunnabot()"
+        ng-if = "!AMC.isSettingUpRunnabot()"
       )
         use(
           xlink:href = "#icons-close"
         )
       svg.grid-content.shrink.iconnables.icons-close(
         ng-click = "AMC.toggleSidebar('end')"
-        ng-if = "!AMC.showOverview && AMC.isSettingUpRunnabot()"
+        ng-if = "AMC.isSettingUpRunnabot()"
       )
         use(
           xlink:href = "#icons-close"
@@ -39,14 +34,14 @@
     .modal-body
       //- if demo feature is off
       .grid-block.shrink.vertical.align-center.aha-overview(
-        ng-if = "AMC.showOverview && !$root.featureFlags.demoProject"
+        ng-if = "!$root.featureFlags.demoProject"
       )
         p.grid-content.shrink.text-center.p.weight-light It takes just 3 steps to get everything set up.&#32;
           br
           | But don’t worry — we’re here to help!
         button.grid-content.shrink.btn.btn-md.green(
           data-event-name = "Milestone 2: Started"
-          ng-click = "AMC.toggleSidebar()"
+          ng-click = "AMC.getStarted()"
         ) Get Started
 
       //- if demo feature is on
@@ -72,7 +67,6 @@
             'active': AMC.isAddingFirstRepo(),\
             'disabled': !AMC.isAddingFirstRepo()\
           }"
-          ng-init = "AMC.accountHasRepos = true"
         )
           .grid-block.shrink.align-center.padding-sm.aha-guide
             .grid-block.shrink.aha-meter(
@@ -94,7 +88,7 @@
               'grid-2': AMC.accountHasRepos,\
               'grid-3': !AMC.accountHasRepos\
             }"
-            ng-if = "AMC.showOverview && $root.featureFlags.demoProject"
+            ng-if = "$root.featureFlags.demoProject"
             ng-include = "'setupDemoGuideView'"
           )
 

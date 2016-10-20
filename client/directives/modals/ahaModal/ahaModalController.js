@@ -14,16 +14,19 @@ function AhaModalController(
   loading,
   ModalService,
   fetchStackInfo,
+  fetchInstancesByPod,
 
   // Injected inputs
-  showOverview,
   close
 ) {
   var AMC = this;
   AMC.actions = {
-    close: angular.noop
+    close: function () {
+      if (AMC.accountHasRepos) {
+        close();
+      }
+    }
   };
-  AMC.showOverview = showOverview;
 
   AMC.steps = ahaGuide.steps;
   AMC.getCurrentStep = ahaGuide.getCurrentStep;
@@ -33,6 +36,13 @@ function AhaModalController(
   AMC.getFurthestSubstep = ahaGuide.furthestSubstep;
   AMC.getClassForSubstep = ahaGuide.getClassForSubstep;
   AMC.accountHasRepos = false;
+  fetchInstancesByPod()
+    .then(function (instances) {
+      if (instances.length) {
+        AMC.accountHasRepos = true;
+      }
+    });
+
   ahaGuide.updateTracking();
 
   var repoMapping = {
@@ -96,4 +106,8 @@ function AhaModalController(
   AMC.addOwnRepo = function () {
     console.log('Add own repo!');
   };
+
+  AMC.getStarted = function () {
+    close()
+  }
 }
