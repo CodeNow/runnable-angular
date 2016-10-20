@@ -9,26 +9,6 @@ button.grid-block.shrink.btn.btn-md.green(
     )
   | Create Template
 
-.popover.bottom.in.popover-aha(
-  ng-if = "$root.featureFlags.aha && EC.showAddServicePopover"
-  style = "left: 0; margin: 0 auto; right: 0; top: 54px;"
-)
-  .arrow.white
-  .popover-content
-    .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide
-      .grid-block.shrink.aha-meter.js-animate.aha-meter-100
-        svg.iconnables
-          use(
-            xlink:href = "#icons-check"
-          )
-      .grid-block.vertical.aha-text
-        p.p.small.text-gray-light Step 2: Configure your Application
-        p.p To add a database or other service to your application, click ‘Create Template’.
-  .grid-block.justify-right.popover-footer
-    button.grid-block.shrink.btn.btn-sm.green(
-      ng-click = "EC.showAddServicePopover = false"
-    ) Got It
-
 button.grid-block.shrink.btn.btn-sm.gray.btn-aha(
   ng-click = "EC.actions.showAhaModal()"
   ng-if = "$root.featureFlags.aha && EC.isInGuide()"
