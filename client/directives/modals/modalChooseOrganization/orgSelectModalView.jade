@@ -2,9 +2,7 @@
   h1.modal-heading Welcome Aboard!
 
 .grid-block.vertical.padding-sm
-  p.margin-top-sm.margin-bottom-md.p.text-center.weight-light Which team’s code do you want
-    br
-    | to use with Runnable?
+  p.margin-top-sm.margin-bottom-md.p.text-center.weight-light Which team’s code do you want to run?
 
   ol.grid-block.vertical.list
     li.grid-block.align-center.list-item.btn.white(
@@ -36,7 +34,9 @@
           xlink:href = "#icons-arrow-down"
         )
 
-footer.grid-block.align-center.vertical.padding-top-xxs.padding-bottom-md
+footer.grid-block.align-center.vertical.padding-top-xxs.padding-bottom-md(
+  ng-if = "!$root.featureFlags.personalAccounts"
+)
   a.grid-block.shrink.align-center.btn-skip.text-gray.weight-light.link(
     data-event-name = "Demo: Clicked Skip"
     ng-click = "COMC.isInDemoFlow = true; goToPanel('createOrg')"
