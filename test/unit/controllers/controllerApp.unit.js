@@ -89,7 +89,8 @@ describe('controllerApp'.bold.underline.blue, function () {
       $provide.value('$localStorage', mockLocalStorage);
       $provide.factory('ahaGuide', function ($q) {
         ahaGuideStub = {
-          updateCurrentOrg: sinon.stub()
+          updateCurrentOrg: sinon.stub(),
+          setupAhaModalLaunchListener: sinon.stub()
         };
         return ahaGuideStub;
       });
