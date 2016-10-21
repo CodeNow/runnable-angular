@@ -23,8 +23,9 @@ function AhaModalController(
 ) {
   var AMC = this;
   AMC.actions = {
-    close: function (endGuide, forceClose) {
-      if (forceClose || !$rootScope.featureFlags.demoProject || AMC.hasInstances || !AMC.isAddingFirstRepo()) {
+    forceClose: close,
+    close: function (endGuide) {
+      if (!$rootScope.featureFlags.demoProject || AMC.hasInstances || !AMC.isAddingFirstRepo()) {
         if (endGuide) {
           ahaGuide.endGuide();
         }

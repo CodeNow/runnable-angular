@@ -221,6 +221,12 @@ module.exports = [
     templateUrl: 'environmentView',
     controller: 'EnvironmentController',
     controllerAs: 'EC',
+    onExit: function (
+      ModalService,
+      keypather
+    ) {
+      keypather.get(ModalService, 'modalLayers[0].modal.controller.actions.forceClose()');
+    },
     resolve: {
       instancesByPod: function (fetchInstancesByPod, $stateParams, $state) {
         $state.params.userName = $stateParams.userName;
@@ -234,6 +240,12 @@ module.exports = [
     templateUrl: 'viewInstances',
     controller: 'ControllerInstances',
     controllerAs: 'CIS',
+    onExit: function (
+      ModalService,
+      keypather
+    ) {
+      keypather.get(ModalService, 'modalLayers[0].modal.controller.actions.forceClose()');
+    },
     resolve: {
       instancesByPod: function (fetchInstancesByPod, $stateParams, $state) {
         $state.params.userName = $stateParams.userName;
