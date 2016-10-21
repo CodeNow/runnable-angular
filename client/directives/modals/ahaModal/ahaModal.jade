@@ -23,7 +23,7 @@
       //- close buttons
       svg.grid-content.shrink.iconnables.icons-close(
         ng-click = "AMC.actions.close()"
-        ng-if = "!AMC.isSettingUpRunnabot() && AMC.hasInstances"
+        ng-if = "!AMC.isSettingUpRunnabot() && !AMC.isAddingFirstRepo()"
       )
         use(
           xlink:href = "#icons-close"
