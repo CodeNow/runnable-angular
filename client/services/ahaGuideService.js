@@ -18,6 +18,7 @@ function ahaGuide(
   fetchInstancesByPod,
   isRunnabotPartOfOrg,
   keypather,
+  ModalService,
   patchOrgMetadata
 ) {
   var instances = [];
@@ -223,6 +224,9 @@ function ahaGuide(
  * @returns          {String} substep currently on
  */
   function furthestSubstep(step, newSubstep) {
+    if (!step) {
+      return;
+    }
     if (arguments.length > 1) {
       if (!cachedSubstep[step]) {
         cachedSubstep[step] = newSubstep;
@@ -305,7 +309,7 @@ function ahaGuide(
 
   function skipBranchMilestone () {
     ahaGuide.skippedBranchMilestone = true;
-    $rootScope.$broadcast('showAhaSidebar');
+    $rootScope.$broadcast('ahaGuide::launchModal');
   }
 
   function endGuide () {
@@ -357,6 +361,17 @@ function ahaGuide(
     }
     eventTracking.updateCurrentPersonProfile(currentStep);
   }
+
+  function launchAhaModal () {
+    $rootScope.$broadcast('close-popovers');
+    ModalService.showModal({
+      controller: 'AhaModalController',
+      controllerAs: 'AMC',
+      templateUrl: 'ahaModal'
+    });
+  }
+
+  $rootScope.$on('ahaGuide::launchModal', launchAhaModal);
 
   return {
     endGuide: endGuide,

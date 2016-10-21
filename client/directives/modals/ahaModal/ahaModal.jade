@@ -1,0 +1,139 @@
+.modal-backdrop
+  .modal-dialog.modal-aha(
+    ng-class = "{\
+      'modal-lg': $root.featureFlags.demoProject,\
+      'modal-md': !$root.featureFlags.demoProject\
+    }"
+  )
+    header.modal-header
+      h1.modal-heading(
+        ng-if = "!AMC.isSettingUpRunnabot()"
+      ) Let’s get running! 👋
+      h1.modal-heading(
+        ng-if = "AMC.isSettingUpRunnabot() && !$root.featureFlags.ahaBranchUrlStep"
+      )
+        //- During aha 4:
+        | You did it! 👏
+      h1.modal-heading(
+        ng-if = "AMC.isSettingUpRunnabot() && $root.featureFlags.ahaBranchUrlStep"
+      )
+        //- During aha 4:
+        | One more thing…
+
+      //- close buttons
+      svg.grid-content.shrink.iconnables.icons-close(
+        ng-click = "AMC.actions.close()"
+        ng-if = "!AMC.isSettingUpRunnabot() && AMC.hasInstances"
+      )
+        use(
+          xlink:href = "#icons-close"
+        )
+      svg.grid-content.shrink.iconnables.icons-close(
+        ng-click = "AMC.actions.close(true)"
+        ng-if = "AMC.isSettingUpRunnabot()"
+      )
+        use(
+          xlink:href = "#icons-close"
+        )
+
+    .modal-body
+      //- if demo feature is off
+      .grid-block.shrink.vertical.align-center.aha-overview.padding-md.padding-bottom-sm(
+        ng-if = "!$root.featureFlags.demoProject"
+      )
+        p.grid-content.shrink.text-center.p.weight-light It takes just 3 steps to get everything set up.&#32;
+          br
+          | But don’t worry — we’re here to help!
+        button.grid-content.shrink.btn.btn-md.green(
+          data-event-name = "Milestone 2: Started"
+          ng-click = "AMC.getStarted()"
+        ) Get Started
+
+      //- if demo feature is on
+      .grid-block.shrink.vertical.align-center.noscroll.aha-overview(
+        ng-if = "!AMC.isSettingUpRunnabot() && $root.featureFlags.demoProject"
+      )
+        //- step 1
+        .grid-block.vertical.shrink.align-center.padding-sm.aha-guide.disabled
+          .grid-block.shrink.aha-meter.aha-meter-100
+            svg.iconnables
+              use(
+                xlink:href = "#icons-octicons-github"
+              )
+            svg.iconnables.icons-check
+              use(
+                xlink:href = "#icons-check"
+              )
+          p.grid-block.align-center.aha-text.p.weight-light Step 1: Choose your Organization
+
+        //- step 2
+        .grid-block.vertical.shrink.align-center.aha-guide(
+          ng-class = "{\
+            'active': AMC.isAddingFirstRepo(),\
+            'disabled': !AMC.isAddingFirstRepo()\
+          }"
+        )
+          .grid-block.shrink.align-center.padding-sm.aha-guide
+            .grid-block.shrink.aha-meter(
+              ng-class = "AMC.getClassForSubstep()"
+            )
+              svg.iconnables
+                use(
+                  xlink:href = "#icons-octicons-repo"
+                )
+              svg.iconnables.icons-check(
+                ng-if = "AMC.getFurthestSubstep(steps.ADD_FIRST_REPO) === 'success' || AMC.getCurrentStep() > steps.ADD_FIRST_REPO"
+              )
+                use(
+                  xlink:href = "#icons-check"
+                )
+            p.grid-block.align-center.aha-text.p.weight-light Step 2: Configure your Application
+          ul.grid-block.shrink.align-center.aha-overview.list-fork.padding-bottom-sm(
+            ng-class = "{\
+              'grid-2': AMC.accountHasRepos,\
+              'grid-3': !AMC.accountHasRepos\
+            }"
+            ng-if = "$root.featureFlags.demoProject && !$root.isLoading.fetchAccountRepos"
+            ng-include = "'setupDemoGuideView'"
+          )
+          .spinner-wrapper.spinner-md.spinner-gray.padding-lg.padding-top-md(
+            ng-if = "$root.isLoading.fetchAccountRepos"
+            ng-include = "'spinner'"
+          )
+
+        //- step 3
+        .grid-block.vertical.shrink.align-center.aha-guide(
+          ng-class = "{'disabled': AMC.getCurrentStep() !== steps.ADD_FIRST_BRANCH}"
+        )
+          .grid-block.shrink.align-center.padding-sm.aha-guide
+            .grid-block.shrink.aha-meter(
+              ng-class = "{\
+              'aha-meter-33': AMC.isAddingFirstBranch() && AMC.getFurthestSubstep(steps.ADD_FIRST_BRANCH) === 'addBranch',\
+              'aha-meter-66': AMC.isAddingFirstBranch() && AMC.getFurthestSubstep(steps.ADD_FIRST_BRANCH) === 'dockLoading',\
+              'aha-meter-100': AMC.getCurrentStep() > steps.ADD_FIRST_BRANCH\
+              }"
+            )
+              svg.iconnables
+                use(
+                  xlink:href = "#icons-octicons-branch"
+                )
+              svg.iconnables.icons-check(
+                ng-if = "AMC.getCurrentStep() > steps.ADD_FIRST_BRANCH"
+              )
+                use(
+                  xlink:href = "#icons-check"
+                )
+            p.grid-block.align-center.aha-text.p.weight-light Step 3: Add a Branch
+          //- figure.grid-block.vertical.shrink.align-center.aha-overview.padding-bottom-md.figure
+            img.img(
+              src="/build/images/add-branches.svg"
+            )
+            a.link.margin-top-sm(
+              href = "https://support.runnable.com/hc/en-us/articles/214221203-Adding-Your-Branches"
+              target = "_blank"
+            ) Learn how to add branches.
+
+      .grid-block.vertical.align-center.form-github(
+        ng-if = "AMC.isSettingUpRunnabot()"
+        github-integration
+      )

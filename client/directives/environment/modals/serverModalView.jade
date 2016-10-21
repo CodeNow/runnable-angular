@@ -214,6 +214,25 @@ section.modal-body(
     ng-if = "SMC.selectedTab === 'logs'"
   )
 
+.popover.top.in.popover-aha(
+  ng-if = "$root.featureFlags.demoFlowPhase2"
+  style = "bottom: 63px; left: auto; right: 15px; top: auto;"
+)
+  .arrow.white(
+    style = "left: auto; right: 60px;"
+  )
+  .popover-content
+    .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide
+      .grid-block.align-center
+        .grid-block.shrink.aha-meter.aha-meter-66
+          svg.iconnables
+            use(
+              xlink:href = "#icons-octicons-repo"
+            )
+        .grid-block.vertical.aha-text
+          p.p.small.text-gray-light Step 2: Configure your Application
+          p.p We’ve already configured the template for this repository. Just click here to continue!
+
 footer.modal-footer.clearfix(
   is-primary-button-disabled = "SMC.isPrimaryButtonDisabled(SMC.serverForm.$invalid)"
   server-modal-buttons

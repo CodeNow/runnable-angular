@@ -31,7 +31,6 @@ function EnvironmentController(
   EC.isAddingFirstRepo = ahaGuide.isAddingFirstRepo;
   EC.isInGuide = ahaGuide.isInGuide;
   EC.showCreateTemplate = true;
-  EC.showOverview = true;
   EC.getClassForSubstep = ahaGuide.getClassForSubstep;
   $scope.$on('ahaGuideEvent', function(event, info) {
     if (info.isClear) {
@@ -66,19 +65,10 @@ function EnvironmentController(
   EC.triggerModal = {
     newContainer: function () {
       $rootScope.$broadcast('close-popovers');
-      EC.showSidebar = false;
       return ModalService.showModal({
         controller: 'NewContainerModalController',
         controllerAs: 'MC', // Shared
         templateUrl: 'newContainerModalView'
-      });
-    },
-    repoContainer: function () {
-      $rootScope.$broadcast('close-popovers');
-      ModalService.showModal({
-        controller: 'SetupServerModalController',
-        controllerAs: 'SMC',
-        templateUrl: 'setupServerModalView'
       });
     },
     inviteTeammate: function () {
@@ -102,8 +92,7 @@ function EnvironmentController(
   var isAddFirstRepo = ahaGuide.isAddingFirstRepo();
 
   if (isAddFirstRepo && instancesByPod.models.length === 0) {
-    EC.showCreateTemplate = false;
-    EC.showSidebar = true;
+    $rootScope.$broadcast('ahaGuide::launchModal');
   }
 
   // Asynchronously fetch the Dockerfile and check for working instances
@@ -138,10 +127,14 @@ function EnvironmentController(
       } else {
         EC.alert.newPlan = null;
       }
-    } 
+    }
     $timeout(function () {
       EC.actions.closeAlert();
     }, timeoutDelay);
+  });
+
+  $scope.$on('ahaGuide::launchModal', function () {
+    EC.showAddServicePopover = false;
   });
 
   EC.actions = {
@@ -160,15 +153,9 @@ function EnvironmentController(
         }
       });
     },
-    showSidebar: function () {
-      EC.showSidebar = !EC.showSidebar;
-      EC.showCreateTemplate = true;
-    },
     endGuide: ahaGuide.endGuide
   };
 
-
-  $scope.$on('showAhaSidebar', EC.actions.showSidebar);
   $scope.$on('showAddServicesPopover', function(event, toggle) {
     EC.showAddServicePopover = toggle;
   });
@@ -180,7 +167,7 @@ function EnvironmentController(
         })) {
         // timeout for the animation
         $timeout(function () {
-          EC.showSidebar = true;
+          $rootScope.$broadcast('ahaGuide::launchModal');
         });
       }
     }

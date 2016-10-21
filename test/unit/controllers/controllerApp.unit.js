@@ -87,7 +87,7 @@ describe('controllerApp'.bold.underline.blue, function () {
       $provide.value('activeAccount', ctx.fakeuser);
       $provide.value('errs', ctx.fakeErrs);
       $provide.value('$localStorage', mockLocalStorage);
-      $provide.factory('ahaGuide', function ($q) {
+      $provide.factory('ahaGuide', function () {
         ahaGuideStub = {
           updateCurrentOrg: sinon.stub()
         };

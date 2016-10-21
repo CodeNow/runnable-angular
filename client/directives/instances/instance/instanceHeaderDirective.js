@@ -8,10 +8,9 @@ require('app')
  */
 function instanceHeader(
   $localStorage,
-  $rootScope,
   $stateParams,
-  fetchPullRequest,
-  ahaGuide
+  ahaGuide,
+  fetchPullRequest
 ) {
   return {
     restrict: 'A',
@@ -34,9 +33,6 @@ function instanceHeader(
             }
           });
       });
-      $scope.toggleSidebar = function () {
-        $rootScope.$broadcast('showAhaSidebar');
-      };
       $scope.isInGuide = ahaGuide.isInGuide;
     }
   };
