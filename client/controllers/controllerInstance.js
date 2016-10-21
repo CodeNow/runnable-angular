@@ -8,13 +8,12 @@ require('app')
 function ControllerInstance(
   $localStorage,
   $q,
+  $rootScope,
   $scope,
   $state,
   $stateParams,
   $timeout,
   ahaGuide,
-  currentOrg,
-  errs,
   eventTracking,
   favico,
   fetchCommitData,
@@ -23,13 +22,12 @@ function ControllerInstance(
   fetchSettings,
   fetchUser,
   getCommitForCurrentlyBuildingBuild,
+  instancesByPod,
   keypather,
   loading,
   OpenItems,
-  instancesByPod,
   pageName,
-  setLastInstance,
-  ModalService
+  setLastInstance
 ) {
 
   var CIS = this;
@@ -215,7 +213,7 @@ function ControllerInstance(
         })) {
         // timeout for the animation
         $timeout(function () {
-          ahaGuide.launchAhaModal();
+          $rootScope.$emit('ahaGuide::launchModal');
         });
       }
     }

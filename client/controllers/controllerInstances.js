@@ -260,7 +260,7 @@ function ControllerInstances(
     if (CIS.isInGuide() && !CIS.poppedInstance.attrs.shouldNotAutofork) {
       var childWatcher = $scope.$watch('CIS.poppedInstance.children.models.length', function (length) {
         if (length) {
-          ahaGuide.launchAhaModal();
+          $rootScope.$emit('ahaGuide::launchModal');
           childWatcher();
         }
       });

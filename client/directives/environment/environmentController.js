@@ -92,7 +92,7 @@ function EnvironmentController(
   var isAddFirstRepo = ahaGuide.isAddingFirstRepo();
 
   if (isAddFirstRepo && instancesByPod.models.length === 0) {
-    ahaGuide.launchAhaModal();
+    $rootScope.$emit('ahaGuide::launchModal');
   }
 
   // Asynchronously fetch the Dockerfile and check for working instances
@@ -133,6 +133,10 @@ function EnvironmentController(
     }, timeoutDelay);
   });
 
+  $scope.$on('ahaGuide::launchModal', function () {
+    EC.showAddServicePopover = false;
+  });
+
   EC.actions = {
     closeAlert: function () {
       EC.alert = null;
@@ -149,10 +153,6 @@ function EnvironmentController(
         }
       });
     },
-    showAhaModal: function () {
-      EC.showAddServicePopover = false;
-      ahaGuide.launchAhaModal();
-    },
     endGuide: ahaGuide.endGuide
   };
 
@@ -167,7 +167,7 @@ function EnvironmentController(
         })) {
         // timeout for the animation
         $timeout(function () {
-          ahaGuide.launchAhaModal();
+          $rootScope.$emit('ahaGuide::launchModal');
         });
       }
     }

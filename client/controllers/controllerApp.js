@@ -5,7 +5,6 @@ require('app')
 
 function ControllerApp(
   $localStorage,
-  $ocLazyLoad,
   $rootScope,
   $scope,
   $state,
@@ -23,7 +22,6 @@ function ControllerApp(
   ModalService,
   pageName,
   patchOrgMetadata,
-  promisify,
   currentOrg,
   user,
   orgs,
@@ -35,9 +33,6 @@ function ControllerApp(
   var CA = this;
   CA.ahaGuide = ahaGuide;
   CA.currentOrg = currentOrg;
-
-  // Setup aha modal listener on the root scope
-  ahaGuide.setupAhaModalLaunchListener();
 
   fetchInstancesByPod()
     .then(function (instancesByPod) {

@@ -371,6 +371,8 @@ function ahaGuide(
     });
   }
 
+  $rootScope.$on('ahaGuide::launchModal', launchAhaModal);
+
   return {
     endGuide: endGuide,
     resetGuide: resetGuide,
@@ -396,10 +398,6 @@ function ahaGuide(
     },
     isSettingUpRunnabot: function() {
       return getCurrentStep() === STEPS.SETUP_RUNNABOT && !hasRunnabot;
-    },
-    launchAhaModal: launchAhaModal,
-    setupAhaModalLaunchListener: function () {
-      $rootScope.$on('ahaGuide::launchModal', launchAhaModal);
     }
   };
 }
