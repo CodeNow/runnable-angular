@@ -18,6 +18,7 @@ function ahaGuide(
   fetchInstancesByPod,
   isRunnabotPartOfOrg,
   keypather,
+  ModalService,
   patchOrgMetadata
 ) {
   var instances = [];
@@ -308,7 +309,7 @@ function ahaGuide(
 
   function skipBranchMilestone () {
     ahaGuide.skippedBranchMilestone = true;
-    $rootScope.$broadcast('showAhaSidebar');
+    $rootScope.$broadcast('ahaGuide:::launchModal');
   }
 
   function endGuide () {
@@ -361,6 +362,15 @@ function ahaGuide(
     eventTracking.updateCurrentPersonProfile(currentStep);
   }
 
+  function launchAhaModal () {
+    $rootScope.$broadcast('close-popovers');
+    ModalService.showModal({
+      controller: 'AhaModalController',
+      controllerAs: 'AMC',
+      templateUrl: 'ahaModal'
+    });
+  }
+
   return {
     endGuide: endGuide,
     resetGuide: resetGuide,
@@ -386,6 +396,10 @@ function ahaGuide(
     },
     isSettingUpRunnabot: function() {
       return getCurrentStep() === STEPS.SETUP_RUNNABOT && !hasRunnabot;
+    },
+    launchAhaModal: launchAhaModal,
+    setupAhaModalLaunchListener: function () {
+      $rootScope.$on('ahaGuide:::launchModal', launchAhaModal);
     }
   };
 }

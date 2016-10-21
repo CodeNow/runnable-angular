@@ -36,6 +36,9 @@ function ControllerApp(
   CA.ahaGuide = ahaGuide;
   CA.currentOrg = currentOrg;
 
+  // Setup aha modal listener on the root scope
+  ahaGuide.setupAhaModalLaunchListener();
+
   fetchInstancesByPod()
     .then(function (instancesByPod) {
       CA.instancesByPod = instancesByPod;

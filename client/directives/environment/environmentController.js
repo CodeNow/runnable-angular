@@ -92,7 +92,7 @@ function EnvironmentController(
   var isAddFirstRepo = ahaGuide.isAddingFirstRepo();
 
   if (isAddFirstRepo && instancesByPod.models.length === 0) {
-    launchAhaModal();
+    ahaGuide.launchAhaModal();
   }
 
   // Asynchronously fetch the Dockerfile and check for working instances
@@ -151,22 +151,11 @@ function EnvironmentController(
     },
     showAhaModal: function () {
       EC.showAddServicePopover = false;
-      launchAhaModal();
+      ahaGuide.launchAhaModal();
     },
     endGuide: ahaGuide.endGuide
   };
 
-  function launchAhaModal () {
-    $rootScope.$broadcast('close-popovers');
-    ModalService.showModal({
-      controller: 'AhaModalController',
-      controllerAs: 'AMC',
-      templateUrl: 'ahaModal'
-    });
-  }
-
-
-  $scope.$on('showAhaSidebar', EC.actions.showAhaModal);
   $scope.$on('showAddServicesPopover', function(event, toggle) {
     EC.showAddServicePopover = toggle;
   });

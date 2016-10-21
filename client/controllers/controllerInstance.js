@@ -33,15 +33,7 @@ function ControllerInstance(
 ) {
 
   var CIS = this;
-  CIS.showSidebar = false;
   CIS.isInGuide = ahaGuide.isInGuide;
-  CIS.toggleSidebar = function (end) {
-    if (end === 'end') {
-      ahaGuide.endGuide();
-    }
-    CIS.showSidebar = !CIS.showSidebar;
-  };
-  $scope.$on('showAhaSidebar', CIS.toggleSidebar);
   var dataInstance = $scope.dataInstance = {
     data: {
       unsavedAcvs: []
@@ -223,11 +215,7 @@ function ControllerInstance(
         })) {
         // timeout for the animation
         $timeout(function () {
-          ModalService.showModal({
-            controller: 'AhaModalController',
-            controllerAs: 'AMC',
-            templateUrl: 'ahaModal'
-          });
+          ahaGuide.launchAhaModal();
         });
       }
     }
