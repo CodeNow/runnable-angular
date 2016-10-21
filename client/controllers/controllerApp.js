@@ -5,7 +5,6 @@ require('app')
 
 function ControllerApp(
   $localStorage,
-  $ocLazyLoad,
   $rootScope,
   $scope,
   $state,
@@ -23,7 +22,6 @@ function ControllerApp(
   ModalService,
   pageName,
   patchOrgMetadata,
-  promisify,
   currentOrg,
   user,
   orgs,

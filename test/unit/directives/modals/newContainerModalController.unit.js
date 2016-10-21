@@ -232,6 +232,7 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
             repo: repoBuildAndBranch.repo,
             build: repoBuildAndBranch.build,
             masterBranch: repoBuildAndBranch.masterBranch,
+            defaults: {}
           }
         });
       });

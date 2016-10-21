@@ -99,9 +99,6 @@ function ChooseOrganizationModalController(
               customWindow.close();
               if (COMC.newOrgList.length === 1) {
                 COMC.actions.createOrCheckDock(COMC.newOrgList[0].oauthName());
-                if (isDemo) {
-                  github.forkRepo('RunnableDemo', 'node-starter', COMC.newOrgList[0].oauthName());
-                }
               } else if (COMC.newOrgList.length > 1) {
                 $scope.$broadcast('go-to-panel', 'orgSelection');
               }

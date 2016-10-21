@@ -19,6 +19,11 @@
     }
   }
 
+  &.white {
+    background: $white;
+    border-color: $gray-lighter;
+  }
+
   // code sample
   &.well-code {
     display: inline-block;

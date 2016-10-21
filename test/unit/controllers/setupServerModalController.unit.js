@@ -71,10 +71,11 @@ describe('setupServerModalController'.bold.underline.blue, function () {
     };
 
     var ServerModalController = function () {
-      this.closeWithConfirmation = sinon.spy();
       this.changeTab = sinon.spy();
+      this.closeWithConfirmation = sinon.spy();
       this.disableMirrorMode = sinon.spy();
       this.enableMirrorMode = sinon.spy();
+      this.getContainerUrl = sinon.spy();
       this.getDisplayName = sinon.spy();
       this.getElasticHostname = sinon.spy();
       this.getNumberOfOpenTabs = sinon.spy();
@@ -92,8 +93,8 @@ describe('setupServerModalController'.bold.underline.blue, function () {
       this.saveInstanceAndRefreshCards = sinon.spy();
       this.showAdvancedModeConfirm = sinon.spy();
       this.switchBetweenAdvancedAndMirroring = sinon.spy();
-      this.switchToMirrorMode = sinon.spy();
       this.switchToAdvancedMode = sinon.spy();
+      this.switchToMirrorMode = sinon.spy();
       this.updateInstanceAndReset = sinon.spy();
       // The ones I actually care about
       this.onEnvChange = sinon.spy();
@@ -222,7 +223,8 @@ describe('setupServerModalController'.bold.underline.blue, function () {
         instanceName: opts.instanceName || instanceName,
         repo: opts.repo || repo,
         build: opts.build || newBuild,
-        masterBranch: opts.masterBranch || branch
+        masterBranch: opts.masterBranch || branch,
+        defaults: {}
       });
     });
     return done();
