@@ -8,11 +8,9 @@ require('app')
  */
 function instanceHeader(
   $localStorage,
-  $rootScope,
   $stateParams,
   ahaGuide,
-  fetchPullRequest,
-  ModalService
+  fetchPullRequest
 ) {
   return {
     restrict: 'A',
@@ -35,14 +33,6 @@ function instanceHeader(
             }
           });
       });
-      $scope.toggleAhaModal = function () {
-        $rootScope.$broadcast('close-popovers');
-        ModalService.showModal({
-          controller: 'AhaModalController',
-          controllerAs: 'AMC',
-          templateUrl: 'ahaModal'
-        });
-      };
       $scope.isInGuide = ahaGuide.isInGuide;
     }
   };

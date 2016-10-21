@@ -8,13 +8,12 @@ require('app')
 function ControllerInstance(
   $localStorage,
   $q,
+  $rootScope,
   $scope,
   $state,
   $stateParams,
   $timeout,
   ahaGuide,
-  currentOrg,
-  errs,
   eventTracking,
   favico,
   fetchCommitData,
@@ -23,25 +22,16 @@ function ControllerInstance(
   fetchSettings,
   fetchUser,
   getCommitForCurrentlyBuildingBuild,
+  instancesByPod,
   keypather,
   loading,
   OpenItems,
-  instancesByPod,
   pageName,
-  setLastInstance,
-  ModalService
+  setLastInstance
 ) {
 
   var CIS = this;
-  CIS.showSidebar = false;
   CIS.isInGuide = ahaGuide.isInGuide;
-  CIS.toggleSidebar = function (end) {
-    if (end === 'end') {
-      ahaGuide.endGuide();
-    }
-    CIS.showSidebar = !CIS.showSidebar;
-  };
-  $scope.$on('showAhaSidebar', CIS.toggleSidebar);
   var dataInstance = $scope.dataInstance = {
     data: {
       unsavedAcvs: []
@@ -223,11 +213,7 @@ function ControllerInstance(
         })) {
         // timeout for the animation
         $timeout(function () {
-          ModalService.showModal({
-            controller: 'AhaModalController',
-            controllerAs: 'AMC',
-            templateUrl: 'ahaModal'
-          });
+          $rootScope.$broadcast('ahaGuide::launchModal');
         });
       }
     }

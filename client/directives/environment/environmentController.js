@@ -92,7 +92,7 @@ function EnvironmentController(
   var isAddFirstRepo = ahaGuide.isAddingFirstRepo();
 
   if (isAddFirstRepo && instancesByPod.models.length === 0) {
-    launchAhaModal();
+    $rootScope.$broadcast('ahaGuide::launchModal');
   }
 
   // Asynchronously fetch the Dockerfile and check for working instances
@@ -133,6 +133,10 @@ function EnvironmentController(
     }, timeoutDelay);
   });
 
+  $scope.$on('ahaGuide::launchModal', function () {
+    EC.showAddServicePopover = false;
+  });
+
   EC.actions = {
     closeAlert: function () {
       EC.alert = null;
@@ -149,24 +153,9 @@ function EnvironmentController(
         }
       });
     },
-    showAhaModal: function () {
-      EC.showAddServicePopover = false;
-      launchAhaModal();
-    },
     endGuide: ahaGuide.endGuide
   };
 
-  function launchAhaModal () {
-    $rootScope.$broadcast('close-popovers');
-    ModalService.showModal({
-      controller: 'AhaModalController',
-      controllerAs: 'AMC',
-      templateUrl: 'ahaModal'
-    });
-  }
-
-
-  $scope.$on('showAhaSidebar', EC.actions.showAhaModal);
   $scope.$on('showAddServicesPopover', function(event, toggle) {
     EC.showAddServicePopover = toggle;
   });
@@ -178,7 +167,7 @@ function EnvironmentController(
         })) {
         // timeout for the animation
         $timeout(function () {
-          launchAhaModal();
+          $rootScope.$broadcast('ahaGuide::launchModal');
         });
       }
     }

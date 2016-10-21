@@ -156,6 +156,9 @@ function SetupServerModalController(
           SMC.changeTab('default');
         }
       })
+      .then(function () {
+        return updateDockerfileFromState(SMC.state, false, true);
+      })
       .catch(errs.handler)
       .finally(function () {
         loading(SMC.name, false);

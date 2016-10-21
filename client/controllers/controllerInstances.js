@@ -260,13 +260,7 @@ function ControllerInstances(
     if (CIS.isInGuide() && !CIS.poppedInstance.attrs.shouldNotAutofork) {
       var childWatcher = $scope.$watch('CIS.poppedInstance.children.models.length', function (length) {
         if (length) {
-          ModalService.showModal({
-            controller: 'AhaModalController',
-            controllerAs: 'AMC',
-            templateUrl: 'ahaModal',
-            inputs: {}
-          });
-          $rootScope.$broadcast('showAhaSidebar');
+          $rootScope.$broadcast('ahaGuide::launchModal');
           childWatcher();
         }
       });
