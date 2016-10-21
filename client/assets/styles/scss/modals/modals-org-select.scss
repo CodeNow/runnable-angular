@@ -1,12 +1,26 @@
-.welcome .runnabear {
-  height: auto;
-  left: 0;
-  margin: 0 auto;
-  position: absolute;
-  right: 0;
-  top: 32px;
-  width: 230px;
-  z-index: 1;
+.welcome {
+  background: linear-gradient(rgba($purple-light,.99), rgba($purple,.99), rgba($purple-dark,.98));
+
+  .logo {
+    height: auto;
+    padding: 27px 0 18px;
+  }
+
+  .runnabear {
+    height: auto;
+    left: 0;
+    margin: 0 auto;
+    position: absolute;
+    right: 0;
+    top: 113px;
+    width: 230px;
+    z-index: 1;
+  }
+
+  .modal-dialog {
+    border: 0;
+    box-shadow: 0 1px 3px rgba($black,.1);
+  }
 }
 
 .modal-org-select {
