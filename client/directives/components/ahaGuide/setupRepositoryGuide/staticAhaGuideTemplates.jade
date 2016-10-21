@@ -1,5 +1,5 @@
+//- this is environment controller EC.getClassForSubstep passed in ng-init
 .grid-block.shrink.aha-meter.js-animate(
-  //- this is environment controller EC.getClassForSubstep passed in ng-init
   ng-class = "getClassname()"
 )
   svg.iconnables(
@@ -19,5 +19,8 @@
     ng-if = "staticAddRepo"
   ) Add your repository by clicking ‘Create Template’.
   p.p(
-    ng-if = "showAhaNavPopover"
+    ng-if = "showAhaNavPopover && !$root.featureFlags.demoFlowPhase2"
   ) Once you’re done configuring, head to your containers to start adding branches.
+  p.p(
+    ng-if = "showAhaNavPopover && $root.featureFlags.demoFlowPhase2"
+  ) Now we’re building a container for the master branch. Check it out in the Containers view.
