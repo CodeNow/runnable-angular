@@ -309,7 +309,7 @@ function ahaGuide(
 
   function skipBranchMilestone () {
     ahaGuide.skippedBranchMilestone = true;
-    $rootScope.$broadcast('ahaGuide:::launchModal');
+    $rootScope.$broadcast('ahaGuide::launchModal');
   }
 
   function endGuide () {
@@ -399,7 +399,7 @@ function ahaGuide(
     },
     launchAhaModal: launchAhaModal,
     setupAhaModalLaunchListener: function () {
-      $rootScope.$on('ahaGuide:::launchModal', launchAhaModal);
+      $rootScope.$on('ahaGuide::launchModal', launchAhaModal);
     }
   };
 }
