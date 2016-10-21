@@ -167,7 +167,7 @@ function EnvironmentController(
         })) {
         // timeout for the animation
         $timeout(function () {
-          launchAhaModal();
+          ahaGuide.launchAhaModal();
         });
       }
     }
