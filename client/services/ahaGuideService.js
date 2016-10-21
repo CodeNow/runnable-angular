@@ -281,6 +281,9 @@ function ahaGuide(
   }
 
   function getClassForSubstep (errorState) {
+    if (getCurrentStep() > STEPS.ADD_FIRST_REPO) {
+      return ['aha-meter-100'];
+    }
     var step = furthestSubstep(STEPS.ADD_FIRST_REPO);
     var progressDial = stepList[STEPS.ADD_FIRST_REPO].subSteps[step].className;
     var classNames = [];
