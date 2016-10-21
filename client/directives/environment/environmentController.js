@@ -92,7 +92,7 @@ function EnvironmentController(
   var isAddFirstRepo = ahaGuide.isAddingFirstRepo();
 
   if (isAddFirstRepo && instancesByPod.models.length === 0) {
-    $rootScope.$emit('ahaGuide::launchModal');
+    $rootScope.$broadcast('ahaGuide::launchModal');
   }
 
   // Asynchronously fetch the Dockerfile and check for working instances
@@ -167,7 +167,7 @@ function EnvironmentController(
         })) {
         // timeout for the animation
         $timeout(function () {
-          $rootScope.$emit('ahaGuide::launchModal');
+          $rootScope.$broadcast('ahaGuide::launchModal');
         });
       }
     }

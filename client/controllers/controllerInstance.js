@@ -213,7 +213,7 @@ function ControllerInstance(
         })) {
         // timeout for the animation
         $timeout(function () {
-          $rootScope.$emit('ahaGuide::launchModal');
+          $rootScope.$broadcast('ahaGuide::launchModal');
         });
       }
     }
