@@ -85,6 +85,21 @@ function AhaModalController(
       });
   }
 
+  function getUniqueInstanceName (name, instances, count) {
+    count = count || 0;
+    var tmpName = name;
+    if (count > 0) {
+      tmpName = name + '-' + count;
+    }
+    var instance = instances.find(function (instance) {
+      return instance.attrs.name.toLowerCase() === tmpName.toLowerCase();
+    });
+    if (instance) {
+      return getUniqueInstanceName(name, instances, ++count);
+    }
+    return tmpName;
+  }
+
   AMC.startDemo = function (stackName) {
     loading('startDemo', true);
     var loadingName = 'startDemo' + stackName.charAt(0).toUpperCase() + stackName.slice(1);
@@ -96,12 +111,13 @@ function AhaModalController(
       .then(function (repoModel) {
         return $q.all({
           repoBuildAndBranch: createNewBuildAndFetchBranch(currentOrg.github, repoModel, '', false),
-          stacks: fetchStackInfo()
+          stacks: fetchStackInfo(),
+          instances: fetchInstancesByPod()
         });
       })
       .then(function (promiseResults) {
         var repoBuildAndBranch = promiseResults.repoBuildAndBranch;
-        repoBuildAndBranch.instanceName = repoMapping[stackName];
+        repoBuildAndBranch.instanceName = getUniqueInstanceName(repoMapping[stackName], promiseResults.instances);
         var selectedStack = promiseResults.stacks.find(function (stack) {
           return stack.key === stackName;
         });
