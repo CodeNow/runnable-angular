@@ -23,7 +23,7 @@
       //- close buttons
       svg.grid-content.shrink.iconnables.icons-close(
         ng-click = "AMC.actions.close()"
-        ng-if = "!AMC.isSettingUpRunnabot() && AMC.hasInstances"
+        ng-if = "!AMC.isSettingUpRunnabot() && !AMC.isAddingFirstRepo()"
       )
         use(
           xlink:href = "#icons-close"
@@ -82,7 +82,7 @@
                   xlink:href = "#icons-octicons-repo"
                 )
               svg.iconnables.icons-check(
-                ng-if = "AMC.getFurthestSubstep(steps.ADD_FIRST_REPO) === 'success' || AMC.getCurrentStep() > steps.ADD_FIRST_REPO"
+                ng-if = "AMC.getFurthestSubstep(AMC.steps.ADD_FIRST_REPO) === 'success' || AMC.getCurrentStep() > AMC.steps.ADD_FIRST_REPO"
               )
                 use(
                   xlink:href = "#icons-check"
@@ -93,24 +93,24 @@
               'grid-2': AMC.accountHasRepos,\
               'grid-3': !AMC.accountHasRepos\
             }"
-            ng-if = "$root.featureFlags.demoProject && !$root.isLoading.fetchAccountRepos"
+            ng-if = "$root.featureFlags.demoProject && !$root.isLoading.fetchAccountRepos && AMC.isAddingFirstRepo()"
             ng-include = "'setupDemoGuideView'"
           )
           .spinner-wrapper.spinner-md.spinner-gray.padding-lg.padding-top-md(
-            ng-if = "$root.isLoading.fetchAccountRepos"
+            ng-if = "$root.isLoading.fetchAccountRepos && AMC.isAddingFirstRepo()"
             ng-include = "'spinner'"
           )
 
         //- step 3
         .grid-block.vertical.shrink.align-center.aha-guide(
-          ng-class = "{'disabled': AMC.getCurrentStep() !== steps.ADD_FIRST_BRANCH}"
+          ng-class = "{'disabled': AMC.getCurrentStep() !== AMC.steps.ADD_FIRST_BRANCH, 'active': AMC.getCurrentStep() === AMC.steps.ADD_FIRST_BRANCH}"
         )
           .grid-block.shrink.align-center.padding-sm.aha-guide
             .grid-block.shrink.aha-meter(
               ng-class = "{\
-              'aha-meter-33': AMC.isAddingFirstBranch() && AMC.getFurthestSubstep(steps.ADD_FIRST_BRANCH) === 'addBranch',\
-              'aha-meter-66': AMC.isAddingFirstBranch() && AMC.getFurthestSubstep(steps.ADD_FIRST_BRANCH) === 'dockLoading',\
-              'aha-meter-100': AMC.getCurrentStep() > steps.ADD_FIRST_BRANCH\
+              'aha-meter-33': AMC.isAddingFirstBranch() && AMC.getFurthestSubstep(AMC.steps.ADD_FIRST_BRANCH) === 'addBranch',\
+              'aha-meter-66': AMC.isAddingFirstBranch() && AMC.getFurthestSubstep(AMC.steps.ADD_FIRST_BRANCH) === 'dockLoading',\
+              'aha-meter-100': AMC.getCurrentStep() > AMC.steps.ADD_FIRST_BRANCH\
               }"
             )
               svg.iconnables
@@ -118,13 +118,15 @@
                   xlink:href = "#icons-octicons-branch"
                 )
               svg.iconnables.icons-check(
-                ng-if = "AMC.getCurrentStep() > steps.ADD_FIRST_BRANCH"
+                ng-if = "AMC.getCurrentStep() > AMC.steps.ADD_FIRST_BRANCH"
               )
                 use(
                   xlink:href = "#icons-check"
                 )
             p.grid-block.align-center.aha-text.p.weight-light Step 3: Add a Branch
-          //- figure.grid-block.vertical.shrink.align-center.aha-overview.padding-bottom-md.figure
+          figure.grid-block.vertical.shrink.align-center.aha-overview.padding-bottom-md.figure(
+            ng-if = "AMC.getCurrentStep() === AMC.steps.ADD_FIRST_BRANCH"
+          )
             img.img(
               src="/build/images/add-branches.svg"
             )
