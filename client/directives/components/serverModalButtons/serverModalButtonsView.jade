@@ -41,7 +41,6 @@ button.btn.btn-md.white.btn-primary.float-right.js-animate(
   ng-click = "thisForm.$invalid || createServerOrUpdate()"
   ng-disabled = "(SMC.needsToBeDirtySaved() && !SMC.isDirty()) || isPrimaryButtonDisabled()"
   ng-if = "(SMC.instance || SMC.isTabVisible('buildfiles')) && !$root.featureFlags.demoFlowPhase2"
-  type = "submit"
 )
   span.btn-text.float-left Save
     //- if save triggers a build
