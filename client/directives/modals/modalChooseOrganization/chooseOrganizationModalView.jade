@@ -1,4 +1,11 @@
 .grid-block.vertical.modal-backdrop.welcome
+  img.grid-block.shrink.justify-center.logo.img(
+    alt = "Runnable Logo"
+    height = "36"
+    src = "/build/images/runnable-logo.svg"
+    width = "192"
+  )
+
   img.grid-block.shrink.img.runnabear(
     height = "130"
     src = "/build/images/runnabear-waving-3.png"
@@ -54,7 +61,7 @@
         )
 
   //- sign out (always) + change team (during grace period)
-  .grid-block.shrink.justify-center.margin-bottom-xl.welcome-footer(
+  .grid-block.shrink.justify-center.margin-top-sm.margin-bottom-xl.welcome-footer.text-white.weight-light(
     grace-period-footer
     hide-choose-org = "true"
   )
