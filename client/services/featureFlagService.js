@@ -45,6 +45,7 @@ function featureFlags(
     nextPayment: false, // show the next payment date under payment summary
     noBuildLogs: true,
     optionsInModal: false, // allows delete in modal
+    personalAccounts: false, // allows users with personal accounts to create Runnable teams
     renameContainer: false,
     saveToolbar: false,
     teamManagement: false,

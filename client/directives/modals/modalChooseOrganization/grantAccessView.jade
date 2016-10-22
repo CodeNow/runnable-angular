@@ -18,9 +18,9 @@ header.grid-block.justify-center.align-center.modal-header.nav(
   h1.modal-heading Welcome Aboard!
 
 .grid-block.align-center.vertical.padding-lg.padding-top-md
-  p.margin-top-sm.p.weight-light Add your GitHub team to use
-    br
-    | its code in Runnable.
+  p.margin-top-sm.p.weight-light Add your GitHub team&#32;
+    br.visible-xxs
+    | to run its code.
 
   //- hide after clicked
   a.grid-block.align-center.justify-center.shrink.btn.btn-md.green.margin-top-sm(
@@ -44,7 +44,9 @@ header.grid-block.justify-center.align-center.modal-header.nav(
     ng-include = "'grantAccessWaitView'"
   )
 
-footer.grid-block.align-center.vertical.footer.padding-md
+footer.grid-block.align-center.vertical.footer.padding-md(
+  ng-if = "!$root.featureFlags.personalAccounts"
+)
   //- when orgs exist
   p.grid-block.shrink.p.weight-light.text-gray(
     ng-if = "COMC.allAccounts.models.length > 0"
