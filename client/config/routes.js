@@ -231,6 +231,9 @@ module.exports = [
       instancesByPod: function (fetchInstancesByPod, $stateParams, $state) {
         $state.params.userName = $stateParams.userName;
         return fetchInstancesByPod();
+      },
+      booted: function (eventTracking) {
+        eventTracking.visitedConfigurePage();
       }
     }
   }, {

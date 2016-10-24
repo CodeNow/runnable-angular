@@ -377,6 +377,19 @@ function EventTracking(
   };
 
   /**
+   * Track user visit to /orgname/configure page
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.visitedConfigurePage = function () {
+    var eventName = 'Visited configure page';
+
+    ETS._mixpanel('track', eventName);
+    return ETS;
+  };
+
+  /**
    * Track user visit to /containers page
    * Reports to:
    *   - mixpanel
