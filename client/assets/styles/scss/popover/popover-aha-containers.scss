@@ -1,12 +1,15 @@
 .popover.popover-aha-containers {
   left: 75px;
-  top: 72px;
+  max-width: calc(100vw - 100px);
+  top: 180px;
+  transform: translate3d(0,-50%,0);
 
   @include media(xxs) {
     left: 7px;
     margin-left: 0;
-    top: 234px;
-    width: calc(100vw - 22px);
+    max-width: calc(100vw - 22px);
+    top: 237px;
+    transform: translate3d(0,0,0);
   }
 
   .arrow {

@@ -24,6 +24,7 @@ function featureFlags(
     containersViewEmptyState: false,
     contingencyPlan: false,
     demoProject: true,
+    demoFlowPhase2: false,
     dockerfileMirroringMultiple: false,
     editAnyInstance: false,
     emptyFolder: false, // shows empty folder markup
