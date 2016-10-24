@@ -232,7 +232,7 @@ module.exports = [
         $state.params.userName = $stateParams.userName;
         return fetchInstancesByPod();
       },
-      booted: function (eventTracking) {
+      booted: function (eventTracking, activeAccount) {
         eventTracking.visitedConfigurePage();
       }
     }
