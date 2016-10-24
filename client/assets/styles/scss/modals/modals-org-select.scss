@@ -81,10 +81,17 @@
     width: 100%;
   }
 
-  .infrastructure-view > .padding-md {
-    @include media(xs) {
-      padding-left: $sm;
-      padding-right: $sm;
+  .infrastructure-view {
+
+    > .padding-md {
+      @include media(xs) {
+        padding-left: $sm;
+        padding-right: $sm;
+      }
+    }
+
+    .strong {
+      word-break: break-word;
     }
   }
 

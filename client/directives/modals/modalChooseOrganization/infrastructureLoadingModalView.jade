@@ -4,9 +4,7 @@
     ng-if = "!$root.featureFlags.contingencyPlan"
   ) We’re spinning up infrastructure for&#32;
     strong.strong {{COMC.selectedOrgName}}
-    | . It’ll take about&#32;
-    strong.strong 10 minutes
-    | . We’ll email you and update this page when it’s ready.
+    | . It’ll only take a few minutes. We’ll email you and update this page when it’s ready.
   .spinner-wrapper.spinner-md.spinner-gray.margin-top-md(
     ng-if = "!$root.featureFlags.contingencyPlan"
     ng-include = "'spinner'"
