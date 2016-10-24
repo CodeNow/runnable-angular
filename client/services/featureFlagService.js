@@ -37,6 +37,7 @@ function featureFlags(
     intercomOnMigration: false, // adds intercom link to migration message
     internalDebugging: false,
     inviteFlows: false,
+    isPersonalAccount: false, // if account is a personal account
     multilineFnR: false,
     multilineStartCmd: false,
     multipleRepositoryContainers: false, // for adding multiple containers with the same repository
