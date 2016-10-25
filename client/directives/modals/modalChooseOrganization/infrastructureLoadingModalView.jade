@@ -2,7 +2,9 @@
   //- dock spinning up
   p.p.text-center.weight-light(
     ng-if = "!$root.featureFlags.contingencyPlan"
-  ) It’ll only take a few minutes to spin up infrastructure for {{COMC.selectedOrgName}}. We’ll email you and update this page when it’s ready. Watch a tour while you wait.
+  ) It’ll only take a few minutes to spin up infrastructure for&#32;
+    strong.weight-strong {{COMC.selectedOrgName}}
+    | . We’ll email you and update this page when it’s ready. Watch a tour while you wait.
 
   iframe.iframe.margin-top-md(
     allowfullscreen
