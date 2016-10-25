@@ -136,6 +136,11 @@ function SetupServerModalController(
   if (SMC.state.selectedStack) {
     loading(SMC.name, true);
 
+    var name = keypather.get(SMC, 'state.opts.name');
+    if (ahaGuide.demoNames.includes(name)) {
+      SMC.isDemo = true;
+    }
+
     createDockerfileFromSource(SMC.state.contextVersion, SMC.state.selectedStack.key)
       .then(function (dockerfile) {
         SMC.state.dockerfile = dockerfile;
@@ -155,7 +160,7 @@ function SetupServerModalController(
       })
       .then(function () {
         if (SMC.state.step === 3) {
-          SMC.changeTab('default');
+          SMC.changeTab('repository');
         }
       })
       .then(function () {
@@ -163,10 +168,6 @@ function SetupServerModalController(
       })
       .catch(errs.handler)
       .finally(function () {
-        var name = keypather.get(SMC, 'state.opts.name');
-        if (ahaGuide.demoNames.includes(name)) {
-          SMC.isDemo = true;
-        }
         loading(SMC.name, false);
       });
   }
