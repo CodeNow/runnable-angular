@@ -77,6 +77,7 @@ function SetupServerModalController(
     portsSet: false,
     isNewContainer: true,
     openItems: new OpenItems(),
+    isDemo: false,
     state: {
       advanced: false,
       containerFiles: [
@@ -105,7 +106,8 @@ function SetupServerModalController(
       ]
     },
     actions: {
-      close: SMC.closeWithConfirmation.bind(SMC, close)
+      close: SMC.closeWithConfirmation.bind(SMC, close),
+      forceClose: close
     },
     data: {},
     selectedTab: 'repository'
@@ -134,6 +136,11 @@ function SetupServerModalController(
   if (SMC.state.selectedStack) {
     loading(SMC.name, true);
 
+    var name = keypather.get(SMC, 'state.opts.name');
+    if (ahaGuide.demoNames.includes(name)) {
+      SMC.isDemo = true;
+    }
+
     createDockerfileFromSource(SMC.state.contextVersion, SMC.state.selectedStack.key)
       .then(function (dockerfile) {
         SMC.state.dockerfile = dockerfile;
@@ -153,7 +160,7 @@ function SetupServerModalController(
       })
       .then(function () {
         if (SMC.state.step === 3) {
-          SMC.changeTab('default');
+          SMC.changeTab('repository');
         }
       })
       .then(function () {

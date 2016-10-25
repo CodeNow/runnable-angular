@@ -6,7 +6,9 @@ require('app')
 function serverModalButtonsDirective(
   $rootScope,
   errs,
-  loading
+  loading,
+  fetchInstancesByPod,
+  promisify
 ) {
   return {
     restrict: 'A',
@@ -23,7 +25,7 @@ function serverModalButtonsDirective(
           ($scope.SMC.isDirty() === 'build' && !$rootScope.isLoading[$scope.SMC.name])
         );
       };
-      $scope.createServerOrUpdate = function () {
+      $scope.createServerOrUpdate = function (forceClose) {
         if ($scope.isPrimaryButtonDisabled()) {
           return;
         }
@@ -33,13 +35,24 @@ function serverModalButtonsDirective(
         }
         (($scope.SMC.instance) ? $scope.SMC.updateInstanceAndReset() : $scope.SMC.createServer())
           .then(function () {
-            $scope.SMC.changeTab('logs');
-            $scope.SMC.page = 'build';
-            // Move this here for now.  This should be handled in the log tab directive
-            $scope.SMC.instance.on('update', function updatePage() {
-              $scope.SMC.instance.removeListener('update', updatePage);
-              $scope.SMC.page = ((['building', 'buildFailed', 'neverStarted'].indexOf($scope.SMC.instance.status()) === -1) ? 'run' : 'build');
-            });
+            if (forceClose) {
+              return fetchInstancesByPod()
+                .then(function (instances) {
+                  return promisify(instances, 'fetch')();
+                })
+                .then(function () {
+                  $scope.SMC.actions.forceClose();
+                  $rootScope.$broadcast('launchAhaNavPopover');
+                });
+            } else {
+              $scope.SMC.changeTab('logs');
+              $scope.SMC.page = 'build';
+              // Move this here for now.  This should be handled in the log tab directive
+              $scope.SMC.instance.on('update', function updatePage () {
+                $scope.SMC.instance.removeListener('update', updatePage);
+                $scope.SMC.page = (([ 'building', 'buildFailed', 'neverStarted' ].indexOf($scope.SMC.instance.status()) === -1) ? 'run' : 'build');
+              });
+            }
           })
           .catch(errs.handler)
           .finally(function () {
