@@ -1,10 +1,18 @@
+//- for organizations
 p.grid-content.shrink.p.text-center.weight-light.margin-top-sm(
-  ng-if = "!$root.featureFlags.ahaBranchUrlStep"
+  ng-if = "!$root.featureFlags.ahaBranchUrlStep && !$root.featureFlags.isPersonalAccount"
 ) Now you can invite our bot to your GitHub org to get notifications on your pull requests:
 
 p.grid-content.shrink.p.text-center.weight-light.margin-top-sm(
-  ng-if = "$root.featureFlags.ahaBranchUrlStep"
+  ng-if = "$root.featureFlags.ahaBranchUrlStep && !$root.featureFlags.isPersonalAccount"
 ) Invite our bot to your GitHub org to get notifications on your pull requests:
+
+//- for personal accounts
+p.grid-content.shrink.p.text-center.weight-light.margin-top-sm(
+  ng-if = "$root.featureFlags.isPersonalAccount"
+) Now you can get environment&#32;
+  br.hidden-xxs
+  | notifications on your pull requests:
 
 img.grid-content.shrink.img.img-comment(
   alt = "Runnabot sample comment on a GitHub pull request."
@@ -19,13 +27,12 @@ img.grid-content.shrink.img.img-comment(
   ng-include = "'spinner'"
 )
 
-//- add 'disabled' attr if inviting runnabot, or if user isn't an admin
-    hide after successfully inviting runnabot
-a.grid-content.shrink.btn.btn-md.green(
+//- button for orgs
+a.shrink.btn.btn-md.green(
   data-event-name = "Clicked Invite Runnabot button"
   ng-disabled = "!GIC.isAdmin"
   ng-click = "GIC.pollCheckRunnabot()"
-  ng-hide = "$root.isLoading.checkRunnabot || GIC.hasRunnabot"
+  ng-hide = "$root.isLoading.checkRunnabot || GIC.hasRunnabot || $root.featureFlags.isPersonalAccount"
   ng-href = "https://github.com/orgs/{{GIC.organizationName}}/invitations/runnabot/edit"
   target = "_blank"
 )
@@ -39,25 +46,14 @@ a.grid-content.shrink.btn.btn-md.green(
       xlink:href = "#icons-link-external"
     )
 
-//- show after successfully inviting runnabot
-.grid-block.align-center.shrink.runnabot-success(
-  ng-show = "GIC.hasRunnabot && !$root.isLoading.checkRunnabot"
-)
-  img.grid-content.shrink.img(
-    height = "36"
-    src = "/build/images/runnabot-head.png"
-    width = "36"
-  )
-  .grid-content.well.padding-xs.ignore-margin
-    .arrow
-    p.small.text-gray.text-left Thanks! See you soon on your pull requests.
-
+//- disclaimer for orgs
 .grid-content.shrink.small.text-center(
   ng-hide = "$root.isLoading.checkRunnabot"
   ng-class = "{\
     'text-gray': GIC.isAdmin,\
     'text-red': !GIC.isAdmin\
   }"
+  ng-if = "!$root.featureFlags.isPersonalAccount"
 )
   span(
     ng-if = "GIC.isAdmin"
@@ -67,8 +63,46 @@ a.grid-content.shrink.btn.btn-md.green(
   ) Sorry, you’ll need help from an admin
     br
     | of your org to invite Runnabot.
-
   //- hiding until praful writes his doc
   //- span
     br
     a.small.link More about Runnabot
+
+//- button for personal accounts
+label.grid-block.shrink.align-center.well.gray.padding-xs(
+  ng-hide = "$root.isLoading.checkRunnabot || !$root.featureFlags.isPersonalAccount"
+  ng-init = "personalRunnabot = false"
+)
+  .grid-content Enable PR Notifications
+  .grid-content.shrink.toggle-wrapper
+    input.toggle-input(
+      ng-click = "personalRunnabot = !personalRunnabot"
+      type = "checkbox"
+    )
+    .toggle-group.toggle-sm
+
+//- disclaimer for personal accounts
+.small.text-gray.text-center.margin-top-xs(
+  ng-hide = "$root.isLoading.checkRunnabot || personalRunnabot || !$root.featureFlags.isPersonalAccount"
+) Our GitHub bot will join your repos as a collaborator.
+  //- hiding until praful writes his doc
+  //- br
+  //- a.small.link More about Runnabot
+
+//- show after successfully inviting runnabot (for both orgs and personal accounts)
+.grid-block.align-center.shrink.runnabot-success.margin-top-sm(
+  ng-show = "(GIC.hasRunnabot && !$root.isLoading.checkRunnabot) || personalRunnabot"
+)
+  img.grid-content.shrink.img(
+    height = "36"
+    src = "/build/images/runnabot-head.png"
+    width = "36"
+  )
+  .grid-content.well.padding-xs.ignore-margin
+    .arrow
+    //- show spinner while adding runnabot for personal accounts
+    .spinner-wrapper.spinner-sm.spinner-gray.padding-xxs(
+      ng-if = "loading"
+      ng-include = "'spinner'"
+    )
+    p.small.text-gray.text-left Thanks! See you soon on your pull requests.
