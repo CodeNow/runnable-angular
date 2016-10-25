@@ -73,7 +73,9 @@
                 use(
                   xlink:href = "#icons-overflow"
                 )
-      p.small.text-center.padding-xxs
+      p.small.text-center.padding-xxs(
+        ng-if = "!$root.featureFlags.isPersonalAccount"
+      )
         a.link(
           href = "mailto:support@runnable.com"
         ) Contact us

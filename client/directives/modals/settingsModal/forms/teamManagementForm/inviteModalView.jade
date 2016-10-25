@@ -1,7 +1,29 @@
 .modal-backdrop.in
-  .modal-dialog.modal-xs.modal-sheet.modal-invite.in
-
-    .modal-header Invite Teammate
+  .modal-dialog.modal-xs.modal-invite(
+    ng-if = "$root.featureFlags.isPersonalAccount"
+  )
+    .grid-block.vertical.align-center.justify-center.modal-body
+      svg.iconnables.icons-close(
+        ng-click = "IMC.close()"
+      )
+        use(
+          xlink:href = "#icons-close"
+        )
+      img.grid-block.shrink.margin-top-md(
+        height = "150"
+        src = "/build/images/runnabear-add.svg"
+        width = "150"
+      )
+      p.grid-block.shrink.p.weight-light.text-center.margin-bottom-md.margin-top-md We only support multiple teammates with GitHub teams, but it looks like you’re using a personal account.
+    footer.modal-footer
+      button.btn.btn-block.btn-md.white(
+        ui-sref = "orgSelect"
+        ui-sref-opts = "{reload: true}"
+      ) Switch to a Team
+  .modal-dialog.modal-xs.modal-sheet.modal-invite(
+    ng-if = "!$root.featureFlags.isPersonalAccount"
+  )
+    header.modal-header Invite Teammate
       svg.iconnables.icons-close(
         ng-click = "IMC.close()"
       )
