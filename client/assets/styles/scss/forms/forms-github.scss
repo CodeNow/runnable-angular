@@ -13,18 +13,15 @@
     cursor: pointer;
   }
 
-  .btn .iconnables {
-    height: 18px;
-    top: 2px;
-    width: 18px;
+  .icons-octicons-github {
+    height: 30px;
+    width: 30px;
+  }
 
-    &:first-child {
-      margin-right: 6px;
-    }
-
-    &:last-child {
-      margin-left: 6px;
-    }
+  .icons-link-external {
+    height: 12px;
+    margin-left: 6px;
+    width: 12px;
   }
 
   // the details text
