@@ -42,6 +42,7 @@ function serverModalButtonsDirective(
                 })
                 .then(function () {
                   $scope.SMC.actions.forceClose();
+                  $rootScope.$broadcast('launchAhaNavPopover');
                 });
             } else {
               $scope.SMC.changeTab('logs');
