@@ -17,7 +17,7 @@
         .label-col.full-width Teammates
           a.small.link.float-right(
             ng-click = "TMMC.openInvitationModal()"
-            ng-if = "TMMC.members.uninvited.length > 0"
+            ng-if = "TMMC.members.uninvited.length > 0 || $root.featureFlags.isPersonalAccount"
           )
             svg.iconnables.icons-team-invite
               use(

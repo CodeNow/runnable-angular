@@ -14,12 +14,22 @@
         src = "/build/images/runnabear-add.svg"
         width = "150"
       )
-      p.grid-block.shrink.p.weight-light.text-center.margin-bottom-md.margin-top-md We only support having teammates with GitHub teams, but it looks like you’re using a personal account.
+      p.grid-block.shrink.p.weight-light.text-center.margin-bottom-md.margin-top-md
+        | We only support having teammates with GitHub teams, but it looks like you’re using a personal account.
+        //- | You’re the only one in this team. Add teammates to your GitHub team before inviting them to Runnable.
+        //- | You’re amazing! You’ve already invited everyone on your GitHub team to Runnable.
     footer.modal-footer
       button.btn.btn-block.btn-md.white(
         ui-sref = "orgSelect"
         ui-sref-opts = "{reload: true}"
       ) Switch to a Team
+      //- a.btn.btn-block.btn-md.white(
+      //-   ng-href = "https://github.com/orgs/{{THISORGNAME}}/people"
+      //-   target = "_blank"
+      //- ) See Team on GitHub
+      //- button.btn.btn-block.btn-md.white(
+      //-   ng-click = "IMC.close()"
+      //- ) Close
   .modal-dialog.modal-xs.modal-sheet.modal-invite(
     ng-if = "!$root.featureFlags.isPersonalAccount"
   )
