@@ -77,6 +77,7 @@ function SetupServerModalController(
     portsSet: false,
     isNewContainer: true,
     openItems: new OpenItems(),
+    isDemo: false,
     state: {
       advanced: false,
       containerFiles: [
@@ -105,7 +106,8 @@ function SetupServerModalController(
       ]
     },
     actions: {
-      close: SMC.closeWithConfirmation.bind(SMC, close)
+      close: SMC.closeWithConfirmation.bind(SMC, close),
+      forceClose: close
     },
     data: {},
     selectedTab: 'repository'
@@ -161,6 +163,10 @@ function SetupServerModalController(
       })
       .catch(errs.handler)
       .finally(function () {
+        var name = keypather.get(SMC, 'state.opts.name');
+        if (ahaGuide.demoNames.includes(name)) {
+          SMC.isDemo = true;
+        }
         loading(SMC.name, false);
       });
   }

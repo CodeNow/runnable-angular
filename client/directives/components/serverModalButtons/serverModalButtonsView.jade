@@ -40,7 +40,7 @@ button.btn.btn-md.white.btn-primary.float-right.js-animate(
   }"
   ng-click = "thisForm.$invalid || createServerOrUpdate()"
   ng-disabled = "(SMC.needsToBeDirtySaved() && !SMC.isDirty()) || isPrimaryButtonDisabled()"
-  ng-if = "(SMC.instance || SMC.isTabVisible('buildfiles')) && !$root.featureFlags.demoFlowPhase2"
+  ng-if = "(SMC.instance || SMC.isTabVisible('buildfiles')) && !$root.featureFlags.demoFlowPhase2 && !SMC.isDemo"
 )
   span.btn-text.float-left Save
     //- if save triggers a build
@@ -53,9 +53,10 @@ button.btn.btn-md.white.btn-primary.float-right.js-animate(
 
 button.btn.btn-md.green.btn-primary.float-right.text-save-build(
   data-event-name = "Demo: Clicked Save & Build"
-  ng-if = "$root.featureFlags.demoFlowPhase2"
+  ng-if = "$root.featureFlags.demoFlowPhase2 && SMC.isDemo"
+  ng-click = "createServerOrUpdate(true)"
 ) Save & Build
 
 span.small.float-right.fade.js-animate(
-  ng-if = "SMC.instance && SMC.isDirty() === 'build' && !$root.isLoading[SMC.name] && !$root.featureFlags.demoFlowPhase2"
+  ng-if = "SMC.instance && SMC.isDirty() === 'build' && !$root.isLoading[SMC.name] && !$root.featureFlags.demoFlowPhase2 && !SMC.isDemo"
 ) You’ve made changes that require a rebuild.

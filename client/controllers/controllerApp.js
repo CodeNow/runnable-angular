@@ -5,27 +5,28 @@ require('app')
 
 function ControllerApp(
   $localStorage,
+  $q,
   $rootScope,
   $scope,
   $state,
   $timeout,
   $window,
+  activeAccount,
   ahaGuide,
   configAPIHost,
   configEnvironment,
   configLoginURL,
+  currentOrg,
   debounce,
   errs,
   featureFlags,
   fetchInstancesByPod,
   keypather,
   ModalService,
+  orgs,
   pageName,
   patchOrgMetadata,
-  currentOrg,
-  user,
-  orgs,
-  activeAccount
+  user
 ) {
   // Load ace after 10 seconds. Should improve user experience overall..
   this.activeAccount = activeAccount;
@@ -38,6 +39,10 @@ function ControllerApp(
     .then(function (instancesByPod) {
       CA.instancesByPod = instancesByPod;
     });
+
+  CA.showDemoRepo = function () {
+    return ahaGuide.isAddingFirstRepo() && !ahaGuide.hasConfirmedSetup() && ahaGuide.hasDemoRepo();
+  };
 
   $rootScope.ModalService = ModalService;
 
@@ -107,14 +112,19 @@ function ControllerApp(
     event.preventDefault();
     CA.showAhaNavPopover = false;
     $rootScope.$broadcast('showAddServicesPopover', false);
-    ModalService.showModal({
-      controller: 'ConfirmationModalController',
-      controllerAs: 'CMC',
-      templateUrl: 'confirmSetupView'
-    })
-      .then(function(modal) {
-        return modal.close;
+
+    var confirmationPromise = $q.when(true);
+    if (!ahaGuide.hasDemoRepo()) {
+      confirmationPromise = ModalService.showModal({
+        controller: 'ConfirmationModalController',
+        controllerAs: 'CMC',
+        templateUrl: 'confirmSetupView'
       })
+        .then(function(modal) {
+          return modal.close;
+        });
+    }
+    confirmationPromise
       .then(function(confirmed) {
         if (confirmed) {
           return patchOrgMetadata(currentOrg.poppa.id(), {

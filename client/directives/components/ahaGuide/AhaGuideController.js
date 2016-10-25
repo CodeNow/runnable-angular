@@ -176,11 +176,11 @@ function AhaGuideController(
    * @param {object} instances an object containing a collection of instances
    */
   function callPopover (config, instances) {
-    if (config.workingRepoInstance && instances.models.length === 2) {
-      $rootScope.$broadcast('launchAhaNavPopover');
-      AGC.showAhaNavPopover = true;
-    } else if (config.workingRepoInstance && instances.models.length === 1) {
-      $rootScope.$broadcast('showAddServicesPopover', true);
+    if (config.workingRepoInstance) {
+      if (instances.models.length === 2 || ( ahaGuide.hasDemoRepo() && instances.models.length === 1) ) {
+        $rootScope.$broadcast('launchAhaNavPopover');
+        AGC.showAhaNavPopover = true;
+      }
     }
   }
 
