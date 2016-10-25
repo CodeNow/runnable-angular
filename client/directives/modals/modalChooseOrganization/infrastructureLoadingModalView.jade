@@ -2,12 +2,14 @@
   //- dock spinning up
   p.p.text-center.weight-light(
     ng-if = "!$root.featureFlags.contingencyPlan"
-  ) We’re spinning up infrastructure for&#32;
-    strong.strong {{COMC.selectedOrgName}}
-    | . It’ll only take a few minutes. We’ll email you and update this page when it’s ready.
-  .spinner-wrapper.spinner-md.spinner-gray.margin-top-md(
-    ng-if = "!$root.featureFlags.contingencyPlan"
-    ng-include = "'spinner'"
+  ) It’ll only take a few minutes to spin up infrastructure for {{COMC.selectedOrgName}}. We’ll email you and update this page when it’s ready. Watch this video while you wait.
+
+  iframe.iframe.margin-top-md(
+    allowfullscreen
+    frameborder = "0"
+    height = "219"
+    src = "https://www.youtube.com/embed/bZNbWoLcZq4?showinfo=0"
+    width = "390"
   )
 
   p.p.text-center.weight-light(
