@@ -111,7 +111,6 @@ function ControllerApp(
     event.stopPropagation();
     event.preventDefault();
     CA.showAhaNavPopover = false;
-    $rootScope.$broadcast('showAddServicesPopover', false);
 
     var confirmationPromise = $q.when(true);
     if (!ahaGuide.hasDemoRepo()) {
