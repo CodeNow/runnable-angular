@@ -40,7 +40,7 @@
       ng-if = "$parent.state.repo.stackAnalysis.languageFramework"
     ) Suggested stack type
     fancy-option(
-      ng-repeat = "framework in $parent.stacks | filter: { key: $parent.state.repo.stackAnalysis.languageFramework } track by framework.key "
+      ng-repeat = "framework in $parent.stacks | filter: { key: $parent.state.repo.stackAnalysis.languageFramework } track by framework.key"
       value = "framework.key"
     )
       img.iconnables(
@@ -79,14 +79,14 @@
       ng-if = "$parent.state.selectedStack.suggestedVersion"
     ) Suggested {{$parent.$parent.state.selectedStack.name}} Version
     fancy-option(
-      ng-repeat = "version in $parent.state.selectedStack.versions | filter: $parent.state.selectedStack.suggestedVersion | limitTo: 1"
+      ng-repeat = "version in $parent.state.selectedStack.versions | filter: $parent.state.selectedStack.suggestedVersion : true | limitTo: 1"
       value = "version"
     ) {{$parent.version}}
     li.divider(
       ng-if = "$parent.state.selectedStack.suggestedVersion"
     )
     fancy-option(
-      ng-repeat = "version in $parent.state.selectedStack.versions | filter: '!'+ $parent.state.selectedStack.suggestedVersion"
+      ng-repeat = "version in $parent.state.selectedStack.versions | filter: '!' + $parent.state.selectedStack.suggestedVersion : true"
       value = "version"
     ) {{$parent.version}}
 
