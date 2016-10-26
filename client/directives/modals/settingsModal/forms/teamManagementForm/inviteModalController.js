@@ -7,6 +7,7 @@ require('app')
  * @ngInject
  */
 function InviteModalController(
+  $location,
   $rootScope,
   $q,
   $state,
@@ -16,17 +17,24 @@ function InviteModalController(
   inviteGithubUserToRunnable,
   loading,
 
+  closeSettingsModal,
+  isPersonalAccount,
   teamName,
-  unInvitedMembers,
+  orgMembers,
   close
 ) {
   var IMC = this;
   angular.extend(IMC, {
-    name: 'inviteModal',
     activeUserId: null,
+    invitedAll: null,
+    invitesSent: false,
+    isPersonalAccount: isPersonalAccount,
+    orgMembers: orgMembers,
+    name: 'inviteModal',
     sendingInviteUserId: null,
     sending: false,
-    invitesSent: false
+    showAlternateInviteModal: null,
+    teamName: teamName
   });
 
   // Load uninvited members if they are not passed in
@@ -34,13 +42,13 @@ function InviteModalController(
   $q.when(true)
     .then(function () {
       // Empty array is valid input
-      if (!unInvitedMembers && !Array.isArray(unInvitedMembers)) {
+      if (!orgMembers.uninvited && !Array.isArray(orgMembers.uninvited)) {
         return fetchOrgMembers($state.params.userName, true)
           .then(function (members) {
             return members.uninvited;
           });
       }
-      return unInvitedMembers;
+      return orgMembers.uninvited;
     })
     .then(function (unInvitedMembers) {
       unInvitedMembers.forEach(function (member) {
@@ -52,10 +60,11 @@ function InviteModalController(
         }
       });
       IMC.unInvitedMembers = unInvitedMembers;
+      IMC.invitedAll = IMC.orgMembers.all.length === IMC.orgMembers.registered.length + IMC.orgMembers.invited.length;
+      IMC.showAlternateInviteModal = IMC.isPersonalAccount || IMC.invitedAll || !IMC.unInvitedMembers.length;
       loading(IMC.name, false);
     })
     .catch(errs.handler);
-
 
   IMC.sendInvitation = function (user) {
     IMC.sendingInviteUserId = user.id;
@@ -85,4 +94,10 @@ function InviteModalController(
     $rootScope.$emit('updateTeammateInvitations', IMC.invitesSent);
     close(IMC.invitesSent);
   };
+
+  IMC.goToOrgSelect = function () {
+    $state.go('orgSelect')
+    close();
+    closeSettingsModal();
+  }
 }

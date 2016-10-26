@@ -11,6 +11,7 @@ function TeamManagementFormController(
   $rootScope,
   $scope,
   $state,
+  currentOrg,
   errs,
   fetchOrgMembers,
   inviteGithubUserToRunnable,
@@ -61,14 +62,17 @@ function TeamManagementFormController(
       });
   }
 
-  TMMC.openInvitationModal = function () {
+  TMMC.openInvitationModal = function (closeSettingsModal) {
+    var isPersonalAccount = keypather.get(currentOrg, 'poppa.attrs.isPersonalAccount')
     ModalService.showModal({
       controller: 'InviteModalController',
       controllerAs: 'IMC',
       templateUrl: 'inviteModalView',
       inputs: {
         teamName: $state.params.userName,
-        unInvitedMembers: TMMC.members.uninvited
+        orgMembers: TMMC.members,
+        isPersonalAccount: isPersonalAccount,
+        closeSettingsModal: closeSettingsModal
       }
     })
     .then(function (modal) {

@@ -16,8 +16,7 @@
       )
         .label-col.full-width Teammates
           a.small.link.float-right(
-            ng-click = "TMMC.openInvitationModal()"
-            ng-if = "TMMC.members.uninvited.length > 0 || $root.featureFlags.isPersonalAccount"
+            ng-click = "TMMC.openInvitationModal(SEMC.close)"
           )
             svg.iconnables.icons-team-invite
               use(
@@ -74,7 +73,7 @@
                   xlink:href = "#icons-overflow"
                 )
       p.small.text-center.padding-xxs(
-        ng-if = "!$root.featureFlags.isPersonalAccount"
+        ng-if = "!SEMC.isPersonalAccount"
       )
         a.link(
           href = "mailto:support@runnable.com"

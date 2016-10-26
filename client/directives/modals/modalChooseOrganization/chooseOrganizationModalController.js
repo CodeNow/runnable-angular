@@ -137,9 +137,11 @@ function ChooseOrganizationModalController(
     trackFigureAction: eventTracking.trackFigureAction,
     trackCreateOrgLink: eventTracking.trackCreateOrgLink,
     trackPersonalAccount: eventTracking.trackPersonalAccount,
-    createOrCheckDock: function (selectedOrgName) {
+    createOrCheckDock: function (selectedOrgName, isPersonalAccount) {
       var selectedOrg = COMC.getSelectedOrg(selectedOrgName);
-      if (!selectedOrg) {
+      if (isPersonalAccount) {
+        selectedOrg = COMC.user;
+      } else if (!selectedOrg) {
         return;
       }
       loading('chooseOrg', true);
