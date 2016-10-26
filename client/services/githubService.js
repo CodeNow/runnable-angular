@@ -32,14 +32,17 @@ function github(
       });
   }
   return {
-    forkRepo: function (repoOwner, repoName, targetOrg) {
-      return makeGhRequest({
+    forkRepo: function (repoOwner, repoName, targetOrg, isPersonalAccount) {
+      var ghRequest = {
         method: 'post',
         url: githubAPIUrl + '/repos/' + repoOwner + '/' + repoName + '/forks',
-        data: {
+      };
+      if (!isPersonalAccount) {
+        ghRequest.data = {
           organization: targetOrg
-        }
-      });
+        };
+      }
+      return makeGhRequest(ghRequest);
     }
   };
 }
