@@ -376,20 +376,29 @@ function ahaGuide(
 
   $rootScope.$on('ahaGuide::launchModal', launchAhaModal);
 
+  var possibleNames = ['node-starter', 'python-starter', 'ruby-starter'];
+  function hasDemoRepo () {
+    return !!instances.find(function (instance) {
+      return possibleNames.includes(instance.attrs.name);
+    });
+  }
+
   return {
+    demoNames: possibleNames,
     endGuide: endGuide,
-    resetGuide: resetGuide,
-    getCurrentStep: getCurrentStep,
+    furthestSubstep: furthestSubstep,
     getClassForSubstep: getClassForSubstep,
+    getCurrentStep: getCurrentStep,
     hasConfirmedSetup: hasConfirmedSetup,
+    hasDemoRepo: hasDemoRepo,
     hasRunnabot: refreshHasRunnabot,
     isInGuide: isInGuide,
+    resetGuide: resetGuide,
+    skipBranchMilestone: skipBranchMilestone,
     stepList: stepList,
     steps: STEPS,
     updateCurrentOrg: updateCurrentOrg,
-    furthestSubstep: furthestSubstep,
     updateTracking: updateTracking,
-    skipBranchMilestone: skipBranchMilestone,
     isChoosingOrg: function() {
       return getCurrentStep() === STEPS.CHOOSE_ORGANIZATION;
     },

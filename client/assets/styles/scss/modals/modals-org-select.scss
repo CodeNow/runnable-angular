@@ -90,7 +90,7 @@
       }
     }
 
-    .strong {
+    .weight-strong {
       word-break: break-word;
     }
   }
@@ -142,6 +142,11 @@
       padding-top: 1px;
       width: 30px;
     }
+  }
+
+  .iframe {
+    border-radius: $input-border-radius-lg;
+    max-width: 100%;
   }
 
   .footer {
