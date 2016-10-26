@@ -63,7 +63,7 @@ function TeamManagementFormController(
   }
 
   TMMC.openInvitationModal = function (closeSettingsModal) {
-    var isPersonalAccount = keypather.get(currentOrg, 'poppa.attrs.isPersonalAccount')
+    var isPersonalAccount = keypather.get(currentOrg, 'poppa.attrs.isPersonalAccount');
     ModalService.showModal({
       controller: 'InviteModalController',
       controllerAs: 'IMC',

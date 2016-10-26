@@ -15,17 +15,25 @@ var $q;
 describe('InviteModalController'.bold.underline.blue, function () {
 
   var IMC;
+  var closeSettingsModalStub;
   var inviteGithubUserToRunnableStub;
+  var isPersonalAccountMock;
   var fetchUserStub;
   var fetchGithubOrgIdStub;
   var fetchOrgMembersStub;
-  var user;
   var errs;
+  var user;
   var username = 'purpleBear';
   var userId = 777;
   var userEmail = 'purplebear@codenow.com';
   var orgId = 787;
   var unInvitedMembers;
+  var orgMembersMock = {
+    uninvited: undefined,
+    all: [],
+    invited: [],
+    registered: []
+  };
   var closeStub = sinon.stub();
 
   function setup (initWithoutUninvitedMembers) {
@@ -50,7 +58,13 @@ describe('InviteModalController'.bold.underline.blue, function () {
         fetchOrgMembersStub = sinon.stub().returns($q.when({ uninvited: unInvitedMembers }));
         return fetchOrgMembersStub;
       });
+      $provide.factory('closeSettingsModal', function () {
+        closeSettingsModalStub = sinon.stub().returns(true);
+        return closeSettingsModalStub;
+      })
       $provide.value('teamName', 'hello');
+      $provide.value('isPersonalAccount', isPersonalAccountMock);
+      $provide.value('orgMembers', orgMembersMock);
       $provide.value('unInvitedMembers', (function () {
         if (initWithoutUninvitedMembers) {
           return null;

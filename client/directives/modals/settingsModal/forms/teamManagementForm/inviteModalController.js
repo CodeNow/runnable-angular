@@ -96,8 +96,10 @@ function InviteModalController(
   };
 
   IMC.goToOrgSelect = function () {
-    $state.go('orgSelect')
-    close();
-    closeSettingsModal();
-  }
+    $state.go('orgSelect');
+    setTimeout(function() {
+      close();
+      closeSettingsModal();
+    }, 200);
+  };
 }

@@ -38,7 +38,6 @@ describe('SettingsModalController'.bold.underline.blue, function () {
   });
 
   it('should instantiate the controller correctly', function () {
-    expect(SEMC.close).to.equal(closeStub);
     expect(SEMC.currentTab).to.equal(tabName);
     expect(SEMC.subTab).to.equal(subTabName);
   });
