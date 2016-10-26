@@ -26,6 +26,7 @@ function TeamManagementFormController(
 
   // Load initial state
   fetchMembers();
+  var isPersonalAccount;
 
   var newInviteAddedWatchterUnbind = $rootScope.$on('newInvitedAdded', function (event, user) {
     TMMC.members.invited.push(user);
@@ -37,6 +38,7 @@ function TeamManagementFormController(
   $scope.$on('$destroy', newInviteAddedWatchterUnbind);
 
   function fetchMembers () {
+    var currentUser;
     return fetchOrgMembers($state.params.userName, true)
       .then(function (members) {
         TMMC.loading = false;
@@ -56,14 +58,20 @@ function TeamManagementFormController(
             }
           };
         };
+        isPersonalAccount = keypather.get(currentOrg, 'poppa.attrs.isPersonalAccount');
+        if (isPersonalAccount) {
+          currentUser = keypather.get(currentOrg, 'github.attrs');
+          TMMC.members.registered.push(currentUser);
+          return;
+        }
         TMMC.members.invited.forEach(setEmail('userInvitation.attrs.recipient.email'));
         TMMC.members.registered.forEach(setEmail('userModel.attrs.accounts.github.emails[0].value'));
         TMMC.members.uninvited.forEach(setEmail(null));
       });
+        
   }
 
   TMMC.openInvitationModal = function (closeSettingsModal) {
-    var isPersonalAccount = keypather.get(currentOrg, 'poppa.attrs.isPersonalAccount');
     ModalService.showModal({
       controller: 'InviteModalController',
       controllerAs: 'IMC',
