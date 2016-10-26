@@ -15,7 +15,7 @@ function SettingsModalController(
 ) {
   var SEMC = this;
   angular.extend(SEMC, {
-    close: close.bind(SEMC),
+    close: close,
     currentTab: tab,
     subTab: subTab
   });

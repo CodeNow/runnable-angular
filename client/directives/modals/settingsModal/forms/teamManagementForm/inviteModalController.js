@@ -7,7 +7,6 @@ require('app')
  * @ngInject
  */
 function InviteModalController(
-  $location,
   $rootScope,
   $q,
   $state,
@@ -101,5 +100,17 @@ function InviteModalController(
       close();
       closeSettingsModal();
     }, 200);
+  };
+
+  IMC.getTextForInviteModal = function () {
+    if (IMC.isPersonalAccount) {
+      return 'We only support having teammates with GitHub teams, but it looks like you\'re using a personal account.';
+    }
+    if (!IMC.isPersonalAccount && IMC.orgMembers.all.length === 1) {
+      return 'You\'re the only one in this team. Add teammates to your GitHub team before inviting them to Runnable.';
+    }
+    if (!IMC.isPersonalAccount && IMC.invitedAll && IMC.orgMembers.all.length > 1) {
+      return 'You\'re amazing! You\'ve already invited everyone on your GitHub team to Runnable.';
+    }
   };
 }
