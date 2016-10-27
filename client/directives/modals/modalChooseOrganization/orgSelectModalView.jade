@@ -26,6 +26,7 @@
 
   ol.grid-block.vertical.list
     li.grid-block.align-center.list-item.btn.white(
+    ng-if = "$root.featureFlags.personalAccounts"
       data-event-name = "PA Selected"
       ng-click = "COMC.actions.createOrCheckDock(COMC.user.oauthName())"
       title = "{{COMC.user.oauthName()}}"
