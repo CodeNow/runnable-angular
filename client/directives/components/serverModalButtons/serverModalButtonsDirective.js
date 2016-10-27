@@ -57,10 +57,19 @@ function serverModalButtonsDirective(
       };
 
       $scope.showSaveAndBuildButton = function () {
-        return (
-          (!$scope.SMC.instance && ($scope.SMC.state.advanced || $scope.SMC.state.step < 4)) ||
-          ($scope.SMC.isDirty() === 'build' && !$rootScope.isLoading[$scope.SMC.name])
-        );
+        if ($scope.SMC.instance) {
+          return false;
+        }
+        if (!$rootScope.isLoading[$scope.SMC.name]) {
+          return false;
+        }
+        if (!$scope.SMC.state.advanced && $scope.SMC.state.step >= 4) {
+          return false;
+        }
+        if ($scope.SMC.isDirty() !== 'build') {
+          return false;
+        }
+        return true;
       };
 
       $scope.showDemoSaveAndBuildButton = function () {
