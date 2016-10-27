@@ -6,17 +6,17 @@
     }"
   )
     header.modal-header
-      //- h1.modal-heading(
-      //-   ng-if = "!AMC.isSettingUpRunnabot()"
-      //- ) Let’s get running! 👋
       h1.modal-heading(
+        ng-if = "!AMC.isSettingUpRunnabot()"
+      ) Let’s get running! 👋
+      h1.modal-heading(
+        ng-if = "AMC.isSettingUpRunnabot() && !$root.featureFlags.ahaBranchUrlStep"
       )
-        //- ng-if = "AMC.isSettingUpRunnabot() && !$root.featureFlags.ahaBranchUrlStep"
         //- During aha 4:
         | You did it! 👏
-      //- h1.modal-heading(
-      //-   ng-if = "AMC.isSettingUpRunnabot() && $root.featureFlags.ahaBranchUrlStep"
-      //- )
+      h1.modal-heading(
+        ng-if = "AMC.isSettingUpRunnabot() && $root.featureFlags.ahaBranchUrlStep"
+      )
         //- During aha 4:
         | One more thing…
 
@@ -38,9 +38,9 @@
 
     .modal-body
       //- if demo feature is off
-      //- .grid-block.shrink.vertical.align-center.aha-overview.padding-md.padding-bottom-sm(
-      //-   ng-if = "!$root.featureFlags.demoProject"
-      //- )
+      .grid-block.shrink.vertical.align-center.aha-overview.padding-md.padding-bottom-sm(
+        ng-if = "!$root.featureFlags.demoProject"
+      )
         p.grid-content.shrink.text-center.p.weight-light It takes just 3 steps to get everything set up.&#32;
           br
           | But don’t worry — we’re here to help!
@@ -50,9 +50,9 @@
         ) Get Started
 
       //- if demo feature is on
-      //- .grid-block.shrink.vertical.align-center.noscroll.aha-overview(
-      //-   ng-if = "!AMC.isSettingUpRunnabot() && $root.featureFlags.demoProject"
-      //- )
+      .grid-block.shrink.vertical.align-center.noscroll.aha-overview(
+        ng-if = "!AMC.isSettingUpRunnabot() && $root.featureFlags.demoProject"
+      )
         //- step 1
         .grid-block.vertical.shrink.align-center.padding-sm.aha-guide.disabled
           .grid-block.shrink.aha-meter.aha-meter-100
@@ -136,9 +136,9 @@
             ) Learn how to add branches.
 
       .grid-block.vertical.align-center.form-github.padding-md(
+        ng-if = "AMC.isSettingUpRunnabot()"
         github-integration
       )
-        //- ng-if = "AMC.isSettingUpRunnabot()"
 
   .grid-block.shrink.justify-center.margin-bottom-xl.welcome-footer(
     ng-if = "AMC.isAddingFirstRepo()"
