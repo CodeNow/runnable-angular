@@ -1,17 +1,26 @@
-p.grid-content.shrink.p.text-center.weight-light.margin-top-sm(
-  ng-if = "!$root.featureFlags.ahaBranchUrlStep"
-) Now you can invite our bot to your GitHub org to get notifications on your pull requests:
-
-p.grid-content.shrink.p.text-center.weight-light.margin-top-sm(
-  ng-if = "$root.featureFlags.ahaBranchUrlStep"
-) Invite our bot to your GitHub org to get notifications on your pull requests:
-
-img.grid-content.shrink.img.img-comment(
+img.shrink.img.img-comment(
   alt = "Runnabot sample comment on a GitHub pull request."
   height = "206"
   src = "/build/images/runnabot-comment.png"
   width = "358"
 )
+
+//- if NOT a personal account
+p.grid-content.shrink.p.text-center.weight-light.margin-top-md.margin-bottom-md(
+  ng-if = "!$root.featureFlags.isPersonalAccount"
+) {{!$root.featureFlags.ahaBranchUrlStep ? 'Now you can invite our bot to your GitHub org to get notifications on your pull requests:' : 'Invite our bot to your GitHub org to get notifications on your pull requests:'}}
+
+//- if is personal account AND phase 2 implemented
+p.grid-content.shrink.p.text-center.weight-light.margin-top-md.margin-bottom-md(
+  ng-if = "$root.featureFlags.isPersonalAccount && $root.featureFlags.personalAccountsPhase2"
+) Now you can get environment&#32;
+  br.hidden-xxs
+  | notifications on your pull requests.
+
+//- if is personal accounts AND phase 2 is NOT implemented
+p.grid-content.shrink.p.text-center.weight-light.margin-top-md.margin-bottom-md(
+  ng-if = "$root.featureFlags.isPersonalAccount && !$root.featureFlags.personalAccountsPhase2"
+) We only support pull request notifications with GitHub teams, but it looks like you’re using a personal account.
 
 //- if checking whether the user is an admin, or checking whether runnabot has been enabled
 .grid-content.spinner-wrapper.spinner-md.spinner-gray(
@@ -19,13 +28,12 @@ img.grid-content.shrink.img.img-comment(
   ng-include = "'spinner'"
 )
 
-//- add 'disabled' attr if inviting runnabot, or if user isn't an admin
-    hide after successfully inviting runnabot
-a.grid-content.shrink.btn.btn-md.green(
+//- button for orgs
+a.grid-block.align-center.shrink.btn.btn-md.green(
   data-event-name = "Clicked Invite Runnabot button"
   ng-disabled = "!GIC.isAdmin"
   ng-click = "GIC.pollCheckRunnabot()"
-  ng-hide = "$root.isLoading.checkRunnabot || GIC.hasRunnabot"
+  ng-hide = "$root.isLoading.checkRunnabot || GIC.hasRunnabot || $root.featureFlags.isPersonalAccount"
   ng-href = "https://github.com/orgs/{{GIC.organizationName}}/invitations/runnabot/edit"
   target = "_blank"
 )
@@ -36,28 +44,17 @@ a.grid-content.shrink.btn.btn-md.green(
   | Invite Runnabot
   svg.iconnables.icons-link-external
     use(
-      xlink:href = "#icons-link-external"
+      xlink:href = "#icons-link-external-alt"
     )
 
-//- show after successfully inviting runnabot
-.grid-block.align-center.shrink.runnabot-success(
-  ng-show = "GIC.hasRunnabot && !$root.isLoading.checkRunnabot"
-)
-  img.grid-content.shrink.img(
-    height = "36"
-    src = "/build/images/runnabot-head.png"
-    width = "36"
-  )
-  .grid-content.well.padding-xs.ignore-margin
-    .arrow
-    p.small.text-gray.text-left Thanks! See you soon on your pull requests.
-
+//- disclaimer for orgs
 .grid-content.shrink.small.text-center(
-  ng-hide = "$root.isLoading.checkRunnabot"
   ng-class = "{\
     'text-gray': GIC.isAdmin,\
     'text-red': !GIC.isAdmin\
   }"
+  ng-hide = "$root.isLoading.checkRunnabot"
+  ng-if = "!$root.featureFlags.isPersonalAccount && !$root.featureFlags.personalAccountsPhase2 && !GIC.hasRunnabot"
 )
   span(
     ng-if = "GIC.isAdmin"
@@ -67,8 +64,52 @@ a.grid-content.shrink.btn.btn-md.green(
   ) Sorry, you’ll need help from an admin
     br
     | of your org to invite Runnabot.
-
   //- hiding until praful writes his doc
   //- span
     br
     a.small.link More about Runnabot
+
+//- button for personal accounts
+label.grid-block.shrink.align-center.label.well.gray.padding-xs(
+  ng-hide = "$root.isLoading.checkRunnabot || !$root.featureFlags.isPersonalAccount || !$root.featureFlags.personalAccountsPhase2"
+  ng-init = "personalRunnabot = false"
+)
+  .grid-content Enable PR Notifications
+  .grid-content.shrink.toggle-wrapper
+    input.toggle-input(
+      ng-click = "personalRunnabot = !personalRunnabot"
+      type = "checkbox"
+    )
+    .toggle-group.toggle-sm
+
+//- disclaimer for personal accounts
+.small.text-gray.text-center.margin-top-xxs(
+  ng-hide = "$root.isLoading.checkRunnabot || personalRunnabot || !$root.featureFlags.isPersonalAccount || !$root.featureFlags.personalAccountsPhase2"
+) Our GitHub bot will join your repos as a collaborator.
+  //- hiding until praful writes his doc
+  //- br
+  //- a.small.link More about Runnabot
+
+//- show after successfully inviting runnabot (for both orgs and personal accounts)
+.grid-block.align-center.shrink.runnabot-success(
+  ng-show = "(!$root.featureFlags.isPersonalAccount && GIC.hasRunnabot && !$root.isLoading.checkRunnabot) || $root.featureFlags.isPersonalAccount && personalRunnabot"
+)
+  img.grid-content.shrink.img(
+    height = "36"
+    src = "/build/images/runnabot-head.png"
+    width = "36"
+  )
+  .grid-content.well.padding-xs.ignore-margin
+    .arrow
+    //- show spinner while adding runnabot for personal accounts
+    .spinner-wrapper.spinner-sm.spinner-gray.padding-xxs(
+      ng-if = "loading"
+      ng-include = "'spinner'"
+    )
+    p.small.text-gray.text-left Thanks! See you soon on your pull requests.
+
+button.btn.btn-md.white(
+  ng-if = "$root.featureFlags.isPersonalAccount && !$root.featureFlags.personalAccountsPhase2 && !$root.isLoading.checkRunnabot"
+  ui-sref = "orgSelect"
+  ui-sref-opts = "{reload: true}"
+) Switch to a Team
