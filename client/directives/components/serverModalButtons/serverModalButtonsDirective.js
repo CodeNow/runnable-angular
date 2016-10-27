@@ -19,68 +19,62 @@ function serverModalButtonsDirective(
       SMC: '=serverModalController'
     },
     link: function ($scope) {
-      $scope.showCancelButton = function () {
-        return !$scope.SMC.instance;
-      };
+      function getDisplayFlagHash () {
+        // Possible Buttons
+        //   cancel
+        //   done
+        //   save
+        //   next
+        //   demoSave
+        //   willRebuildOnSave
+        //   disableSave
 
-      $scope.showDoneButton = function () {
-        if (!$scope.SMC.instance) {
-          return false;
-        }
-        if ($rootScope.featureFlags.demoFlowPhase2 && !$scope.SMC.isDemo) {
-          return false;
-        }
-        return true;
-      };
-
-      $scope.showSaveButton = function () {
-        if (!$scope.SMC.instance && !$scope.SMC.isTabVisible('buildfiles')) {
-          return false;
-        }
+        var disableSaveButton = ($scope.SMC.needsToBeDirtySaved() && !$scope.SMC.isDirty()) || $scope.isPrimaryButtonDisabled();
         if ($rootScope.featureFlags.demoFlowPhase2 && $scope.SMC.isDemo) {
-          return false;
+          // Demo Mode
+          return {
+            demoSave: true,
+            cancel: true
+          };
+        } else if (!$scope.SMC.isSettingUpNewInstance) {
+          // We have an instance we are editing
+          var willRebuild = $scope.SMC.isDirty() === 'build';
+          return {
+            cancel: true,
+            willRebuildOnSave: willRebuild,
+            save: true,
+            done: true,
+            disableSave: disableSaveButton
+          };
+        } else {
+          // We haven't gotten through our steps yet!
+          if (!$scope.SMC.isTabVisible('buildfiles')) {
+            return {
+              cancel: true,
+              next: true
+            };
+          }
+          // We are at the final stages of setup
+          return {
+            save: true,
+            willRebuildOnSave: true,
+            cancel: true,
+            disableSave: disableSaveButton
+          };
         }
-        return true;
+      }
+
+      var _displayFlagCache;
+      $scope.$watch(function () {
+        _displayFlagCache = null;
+      });
+      $scope.getDisplayFlag = function (buttonName) {
+        if (!_displayFlagCache) {
+          _displayFlagCache = getDisplayFlagHash();
+        }
+        return _displayFlagCache[buttonName];
       };
 
-      $scope.showNextButton = function () {
-        if ($scope.SMC.instance) {
-          return false;
-        }
-        if ($scope.SMC.isTabVisible('buildfiles')) {
-          return false;
-        }
-        if ($rootScope.featureFlags.demoFlowPhase2 && $scope.SMC.isDemo) {
-          return false;
-        }
-        return true;
-      };
-
-      $scope.showSaveAndBuildButton = function () {
-        if ($scope.SMC.instance) {
-          return false;
-        }
-        if (!$rootScope.isLoading[$scope.SMC.name]) {
-          return false;
-        }
-        if (!$scope.SMC.state.advanced && $scope.SMC.state.step >= 4) {
-          return false;
-        }
-        if ($scope.SMC.isDirty() !== 'build') {
-          return false;
-        }
-        return true;
-      };
-
-      $scope.showDemoSaveAndBuildButton = function () {
-        if (!$rootScope.featureFlags.demoFlowPhase2) {
-          return false;
-        }
-        if (!$scope.SMC.isDemo) {
-          return false;
-        }
-        return true;
-      };
 
       $scope.createServerOrUpdate = function (forceClose) {
         if ($scope.isPrimaryButtonDisabled()) {
