@@ -5,22 +5,19 @@ img.shrink.img.img-comment(
   width = "358"
 )
 
-//- for organizations
+//- if NOT a personal account
 p.grid-content.shrink.p.text-center.weight-light.margin-top-md.margin-bottom-md(
-  ng-if = "!$root.featureFlags.ahaBranchUrlStep && !$root.featureFlags.isPersonalAccount"
-) Now you can invite our bot to your GitHub org to get notifications on your pull requests:
+  ng-if = "!$root.featureFlags.isPersonalAccount"
+) {{!$root.featureFlags.ahaBranchUrlStep ? 'Now you can invite our bot to your GitHub org to get notifications on your pull requests:' : 'Invite our bot to your GitHub org to get notifications on your pull requests:'}}
 
-p.grid-content.shrink.p.text-center.weight-light.margin-top-md.margin-bottom-md(
-  ng-if = "$root.featureFlags.ahaBranchUrlStep && !$root.featureFlags.isPersonalAccount"
-) Invite our bot to your GitHub org to get notifications on your pull requests:
-
-//- for personal accounts
+//- if is personal account AND phase 2 implemented
 p.grid-content.shrink.p.text-center.weight-light.margin-top-md.margin-bottom-md(
   ng-if = "$root.featureFlags.isPersonalAccount && $root.featureFlags.personalAccountsPhase2"
 ) Now you can get environment&#32;
   br.hidden-xxs
   | notifications on your pull requests.
 
+//- if is personal accounts AND phase 2 is NOT implemented
 p.grid-content.shrink.p.text-center.weight-light.margin-top-md.margin-bottom-md(
   ng-if = "$root.featureFlags.isPersonalAccount && !$root.featureFlags.personalAccountsPhase2"
 ) We only support pull request notifications with GitHub teams, but it looks like you’re using a personal account.
