@@ -15,8 +15,6 @@ function AhaGuideController(
 ) {
   var AGC = this;
   var animatedPanelListener = angular.noop;
-  // dismiss add service popover if open
-  $rootScope.$broadcast('showAddServicesPopover', false);
 
   if (keypather.has(currentOrg, 'poppa.attrs.id') && ahaGuide.isAddingFirstRepo() && AGC.subStepIndex > 6) {
     fetchInstancesByPod()
@@ -176,11 +174,11 @@ function AhaGuideController(
    * @param {object} instances an object containing a collection of instances
    */
   function callPopover (config, instances) {
-    if (config.workingRepoInstance && instances.models.length === 2) {
-      $rootScope.$broadcast('launchAhaNavPopover');
-      AGC.showAhaNavPopover = true;
-    } else if (config.workingRepoInstance && instances.models.length === 1) {
-      $rootScope.$broadcast('showAddServicesPopover', true);
+    if (config.workingRepoInstance) {
+      if (instances.models.length === 2 || ( ahaGuide.hasDemoRepo() && instances.models.length === 1) ) {
+        $rootScope.$broadcast('launchAhaNavPopover');
+        AGC.showAhaNavPopover = true;
+      }
     }
   }
 
@@ -195,8 +193,6 @@ function AhaGuideController(
       $rootScope.$broadcast('ahaGuideEvent', {
         error: 'exitedEarly'
       });
-    } else if (ahaGuide.isAddingFirstRepo() && AGC.isBuildSuccessful && !AGC.showAhaNavPopover) {
-      $rootScope.$broadcast('showAddServicesPopover', true);
     }
   });
 

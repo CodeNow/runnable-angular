@@ -24,7 +24,7 @@ function featureFlags(
     containersViewEmptyState: false,
     contingencyPlan: false,
     demoProject: true,
-    demoFlowPhase2: false,
+    demoFlowPhase2: true,
     dockerfileMirroringMultiple: false,
     editAnyInstance: false,
     emptyFolder: false, // shows empty folder markup
@@ -37,7 +37,7 @@ function featureFlags(
     intercomOnMigration: false, // adds intercom link to migration message
     internalDebugging: false,
     inviteFlows: false,
-    isPersonalAccount: false,
+    isPersonalAccount: false, // if account is a personal account
     multilineFnR: false,
     multilineStartCmd: false,
     multipleRepositoryContainers: false, // for adding multiple containers with the same repository

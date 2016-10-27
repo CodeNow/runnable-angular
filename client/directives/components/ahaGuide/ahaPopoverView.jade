@@ -2,7 +2,7 @@
 .popover-content
   .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
     ng-include = "'ahaGuideView'"
-    ng-init = "showAhaNavPopover = true"
+    ng-init = "showAhaNavPopover = true;"
   )
 .grid-block.justify-right.popover-footer(
   ng-if = "!$root.featureFlags.demoFlowPhase2"

@@ -133,10 +133,6 @@ function EnvironmentController(
     }, timeoutDelay);
   });
 
-  $scope.$on('ahaGuide::launchModal', function () {
-    EC.showAddServicePopover = false;
-  });
-
   EC.actions = {
     closeAlert: function () {
       EC.alert = null;
@@ -155,10 +151,6 @@ function EnvironmentController(
     },
     endGuide: ahaGuide.endGuide
   };
-
-  $scope.$on('showAddServicesPopover', function(event, toggle) {
-    EC.showAddServicePopover = toggle;
-  });
 
   if (ahaGuide.isInGuide()) {
     if (keypather.get(instancesByPod, 'models.length')) {
