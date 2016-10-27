@@ -19,12 +19,60 @@ function serverModalButtonsDirective(
       SMC: '=serverModalController'
     },
     link: function ($scope) {
-      $scope.showSaveAndBuild = function () {
+      $scope.showCancelButton = function () {
+        return !$scope.SMC.instance;
+      };
+
+      $scope.showDoneButton = function () {
+        if (!$scope.SMC.instance) {
+          return false;
+        }
+        if ($rootScope.featureFlags.demoFlowPhase2 && !$scope.SMC.isDemo) {
+          return false;
+        }
+        return true;
+      };
+
+      $scope.showSaveButton = function () {
+        if (!$scope.SMC.instance && !$scope.SMC.isTabVisible('buildfiles')) {
+          return false;
+        }
+        if ($rootScope.featureFlags.demoFlowPhase2 && $scope.SMC.isDemo) {
+          return false;
+        }
+        return true;
+      };
+
+      $scope.showNextButton = function () {
+        if ($scope.SMC.instance) {
+          return false;
+        }
+        if ($scope.SMC.isTabVisible('buildfiles')) {
+          return false;
+        }
+        if ($rootScope.featureFlags.demoFlowPhase2 && $scope.SMC.isDemo) {
+          return false;
+        }
+        return true;
+      };
+
+      $scope.showSaveAndBuildButton = function () {
         return (
           (!$scope.SMC.instance && ($scope.SMC.state.advanced || $scope.SMC.state.step < 4)) ||
           ($scope.SMC.isDirty() === 'build' && !$rootScope.isLoading[$scope.SMC.name])
         );
       };
+
+      $scope.showDemoSaveAndBuildButton = function () {
+        if (!$rootScope.featureFlags.demoFlowPhase2) {
+          return false;
+        }
+        if (!$scope.SMC.isDemo) {
+          return false;
+        }
+        return true;
+      };
+
       $scope.createServerOrUpdate = function (forceClose) {
         if ($scope.isPrimaryButtonDisabled()) {
           return;
