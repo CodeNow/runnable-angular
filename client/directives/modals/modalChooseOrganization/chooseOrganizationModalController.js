@@ -11,6 +11,7 @@ function ChooseOrganizationModalController(
   ahaGuide,
   configEnvironment,
   createNewSandboxForUserService,
+  currentOrg,
   customWindowService,
   errs,
   eventTracking,
@@ -137,11 +138,9 @@ function ChooseOrganizationModalController(
     trackFigureAction: eventTracking.trackFigureAction,
     trackCreateOrgLink: eventTracking.trackCreateOrgLink,
     trackPersonalAccount: eventTracking.trackPersonalAccount,
-    createOrCheckDock: function (selectedOrgName, isPersonalAccount) {
+    createOrCheckDock: function (selectedOrgName) {
       var selectedOrg = COMC.getSelectedOrg(selectedOrgName);
-      if (isPersonalAccount) {
-        selectedOrg = COMC.user;
-      } else if (!selectedOrg) {
+      if (!selectedOrg) {
         return;
       }
       loading('chooseOrg', true);
@@ -185,9 +184,13 @@ function ChooseOrganizationModalController(
     });
   };
   COMC.getSelectedOrg = function (selectedOrgName) {
-    return COMC.allAccounts.models.find(function (org) {
+    var selectedOrg = COMC.allAccounts.models.find(function (org) {
       return selectedOrgName.toLowerCase() === org.oauthName().toLowerCase();
     });
+    if (!selectedOrg) {
+      selectedOrg = COMC.user;
+    }
+    return selectedOrg;
   };
   COMC.isChoosingOrg = ahaGuide.isChoosingOrg;
 
