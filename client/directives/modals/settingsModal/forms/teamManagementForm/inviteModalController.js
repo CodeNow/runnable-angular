@@ -16,7 +16,6 @@ function InviteModalController(
   inviteGithubUserToRunnable,
   loading,
 
-  closeSettingsModal,
   isPersonalAccount,
   teamName,
   orgMembers,
@@ -92,14 +91,6 @@ function InviteModalController(
     // Inform ModalService if any invites were sent
     $rootScope.$emit('updateTeammateInvitations', IMC.invitesSent);
     close(IMC.invitesSent);
-  };
-
-  IMC.goToOrgSelect = function () {
-    $state.go('orgSelect');
-    setTimeout(function() {
-      close();
-      closeSettingsModal();
-    }, 200);
   };
 
   IMC.getTextForInviteModal = function () {

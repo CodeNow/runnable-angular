@@ -71,7 +71,7 @@ function TeamManagementFormController(
         
   }
 
-  TMMC.openInvitationModal = function (closeSettingsModal) {
+  TMMC.openInvitationModal = function () {
     ModalService.showModal({
       controller: 'InviteModalController',
       controllerAs: 'IMC',
@@ -79,8 +79,7 @@ function TeamManagementFormController(
       inputs: {
         teamName: $state.params.userName,
         orgMembers: TMMC.members,
-        isPersonalAccount: isPersonalAccount,
-        closeSettingsModal: closeSettingsModal
+        isPersonalAccount: isPersonalAccount
       }
     })
     .then(function (modal) {
