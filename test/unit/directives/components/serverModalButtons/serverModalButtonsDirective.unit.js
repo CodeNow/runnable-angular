@@ -12,7 +12,7 @@ var apiMocks = require('./../../../apiMocks/index');
 
 describe('serverModalButtonsDirective'.bold.underline.blue, function () {
   var ctx;
-  
+
   beforeEach(function () {
     ctx = {};
   });
@@ -43,7 +43,7 @@ describe('serverModalButtonsDirective'.bold.underline.blue, function () {
       $compile = _$compile_;
       $scope = $rootScope.$new();
       $q = _$q_;
-
+      $rootScope.featureFlags = {};
       $rootScope.isLoading = {};
       var template = directiveTemplate.attribute('server-modal-buttons', {
         'this-form': 'thisForm',
