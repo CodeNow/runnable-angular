@@ -7,7 +7,7 @@ img.shrink.img.img-comment(
 
 //- if NOT a personal account
 p.grid-content.shrink.p.text-center.weight-light.margin-top-md.margin-bottom-md(
-  ng-if = "!$root.featureFlags.isPersonalAccount"
+  ng-if = "!GIC.isPersonalAccount"
 ) {{!$root.featureFlags.ahaBranchUrlStep ? 'Now you can invite our bot to your GitHub org to get notifications on your pull requests:' : 'Invite our bot to your GitHub org to get notifications on your pull requests:'}}
 
 //- if is personal account AND phase 2 implemented
@@ -19,7 +19,7 @@ p.grid-content.shrink.p.text-center.weight-light.margin-top-md.margin-bottom-md(
 
 //- if is personal accounts AND phase 2 is NOT implemented
 p.grid-content.shrink.p.text-center.weight-light.margin-top-md.margin-bottom-md(
-  ng-if = "$root.featureFlags.isPersonalAccount && !$root.featureFlags.personalAccountsPhase2"
+  ng-if = "GIC.isPersonalAccount && !$root.featureFlags.personalAccountsPhase2"
 ) We only support pull request notifications with GitHub teams, but it looks like you’re using a personal account.
 
 //- if checking whether the user is an admin, or checking whether runnabot has been enabled
