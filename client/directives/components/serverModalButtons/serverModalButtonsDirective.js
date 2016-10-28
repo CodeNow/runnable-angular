@@ -29,14 +29,16 @@ function serverModalButtonsDirective(
         //   willRebuildOnSave
         //   disableSave
 
-        var disableSaveButton = ($scope.SMC.needsToBeDirtySaved() && !$scope.SMC.isDirty()) || $scope.isPrimaryButtonDisabled();
         if ($rootScope.featureFlags.demoFlowPhase2 && $scope.SMC.isDemo) {
           // Demo Mode
           return {
             demoSave: true,
             cancel: true
           };
-        } else if (!$scope.SMC.isSettingUpNewInstance) {
+        }
+
+        var disableSaveButton = ($scope.SMC.needsToBeDirtySaved() && !$scope.SMC.isDirty()) || $scope.isPrimaryButtonDisabled();
+        if (!$scope.SMC.isSettingUpNewInstance) {
           // We have an instance we are editing
           var willRebuild = $scope.SMC.isDirty() === 'build';
           return {
@@ -46,22 +48,23 @@ function serverModalButtonsDirective(
             done: true,
             disableSave: disableSaveButton
           };
-        } else {
-          // We haven't gotten through our steps yet!
-          if (!$scope.SMC.isTabVisible('buildfiles')) {
-            return {
-              cancel: true,
-              next: true
-            };
-          }
-          // We are at the final stages of setup
+        }
+
+        // We haven't gotten through our steps yet!
+        if (!$scope.SMC.isTabVisible('buildfiles')) {
           return {
-            save: true,
-            willRebuildOnSave: true,
             cancel: true,
-            disableSave: disableSaveButton
+            next: true
           };
         }
+
+        // We are at the final stages of setup
+        return {
+          save: true,
+          willRebuildOnSave: true,
+          cancel: true,
+          disableSave: disableSaveButton
+        };
       }
 
       var _displayFlagCache;
