@@ -1,7 +1,10 @@
 'use strict';
 
 require('app')
-  .factory('isRunnabotPartOfOrg', isRunnabotPartOfOrg);
+  .factory('isRunnabotPartOfOrg', isRunnabotPartOfOrg)
+  .factory('invitePersonalRunnabot', invitePersonalRunnabot)
+  .factory('isRunnabotPersonalCollaborator', isRunnabotPersonalCollaborator)
+  .factory('removePersonalRunnabot', removePersonalRunnabot);
 
 function isRunnabotPartOfOrg(
   $http,
@@ -17,6 +20,57 @@ function isRunnabotPartOfOrg(
       })
       .catch(function () {
         return false;
+      });
+  };
+}
+
+function isRunnabotPersonalCollaborator (
+  $q,
+  configAPIHost,
+  fetchInstances,
+  github
+) {
+  return function (userName) {
+    return fetchInstances()
+      .then(function (instances) {
+        var repoCalls = instances.map(function (instance) {
+          var repoName = instance.getRepoName();
+          return github.isPersonalRunnabot(userName, repoName);
+        });
+        return $q.all(repoCalls);
+      });
+  };
+}
+
+function invitePersonalRunnabot(
+  $q,
+  configAPIHost,
+  github
+) {
+  return function (repos) {
+    var runnabotInvites = repos.filter(function (repo) {
+      if (repo) {
+        return github.inviteRunnabotAsCollaborator(repo.githubUsername, repo.repoName);
+      }
+    });
+    return $q.all(runnabotInvites);
+  };
+}
+
+function removePersonalRunnabot(
+  $q,
+  configAPIHost,
+  fetchInstances,
+  github
+) {
+  return function (userName) {
+    return fetchInstances()
+      .then(function (instances) {
+        var repoCalls = instances.map(function (instance) {
+          var repoName = instance.getRepoName();
+          return github.removeRunnabotAsCollaborator(userName, repoName);
+        });
+        return $q.all(repoCalls);
       });
   };
 }

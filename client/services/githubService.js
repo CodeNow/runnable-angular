@@ -23,11 +23,11 @@ function github(
         options.headers = options.headers || {};
         options.headers['X-CSRF-TOKEN'] = undefined;
         return $http(options)
-          .then(function (respoonse) {
-            if (respoonse.status > 300) {
-              return $q.reject(respoonse.data);
+          .then(function (response) {
+            if (response.status > 300) {
+              return $q.reject(response.data);
             }
-            return respoonse.data;
+            return response.data;
           });
       });
   }
@@ -43,6 +43,39 @@ function github(
         };
       }
       return makeGhRequest(ghRequest);
+    },
+    isPersonalRunnabot: function (githubUsername, repoName) {
+      var req = {
+        method: 'get',
+        url:  'https://api.github.com/repos/' + githubUsername + '/' + repoName + '/collaborators/runnabot'
+      };
+      return makeGhRequest(req)
+        .then(function (response) {
+          // if there is no response it means that it is a 204 and that runnabot is already a contributor
+          return null;
+        })
+        .catch(function(err) {
+          if (err.message === 'Not Found') {
+            return {
+              githubUsername: githubUsername,
+              repoName: repoName
+            };
+          }
+        });
+    },
+    inviteRunnabotAsCollaborator: function (githubUsername, repoName) {
+      var req = {
+        method: 'put',
+        url:  'https://api.github.com/repos/' + githubUsername + '/' + repoName + '/collaborators/runnabot'
+      };
+      return makeGhRequest(req);
+    },
+    removeRunnabotAsCollaborator: function (githubUsername, repoName) {
+      var req = {
+        method: 'delete',
+        url:  'https://api.github.com/repos/' + githubUsername + '/' + repoName + '/collaborators/runnabot'
+      };
+      return makeGhRequest(req);
     }
   };
 }
