@@ -64,6 +64,7 @@ describe('controllerInstance'.bold.underline.blue, function () {
         isAddingFirstRepo: sinon.stub().returns(false),
         getCurrentStep: sinon.stub().returns(1),
         isInGuide: sinon.stub().returns(true),
+        isPersonalAccount: sinon.stub().returns(false),
         steps: {
           ADD_FIRST_BRANCH: 123
         }
