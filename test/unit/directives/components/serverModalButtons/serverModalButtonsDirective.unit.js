@@ -30,7 +30,8 @@ describe('serverModalButtonsDirective'.bold.underline.blue, function () {
       state: {
         contextVersion: ctx.cv
       },
-      isDirty: sinon.stub()
+      isDirty: sinon.stub(),
+      needsToBeDirtySaved: sinon.stub().returns(false)
     };
 
     ctx.loadingMock = sinon.spy();
@@ -55,48 +56,6 @@ describe('serverModalButtonsDirective'.bold.underline.blue, function () {
       element = $compile(template)($scope);
       $scope.$digest();
       $elScope = element.isolateScope();
-    });
-  });
-  describe('showSaveAndBuild', function () {
-    describe('with steps', function () {
-      it('should be true when steps are less than 4, and no instance', function () {
-        ctx.serverModalController.state.step = 3;
-        ctx.serverModalController.isDirty.returns(false);
-        $rootScope.isLoading.editServerModal = true;
-        expect($elScope.showSaveAndBuild(), 'showSaveAndBuild').to.be.true;
-      });
-      it('should be false when steps are 4, and no instance', function () {
-        ctx.serverModalController.state.step = 4;
-        ctx.serverModalController.isDirty.returns(false);
-        $rootScope.isLoading.editServerModal = true;
-        expect($elScope.showSaveAndBuild(), 'showSaveAndBuild').to.be.false;
-      });
-    });
-
-    describe('without steps', function () {
-      beforeEach(function () {
-        ctx.serverModalController.instance = {};
-      });
-      it('should be false when an instance exists, dirty state is update, and isLoading', function () {
-        ctx.serverModalController.isDirty.returns('update');
-        $rootScope.isLoading.editServerModal = true;
-        expect($elScope.showSaveAndBuild(), 'showSaveAndBuild').to.be.false;
-      });
-      it('should be false when an instance exists, dirty state is false, and isLoading', function () {
-        ctx.serverModalController.isDirty.returns(false);
-        $rootScope.isLoading.editServerModal = true;
-        expect($elScope.showSaveAndBuild(), 'showSaveAndBuild').to.be.false;
-      });
-      it('should be false when an instance exists, dirty state is build, and isLoading', function () {
-        ctx.serverModalController.isDirty.returns('build');
-        $rootScope.isLoading.editServerModal = true;
-        expect($elScope.showSaveAndBuild(), 'showSaveAndBuild').to.be.false;
-      });
-      it('should be true when an instance exists, dirty state is build, and !isLoading', function () {
-        ctx.serverModalController.isDirty.returns('build');
-        $rootScope.isLoading.editServerModal = false;
-        expect($elScope.showSaveAndBuild(), 'showSaveAndBuild').to.be.true;
-      });
     });
   });
   describe('createServerOrUpdate', function () {
