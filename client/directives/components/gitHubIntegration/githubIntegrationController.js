@@ -45,7 +45,6 @@ function GithubIntegrationController(
       });
   }
 
-
   GIC.pollCheckRunnabot = function () {
     GIC.pollingInterval = $interval(checkRunnabot, 2000);
   };
@@ -70,11 +69,11 @@ function GithubIntegrationController(
     loading('checkPersonalRunnabot', true);
     isRunnabotPersonalCollaborator(personalAccountName)
       .then(function (userInstanceRepos) {
-        var runnabotNotInvited = userInstanceRepos.filter(function (repo) {
-          return repo;
+        var reposWithoutRunnabot = userInstanceRepos.filter(function (repo) {
+          return !repo.isRunnabotPersonalCollaborator;
         });
         loading('checkPersonalRunnabot', false);
-        if (runnabotNotInvited.length) {
+        if (reposWithoutRunnabot.length) {
           GIC.isRunnabotPersonalCollaborator = false;
         } else {
           GIC.isRunnabotPersonalCollaborator = true;
@@ -88,7 +87,7 @@ function GithubIntegrationController(
     if (GIC.isRunnabotPersonalCollaborator) {
       isRunnabotPersonalCollaborator(personalAccountName)
         .then(function (reposToInviteRunnabot) {
-          return invitePersonalRunnabot(reposToInviteRunnabot);
+          invitePersonalRunnabot(reposToInviteRunnabot);
         })
         .catch(errs.handler);
     } else {

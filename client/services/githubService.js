@@ -51,13 +51,16 @@ function github(
       };
       return makeGhRequest(req)
         .then(function (response) {
-          // if there is no response it means that it is a 204 and that runnabot is already a contributor
-          return null;
+          // if runnabot is already a contributor there is no response body
+          return {
+            isRunnabotPersonalCollaborator: true
+          };
         })
-        .catch(function(err) {
+        .catch(function (err) {
           if (err.message === 'Not Found') {
             return {
               githubUsername: githubUsername,
+              isRunnabotPersonalCollaborator: false,
               repoName: repoName
             };
           }
