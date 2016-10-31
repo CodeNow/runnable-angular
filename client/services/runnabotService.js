@@ -26,7 +26,6 @@ function isRunnabotPartOfOrg(
 
 function isRunnabotPersonalCollaborator (
   $q,
-  configAPIHost,
   fetchInstances,
   github
 ) {
@@ -44,7 +43,6 @@ function isRunnabotPersonalCollaborator (
 
 function invitePersonalRunnabot(
   $q,
-  configAPIHost,
   github
 ) {
   return function (repos) {
@@ -59,7 +57,6 @@ function invitePersonalRunnabot(
 
 function removePersonalRunnabot(
   $q,
-  configAPIHost,
   fetchInstances,
   github
 ) {
