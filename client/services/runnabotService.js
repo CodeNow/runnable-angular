@@ -29,16 +29,41 @@ function isRunnabotPersonalCollaborator (
   fetchInstances,
   github
 ) {
+
   return function (userName) {
     return fetchInstances()
       .then(function (instances) {
         var repoCalls = instances.map(function (instance) {
           var repoName = instance.getRepoName();
-          return github.isPersonalRunnabot(userName, repoName);
+          return githubRunnabotCheck(userName, repoName);
         });
         return $q.all(repoCalls);
       });
   };
+
+  function githubRunnabotCheck (githubUsername, repoName) {
+    var req = {
+      method: 'get',
+      url:  'https://api.github.com/repos/' + githubUsername + '/' + repoName + '/collaborators/runnabot'
+    };
+
+    return github.makeGhRequest(req)
+      .then(function (response) {
+        // if runnabot is already a contributor there is no response body
+        return {
+          isRunnabotPersonalCollaborator: true
+        };
+      })
+      .catch(function (err) {
+        if (err.message === 'Not Found') {
+          return {
+            githubUsername: githubUsername,
+            isRunnabotPersonalCollaborator: false,
+            repoName: repoName
+          };
+        }
+      });
+  }
 }
 
 function invitePersonalRunnabot(
@@ -48,7 +73,11 @@ function invitePersonalRunnabot(
   return function (repos) {
     var runnabotInvites = repos.filter(function (repo) {
       if (repo) {
-        return github.inviteRunnabotAsCollaborator(repo.githubUsername, repo.repoName);
+        var req = {
+          method: 'put',
+          url:  'https://api.github.com/repos/' + repo.githubUsername + '/' + repo.repoName + '/collaborators/runnabot'
+        };
+        return github.makeGhRequest(req);
       }
     });
     return $q.all(runnabotInvites);
@@ -65,7 +94,11 @@ function removePersonalRunnabot(
       .then(function (instances) {
         var repoCalls = instances.map(function (instance) {
           var repoName = instance.getRepoName();
-          return github.removeRunnabotAsCollaborator(userName, repoName);
+          var req = {
+            method: 'delete',
+            url:  'https://api.github.com/repos/' + userName + '/' + repoName + '/collaborators/runnabot'
+          };
+          return github.makeGhRequest(req);
         });
         return $q.all(repoCalls);
       });

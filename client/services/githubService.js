@@ -44,41 +44,6 @@ function github(
       }
       return makeGhRequest(ghRequest);
     },
-    isPersonalRunnabot: function (githubUsername, repoName) {
-      var req = {
-        method: 'get',
-        url:  'https://api.github.com/repos/' + githubUsername + '/' + repoName + '/collaborators/runnabot'
-      };
-      return makeGhRequest(req)
-        .then(function (response) {
-          // if runnabot is already a contributor there is no response body
-          return {
-            isRunnabotPersonalCollaborator: true
-          };
-        })
-        .catch(function (err) {
-          if (err.message === 'Not Found') {
-            return {
-              githubUsername: githubUsername,
-              isRunnabotPersonalCollaborator: false,
-              repoName: repoName
-            };
-          }
-        });
-    },
-    inviteRunnabotAsCollaborator: function (githubUsername, repoName) {
-      var req = {
-        method: 'put',
-        url:  'https://api.github.com/repos/' + githubUsername + '/' + repoName + '/collaborators/runnabot'
-      };
-      return makeGhRequest(req);
-    },
-    removeRunnabotAsCollaborator: function (githubUsername, repoName) {
-      var req = {
-        method: 'delete',
-        url:  'https://api.github.com/repos/' + githubUsername + '/' + repoName + '/collaborators/runnabot'
-      };
-      return makeGhRequest(req);
-    }
+    makeGhRequest: makeGhRequest
   };
 }
