@@ -4,10 +4,8 @@ var $rootScope,
   $scope;
 var element;
 var $compile;
-var keypather;
 var $q;
 var $elScope;
-var readOnlySwitchController;
 var apiMocks = require('./../../../apiMocks/index');
 
 describe('serverModalButtonsDirective'.bold.underline.blue, function () {
@@ -56,6 +54,8 @@ describe('serverModalButtonsDirective'.bold.underline.blue, function () {
       element = $compile(template)($scope);
       $scope.$digest();
       $elScope = element.isolateScope();
+      $elScope.isPrimaryButtonDisabled = sinon.stub().returns(false);
+      $elScope.SMC.isTabVisible = sinon.stub();
     });
   });
   describe('createServerOrUpdate', function () {
@@ -146,6 +146,114 @@ describe('serverModalButtonsDirective'.bold.underline.blue, function () {
         sinon.assert.calledWith(ctx.loadingMock.secondCall, 'editServerModal', false);
         $scope.$digest();
         sinon.assert.calledOnce(ctx.instance.on);
+      });
+    });
+  });
+
+  var allButtons = [
+    'cancel',
+    'done',
+    'save',
+    'next',
+    'demoSave',
+    'willRebuildOnSave',
+    'disableSave'
+  ];
+  function testButtons (enabledButtons) {
+    allButtons.forEach(function (button) {
+      if (enabledButtons.includes(button)) {
+        it('should enable ' + button + ' button', function () {
+          expect($elScope.getDisplayFlag(button)).to.be.ok;
+        });
+      } else {
+        it('should disable ' + button + ' button', function () {
+          expect($elScope.getDisplayFlag(button)).to.not.be.ok;
+        });
+      }
+    });
+  }
+  describe('getDisplayFlag', function () {
+    describe('when in demo mode', function () {
+      beforeEach(function () {
+        $rootScope.featureFlags.demoFlowPhase2 = true;
+        $elScope.SMC.isDemo = true;
+        $elScope.$digest();
+      });
+      testButtons(['cancel', 'demoSave']);
+    });
+
+    describe('when editing an instance', function () {
+      beforeEach(function () {
+        $elScope.SMC.isDemo = false;
+        $elScope.SMC.isDirty.returns(false);
+        $elScope.SMC.needsToBeDirtySaved.returns(false);
+        $elScope.$digest();
+      });
+      testButtons(['cancel', 'save', 'done']);
+
+      it('should enable willRebuildOnSave if is dirty', function () {
+        $elScope.SMC.isDirty.returns('build');
+        $elScope.$digest();
+        expect($elScope.getDisplayFlag('willRebuildOnSave')).to.be.ok;
+      });
+
+      it('should enable the disableSave flag if needsToBeDirtySaved is set and its not dirty', function () {
+        $elScope.SMC.needsToBeDirtySaved.returns(true);
+        $elScope.SMC.isDirty.returns(false);
+        $elScope.$digest();
+        expect($elScope.getDisplayFlag('disableSave')).to.be.ok;
+      });
+
+      it('should disable the disableSave flag if needsToBeDirtySaved is set and its dirty', function () {
+        $elScope.SMC.needsToBeDirtySaved.returns(true);
+        $elScope.SMC.isDirty.returns(true);
+        $elScope.$digest();
+        expect($elScope.getDisplayFlag('disableSave')).to.not.be.ok;
+      });
+
+      it('should enable the disableSave flag if isPrimaryButtonDisabled is set', function () {
+        $elScope.isPrimaryButtonDisabled.returns(true);
+        $elScope.$digest();
+        expect($elScope.getDisplayFlag('disableSave')).to.be.ok;
+      });
+    });
+
+    describe('when setting up a new instance and not showing build files', function () {
+      beforeEach(function () {
+        $elScope.SMC.isSettingUpNewInstance = true;
+        $elScope.SMC.isTabVisible.returns(false);
+        $elScope.$digest();
+      });
+      testButtons(['cancel', 'next']);
+    });
+
+    describe('when setting up a new instance and showing build files', function () {
+      beforeEach(function () {
+        $elScope.SMC.isSettingUpNewInstance = true;
+        $elScope.SMC.isTabVisible.returns(true);
+        $elScope.$digest();
+      });
+
+      testButtons(['cancel', 'save', 'willRebuildOnSave']);
+
+      it('should enable the disableSave flag if needsToBeDirtySaved is set and its not dirty', function () {
+        $elScope.SMC.needsToBeDirtySaved.returns(true);
+        $elScope.SMC.isDirty.returns(false);
+        $elScope.$digest();
+        expect($elScope.getDisplayFlag('disableSave')).to.be.ok;
+      });
+
+      it('should disable the disableSave flag if needsToBeDirtySaved is set and its dirty', function () {
+        $elScope.SMC.needsToBeDirtySaved.returns(true);
+        $elScope.SMC.isDirty.returns(true);
+        $elScope.$digest();
+        expect($elScope.getDisplayFlag('disableSave')).to.not.be.ok;
+      });
+
+      it('should enable the disableSave flag if isPrimaryButtonDisabled is set', function () {
+        $elScope.isPrimaryButtonDisabled.returns(true);
+        $elScope.$digest();
+        expect($elScope.getDisplayFlag('disableSave')).to.be.ok;
       });
     });
   });
