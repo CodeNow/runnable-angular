@@ -16,11 +16,13 @@ function createAndBuildNewContainer(
   $q,
   $rootScope,
   createNewInstance,
+  currentOrg,
   eventTracking,
   fetchInstancesByPod,
   fetchPlan,
   fetchUser,
-  keypather
+  keypather,
+  invitePersonalRunnabot
 ) {
   return function (createPromiseForState, containerName, options) {
     options = options || {};
@@ -64,6 +66,11 @@ function createAndBuildNewContainer(
       })
       .then(function (instance) {
         fetchPlan.cache.clear();
+        if (keypather.get(currentOrg, 'poppa.attrs.isPersonalAccount') && keypather.get(currentOrg, 'poppa.attrs.metadata.hasPersonalRunnabot')) {
+          var githubUsername = keypather.get(currentOrg, 'poppa.attrs.name');
+          var repoName = instance.getRepoName();
+          invitePersonalRunnabot({githubUsername: githubUsername, repoName: repoName});
+        }
         return fetchPlan()
           .then(function (newPlan) {
             $rootScope.$broadcast('alert', {

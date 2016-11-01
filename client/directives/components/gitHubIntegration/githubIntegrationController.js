@@ -18,18 +18,17 @@ function GithubIntegrationController(
   invitePersonalRunnabot,
   keypather,
   loading,
+  patchOrgMetadata,
   removePersonalRunnabot
 ) {
   var GIC = this;
   var org = keypather.get(currentOrg, 'github.attrs.login');
   GIC.organizationName = org;
   GIC.isPersonalAccount = keypather.get(currentOrg, 'poppa.attrs.isPersonalAccount');
-  GIC.checkPersonalRunnabot = checkPersonalRunnabot;
+  GIC.isRunnabotPersonalCollaborator = keypather.get(currentOrg, 'poppa.attrs.metadata.hasPersonalRunnabot');
   GIC.toggleRunnabotCollaborator = toggleRunnabotCollaborator;
 
-  if (GIC.isPersonalAccount) {
-    checkPersonalRunnabot();
-  } else {
+  if (!GIC.isPersonalAccount) {
     loading.reset('checkRunnabot');
     loading('checkRunnabot', true);
     $q.all({
@@ -63,25 +62,6 @@ function GithubIntegrationController(
       .catch(errs.handler);
   }
 
-  function checkPersonalRunnabot () {
-    var personalAccountName = keypather.get(currentOrg, 'poppa.attrs.name');
-    loading.reset('checkPersonalRunnabot');
-    loading('checkPersonalRunnabot', true);
-    isRunnabotPersonalCollaborator(personalAccountName)
-      .then(function (userInstanceRepos) {
-        var reposWithoutRunnabot = userInstanceRepos.filter(function (repo) {
-          return !repo.isRunnabotPersonalCollaborator;
-        });
-        loading('checkPersonalRunnabot', false);
-        if (reposWithoutRunnabot.length) {
-          GIC.isRunnabotPersonalCollaborator = false;
-        } else {
-          GIC.isRunnabotPersonalCollaborator = true;
-        }
-      })
-      .catch(errs.handler);
-  }
-
   function toggleRunnabotCollaborator () {
     var personalAccountName = keypather.get(currentOrg, 'poppa.attrs.name');
     if (GIC.isRunnabotPersonalCollaborator) {
@@ -89,10 +69,30 @@ function GithubIntegrationController(
         .then(function (reposToInviteRunnabot) {
           invitePersonalRunnabot(reposToInviteRunnabot);
         })
+        .then(function () {
+          return patchOrgMetadata(currentOrg.poppa.id(), {
+            metadata: {
+              hasPersonalRunnabot: true
+            }
+          });
+        })
+        .then(function (updatedOrg) {
+          keypather.set(currentOrg, 'poppa.attrs.metadata.hasPersonalRunnabot', true);
+        })
         .catch(errs.handler);
     } else {
       removePersonalRunnabot(personalAccountName)
-      .catch(errs.handler);
+        .then(function () {
+          return patchOrgMetadata(currentOrg.poppa.id(), {
+            metadata: {
+              hasPersonalRunnabot: false
+            }
+          });
+        })
+        .then(function (updatedOrg) {
+          keypather.set(currentOrg, 'poppa.attrs.metadata.hasPersonalRunnabot', false);
+        })
+        .catch(errs.handler);
     }
   }
 

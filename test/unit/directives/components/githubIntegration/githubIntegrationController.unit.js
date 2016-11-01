@@ -14,10 +14,12 @@ describe('Github Integration Controller'.bold.underline.blue, function() {
   var fetchGithubUserIsAdminOfOrgResult;
   var invitePersonalRunnabotStub;
   var isRunnabotPersonalCollaboratorStub;
+  var patchOrgMetadataStub;
   var removePersonalRunnabotStub;
   var errsMock;
   var mockCurrentOrg = {
     poppa: {
+      id: sinon.stub(),
       trialDaysRemaining: sinon.stub(),
       isInTrial: sinon.stub(),
       isInGrace: sinon.stub(),
@@ -25,7 +27,10 @@ describe('Github Integration Controller'.bold.underline.blue, function() {
       attrs: {
         hasPaymentMethod: false,
         isPersonalAccount: false,
-        name: 'santos l. halper'
+        name: 'santos l. halper',
+        metadata: {
+          hasPersonalRunnabot: false
+        }
       }
     },
     github: {
@@ -75,6 +80,10 @@ describe('Github Integration Controller'.bold.underline.blue, function() {
       $provide.factory('removePersonalRunnabot', function ($q) {
         removePersonalRunnabotStub = sinon.stub().returns($q.when(true));
         return removePersonalRunnabotStub;
+      });
+    $provide.factory('patchOrgMetadata', function ($q) {
+        patchOrgMetadataStub = sinon.stub().returns($q.when(true));
+        return patchOrgMetadataStub;
       });
     });
 
@@ -152,12 +161,6 @@ describe('Github Integration Controller'.bold.underline.blue, function() {
       sinon.assert.calledOnce($interval.cancel);
       sinon.assert.calledWith($interval.cancel, GIC.pollingInterval);
     });
-
-    it('should not check whether runnabot is a contributor', function () {
-      injectSetupCompile();
-      $scope.$digest();
-      sinon.assert.notCalled(isRunnabotPersonalCollaboratorStub);
-    });
   });
 
   describe('runnabot behavior for personal accounts w/ runnabot', function () {
@@ -166,19 +169,11 @@ describe('Github Integration Controller'.bold.underline.blue, function() {
       mockCurrentOrg.poppa.attrs.isPersonalAccount = true;
       mockPersonalRunnabotResponse = [{isRunnabotPersonalCollaborator: true}];
       isRunnabotPersonalCollaboratorStub.reset();
-    })
-
-    it('should check whether runnabot is a contributor', function () {
-      injectSetupCompile();
-      $scope.$digest();
-      sinon.assert.calledOnce(isRunnabotPersonalCollaboratorStub);
-      expect(GIC.isRunnabotPersonalCollaborator).to.equal(true);
     });
 
     it('should remove runnabot if toggled', function () {
       injectSetupCompile();
       $scope.$digest();
-      sinon.assert.calledOnce(isRunnabotPersonalCollaboratorStub);
       // simulating user toggling runnabot to false
       GIC.isRunnabotPersonalCollaborator = false;
       GIC.toggleRunnabotCollaborator();
@@ -202,7 +197,6 @@ describe('Github Integration Controller'.bold.underline.blue, function() {
       GIC.isRunnabotPersonalCollaborator = true;
       GIC.toggleRunnabotCollaborator();
       $scope.$digest();
-      sinon.assert.calledTwice(isRunnabotPersonalCollaboratorStub);
       sinon.assert.calledWith(isRunnabotPersonalCollaboratorStub, 'santos l. halper');
       sinon.assert.calledOnce(invitePersonalRunnabotStub);
     })

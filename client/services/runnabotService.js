@@ -29,7 +29,6 @@ function isRunnabotPersonalCollaborator (
   fetchInstances,
   github
 ) {
-
   return function (userName) {
     return fetchInstances()
       .then(function (instances) {
@@ -71,6 +70,9 @@ function invitePersonalRunnabot(
   github
 ) {
   return function (repos) {
+    if (!Array.isArray(repos)) {
+      repos = [ repos ];
+    }
     var runnabotInvites = repos.filter(function (repo) {
       if (repo) {
         var req = {
