@@ -37,7 +37,6 @@ function serverModalButtonsDirective(
           };
         }
 
-        var disableSaveButton = ($scope.SMC.needsToBeDirtySaved() && !$scope.SMC.isDirty()) || $scope.isPrimaryButtonDisabled();
         if (!$scope.SMC.isSettingUpNewInstance) {
           // We have an instance we are editing
           var willRebuild = $scope.SMC.isDirty() === 'build';
@@ -46,7 +45,7 @@ function serverModalButtonsDirective(
             willRebuildOnSave: willRebuild,
             save: true,
             done: true,
-            disableSave: disableSaveButton
+            disableSave: shouldDisableSaveButton()
           };
         }
 
@@ -63,8 +62,12 @@ function serverModalButtonsDirective(
           save: true,
           willRebuildOnSave: true,
           cancel: true,
-          disableSave: disableSaveButton
+          disableSave: shouldDisableSaveButton()
         };
+      }
+
+      function shouldDisableSaveButton() {
+        return ($scope.SMC.needsToBeDirtySaved() && !$scope.SMC.isDirty()) || $scope.isPrimaryButtonDisabled();
       }
 
       var _displayFlagCache;
