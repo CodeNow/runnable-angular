@@ -1,8 +1,8 @@
 .modal-backdrop.in
-  .modal-dialog.modal-xs.modal-invite(
+  .modal-dialog.modal-xs.modal-invite.popover.popover-fixed.in(
     ng-if = "$root.featureFlags.isPersonalAccount"
   )
-    .grid-block.vertical.align-center.justify-center.modal-body
+    .grid-block.shrink.vertical.align-center.justify-center.modal-body
       svg.iconnables.icons-close(
         ng-click = "IMC.close()"
       )
@@ -19,7 +19,7 @@
         //- | You’re the only one in this team. Add teammates to your GitHub team before inviting them to Runnable.
         //- | You’re amazing! You’ve already invited everyone on your GitHub team to Runnable.
     footer.modal-footer
-      button.btn.btn-block.btn-md.white(
+      button.btn.btn-block.btn-md.gray(
         ui-sref = "orgSelect"
         ui-sref-opts = "{reload: true}"
       ) Switch to a Team
