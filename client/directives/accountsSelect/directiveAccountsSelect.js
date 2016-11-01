@@ -91,13 +91,7 @@ function accountsSelect (
         keypather.set($scope, 'popoverAccountMenu.data.currentOrg', currentOrg);
         keypather.set($scope, 'popoverAccountMenu.data.orgs', $scope.data.orgs);
         keypather.set($scope, 'popoverAccountMenu.data.user', $scope.data.user);
-
-        // Integrations modal
-        if ($scope.data.user.oauthName() === $state.params.userName) {
-          $scope.popoverAccountMenu.data.showIntegrations = false;
-        } else {
-          $scope.popoverAccountMenu.data.showIntegrations = true;
-        }
+        keypather.set($scope, 'popoverAccountMenu.data.showIntegrations', true);
       });
 
       $scope.getBadgeCount = function () {

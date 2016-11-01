@@ -16,17 +16,23 @@ function InviteModalController(
   inviteGithubUserToRunnable,
   loading,
 
+  isPersonalAccount,
   teamName,
-  unInvitedMembers,
+  orgMembers,
   close
 ) {
   var IMC = this;
   angular.extend(IMC, {
-    name: 'inviteModal',
     activeUserId: null,
+    invitedAll: null,
+    invitesSent: false,
+    isPersonalAccount: isPersonalAccount,
+    orgMembers: orgMembers,
+    name: 'inviteModal',
     sendingInviteUserId: null,
     sending: false,
-    invitesSent: false
+    showAlternateInviteModal: null,
+    teamName: teamName
   });
 
   // Load uninvited members if they are not passed in
@@ -34,13 +40,13 @@ function InviteModalController(
   $q.when(true)
     .then(function () {
       // Empty array is valid input
-      if (!unInvitedMembers && !Array.isArray(unInvitedMembers)) {
+      if (!orgMembers.uninvited && !Array.isArray(orgMembers.uninvited)) {
         return fetchOrgMembers($state.params.userName, true)
           .then(function (members) {
             return members.uninvited;
           });
       }
-      return unInvitedMembers;
+      return orgMembers.uninvited;
     })
     .then(function (unInvitedMembers) {
       unInvitedMembers.forEach(function (member) {
@@ -52,10 +58,11 @@ function InviteModalController(
         }
       });
       IMC.unInvitedMembers = unInvitedMembers;
+      IMC.invitedAll = IMC.orgMembers.all.length === IMC.orgMembers.registered.length + IMC.orgMembers.invited.length;
+      IMC.showAlternateInviteModal = IMC.isPersonalAccount || IMC.invitedAll || !IMC.unInvitedMembers.length;
       loading(IMC.name, false);
     })
     .catch(errs.handler);
-
 
   IMC.sendInvitation = function (user) {
     IMC.sendingInviteUserId = user.id;
@@ -84,5 +91,17 @@ function InviteModalController(
     // Inform ModalService if any invites were sent
     $rootScope.$emit('updateTeammateInvitations', IMC.invitesSent);
     close(IMC.invitesSent);
+  };
+
+  IMC.getTextForInviteModal = function () {
+    if (IMC.isPersonalAccount) {
+      return 'We only support having teammates with GitHub teams, but it looks like you\'re using a personal account.';
+    }
+    if (IMC.orgMembers.all.length === 1) {
+      return 'You\'re the only one in this team. Add teammates to your GitHub team before inviting them to Runnable.';
+    }
+    if (IMC.invitedAll && IMC.orgMembers.all.length > 1) {
+      return 'You\'re amazing! You\'ve already invited everyone on your GitHub team to Runnable.';
+    }
   };
 }
