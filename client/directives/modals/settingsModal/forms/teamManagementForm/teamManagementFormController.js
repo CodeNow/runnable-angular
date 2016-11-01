@@ -21,12 +21,12 @@ function TeamManagementFormController(
   var TMMC = this;
   angular.extend(TMMC, {
     loading: true,
-    members: null
+    members: null,
+    isPersonalAccount: keypather.get(currentOrg, 'poppa.attrs.isPersonalAccount')
   });
 
   // Load initial state
   fetchMembers();
-  var isPersonalAccount;
 
   var newInviteAddedWatchterUnbind = $rootScope.$on('newInvitedAdded', function (event, user) {
     TMMC.members.invited.push(user);
@@ -58,8 +58,7 @@ function TeamManagementFormController(
             }
           };
         };
-        isPersonalAccount = keypather.get(currentOrg, 'poppa.attrs.isPersonalAccount');
-        if (isPersonalAccount) {
+        if (TMMC.isPersonalAccount) {
           currentUser = keypather.get(currentOrg, 'github.attrs');
           TMMC.members.registered.push(currentUser);
           return;
@@ -79,7 +78,7 @@ function TeamManagementFormController(
       inputs: {
         teamName: $state.params.userName,
         orgMembers: TMMC.members,
-        isPersonalAccount: isPersonalAccount
+        isPersonalAccount: TMMC.isPersonalAccount
       }
     })
     .then(function (modal) {
