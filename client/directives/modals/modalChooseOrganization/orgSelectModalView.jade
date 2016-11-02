@@ -23,12 +23,10 @@
         use(
           xlink:href = "#icons-arrow-down"
         )
-
-  ol.grid-block.vertical.list
     li.grid-block.align-center.list-item.btn.white(
-    ng-if = "$root.featureFlags.personalAccounts"
       data-event-name = "PA Selected"
       ng-click = "COMC.actions.createOrCheckDock(COMC.user.oauthName())"
+      ng-if = "$root.featureFlags.personalAccounts"
       title = "{{COMC.user.oauthName()}}"
     )
       img.grid-content.shrink(
