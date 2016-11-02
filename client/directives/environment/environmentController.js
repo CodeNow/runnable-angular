@@ -56,7 +56,7 @@ function EnvironmentController(
       .then(function (res) {
         var username = keypather.get(res.user, 'attrs.accounts.github.username');
         var isOrg = (username !== $state.params.userName);
-        EC.showInviteButton = isOrg && res.members.uninvited.length > 0;
+        EC.showInviteButton = isOrg && res.members.uninvited.length > 0 || EC.isPersonalAccount;
         EC.orgMembers = res.members;
       });
   }
