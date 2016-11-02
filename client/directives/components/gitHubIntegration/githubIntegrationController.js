@@ -45,7 +45,9 @@ function GithubIntegrationController(
   }
 
   GIC.pollCheckRunnabot = function () {
-    GIC.pollingInterval = $interval(checkRunnabot, 2000);
+    if (!GIC.pollingInterval) {
+      GIC.pollingInterval = $interval(checkRunnabot, 2000);
+    }
   };
 
   function checkRunnabot () {
@@ -65,35 +67,28 @@ function GithubIntegrationController(
   function toggleRunnabotCollaborator () {
     var personalAccountName = keypather.get(currentOrg, 'poppa.attrs.name');
     if (GIC.isRunnabotPersonalCollaborator) {
-      isRunnabotPersonalCollaborator(personalAccountName)
+      return isRunnabotPersonalCollaborator(personalAccountName)
         .then(function (reposToInviteRunnabot) {
-          invitePersonalRunnabot(reposToInviteRunnabot);
+          return $q.all([invitePersonalRunnabot(reposToInviteRunnabot), updateRunnabotFlag(true)])
         })
         .then(function () {
-          return patchOrgMetadata(currentOrg.poppa.id(), {
-            metadata: {
-              hasPersonalRunnabot: true
-            }
-          });
-        })
-        .then(function (updatedOrg) {
           keypather.set(currentOrg, 'poppa.attrs.metadata.hasPersonalRunnabot', true);
         })
         .catch(errs.handler);
-    } else {
-      removePersonalRunnabot(personalAccountName)
-        .then(function () {
-          return patchOrgMetadata(currentOrg.poppa.id(), {
-            metadata: {
-              hasPersonalRunnabot: false
-            }
-          });
-        })
-        .then(function (updatedOrg) {
-          keypather.set(currentOrg, 'poppa.attrs.metadata.hasPersonalRunnabot', false);
-        })
-        .catch(errs.handler);
     }
+    return $q.all([removePersonalRunnabot(personalAccountName), updateRunnabotFlag(false)])
+      .then(function () {
+        keypather.set(currentOrg, 'poppa.attrs.metadata.hasPersonalRunnabot', false);
+      })
+      .catch(errs.handler);
+  }
+
+  function updateRunnabotFlag (isCollaborator) {
+    return patchOrgMetadata(currentOrg.poppa.id(), {
+      metadata: {
+        hasPersonalRunnabot: isCollaborator
+      }
+    });
   }
 
   $scope.$on('$destroy', function () {

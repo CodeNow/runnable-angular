@@ -61,6 +61,7 @@ function isRunnabotPersonalCollaborator (
             repoName: repoName
           };
         }
+        return $q.reject(err)
       });
   }
 }
