@@ -69,7 +69,7 @@ function GithubIntegrationController(
     if (GIC.isRunnabotPersonalCollaborator) {
       return isRunnabotPersonalCollaborator(personalAccountName)
         .then(function (reposToInviteRunnabot) {
-          return $q.all([invitePersonalRunnabot(reposToInviteRunnabot), updateRunnabotFlag(true)])
+          return $q.all([invitePersonalRunnabot(reposToInviteRunnabot), updateRunnabotFlag(true)]);
         })
         .then(function () {
           keypather.set(currentOrg, 'poppa.attrs.metadata.hasPersonalRunnabot', true);
