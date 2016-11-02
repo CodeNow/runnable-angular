@@ -27,9 +27,10 @@ function EnvironmentController(
 ) {
   var EC = this;
 
-  EC.showInviteButton = false;
   EC.isAddingFirstRepo = ahaGuide.isAddingFirstRepo;
   EC.isInGuide = ahaGuide.isInGuide;
+  EC.isPersonalAccount = keypather.get(currentOrg, 'poppa.attrs.isPersonalAccount');
+  EC.showInviteButton = EC.isPersonalAccount;
   EC.showCreateTemplate = true;
   EC.getClassForSubstep = ahaGuide.getClassForSubstep;
   $scope.$on('ahaGuideEvent', function(event, info) {
@@ -56,6 +57,7 @@ function EnvironmentController(
         var username = keypather.get(res.user, 'attrs.accounts.github.username');
         var isOrg = (username !== $state.params.userName);
         EC.showInviteButton = isOrg && res.members.uninvited.length > 0;
+        EC.orgMembers = res.members;
       });
   }
 
@@ -78,7 +80,9 @@ function EnvironmentController(
         templateUrl: 'inviteModalView',
         inputs: {
           teamName: $state.params.userName,
-          unInvitedMembers: null
+          unInvitedMembers: null,
+          isPersonalAccount: EC.isPersonalAccount,
+          orgMembers: EC.orgMembers
         }
       });
     }
