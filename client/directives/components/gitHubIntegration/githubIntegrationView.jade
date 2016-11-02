@@ -7,19 +7,19 @@ img.shrink.img.img-comment(
 
 //- if NOT a personal account
 p.grid-content.shrink.p.text-center.weight-light.margin-top-md.margin-bottom-md(
-  ng-if = "!$root.featureFlags.isPersonalAccount"
+  ng-if = "!GIC.isPersonalAccount"
 ) {{!$root.featureFlags.ahaBranchUrlStep ? 'Now you can invite our bot to your GitHub org to get notifications on your pull requests:' : 'Invite our bot to your GitHub org to get notifications on your pull requests:'}}
 
 //- if is personal account AND phase 2 implemented
 p.grid-content.shrink.p.text-center.weight-light.margin-top-md.margin-bottom-md(
-  ng-if = "$root.featureFlags.isPersonalAccount && $root.featureFlags.personalAccountsPhase2"
+  ng-if = "GIC.isPersonalAccount && $root.featureFlags.personalAccountsPhase2"
 ) Now you can get environment&#32;
   br.hidden-xxs
   | notifications on your pull requests.
 
 //- if is personal accounts AND phase 2 is NOT implemented
 p.grid-content.shrink.p.text-center.weight-light.margin-top-md.margin-bottom-md(
-  ng-if = "$root.featureFlags.isPersonalAccount && !$root.featureFlags.personalAccountsPhase2"
+  ng-if = "GIC.isPersonalAccount && !$root.featureFlags.personalAccountsPhase2"
 ) We only support pull request notifications with GitHub teams, but it looks like you’re using a personal account.
 
 //- if checking whether the user is an admin, or checking whether runnabot has been enabled
@@ -33,7 +33,7 @@ a.grid-block.align-center.shrink.btn.btn-md.green(
   data-event-name = "Clicked Invite Runnabot button"
   ng-disabled = "!GIC.isAdmin"
   ng-click = "GIC.pollCheckRunnabot()"
-  ng-hide = "$root.isLoading.checkRunnabot || GIC.hasRunnabot || $root.featureFlags.isPersonalAccount"
+  ng-hide = "$root.isLoading.checkRunnabot || GIC.hasRunnabot || GIC.isPersonalAccount"
   ng-href = "https://github.com/orgs/{{GIC.organizationName}}/invitations/runnabot/edit"
   target = "_blank"
 )
@@ -54,7 +54,7 @@ a.grid-block.align-center.shrink.btn.btn-md.green(
     'text-red': !GIC.isAdmin\
   }"
   ng-hide = "$root.isLoading.checkRunnabot"
-  ng-if = "!$root.featureFlags.isPersonalAccount && !$root.featureFlags.personalAccountsPhase2 && !GIC.hasRunnabot"
+  ng-if = "!GIC.isPersonalAccount && !$root.featureFlags.personalAccountsPhase2 && !GIC.hasRunnabot"
 )
   span(
     ng-if = "GIC.isAdmin"
@@ -71,7 +71,7 @@ a.grid-block.align-center.shrink.btn.btn-md.green(
 
 //- button for personal accounts
 label.grid-block.shrink.align-center.label.well.gray.padding-xs(
-  ng-hide = "$root.isLoading.checkRunnabot || !$root.featureFlags.isPersonalAccount || !$root.featureFlags.personalAccountsPhase2"
+  ng-hide = "$root.isLoading.checkRunnabot || !GIC.isPersonalAccount || !$root.featureFlags.personalAccountsPhase2"
   ng-init = "personalRunnabot = false"
 )
   .grid-content Enable PR Notifications
@@ -84,7 +84,7 @@ label.grid-block.shrink.align-center.label.well.gray.padding-xs(
 
 //- disclaimer for personal accounts
 .small.text-gray.text-center.margin-top-xxs(
-  ng-hide = "$root.isLoading.checkRunnabot || personalRunnabot || !$root.featureFlags.isPersonalAccount || !$root.featureFlags.personalAccountsPhase2"
+  ng-hide = "$root.isLoading.checkRunnabot || personalRunnabot || !GIC.isPersonalAccount || !$root.featureFlags.personalAccountsPhase2"
 ) Our GitHub bot will join your repos as a collaborator.
   //- hiding until praful writes his doc
   //- br
@@ -92,7 +92,7 @@ label.grid-block.shrink.align-center.label.well.gray.padding-xs(
 
 //- show after successfully inviting runnabot (for both orgs and personal accounts)
 .grid-block.align-center.shrink.runnabot-success(
-  ng-show = "(!$root.featureFlags.isPersonalAccount && GIC.hasRunnabot && !$root.isLoading.checkRunnabot) || $root.featureFlags.isPersonalAccount && personalRunnabot"
+  ng-show = "(!GIC.isPersonalAccount && GIC.hasRunnabot && !$root.isLoading.checkRunnabot) || $root.featureFlags.isPersonalAccount && personalRunnabot"
 )
   img.grid-content.shrink.img(
     height = "36"
@@ -109,7 +109,7 @@ label.grid-block.shrink.align-center.label.well.gray.padding-xs(
     p.small.text-gray.text-left Thanks! See you soon on your pull requests.
 
 button.btn.btn-md.white(
-  ng-if = "$root.featureFlags.isPersonalAccount && !$root.featureFlags.personalAccountsPhase2 && !$root.isLoading.checkRunnabot"
+  ng-if = "$root.featureFlags.personalAccounts && GIC.isPersonalAccount && !$root.isLoading.checkRunnabot"
   ui-sref = "orgSelect"
   ui-sref-opts = "{reload: true}"
 ) Switch to a Team

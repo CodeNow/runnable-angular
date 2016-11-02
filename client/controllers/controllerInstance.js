@@ -206,7 +206,7 @@ function ControllerInstance(
     });
   });
 
-  if (ahaGuide.isInGuide()) {
+  if (ahaGuide.isInGuide() && !ahaGuide.isPersonalAccount()) {
     if (keypather.get(instancesByPod, 'models.length')) {
       if (instancesByPod.models.some(function (instance) {
           return instance.attrs.hasAddedBranches || keypather.get(instance, 'children.models.length');

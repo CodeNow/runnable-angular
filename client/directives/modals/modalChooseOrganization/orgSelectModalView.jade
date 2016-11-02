@@ -24,6 +24,24 @@
           xlink:href = "#icons-arrow-down"
         )
 
+  ol.grid-block.vertical.list
+    li.grid-block.align-center.list-item.btn.white(
+    ng-if = "$root.featureFlags.personalAccounts"
+      data-event-name = "PA Selected"
+      ng-click = "COMC.actions.createOrCheckDock(COMC.user.oauthName())"
+      title = "{{COMC.user.oauthName()}}"
+    )
+      img.grid-content.shrink(
+        height = "30"
+        ng-src = "{{COMC.user.gravitar()}}"
+        width = "30"
+      )
+      span.grid-content.text-left.text-overflow {{COMC.user.oauthName()}}
+      svg.grid-content.iconnables.icons-arrow-forward.shrink
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+
   ol.margin-top-sm.grid-block.vertical.list
     li.grid-block.align-center.list-item.btn.white(
       data-event-name = "Clicked to Grant Access View"

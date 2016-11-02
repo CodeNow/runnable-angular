@@ -20,6 +20,7 @@ function GithubIntegrationController(
   var GIC = this;
   var org = keypather.get(currentOrg, 'github.attrs.login');
   GIC.organizationName = org;
+  GIC.isPersonalAccount = keypather.get(currentOrg, 'poppa.attrs.isPersonalAccount');
 
   function checkRunnabot() {
     return isRunnabotPartOfOrg(org)
