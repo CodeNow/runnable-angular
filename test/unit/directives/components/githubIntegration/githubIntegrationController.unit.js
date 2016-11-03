@@ -175,7 +175,7 @@ describe('Github Integration Controller'.bold.underline.blue, function() {
       injectSetupCompile();
       $scope.$digest();
       // simulating user toggling runnabot to false
-      GIC.isRunnabotPersonalCollaborator = false;
+      GIC.hasRunnabot = false;
       GIC.toggleRunnabotCollaborator();
       $scope.$digest();
       sinon.assert.calledOnce(removePersonalRunnabotStub);
@@ -194,7 +194,7 @@ describe('Github Integration Controller'.bold.underline.blue, function() {
       injectSetupCompile();
       $scope.$digest();
       // simulating user toggling runnabot to true
-      GIC.isRunnabotPersonalCollaborator = true;
+      GIC.hasRunnabot = true;
       GIC.toggleRunnabotCollaborator();
       $scope.$digest();
       sinon.assert.calledWith(isRunnabotPersonalCollaboratorStub, 'santos l. halper');

@@ -76,7 +76,7 @@ label.grid-block.shrink.align-center.label.well.gray.padding-xs(
   .grid-content Enable PR Notifications
   .grid-content.shrink.toggle-wrapper
     input.toggle-input(
-      ng-model = "GIC.isRunnabotPersonalCollaborator"
+      ng-model = "GIC.hasRunnabot"
       ng-click = "GIC.toggleRunnabotCollaborator()"
       type = "checkbox"
     )
@@ -84,7 +84,7 @@ label.grid-block.shrink.align-center.label.well.gray.padding-xs(
 
 //- disclaimer for personal accounts
 .small.text-gray.text-center.margin-top-xxs(
-  ng-hide = "$root.isLoading.checkRunnabot || GIC.hasRunnabot || GIC.isRunnabotPersonalCollaborator"
+  ng-hide = "$root.isLoading.checkRunnabot || GIC.hasRunnabot"
 ) Our GitHub bot will join your repos as a collaborator.
   //- hiding until praful writes his doc
   //- br
@@ -92,7 +92,7 @@ label.grid-block.shrink.align-center.label.well.gray.padding-xs(
 
 //- show after successfully inviting runnabot (for both orgs and personal accounts)
 .grid-block.align-center.shrink.runnabot-success(
-  ng-show = "(!GIC.isPersonalAccount && GIC.hasRunnabot && !$root.isLoading.checkRunnabot) || (GIC.isPersonalAccount && GIC.isRunnabotPersonalCollaborator)"
+  ng-show = "GIC.hasRunnabot && !$root.isLoading.checkRunnabot"
 )
   img.grid-content.shrink.img(
     height = "36"

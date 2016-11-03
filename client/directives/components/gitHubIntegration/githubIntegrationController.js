@@ -25,7 +25,7 @@ function GithubIntegrationController(
   var org = keypather.get(currentOrg, 'github.attrs.login');
   GIC.organizationName = org;
   GIC.isPersonalAccount = keypather.get(currentOrg, 'poppa.attrs.isPersonalAccount');
-  GIC.isRunnabotPersonalCollaborator = keypather.get(currentOrg, 'poppa.attrs.metadata.hasPersonalRunnabot');
+  GIC.hasRunnabot = keypather.get(currentOrg, 'poppa.attrs.metadata.hasPersonalRunnabot');
   GIC.toggleRunnabotCollaborator = toggleRunnabotCollaborator;
 
   if (!GIC.isPersonalAccount) {
@@ -66,7 +66,7 @@ function GithubIntegrationController(
 
   function toggleRunnabotCollaborator () {
     var personalAccountName = keypather.get(currentOrg, 'poppa.attrs.name');
-    if (GIC.isRunnabotPersonalCollaborator) {
+    if (GIC.hasRunnabot) {
       return isRunnabotPersonalCollaborator(personalAccountName)
         .then(function (reposToInviteRunnabot) {
           return $q.all([invitePersonalRunnabot(reposToInviteRunnabot), updateRunnabotFlag(true)]);
