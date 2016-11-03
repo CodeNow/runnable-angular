@@ -23,6 +23,7 @@ function ahaGuide(
 ) {
   var instances = [];
   var hasRunnabot = false;
+  var ahaModalController;
   function refreshInstances() {
     return fetchInstancesByPod()
       .then(function (fetchedInstances) {
@@ -325,6 +326,9 @@ function ahaGuide(
 
   function endGuide () {
     $rootScope.$broadcast('close-popovers');
+    if (keypather.get(ahaModalController, 'controller.actions.forceClose')) {
+      ahaModalController.controller.actions.forceClose();
+    }
     return patchOrgMetadata(currentOrg.poppa.id(), {
       metadata: {
         hasAha: false
@@ -379,6 +383,8 @@ function ahaGuide(
       controller: 'AhaModalController',
       controllerAs: 'AMC',
       templateUrl: 'ahaModal'
+    }).then(function (modalController) {
+      ahaModalController = modalController;
     });
   }
 
