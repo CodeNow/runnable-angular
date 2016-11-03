@@ -21,6 +21,13 @@
         | Restart
 
       li.popover-list-item(
+        ng-if = "$root.featureFlags.internalDebugging"
+        ng-click = "CSBC.instance.redeploy(angular.noop)"
+      )
+        .icons-status.green
+        | (I) Redeploy
+
+      li.popover-list-item(
         ng-if = "!CSBC.instance.isMigrating() && !CSBC.isTesting() && ['running'].includes(CSBC.instance.status())"
         ng-click = "actions.stopInstance()"
       )
