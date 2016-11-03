@@ -86,6 +86,7 @@ function GithubIntegrationController(
     .then(function () {
       keypather.set(currentOrg, 'poppa.attrs.metadata.hasPersonalRunnabot', isCollaborator);
     })
+    .catch(errs.handler);
   }
 
   $scope.$on('$destroy', function () {
