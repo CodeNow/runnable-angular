@@ -32,7 +32,9 @@ function isRunnabotPersonalCollaborator (
   return function (userName) {
     return fetchInstances()
       .then(function (instances) {
-        var repoCalls = instances.map(function (instance) {
+        var repoCalls = instances.filter(function (instance) {
+          return instance.attrs.masterPod;
+        }).map(function (instance) {
           var repoName = instance.getRepoName();
           return githubRunnabotCheck(userName, repoName);
         });
