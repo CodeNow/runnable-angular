@@ -66,14 +66,16 @@ function GithubIntegrationController(
 
   function toggleRunnabotCollaborator () {
     var personalAccountName = keypather.get(currentOrg, 'poppa.attrs.name');
-    if (GIC.hasRunnabot) {
-      return isRunnabotPersonalCollaborator(personalAccountName)
-        .then(function (reposToInviteRunnabot) {
-          return $q.when([invitePersonalRunnabot(reposToInviteRunnabot), updateRunnabotFlag(true)]);
-        })
-        .catch(errs.handler);
-    }
-    return $q.when([removePersonalRunnabot(personalAccountName), updateRunnabotFlag(false)])
+    $q.when()
+      .then(function () {
+        if (GIC.hasRunnabot) {
+          return isRunnabotPersonalCollaborator(personalAccountName)
+            .then(function (reposToInviteRunnabot) {
+              return $q.all([invitePersonalRunnabot(reposToInviteRunnabot), updateRunnabotFlag(true)]);
+            })
+        }
+        return $q.all([removePersonalRunnabot(personalAccountName), updateRunnabotFlag(false)])
+      })
       .catch(errs.handler);
   }
 
@@ -86,11 +88,9 @@ function GithubIntegrationController(
     .then(function () {
       keypather.set(currentOrg, 'poppa.attrs.metadata.hasPersonalRunnabot', isCollaborator);
     })
-    .catch(errs.handler);
   }
 
   $scope.$on('$destroy', function () {
     $interval.cancel(GIC.pollingInterval);
   });
 }
-
