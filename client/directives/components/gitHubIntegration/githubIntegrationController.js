@@ -66,7 +66,7 @@ function GithubIntegrationController(
 
   function toggleRunnabotCollaborator () {
     var personalAccountName = keypather.get(currentOrg, 'poppa.attrs.name');
-    $q.when()
+    return $q.when()
       .then(function () {
         if (GIC.hasRunnabot) {
           return isRunnabotPersonalCollaborator(personalAccountName)
