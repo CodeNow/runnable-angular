@@ -7,7 +7,9 @@
 .grid-block.vertical.instance(
   ng-if = "!isLoading.main && !$root.featureFlags.containersViewEmptyState"
 )
-  .grid-block.vertical
+  .grid-block.vertical(
+    ng-if = "!$root.featureFlags.demoMultiTier"
+  )
     //- show if server build is being swapped out
       - orange when build is updating or has failed
       - green if build is successfully built

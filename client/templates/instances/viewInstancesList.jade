@@ -1,4 +1,13 @@
-label.grid-block.vertical.label-search
+//- intro to templates
+.grid-block.vertical.well.well-demo(
+  ng-if = "!$root.featureFlags.demoMultiTier"
+  ng-include = "'templateIntroView'"
+)
+
+//- search
+label.grid-block.vertical.label-search(
+  ng-if = "!$root.featureFlags.demoMultiTier"
+)
   input.input.input-xs.input-search(
     ng-model = "CIS.searchBranches"
     placeholder = "Filter by name"
@@ -8,12 +17,12 @@ label.grid-block.vertical.label-search
   )
 
 p.p.text-center.text-gray-light.padding-sm(
-  ng-if = "!CIS.filterMatchedAnything()"
+  ng-if = "!CIS.filterMatchedAnything() && !$root.featureFlags.demoMultiTier"
 ) No containers match this filter.
 
 //- master cluster
 .list-clusters.master-cluster(
-  ng-if = "$root.featureFlags.addBranches && CIS.getFilteredInstanceList().length"
+  ng-if = "$root.featureFlags.addBranches && CIS.getFilteredInstanceList().length && !$root.featureFlags.demoMultiTier"
 )
 
   .grid-block.align-center.list-item-cluster.list-clusters-heading
@@ -52,14 +61,14 @@ p.p.text-center.text-gray-light.padding-sm(
       )
 
 .well.text-center(
-  ng-if = "$root.featureFlags.containersViewEmptyState"
+  ng-if = "$root.featureFlags.containersViewEmptyState && !$root.featureFlags.demoMultiTier"
 ) 😐
   br
   .small You don’t have any templates. Click the button above to create one.
 
 //- branch clusters
 .list-clusters(
-  ng-if = "!$root.featureFlags.containersViewEmptyState"
+  ng-if = "!$root.featureFlags.containersViewEmptyState && !$root.featureFlags.demoMultiTier"
   ng-repeat = "masterInstance in CIS.instancesByPod | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
   ng-show = "CIS.shouldShowParent(masterInstance)"
 )
@@ -159,7 +168,7 @@ p.p.text-center.text-gray-light.padding-sm(
 
 //- non-repo containers (pre auto-isolation)
 .list-clusters(
-  ng-if = "!$root.featureFlags.addBranches"
+  ng-if = "!$root.featureFlags.addBranches && !$root.featureFlags.demoMultiTier"
   ng-show = "nonRepoInstances.length"
 )
   .list-item-cluster(
