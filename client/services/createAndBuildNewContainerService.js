@@ -58,13 +58,13 @@ function createAndBuildNewContainer(
     })
       .then(function (response) {
         return fetchPlan()
-        .then(function (plan) {
-          oldPlanId = keypather.get(plan, 'next.id');
-        })
-        .catch(errs.report) // Report this error, but don't show a popup
-        .then(function () {
-          return response;
-        });
+          .then(function (plan) {
+            oldPlanId = keypather.get(plan, 'next.id');
+          })
+          .catch(errs.report) // Report this error, but don't show a popup
+          .then(function () {
+            return response;
+          });
       })
       .then(function (response) {
         var instanceOptions = {
