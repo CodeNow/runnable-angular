@@ -94,10 +94,8 @@ function createAndBuildNewContainer(
         );
       })
       .then(function (instance) {
-        if (oldPlanId) {
-          // Fire-and-forget, but report any errors
-          alertContainerCreated(oldPlanId).catch(errs.report);
-        }
+        // Fire-and-forget, but report any errors
+        alertContainerCreated(oldPlanId);
         return instance;
       })
       .catch(function (err) {
