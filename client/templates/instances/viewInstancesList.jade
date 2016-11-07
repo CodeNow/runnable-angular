@@ -1,6 +1,6 @@
 //- intro to templates
-.grid-block.vertical.well.well-demo(
-  ng-if = "!$root.featureFlags.demoMultiTier"
+.grid-block.vertical.popover.in.popover-demo.margin-top-xs(
+  ng-if = "$root.featureFlags.demoMultiTier"
   ng-include = "'templateIntroView'"
 )
 

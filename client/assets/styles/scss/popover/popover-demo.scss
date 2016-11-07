@@ -1,0 +1,41 @@
+.popover-demo {
+  color: $gray-dark;
+  position: static;
+
+  .list-item-fork {
+    border-bottom: $input-border solid $gray-lighter;
+    border-top: $input-border solid $gray-lighter;
+    cursor: pointer;
+    padding: $xs;
+
+    &:hover,
+    &:active {
+      color: $gray-darker;
+    }
+
+    + .list-item-fork {
+      margin-top: -1px;
+    }
+
+    .img {
+      margin-right: $xs;
+    }
+  }
+
+  .icons-arrow-forward {
+    opacity: .5;
+  }
+
+  .popover-footer {
+    border: 0;
+    cursor: pointer;
+    margin: 0;
+    opacity: .5;
+    padding: $sm 0;
+
+    &:hover,
+    &:active {
+      color: $gray-darker;
+    }
+  }
+}
