@@ -95,8 +95,8 @@ function createAndBuildNewContainer(
       })
       .then(function (instance) {
         if (oldPlanId) {
-          // Fire-and-forget
-          alertContainerCreated(oldPlanId);
+          // Fire-and-forget, but report any errors
+          alertContainerCreated(oldPlanId).catch(errs.report);
         }
         return instance;
       })
