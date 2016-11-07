@@ -2,9 +2,9 @@
 
 require('app')
   .factory('createAndBuildNewContainer', createAndBuildNewContainer)
-  .factory('alertPlanChanged', alertPlanChanged);
+  .factory('alertContainerCreated', alertContainerCreated);
 
-function alertPlanChanged (
+function alertContainerCreated (
   $q,
   $rootScope,
   fetchPlan
@@ -36,7 +36,7 @@ function alertPlanChanged (
 function createAndBuildNewContainer(
   $q,
   $rootScope,
-  alertPlanChanged,
+  alertContainerCreated,
   createNewInstance,
   eventTracking,
   errs,
@@ -96,7 +96,7 @@ function createAndBuildNewContainer(
       .then(function (instance) {
         if (oldPlanId) {
           // Fire-and-forget
-          alertPlanChanged(oldPlanId);
+          alertContainerCreated(oldPlanId);
         }
         return instance;
       })

@@ -17,7 +17,7 @@ describe('createAndBuildNewContainer'.bold.underline.blue, function () {
     var mockPlan;
     var ctx = {};
     var errsStub;
-    var alertPlanChangedStub;
+    var alertContainerCreatedStub;
 
     function createMasterPods() {
       ctx.masterPods = runnable.newInstances(
@@ -71,9 +71,9 @@ describe('createAndBuildNewContainer'.bold.underline.blue, function () {
         });
         $provide.factory('fetchInstancesByPod', fetchInstancesByPodMock.fetch());
         $provide.factory('createNewInstance', createNewInstanceMock.fetch());
-        $provide.factory('alertPlanChanged', function ($q) {
-          alertPlanChangedStub = sinon.stub().returns($q.when());
-          return alertPlanChangedStub;
+        $provide.factory('alertContainerCreated', function ($q) {
+          alertContainerCreatedStub = sinon.stub().returns($q.when());
+          return alertContainerCreatedStub;
         });
         $provide.factory('fetchPlan', function ($q) {
           mockFetchPlan = sinon.stub().returns($q.when(mockPlan));
@@ -138,7 +138,7 @@ describe('createAndBuildNewContainer'.bold.underline.blue, function () {
         mockFetchPlan.returns($q.when({next: {id: '5678'}}));
         createNewInstanceMock.triggerPromise(instance);
         $rootScope.$digest();
-        sinon.assert.calledOnce(alertPlanChangedStub);
+        sinon.assert.calledOnce(alertContainerCreatedStub);
       });
 
       it('should create a server with isolation', function () {
@@ -293,10 +293,10 @@ describe('createAndBuildNewContainer'.bold.underline.blue, function () {
   });
 
 
-  describe('factory alertPlanChanged'.bold.underline.blue, function () {
+  describe('factory alertContainerCreated'.bold.underline.blue, function () {
     var fetchPlanStub;
     var mockPlan;
-    var alertPlanChanged;
+    var alertContainerCreated;
 
     beforeEach(function () {
       angular.mock.module('app', function ($provide) {
@@ -316,17 +316,17 @@ describe('createAndBuildNewContainer'.bold.underline.blue, function () {
       angular.mock.inject(function (
         _$rootScope_,
         _$q_,
-        _alertPlanChanged_
+        _alertContainerCreated_
       ) {
         $q = _$q_;
         $rootScope = _$rootScope_;
         $rootScope.$broadcast = sinon.stub();
-        alertPlanChanged = _alertPlanChanged_;
+        alertContainerCreated = _alertContainerCreated_;
       });
     });
 
     it('should throw an error if no `oldPlanId` is passed', function () {
-      alertPlanChanged()
+      alertContainerCreated()
       .catch(function (err) {
         expect(err).to.exist;
         expect(err.message).to.match(/no.*oldplanid.*supplied/i);
@@ -335,13 +335,13 @@ describe('createAndBuildNewContainer'.bold.underline.blue, function () {
     });
 
     it('should clear the cache', function () {
-      alertPlanChanged('runnable-starter');
+      alertContainerCreated('runnable-starter');
       $rootScope.$digest();
       sinon.assert.calledOnce(fetchPlanStub.cache.clear);
     });
 
     it('should fetch the plan and broadcast the event', function () {
-      alertPlanChanged('runnable-starter');
+      alertContainerCreated('runnable-starter');
       $rootScope.$digest();
       sinon.assert.calledOnce(fetchPlanStub);
       sinon.assert.calledWith($rootScope.$broadcast, 'alert', {
@@ -353,7 +353,7 @@ describe('createAndBuildNewContainer'.bold.underline.blue, function () {
 
     it('should pass the right boolean to `newPlan`', function () {
       fetchPlanStub.returns($q.when({ next: { id: 'runnable-starter' } }));
-      alertPlanChanged('runnable-starter');
+      alertContainerCreated('runnable-starter');
       $rootScope.$digest();
       sinon.assert.calledWith($rootScope.$broadcast, 'alert', {
         type: sinon.match.any,
@@ -361,7 +361,7 @@ describe('createAndBuildNewContainer'.bold.underline.blue, function () {
         newPlan: false
       });
 
-      alertPlanChanged('runnable-standard');
+      alertContainerCreated('runnable-standard');
       $rootScope.$digest();
       sinon.assert.calledWith($rootScope.$broadcast, 'alert', {
         type: sinon.match.any,
