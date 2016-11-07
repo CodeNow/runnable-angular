@@ -7,6 +7,14 @@
 .grid-block.vertical.instance(
   ng-if = "!isLoading.main && !$root.featureFlags.containersViewEmptyState"
 )
+  .grid-block.justify-center.align-center(
+    ng-if = "$root.featureFlags.demoMultiTier"
+  )
+    img(
+      height = "40"
+      src = "/build/images/runnabear-head-empty.png"
+      width = "40"
+    )
   .grid-block.vertical(
     ng-if = "!$root.featureFlags.demoMultiTier"
   )
