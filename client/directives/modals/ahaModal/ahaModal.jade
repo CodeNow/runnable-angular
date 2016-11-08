@@ -88,11 +88,7 @@
                   xlink:href = "#icons-check"
                 )
             p.grid-block.align-center.aha-text.p.weight-light Step 2: Configure your Application
-          .grid-block.shrink.align-center.aha-overview.list-fork.padding-bottom-sm(
-            ng-class = "{\
-              'grid-2': AMC.accountHasRepos,\
-              'grid-3': !AMC.accountHasRepos\
-            }"
+          .grid-block.shrink.align-center.aha-overview.padding-bottom-sm(
             ng-if = "$root.featureFlags.demoProject && !$root.isLoading.fetchAccountRepos && AMC.isAddingFirstRepo()"
             ng-include = "'setupDemoGuideView'"
           )
