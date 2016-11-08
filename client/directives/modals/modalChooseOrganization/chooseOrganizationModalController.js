@@ -38,9 +38,6 @@ function ChooseOrganizationModalController(
   COMC.demoOrg = null;
 
   COMC.defaultBasePanel = 'orgSelection';
-  if (COMC.allAccounts.models.length === 0) {
-    COMC.defaultBasePanel = 'grantAccess';
-  }
 
   COMC.isInDemoFlow = false;
 

@@ -1,9 +1,9 @@
 .modal-backdrop.in
-  .modal-dialog.modal-xs.modal-invite(
+  .modal-dialog.modal-xs.modal-invite.popover.popover-fixed.in(
     ng-if = "$root.featureFlags.personalAccounts && IMC.showAlternateInviteModal"
     ng-include = "'alternateInviteModalView'"
   )
-    
+
   .modal-dialog.modal-xs.modal-sheet.modal-invite(
     ng-if = "!IMC.showAlternateInviteModal"
   )

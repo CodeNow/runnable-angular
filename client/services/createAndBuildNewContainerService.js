@@ -1,8 +1,29 @@
 'use strict';
 
 require('app')
-  .factory('createAndBuildNewContainer', createAndBuildNewContainer);
+  .factory('createAndBuildNewContainer', createAndBuildNewContainer)
+  .factory('alertContainerCreated', alertContainerCreated);
 
+function alertContainerCreated (
+  $q,
+  $rootScope,
+  fetchPlan
+) {
+  return function (oldPlanId) {
+    if (!oldPlanId) {
+      return $q.reject(new Error('No `oldPlanId` supplied'));
+    }
+    fetchPlan.cache.clear();
+    return fetchPlan()
+      .then(function (newPlan) {
+        $rootScope.$broadcast('alert', {
+          type: 'success',
+          text: 'Container Created',
+          newPlan: newPlan.next.id !== oldPlanId
+        });
+      });
+  };
+}
 
  /**
   * Given a `state` object, create a build for the specified context version
@@ -15,9 +36,11 @@ require('app')
 function createAndBuildNewContainer(
   $q,
   $rootScope,
+  alertContainerCreated,
   createNewInstance,
   currentOrg,
   eventTracking,
+  errs,
   fetchInstancesByPod,
   fetchPlan,
   fetchUser,
@@ -33,11 +56,19 @@ function createAndBuildNewContainer(
     var oldPlanId = null;
     return $q.all({
       masterInstances: fetchInstancesByPod(cachedActiveAccount.oauthName()),
-      user: fetchUser(),
-      plan: fetchPlan()
+      user: fetchUser()
     })
       .then(function (response) {
-        oldPlanId = keypather.get(response, 'plan.next.id');
+        return fetchPlan()
+          .then(function (plan) {
+            oldPlanId = keypather.get(plan, 'next.id');
+          })
+          .catch(errs.report) // Report this error, but don't show a popup
+          .then(function () {
+            return response;
+          });
+      })
+      .then(function (response) {
         var instanceOptions = {
           name: containerName,
           owner: {
@@ -65,25 +96,14 @@ function createAndBuildNewContainer(
         );
       })
       .then(function (instance) {
-        fetchPlan.cache.clear();
+        // Fire-and-forget, but report any errors
         if (keypather.get(currentOrg, 'poppa.attrs.isPersonalAccount') && keypather.get(currentOrg, 'poppa.attrs.metadata.hasPersonalRunnabot')) {
           var githubUsername = keypather.get(currentOrg, 'poppa.attrs.name');
           var repoName = instance.getRepoName();
-          invitePersonalRunnabot({githubUsername: githubUsername, repoName: repoName});
+          invitePersonalRunnabot({githubUsername: githubUsername, repoName: repoName})
+            .catch(errs.handler);
         }
-        return fetchPlan()
-          .then(function (newPlan) {
-            $rootScope.$broadcast('alert', {
-              type: 'success',
-              text: 'Container Created',
-              newPlan: newPlan.next.id !== oldPlanId
-            });
-          })
-          .then(function () {
-            return instance;
-          });
-      })
-      .then(function (instance) {
+        alertContainerCreated(oldPlanId);
         return instance;
       })
       .catch(function (err) {

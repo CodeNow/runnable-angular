@@ -24,15 +24,15 @@ form.label-row(
     required
     spellcheck = "false"
   )
-  button.btn.btn-sm.white.float-right(
+  button.grid-block.align-center.btn.btn-sm.white.float-right(
     ng-disabled = "!newDockerfile && (dockerfilePathForm.$pending || dockerfilePathForm.$invalid)"
     ng-click = "addDockerfileFomPath(newDockerfile)"
   )
+    span Add Dockerfile
     .spinner-wrapper.spinner-sm.spinner-gray.in(
       ng-if = "dockerfilePathForm.$pending"
       ng-include = "'spinner'"
     )
-    span Add Dockerfile
 
 .invalid-message(
   ng-if = "dockerfilePathForm.$invalid && !dockerfilePathForm.$pristine"
