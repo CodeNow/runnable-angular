@@ -95,13 +95,13 @@ function InviteModalController(
 
   IMC.getTextForInviteModal = function () {
     if (IMC.isPersonalAccount) {
-      return 'We only support having teammates with GitHub teams, but it looks like you\'re using a personal account.';
+      return 'Only GitHub organizations can have multiple teammates on Runnable, but it looks like you’re using a personal account';
     }
     if (IMC.orgMembers.all.length === 1) {
-      return 'You\'re the only one in this team. Add teammates to your GitHub team before inviting them to Runnable.';
+      return 'You’re the only one in this team. Add teammates to your GitHub team before inviting them to Runnable.';
     }
     if (IMC.invitedAll && IMC.orgMembers.all.length > 1) {
-      return 'You\'re amazing! You\'ve already invited everyone on your GitHub team to Runnable.';
+      return 'You’re amazing! You’ve already invited everyone on your GitHub team to Runnable.';
     }
   };
 }
