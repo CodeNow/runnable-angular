@@ -44,9 +44,14 @@
     opacity: .5;
     padding: $sm 0;
 
-    &:hover,
-    &:active {
+    &:hover:not(.disabled),
+    &:active:not(.disabled) {
       color: $gray-darker;
+    }
+
+    &.disabled {
+      cursor: default;
+      opacity: .5;
     }
   }
 }

@@ -49,8 +49,8 @@ ul.grid-block.vertical(
     )
   li.grid-block.align-center.list-item-fork(
     data-event-name = "Clicked: Start Demo (Python)"
+    ng-class = "{'disabled' :$root.isLoading.startDemo}"
     ng-click = "AMC.startDemo('python')"
-    ng-disabled = "$root.isLoading.startDemo"
   )
     img.img(
       height = "24"
@@ -72,8 +72,8 @@ ul.grid-block.vertical(
     )
   li.grid-block.align-center.list-item-fork(
     data-event-name = "Clicked: Start Demo (PHP)"
+    ng-class = "{'disabled' :$root.isLoading.startDemo}"
     ng-click = "AMC.startDemo('php')"
-    ng-disabled = "$root.isLoading.startDemo"
   )
     img.img(
       height = "24"

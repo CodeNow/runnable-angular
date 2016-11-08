@@ -3,7 +3,9 @@ p.grid-block.shrink.p.weight-light.padding-sm Launch your first environment by f
   ng-include = "'setupDemoGuideView'"
 )
 
-.grid-block.justify-center.align-center.shrink.weight-light.popover-footer Start without an example
+.grid-block.justify-center.align-center.shrink.weight-light.popover-footer(
+  ng-class = "{'disabled' :$root.isLoading.startDemo}"
+) Start without an example
   svg.grid-block.shrink.iconnables.icons-arrow-forward
     use(
       xlink:href = "#icons-arrow-down"
