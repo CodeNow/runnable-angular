@@ -238,15 +238,15 @@ describe('InviteModalController'.bold.underline.blue, function () {
     it('should select the correct caption for a given scenario', function () {
       IMC.isPersonalAccount = true;
       var message = IMC.getTextForInviteModal();
-      expect(message).to.equal('We only support having teammates with GitHub teams, but it looks like you\'re using a personal account.');
+      expect(message).to.equal('Only GitHub organizations can have multiple teammates on Runnable, but it looks like you’re using a personal account.');
       IMC.isPersonalAccount = false;
       IMC.orgMembers.all = [1];
       var message = IMC.getTextForInviteModal();
-      expect(message).to.equal('You\'re the only one in this team. Add teammates to your GitHub team before inviting them to Runnable.');
+      expect(message).to.equal('You’re the only one in this team. Add teammates to your GitHub team before inviting them to Runnable.');
       IMC.orgMembers.all = [1, 2];
       IMC.invitedAll = true;
       var message = IMC.getTextForInviteModal();
-      expect(message).to.equal('You\'re amazing! You\'ve already invited everyone on your GitHub team to Runnable.');
+      expect(message).to.equal('You’re amazing! You’ve already invited everyone on your GitHub team to Runnable.');
     });
   });
 });
