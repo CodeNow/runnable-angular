@@ -95,7 +95,7 @@ function InviteModalController(
 
   IMC.getTextForInviteModal = function () {
     if (IMC.isPersonalAccount) {
-      return 'Only GitHub organizations can have multiple teammates on Runnable, but it looks like you’re using a personal account';
+      return 'Only GitHub organizations can have multiple teammates on Runnable, but it looks like you’re using a personal account.';
     }
     if (IMC.orgMembers.all.length === 1) {
       return 'You’re the only one in this team. Add teammates to your GitHub team before inviting them to Runnable.';
