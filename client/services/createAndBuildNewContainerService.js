@@ -97,11 +97,10 @@ function createAndBuildNewContainer(
       })
       .then(function (instance) {
         // Fire-and-forget, but report any errors
-        if (keypather.get(currentOrg, 'poppa.attrs.isPersonalAccount') && keypather.get(currentOrg, 'poppa.attrs.metadata.hasPersonalRunnabot')) {
+        if (keypather.get(currentOrg, 'poppa.attrs.isPersonalAccount') && keypather.get(currentOrg, 'poppa.attrs.prBotEnabled')) {
           var githubUsername = keypather.get(currentOrg, 'poppa.attrs.name');
           var repoName = instance.getRepoName();
-          invitePersonalRunnabot({githubUsername: githubUsername, repoName: repoName})
-            .catch(errs.handler);
+          invitePersonalRunnabot({githubUsername: githubUsername, repoName: repoName});
         }
         alertContainerCreated(oldPlanId);
         return instance;
