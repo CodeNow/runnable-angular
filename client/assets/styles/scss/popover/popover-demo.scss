@@ -8,9 +8,20 @@
     cursor: pointer;
     padding: $xs;
 
-    &:hover,
-    &:active {
+    &:hover:not(.disabled),
+    &:active:not(.disabled) {
       color: $gray-darker;
+    }
+
+    &.disabled {
+      cursor: default;
+      opacity: .5;
+
+      .spinner-wrapper {
+        align-items: center;
+        height: 24px;
+        width: 24px;
+      }
     }
 
     + .list-item-fork {
