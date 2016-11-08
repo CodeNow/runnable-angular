@@ -81,9 +81,7 @@ function GithubIntegrationController(
 
   function updateRunnabotFlag (isCollaborator) {
     return patchOrgMetadata(currentOrg.poppa.id(), {
-      metadata: {
-        hasPersonalRunnabot: isCollaborator
-      }
+      prBotEnabled: isCollaborator
     })
     .then(function () {
       keypather.set(currentOrg, 'poppa.attrs.metadata.hasPersonalRunnabot', isCollaborator);
