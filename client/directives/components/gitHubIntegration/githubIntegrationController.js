@@ -25,7 +25,7 @@ function GithubIntegrationController(
   var org = keypather.get(currentOrg, 'github.attrs.login');
   GIC.organizationName = org;
   GIC.isPersonalAccount = keypather.get(currentOrg, 'poppa.attrs.isPersonalAccount');
-  GIC.hasRunnabot = keypather.get(currentOrg, 'poppa.attrs.metadata.hasPersonalRunnabot');
+  GIC.hasRunnabot = keypather.get(currentOrg, 'poppa.attrs.prBotEnabled');
   GIC.toggleRunnabotCollaborator = toggleRunnabotCollaborator;
 
   if (!GIC.isPersonalAccount) {
@@ -72,9 +72,9 @@ function GithubIntegrationController(
           return isRunnabotPersonalCollaborator(personalAccountName)
             .then(function (reposToInviteRunnabot) {
               return $q.all([invitePersonalRunnabot(reposToInviteRunnabot), updateRunnabotFlag(true)]);
-            })
+            });
         }
-        return $q.all([removePersonalRunnabot(personalAccountName), updateRunnabotFlag(false)])
+        return $q.all([removePersonalRunnabot(personalAccountName), updateRunnabotFlag(false)]);
       })
       .catch(errs.handler);
   }
@@ -84,8 +84,8 @@ function GithubIntegrationController(
       prBotEnabled: isCollaborator
     })
     .then(function () {
-      keypather.set(currentOrg, 'poppa.attrs.metadata.hasPersonalRunnabot', isCollaborator);
-    })
+      keypather.set(currentOrg, 'poppa.attrs.prBotEnabled', isCollaborator);
+    });
   }
 
   $scope.$on('$destroy', function () {
