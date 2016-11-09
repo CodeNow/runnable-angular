@@ -14,15 +14,43 @@ function GithubIntegrationController(
   errs,
   fetchGithubUserIsAdminOfOrg,
   isRunnabotPartOfOrg,
+  isRunnabotPersonalCollaborator,
+  invitePersonalRunnabot,
   keypather,
-  loading
+  loading,
+  patchOrgMetadata,
+  removePersonalRunnabot
 ) {
   var GIC = this;
   var org = keypather.get(currentOrg, 'github.attrs.login');
   GIC.organizationName = org;
   GIC.isPersonalAccount = keypather.get(currentOrg, 'poppa.attrs.isPersonalAccount');
+  GIC.hasRunnabot = keypather.get(currentOrg, 'poppa.attrs.prBotEnabled');
+  GIC.toggleRunnabotCollaborator = toggleRunnabotCollaborator;
 
-  function checkRunnabot() {
+  if (!GIC.isPersonalAccount) {
+    loading.reset('checkRunnabot');
+    loading('checkRunnabot', true);
+    $q.all({
+      isAdmin: fetchGithubUserIsAdminOfOrg(org),
+      hasRunnabot: checkRunnabot()
+    })
+      .then(function (results) {
+        GIC.isAdmin = results.isAdmin;
+      })
+      .catch(errs.handler)
+      .finally(function () {
+        loading('checkRunnabot', false);
+      });
+  }
+
+  GIC.pollCheckRunnabot = function () {
+    if (!GIC.pollingInterval) {
+      GIC.pollingInterval = $interval(checkRunnabot, 2000);
+    }
+  };
+
+  function checkRunnabot () {
     return isRunnabotPartOfOrg(org)
       .then(function (hasRunnabot) {
         GIC.hasRunnabot = hasRunnabot;
@@ -36,26 +64,31 @@ function GithubIntegrationController(
       .catch(errs.handler);
   }
 
-  loading.reset('checkRunnabot');
-  loading('checkRunnabot', true);
-  $q.all({
-    isAdmin: fetchGithubUserIsAdminOfOrg(org),
-    hasRunnabot: checkRunnabot()
-  })
-    .then(function (results) {
-      GIC.isAdmin = results.isAdmin;
-    })
-    .catch(errs.handler)
-    .finally(function () {
-      loading('checkRunnabot', false);
-    });
+  function toggleRunnabotCollaborator () {
+    var personalAccountName = keypather.get(currentOrg, 'poppa.attrs.name');
+    return $q.when()
+      .then(function () {
+        if (GIC.hasRunnabot) {
+          return isRunnabotPersonalCollaborator(personalAccountName)
+            .then(function (reposToInviteRunnabot) {
+              return $q.all([invitePersonalRunnabot(reposToInviteRunnabot), updateRunnabotFlag(true)]);
+            });
+        }
+        return $q.all([removePersonalRunnabot(personalAccountName), updateRunnabotFlag(false)]);
+      })
+      .catch(errs.handler);
+  }
 
-  GIC.pollCheckRunnabot = function () {
-    GIC.pollingInterval = $interval(checkRunnabot, 2000);
-  };
+  function updateRunnabotFlag (isCollaborator) {
+    return patchOrgMetadata(currentOrg.poppa.id(), {
+      prBotEnabled: isCollaborator
+    })
+    .then(function () {
+      keypather.set(currentOrg, 'poppa.attrs.prBotEnabled', isCollaborator);
+    });
+  }
 
   $scope.$on('$destroy', function () {
     $interval.cancel(GIC.pollingInterval);
   });
 }
-

@@ -72,19 +72,19 @@ a.grid-block.align-center.shrink.btn.btn-md.green(
 //- button for personal accounts
 label.grid-block.shrink.align-center.label.well.gray.padding-xs(
   ng-hide = "$root.isLoading.checkRunnabot || !GIC.isPersonalAccount || !$root.featureFlags.personalAccountsPhase2"
-  ng-init = "personalRunnabot = false"
 )
   .grid-content Enable PR Notifications
   .grid-content.shrink.toggle-wrapper
     input.toggle-input(
-      ng-click = "personalRunnabot = !personalRunnabot"
+      ng-model = "GIC.hasRunnabot"
+      ng-click = "GIC.toggleRunnabotCollaborator()"
       type = "checkbox"
     )
     .toggle-group.toggle-sm
 
 //- disclaimer for personal accounts
 .small.text-gray.text-center.margin-top-xxs(
-  ng-hide = "$root.isLoading.checkRunnabot || personalRunnabot || !GIC.isPersonalAccount || !$root.featureFlags.personalAccountsPhase2"
+  ng-hide = "$root.isLoading.checkRunnabot || GIC.hasRunnabot"
 ) Our GitHub bot will join your repos as a collaborator.
   //- hiding until praful writes his doc
   //- br
@@ -92,7 +92,7 @@ label.grid-block.shrink.align-center.label.well.gray.padding-xs(
 
 //- show after successfully inviting runnabot (for both orgs and personal accounts)
 .grid-block.align-center.shrink.runnabot-success(
-  ng-show = "(!GIC.isPersonalAccount && GIC.hasRunnabot && !$root.isLoading.checkRunnabot) || $root.featureFlags.isPersonalAccount && personalRunnabot"
+  ng-show = "GIC.hasRunnabot && !$root.isLoading.checkRunnabot"
 )
   img.grid-content.shrink.img(
     height = "36"
@@ -103,13 +103,13 @@ label.grid-block.shrink.align-center.label.well.gray.padding-xs(
     .arrow
     //- show spinner while adding runnabot for personal accounts
     .spinner-wrapper.spinner-sm.spinner-gray.padding-xxs(
-      ng-if = "loading"
+      ng-if = "$root.isLoading.checkPersonalRunnabot"
       ng-include = "'spinner'"
     )
     p.small.text-gray.text-left Thanks! See you soon on your pull requests.
 
 button.btn.btn-md.white(
-  ng-if = "$root.featureFlags.personalAccounts && GIC.isPersonalAccount && !$root.isLoading.checkRunnabot"
+  ng-if = "$root.featureFlags.personalAccounts && !$root.featureFlags.personalAccountsPhase2 && GIC.isPersonalAccount && !$root.isLoading.checkRunnabot"
   ui-sref = "orgSelect"
   ui-sref-opts = "{reload: true}"
 ) Switch to a Team

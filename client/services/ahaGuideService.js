@@ -32,10 +32,6 @@ function ahaGuide(
   }
   function refreshHasRunnabot() {
     if (hasRunnabot) { return true; }
-    if (keypather.get(currentOrg, 'poppa.attrs.isPersonalAccount') && getCurrentStep() === 4) {
-      endGuide();
-      return;
-    }
     return isRunnabotPartOfOrg(keypather.get(currentOrg, 'github.attrs.login'))
       .then(function (runnabot) {
         if (runnabot && isInGuide()) {
@@ -309,10 +305,6 @@ function ahaGuide(
     return keypather.get(currentOrg, 'poppa.attrs.metadata.hasConfirmedSetup');
   }
 
-  function isPersonalAccount () {
-    return keypather.get(currentOrg, 'poppa.attrs.isPersonalAccount');
-  }
-
   function updateCurrentOrg (updatedOrg) {
     if (keypather.has(updatedOrg, 'metadata.hasAha') && keypather.has(updatedOrg, 'metadata.hasConfirmedSetup')) {
       currentOrg.poppa.attrs.metadata = updatedOrg.metadata;
@@ -407,7 +399,6 @@ function ahaGuide(
     hasDemoRepo: hasDemoRepo,
     hasRunnabot: refreshHasRunnabot,
     isInGuide: isInGuide,
-    isPersonalAccount: isPersonalAccount,
     resetGuide: resetGuide,
     skipBranchMilestone: skipBranchMilestone,
     stepList: stepList,

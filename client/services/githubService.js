@@ -23,11 +23,11 @@ function github(
         options.headers = options.headers || {};
         options.headers['X-CSRF-TOKEN'] = undefined;
         return $http(options)
-          .then(function (respoonse) {
-            if (respoonse.status > 300) {
-              return $q.reject(respoonse.data);
+          .then(function (response) {
+            if (response.status > 300) {
+              return $q.reject(response.data);
             }
-            return respoonse.data;
+            return response.data;
           });
       });
   }
@@ -43,6 +43,7 @@ function github(
         };
       }
       return makeGhRequest(ghRequest);
-    }
+    },
+    makeGhRequest: makeGhRequest
   };
 }
