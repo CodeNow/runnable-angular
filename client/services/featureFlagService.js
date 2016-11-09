@@ -23,13 +23,14 @@ function featureFlags(
     containersViewTemplateControls: false,
     containersViewEmptyState: false,
     contingencyPlan: false,
-    demoProject: true,
     demoFlowPhase2: true,
+    demoMultiTier: false,
+    demoProject: true,
     dockerfileMirroringMultiple: false,
     editAnyInstance: false,
     emptyFolder: false, // shows empty folder markup
-    fullScreen: false,  // toggles full screen
-    fullScreenToggle: false,  // toggles the button that toggles full screen
+    fullScreen: false, // toggles full screen
+    fullScreenToggle: false, // toggles the button that toggles full screen
     gitHubIntegration: true,
     hostnameNotifications: false,
     hostnameTool: false,

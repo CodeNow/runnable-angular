@@ -1,0 +1,70 @@
+.popover-demo {
+  color: $gray-dark;
+  left: 0;
+  margin: $xs;
+  top: 0;
+  transition: opacity .15s ease-in-out, transform .3s ease-in-out;
+
+  &.ng-leave {
+    opacity: 1;
+    transform: rotate3d(0,0,1,0) scale3d(1,1,1) translate3d(0,0,0);
+  }
+
+  &.ng-leave-active {
+    opacity: 0;
+    transform: rotate3d(0,0,1,-9deg) scale3d(.95,.95,1) translate3d(-50px,0,0);
+  }
+
+  .list-item-fork {
+    border-bottom: $input-border solid $gray-lighter;
+    border-top: $input-border solid $gray-lighter;
+    cursor: pointer;
+    padding: $xs;
+
+    &:hover:not(.disabled),
+    &:active:not(.disabled) {
+      color: $gray-darker;
+    }
+
+    &.disabled {
+      cursor: default;
+      opacity: .5;
+
+      .spinner-wrapper {
+        align-items: center;
+        height: 24px;
+        width: 24px;
+      }
+    }
+
+    + .list-item-fork {
+      margin-top: -$input-border;
+    }
+
+    .img {
+      margin-right: $xs;
+    }
+  }
+
+  .icons-arrow-forward {
+    opacity: .5;
+  }
+
+  .popover-footer {
+    border: 0;
+    cursor: pointer;
+    margin: 0;
+    opacity: .5;
+    padding: $sm 0;
+
+    &:hover:not(.disabled),
+    &:active:not(.disabled) {
+      color: $gray-darker;
+    }
+
+    &.disabled {
+      cursor: default;
+      opacity: .5;
+    }
+  }
+}

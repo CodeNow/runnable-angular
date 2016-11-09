@@ -1,171 +1,181 @@
-label.grid-block.vertical.label-search
-  input.input.input-xs.input-search(
-    ng-model = "CIS.searchBranches"
-    placeholder = "Filter by name"
-    required
-    select-on = "showFilter"
-    type = "search"
-  )
-
-p.p.text-center.text-gray-light.padding-sm(
-  ng-if = "!CIS.filterMatchedAnything()"
-) No containers match this filter.
-
-//- master cluster
-.list-clusters.master-cluster(
-  ng-if = "$root.featureFlags.addBranches && CIS.getFilteredInstanceList().length"
+//- intro to templates
+.grid-block.vertical.popover.in.popover-demo.js-animate(
+  ng-if = "$root.featureFlags.demoMultiTier && !$root.featureFlags.containersViewEmptyState"
+  ng-include = "'templateIntroView'"
 )
 
-  .grid-block.align-center.list-item-cluster.list-clusters-heading
-    span.grid-content.text-overflow Templates
-    //- div instead of button so safari doesn’t get weird with alignment
-    .grid-block.align-center.shrink.btn.btn-xxs.white(
-      ng-class = "{'active': state.active}"
-      ng-if = "$root.featureFlags.containersViewTemplateControls"
-      pop-over
-      pop-over-options = "{\"top\":-30,\"left\":114}"
-      pop-over-template = "templateMenuPopoverView"
-    ) Create Template
-      svg.iconnables.icons-arrow-forward
-        use(
-          xlink:href = "#icons-arrow-down"
-        )
-
-  .list-item-cluster(
-    ng-if = "!$root.featureFlags.containersViewEmptyState"
-  )
-    .grid-block.list-containers.vertical.text-overflow.open
-      //- master repository containers
-      .grid-block(
-        active-account = "CIS.activeAccount"
-        instance = "masterInstance"
-        instance-navigation
-        master-instance = "masterInstance"
-        ng-repeat = "masterInstance in CIS.getFilteredInstanceList() | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
-      )
-      //- master non-repository containers
-      .grid-block(
-        active-account = "CIS.activeAccount"
-        instance = "masterInstance"
-        instance-navigation
-        ng-repeat = "masterInstance in CIS.getFilteredInstanceList() | instanceHasRepo:false | orderBy: ['attrs.name'] as nonRepoInstances track by masterInstance.attrs.name"
-      )
-
-.well.text-center(
-  ng-if = "$root.featureFlags.containersViewEmptyState"
-) 😐
-  br
-  .small You don’t have any templates. Click the button above to create one.
-
-//- branch clusters
-.list-clusters(
-  ng-if = "!$root.featureFlags.containersViewEmptyState"
-  ng-repeat = "masterInstance in CIS.instancesByPod | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
-  ng-show = "CIS.shouldShowParent(masterInstance)"
+.grid-block.shrink.vertical.js-animate(
+  ng-if = "!$root.featureFlags.demoMultiTier || $root.featureFlags.containersViewEmptyState"
 )
-
-  //- cluster list heading
-  .grid-block.align-center.list-item-cluster.list-clusters-heading
-    //- repository name
-    span.grid-content.text-overflow(
-      title = "{{masterInstance.getName()}}"
-    ) {{masterInstance.getName()}}
-    .grid-block.align-center.shrink.btn.btn-xxs.white(
-      data-event-name = "Clicked Add Branch button"
-      ng-if = "$root.featureFlags.addBranches"
-      ng-click = "CIS.popInstanceOpen(masterInstance)"
-      pop-over
-      pop-over-controller = "CIS"
-      pop-over-options = "{\"verticallyCentered\":true,\"left\":87,\"pinToViewPort\":true}"
-      pop-over-template = "branchMenuPopoverView"
-      pop-over-data = "'branchSelect'"
-    ) Add Branch
-      //- '+' button for adding branches and configuring clusters
-      svg.iconnables.icons-arrow-forward
-        use(
-          xlink:href = "#icons-arrow-down"
-        )
-      .stepOneUncloseablePopover(
-        ng-if = "$root.featureFlags.aha &&\
-          $index === 0 &&\
-          CIS.shouldShowPopover &&\
-          !CIS.$storage.instanceListIsClosed &&\
-          CIS.shouldShowParent(masterInstance) &&\
-          (CIS.isAddingFirstBranch() && !masterInstance.attrs.hasAddedBranches)\
-       "
-        pop-over
-        pop-over-active = "CIS.shouldShowPopover"
-        pop-over-controller = "CIS"
-        pop-over-options = "{\"verticallyCentered\":true,\"left\":6}"
-        pop-over-template = "introAddBranch"
-        pop-over-trigger = "activeAttr"
-        pop-over-uncloseable = "CIS.isAddingFirstBranch()"
-        pop-over-data = "'ahaTemplate'"
-      )
-
-      .autoForkPopover(
-        ng-if = "$root.featureFlags.aha &&\
-          $index === 0 &&\
-          !CIS.$storage.instanceListIsClosed &&\
-          CIS.shouldShowParent(masterInstance) &&\
-          !CIS.isAddingFirstBranch() &&\
-          (CIS.showAutofork && masterInstance.attrs.shouldNotAutofork)\
-       "
-        pop-over
-        pop-over-active = "CIS.showAutofork"
-        pop-over-controller = "CIS"
-        pop-over-options = "{\"verticallyCentered\":true,\"left\":6}"
-        pop-over-template = "introAddBranch"
-        pop-over-trigger = "activeAttr"
-        pop-over-data = "'ahaTemplate'"
-      )
-
-    //- repo config button (pre auto-isolation)
-    svg.grid-block.shrink.iconnables.icons-gear(
-      ng-click = "CIS.editInstance(masterInstance)"
-      ng-if = "!$root.featureFlags.addBranches"
-      title = "Configure Template"
+  //- search
+  label.grid-block.shrink.vertical.label-search
+    input.input.input-xs.input-search(
+      ng-model = "CIS.searchBranches"
+      placeholder = "Filter by name"
+      required
+      select-on = "showFilter"
+      type = "search"
     )
-      use(
-        xlink:href = "#icons-gear"
-      )
 
-  //- wraps the default branch container for a repo (pre auto-isolation)
-  .grid-block.align-center.list-item-cluster(
-    active-account = "CIS.activeAccount"
-    instance = "masterInstance"
-    instance-navigation
-    master-instance = "masterInstance"
-    ng-if = "!$root.featureFlags.addBranches && CIS.filterMasterInstance(masterInstance)"
+  p.grid-block.shrink.p.align-center.text-gray-light.padding-sm(
+    ng-if = "!CIS.filterMatchedAnything()"
+  ) No containers match this filter.
+
+  //- master cluster
+  .grid-block.shrink.vertical.list-clusters.master-cluster(
+    ng-if = "$root.featureFlags.addBranches && CIS.getFilteredInstanceList().length"
   )
 
-  //- wraps auto-isolated clusters
-  .list-item-cluster(
-    active-account = "CIS.activeAccount"
-    instance = "childInstance"
-    instance-navigation
-    master-instance = "masterInstance"
-    ng-repeat = "childInstance in masterInstance.children.models | orderBy: ['attrs.name']"
-    ng-show = "CIS.shouldShowChild(childInstance)"
-  )
+    .grid-block.shrink.align-center.list-item-cluster.list-clusters-heading
+      span.grid-content.text-overflow Templates
+      //- div instead of button so safari doesn’t get weird with alignment
+      .grid-block.align-center.shrink.btn.btn-xxs.white(
+        ng-class = "{'active': state.active}"
+        ng-if = "$root.featureFlags.containersViewTemplateControls"
+        pop-over
+        pop-over-options = "{\"top\":-30,\"left\":114}"
+        pop-over-template = "templateMenuPopoverView"
+      ) Create Template
+        svg.iconnables.icons-arrow-forward
+          use(
+            xlink:href = "#icons-arrow-down"
+          )
 
-  //- nav list filter
-  .btn.btn-xxs.btn-more-containers(
-    ng-if = "$root.featureFlags.navListFilter"
-    pop-over
-    pop-over-options = "{\"top\":-33,\"left\":215}"
-    pop-over-template = "viewMoreContainersPopover"
-  ) 8 more…
+    .grid-block.shrink.list-item-cluster(
+      ng-if = "!$root.featureFlags.containersViewEmptyState"
+    )
+      .grid-block.list-containers.vertical.text-overflow.open
+        //- master repository containers
+        .grid-block(
+          active-account = "CIS.activeAccount"
+          instance = "masterInstance"
+          instance-navigation
+          master-instance = "masterInstance"
+          ng-repeat = "masterInstance in CIS.getFilteredInstanceList() | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
+        )
+        //- master non-repository containers
+        .grid-block(
+          active-account = "CIS.activeAccount"
+          instance = "masterInstance"
+          instance-navigation
+          ng-repeat = "masterInstance in CIS.getFilteredInstanceList() | instanceHasRepo:false | orderBy: ['attrs.name'] as nonRepoInstances track by masterInstance.attrs.name"
+        )
 
-//- non-repo containers (pre auto-isolation)
-.list-clusters(
-  ng-if = "!$root.featureFlags.addBranches"
-  ng-show = "nonRepoInstances.length"
-)
-  .list-item-cluster(
-    active-account = "CIS.activeAccount"
-    instance = "masterInstance"
-    instance-navigation
-    ng-repeat = "masterInstance in CIS.instancesByPod | instanceHasRepo:false | orderBy: ['attrs.name'] as nonRepoInstances track by masterInstance.attrs.name"
+  .grid-block.vertical.shrink.well.empty.text-center(
+    ng-if = "$root.featureFlags.containersViewEmptyState"
+  ) 👆
+    br
+    .small {{$root.featureFlags.demoMultiTier ? 'First, use the button above to create your first template.' : 'You don’t have any templates. Click the button above to create one.'}}
+
+  //- branch clusters
+  .grid-block.vertical.shrink.list-clusters(
+    ng-if = "!$root.featureFlags.containersViewEmptyState"
+    ng-repeat = "masterInstance in CIS.instancesByPod | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
     ng-show = "CIS.shouldShowParent(masterInstance)"
   )
+
+    //- cluster list heading
+    .grid-block.align-center.list-item-cluster.list-clusters-heading
+      //- repository name
+      span.grid-content.text-overflow(
+        title = "{{masterInstance.getName()}}"
+      ) {{masterInstance.getName()}}
+      .grid-block.align-center.shrink.btn.btn-xxs.white(
+        data-event-name = "Clicked Add Branch button"
+        ng-if = "$root.featureFlags.addBranches"
+        ng-click = "CIS.popInstanceOpen(masterInstance)"
+        pop-over
+        pop-over-controller = "CIS"
+        pop-over-options = "{\"verticallyCentered\":true,\"left\":87,\"pinToViewPort\":true}"
+        pop-over-template = "branchMenuPopoverView"
+        pop-over-data = "'branchSelect'"
+      ) Add Branch
+        //- '+' button for adding branches and configuring clusters
+        svg.iconnables.icons-arrow-forward
+          use(
+            xlink:href = "#icons-arrow-down"
+          )
+        .stepOneUncloseablePopover(
+          ng-if = "$root.featureFlags.aha &&\
+            $index === 0 &&\
+            CIS.shouldShowPopover &&\
+            !CIS.$storage.instanceListIsClosed &&\
+            CIS.shouldShowParent(masterInstance) &&\
+            (CIS.isAddingFirstBranch() && !masterInstance.attrs.hasAddedBranches)\
+         "
+          pop-over
+          pop-over-active = "CIS.shouldShowPopover"
+          pop-over-controller = "CIS"
+          pop-over-options = "{\"verticallyCentered\":true,\"left\":6}"
+          pop-over-template = "introAddBranch"
+          pop-over-trigger = "activeAttr"
+          pop-over-uncloseable = "CIS.isAddingFirstBranch()"
+          pop-over-data = "'ahaTemplate'"
+        )
+
+        .autoForkPopover(
+          ng-if = "$root.featureFlags.aha &&\
+            $index === 0 &&\
+            !CIS.$storage.instanceListIsClosed &&\
+            CIS.shouldShowParent(masterInstance) &&\
+            !CIS.isAddingFirstBranch() &&\
+            (CIS.showAutofork && masterInstance.attrs.shouldNotAutofork)\
+         "
+          pop-over
+          pop-over-active = "CIS.showAutofork"
+          pop-over-controller = "CIS"
+          pop-over-options = "{\"verticallyCentered\":true,\"left\":6}"
+          pop-over-template = "introAddBranch"
+          pop-over-trigger = "activeAttr"
+          pop-over-data = "'ahaTemplate'"
+        )
+
+      //- repo config button (pre auto-isolation)
+      svg.grid-block.shrink.iconnables.icons-gear(
+        ng-click = "CIS.editInstance(masterInstance)"
+        ng-if = "!$root.featureFlags.addBranches"
+        title = "Configure Template"
+      )
+        use(
+          xlink:href = "#icons-gear"
+        )
+
+    //- wraps the default branch container for a repo (pre auto-isolation)
+    .grid-block.align-center.list-item-cluster(
+      active-account = "CIS.activeAccount"
+      instance = "masterInstance"
+      instance-navigation
+      master-instance = "masterInstance"
+      ng-if = "!$root.featureFlags.addBranches && CIS.filterMasterInstance(masterInstance)"
+    )
+
+    //- wraps auto-isolated clusters
+    .list-item-cluster(
+      active-account = "CIS.activeAccount"
+      instance = "childInstance"
+      instance-navigation
+      master-instance = "masterInstance"
+      ng-repeat = "childInstance in masterInstance.children.models | orderBy: ['attrs.name']"
+      ng-show = "CIS.shouldShowChild(childInstance)"
+    )
+
+    //- nav list filter
+    .btn.btn-xxs.btn-more-containers(
+      ng-if = "$root.featureFlags.navListFilter"
+      pop-over
+      pop-over-options = "{\"top\":-33,\"left\":215}"
+      pop-over-template = "viewMoreContainersPopover"
+    ) 8 more…
+
+  //- non-repo containers (pre auto-isolation)
+  .grid-block.vertical.shrink.list-clusters(
+    ng-if = "!$root.featureFlags.addBranches"
+    ng-show = "nonRepoInstances.length"
+  )
+    .list-item-cluster(
+      active-account = "CIS.activeAccount"
+      instance = "masterInstance"
+      instance-navigation
+      ng-repeat = "masterInstance in CIS.instancesByPod | instanceHasRepo:false | orderBy: ['attrs.name'] as nonRepoInstances track by masterInstance.attrs.name"
+      ng-show = "CIS.shouldShowParent(masterInstance)"
+    )
