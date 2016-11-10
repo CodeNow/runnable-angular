@@ -68,10 +68,8 @@
       opacity: .5;
     }
   }
-}
 
-.demo-branch {
-
+  // add branch step
   .instructions,
   .monospace {
     background: $gray-dark;
@@ -83,9 +81,18 @@
     padding: 0 $sm $sm;
   }
 
+  // 'copy' button
   .btn-xxs {
     background: $gray;
     color: $white;
     font-size: 13px;
+
+    &:hover {
+      background: rgba($gray,.7);
+    }
+
+    &:active {
+      background: rgba($gray,.5);
+    }
   }
 }
