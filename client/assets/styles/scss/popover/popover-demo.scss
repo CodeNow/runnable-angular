@@ -75,7 +75,7 @@
   .instructions,
   .monospace {
     background: $gray-dark;
-    color: $white;
+    color: $gray-lighter;
   }
 
   .monospace {
@@ -85,6 +85,7 @@
 
   .btn-xxs {
     background: $gray;
+    color: $white;
     font-size: 13px;
   }
 }

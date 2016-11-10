@@ -1,10 +1,19 @@
-p.padding-sm Launch a new environment by creating a branch.
-  .small.padding-sm.instructions
-    | Paste in your terminal:
-    .btn.btn-xxs.float-right Copy
-  .monospace.padding-sm.padding-top-none
-    | git clone https://github.com/CodeNow/node-starter.git
-    | cd node-starter
-    | git checkout -b my-branch
-    | git push origin my-branch
-  .small.link.padding-sm.text-gray.text-right Do It for Me
+p.padding-sm Now launch an environment by pushing a branch to GitHub.
+.small.padding-sm.instructions
+  | Try in your terminal:
+  .btn.btn-xxs.float-right Copy
+.monospace.padding-sm.padding-top-none
+  | git clone https://github.com/CodeNow/node-starter.git
+  | cd node-starter
+  | git checkout -b my-branch
+  | git push origin my-branch
+
+//- if in demo flow
+.small.padding-sm.text-gray Or we can&#32;
+  span.link create a branch
+  | &#32;for you.
+
+//- if not in demo flow
+//- .small.padding-sm.text-gray Or just&#32;
+  span.link launch the latest branch
+  | .
