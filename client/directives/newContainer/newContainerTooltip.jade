@@ -36,9 +36,12 @@
       required
       type = "search"
     )
+    //- if the account or org has no repositories
     .text-center.text-gray.small.padding-lg(
       ng-if = "NCC.githubRepos.models.length === 0"
-    ) There are no branches to add.
+    ) There are no repositories to add.
+    //- if the filter returns no results
+    .text-center.text-gray.small.padding-lg No repositories match this filter.
   ul.list.popover-list(
     ng-if = "!$root.isLoading.newContainerRepos"
   )
