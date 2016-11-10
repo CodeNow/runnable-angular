@@ -4,6 +4,30 @@
   width: 240px;
   z-index: $z-spinner + 1; // to appear above instance view spinner
 
+  &.lg {
+    max-width: none;
+    width: 600px;
+
+    .popover-view {
+      flex-direction: row;
+    }
+
+    .team-cta {
+      border-left: 1px solid $gray-lighter;
+      flex: 1 1 auto;
+      max-width: none;
+      padding: $sm;
+    }
+
+    .p {
+      max-width: 300px;
+    }
+  }
+
+  .account-menu {
+    flex: 0 0 236px;
+  }
+
   .popover-list-item {
     padding: 0 15px;
   }

@@ -164,6 +164,7 @@
   // list with gray background, filled with secondary actions
   &.list-secondary {
     background: $gray-lighterest;
+    border-radius: 0 0 $input-border-radius-lg $input-border-radius-lg;
 
     .list-item {
       color: $gray;

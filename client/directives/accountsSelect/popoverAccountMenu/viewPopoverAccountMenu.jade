@@ -1,5 +1,8 @@
 .popover.menu.popover-account-menu.right(
-  ng-class = "{'in': active}"
+  ng-class = "{\
+    'in': active,\
+    'lg': $root.featureFlags.teamCTA\
+  }"
   style = "left: 68px; transform-origin: 0 0; top: 18px"
 )
   .arrow.js-animate(
@@ -14,10 +17,10 @@
       default = "true"
       name = "accountMenu"
     )
-      .popover-view
-        .popover-content.fade(
-          ng-class = "{'in': isActivePanel()}"
-        )
+      .grid-block.popover-view.fade(
+        ng-class = "{'in': isActivePanel()}"
+      )
+        .popover-content.account-menu
           ul.list.popover-list(
             ng-if = "data.showIntegrations"
           )
@@ -104,14 +107,25 @@
               a.list-link(
                 ng-click = "actions.logout();"
               ) Sign Out
+        .grid-block.vertical.align-center.justify-center.popover-content.team-cta(
+          ng-if = "$root.featureFlags.teamCTA"
+        )
+          img.margin-bottom-sm(
+            height = "105"
+            src = "/build/images/runnabear-team.svg"
+            width = "105"
+          )
+          p.p.strong.text-center Don’t leave your team on the sidelines.
+          p.p.weight-light.text-center Switch to a GitHub team to spread the joy of unlimited environments.
+          button.btn.btn-sm.green.margin-top-xs Change Teams
 
     animated-panel(
       name = "changeOrganization"
     )
-      .popover-view
-        .popover-header.fade(
-          ng-class = "{'in': isActivePanel()}"
-        )
+      .popover-view.fade(
+        ng-class = "{'in': isActivePanel()}"
+      )
+        .popover-header
           svg.btn.btn-sm.iconnables.icons-arrow-backward.pull-left(
             ng-click = "goToPanel('accountMenu', 'back')"
           )
@@ -120,9 +134,7 @@
             )
           | {{$root.featureFlags.teamManagementAdvanced ? 'Your Teams' : 'Organizations'}}
 
-        .popover-content.fade(
-          ng-class = "{'in': isActivePanel()}"
-        )
+        .popover-content
           ul.list.popover-list
             //- all organizations except current
             li.list-item.popover-list-item.text-overflow(
@@ -152,12 +164,11 @@
     animated-panel(
       name = "featureFlags"
     )
-      .popover-view(
+      .popover-view.fade(
+        ng-class = "{'in': isActivePanel()}"
         ng-controller = "FeatureFlagsController as FFC"
       )
-        .popover-header.fade(
-          ng-class = "{'in': isActivePanel()}"
-        )
+        .popover-header
           svg.btn.btn-sm.iconnables.icons-arrow-backward.pull-left(
             ng-click = "goToPanel('accountMenu', 'back')"
           )
@@ -169,8 +180,7 @@
             ng-click = "FFC.$localStorage.featureFlags = {}; $root.resetFeatureFlags();"
             style = "font-size: 11px; right: 6px; position: absolute; top: 9px; z-index: 2;"
           ) Reset
-        .popover-content.fade(
-          ng-class = "{'in': isActivePanel()}"
+        .popover-content(
           style = "height: calc(100vh - 81px); overflow-y: auto;"
         )
           .list-item.padding-xxs
