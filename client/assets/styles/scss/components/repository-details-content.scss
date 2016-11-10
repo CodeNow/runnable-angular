@@ -88,11 +88,10 @@
   }
 
   .toggle-wrapper {
-    @extend %padding-sm;
     border-bottom: 1px solid $gray-lighter;
     flex: 0 0 auto;
     font-size: 15px;
-    padding-right: 48px;
+    padding: $sm 48px $sm $sm;
 
     &:not(:first-child) {
       border-top: 1px solid $gray-lighter;

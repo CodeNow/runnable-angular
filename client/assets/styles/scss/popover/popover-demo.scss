@@ -72,10 +72,6 @@
 
 .demo-branch {
 
-  .padding-top-none {
-    padding-top: 0;
-  }
-
   .instructions,
   .monospace {
     background: $gray-dark;
@@ -84,6 +80,7 @@
 
   .monospace {
     overflow-x: auto;
+    padding: 0 $sm $sm;
   }
 
   .btn-xxs {

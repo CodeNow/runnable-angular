@@ -163,6 +163,11 @@ $screen-md: 1024px;
 $screen-lg: 1440px;
 $screen-xl: 1920px;
 
+$directions-list: col row;
+$flex-directions: column row;
+$screen-size-list: xl lg md sm xs xxs xxxs;
+$screen-sizes: $screen-xl $screen-lg  $screen-md $screen-sm  $screen-xs $screen-xxs $screen-xxxs;
+
 // logs & terminal
 $terminal-line-height: 19px;
 
@@ -188,6 +193,7 @@ $input-xxs: 18px;
 $input-line-height-xxs: $input-xxs - ($input-border * 2);
 
 // margin/padding sizes
+$none: 0;
 $xxs: 9px;
 $xs: 12px;
 $sm: 15px;
@@ -196,5 +202,5 @@ $lg: 45px;
 $xl: 60px;
 
 $size-directions: top right bottom left;
-$size-list: xxs xs sm md lg xl;
-$sizes: $xxs, $xs, $sm, $md, $lg, $xl;
+$size-list: none xxs xs sm md lg xl;
+$sizes: $none, $xxs, $xs, $sm, $md, $lg, $xl;

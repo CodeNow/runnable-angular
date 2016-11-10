@@ -11,11 +11,11 @@
   }
 
   .btn-repository {
-    @extend %padding-xxs;
     display: block;
     font-size: 15px;
     font-weight: $weight-normal;
     min-height: 118px;
+    padding: $xxs;
     text-align: left;
 
     &.grid-block {
