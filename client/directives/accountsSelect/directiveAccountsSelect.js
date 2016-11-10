@@ -104,6 +104,9 @@ function accountsSelect (
             return trialRemaining;
           }
         }
+        if ($rootScope.featureFlags.teamCTA) {
+          return '•';
+        }
         return '';
       };
 
@@ -112,9 +115,12 @@ function accountsSelect (
           return {};
         }
         var showBadge = currentOrg.poppa.isInTrial() && !currentOrg.poppa.attrs.hasPaymentMethod && currentOrg.poppa.trialDaysRemaining() <= 3;
+        if ($rootScope.featureFlags.teamCTA) {
+          showBadge = true;
+        }
         return {
-          badge: showBadge,
-          'badge-orange': showBadge
+          'badge': showBadge,
+          'badge-red': showBadge
         };
       };
     }

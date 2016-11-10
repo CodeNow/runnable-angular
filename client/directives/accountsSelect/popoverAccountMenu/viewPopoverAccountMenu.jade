@@ -33,7 +33,7 @@
                   xlink:href = "#icons-billing"
                 )
               | Billing
-              btn.btn-xxs.btn-badge.anchor-right.orange(
+              btn.btn.btn-xxs.btn-badge.anchor-right.red(
                 ng-if = "data.currentOrg.poppa.isInTrial() && !data.currentOrg.poppa.attrs.hasPaymentMethod"
                 title = "{{data.currentOrg.poppa.trialDaysRemaining() + ' days left in your trial'}}"
               )
