@@ -67,7 +67,7 @@ function EnvironmentController(
       $rootScope.$broadcast('close-popovers');
       return ModalService.showModal({
         controller: 'NewContainerModalController',
-        controllerAs: 'MC', // Shared
+        controllerAs: 'NCMC',
         templateUrl: 'newContainerModalView'
       });
     },
