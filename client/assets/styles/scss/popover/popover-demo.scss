@@ -1,8 +1,9 @@
 .popover-demo {
   color: $gray-dark;
-  left: 0;
-  margin: $xs;
-  top: 0;
+  left: auto;
+  margin-top: $xs;
+  position: relative;
+  top: auto;
   transition: opacity .15s ease-in-out, transform .3s ease-in-out;
 
   &.ng-leave {
@@ -66,5 +67,27 @@
       cursor: default;
       opacity: .5;
     }
+  }
+}
+
+.demo-branch {
+
+  .padding-top-none {
+    padding-top: 0;
+  }
+
+  .instructions,
+  .monospace {
+    background: $gray-dark;
+    color: $white;
+  }
+
+  .monospace {
+    overflow-x: auto;
+  }
+
+  .btn-xxs {
+    background: $gray;
+    font-size: 13px;
   }
 }

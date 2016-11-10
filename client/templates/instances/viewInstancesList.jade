@@ -4,6 +4,12 @@
   ng-include = "'templateIntroView'"
 )
 
+//- guide to adding a branch
+.grid-block.vertical.popover.in.popover-demo.demo-branch.js-animate(
+  ng-if = "$root.featureFlags.demoMultiTier"
+  ng-include = "'addBranchView'"
+)
+
 .grid-block.shrink.vertical.js-animate(
   ng-if = "!$root.featureFlags.demoMultiTier || $root.featureFlags.containersViewEmptyState"
 )
