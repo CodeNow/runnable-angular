@@ -25,6 +25,7 @@ function featureFlags(
     contingencyPlan: false,
     demoFlowPhase2: true,
     demoMultiTier: false,
+    demoMultiTierAddBranch: false,
     demoProject: true,
     dockerfileMirroringMultiple: false,
     editAnyInstance: false,
@@ -51,6 +52,7 @@ function featureFlags(
     personalAccountsPhase2: true,
     renameContainer: false,
     saveToolbar: false,
+    teamCTA: false,
     teamManagement: false,
     teamManagementAdvanced: false, // changes text from org to team in account menu
     testingFeature: false,

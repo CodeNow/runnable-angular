@@ -1,11 +1,11 @@
 //- intro to templates
 .grid-block.vertical.popover.in.popover-demo.js-animate(
-  ng-if = "$root.featureFlags.demoMultiTier && !$root.featureFlags.containersViewEmptyState"
+  ng-if = "$root.featureFlags.demoMultiTier && !$root.featureFlags.demoMultiTierAddBranch && !$root.featureFlags.containersViewEmptyState"
   ng-include = "'templateIntroView'"
 )
 
 .grid-block.shrink.vertical.js-animate(
-  ng-if = "!$root.featureFlags.demoMultiTier || $root.featureFlags.containersViewEmptyState"
+  ng-if = "!$root.featureFlags.demoMultiTier || $root.featureFlags.demoMultiTierAddBranch || $root.featureFlags.containersViewEmptyState"
 )
   //- search
   label.grid-block.shrink.vertical.label-search
@@ -67,7 +67,14 @@
     br
     .small {{$root.featureFlags.demoMultiTier ? 'First, use the button above to create your first template.' : 'You don’t have any templates. Click the button above to create one.'}}
 
+  //- guide to adding a branch
+  .grid-block.vertical.popover.in.popover-demo.js-animate(
+    ng-if = "$root.featureFlags.demoMultiTier && $root.featureFlags.demoMultiTierAddBranch && !$root.featureFlags.containersViewEmptyState"
+    ng-include = "'addBranchView'"
+  )
+
   //- branch clusters
+      these should be removed while the 'add branch' card is present
   .grid-block.vertical.shrink.list-clusters(
     ng-if = "!$root.featureFlags.containersViewEmptyState"
     ng-repeat = "masterInstance in CIS.instancesByPod | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"

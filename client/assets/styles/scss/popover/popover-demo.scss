@@ -1,8 +1,9 @@
 .popover-demo {
   color: $gray-dark;
-  left: 0;
-  margin: $xs;
-  top: 0;
+  left: auto;
+  margin-top: $xs;
+  position: relative;
+  top: auto;
   transition: opacity .15s ease-in-out, transform .3s ease-in-out;
 
   &.ng-leave {
@@ -65,6 +66,30 @@
     &.disabled {
       cursor: default;
       opacity: .5;
+    }
+  }
+
+  // add branch step
+  .commands-wrapper {
+    background: $gray-dark;
+    color: $gray-lighter;
+  }
+
+  .monospace {
+    overflow-x: auto;
+  }
+
+  // 'copy' button
+  .btn-xxs {
+    background: $gray;
+    color: $white;
+
+    &:hover {
+      background: rgba($gray,.7);
+    }
+
+    &:active {
+      background: rgba($gray,.5);
     }
   }
 }
