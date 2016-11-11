@@ -17,12 +17,8 @@ function newContainer(
     controllerAs: 'NCC',
     bindToController: true,
     scope: {
-      close: '='
-    },
-    link: function ($scope, elem, attrs) {
-      $scope.launchModal = function () {
-        console.log('Launch modal?!!');
-      };
+      close: '=',
+      state: '=?'
     }
   };
 }

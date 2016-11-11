@@ -76,7 +76,7 @@ animated-panel-container.modal-servers
     .grid-block.vertical.modal-body(
       branch-name = "NCC.state.repo.attrs.default_branch"
       mirror-dockerfile
-      name = "NCC.name"
+      name = "'newContainer'"
       repo = "NCC.state.repo"
       state = "NCC.state"
     )
@@ -160,7 +160,7 @@ animated-panel-container.modal-servers
         ng-click = "NCC.close()"
       ) Cancel
       button.btn.btn-md.green.float-right(
-        ng-disabled = "!NCC.name.length || NCC.nameForm.$invalid || $root.isLoading.newContainerSingleRepo"
+        ng-disabled = "!NCC.state.instanceName.length || NCC.nameForm.$invalid || $root.isLoading.newContainerSingleRepo"
         ng-click = " \
           (NCC.state.repo) ? NCC.createBuildAndGoToNewRepoModal(NCC.state.instanceName, NCC.state.repo, NCC.state.dockerfile, NCC.state.configurationMethod) : \
           NCC.createBuildFromTemplate(NCC.state.instanceName, NCC.state.templateSource) \

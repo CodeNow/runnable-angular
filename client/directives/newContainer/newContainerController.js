@@ -5,10 +5,13 @@ require('app')
 
 function NewContainerController(
   $q,
+  $rootScope,
+  $scope,
   $timeout,
   ahaGuide,
   createNewBuildAndFetchBranch,
   createNonRepoInstance,
+  currentOrg,
   errs,
   fetchInstances,
   fetchInstancesByPod,
@@ -17,12 +20,13 @@ function NewContainerController(
   getNewForkName,
   keypather,
   loading,
-  ModalService,
-  currentOrg
+  ModalService
 ) {
   var NCC = this;
+  var defaultState = this.state || {};
   angular.extend(NCC, {
     state: {
+      panel: 'containerSelection',
       closed: false,
       tabName: 'repos',
       dockerfile: null,
@@ -30,6 +34,11 @@ function NewContainerController(
       namesForAllInstances: []
     },
     ahaGuide: ahaGuide
+  });
+  angular.extend(NCC.state, defaultState);
+
+  $timeout(function () {
+    $scope.$broadcast('go-to-panel', NCC.state.panel, 'immediate');
   });
 
   // Start loading repos and templates
@@ -103,7 +112,6 @@ function NewContainerController(
   NCC.close = function () {
     if (NCC.state.closed) { return; }
     NCC.state.closed = true;
-    console.log('Injected close!!!');
     return injectedClose();
   };
 
@@ -212,7 +220,7 @@ function NewContainerController(
     NCC.close();
     ModalService.showModal({
       controller: 'SetupServerModalController',
-      controllerAs: 'SNCC',
+      controllerAs: 'SMC',
       templateUrl: 'setupServerModalView',
       inputs: angular.extend({
         dockerfileType: configurationMethod,
@@ -230,7 +238,7 @@ function NewContainerController(
     NCC.close();
     ModalService.showModal({
       controller: 'SetupMirrorServerModalController',
-      controllerAs: 'SNCC',
+      controllerAs: 'SMC',
       templateUrl: 'setupMirrorServerModalView',
       inputs: angular.extend({
         instanceName: null,
@@ -238,6 +246,21 @@ function NewContainerController(
         build: null,
         masterBranch: null
       }, inputs)
+    });
+  };
+
+  NCC.openModalAtPanel = function (panelName) {
+    $rootScope.$broadcast('close-popovers');
+    NCC.state.panel = panelName;
+    return ModalService.showModal({
+      controller: 'NewContainerModalController',
+      controllerAs: 'NCMC',
+      templateUrl: 'newContainerModalView',
+      inputs: {
+        optionalInputs: {
+          state: NCC.state
+        }
+      }
     });
   };
 }

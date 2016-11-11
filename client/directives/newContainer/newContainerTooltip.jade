@@ -43,7 +43,7 @@
     ng-if = "!$root.isLoading.newContainerRepos"
   )
     li.grid-block.align-center.list-item.popover-list-item.multi-line(
-      ng-click = "!$root.isLoading.newContainerSingleRepo && NCC.setRepo(repo, launchModal)"
+      ng-click = "!$root.isLoading.newContainerSingleRepo && NCC.setRepo(repo, NCC.openModalAtPanel)"
       ng-repeat = "\
         repo in NCC.githubRepos.models | \
         repos: NCC.repoFilter | \
@@ -109,7 +109,7 @@
   )
     li.grid-block.align-center.list-item.popover-list-item.multi-line(
       ng-class = "{'active': $root.isLoading.newContainerTemplates}"
-      ng-click = "NCC.setTemplate(dependency, launchModal)"
+      ng-click = "NCC.setTemplate(dependency, NCC.openModalAtPanel)"
       ng-repeat = "\
         dependency in NCC.templateServers.models | \
         removeTemplateInstances | \

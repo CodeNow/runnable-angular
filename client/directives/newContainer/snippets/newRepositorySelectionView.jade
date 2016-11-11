@@ -53,7 +53,7 @@ ul.list.list-servers(
   //- add active class when loading
   li.grid-block.align-center.list-item.multi-line.text-overflow(
     ng-disabled = "$root.isLoading.newContainerSingleRepo"
-    ng-click = "!$root.isLoading.newContainerSingleRepo && NCC.setRepo(repo, goToModal)"
+    ng-click = "!$root.isLoading.newContainerSingleRepo && NCC.setRepo(repo, goToPanel)"
     ng-repeat = "\
       repo in NCC.githubRepos.models | \
       repos: NCC.repoFilter | \
