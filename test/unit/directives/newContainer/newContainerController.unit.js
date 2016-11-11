@@ -283,7 +283,7 @@ describe('NewContainerController'.bold.underline.blue, function () {
         sinon.assert.notCalled(NCC.createBuildAndGoToNewRepoModal);
         expect(repo.dockerfiles).to.have.length(0);
         sinon.assert.calledOnce(stub);
-        sinon.assert.calledWith(stub, 'dockerfileMirroring');
+        sinon.assert.calledWith(stub, 'nameContainer');
       });
 
       it('should call the callback if there are dockerfiles returns', function () {
@@ -304,7 +304,7 @@ describe('NewContainerController'.bold.underline.blue, function () {
         sinon.assert.notCalled(NCC.createBuildAndGoToNewRepoModal);
         expect(repo.dockerfiles).to.have.length(1);
         sinon.assert.calledOnce(stub);
-        sinon.assert.calledWith(stub, 'dockerfileMirroring');
+        sinon.assert.calledWith(stub, 'nameContainer');
       });
     });
 
