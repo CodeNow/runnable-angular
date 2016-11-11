@@ -9,9 +9,9 @@ function newContainer(
     restrict: 'A',
     templateUrl: function (element, attrs) {
       if (attrs.newContainer === 'modal') {
-        return 'newContainerConfigure';
+        return 'newContainerConfigureView';
       }
-      return 'newContainerTooltip';
+      return 'newContainerTooltipView';
     },
     controller: 'NewContainerController',
     controllerAs: 'NCC',
