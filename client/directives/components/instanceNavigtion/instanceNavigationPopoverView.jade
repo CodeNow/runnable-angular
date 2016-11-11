@@ -22,7 +22,7 @@
         ng-if = "$root.featureFlags.containersViewTemplateControls"
       )
       li.list-item.popover-list-item(
-        internal-modal-helper = "confirmDeleteServerView"
+        ng-click = "INC.deleteContainer()"
         ng-if = "$root.featureFlags.containersViewTemplateControls"
       )
         svg.iconnables.icons-delete
@@ -87,7 +87,7 @@
         ng-if = "$root.featureFlags.containersViewTemplateControls"
       )
       li.list-item.popover-list-item(
-        internal-modal-helper = "confirmDeleteServerView"
+        ng-click = "INC.deleteContainer()"
         ng-if = "$root.featureFlags.containersViewTemplateControls"
       )
         svg.iconnables.icons-delete
