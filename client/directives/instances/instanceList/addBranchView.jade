@@ -2,7 +2,15 @@ p.padding-sm Now launch a new environment by pushing a branch to GitHub.
 .commands-wrapper
   .small.padding-top-sm.padding-left-sm.padding-right-sm
     | Try in your terminal:
-    .btn.btn-xxs.float-right Copy
+    //- tooltip should work like the one on the Copy button for container URLs
+    .btn.btn-xxs.float-right(
+      clipboard
+      ng-mouseleave = "showToolTip = false"
+      on-copied = "showToolTip = true;"
+      tooltip
+      tooltip-active-attr = "{{showToolTip}}"
+      tooltip-options = "{\"class\":\"bottom no-arrow\",\"right\":-15,\"top\":27}"
+    ) Copy
   .monospace.padding-sm.
     git clone https://github.com/CodeNow/node-starter.git
     cd node-starter
