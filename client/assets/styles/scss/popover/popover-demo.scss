@@ -1,9 +1,8 @@
 .popover-demo {
   color: $gray-dark;
-  left: auto;
-  margin-top: $xs;
-  position: relative;
-  top: auto;
+  left: 0;
+  max-width: 100%;
+  top: 0;
   transition: opacity .15s ease-in-out, transform .3s ease-in-out;
 
   &.ng-leave {

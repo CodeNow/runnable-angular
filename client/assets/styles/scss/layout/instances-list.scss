@@ -67,6 +67,17 @@
 // wraps the master cluster and each repository section
 .list-clusters {
   padding: 15px 0;
+  transition: opacity .15s ease-in-out, transform .3s ease-in-out;
+
+  &.ng-enter {
+    opacity: 0;
+    transform: rotate3d(0,0,1,9deg) scale3d(.95,.95,1) translate3d(50px,0,0);
+  }
+
+  &.ng-enter-active {
+    opacity: 1;
+    transform: rotate3d(0,0,1,0) scale3d(1,1,1) translate3d(0,0,0);
+  }
 
   + .list-clusters {
     border-top: 1px solid $gray-lighter;
