@@ -4,13 +4,13 @@ animated-panel-container.modal-servers
     name = "containerSelection"
   )
     header.modal-header.grid-block.justify-center(
-      ng-class = "{'lg': !NCC.ahaGuide.isAddingFirstRepo() || ( NCC.instances.models && NCC.instances.models.length !== 0 )}"
+      ng-class = "{'lg': !NCC.ahaGuide.isAddingFirstRepo() || ( NCC.instances.models.length > 0 )}"
       ng-click = "NCC.changeTab('nameContainer')"
     )
       .grid-block.align-center.shrink.btn.btn-radio(
         ng-class = "{'active': NCC.state.tabName === 'repos'}"
         ng-click = "NCC.changeTab('repos')"
-        ng-if = "!NCC.ahaGuide.isAddingFirstRepo() || ( NCC.instances.models && NCC.instances.models.length !== 0 )"
+        ng-if = "!NCC.ahaGuide.isAddingFirstRepo() || ( NCC.instances.models.length >= 0 )"
       )
         svg.iconnables.icons-repository.grid-block.shrink
           use(
@@ -27,7 +27,7 @@ animated-panel-container.modal-servers
           'disabled': $root.isLoading.newContainerSingleRepo \
         }"
         ng-click = "!$root.isLoading.newContainerSingleRepo && NCC.changeTab('services')"
-        ng-if = "!NCC.ahaGuide.isAddingFirstRepo() || ( NCC.instances.models && NCC.instances.models.length !== 0 )"
+        ng-if = "!NCC.ahaGuide.isAddingFirstRepo() || ( NCC.instances.models.length >= 0 )"
       )
         svg.iconnables.icons-template.grid-block.shrink
           use(
