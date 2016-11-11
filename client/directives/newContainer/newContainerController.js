@@ -164,9 +164,20 @@ function NewContainerController(
       .catch(errs.handler);
   };
 
+  NCC.saveName = function () {
+    if (NCC.state.repo) {
+      return $scope.$broadcast('go-to-panel', 'dockerfileMirroring');
+    }
+    return NCC.createBuildFromTemplate(NCC.state.instanceName, NCC.state.templateSource);
+  };
+
+  NCC.saveDockerfileMirroring = function () {
+    return NCC.createBuildAndGoToNewRepoModal(NCC.state.instanceName, NCC.state.repo, NCC.state.dockerfile, NCC.state.configurationMethod);
+  };
+
   NCC.setRepo = function (repo, goToPanelCb) {
     if (repo.attrs.full_name === keypather.get(NCC, 'state.repo.attrs.full_name')) {
-      return goToPanelCb('dockerfileMirroring');
+      return goToPanelCb('nameContainer');
     }
     repo.loading = true;
     NCC.state.repo = repo;
@@ -182,7 +193,7 @@ function NewContainerController(
         repo.loading = false;
         repo.dockerfiles = dockerfiles;
         NCC.state.dockerfile = null;
-        return goToPanelCb('dockerfileMirroring');
+        return goToPanelCb('nameContainer');
       });
   };
 

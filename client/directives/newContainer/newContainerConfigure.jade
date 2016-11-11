@@ -87,13 +87,13 @@ animated-panel-container.modal-servers
       ) Cancel
       button.btn.btn-md.green.float-right(
         ng-disabled = "$root.isLoading.newContainerSingleRepo || NCC.state.configurationMethod === null"
-        ng-click = "goToPanel('nameContainer')"
+        ng-click = "NCC.saveDockerfileMirroring()"
       )
         .spinner-wrapper.spinner-white.spinner-sm.in(
           ng-include = "'spinner'"
           ng-if = "$root.isLoading.newContainerSingleRepo"
         )
-        span Next Step: Naming
+        span Next Step: Setup
 
   animated-panel.grid-block.vertical.modals-rename(
     name = "nameContainer"
@@ -161,10 +161,7 @@ animated-panel-container.modal-servers
       ) Cancel
       button.btn.btn-md.green.float-right(
         ng-disabled = "!NCC.state.instanceName.length || NCC.nameForm.$invalid || $root.isLoading.newContainerSingleRepo"
-        ng-click = " \
-          (NCC.state.repo) ? NCC.createBuildAndGoToNewRepoModal(NCC.state.instanceName, NCC.state.repo, NCC.state.dockerfile, NCC.state.configurationMethod) : \
-          NCC.createBuildFromTemplate(NCC.state.instanceName, NCC.state.templateSource) \
-        "
+        ng-click = "NCC.saveName()"
       )
         //- should say "Next Step: Setup" if a repository container
         //- should say "Create Template" if its a non-repository container
@@ -174,7 +171,7 @@ animated-panel-container.modal-servers
         )
         span(
           ng-if = "NCC.state.repo"
-        ) Next Step: Setup
+        ) Next Step: Configuration
         span(
           ng-if = "NCC.state.templateSource"
         ) Create Template
