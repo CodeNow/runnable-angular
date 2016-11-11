@@ -52,6 +52,7 @@ ul.list.list-servers(
 
   //- add active class when loading
   li.grid-block.align-center.list-item.multi-line.text-overflow(
+    data-event-name = "Selected a Repository"
     ng-disabled = "$root.isLoading[MC.name + 'SingleRepo']"
     ng-click = "!$root.isLoading[MC.name + 'SingleRepo'] && MC.setRepo(repo, goToPanel)"
     ng-repeat = "\
