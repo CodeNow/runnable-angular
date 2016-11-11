@@ -112,7 +112,9 @@ function NewContainerController(
   NCC.close = function () {
     if (NCC.state.closed) { return; }
     NCC.state.closed = true;
-    return injectedClose();
+    if (injectedClose) {
+      return injectedClose();
+    }
   };
 
   NCC.setTemplate = function (sourceInstance, goToPanelCb) {
@@ -149,7 +151,7 @@ function NewContainerController(
         var serverName = getNewForkName(instanceToForkName, instances, true);
         return ModalService.showModal({
           controller: 'NameNonRepoContainerViewModalController',
-          controllerAs: 'NCC',
+          controllerAs: 'MC',
           templateUrl: 'nameNonRepoContainerView',
           inputs: {
             name: serverName,
