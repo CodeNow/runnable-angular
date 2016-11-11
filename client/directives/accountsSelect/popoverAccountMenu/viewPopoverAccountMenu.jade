@@ -88,12 +88,9 @@
                   xlink:href = "#icons-arrow-down"
                 )
             li.list-item.popover-list-item(
-              ng-click = "goToPanel('changeOrganization')"
+              ui-sref = "orgSelect"
+              ui-sref-opts = "{reload: true}"
             ) Change Team
-              svg.iconnables.icons-arrow-forward.anchor-right
-                use(
-                  xlink:href = "#icons-arrow-down"
-                )
             li.list-item.popover-list-item.list-item-documentation
               a.list-link(
                 href = "//runnable.zendesk.com/hc/en-us"
@@ -110,61 +107,22 @@
         .grid-block.vertical.align-center.justify-center.popover-content.team-cta(
           ng-if = "$root.featureFlags.teamCTA"
         )
-          img.margin-bottom-sm(
+          img.img.margin-bottom-sm(
             height = "105"
             src = "/build/images/runnabear-team.svg"
             width = "105"
           )
           p.p.strong.text-center Don’t leave your team on the sidelines.
-          p.p.weight-light.text-center Switch to a GitHub team to spread the joy of unlimited environments.
-          button.btn.btn-sm.green.margin-top-xs Change Teams
-
-    animated-panel(
-      name = "changeOrganization"
-    )
-      .popover-view.fade(
-        ng-class = "{'in': isActivePanel()}"
-      )
-        .popover-header
-          svg.btn.btn-sm.iconnables.icons-arrow-backward.pull-left(
-            ng-click = "goToPanel('accountMenu', 'back')"
-          )
-            use(
-              xlink:href = "#icons-arrow-down"
-            )
-          | {{$root.featureFlags.teamManagementAdvanced ? 'Your Teams' : 'Organizations'}}
-
-        .popover-content
-          ul.list.popover-list
-            //- all organizations except current
-            li.list-item.popover-list-item.text-overflow(
-              ng-class = "{'no-touching': account === data.activeAccount}"
-              ng-click = "actions.selectActiveAccount(account)"
-              ng-repeat = "account in data.allAccounts"
-            )
-              svg.iconnables.icons-fat-check(
-                ng-class = "{'active': account === data.activeAccount}"
-              )
-                use(
-                  xlink:href = "#icons-fat-check"
-                )
-              img.gravatar(
-                alt = "{{account.oauthName()}}"
-                height = "24"
-                ng-src = "{{account.gravitar()}}"
-                width = "24"
-              )
-              | {{account.oauthName()}}
-            li.list-item.padding-xxs
-              a.btn.btn-sm.gray.btn-block(
-                ui-sref = "orgSelect"
-                ui-sref-opts = "{reload: true}"
-              ) Add Organization
+          p.p.weight-light.text-center Switch to a GitHub org to create environments for your team’s code.
+          button.btn.btn-sm.green.margin-top-xs(
+            ui-sref = "orgSelect"
+            ui-sref-opts = "{reload: true}"
+          ) Change Teams
 
     animated-panel(
       name = "featureFlags"
     )
-      .popover-view.fade(
+      .grid-block.vertical.popover-view.fade(
         ng-class = "{'in': isActivePanel()}"
         ng-controller = "FeatureFlagsController as FFC"
       )
