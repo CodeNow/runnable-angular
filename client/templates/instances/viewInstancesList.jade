@@ -74,6 +74,7 @@
   )
 
   //- branch clusters
+      these should be removed while the 'add branch' card is present
   .grid-block.vertical.shrink.list-clusters(
     ng-if = "!$root.featureFlags.containersViewEmptyState"
     ng-repeat = "masterInstance in CIS.instancesByPod | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
