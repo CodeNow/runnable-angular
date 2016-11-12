@@ -37,6 +37,9 @@ function NewContainerController(
   });
   angular.extend(NCC.state, defaultState);
 
+  // Disable the back button because we are loading the modal with state, other than the default state
+  // This means we have already finished the containerSelection step and the user can't go back to a different view
+  // than they already started at
   if (NCC.state.panel !== 'containerSelection') {
     NCC.disableBackButton = true;
   }
