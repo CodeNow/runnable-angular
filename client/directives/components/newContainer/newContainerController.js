@@ -62,9 +62,6 @@ function NewContainerController(
         return instance.attrs.name;
       });
       NCC.githubRepos = data.repoList;
-      NCC.githubRepos.models.forEach(function (repo) {
-        repo.isAdded = NCC.isRepoAdded(repo, data.instances);
-      });
     })
     .catch(errs.handler)
     .finally(function () {
