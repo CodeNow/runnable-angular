@@ -18,7 +18,6 @@ animated-panel-container.modal-servers
         .btn-text.grid-block.vertical.text-left Repository Template
           small.small From your GitHub org
 
-      //- disable this button when loading a repository
       .grid-block.align-center.shrink.btn.btn-radio(
         ng-disabled = "$root.isLoading.newContainerSingleRepo"
         ng-class = "{\
@@ -163,8 +162,6 @@ animated-panel-container.modal-servers
         ng-disabled = "!NCC.state.instanceName.length || NCC.nameForm.$invalid || $root.isLoading.newContainerSingleRepo"
         ng-click = "NCC.saveName()"
       )
-        //- should say "Next Step: Setup" if a repository container
-        //- should say "Create Template" if its a non-repository container
         .spinner-wrapper.spinner-white.spinner-sm.float-left(
           ng-if = "$root.isLoading.newContainerSingleRepo"
           ng-include = "'spinner'"
