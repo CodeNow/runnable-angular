@@ -103,6 +103,7 @@ animated-panel-container.modal-servers
       svg.iconnables.icons-arrow-backward(
         ng-class = "{'disabled': $root.isLoading.newContainerSingleRepo}"
         ng-click = "!$root.isLoading.newContainerSingleRepo && goToPanel(NCC.state.templateSource ? 'containerSelection' : 'dockerfileMirroring', 'back')"
+        ng-if = "!NCC.disableBackButton"
       )
         use(
           xlink:href = "#icons-arrow-down"

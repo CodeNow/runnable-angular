@@ -37,6 +37,10 @@ function NewContainerController(
   });
   angular.extend(NCC.state, defaultState);
 
+  if (NCC.state.panel !== 'containerSelection') {
+    NCC.disableBackButton = true;
+  }
+
   $timeout(function () {
     $scope.$broadcast('go-to-panel', NCC.state.panel, 'immediate');
   });
