@@ -109,10 +109,6 @@ function ControllerInstances(
             instanceName: keypather.get(targetInstance, 'attrs.name'),
             userName: userName
           }, {location: 'replace'});
-        } else {
-          $state.go('base.config', {
-            userName: userName
-          }, {location: 'replace'});
         }
       }
     })
