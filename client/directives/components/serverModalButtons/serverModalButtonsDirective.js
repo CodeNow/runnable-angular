@@ -78,7 +78,7 @@ function serverModalButtonsDirective(
         if (!_displayFlagCache) {
           _displayFlagCache = getDisplayFlagHash();
         }
-        return _displayFlagCache[buttonName];
+        return !!_displayFlagCache[buttonName];
       };
 
 
