@@ -195,14 +195,14 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
         mockCurrentOrg.poppa.isInTrial.returns(false);
         expect($elScope.getClasses()).to.deep.equal({
           badge: false,
-          'badge-orange': false
+          'badge-red': false
         });
       });
 
       it('should return true flags when not in active period', function () {
         expect($elScope.getClasses()).to.deep.equal({
           badge: true,
-          'badge-orange': true
+          'badge-red': true
         });
       });
 
@@ -210,7 +210,7 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
         mockCurrentOrg.poppa.attrs.hasPaymentMethod = true;
         expect($elScope.getClasses()).to.deep.equal({
           badge: false,
-          'badge-orange': false
+          'badge-red': false
         });
       });
     });

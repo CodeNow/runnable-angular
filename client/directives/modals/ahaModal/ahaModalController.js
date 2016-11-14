@@ -15,6 +15,7 @@ function AhaModalController(
   fetchOwnerRepos,
   fetchStackInfo,
   github,
+  keypather,
   loading,
   ModalService,
 
@@ -105,7 +106,8 @@ function AhaModalController(
     loading('startDemo', true);
     var loadingName = 'startDemo' + stackName.charAt(0).toUpperCase() + stackName.slice(1);
     loading(loadingName, true);
-    github.forkRepo('RunnableDemo', repoMapping[stackName], currentOrg.github.oauthName())
+    var isPersonalAccount = keypather.get(currentOrg, 'poppa.attrs.isPersonalAccount');
+    github.forkRepo('RunnableDemo', repoMapping[stackName], currentOrg.github.oauthName(), isPersonalAccount)
       .then(function () {
         return findRepo(repoMapping[stackName]);
       })
@@ -155,7 +157,7 @@ function AhaModalController(
     close();
     ModalService.showModal({
       controller: 'NewContainerModalController',
-      controllerAs: 'MC', // Shared
+      controllerAs: 'NCMC',
       templateUrl: 'newContainerModalView'
     });
   };

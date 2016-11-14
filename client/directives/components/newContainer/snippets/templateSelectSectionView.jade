@@ -1,14 +1,14 @@
 .spinner-wrapper.spinner-md.in(
-  ng-if = "$root.isLoading.newContainerModalTemplates"
+  ng-if = "$root.isLoading.newContainerTemplates"
   ng-include = "'spinner'"
 )
 
 .grid-block.shrink.justify-right.list-header(
-  ng-if = "!$root.isLoading.newContainerModalTemplates"
+  ng-if = "!$root.isLoading.newContainerTemplates"
 )
   input.input.input-xs.input-search(
     autofocus
-    ng-model = "MC.serviceFilter"
+    ng-model = "NCC.serviceFilter"
     ng-disabled = ""
     placeholder = "Search"
     ng-keyup = "$digest"
@@ -17,14 +17,14 @@
   )
 
 ul.list.list-servers(
-  ng-if = "!$root.isLoading.newContainerModalTemplates"
+  ng-if = "!$root.isLoading.newContainerTemplates"
 )
   li.grid-block.align-center.list-item(
-    ng-click = "MC.setTemplate(dependency, goToPanel)"
+    ng-click = "NCC.setTemplate(dependency, goToPanel)"
     ng-repeat = "\
-      dependency in MC.templateServers.models | \
+      dependency in NCC.templateServers.models | \
       removeTemplateInstances | \
-      repos: MC.serviceFilter | \
+      repos: NCC.serviceFilter | \
       orderBy:'attrs.name'\
     "
   )

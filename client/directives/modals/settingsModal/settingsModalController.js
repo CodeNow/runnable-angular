@@ -8,6 +8,7 @@ require('app')
  */
 function SettingsModalController(
   close,
+  keypather,
   subTab,
   tab,
   currentOrg
@@ -20,4 +21,5 @@ function SettingsModalController(
   });
   SEMC.currentOrg = currentOrg;
   SEMC.showFooter = true;
+  SEMC.isPersonalAccount = keypather.get(currentOrg, 'poppa.attrs.isPersonalAccount');
 }

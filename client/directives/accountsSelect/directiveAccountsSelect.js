@@ -91,13 +91,7 @@ function accountsSelect (
         keypather.set($scope, 'popoverAccountMenu.data.currentOrg', currentOrg);
         keypather.set($scope, 'popoverAccountMenu.data.orgs', $scope.data.orgs);
         keypather.set($scope, 'popoverAccountMenu.data.user', $scope.data.user);
-
-        // Integrations modal
-        if ($scope.data.user.oauthName() === $state.params.userName) {
-          $scope.popoverAccountMenu.data.showIntegrations = false;
-        } else {
-          $scope.popoverAccountMenu.data.showIntegrations = true;
-        }
+        keypather.set($scope, 'popoverAccountMenu.data.showIntegrations', true);
       });
 
       $scope.getBadgeCount = function () {
@@ -110,6 +104,9 @@ function accountsSelect (
             return trialRemaining;
           }
         }
+        if ($rootScope.featureFlags.teamCTA) {
+          return '•';
+        }
         return '';
       };
 
@@ -118,9 +115,12 @@ function accountsSelect (
           return {};
         }
         var showBadge = currentOrg.poppa.isInTrial() && !currentOrg.poppa.attrs.hasPaymentMethod && currentOrg.poppa.trialDaysRemaining() <= 3;
+        if ($rootScope.featureFlags.teamCTA) {
+          showBadge = true;
+        }
         return {
-          badge: showBadge,
-          'badge-orange': showBadge
+          'badge': showBadge,
+          'badge-red': showBadge
         };
       };
     }

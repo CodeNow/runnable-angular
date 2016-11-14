@@ -23,23 +23,27 @@ function github(
         options.headers = options.headers || {};
         options.headers['X-CSRF-TOKEN'] = undefined;
         return $http(options)
-          .then(function (respoonse) {
-            if (respoonse.status > 300) {
-              return $q.reject(respoonse.data);
+          .then(function (response) {
+            if (response.status > 300) {
+              return $q.reject(response.data);
             }
-            return respoonse.data;
+            return response.data;
           });
       });
   }
   return {
-    forkRepo: function (repoOwner, repoName, targetOrg) {
-      return makeGhRequest({
+    forkRepo: function (repoOwner, repoName, targetOrg, isPersonalAccount) {
+      var ghRequest = {
         method: 'post',
         url: githubAPIUrl + '/repos/' + repoOwner + '/' + repoName + '/forks',
-        data: {
+      };
+      if (!isPersonalAccount) {
+        ghRequest.data = {
           organization: targetOrg
-        }
-      });
-    }
+        };
+      }
+      return makeGhRequest(ghRequest);
+    },
+    makeGhRequest: makeGhRequest
   };
 }

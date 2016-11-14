@@ -15,17 +15,25 @@ var $q;
 describe('InviteModalController'.bold.underline.blue, function () {
 
   var IMC;
+  var closeSettingsModalStub;
   var inviteGithubUserToRunnableStub;
+  var isPersonalAccountMock;
   var fetchUserStub;
   var fetchGithubOrgIdStub;
   var fetchOrgMembersStub;
-  var user;
   var errs;
+  var user;
   var username = 'purpleBear';
   var userId = 777;
   var userEmail = 'purplebear@codenow.com';
   var orgId = 787;
   var unInvitedMembers;
+  var orgMembersMock = {
+    uninvited: undefined,
+    all: [],
+    invited: [],
+    registered: []
+  };
   var closeStub = sinon.stub();
 
   function setup (initWithoutUninvitedMembers) {
@@ -50,7 +58,13 @@ describe('InviteModalController'.bold.underline.blue, function () {
         fetchOrgMembersStub = sinon.stub().returns($q.when({ uninvited: unInvitedMembers }));
         return fetchOrgMembersStub;
       });
+      $provide.factory('closeSettingsModal', function () {
+        closeSettingsModalStub = sinon.stub().returns(true);
+        return closeSettingsModalStub;
+      })
       $provide.value('teamName', 'hello');
+      $provide.value('isPersonalAccount', isPersonalAccountMock);
+      $provide.value('orgMembers', orgMembersMock);
       $provide.value('unInvitedMembers', (function () {
         if (initWithoutUninvitedMembers) {
           return null;
@@ -174,4 +188,65 @@ describe('InviteModalController'.bold.underline.blue, function () {
     });
   });
 
+  describe('showing the correct invite modal', function () {
+    beforeEach(function () {
+      isPersonalAccountMock = false;
+      orgMembersMock = {
+        all: [1, 2, 3],
+        registered: [1, 2],
+        uninvited: [1],
+        invited: []
+      };
+    });
+
+    it('should not show the alternate invite modal for orgs w/ uninvited members', function () {
+      setup();
+      $scope.$digest();
+      expect(IMC.showAlternateInviteModal).to.equal(false);
+    });
+
+    it('should show the alternate invite modal for personal accounts', function () {
+      isPersonalAccountMock = true;
+      setup();
+      $scope.$digest();
+      expect(IMC.showAlternateInviteModal).to.equal(true);
+    });
+
+    it('should show the alternate invite modal for full orgs', function () {
+      orgMembersMock.invited = ['new guy'];
+      setup();
+      $scope.$digest();
+      expect(IMC.showAlternateInviteModal).to.equal(true);
+    });
+
+    it('should show the alternate invite modal for one person orgs', function () {
+      orgMembersMock.all = ['one guy'];
+      orgMembersMock.registered = ['one guy'];
+      orgMembersMock.invited = [];
+      orgMembersMock.uninvited = [];
+      setup();
+      $scope.$digest();
+      expect(IMC.showAlternateInviteModal).to.equal(true);
+    });
+  });
+
+  describe('invite modal user message', function () {
+    beforeEach(function () {
+      setup();
+    });
+
+    it('should select the correct caption for a given scenario', function () {
+      IMC.isPersonalAccount = true;
+      var message = IMC.getTextForInviteModal();
+      expect(message).to.equal('Only GitHub organizations can have multiple teammates on Runnable, but it looks like you’re using a personal account.');
+      IMC.isPersonalAccount = false;
+      IMC.orgMembers.all = [1];
+      var message = IMC.getTextForInviteModal();
+      expect(message).to.equal('You’re the only one in this team. Add teammates to your GitHub team before inviting them to Runnable.');
+      IMC.orgMembers.all = [1, 2];
+      IMC.invitedAll = true;
+      var message = IMC.getTextForInviteModal();
+      expect(message).to.equal('You’re amazing! You’ve already invited everyone on your GitHub team to Runnable.');
+    });
+  });
 });

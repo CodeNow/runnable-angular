@@ -22,7 +22,7 @@
   }
 
   // empty state
-  > .well {
+  .well.empty {
     background: $white;
     border-color: $gray-lighter;
     border-radius: $input-border-radius-lg;

@@ -1,76 +1,179 @@
-li.grid-block.vertical.align-center.list-item-fork
-  img.img.margin-bottom-sm(
-    height = "48"
-    src = "/build/images/logos/logo-icon-nodejs.svg"
-    width = "48"
-  )
-  button.btn.btn-sm.green(
+ul.grid-block.vertical.list-fork(
+  ng-if = "$root.featureFlags.demoMultiTier"
+)
+  li.grid-block.align-center.list-item-fork(
     data-event-name = "Clicked: Start Demo (node.js)"
-    ng-class = "{'loading': $root.isLoading.startDemoNodejs}"
+    ng-class = "{'disabled': $root.isLoading.startDemo}"
     ng-click = "AMC.startDemo('nodejs')"
-    ng-disabled = "$root.isLoading.startDemo"
   )
-    span.span Start Demo
-    .spinner-wrapper.spinner-sm.spinner-white.in(
+    img.img(
+      height = "24"
+      src = "/build/images/logos/logo-icon-nodejs.svg"
+      width = "24"
+    )
+    .grid-block.vertical
+      strong.strong Node.js
+      small.small.weight-light A node.js & MongoDB app.
+    svg.iconnables.icons-arrow-forward.anchor-right(
+      ng-if = "!$root.isLoading.startDemoNodejs"
+    )
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
+    .spinner-wrapper.spinner-sm.spinner-gray.in(
       ng-if = "$root.isLoading.startDemoNodejs"
       ng-include = "'spinner'"
     )
-  small.small.text-center.text-gray.margin-top-sm We’ll fork a node.js repo&#32;
-    br.br
-    | to your GitHub account.
-li.grid-block.vertical.align-center.list-item-fork
-  img.img.margin-bottom-sm(
-    height = "48"
-    src = "/build/images/logos/logo-icon-python.svg"
-    width = "48"
+  li.grid-block.align-center.list-item-fork(
+    data-event-name = "Clicked: Start Demo (Rails)"
+    ng-class = "{'disabled': $root.isLoading.startDemo}"
+    ng-click = "AMC.startDemo('rails')"
   )
-  button.btn.btn-sm.green(
+    img.img(
+      height = "24"
+      src = "/build/images/logos/logo-icon-rails.svg"
+      width = "24"
+    )
+    .grid-block.vertical
+      strong.strong Rails
+      small.small.weight-light A Rails & MySQL app.
+    svg.iconnables.icons-arrow-forward.anchor-right(
+      ng-if = "!$root.isLoading.startDemoRails"
+    )
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
+    .spinner-wrapper.spinner-sm.spinner-gray.in(
+      ng-if = "$root.isLoading.startDemoRails"
+      ng-include = "'spinner'"
+    )
+  li.grid-block.align-center.list-item-fork(
     data-event-name = "Clicked: Start Demo (Python)"
-    ng-class = "{'loading': $root.isLoading.startDemoPython}"
+    ng-class = "{'disabled' :$root.isLoading.startDemo}"
     ng-click = "AMC.startDemo('python')"
-    ng-disabled = "$root.isLoading.startDemo"
   )
-    span.span Start Demo
-    .spinner-wrapper.spinner-sm.spinner-white.in(
+    img.img(
+      height = "24"
+      src = "/build/images/logos/logo-icon-django.svg"
+      width = "24"
+    )
+    .grid-block.vertical
+      strong.strong Django
+      small.small.weight-light A Django & PostgreSQL app.
+    svg.iconnables.icons-arrow-forward.anchor-right(
+      ng-if = "!$root.isLoading.startDemoPython"
+    )
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
+    .spinner-wrapper.spinner-sm.spinner-gray.in(
       ng-if = "$root.isLoading.startDemoPython"
       ng-include = "'spinner'"
     )
-  small.small.text-center.text-gray.margin-top-sm We’ll fork a Python repo&#32;
-    br.br
-    | to your GitHub account.
-li.grid-block.vertical.align-center.list-item-fork
-  img.img.margin-bottom-sm(
-    height = "48"
-    src = "/build/images/logos/logo-icon-ruby.svg"
-    width = "48"
+  li.grid-block.align-center.list-item-fork(
+    data-event-name = "Clicked: Start Demo (PHP)"
+    ng-class = "{'disabled' :$root.isLoading.startDemo}"
+    ng-click = "AMC.startDemo('php')"
   )
-  button.btn.btn-sm.green(
-    data-event-name = "Clicked: Start Demo (Ruby)"
-    ng-class = "{'loading': $root.isLoading.startDemoRuby}"
-    ng-click = "AMC.startDemo('ruby')"
-    ng-disabled = "$root.isLoading.startDemo"
-  )
-    span.span Start Demo
-    .spinner-wrapper.spinner-sm.spinner-white.in(
-      ng-if = "$root.isLoading.startDemoRuby"
+    img.img(
+      height = "24"
+      src = "/build/images/logos/logo-icon-php.svg"
+      width = "24"
+    )
+    .grid-block.vertical
+      strong.strong PHP
+      small.small.weight-light A PHP & MySQL app.
+    svg.iconnables.icons-arrow-forward.anchor-right(
+      ng-if = "!$root.isLoading.startDemoPHP"
+    )
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
+    .spinner-wrapper.spinner-sm.spinner-gray.in(
+      ng-if = "$root.isLoading.startDemoPHP"
       ng-include = "'spinner'"
     )
-  small.small.text-center.text-gray.margin-top-sm We’ll fork a Ruby repo&#32;
-    br.br
-    | to your GitHub account.
-li.grid-block.vertical.align-center.list-item-fork(
-  ng-if = "AMC.accountHasRepos"
+
+ul.grid-block.align-center.list-fork(
+  ng-class = "{\
+    'grid-2': AMC.accountHasRepos,\
+    'grid-3': !AMC.accountHasRepos\
+  }"
+  ng-if = "!$root.featureFlags.demoMultiTier"
 )
-  img.img.margin-bottom-sm(
-    height = "48"
-    ng-src = "{{AMC.currentOrg.github.gravitar()}}"
-    width = "48"
+  li.grid-block.vertical.align-center.list-item-fork
+    img.img.margin-bottom-sm(
+      height = "48"
+      src = "/build/images/logos/logo-icon-nodejs.svg"
+      width = "48"
+    )
+    button.btn.btn-sm.green(
+      data-event-name = "Clicked: Start Demo (node.js)"
+      ng-class = "{'loading': $root.isLoading.startDemoNodejs}"
+      ng-click = "AMC.startDemo('nodejs')"
+      ng-disabled = "$root.isLoading.startDemo"
+    )
+      span.span Start Demo
+      .spinner-wrapper.spinner-sm.spinner-white.in(
+        ng-if = "$root.isLoading.startDemoNodejs"
+        ng-include = "'spinner'"
+      )
+    small.small.text-center.text-gray.margin-top-sm We’ll fork a node.js repo&#32;
+      br.br
+      | to your GitHub account.
+  li.grid-block.vertical.align-center.list-item-fork
+    img.img.margin-bottom-sm(
+      height = "48"
+      src = "/build/images/logos/logo-icon-python.svg"
+      width = "48"
+    )
+    button.btn.btn-sm.green(
+      data-event-name = "Clicked: Start Demo (Python)"
+      ng-class = "{'loading': $root.isLoading.startDemoPython}"
+      ng-click = "AMC.startDemo('python')"
+      ng-disabled = "$root.isLoading.startDemo"
+    )
+      span.span Start Demo
+      .spinner-wrapper.spinner-sm.spinner-white.in(
+        ng-if = "$root.isLoading.startDemoPython"
+        ng-include = "'spinner'"
+      )
+    small.small.text-center.text-gray.margin-top-sm We’ll fork a Python repo&#32;
+      br.br
+      | to your GitHub account.
+  li.grid-block.vertical.align-center.list-item-fork
+    img.img.margin-bottom-sm(
+      height = "48"
+      src = "/build/images/logos/logo-icon-ruby.svg"
+      width = "48"
+    )
+    button.btn.btn-sm.green(
+      data-event-name = "Clicked: Start Demo (Ruby)"
+      ng-class = "{'loading': $root.isLoading.startDemoRuby}"
+      ng-click = "AMC.startDemo('ruby')"
+      ng-disabled = "$root.isLoading.startDemo"
+    )
+      span.span Start Demo
+      .spinner-wrapper.spinner-sm.spinner-white.in(
+        ng-if = "$root.isLoading.startDemoRuby"
+        ng-include = "'spinner'"
+      )
+    small.small.text-center.text-gray.margin-top-sm We’ll fork a Ruby repo&#32;
+      br.br
+      | to your GitHub account.
+  li.grid-block.vertical.align-center.list-item-fork(
+    ng-if = "AMC.accountHasRepos"
   )
-  button.btn.btn-sm.white(
-    data-event-name = "Clicked: Skip Demo/Use Existing Repos"
-    ng-click = "AMC.addOwnRepo()"
-    ng-disabled = "$root.isLoading.startDemo"
-  ) Use Existing Repos
-  small.small.text-center.text-gray.margin-top-sm Continue with the repos&#32;
-    br.br
-    | you already have (experienced users).
+    img.img.margin-bottom-sm(
+      height = "48"
+      ng-src = "{{AMC.currentOrg.github.gravitar()}}"
+      width = "48"
+    )
+    button.btn.btn-sm.white(
+      data-event-name = "Clicked: Skip Demo/Use Existing Repos"
+      ng-click = "AMC.addOwnRepo()"
+      ng-disabled = "$root.isLoading.startDemo"
+    ) Use Existing Repos
+    small.small.text-center.text-gray.margin-top-sm Continue with the repos&#32;
+      br.br
+      | you already have (experienced users).

@@ -11,6 +11,7 @@ function ChooseOrganizationModalController(
   ahaGuide,
   configEnvironment,
   createNewSandboxForUserService,
+  currentOrg,
   customWindowService,
   errs,
   eventTracking,
@@ -37,9 +38,6 @@ function ChooseOrganizationModalController(
   COMC.demoOrg = null;
 
   COMC.defaultBasePanel = 'orgSelection';
-  if (COMC.allAccounts.models.length === 0) {
-    COMC.defaultBasePanel = 'grantAccess';
-  }
 
   COMC.isInDemoFlow = false;
 
@@ -183,9 +181,13 @@ function ChooseOrganizationModalController(
     });
   };
   COMC.getSelectedOrg = function (selectedOrgName) {
-    return COMC.allAccounts.models.find(function (org) {
+    var selectedOrg = COMC.allAccounts.models.find(function (org) {
       return selectedOrgName.toLowerCase() === org.oauthName().toLowerCase();
     });
+    if (!selectedOrg) {
+      selectedOrg = COMC.user;
+    }
+    return selectedOrg;
   };
   COMC.isChoosingOrg = ahaGuide.isChoosingOrg;
 

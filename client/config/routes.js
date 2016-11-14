@@ -60,6 +60,13 @@ module.exports = [
     ) {
       keypather.get(ModalService, 'modalLayers[0].modal.controller.close()');
     },
+    onEnter: function (
+      ModalService
+    ) {
+      ModalService.modalLayers.forEach(function (openModal) {
+        openModal.close();
+      });
+    },
     resolve: {
       grantedOrgs: function (fetchGrantedGithubOrgs) {
         return fetchGrantedGithubOrgs();

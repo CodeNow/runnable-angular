@@ -1,20 +1,20 @@
 .spinner-wrapper.spinner-md.in(
-  ng-if = "$root.isLoading.newContainerModalRepos"
+  ng-if = "$root.isLoading.newContainerRepos"
   ng-include = "'spinner'"
 )
 
 //- hide this when loading
 .grid-block.shrink.justify-justified.list-header(
-  ng-if = "!$root.isLoading.newContainerModalRepos"
+  ng-if = "!$root.isLoading.newContainerRepos"
 )
-  small.small {{MC.state.tabName === 'repos' ? 'By last updated' : ''}}
+  small.small {{NCC.state.tabName === 'repos' ? 'By last updated' : ''}}
 
   //- search
     - disable while loading
   input.input.input-xs.input-search(
     autofocus
-    ng-model = "MC.repoFilter"
-    ng-disabled = "$root.isLoading[MC.name + 'SingleRepo']"
+    ng-model = "NCC.repoFilter"
+    ng-disabled = "$root.isLoading.newContainerSingleRepo"
     ng-keyup = "$digest"
     placeholder = "Search"
     required
@@ -24,8 +24,8 @@
 //- show this if there are no repositories to add
 .grid-block.well.gray.justify-center.padding-md(
   ng-if = "\
-    !$root.isLoading.newContainerModalRepos && \
-    MC.githubRepos.models.length === 0 \
+    !$root.isLoading.newContainerRepos && \
+    NCC.githubRepos.models.length === 0 \
   "
 )
   .p.empty
@@ -40,28 +40,29 @@
 //- list of repositories (mock up, we already have a template for this)
 ul.list.list-servers(
   ng-if = "\
-    !$root.isLoading.newContainerModalRepos && \
-    MC.githubRepos.models.length !== 0\
+    !$root.isLoading.newContainerRepos && \
+    NCC.githubRepos.models.length !== 0\
   "
 )
   li.p.empty(
-    ng-if = "MC.githubRepos.models && !noResults.length"
+    ng-if = "NCC.githubRepos.models && !noResults.length"
   ) We couldn’t find any repositories named
     br
-    | ‘{{MC.repoFilter}}’.
+    | ‘{{NCC.repoFilter}}’.
 
   //- add active class when loading
   li.grid-block.align-center.list-item.multi-line.text-overflow(
-    ng-disabled = "$root.isLoading[MC.name + 'SingleRepo']"
-    ng-click = "!$root.isLoading[MC.name + 'SingleRepo'] && MC.setRepo(repo, goToPanel)"
+    data-event-name = "Selected a Repository"
+    ng-disabled = "$root.isLoading.newContainerSingleRepo"
+    ng-click = "!$root.isLoading.newContainerSingleRepo && NCC.setRepo(repo, goToPanel)"
     ng-repeat = "\
-      repo in MC.githubRepos.models | \
-      repos: MC.repoFilter | \
+      repo in NCC.githubRepos.models | \
+      repos: NCC.repoFilter | \
       orderBy: '-attrs.pushed_at' as noResults\
     "
     ng-class = "{ \
       'active': repo.loading, \
-      'disabled': $root.isLoading[MC.name + 'SingleRepo'] \
+      'disabled': $root.isLoading.newContainerSingleRepo \
     }"
   )
     .grid-content.text-overflow(
@@ -72,10 +73,10 @@ ul.list.list-servers(
       )
         //- if invite flows...
         .btn-user.text-overflow(
-          ng-class = "{'active': MC.state.active}"
+          ng-class = "{'active': NCC.state.active}"
           ng-include = "'userButtonView'"
           pop-over
-          pop-over-active = "MC.state.active"
+          pop-over-active = "NCC.state.active"
           pop-over-options = "{\"left\":-22,\"top\":26}"
           pop-over-template = "userPopoverView"
         )

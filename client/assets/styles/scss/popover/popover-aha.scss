@@ -20,6 +20,6 @@
   }
 
   .popover-content {
-    @extend %padding-sm;
+    padding: $sm;
   }
 }

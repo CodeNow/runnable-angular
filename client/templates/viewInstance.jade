@@ -5,9 +5,19 @@
 )
 
 .grid-block.vertical.instance(
-  ng-if = "!isLoading.main && !$root.featureFlags.containersViewEmptyState"
+  ng-if = "!isLoading.main"
 )
-  .grid-block.vertical
+  .grid-block.justify-center.align-center(
+    ng-if = "$root.featureFlags.demoMultiTier && !$root.featureFlags.demoMultiTierAddBranch || $root.featureFlags.containersViewEmptyState"
+  )
+    img(
+      height = "40"
+      src = "/build/images/runnabear-head-empty.png"
+      width = "40"
+    )
+  .grid-block.vertical(
+    ng-if = "(!$root.featureFlags.demoMultiTier || $root.featureFlags.demoMultiTierAddBranch) && !$root.featureFlags.containersViewEmptyState"
+  )
     //- show if server build is being swapped out
       - orange when build is updating or has failed
       - green if build is successfully built

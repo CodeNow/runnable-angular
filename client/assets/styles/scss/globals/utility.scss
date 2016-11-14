@@ -22,33 +22,59 @@
 }
 
 // default sizes
-@for $i from 1 to 7 {
+@for $i from 1 to 8 {
 
   // padding
-  %padding-#{nth($size-list,$i)},
   .padding-#{nth($size-list,$i)} {
     padding: nth($sizes,$i);
   }
 
-  // margin
-  %margin-#{nth($size-list,$i)},
-  .margin-#{nth($size-list,$i)} {
-    margin: nth($sizes,$i);
+  @for $y from 1 to 8 {
+    @media (max-width: #{nth($screen-sizes,$y)}) {
+      .padding-#{nth($size-list,$i)}-#{nth($screen-size-list,$y)} {
+        padding: nth($sizes,$i);
+      }
+    }
   }
-}
-
-// keeping this in a separate loop allows specific sizes to override default ones
-@for $i from 1 to 7 {
 
   @for $x from 1 to 5 {
     .padding-#{nth($size-directions,$x)}-#{nth($size-list,$i)} {
       padding-#{nth($size-directions,$x)}: nth($sizes,$i);
+    }
+
+    @for $y from 1 to 8 {
+      @media (max-width: #{nth($screen-sizes,$y)}) {
+        .padding-#{nth($size-directions,$x)}-#{nth($size-list,$i)}-#{nth($screen-size-list,$y)} {
+          padding-#{nth($size-directions,$x)}: nth($sizes,$i);
+        }
+      }
+    }
+  }
+
+  // margin
+  .margin-#{nth($size-list,$i)} {
+    margin: nth($sizes,$i);
+  }
+
+  @for $y from 1 to 8 {
+    @media (max-width: #{nth($screen-sizes,$y)}) {
+      .margin-#{nth($size-list,$i)}-#{nth($screen-size-list,$y)} {
+        margin: nth($sizes,$i);
+      }
     }
   }
 
   @for $x from 1 to 5 {
     .margin-#{nth($size-directions,$x)}-#{nth($size-list,$i)} {
       margin-#{nth($size-directions,$x)}: nth($sizes,$i);
+    }
+
+    @for $y from 1 to 8 {
+      @media (max-width: #{nth($screen-sizes,$y)}) {
+        .margin-#{nth($size-directions,$x)}-#{nth($size-list,$i)}-#{nth($screen-size-list,$y)} {
+          margin-#{nth($size-directions,$x)}: nth($sizes,$i);
+        }
+      }
     }
   }
 }

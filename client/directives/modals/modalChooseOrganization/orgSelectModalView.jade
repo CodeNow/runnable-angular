@@ -2,7 +2,7 @@
   h1.modal-heading Welcome Aboard!
 
 .grid-block.vertical.padding-sm
-  p.margin-top-sm.margin-bottom-md.p.text-center.weight-light Which team’s code do&#32;
+  p.margin-top-sm.margin-bottom-md.p.text-center.weight-light Whose code do&#32;
     br.visible-xxxs
     | you want to run?
 
@@ -19,6 +19,22 @@
         width = "30"
       )
       span.grid-content.text-left.text-overflow {{org.oauthName()}}
+      svg.grid-content.iconnables.icons-arrow-forward.shrink
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+    li.grid-block.align-center.list-item.btn.white(
+      data-event-name = "PA Selected"
+      ng-click = "COMC.actions.createOrCheckDock(COMC.user.oauthName())"
+      ng-if = "$root.featureFlags.personalAccounts"
+      title = "{{COMC.user.oauthName()}}"
+    )
+      img.grid-content.shrink(
+        height = "30"
+        ng-src = "{{COMC.user.gravitar()}}"
+        width = "30"
+      )
+      span.grid-content.text-left.text-overflow {{COMC.user.oauthName()}}
       svg.grid-content.iconnables.icons-arrow-forward.shrink
         use(
           xlink:href = "#icons-arrow-down"
