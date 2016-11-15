@@ -1,9 +1,9 @@
 /*global runnable:true, mocks: true, directiveTemplate: true, xdescribe: true, before, xit: true */
 'use strict';
 
-describe('NewContainerModalController'.bold.underline.blue, function () {
+describe('NewContainerController'.bold.underline.blue, function () {
   var $scope;
-  var NCMC;
+  var NCC;
 
   // Imported Values
   var $controller;
@@ -93,7 +93,6 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
           showModal: showModalStub
         };
       });
-      $provide.value('close', closeStub);
       $provide.value('currentOrg', mockCurrentOrg);
       $provide.factory('fetchOwnerRepos', function ($q) {
         runnable.reset(mocks.user);
@@ -118,9 +117,15 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
       keypather = _keypather_;
 
       $scope = $rootScope.$new();
-      NCMC = $controller('NewContainerModalController', {
-        $scope: $scope
-      });
+      NCC = $controller(
+        'NewContainerController',
+        {
+          $scope: $scope
+        },
+        {
+          close: closeStub
+        }
+      );
     });
   }
   function setupMockValues () {
@@ -169,8 +174,8 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
       sinon.assert.calledOnce(fetchInstancesByPodStub);
       sinon.assert.calledOnce(fetchOwnerRepoStub);
       sinon.assert.calledWith(fetchOwnerRepoStub, 'myOauthName');
-      expect(NCMC.githubRepos).to.equal(repos);
-      expect(NCMC.instances).to.equal(instances);
+      expect(NCC.githubRepos).to.equal(repos);
+      expect(NCC.instances).to.equal(instances);
     });
 
     it('should not fetch all templates instances', function () {
@@ -185,14 +190,14 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
         var repo = {};
         var dockerfile = null;
         var configurationMethod = false;
-        sinon.stub(NCMC, 'newRepositoryContainer');
+        sinon.stub(NCC, 'newRepositoryContainer');
 
-        NCMC.createBuildAndGoToNewRepoModal(instanceName, repo, dockerfile, configurationMethod);
+        NCC.createBuildAndGoToNewRepoModal(instanceName, repo, dockerfile, configurationMethod);
         $scope.$digest();
         sinon.assert.calledOnce(createNewBuildAndFetchBranch);
         sinon.assert.calledWith(createNewBuildAndFetchBranch, mockCurrentOrg.github, repo);
-        sinon.assert.calledOnce(NCMC.newRepositoryContainer);
-        sinon.assert.calledWithExactly(NCMC.newRepositoryContainer, repoBuildAndBranch, configurationMethod);
+        sinon.assert.calledOnce(NCC.newRepositoryContainer);
+        sinon.assert.calledWithExactly(NCC.newRepositoryContainer, repoBuildAndBranch, configurationMethod);
         expect(repoBuildAndBranch.instanceName).to.equal(instanceName);
       });
 
@@ -200,16 +205,16 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
         var repo = {};
         var dockerfile = {};
         var configurationMethod = 'dockerfile'
-        sinon.stub(NCMC, 'newRepositoryContainer');
-        sinon.stub(NCMC, 'newMirrorRepositoryContainer');
+        sinon.stub(NCC, 'newRepositoryContainer');
+        sinon.stub(NCC, 'newMirrorRepositoryContainer');
 
-        NCMC.createBuildAndGoToNewRepoModal(instanceName, repo, dockerfile, 'dockerfile');
+        NCC.createBuildAndGoToNewRepoModal(instanceName, repo, dockerfile, 'dockerfile');
         $scope.$digest();
         sinon.assert.calledOnce(createNewBuildAndFetchBranch);
         sinon.assert.calledWith(createNewBuildAndFetchBranch, mockCurrentOrg.github, repo);
-        sinon.assert.calledOnce(NCMC.newMirrorRepositoryContainer);
-        sinon.assert.calledWithExactly(NCMC.newMirrorRepositoryContainer, repoBuildAndBranch);
-        sinon.assert.notCalled(NCMC.newRepositoryContainer);
+        sinon.assert.calledOnce(NCC.newMirrorRepositoryContainer);
+        sinon.assert.calledWithExactly(NCC.newMirrorRepositoryContainer, repoBuildAndBranch);
+        sinon.assert.notCalled(NCC.newRepositoryContainer);
         expect(repoBuildAndBranch.instanceName).to.equal(instanceName);
       });
     });
@@ -218,7 +223,7 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
       it('should close the modal and call the new modal', function () {
         var dockerfileType = 'blankDockerfile';
         repoBuildAndBranch.instanceName = instanceName;
-        NCMC.newRepositoryContainer(repoBuildAndBranch, dockerfileType);
+        NCC.newRepositoryContainer(repoBuildAndBranch, dockerfileType);
         $scope.$digest();
         sinon.assert.calledOnce(closeStub);
         sinon.assert.calledOnce(showModalStub);
@@ -253,37 +258,37 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
           }
         };
         var stub = sinon.stub();
-        NCMC.setRepo(repo1, stub);
+        NCC.setRepo(repo1, stub);
         $scope.$digest();
-        expect(NCMC.state.repo).to.equal(repo1);
-        NCMC.setRepo(repo2, stub);
+        expect(NCC.state.repo).to.equal(repo1);
+        NCC.setRepo(repo2, stub);
         $scope.$digest();
-        expect(NCMC.state.repo).to.equal(repo2);
+        expect(NCC.state.repo).to.equal(repo2);
       });
 
       it('should call the callback even if there are no dockerfiles', function () {
         fetchRepoDockerfilesStub.returns($q.when([]));
-        sinon.stub(NCMC, 'createBuildAndGoToNewRepoModal').returns($q.when(true));
+        sinon.stub(NCC, 'createBuildAndGoToNewRepoModal').returns($q.when(true));
         var repo = {
           attrs: {
             full_name: 'Hello'
           }
         };
         var stub = sinon.stub();
-        NCMC.setRepo(repo, stub);
+        NCC.setRepo(repo, stub);
         $scope.$digest();
-        expect(NCMC.state.repo).to.equal(repo);
+        expect(NCC.state.repo).to.equal(repo);
         sinon.assert.calledOnce(fetchRepoDockerfilesStub);
         sinon.assert.calledWith(fetchRepoDockerfilesStub, 'Hello');
-        sinon.assert.notCalled(NCMC.createBuildAndGoToNewRepoModal);
+        sinon.assert.notCalled(NCC.createBuildAndGoToNewRepoModal);
         expect(repo.dockerfiles).to.have.length(0);
         sinon.assert.calledOnce(stub);
-        sinon.assert.calledWith(stub, 'dockerfileMirroring');
+        sinon.assert.calledWith(stub, 'nameContainer');
       });
 
       it('should call the callback if there are dockerfiles returns', function () {
         fetchRepoDockerfilesStub.returns($q.when([{}]));
-        sinon.stub(NCMC, 'createBuildAndGoToNewRepoModal').returns($q.when(true));
+        sinon.stub(NCC, 'createBuildAndGoToNewRepoModal').returns($q.when(true));
 
         var repo = {
           attrs: {
@@ -291,15 +296,15 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
           }
         };
         var stub = sinon.stub();
-        NCMC.setRepo(repo, stub);
+        NCC.setRepo(repo, stub);
         $scope.$digest();
-        expect(NCMC.state.repo).to.equal(repo);
+        expect(NCC.state.repo).to.equal(repo);
         sinon.assert.calledOnce(fetchRepoDockerfilesStub);
         sinon.assert.calledWith(fetchRepoDockerfilesStub, 'Hello');
-        sinon.assert.notCalled(NCMC.createBuildAndGoToNewRepoModal);
+        sinon.assert.notCalled(NCC.createBuildAndGoToNewRepoModal);
         expect(repo.dockerfiles).to.have.length(1);
         sinon.assert.calledOnce(stub);
-        sinon.assert.calledWith(stub, 'dockerfileMirroring');
+        sinon.assert.calledWith(stub, 'nameContainer');
       });
     });
 
@@ -310,7 +315,7 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
              name: 'mainRepo'
           }
         };
-        expect(NCMC.isRepoAdded(repos, instances)).to.equal(true);
+        expect(NCC.isRepoAdded(repos, instances)).to.equal(true);
       });
 
       it('should correctly identify repos that have not been added', function () {
@@ -319,7 +324,7 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
              name: 'notMainRepo'
           }
         };
-        expect(NCMC.isRepoAdded(repos, instances)).to.equal(false);
+        expect(NCC.isRepoAdded(repos, instances)).to.equal(false);
       });
     });
 
@@ -338,20 +343,20 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
       });
 
       it('should fetch the instances', function () {
-        NCMC.setTemplate(sourceInstance, goToPanelStub);
+        NCC.setTemplate(sourceInstance, goToPanelStub);
         $scope.$digest();
         sinon.assert.calledOnce(fetchInstancesStub);
       });
 
       it('should set the template source and instance name', function () {
-        NCMC.setTemplate(sourceInstance, goToPanelStub);
+        NCC.setTemplate(sourceInstance, goToPanelStub);
         $scope.$digest();
-        expect(NCMC.state.templateSource).to.equal(sourceInstance);
-        expect(NCMC.state.instanceName).to.equal(instanceName);
+        expect(NCC.state.templateSource).to.equal(sourceInstance);
+        expect(NCC.state.instanceName).to.equal(instanceName);
       });
 
       it('should go to the panel', function () {
-        NCMC.setTemplate(sourceInstance, goToPanelStub);
+        NCC.setTemplate(sourceInstance, goToPanelStub);
         $scope.$digest();
         $scope.$digest();
         sinon.assert.calledOnce(goToPanelStub);
@@ -368,13 +373,13 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
       });
 
       it('should close the modal', function () {
-        NCMC.createBuildFromTemplate(instanceName, sourceInstance);
+        NCC.createBuildFromTemplate(instanceName, sourceInstance);
         $scope.$digest();
         sinon.assert.calledOnce(closeStub);
       });
 
       it('should create the non repo instance', function () {
-        NCMC.createBuildFromTemplate(instanceName, sourceInstance);
+        NCC.createBuildFromTemplate(instanceName, sourceInstance);
         $scope.$digest();
         sinon.assert.calledOnce(createNonRepoInstanceStub);
         sinon.assert.calledWith(createNonRepoInstanceStub, instanceName, sourceInstance);
@@ -382,7 +387,7 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
 
       it('should handle errors', function () {
         createNonRepoInstanceStub.returns($q.reject(new Error()));
-        NCMC.createBuildFromTemplate(instanceName, sourceInstance);
+        NCC.createBuildFromTemplate(instanceName, sourceInstance);
         $scope.$digest();
         sinon.assert.calledOnce(createNonRepoInstanceStub);
         sinon.assert.calledWith(createNonRepoInstanceStub, instanceName, sourceInstance);
@@ -393,7 +398,7 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
      describe('addServerFromTemplate', function () {
       it('should close the modal and call the necessary functions', function () {
         fetchInstancesStub.reset();
-        NCMC.addServerFromTemplate(mockSourceInstance);
+        NCC.addServerFromTemplate(mockSourceInstance);
         $scope.$digest();
         sinon.assert.calledOnce(closeStub);
         sinon.assert.calledOnce(fetchInstancesStub);
@@ -409,48 +414,48 @@ describe('NewContainerModalController'.bold.underline.blue, function () {
 
   describe('fetchTemplateServers', function () {
     it('should fetch the tempaltes', function () {
-      NCMC.fetchTemplateServers(mockSourceInstance);
+      NCC.fetchTemplateServers(mockSourceInstance);
       $scope.$digest();
       sinon.assert.calledOnce(fetchInstancesStub);
       sinon.assert.calledWith(fetchInstancesStub, { githubUsername: 'HelloRunnable' });
-      expect(NCMC.templateServers).to.equal(instances);
+      expect(NCC.templateServers).to.equal(instances);
     });
   });
 
   describe('changeTab', function () {
     beforeEach(function () {
-      sinon.spy(NCMC, 'fetchTemplateServers');
+      sinon.spy(NCC, 'fetchTemplateServers');
     });
     afterEach(function () {
-      NCMC.fetchTemplateServers.restore();
+      NCC.fetchTemplateServers.restore();
     });
 
     it('should set the tabName', function () {
-      NCMC.changeTab('repos');
-      expect(NCMC.state.tabName).to.equal('repos');
-      NCMC.changeTab('services');
-      expect(NCMC.state.tabName).to.equal('services');
+      NCC.changeTab('repos');
+      expect(NCC.state.tabName).to.equal('repos');
+      NCC.changeTab('services');
+      expect(NCC.state.tabName).to.equal('services');
     });
 
     it('should not set an invalid tab name', function () {
-      NCMC.changeTab('services');
-      expect(NCMC.state.tabName).to.equal('services');
-      NCMC.changeTab('asdfasdfasdfrepos');
-      expect(NCMC.state.tabName).to.equal('services');
+      NCC.changeTab('services');
+      expect(NCC.state.tabName).to.equal('services');
+      NCC.changeTab('asdfasdfasdfrepos');
+      expect(NCC.state.tabName).to.equal('services');
     });
 
     it('should fetch the templates if in services', function () {
-      sinon.assert.notCalled(NCMC.fetchTemplateServers);
-      NCMC.changeTab('repos');
+      sinon.assert.notCalled(NCC.fetchTemplateServers);
+      NCC.changeTab('repos');
       $scope.$digest();
-      sinon.assert.notCalled(NCMC.fetchTemplateServers);
+      sinon.assert.notCalled(NCC.fetchTemplateServers);
       $scope.$digest();
-      NCMC.changeTab('services');
+      NCC.changeTab('services');
       $scope.$digest();
-      sinon.assert.calledOnce(NCMC.fetchTemplateServers);
-      NCMC.changeTab('services');
+      sinon.assert.calledOnce(NCC.fetchTemplateServers);
+      NCC.changeTab('services');
       $scope.$digest();
-      sinon.assert.calledOnce(NCMC.fetchTemplateServers);
+      sinon.assert.calledOnce(NCC.fetchTemplateServers);
     });
 
   });

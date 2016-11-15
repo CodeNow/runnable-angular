@@ -19,12 +19,69 @@ function serverModalButtonsDirective(
       SMC: '=serverModalController'
     },
     link: function ($scope) {
-      $scope.showSaveAndBuild = function () {
-        return (
-          (!$scope.SMC.instance && ($scope.SMC.state.advanced || $scope.SMC.state.step < 4)) ||
-          ($scope.SMC.isDirty() === 'build' && !$rootScope.isLoading[$scope.SMC.name])
-        );
+      function getDisplayFlagHash () {
+        // Possible Buttons
+        //   cancel
+        //   done
+        //   save
+        //   next
+        //   demoSave
+        //   willRebuildOnSave
+        //   disableSave
+
+        if ($rootScope.featureFlags.demoFlowPhase2 && $scope.SMC.isDemo) {
+          // Demo Mode
+          return {
+            demoSave: true,
+            cancel: true
+          };
+        }
+
+        if (!$scope.SMC.isSettingUpNewInstance) {
+          // We have an instance we are editing
+          var willRebuild = $scope.SMC.isDirty() === 'build';
+          return {
+            cancel: true,
+            willRebuildOnSave: willRebuild,
+            save: true,
+            done: true,
+            disableSave: shouldDisableSaveButton()
+          };
+        }
+
+        // We haven't gotten through our steps yet!
+        if (!$scope.SMC.isTabVisible('buildfiles')) {
+          return {
+            cancel: true,
+            next: true
+          };
+        }
+
+        // We are at the final stages of setup
+        return {
+          save: true,
+          willRebuildOnSave: true,
+          cancel: true,
+          disableSave: shouldDisableSaveButton()
+        };
+      }
+
+      function shouldDisableSaveButton() {
+        return ($scope.SMC.needsToBeDirtySaved() && !$scope.SMC.isDirty()) || $scope.isPrimaryButtonDisabled();
+      }
+
+      var _displayFlagCache;
+      $scope.$watch(function () {
+        _displayFlagCache = null;
+      });
+      $scope.getDisplayFlag = function (buttonName) {
+        if (!_displayFlagCache) {
+          _displayFlagCache = getDisplayFlagHash();
+        }
+        return !!_displayFlagCache[buttonName];
       };
+
+
       $scope.createServerOrUpdate = function (forceClose) {
         if ($scope.isPrimaryButtonDisabled()) {
           return;

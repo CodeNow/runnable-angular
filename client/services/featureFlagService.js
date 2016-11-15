@@ -49,9 +49,10 @@ function featureFlags(
     noBuildLogs: true,
     optionsInModal: false, // allows delete in modal
     personalAccounts: true, // allows users with personal accounts to create Runnable teams
-    personalAccountsPhase2: false,
+    personalAccountsPhase2: true,
     renameContainer: false,
     saveToolbar: false,
+    teamCTA: false,
     teamManagement: false,
     teamManagementAdvanced: false, // changes text from org to team in account menu
     testingFeature: false,

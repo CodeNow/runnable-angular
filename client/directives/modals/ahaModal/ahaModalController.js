@@ -157,7 +157,7 @@ function AhaModalController(
     close();
     ModalService.showModal({
       controller: 'NewContainerModalController',
-      controllerAs: 'MC', // Shared
+      controllerAs: 'NCMC',
       templateUrl: 'newContainerModalView'
     });
   };

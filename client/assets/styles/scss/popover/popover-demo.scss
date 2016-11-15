@@ -71,22 +71,19 @@
   }
 
   // add branch step
-  .instructions,
-  .monospace {
+  .commands-wrapper {
     background: $gray-dark;
     color: $gray-lighter;
   }
 
   .monospace {
     overflow-x: auto;
-    padding: 0 $sm $sm;
   }
 
   // 'copy' button
   .btn-xxs {
     background: $gray;
     color: $white;
-    font-size: 13px;
 
     &:hover {
       background: rgba($gray,.7);

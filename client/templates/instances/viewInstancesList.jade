@@ -71,21 +71,21 @@
   .grid-block.vertical.noscroll.relative
 
     //- guide to adding a branch
-        remove if a branch has been added
+        show until a branch has been added
     .grid-block.vertical.popover.in.popover-demo.js-animate(
-      ng-include = "'addBranchView'"
       ng-if = "$root.featureFlags.demoMultiTier && $root.featureFlags.demoMultiTierAddBranch && !$root.featureFlags.containersViewEmptyState"
+      ng-include = "'addBranchView'"
     )
 
     //- wraps all branch clusters
-        show if any branches have been added
+        hide until a branch has been added
     .branch-clusters-wrapper.js-animate
 
       //- branch clusters
       .grid-block.vertical.shrink.list-clusters.js-animate(
+        ng-if = "!$root.featureFlags.containersViewEmptyState && !$root.featureFlags.demoMultiTierAddBranch"
         ng-repeat = "masterInstance in CIS.instancesByPod | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
         ng-show = "CIS.shouldShowParent(masterInstance)"
-        ng-if = "!$root.featureFlags.containersViewEmptyState && !$root.featureFlags.demoMultiTierAddBranch"
       )
 
         //- cluster list heading
