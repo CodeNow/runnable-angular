@@ -4,18 +4,6 @@
   max-width: 100%;
   position: relative;
   top: 0;
-  transition: opacity .3s ease-in, transform .3s ease-in;
-
-  &.ng-leave {
-    opacity: 1;
-    position: absolute;
-    transform: rotate3d(0,0,1,0) scale3d(1,1,1) translate3d(0,0,0);
-  }
-
-  &.ng-leave-active {
-    opacity: 0;
-    transform: rotate3d(0,0,1,-9deg) scale3d(.95,.95,1) translate3d(-50px,0,0);
-  }
 
   .list-item-fork {
     border-bottom: $input-border solid $gray-lighter;
