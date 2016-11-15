@@ -22,7 +22,7 @@ function intercom(
   $rootScope.$on('intercom::migrating', function () {
     $window.Intercom(
       'showNewMessage',
-      'Help! I\'m having issues with migration.'
+      'Help! I’m having issues with migration.'
     );
   });
   $rootScope.$on('intercom::pawsd', function () {

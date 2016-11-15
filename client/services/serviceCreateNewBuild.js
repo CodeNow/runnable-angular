@@ -110,7 +110,7 @@ function createNewBuildAndFetchBranch(
       })
       .catch(function (err) {
         if (err.message.match(/repo.*not.*found/ig)) {
-          var message = 'Failed to add Webhooks. Please invite a member of this repository\'s owners team to add it to Runnable for the first time';
+          var message = 'Failed to add Webhooks. Please invite a member of this repository’s owners team to add it to Runnable for the first time';
           errs.handler(new Error(message));
         } else {
           errs.handler(err);
