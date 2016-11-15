@@ -1,11 +1,11 @@
 //- intro to templates
 .grid-block.vertical.popover.in.popover-demo.js-animate(
-  ng-if = "$root.featureFlags.demoMultiTier && !$root.featureFlags.demoMultiTierAddBranch"
+  ng-if = "$root.featureFlags.demoMultiTier && !$root.featureFlags.demoMultiTierAddBranch && CIS.isInGuide()"
   ng-include = "'templateIntroView'"
 )
 
 .grid-block.shrink.vertical.js-animate(
-  ng-if = "!$root.featureFlags.demoMultiTier || $root.featureFlags.demoMultiTierAddBranch"
+  ng-if = "!$root.featureFlags.demoMultiTier || $root.featureFlags.demoMultiTierAddBranch || !CIS.isInGuide()"
 )
   //- search
   label.grid-block.shrink.vertical.label-search
