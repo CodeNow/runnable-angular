@@ -117,7 +117,7 @@ function ControllerInstances(
             userName: userName
           }, {location: 'replace'});
         }
-        CIS.hasNoInstance = true
+        CIS.hasNoInstance = true;
       }
     })
     .catch(errs.handler);
