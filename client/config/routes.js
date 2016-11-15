@@ -261,6 +261,23 @@ module.exports = [
         $state.params.userName = $stateParams.userName;
         return fetchInstancesByPod();
       },
+      hasConfirmedSetup: function (
+        $rootScope,
+        $state,
+        $stateParams,
+        $timeout,
+        ahaGuide,
+        featureFlags,
+        populateCurrentOrgService // Unused, but required so things are properly populated!
+      ) {
+        if (!featureFlags.flags.containersViewTemplateControls && featureFlags.flags.aha && ahaGuide.isInGuide() && !ahaGuide.hasConfirmedSetup()) {
+          $timeout(function () {
+            $state.go('base.config', {
+              userName: $stateParams.userName
+            });
+          });
+        }
+      },
       booted: function (eventTracking) {
         eventTracking.visitedContainersPage();
       }

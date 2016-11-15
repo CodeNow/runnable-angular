@@ -16,6 +16,7 @@ function ControllerInstances(
   currentOrg,
   errs,
   eventTracking,
+  featureFlags,
   fetchInstancesByPod,
   fetchRepoBranches,
   keypather,
@@ -36,6 +37,7 @@ function ControllerInstances(
   CIS.instanceBranches = null;
   CIS.unbuiltBranches = null;
   CIS.branchQuery = null;
+  CIS.hasNoInstance = false;
   CIS.$storage = $localStorage.$default({
     instanceListIsClosed: false
   });
@@ -105,11 +107,17 @@ function ControllerInstances(
 
       if ($state.current.name !== 'base.instances.instance') {
         if (targetInstance) {
-          $state.go('base.instances.instance', {
+          return $state.go('base.instances.instance', {
             instanceName: keypather.get(targetInstance, 'attrs.name'),
             userName: userName
           }, {location: 'replace'});
         }
+        if (!featureFlags.flags.containersViewTemplateControls) {
+          return $state.go('base.config', {
+            userName: userName
+          }, {location: 'replace'});
+        }
+        CIS.hasNoInstance = true
       }
     })
     .catch(errs.handler);
