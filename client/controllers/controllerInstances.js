@@ -16,6 +16,7 @@ function ControllerInstances(
   currentOrg,
   errs,
   eventTracking,
+  featureFlags,
   fetchInstancesByPod,
   fetchRepoBranches,
   keypather,
@@ -105,12 +106,13 @@ function ControllerInstances(
 
       if ($state.current.name !== 'base.instances.instance') {
         if (targetInstance) {
-          $state.go('base.instances.instance', {
+          return $state.go('base.instances.instance', {
             instanceName: keypather.get(targetInstance, 'attrs.name'),
             userName: userName
           }, {location: 'replace'});
-        } else {
-          $state.go('base.config', {
+        }
+        if (!featureFlags.flags.containersViewTemplateControls) {
+          return $state.go('base.config', {
             userName: userName
           }, {location: 'replace'});
         }

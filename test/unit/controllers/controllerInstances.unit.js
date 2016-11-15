@@ -217,22 +217,6 @@ describe('ControllerInstances'.bold.underline.blue, function () {
         instanceName: 'spaaace'
       });
     });
-    it('should navigate to new for org2', function () {
-      setup('org2');
-      $rootScope.$digest();
-      var many = runnable.newInstances(
-        [],
-        {noStore: true}
-      );
-      sinon.stub($state, 'includes')
-        .withArgs('instances').returns(true)
-        .withArgs('instance').returns(false);
-      mockFetch.triggerPromise(many);
-      $rootScope.$digest();
-      sinon.assert.calledWith(ctx.fakeGo, 'base.config', {
-        userName: 'org2'
-      });
-    });
   });
   describe('local storage options'.blue, function () {
     it('should navigate based on local storage');
