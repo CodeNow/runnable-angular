@@ -1,7 +1,6 @@
 .popover-demo {
   color: $gray-dark;
-  left: auto;
-  margin-top: $xs;
+  left: 0;
   position: relative;
   top: auto;
   transition: opacity .15s ease-in-out, transform .3s ease-in-out;
