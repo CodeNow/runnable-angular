@@ -37,6 +37,13 @@ function NewContainerController(
   });
   angular.extend(NCC.state, defaultState);
 
+  // Disable the back button because we are loading the modal with state, other than the default state
+  // This means we have already finished the containerSelection step and the user can't go back to a different view
+  // than they already started at
+  if (NCC.state.panel !== 'containerSelection') {
+    NCC.disableBackButton = true;
+  }
+
   $timeout(function () {
     $scope.$broadcast('go-to-panel', NCC.state.panel, 'immediate');
   });
@@ -161,9 +168,20 @@ function NewContainerController(
       .catch(errs.handler);
   };
 
+  NCC.saveName = function () {
+    if (NCC.state.repo) {
+      return $scope.$broadcast('go-to-panel', 'dockerfileMirroring');
+    }
+    return NCC.createBuildFromTemplate(NCC.state.instanceName, NCC.state.templateSource);
+  };
+
+  NCC.saveDockerfileMirroring = function () {
+    return NCC.createBuildAndGoToNewRepoModal(NCC.state.instanceName, NCC.state.repo, NCC.state.dockerfile, NCC.state.configurationMethod);
+  };
+
   NCC.setRepo = function (repo, goToPanelCb) {
     if (repo.attrs.full_name === keypather.get(NCC, 'state.repo.attrs.full_name')) {
-      return goToPanelCb('dockerfileMirroring');
+      return goToPanelCb('nameContainer');
     }
     repo.loading = true;
     NCC.state.repo = repo;
@@ -179,7 +197,7 @@ function NewContainerController(
         repo.loading = false;
         repo.dockerfiles = dockerfiles;
         NCC.state.dockerfile = null;
-        return goToPanelCb('dockerfileMirroring');
+        return goToPanelCb('nameContainer');
       });
   };
 

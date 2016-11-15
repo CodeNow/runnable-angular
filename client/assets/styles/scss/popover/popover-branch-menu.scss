@@ -18,20 +18,19 @@
     }
 
     &:active:not(.disabled),
-    &.active:not(.disabled) {
+    &.active {
       background: $white;
       border-color: currentColor;
       color: $green;
     }
 
-    &.active {
-      cursor: default;
-    }
-
     // loading state
     &.disabled {
       cursor: not-allowed;
-      opacity: .5;
+
+      &:not(.active) {
+        opacity: .5;
+      }
     }
 
     .spinner-wrapper {

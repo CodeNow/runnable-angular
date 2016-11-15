@@ -18,7 +18,6 @@ animated-panel-container.modal-servers
         .btn-text.grid-block.vertical.text-left Repository Template
           small.small From your GitHub org
 
-      //- disable this button when loading a repository
       .grid-block.align-center.shrink.btn.btn-radio(
         ng-disabled = "$root.isLoading.newContainerSingleRepo"
         ng-class = "{\
@@ -57,7 +56,7 @@ animated-panel-container.modal-servers
   )
     header.modal-header
       svg.iconnables.icons-arrow-backward(
-        ng-click = "!$root.isLoading.newContainerSingleRepo && goToPanel('containerSelection', 'back')"
+        ng-click = "!$root.isLoading.newContainerSingleRepo && goToPanel('nameContainer', 'back')"
       )
         use(
           xlink:href = "#icons-arrow-down"
@@ -86,13 +85,13 @@ animated-panel-container.modal-servers
       ) Cancel
       button.btn.btn-md.green.float-right(
         ng-disabled = "$root.isLoading.newContainerSingleRepo || NCC.state.configurationMethod === null"
-        ng-click = "goToPanel('nameContainer')"
+        ng-click = "NCC.saveDockerfileMirroring()"
       )
         .spinner-wrapper.spinner-white.spinner-sm.in(
           ng-include = "'spinner'"
           ng-if = "$root.isLoading.newContainerSingleRepo"
         )
-        span Next Step: Naming
+        span Next Step: Configuration
 
   animated-panel.grid-block.vertical.modals-rename(
     name = "nameContainer"
@@ -101,7 +100,8 @@ animated-panel-container.modal-servers
     header.modal-header
       svg.iconnables.icons-arrow-backward(
         ng-class = "{'disabled': $root.isLoading.newContainerSingleRepo}"
-        ng-click = "!$root.isLoading.newContainerSingleRepo && goToPanel(NCC.state.templateSource ? 'containerSelection' : 'dockerfileMirroring', 'back')"
+        ng-click = "!$root.isLoading.newContainerSingleRepo && goToPanel('containerSelection', 'back')"
+        ng-if = "!NCC.disableBackButton"
       )
         use(
           xlink:href = "#icons-arrow-down"
@@ -160,13 +160,8 @@ animated-panel-container.modal-servers
       ) Cancel
       button.btn.btn-md.green.float-right(
         ng-disabled = "!NCC.state.instanceName.length || NCC.nameForm.$invalid || $root.isLoading.newContainerSingleRepo"
-        ng-click = " \
-          (NCC.state.repo) ? NCC.createBuildAndGoToNewRepoModal(NCC.state.instanceName, NCC.state.repo, NCC.state.dockerfile, NCC.state.configurationMethod) : \
-          NCC.createBuildFromTemplate(NCC.state.instanceName, NCC.state.templateSource) \
-        "
+        ng-click = "NCC.saveName()"
       )
-        //- should say "Next Step: Setup" if a repository container
-        //- should say "Create Template" if its a non-repository container
         .spinner-wrapper.spinner-white.spinner-sm.float-left(
           ng-if = "$root.isLoading.newContainerSingleRepo"
           ng-include = "'spinner'"
