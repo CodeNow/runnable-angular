@@ -35,7 +35,7 @@
         pop-over
         pop-over-options = "{\"top\":-30,\"left\":114}"
         pop-over-template = "templateMenuPopoverView"
-      ) Create Template
+      ) Create Service
         svg.iconnables.icons-arrow-forward
           use(
             xlink:href = "#icons-arrow-down"
@@ -65,7 +65,7 @@
     ng-if = "$root.featureFlags.containersViewTemplateControls && !CIS.getFilteredInstanceList().length && !CIS.searchBranches"
   ) 👆
     br
-    .small {{$root.featureFlags.demoMultiTier ? 'First, use the button above to create your first template.' : 'You don’t have any templates. Click the button above to create one.'}}
+    .small {{$root.featureFlags.demoMultiTier ? 'First, use the button above to create your first service.' : 'You don’t have any services. Click the button above to create one.'}}
 
   //- guide to adding a branch
   .grid-block.vertical.popover.in.popover-demo.js-animate(
@@ -140,7 +140,7 @@
       svg.grid-block.shrink.iconnables.icons-gear(
         ng-click = "CIS.editInstance(masterInstance)"
         ng-if = "!$root.featureFlags.addBranches"
-        title = "Configure Template"
+        title = "Configure Service"
       )
         use(
           xlink:href = "#icons-gear"
