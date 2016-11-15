@@ -1,9 +1,9 @@
-//- wraps 'select demo' guide and master cluster
+//- wraps 'select demo' guide and everything that should transition in with the master cluster
 .grid-block.vertical.noscroll.relative(
   ng-init = "selected = false"
 )
 
-  //- intro to templates
+  //- 'select demo' guide
   .grid-block.vertical.popover.in.margin-top-xs.popover-demo.demo-transition.js-animate(
     ng-if = "$root.featureFlags.demoMultiTier && !$root.featureFlags.demoMultiTierAddBranch && !$root.featureFlags.containersViewEmptyState"
     ng-include = "'templateIntroView'"
@@ -77,15 +77,13 @@
 //- wraps 'add branch' guide and branch clusters
 .grid-block.vertical.noscroll.relative
 
-  //- guide to adding a branch
-      show until a branch has been added
+  //- 'add branch' guide — show until a branch has been added
   .grid-block.vertical.popover.in.popover-demo.demo-transition.js-animate(
     ng-if = "$root.featureFlags.demoMultiTier && $root.featureFlags.demoMultiTierAddBranch && !$root.featureFlags.containersViewEmptyState"
     ng-include = "'addBranchView'"
   )
 
-  //- wraps all branch clusters
-      hide until a branch has been added
+  //- wraps all branch clusters — hide until a branch has been added
   .demo-transition.js-animate(
     ng-if = "!$root.featureFlags.demoMultiTier && !$root.featureFlags.containersViewEmptyState"
   )
