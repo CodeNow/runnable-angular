@@ -1,6 +1,6 @@
 //- intro to templates
 .grid-block.vertical.popover.in.popover-demo.js-animate(
-  ng-if = "$root.featureFlags.demoMultiTier && !$root.featureFlags.demoMultiTierAddBranch && CIS.isInGuide()"
+  ng-if = "$root.featureFlags.demoMultiTier && !$root.featureFlags.demoMultiTierAddBranch && CIS.isInGuide() && !CIS.isInDemoFlow"
   ng-include = "'templateIntroView'"
 )
 

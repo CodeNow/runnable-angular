@@ -14,6 +14,7 @@ function ControllerInstances(
   activeAccount,
   ahaGuide,
   currentOrg,
+  demoFlowService,
   errs,
   eventTracking,
   featureFlags,
@@ -276,6 +277,32 @@ function ControllerInstances(
     promisify(CIS.poppedInstance, 'update')({ shouldNotAutofork: CIS.poppedInstance.attrs.shouldNotAutofork })
       .catch(function () {
         CIS.poppedInstance.attrs.shouldNotAutofork = !CIS.poppedInstance.attrs.shouldNotAutofork;
+      });
+  };
+
+  this.startDemo = function (stackName) {
+    return demoFlowService(stackName)
+      .then(function (repoBuildAndBranch) {
+        CIS.isInDemoFlow = true;
+        return ModalService.showModal({
+          controller: 'SetupServerModalController',
+          controllerAs: 'SMC',
+          templateUrl: 'setupServerModalView',
+          inputs: angular.extend({
+            dockerfileType: false,
+            instanceName: null,
+            repo: null,
+            build: null,
+            masterBranch: null,
+            defaults: {}
+          }, repoBuildAndBranch)
+        })
+        .then(function(modal) {
+          modal.close.then(function() {
+            CIS.isInDemoFlow = false;
+            keypather.get(ModalService, 'modalLayers[0].modal.controller.actions.forceClose()');
+          });
+        });
       });
   };
 }
