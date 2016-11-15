@@ -380,7 +380,9 @@ function ahaGuide(
     });
   }
 
-  $rootScope.$on('ahaGuide::launchModal', launchAhaModal);
+  $rootScope.$on('ahaGuide::launchModal', function () {
+    launchAhaModal();
+  });
 
   var possibleNames = ['node-starter', 'python-starter', 'ruby-starter'];
   function hasDemoRepo () {

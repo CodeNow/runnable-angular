@@ -29,7 +29,6 @@ function ControllerInstances(
 ) {
   var CIS = this;
   var userName = $state.params.userName;
-  CIS.isInGuide = ahaGuide.isInGuide;
   CIS.isAddingFirstBranch = ahaGuide.isAddingFirstBranch;
   CIS.isSettingUpRunnabot = ahaGuide.isSettingUpRunnabot;
   CIS.currentOrg = currentOrg;
@@ -279,6 +278,10 @@ function ControllerInstances(
         CIS.poppedInstance.attrs.shouldNotAutofork = !CIS.poppedInstance.attrs.shouldNotAutofork;
       });
   };
+
+  this.isInGuide = function () {
+    return !keypather.get(CIS, 'instancesByPod.models.length') && ahaGuide.isInGuide();
+  }
 
   this.startDemo = function (stackName) {
     return demoFlowService(stackName)
