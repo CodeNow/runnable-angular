@@ -68,6 +68,7 @@ function ControllerInstances(
       CIS.activeAccount = activeAccount;
 
       var instances = instancesByPod;
+      var isInGuide = CIS.isInGuide();
       var lastViewedInstance = keypather.get(user, 'attrs.userOptions.uiState.previousLocation.instance');
 
       function isInstanceMatch(instance, nameMatch) {
@@ -94,7 +95,7 @@ function ControllerInstances(
         });
       }
 
-      if (!targetInstance) {
+      if (!targetInstance && !isInGuide) {
         targetInstance = $filter('orderBy')(instances, 'attrs.name')
           .find(function (instance) {
             return isInstanceMatch(instance);
@@ -107,10 +108,6 @@ function ControllerInstances(
         if (targetInstance) {
           $state.go('base.instances.instance', {
             instanceName: keypather.get(targetInstance, 'attrs.name'),
-            userName: userName
-          }, {location: 'replace'});
-        } else {
-          $state.go('base.config', {
             userName: userName
           }, {location: 'replace'});
         }

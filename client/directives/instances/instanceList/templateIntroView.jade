@@ -5,8 +5,10 @@ p.grid-block.shrink.p.padding-sm Launch your first environment by forking one of
 
 .grid-block.justify-center.align-center.shrink.weight-light.popover-footer(
   data-event-name = "Clicked: Skip Demo/Use Existing Repos"
-  ng-click = "AMC.addOwnRepo()"
   ng-class = "{'disabled' :$root.isLoading.startDemo}"
+  pop-over
+  pop-over-options="{'top':-40,'left':400}"
+  pop-over-template="templateMenuPopoverView"
 ) Start without an example
   svg.grid-block.shrink.iconnables.icons-arrow-forward
     use(
