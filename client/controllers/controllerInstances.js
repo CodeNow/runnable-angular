@@ -283,7 +283,6 @@ function ControllerInstances(
   this.startDemo = function (stackName) {
     return demoFlowService(stackName)
       .then(function (repoBuildAndBranch) {
-        CIS.isInDemoFlow = true;
         return ModalService.showModal({
           controller: 'SetupServerModalController',
           controllerAs: 'SMC',
@@ -299,7 +298,6 @@ function ControllerInstances(
         })
         .then(function(modal) {
           modal.close.then(function() {
-            CIS.isInDemoFlow = false;
             keypather.get(ModalService, 'modalLayers[0].modal.controller.actions.forceClose()');
           });
         });
