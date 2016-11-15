@@ -37,7 +37,6 @@ function ControllerInstances(
   CIS.instanceBranches = null;
   CIS.unbuiltBranches = null;
   CIS.branchQuery = null;
-  CIS.hasNoInstance = false;
   CIS.$storage = $localStorage.$default({
     instanceListIsClosed: false
   });
@@ -117,7 +116,6 @@ function ControllerInstances(
             userName: userName
           }, {location: 'replace'});
         }
-        CIS.hasNoInstance = true;
       }
     })
     .catch(errs.handler);
