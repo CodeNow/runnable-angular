@@ -21,7 +21,6 @@ function featureFlags(
     connections: false,
     configTerminal: true, // flag for terminal in config view
     containersViewTemplateControls: false,
-    containersViewEmptyState: false,
     contingencyPlan: false,
     demoFlowPhase2: true,
     demoMultiTier: false,

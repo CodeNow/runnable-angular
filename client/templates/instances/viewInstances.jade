@@ -22,13 +22,12 @@
   ng-if="!CIS.isInGuide()"
   ui-view
 )
-
-.grid-block.vertical.instance-wrapper(
-  ng-if = "($root.featureFlags.demoMultiTier && !$root.featureFlags.demoMultiTierAddBranch || $root.featureFlags.containersViewEmptyState) && CIS.isInGuide()"
-)
-  .grid-block.justify-center.align-center
-    img(
-      height = "40"
-      src = "/build/images/runnabear-head-empty.png"
-      width = "40"
-    )
+  .grid-block.vertical.instance(
+    ng-if = "CIS.instancesByPod.models.length === 0"
+  )
+    .grid-block.justify-center.align-center
+      img(
+        height = "40"
+        src = "/build/images/runnabear-head-empty.png"
+        width = "40"
+      )

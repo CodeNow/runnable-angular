@@ -8,7 +8,11 @@
   ng-if = "!isLoading.main"
 )
   .grid-block.justify-center.align-center(
+<<<<<<< HEAD
     ng-if = "($root.featureFlags.demoMultiTier && !$root.featureFlags.demoMultiTierAddBranch || $root.featureFlags.containersViewEmptyState) && !CIS.isInGuide()"
+=======
+    ng-if = "$root.featureFlags.demoMultiTier && !$root.featureFlags.demoMultiTierAddBranch"
+>>>>>>> origin/master
   )
     img(
       height = "40"
@@ -16,7 +20,7 @@
       width = "40"
     )
   .grid-block.vertical(
-    ng-if = "(!$root.featureFlags.demoMultiTier || $root.featureFlags.demoMultiTierAddBranch) && !$root.featureFlags.containersViewEmptyState"
+    ng-if = "!$root.featureFlags.demoMultiTier || $root.featureFlags.demoMultiTierAddBranch"
   )
     //- show if server build is being swapped out
       - orange when build is updating or has failed
