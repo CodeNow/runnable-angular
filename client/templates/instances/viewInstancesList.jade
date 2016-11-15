@@ -5,7 +5,7 @@
 )
 
 .grid-block.shrink.vertical.js-animate(
-  ng-if = "(!$root.featureFlags.demoMultiTier || $root.featureFlags.demoMultiTierAddBranch) && !CIS.isInGuide()"
+  ng-if = "!$root.featureFlags.demoMultiTier || $root.featureFlags.demoMultiTierAddBranch"
 )
   //- search
   label.grid-block.shrink.vertical.label-search
