@@ -2,11 +2,13 @@
   color: $gray-dark;
   left: 0;
   max-width: 100%;
+  position: relative;
   top: 0;
-  transition: opacity .15s ease-in-out, transform .3s ease-in-out;
+  transition: opacity .3s ease-in, transform .3s ease-in;
 
   &.ng-leave {
     opacity: 1;
+    position: absolute;
     transform: rotate3d(0,0,1,0) scale3d(1,1,1) translate3d(0,0,0);
   }
 
