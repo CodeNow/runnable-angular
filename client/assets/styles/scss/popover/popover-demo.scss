@@ -3,6 +3,7 @@
   left: 0;
   position: relative;
   top: 0;
+  z-index: $z-views-sidebar;
 
   .list-item-fork {
     border-bottom: $input-border solid $gray-lighter;
