@@ -1,8 +1,8 @@
-.spinner-wrapper.spinner-sm.anchor-left(
-  ng-include = "'spinner'"
-)
-
 .grid-block.vertical
   h4.h4.text-overflow Hang tight — we’re setting up your app.
   .small There’s more to see once it’s ready.&#32;
     | {{ 'is in demo flow' ? 'It should only take a minute.' : 'Build time varies depending on your services.' }}
+
+.spinner-wrapper.spinner-sm(
+  ng-include = "'spinner'"
+)
