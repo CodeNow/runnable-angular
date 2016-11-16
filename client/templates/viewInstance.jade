@@ -16,7 +16,7 @@
       width = "40"
     )
   .grid-block.vertical(
-    ng-if = "!$root.featureFlags.demoMultiTier || $root.featureFlags.demoMultiTierAddBranch"
+    ng-if = "!$root.featureFlags.demoMultiTier || $root.featureFlags.demoMultiTierAddBranch || $root.featureFlags.demoMultiTierBuilding"
   )
     //- show if server build is being swapped out
       - orange when build is updating or has failed
@@ -25,9 +25,9 @@
     .grid-block.notification.top-right.padding-sm.js-animate(
       ng-class = "{\
         'green': dataInstance.data.showUpdatedMessage,\
-        'orange': dataInstance.data.showUpdatingMessage || dataInstance.data.instance.isMigrating()\
+        'orange': dataInstance.data.showUpdatingMessage || dataInstance.data.instance.isMigrating() || $root.featureFlags.demoMultiTierBuilding\
       }"
-      ng-if = "(dataInstance.data.showUpdatingMessage || dataInstance.data.showUpdatedMessage) || dataInstance.data.instance.isMigrating()"
+      ng-if = "(dataInstance.data.showUpdatingMessage || dataInstance.data.showUpdatedMessage) || dataInstance.data.instance.isMigrating() || $root.featureFlags.demoMultiTierBuilding"
       ng-include = "'viewNotifications'"
     )
 
