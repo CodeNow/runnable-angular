@@ -14,7 +14,7 @@ function ControllerInstances(
   activeAccount,
   ahaGuide,
   currentOrg,
-  demoFlowService,
+  serviceServerCreate,
   errs,
   eventTracking,
   featureFlags,
@@ -284,7 +284,7 @@ function ControllerInstances(
   }
 
   this.startDemo = function (stackName) {
-    return demoFlowService(stackName)
+    return serviceServerCreate(stackName)
       .then(function (repoBuildAndBranch) {
         return ModalService.showModal({
           controller: 'SetupServerModalController',
