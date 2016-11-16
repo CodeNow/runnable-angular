@@ -8,7 +8,7 @@ button.js-btn-wrapper(
   //- change text to 'Connection' if there is only one
   span.float-left.
     {{$root.isLoaded.dns ? DCC.getNumberOfConnections() : ''}}&#32;
-    {{DCC.DCC.getNumberOfConnections() === 1 ? 'Connection' : 'Connections'}}
+    {{DCC.getNumberOfConnections() === 1 ? 'Connection' : 'Connections'}}
   svg.iconnables.icons-arrow-down.float-right
     use(
       xlink:href = "#icons-arrow-down"
