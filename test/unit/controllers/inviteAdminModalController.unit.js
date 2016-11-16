@@ -10,7 +10,7 @@ var $elScope;
 var $controller;
 var $rootScope;
 var $templateCache;
-var DEFAULT_MESSAGE = 'Join me on Runnable, where we can run the code in CodeNow\'s repositories on demand.\n\nI need your admin permissions to enable some features. Thanks!';
+var DEFAULT_MESSAGE = 'Join me on Runnable, where we can run the code in CodeNow’s repositories on demand.\n\nI need your admin permissions to enable some features. Thanks!';
 
 describe('InviteAdminModalController'.bold.underline.blue, function () {
   var ctx;
