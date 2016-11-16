@@ -3,7 +3,7 @@
 
   //- 'select demo' guide
   .grid-block.vertical.popover.in.margin-top-xs.popover-demo.demo-transition.js-animate(
-    ng-if = "$root.featureFlags.demoMultiTier && !$root.featureFlags.demoMultiTierAddBranch && !$root.featureFlags.containersViewEmptyState"
+    ng-if = "$root.featureFlags.demoMultiTier && !$root.featureFlags.containersViewEmptyState"
     ng-include = "'templateIntroView'"
   )
 
@@ -12,7 +12,7 @@
 
     //- search
     label.grid-block.shrink.vertical.label-search(
-      ng-if = "!$root.featureFlags.demoMultiTier || $root.featureFlags.demoMultiTierAddBranch"
+      ng-if = "!$root.featureFlags.demoMultiTier"
     )
       input.input.input-xs.input-search(
         ng-model = "CIS.searchBranches"
@@ -28,7 +28,7 @@
 
     //- master cluster
     .grid-block.shrink.vertical.list-clusters.master-cluster.js-animate(
-      ng-if = "!$root.featureFlags.demoMultiTier || $root.featureFlags.demoMultiTierAddBranch && $root.featureFlags.addBranches && (!CIS.searchBranches || CIS.getFilteredInstanceList().length)"
+      ng-if = "!$root.featureFlags.demoMultiTier && $root.featureFlags.addBranches && (!CIS.searchBranches || CIS.getFilteredInstanceList().length)"
     )
 
       .grid-block.shrink.align-center.list-item-cluster.list-clusters-heading
@@ -77,13 +77,13 @@
 
   //- 'add branch' guide — show until a branch has been added
   .grid-block.vertical.popover.in.popover-demo.demo-transition.js-animate(
-    ng-if = "$root.featureFlags.demoMultiTier && $root.featureFlags.demoMultiTierAddBranch && !$root.featureFlags.containersViewEmptyState"
+    ng-if = "$root.featureFlags.demoMultiTierAddBranch && !$root.featureFlags.containersViewEmptyState"
     ng-include = "'addBranchView'"
   )
 
   //- wraps all branch clusters — hide until a branch has been added
   .demo-transition.js-animate(
-    ng-if = "!$root.featureFlags.demoMultiTier && !$root.featureFlags.containersViewEmptyState"
+    ng-if = "!$root.featureFlags.demoMultiTier && !$root.featureFlags.demoMultiTierAddBranch && !$root.featureFlags.containersViewEmptyState"
   )
 
     //- branch clusters

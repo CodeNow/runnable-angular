@@ -16,7 +16,7 @@
       width = "40"
     )
   .grid-block.vertical(
-    ng-if = "!$root.featureFlags.demoMultiTier || $root.featureFlags.demoMultiTierAddBranch || $root.featureFlags.demoMultiTierBuilding"
+    ng-if = "!$root.featureFlags.demoMultiTier"
   )
     //- show if server build is being swapped out
       - orange when build is updating or has failed
