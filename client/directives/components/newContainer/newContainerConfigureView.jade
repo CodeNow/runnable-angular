@@ -15,7 +15,7 @@ animated-panel-container.modal-servers
           use(
             xlink:href = "#icons-new-repository-server"
           )
-        .btn-text.grid-block.vertical.text-left Repository Template
+        .btn-text.grid-block.vertical.text-left Repository Service
           small.small From your GitHub org
 
       .grid-block.align-center.shrink.btn.btn-radio(
@@ -31,8 +31,8 @@ animated-panel-container.modal-servers
           use(
             xlink:href = "#icons-server-new"
           )
-        .btn-text.grid-block.vertical.text-left Non-Repository Template
-          small.small For a database or service
+        .btn-text.grid-block.vertical.text-left Non-Repository Service
+          small.small For a DB or other service
       svg.iconnables.icons-close(
         ng-click = "NCC.close()"
       )
@@ -108,7 +108,7 @@ animated-panel-container.modal-servers
         )
       h1.modal-heading.text-overflow(
         ng-if = "!NCC.ahaGuide.isAddingFirstRepo()"
-      ) Template Name
+      ) Service Name
       svg.iconnables.icons-close(
         ng-click = "NCC.close()"
       )
@@ -146,7 +146,7 @@ animated-panel-container.modal-servers
             ul.list.list-bulleted.list-validation
               li.list-item(
                 ng-class = "{'ng-invalid': NCC.nameForm.$error.unique}"
-              ) Choose a unique name for your template
+              ) Choose a unique name for your service
               li.list-item(
                 ng-class = "{'ng-invalid': NCC.nameForm.$error.pattern || NCC.nameForm.$error.noDoubleDash}"
               ) Use letters, numbers, and single hyphens (-)
@@ -171,4 +171,4 @@ animated-panel-container.modal-servers
         ) Next Step: Setup
         span(
           ng-if = "NCC.state.templateSource"
-        ) Create Template
+        ) Add Service

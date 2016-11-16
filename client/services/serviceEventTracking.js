@@ -456,7 +456,7 @@ function EventTracking(
    * @return this
    */
   ETS.milestone2SelectTemplate = function () {
-    var eventName = 'Milestone 2: Select template';
+    var eventName = 'Milestone 2: Select service';
 
     ETS._mixpanel('track', eventName);
     return ETS;

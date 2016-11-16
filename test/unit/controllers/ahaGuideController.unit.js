@@ -79,7 +79,7 @@ describe('ahaGuideController'.bold.underline.blue, function () {
           },
           buildStatus: {
             starting: 'We‘re building! Build time varies depending on your build commands.',
-            crashed: 'Your template isn‘t running yet! Check the logs to debug any issues. If you‘re stumped, ask our engineers!'
+            crashed: 'Your service isn’t running yet! Check the logs to debug any issues. If you’re stumped, ask our engineers!'
           }
         }
       },
@@ -93,7 +93,7 @@ describe('ahaGuideController'.bold.underline.blue, function () {
           oauthName: function () {
             return 'org1';
           }
-        }, 
+        },
         {
           attrs: angular.copy(apiMocks.user),
           oauthName: function () {
@@ -177,7 +177,7 @@ describe('ahaGuideController'.bold.underline.blue, function () {
       $rootScope.$broadcast('buildStatusUpdated', {status:'crashed'});
       $scope.$digest();
       expect(AGC.buildStatus).to.equal('crashed');
-      expect(AGC.caption).to.equal('Your template isn‘t running yet! Check the logs to debug any issues. If you‘re stumped, ask our engineers!');
+      expect(AGC.caption).to.equal('Your service isn’t running yet! Check the logs to debug any issues. If you’re stumped, ask our engineers!');
       expect(AGC.showError).to.equal(true);
       expect(eventStatus).to.deep.equal({error:'buildFailed'});
     });

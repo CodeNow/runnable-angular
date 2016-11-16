@@ -27,7 +27,7 @@ function dockerfileExistsValidator(
           .then(doesDockerfileExist)
           .then(function (dockerfile) {
             if (!dockerfile) {
-              return $q.reject('file doesn\'t exist');
+              return $q.reject('file doesn’t exist');
             }
           });
       };

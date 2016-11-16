@@ -168,10 +168,10 @@ function ahaGuide(
       building: 'We‘re building! Build time varies depending on your build commands.',
       starting: 'We‘re building! Build time varies depending on your build commands.',
       running: 'Looking good! Check out your URL, and click ‘Done’ if it looks good to you too.',
-      stopped: 'Your template isn‘t running yet! Check the logs to debug any issues. If you‘re stumped, ask our engineers!',
-      cmdFailed: 'Your template isn‘t running yet! Check the logs to debug any issues. If you‘re stumped, ask our engineers!',
-      crashed: 'Your template isn‘t running yet! Check the logs to debug any issues. If you‘re stumped, ask our engineers!',
-      buildFailed: 'Your template isn‘t running yet! Check the logs to debug any issues. If you‘re stumped, ask our engineers!'
+      stopped: 'Your service isn‘t running yet! Check the logs to debug any issues. If you‘re stumped, ask our engineers!',
+      cmdFailed: 'Your service isn‘t running yet! Check the logs to debug any issues. If you‘re stumped, ask our engineers!',
+      crashed: 'Your service isn‘t running yet! Check the logs to debug any issues. If you‘re stumped, ask our engineers!',
+      buildFailed: 'Your service isn‘t running yet! Check the logs to debug any issues. If you‘re stumped, ask our engineers!'
     },
     configSubsteps: ['default', 'env', 'files', 'ports', 'translation'],
     defaultSubstep: 'addRepository'
@@ -194,7 +194,7 @@ function ahaGuide(
         value: 100
       },
       deletedTemplate: {
-        caption: 'You\'ve deleted your repository template. Create another one to continue.',
+        caption: 'You’ve deleted your repository service. Create another one to continue.',
         className: 'aha-meter-20',
         value: -1
       }

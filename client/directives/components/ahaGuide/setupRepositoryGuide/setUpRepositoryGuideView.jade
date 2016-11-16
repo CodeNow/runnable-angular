@@ -57,7 +57,7 @@
   p.p(
     ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
     ng-if = "AGC.isInGuide() && !AGC.showError && AGC.subStep === 'nameContainer'"
-  ) Give your template a name.
+  ) Give your service a name.
   p.p(
     ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
     ng-if = "AGC.isInGuide() && !AGC.showError && AGC.subStep === 'repository'"
@@ -99,7 +99,7 @@
   p.p(
     ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
     ng-if = "AGC.isInGuide() && AGC.errorState && AGC.subStep !== 'logs'"
-  ) Your template isn’t running yet! Check the logs to debug any issues. If you’re stumped,&#32;
+  ) Your service isn’t running yet! Check the logs to debug any issues. If you’re stumped,&#32;
       a.link(
         ng-click = "$root.$broadcast('intercom::buildFailed')"
       ) chat with our devs
@@ -114,4 +114,4 @@
   p.p(
     ng-class = "{'p-slide js-animate': AGC.subStepIndex}"
     ng-if = "AGC.isInGuide() && !AGC.showError"
-  ) Choose a template to configure.
+  ) Choose a service to configure.

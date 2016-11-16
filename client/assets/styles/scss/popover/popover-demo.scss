@@ -2,19 +2,8 @@
   color: $gray-dark;
   left: 0;
   position: relative;
-  top: auto;
-  transition: opacity .15s ease-in-out, transform .3s ease-in-out;
-  z-index: 0;
-
-  &.ng-leave {
-    opacity: 1;
-    transform: rotate3d(0,0,1,0) scale3d(1,1,1) translate3d(0,0,0);
-  }
-
-  &.ng-leave-active {
-    opacity: 0;
-    transform: rotate3d(0,0,1,-9deg) scale3d(.95,.95,1) translate3d(-50px,0,0);
-  }
+  top: 0;
+  z-index: $z-views-sidebar;
 
   .list-item-fork {
     border-bottom: $input-border solid $gray-lighter;
