@@ -25,6 +25,7 @@ function featureFlags(
     demoFlowPhase2: true,
     demoMultiTier: false,
     demoMultiTierAddBranch: false,
+    demoMultiTierAddRepo: false,
     demoProject: true,
     dockerfileMirroringMultiple: false,
     editAnyInstance: false,
