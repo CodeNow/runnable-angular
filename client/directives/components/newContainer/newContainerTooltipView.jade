@@ -15,7 +15,7 @@
     ng-disabled = "NCC.state.tabName !== 'services'&& $root.isLoading.newContainerSingleRepo"
   )
     .grid-block.vertical.shrink Non-Repository
-      .small For a DB or service
+      .small For databases, etc.
 
 .popover-content(
   ng-if = "NCC.state.tabName === 'repos'"
@@ -113,7 +113,7 @@
   )
     .text-center.text-gray.small.padding-lg(
       ng-if = "NCC.githubRepos.models.length && !noTemplateResults.length"
-    ) No templates match this filter.
+    ) No services match this filter.
     li.grid-block.align-center.list-item.popover-list-item.multi-line(
       ng-class = "{'active': $root.isLoading.newContainerTemplates}"
       ng-click = "NCC.setTemplate(dependency, NCC.openModalAtPanel)"

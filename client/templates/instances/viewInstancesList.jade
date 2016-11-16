@@ -32,7 +32,7 @@
     )
 
       .grid-block.shrink.align-center.list-item-cluster.list-clusters-heading
-        span.grid-content.text-overflow Templates
+        span.grid-content.text-overflow Services
         //- div instead of button so safari doesn’t get weird with alignment
         .grid-block.align-center.shrink.btn.btn-xxs.white(
           ng-class = "{'active': state.active}"
@@ -40,7 +40,7 @@
           pop-over
           pop-over-options = "{\"top\":-30,\"left\":114}"
           pop-over-template = "templateMenuPopoverView"
-        ) Create Template
+        ) Add a Service
           svg.iconnables.icons-arrow-forward
             use(
               xlink:href = "#icons-arrow-down"
@@ -70,7 +70,7 @@
       ng-if = "$root.featureFlags.containersViewTemplateControls && !CIS.getFilteredInstanceList().length && !CIS.searchBranches"
     ) 👆
       br
-      .small {{$root.featureFlags.demoMultiTier ? 'First, use the button above to create your first template.' : 'You don’t have any templates. Click the button above to create one.'}}
+      .small {{$root.featureFlags.demoMultiTier ? 'First, use the button above to create your first service.' : 'You don’t have any services. Click the button above to create one.'}}
 
 //- wraps 'add branch' guide and branch clusters
 .grid-block.vertical.noscroll.relative
@@ -152,7 +152,7 @@
         svg.grid-block.shrink.iconnables.icons-gear(
           ng-click = "CIS.editInstance(masterInstance)"
           ng-if = "!$root.featureFlags.addBranches"
-          title = "Configure Template"
+          title = "Configure Service"
         )
           use(
             xlink:href = "#icons-gear"

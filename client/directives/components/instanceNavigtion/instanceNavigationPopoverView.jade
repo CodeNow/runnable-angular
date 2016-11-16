@@ -16,7 +16,7 @@
           use(
             xlink:href = "#icons-gear"
           )
-        | Configure Template
+        | Configure Service
         .small Affects all non-isolated [config-name] containers.
       li.divider(
         ng-if = "$root.featureFlags.containersViewTemplateControls"
@@ -29,7 +29,7 @@
           use(
             xlink:href = "#icons-delete"
           )
-        | Delete Template
+        | Delete Service
 
     ul.list.popover-list(
       ng-if = "!INC.instance.attrs.masterPod"
@@ -44,7 +44,7 @@
         | Configure
         .small Affects only this container.
 
-      //- if this container has a modified template
+      //- if this container has a modified configuration
       //- li.list-item.popover-list-item.multi-line(
       //-   internal-modal-helper = "confirmConfigDiscardView"
       //- )
@@ -53,7 +53,7 @@
             xlink:href = "#icons-gear-delete"
           )
         | Discard Changes
-        .small To restore template configuration
+        .small Discards configuration changes and rebuilds.
 
       li.list-item.popover-list-item.divider(
         ng-if = "INC.instance.attrs.isIsolationGroupMaster"
@@ -81,7 +81,7 @@
           use(
             xlink:href = "#icons-gear"
           )
-        | Configure Template
+        | Configure Service
         .small Affects all non-isolated {{ INC.instance.attrs.name }} containers.
       li.divider(
         ng-if = "$root.featureFlags.containersViewTemplateControls"
@@ -94,7 +94,7 @@
           use(
             xlink:href = "#icons-delete"
           )
-        | Delete Template
+        | Delete Service
 
     ul.list.popover-list(
       ng-if = "!INC.instance.attrs.masterPod"
@@ -104,7 +104,7 @@
       ) Isolating a branch allows you to…
         ul.list.list-bulleted
           li.list-item Create a separate environment to use with this branch.
-          li.list-item Configure this branch independently from your template.
+          li.list-item Configure this branch independently.
       li.list-item.popover-list-item(
         ng-click = "INC.setupIsolation()"
         ng-if = "!INC.instance.attrs.isolated"
@@ -163,13 +163,13 @@
   )
     //- menu items:
       - for an isolated branch:
-        - Configure Template
+        - Configure Service
         - (divider)
         - Add Container to Isolation
         - (divider)
         - Hide
       - for an isolated branch's containers:
-        - Configure Template
+        - Configure Service
     ul.list.popover-list
       li.list-item.popover-list-item(
         ng-click = "INC.editInstance($event)"
@@ -179,7 +179,7 @@
           use(
             xlink:href = "#icons-gear"
           )
-        | Configure Template
+        | Configure Service
       li.divider(
         ng-if = "INC.instance.attrs.isolated"
       )
@@ -189,7 +189,7 @@
         p.p Isolating a branch allows you to…
         ul.list.list-bulleted.small
           li.list-item Create a separate environment to use with this branch.
-          li.list-item Configure this branch independently from your template.
+          li.list-item Configure this branch independently.
           .btn.btn-sm.btn-block.green(
             ng-click = "INC.setupIsolation()"
           ) Enter Isolation

@@ -11,7 +11,7 @@
     section.modal-body
       .grid-block.vertical.shrink.text-center.well.gray.small.padding-sm
         //- while we can only isolate with service containers:
-        | Selected templates will be used to create containers for each branch of&#32;
+        | Selected services will be used to create containers for each branch of&#32;
         //- once we can isolate with service containers and repo containers:
           - | Selected containers will be isolated with&#32;
         .text-overflow(
@@ -20,7 +20,7 @@
 
       h4.grid-block.shrink.h4.text-gray.small.padding-xs(
         ng-if = "ICMC.repoInstances.length"
-      ) Repository Templates
+      ) Repository Services
       .grid-block.vertical.shrink.list.list-bordered(
         ng-if = "ICMC.repoInstances.length"
       )
@@ -56,7 +56,7 @@
             )
             | {{instance.getMasterPodName()}}
 
-          //- this should get the class 'modded' if the selected branch uses a modified template
+          //- this should get the class 'modded' if the selected branch uses a modified configuration
           //- selecting this should automatically check the checkbox
           fancy-select.btn-xs.gray(
             value = "ICMC.instanceBranchMapping[instance.attrs.contextVersion.context]"
@@ -70,12 +70,12 @@
               ng-repeat = "child in $parent.instance.children.models"
               value = "child"
             ) {{$parent.child.getBranchName()}}
-        //- this element should only appear if the selected branch uses a modified template
-        //- small.small Branch uses a modified template
+        //- this element should only appear if the selected branch uses a modified configuration
+        //- small.small Branch uses a modified configuration
 
       h4.grid-block.shrink.h4.text-gray.small.padding-xs(
         ng-if = "ICMC.nonRepoInstances.length"
-      ) Non-Repository Templates
+      ) Non-Repository Services
       .grid-block.vertical.shrink.list.list-bordered(
         ng-if = "ICMC.nonRepoInstances.length"
       )
