@@ -91,10 +91,6 @@ function EnvironmentController(
 
   var isAddFirstRepo = ahaGuide.isAddingFirstRepo();
 
-  if (isAddFirstRepo && instancesByPod.models.length === 0) {
-    $rootScope.$broadcast('ahaGuide::launchModal');
-  }
-
   // Asynchronously fetch the Dockerfile and check for working instances
   instancesByPod.forEach(function (instance) {
     if (instance.hasDockerfileMirroring()) {
@@ -151,17 +147,4 @@ function EnvironmentController(
     },
     endGuide: ahaGuide.endGuide
   };
-
-  if (ahaGuide.isInGuide()) {
-    if (keypather.get(instancesByPod, 'models.length')) {
-      if (instancesByPod.models.some(function (instance) {
-          return instance.attrs.hasAddedBranches || keypather.get(instance, 'children.models.length');
-        })) {
-        // timeout for the animation
-        $timeout(function () {
-          $rootScope.$broadcast('ahaGuide::launchModal');
-        });
-      }
-    }
-  }
 }

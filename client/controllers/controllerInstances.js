@@ -299,11 +299,6 @@ function ControllerInstances(
             defaults: {}
           }, repoBuildAndBranch)
         })
-        .then(function(modal) {
-          modal.close.then(function() {
-            keypather.get(ModalService, 'modalLayers[0].modal.controller.actions.forceClose()');
-          });
-        });
       });
   };
 }

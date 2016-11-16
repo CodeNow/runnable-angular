@@ -3,7 +3,7 @@
 
   //- 'select demo' guide
   .grid-block.vertical.popover.in.margin-top-xs.popover-demo.demo-transition.js-animate(
-    ng-if = "$root.featureFlags.demoMultiTier && !$root.featureFlags.containersViewEmptyState && CIS.isInGuide()"
+    ng-if = "$root.featureFlags.demoMultiTier && CIS.isInGuide()"
     ng-include = "'templateIntroView'"
   )
 
@@ -28,7 +28,7 @@
 
     //- master cluster
     .grid-block.shrink.vertical.list-clusters.master-cluster.js-animate(
-      ng-if = "!$root.featureFlags.demoMultiTier || $root.featureFlags.demoMultiTierAddBranch && $root.featureFlags.addBranches && (!CIS.searchBranches || CIS.getFilteredInstanceList().length)"
+      ng-if = "(!$root.featureFlags.demoMultiTier || !CIS.isInGuide()) && (!CIS.searchBranches || CIS.getFilteredInstanceList().length)"
     )
 
       .grid-block.shrink.align-center.list-item-cluster.list-clusters-heading
@@ -67,7 +67,7 @@
           )
 
     .grid-block.vertical.shrink.well.empty.text-center(
-      ng-if = "$root.featureFlags.containersViewTemplateControls && !CIS.getFilteredInstanceList().length && !CIS.searchBranches"
+      ng-if = "$root.featureFlags.containersViewTemplateControls && !CIS.getFilteredInstanceList().length && !CIS.searchBranches && !CIS.isInGuide()"
     ) 👆
       br
       .small {{$root.featureFlags.demoMultiTier ? 'First, use the button above to create your first template.' : 'You don’t have any templates. Click the button above to create one.'}}
@@ -75,15 +75,9 @@
 //- wraps 'add branch' guide and branch clusters
 .grid-block.vertical.noscroll.relative
 
-<<<<<<< HEAD
-  //- guide to adding a branch
-  .grid-block.vertical.popover.in.popover-demo.js-animate(
-      ng-if = "$root.featureFlags.demoMultiTier && $root.featureFlags.demoMultiTierAddBranch && CIS.instancesByPod.models.length"
-=======
   //- 'add branch' guide — show until a branch has been added
   .grid-block.vertical.popover.in.popover-demo.demo-transition.js-animate(
-    ng-if = "$root.featureFlags.demoMultiTier && $root.featureFlags.demoMultiTierAddBranch && !$root.featureFlags.containersViewEmptyState"
->>>>>>> origin/master
+    ng-if = "$root.featureFlags.demoMultiTier && !$root.featureFlags.containersViewEmptyState && !CIS.searchBranches && CIS.getFilteredInstanceList().length"
     ng-include = "'addBranchView'"
   )
 
