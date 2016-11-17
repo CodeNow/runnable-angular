@@ -1,9 +1,9 @@
 'use strict';
 
 require('app')
-  .factory('serviceServerCreate', serviceServerCreate);
+  .factory('serverCreateService', serverCreateService);
 
-function serviceServerCreate (
+function serverCreateService (
   $q,
   $timeout,
   createNewBuildAndFetchBranch,

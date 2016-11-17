@@ -14,7 +14,7 @@ function ControllerInstances(
   activeAccount,
   ahaGuide,
   currentOrg,
-  serviceServerCreate,
+  serverCreateService,
   errs,
   eventTracking,
   featureFlags,
@@ -29,6 +29,8 @@ function ControllerInstances(
 ) {
   var CIS = this;
   var userName = $state.params.userName;
+  var showDemoFlow = ahaGuide.isInGuide();
+
   CIS.isAddingFirstBranch = ahaGuide.isAddingFirstBranch;
   CIS.isSettingUpRunnabot = ahaGuide.isSettingUpRunnabot;
   CIS.currentOrg = currentOrg;
@@ -69,7 +71,6 @@ function ControllerInstances(
       CIS.activeAccount = activeAccount;
 
       var instances = instancesByPod;
-      var isInGuide = CIS.isInGuide();
       var lastViewedInstance = keypather.get(user, 'attrs.userOptions.uiState.previousLocation.instance');
 
       function isInstanceMatch(instance, nameMatch) {
@@ -96,7 +97,7 @@ function ControllerInstances(
         });
       }
 
-      if (!targetInstance && !isInGuide) {
+      if (!targetInstance) {
         targetInstance = $filter('orderBy')(instances, 'attrs.name')
           .find(function (instance) {
             return isInstanceMatch(instance);
@@ -111,9 +112,6 @@ function ControllerInstances(
             instanceName: keypather.get(targetInstance, 'attrs.name'),
             userName: userName
           }, {location: 'replace'});
-        }
-        if (isInGuide) {
-          return;
         }
         if (!featureFlags.flags.containersViewTemplateControls) {
           return $state.go('base.config', {
@@ -279,12 +277,15 @@ function ControllerInstances(
       });
   };
 
-  this.isInGuide = function () {
-    return !keypather.get(CIS, 'instancesByPod.models.length') && ahaGuide.isInGuide();
+  this.isInDemoFlow = function (isInDemoFlow) {
+    if (isInDemoFlow !== undefined) {
+      showDemoFlow = isInDemoFlow;
+    }
+    return showDemoFlow && !keypather.get(CIS, 'instancesByPod.models.length') && ahaGuide.isInGuide();
   }
 
   this.startDemo = function (stackName) {
-    return serviceServerCreate(stackName)
+    return serverCreateService(stackName)
       .then(function (repoBuildAndBranch) {
         return ModalService.showModal({
           controller: 'SetupServerModalController',

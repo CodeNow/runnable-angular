@@ -9,7 +9,7 @@ function AhaModalController(
   $rootScope,
   ahaGuide,
   currentOrg,
-  serviceServerCreate,
+  serverCreateService,
   fetchInstancesByPod,
   fetchOwnerRepos,
   keypather,
@@ -73,7 +73,7 @@ function AhaModalController(
   };
   
   AMC.startDemo = function (stackName) {
-    return serviceServerCreate(stackName)
+    return serverCreateService(stackName)
       .then(function (repoBuildAndBranch) {
         close();
         return ModalService.showModal({
