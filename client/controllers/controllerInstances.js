@@ -286,20 +286,12 @@ function ControllerInstances(
 
   this.startDemo = function (stackName) {
     return serverCreateService(stackName)
-      .then(function (repoBuildAndBranch) {
-        return ModalService.showModal({
-          controller: 'SetupServerModalController',
-          controllerAs: 'SMC',
-          templateUrl: 'setupServerModalView',
-          inputs: angular.extend({
-            dockerfileType: false,
-            instanceName: null,
-            repo: null,
-            build: null,
-            masterBranch: null,
-            defaults: {}
-          }, repoBuildAndBranch)
-        })
+      .then(function (instance) {
+        console.log(instance);
+        // $state.go('base.instances.instance', {
+        //   userName: instance.githubUsername,
+        //   instanceName: instance.attrs.lowerName
+        // });
       });
   };
 }

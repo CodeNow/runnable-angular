@@ -1,20 +1,27 @@
 'use strict';
 
 require('app')
-  .factory('serverCreateService', serverCreateService);
+  .factory('serverCreateService', serverCreateService) // this is the demo flow prep
+  .factory('serviceCreateServiceReal', serviceCreateServiceReal);
 
 function serverCreateService (
   $q,
   $timeout,
+  cardInfoTypes,
+  createAndBuildNewContainer,
+  createDockerfileFromSource,
   createNewBuildAndFetchBranch,
   currentOrg,
   errs,
+  fetchDockerfileFromSource,
   fetchInstancesByPod,
   fetchOwnerRepos,
   fetchStackInfo,
   github,
   keypather,
-  loading
+  loading,
+  parseDockerfileForDefaults,
+  updateDockerfileFromState
 ) {
   
   var repoMapping = {
@@ -28,6 +35,8 @@ function serverCreateService (
     var loadingName = 'startDemo' + stackName.charAt(0).toUpperCase() + stackName.slice(1);
     loading(loadingName, true);
     var isPersonalAccount = keypather.get(currentOrg, 'poppa.attrs.isPersonalAccount');
+    var mainRepoContainerFile = {};
+    var state = {};
     return github.forkRepo('RunnableDemo', repoMapping[stackName], currentOrg.github.oauthName(), isPersonalAccount)
       .then(function () {
         return findRepo(repoMapping[stackName]);
@@ -54,12 +63,57 @@ function serverCreateService (
         };
         return repoBuildAndBranch;
       })
+      .then(function (repoBuildAndBranch) {
+        state.acv = repoBuildAndBranch.build.contextVersion.getMainAppCodeVersion();
+        state.branch = repoBuildAndBranch.masterBranch;
+        state.build = repoBuildAndBranch.build;
+        state.contextVersion = repoBuildAndBranch.build.contextVersion;
+        state.branch = repoBuildAndBranch.repo;
+        state.instanceName = repoBuildAndBranch.instanceName;
+        state.opts = {
+          masterPod: true,
+          name: state.instanceName,
+          env: [],
+          ipWhitelist: {
+            enabled: false
+          },
+          isTesting: false
+        };
+        state.packages = new cardInfoTypes.Packages();
+        state.stackName = repoBuildAndBranch.defaults.selectedStack.key;
+        state.selectedStack = repoBuildAndBranch.defaults.selectedStack;
+        return createDockerfileFromSource(state.contextVersion, state.stackName)
+      })
+      .then(function (dockerfile) {
+        state.dockerfile = dockerfile;
+        return fetchDockerfileFromSource(state.stackName)
+          .then(function (sourceDockerfile) {
+            var mainRepoContainerFile = new cardInfoTypes.MainRepository();
+            var defaults = parseDockerfileForDefaults(sourceDockerfile, ['run', 'dst']);
+            mainRepoContainerFile.commands = defaults.run.map(function (run) {
+              return new cardInfoTypes.Command('RUN ' + run);
+            });
+            mainRepoContainerFile.name = state.instanceName;
+            mainRepoContainerFile.path = state.instanceName;
+            state.containerFiles = [mainRepoContainerFile];
+          })
+          .then(function () {
+            return loadAllOptions(state);
+          })
+          .then(function () {
+            return updateDockerfileFromState(state, false, true);
+          })
+          .then(function () {
+            return createAndBuildNewContainer(state, state.instanceName);
+          })
+      })
       .catch(errs.handler)
       .finally(function () {
         loading('startDemo', false);
         loading(loadingName, false);
       });
   };
+
 
   function findRepo (repoName, count) {
     count = count || 0;
@@ -94,4 +148,52 @@ function serverCreateService (
     }
     return tmpName;
   }
+  function loadPorts () {
+    var portsStr = keypather.get(state, 'selectedStack.ports');
+    if (typeof portsStr === 'string') {
+      portsStr = portsStr.replace(/,/gi, '');
+      var ports = (portsStr || '').split(' ');
+      // After initially adding ports here, `ports` can no longer be
+      // added/removed since these will be managed by the `ports-form` directive
+      // and will get overwritten if a port is added/removed.
+      return ports;
+    }
+    return [];
+  }
+
+  function instanceSetHandler (instance) {
+    if (instance) {
+      SMC.instance = instance;
+      SMC.state.instance = instance;
+      SMC.state.instance.on('update', SMC.handleInstanceUpdate);
+      // Reset the opts, in the same way as `EditServerModalController`
+      SMC.state.opts  = {
+        env: keypather.get(instance, 'attrs.env') || [],
+        ipWhitelist: angular.copy(keypather.get(instance, 'attrs.ipWhitelist')) || {
+          enabled: false
+        },
+        isTesting: keypather.get(instance, 'attrs.isTesting') || false
+      };
+      return instance;
+    }
+    return $q.reject(new Error('Instance not created properly'));
+  }
+
+  function loadAllOptions(state) {
+    var portsStr = keypather.get(state, 'selectedStack.ports');
+      if (typeof portsStr === 'string') {
+        portsStr = portsStr.replace(/,/gi, '');
+        var ports = (portsStr || '').split(' ');
+        // After initially adding ports here, `ports` can no longer be
+        // added/removed since these will be managed by the `ports-form` directive
+        // and will get overwritten if a port is added/removed.
+         state.ports = ports;
+      }
+  }
+}
+
+function serviceCreateServiceReal (
+
+  ) {
+
 }
