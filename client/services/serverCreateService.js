@@ -81,6 +81,7 @@ function serverCreateService (
         };
         state.packages = new cardInfoTypes.Packages();
         state.stackName = repoBuildAndBranch.defaults.selectedStack.key;
+        state.startCommand = repoBuildAndBranch.defaults.startCommand;
         state.selectedStack = repoBuildAndBranch.defaults.selectedStack;
         return createDockerfileFromSource(state.contextVersion, state.stackName)
       })

@@ -287,11 +287,10 @@ function ControllerInstances(
   this.startDemo = function (stackName) {
     return serverCreateService(stackName)
       .then(function (instance) {
-        console.log(instance);
-        // $state.go('base.instances.instance', {
-        //   userName: instance.githubUsername,
-        //   instanceName: instance.attrs.lowerName
-        // });
+        $state.go('base.instances.instance', {
+          userName: $state.params.userName,
+          instanceName: instance.attrs.lowerName
+        }, {reload:true});
       });
   };
 }
