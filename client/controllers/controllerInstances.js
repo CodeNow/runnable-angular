@@ -14,6 +14,7 @@ function ControllerInstances(
   activeAccount,
   ahaGuide,
   currentOrg,
+  serverCreateService,
   errs,
   eventTracking,
   featureFlags,
@@ -28,7 +29,8 @@ function ControllerInstances(
 ) {
   var CIS = this;
   var userName = $state.params.userName;
-  CIS.isInGuide = ahaGuide.isInGuide;
+  var showDemoFlow = ahaGuide.isInGuide();
+
   CIS.isAddingFirstBranch = ahaGuide.isAddingFirstBranch;
   CIS.isSettingUpRunnabot = ahaGuide.isSettingUpRunnabot;
   CIS.currentOrg = currentOrg;
@@ -272,6 +274,32 @@ function ControllerInstances(
     promisify(CIS.poppedInstance, 'update')({ shouldNotAutofork: CIS.poppedInstance.attrs.shouldNotAutofork })
       .catch(function () {
         CIS.poppedInstance.attrs.shouldNotAutofork = !CIS.poppedInstance.attrs.shouldNotAutofork;
+      });
+  };
+
+  this.isInDemoFlow = function (isInDemoFlow) {
+    if (isInDemoFlow !== undefined) {
+      showDemoFlow = isInDemoFlow;
+    }
+    return showDemoFlow && !keypather.get(CIS, 'instancesByPod.models.length') && ahaGuide.isInGuide();
+  }
+
+  this.startDemo = function (stackName) {
+    return serverCreateService(stackName)
+      .then(function (repoBuildAndBranch) {
+        return ModalService.showModal({
+          controller: 'SetupServerModalController',
+          controllerAs: 'SMC',
+          templateUrl: 'setupServerModalView',
+          inputs: angular.extend({
+            dockerfileType: false,
+            instanceName: null,
+            repo: null,
+            build: null,
+            masterBranch: null,
+            defaults: {}
+          }, repoBuildAndBranch)
+        })
       });
   };
 }
