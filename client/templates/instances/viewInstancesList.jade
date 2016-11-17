@@ -28,7 +28,7 @@
 
     //- master cluster
     .grid-block.shrink.vertical.list-clusters.master-cluster.js-animate(
-      ng-if = "!$root.featureFlags.demoMultiTier || $root.featureFlags.demoMultiTierAddBranch && $root.featureFlags.addBranches && (!CIS.searchBranches || CIS.getFilteredInstanceList().length)"
+      ng-if = "!$root.featureFlags.demoMultiTier && (!CIS.searchBranches || CIS.getFilteredInstanceList().length)"
     )
 
       .grid-block.shrink.align-center.list-item-cluster.list-clusters-heading

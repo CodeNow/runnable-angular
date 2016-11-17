@@ -90,7 +90,7 @@
             p.grid-block.align-center.aha-text.p.weight-light Step 2: Configure your Application
           .grid-block.shrink.align-center.aha-overview.padding-bottom-sm(
             ng-if = "$root.featureFlags.demoProject && !$root.isLoading.fetchAccountRepos && AMC.isAddingFirstRepo()"
-            ng-include = "'setupDemoGuideView'"
+            setup-demo-guide
           )
           .spinner-wrapper.spinner-md.spinner-gray.padding-lg.padding-top-md(
             ng-if = "$root.isLoading.fetchAccountRepos && AMC.isAddingFirstRepo()"

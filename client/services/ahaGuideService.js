@@ -383,10 +383,14 @@ function ahaGuide(
   $rootScope.$on('ahaGuide::launchModal', launchAhaModal);
 
   var possibleNames = ['node-starter', 'python-starter', 'ruby-starter'];
-  function hasDemoRepo () {
+  function hasDemoRepo() {
     return !!instances.find(function (instance) {
       return possibleNames.includes(instance.attrs.name);
     });
+  }
+
+  function hasTemplates() {
+    return !!instances.length;
   }
 
   return {
@@ -397,6 +401,7 @@ function ahaGuide(
     getCurrentStep: getCurrentStep,
     hasConfirmedSetup: hasConfirmedSetup,
     hasDemoRepo: hasDemoRepo,
+    hasTemplates: hasTemplates,
     hasRunnabot: refreshHasRunnabot,
     isInGuide: isInGuide,
     resetGuide: resetGuide,
