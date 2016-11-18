@@ -389,8 +389,8 @@ function ahaGuide(
     });
   }
 
-  function hasTemplates() {
-    return !!instances.length;
+  function shouldShowDemoSelector() {
+    return isInGuide() && !keypather.get(instances, 'models.length');
   }
 
   return {
@@ -401,7 +401,7 @@ function ahaGuide(
     getCurrentStep: getCurrentStep,
     hasConfirmedSetup: hasConfirmedSetup,
     hasDemoRepo: hasDemoRepo,
-    hasTemplates: hasTemplates,
+    shouldShowDemoSelector: shouldShowDemoSelector,
     hasRunnabot: refreshHasRunnabot,
     isInGuide: isInGuide,
     resetGuide: resetGuide,

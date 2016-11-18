@@ -137,7 +137,7 @@ function demoRepos(
           repoBuildAndBranch.instanceName = getUniqueInstanceName(stack.repoName, promiseResults.instances);
           repoBuildAndBranch.defaults = {
             selectedStack: promiseResults.stack,
-            startCommand: promiseResults.stack.startCommand[0],
+            startCommand: stack.cmd,
             keepStartCmd: true,
             step: 3
           };
