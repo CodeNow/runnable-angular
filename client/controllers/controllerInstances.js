@@ -14,7 +14,7 @@ function ControllerInstances(
   activeAccount,
   ahaGuide,
   currentOrg,
-  serverCreateService,
+  demoFlowService,
   errs,
   eventTracking,
   featureFlags,
@@ -285,7 +285,7 @@ function ControllerInstances(
   }
 
   this.startDemo = function (stackName) {
-    return serverCreateService(stackName)
+    return demoFlowService(stackName)
       .then(function (instance) {
         $state.go('base.instances.instance', {
           userName: $state.params.userName,
