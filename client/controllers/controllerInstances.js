@@ -277,6 +277,10 @@ function ControllerInstances(
       });
   };
 
+  this.getTotalInstances = function () {
+    return CIS.instancesByPod.models.length;
+  };
+
   this.isInDemoFlow = function (isInDemoFlow) {
     if (isInDemoFlow !== undefined) {
       showDemoFlow = isInDemoFlow;

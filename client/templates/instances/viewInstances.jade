@@ -22,7 +22,7 @@
   ui-view
 )
   .grid-block.vertical.instance(
-    ng-if = "CIS.instancesByPod.models.length === 0"
+    ng-if = "!CIS.searchBranches || CIS.getFilteredInstanceList().length"
   )
     .grid-block.justify-center.align-center
       img(
