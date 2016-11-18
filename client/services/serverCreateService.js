@@ -46,7 +46,7 @@ function serverCreateService (
       .then(function (sourceDockerfile) {
         var mainRepoContainerFile = new cardInfoTypes.MainRepository();
         var defaults = parseDockerfileForDefaults(sourceDockerfile, ['run', 'dst']);
-        var ports = keypather.get(state, 'selectedStack.ports');
+        var ports = state.opts.ports;
         mainRepoContainerFile.commands = defaults.run.map(function (run) {
           return new cardInfoTypes.Command('RUN ' + run);
         });
