@@ -369,19 +369,6 @@ function ahaGuide(
     eventTracking.updateCurrentPersonProfile(currentStep);
   }
 
-  function launchAhaModal () {
-    $rootScope.$broadcast('close-popovers');
-    ModalService.showModal({
-      controller: 'AhaModalController',
-      controllerAs: 'AMC',
-      templateUrl: 'ahaModal'
-    }).then(function (modalController) {
-      ahaModalController = modalController;
-    });
-  }
-
-  $rootScope.$on('ahaGuide::launchModal', launchAhaModal);
-
   var possibleNames = ['node-starter', 'python-starter', 'ruby-starter'];
   function hasDemoRepo() {
     return !!instances.find(function (instance) {
