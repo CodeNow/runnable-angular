@@ -7,7 +7,6 @@ function serverCreateService (
   cardInfoTypes,
   createAndBuildNewContainer,
   createDockerfileFromSource,
-  createNewBuildAndFetchBranch,
   fetchDockerfileFromSource,
   keypather,
   parseDockerfileForDefaults,
