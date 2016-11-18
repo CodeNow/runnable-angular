@@ -13,6 +13,7 @@ function ControllerInstances(
   $state,
   activeAccount,
   ahaGuide,
+  demoRepos,
   currentOrg,
   errs,
   eventTracking,
@@ -29,7 +30,7 @@ function ControllerInstances(
   var CIS = this;
   var userName = $state.params.userName;
   CIS.isInGuide = ahaGuide.isInGuide;
-  CIS.shouldShowDemoSelector = ahaGuide.shouldShowDemoSelector;
+  CIS.shouldShowDemoSelector = demoRepos.shouldShowDemoSelector;
   CIS.isAddingFirstBranch = ahaGuide.isAddingFirstBranch;
   CIS.isSettingUpRunnabot = ahaGuide.isSettingUpRunnabot;
   CIS.currentOrg = currentOrg;

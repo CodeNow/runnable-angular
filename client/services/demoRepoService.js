@@ -3,9 +3,62 @@
 require('app')
   .factory('demoRepos', demoRepos);
 
+
+var stacks = {
+  nodejs: {
+    displayName: 'Node.js',
+    description: 'A node.js & MongoDB app',
+    repoOwner: 'RunnableDemo',
+    icon: '/build/images/logos/logo-icon-nodejs.svg',
+    cmd: 'npm migrate && npm start',
+    buildCommand: 'npm install',
+    env: [
+      'MONGODB_HOST='
+    ],
+    repoName: 'node-starter'
+  },
+  rails: {
+    displayName: 'Rails',
+    description: 'A Ruby on Rails & MySQL app',
+    repoOwner: 'RunnableDemo',
+    icon: '/build/images/logos/logo-icon-rails.svg',
+    cmd: 'rake db:migrate && rails server start',
+    buildCommand: 'bundle install',
+    env: [
+      'MYSQL_HOST='
+    ],
+    repoName: 'rails-starter'
+  },
+  django: {
+    displayName: 'Django',
+    description: 'A Django & PostgresSQL app',
+    repoOwner: 'RunnableDemo',
+    icon: '/build/images/logos/logo-icon-django.svg',
+    cmd: 'python manage.py',
+    buildCommand: 'pip install',
+    env: [
+      'POSTGRES_HOST='
+    ],
+    repoName: 'django-starter'
+  },
+  php: {
+    displayName: 'Laravel',
+    description: 'A PHP & MySQL app',
+    repoOwner: 'RunnableDemo',
+    icon: '/build/images/logos/logo-icon-php.svg',
+    cmd: 'apached -d foreground',
+    buildCommand: 'composer install',
+    env: [
+      'POSTGRES_HOST='
+    ],
+    repoName: 'laravel-starter'
+  }
+};
+
 function demoRepos(
-  $q,
+  $rootScope,
   $timeout,
+  $q,
   ahaGuide,
   currentOrg,
   createNewBuildAndFetchBranch,
@@ -15,6 +68,8 @@ function demoRepos(
   github,
   keypather
 ) {
+  var showDemoSelector = ahaGuide.isInGuide() && !ahaGuide.hasConfirmedSetup();
+
   function findNewRepo(stack) {
     return fetchOwnerRepos(currentOrg.github.oauthName())
       .then(function (repos) {
@@ -35,7 +90,7 @@ function demoRepos(
           return repoModel;
         }
         return $timeout(function () {
-          return findNewRepo(stack, ++count);
+          return findNewRepoOnRepeat(stack, ++count);
         }, 1000);
       });
   }
@@ -53,65 +108,20 @@ function demoRepos(
     }
     return tmpName;
   }
-  var stacks = {
-    nodejs: {
-      displayName: 'Node.js',
-      description: 'A node.js & MongoDB app',
-      repoOwner: 'RunnableDemo',
-      icon: '/build/images/logos/logo-icon-nodejs.svg',
-      cmd: 'npm migrate && npm start',
-      buildCommand: 'npm install',
-      env: [
-        'MONGODB_HOST='
-      ],
-      repoName: 'node-starter'
-    },
-    rails: {
-      displayName: 'Rails',
-      description: 'A Ruby on Rails & MySQL app',
-      repoOwner: 'RunnableDemo',
-      icon: '/build/images/logos/logo-icon-rails.svg',
-      cmd: 'rake db:migrate && rails server start',
-      buildCommand: 'bundle install',
-      env: [
-        'MYSQL_HOST='
-      ],
-      repoName: 'rails-starter'
-    },
-    django: {
-      displayName: 'Django',
-      description: 'A Django & PostgresSQL app',
-      repoOwner: 'RunnableDemo',
-      icon: '/build/images/logos/logo-icon-django.svg',
-      cmd: 'python manage.py',
-      buildCommand: 'pip install',
-      env: [
-        'POSTGRES_HOST='
-      ],
-      repoName: 'django-starter'
-    },
-    php: {
-      displayName: 'Laravel',
-      description: 'A PHP & MySQL app',
-      repoOwner: 'RunnableDemo',
-      icon: '/build/images/logos/logo-icon-php.svg',
-      cmd: 'apached -d foreground',
-      buildCommand: 'composer install',
-      env: [
-        'POSTGRES_HOST='
-      ],
-      repoName: 'laravel-starter'
+  function forkGithubRepo(stackKey) {
+    if (!stacks[stackKey]) {
+      return $q.reject(new Error('Stack doesn\'t exist'));
     }
-  };
+    var stack = stacks[stackKey];
+    return github.forkRepo(stack.repoOwner, stack.repoName, currentOrg.github.oauthName(), keypather.get(currentOrg, 'poppa.attrs.isPersonalAccount'));
+  }
+
+  $rootScope.$on('demoService::skip', function () {
+    showDemoSelector = false;
+  });
   return {
     demoStacks: stacks,
-    forkGithubRepo: function (stackKey) {
-      if (!stacks[stackKey]) {
-        return $q.reject(new Error('Stack doesn\'t exist'));
-      }
-      var stack = stacks[stackKey];
-      return github.forkRepo(stack.repoOwner, stack.repoName, currentOrg.github.oauthName(), keypather.get(currentOrg, 'poppa.attrs.isPersonalAccount'));
-    },
+    forkGithubRepo: forkGithubRepo,
     createDemoApp: function (stackKey) {
       var stack = stacks[stackKey];
       return findNewRepo(stack)
@@ -120,7 +130,7 @@ function demoRepos(
             // If they already have the repo, don't refork it
             return repoModel;
           }
-          return this.forkGithubRepo(stackKey)
+          return forkGithubRepo(stackKey)
             .then(function () {
               return findNewRepoOnRepeat(stack);
             });
@@ -146,6 +156,9 @@ function demoRepos(
         .then(function () {
           return ahaGuide.endGuide();
         });
+    },
+    shouldShowDemoSelector: function () {
+      return showDemoSelector;
     }
   };
 }

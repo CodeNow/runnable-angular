@@ -301,8 +301,8 @@ function ahaGuide(
     return keypather.get(currentOrg, 'poppa.attrs.metadata.hasAha');
   }
 
-  function hasConfirmedSetup () {
-    return keypather.get(currentOrg, 'poppa.attrs.metadata.hasConfirmedSetup');
+  function hasConfirmedSetup() {
+    return keypather.get(instances, 'models.length');
   }
 
   function updateCurrentOrg (updatedOrg) {
@@ -392,7 +392,6 @@ function ahaGuide(
   function shouldShowDemoSelector() {
     return isInGuide() && !keypather.get(instances, 'models.length');
   }
-
   return {
     demoNames: possibleNames,
     endGuide: endGuide,
