@@ -6,7 +6,7 @@ var mockGithub;
 var mockCurrentOrg;
 var demoRepos;
 
-describe.only('demoRepos', function () {
+describe('demoRepos', function () {
 
   function setup() {
     mockCurrentOrg = {
@@ -20,13 +20,22 @@ describe.only('demoRepos', function () {
       }
     };
     angular.mock.module('app');
-    angular.mock.module('app', function ($provide) {
-      $provide.value('currentOrg', mockCurrentOrg)
-      $provide.service('github', function ($q) {
+    angular.mock.module(function ($provide) {
+      $provide.value('currentOrg', mockCurrentOrg);
+      $provide.factory('github', function ($q) {
+        console.log('github');
         mockGithub = {
           forkRepo: sinon.stub().returns($q.when())
         };
         return mockGithub;
+      });
+
+      $provide.factory('ahaGuide', function ($q) {
+        return {
+          isInGuide: sinon.stub(),
+          isAddingFirstBranch: sinon.stub(),
+          isSettingUpRunnabot: sinon.stub()
+        };
       });
     });
 
@@ -53,8 +62,8 @@ describe.only('demoRepos', function () {
       $rootScope.$digest();
     });
     it('should make a github request', function () {
-      demoRepos.forkGithubRepo('php');
       $rootScope.$digest();
+      demoRepos.forkGithubRepo('php');
 
       sinon.assert.calledOnce(mockGithub.forkRepo);
       sinon.assert.calledWithExactly(mockGithub.forkRepo,
