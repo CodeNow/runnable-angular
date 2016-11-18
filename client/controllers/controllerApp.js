@@ -113,7 +113,6 @@ function ControllerApp(
     CA.showAhaNavPopover = false;
 
     var confirmationPromise = $q.when(true);
-    if (!ahaGuide.hasDemoRepo()) {
       confirmationPromise = ModalService.showModal({
         controller: 'ConfirmationModalController',
         controllerAs: 'CMC',
@@ -122,7 +121,6 @@ function ControllerApp(
         .then(function(modal) {
           return modal.close;
         });
-    }
     confirmationPromise
       .then(function(confirmed) {
         if (confirmed) {

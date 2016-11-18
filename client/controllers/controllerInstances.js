@@ -14,6 +14,7 @@ function ControllerInstances(
   activeAccount,
   ahaGuide,
   currentOrg,
+  demoFlowService,
   errs,
   eventTracking,
   featureFlags,
@@ -28,7 +29,8 @@ function ControllerInstances(
 ) {
   var CIS = this;
   var userName = $state.params.userName;
-  CIS.isInGuide = ahaGuide.isInGuide;
+  var showDemoFlow = ahaGuide.isInGuide();
+
   CIS.isAddingFirstBranch = ahaGuide.isAddingFirstBranch;
   CIS.isSettingUpRunnabot = ahaGuide.isSettingUpRunnabot;
   CIS.currentOrg = currentOrg;
@@ -272,6 +274,27 @@ function ControllerInstances(
     promisify(CIS.poppedInstance, 'update')({ shouldNotAutofork: CIS.poppedInstance.attrs.shouldNotAutofork })
       .catch(function () {
         CIS.poppedInstance.attrs.shouldNotAutofork = !CIS.poppedInstance.attrs.shouldNotAutofork;
+      });
+  };
+
+  this.getTotalInstances = function () {
+    return CIS.instancesByPod.models.length;
+  };
+
+  this.isInDemoFlow = function (isInDemoFlow) {
+    if (isInDemoFlow !== undefined) {
+      showDemoFlow = isInDemoFlow;
+    }
+    return showDemoFlow && !keypather.get(CIS, 'instancesByPod.models.length') && ahaGuide.isInGuide();
+  }
+
+  this.startDemo = function (stackName) {
+    return demoFlowService(stackName)
+      .then(function (instance) {
+        $state.go('base.instances.instance', {
+          userName: $state.params.userName,
+          instanceName: instance.attrs.lowerName
+        }, {reload:true});
       });
   };
 }
