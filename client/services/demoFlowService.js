@@ -101,28 +101,4 @@ function demoFlowService (
     }
     return tmpName;
   }
-  function loadPorts () {
-    var portsStr = keypather.get(state, 'selectedStack.ports');
-    if (typeof portsStr === 'string') {
-      portsStr = portsStr.replace(/,/gi, '');
-      var ports = (portsStr || '').split(' ');
-      // After initially adding ports here, `ports` can no longer be
-      // added/removed since these will be managed by the `ports-form` directive
-      // and will get overwritten if a port is added/removed.
-      return ports;
-    }
-    return [];
-  }
-
-  function loadAllOptions(state) {
-    var portsStr = keypather.get(state, 'selectedStack.ports');
-      if (typeof portsStr === 'string') {
-        portsStr = portsStr.replace(/,/gi, '');
-        var ports = (portsStr || '').split(' ');
-        // After initially adding ports here, `ports` can no longer be
-        // added/removed since these will be managed by the `ports-form` directive
-        // and will get overwritten if a port is added/removed.
-         state.ports = ports;
-      }
-  }
 }
