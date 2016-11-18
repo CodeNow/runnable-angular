@@ -13,7 +13,7 @@ var stacks = {
     cmd: 'npm migrate && npm start',
     buildCommand: 'npm install',
     env: [
-      'MONGODB_HOST='
+      'MONGODB_HOST={{MongoDB}}'
     ],
     ports: [
       80
@@ -31,7 +31,7 @@ var stacks = {
     cmd: 'rake db:migrate && rails server start',
     buildCommand: 'bundle install',
     env: [
-      'MYSQL_HOST='
+      'MYSQL_HOST={{MySQL}}'
     ],
     ports: [
       80
@@ -49,7 +49,7 @@ var stacks = {
     cmd: 'python manage.py',
     buildCommand: 'pip install',
     env: [
-      'POSTGRES_HOST='
+      'POSTGRES_HOST={{PostgreSQL}}'
     ],
     ports: [
       80
@@ -67,7 +67,7 @@ var stacks = {
     cmd: 'apached -d foreground',
     buildCommand: 'composer install',
     env: [
-      'MYSQL_HOST='
+      'MYSQL_HOST={{MySQL}}'
     ],
     ports: [
       80
@@ -92,7 +92,8 @@ function demoRepos(
   fetchOwnerRepos,
   fetchStackData,
   github,
-  keypather
+  keypather,
+  serverCreateService
 ) {
   var showDemoSelector = ahaGuide.isInGuide() && !ahaGuide.hasConfirmedSetup();
 
@@ -145,7 +146,7 @@ function demoRepos(
     return fetchNonRepoInstances()
       .then(function (instances) {
         return instances.filter(function (instance) {
-          stack.deps.includes(instance.attrs.name);
+          return stack.deps.includes(instance.attrs.name);
         });
       });
   }
@@ -177,29 +178,42 @@ function demoRepos(
             instances: fetchInstancesByPod(),
             deps: findDependencyNonRepoInstances(stack)
               .then(function (deps) {
+                var depMap = {};
                 deps.map(function (depInstance) {
-                  createNonRepoInstance(depInstance.attrs.name, depInstance);
+                  depMap[depInstance.attrs.name] = createNonRepoInstance(depInstance.attrs.name, depInstance);
                 });
+                return $q.all(depMap);
               })
           });
         })
         .then(function (promiseResults) {
+          var generatedEnvs = stack.env.map(function (env) {
+            stack.deps.forEach(function (dep) {
+              if (promiseResults.deps[dep]) {
+                env = env.replace('{{' + dep + '}}', promiseResults.deps[dep].attrs.elasticHostname);
+              }
+            });
+            return env;
+          });
+          promiseResults.stack.selectedVersion = promiseResults.stack.suggestedVersion;
           var repoBuildAndBranch = promiseResults.repoBuildAndBranch;
           repoBuildAndBranch.instanceName = getUniqueInstanceName(stack.repoName, promiseResults.instances);
           repoBuildAndBranch.defaults = {
             selectedStack: promiseResults.stack,
             startCommand: stack.cmd,
             keepStartCmd: true,
+            run: [stack.buildCommand],
             step: 3
           };
-          return repoBuildAndBranch;
-        })
-        .then(function () {
-          return ahaGuide.endGuide();
+
+          return serverCreateService(repoBuildAndBranch, {
+            env: generatedEnvs,
+            ports: stack.ports
+          });
         });
     },
     shouldShowDemoSelector: function () {
-      return showDemoSelector;
+      return showDemoSelector && (ahaGuide.isInGuide() && !ahaGuide.hasConfirmedSetup());
     }
   };
 }

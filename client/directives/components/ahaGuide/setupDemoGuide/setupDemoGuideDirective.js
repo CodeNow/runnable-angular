@@ -4,10 +4,10 @@ require('app')
   .directive('setupDemoGuide', setupDemoGuide);
 
 function setupDemoGuide(
+  ahaGuide,
   demoRepos,
   errs,
-  loading,
-  ModalService
+  loading
 ) {
   return {
     restrict: 'A',
@@ -21,20 +21,8 @@ function setupDemoGuide(
         var loadingName = 'startDemo-' + stackKey;
         loading(loadingName, true);
         return demoRepos.createDemoApp(stackKey)
-          .then(function (repoBuildAndBranch) {
-            return ModalService.showModal({
-              controller: 'SetupServerModalController',
-              controllerAs: 'SMC',
-              templateUrl: 'setupServerModalView',
-              inputs: angular.extend({
-                dockerfileType: false,
-                instanceName: null,
-                repo: null,
-                build: null,
-                masterBranch: null,
-                defaults: {}
-              }, repoBuildAndBranch)
-            });
+          .then(function () {
+            return ahaGuide.endGuide();
           })
           .catch(errs.handler)
           .finally(function () {
