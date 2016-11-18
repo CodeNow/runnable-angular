@@ -19,13 +19,13 @@ function serverCreateService (
       branch: repoBuildAndBranch.masterBranch,
       build: repoBuildAndBranch.build,
       contextVersion: repoBuildAndBranch.build.contextVersion,
-      branch: repoBuildAndBranch.repo,
       instanceName: repoBuildAndBranch.instanceName,
       packages: new cardInfoTypes.Packages(),
+      ports: [],
       stackName: repoBuildAndBranch.defaults.selectedStack.key,
       startCommand: repoBuildAndBranch.defaults.startCommand,
       selectedStack: repoBuildAndBranch.defaults.selectedStack
-    }
+    };
 
     state.opts = Object.assign({
       masterPod: true,
@@ -36,16 +36,16 @@ function serverCreateService (
       },
       isTesting: false
     }, options);
-        
+
     return createDockerfileFromSource(state.contextVersion, state.stackName)
       .then(function (dockerfile) {
         state.dockerfile = dockerfile;
-        return fetchDockerfileFromSource(state.stackName)
+        return fetchDockerfileFromSource(state.stackName);
       })
       .then(function (sourceDockerfile) {
         var mainRepoContainerFile = new cardInfoTypes.MainRepository();
         var defaults = parseDockerfileForDefaults(sourceDockerfile, ['run', 'dst']);
-        var ports = keypather.get(state, 'selectedStack.ports');
+        var ports = state.opts.ports;
         mainRepoContainerFile.commands = defaults.run.map(function (run) {
           return new cardInfoTypes.Command('RUN ' + run);
         });
@@ -57,11 +57,6 @@ function serverCreateService (
       })
       .then(function () {
         return createAndBuildNewContainer(state, state.instanceName);
-      })
+      });
   };
-
-  function loadPorts(ports) {
-    var portsStr = ports.replace(/,/gi, '');
-    return (portsStr || '').split(' ');
-  }
 }
