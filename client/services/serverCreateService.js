@@ -21,7 +21,7 @@ function serverCreateService (
       contextVersion: repoBuildAndBranch.build.contextVersion,
       instanceName: repoBuildAndBranch.instanceName,
       packages: new cardInfoTypes.Packages(),
-      ports: [],
+      ports: options.ports,
       stackName: repoBuildAndBranch.defaults.selectedStack.key,
       startCommand: repoBuildAndBranch.defaults.startCommand,
       selectedStack: repoBuildAndBranch.defaults.selectedStack
@@ -45,14 +45,12 @@ function serverCreateService (
       .then(function (sourceDockerfile) {
         var mainRepoContainerFile = new cardInfoTypes.MainRepository();
         var defaults = parseDockerfileForDefaults(sourceDockerfile, ['run', 'dst']);
-        var ports = state.opts.ports;
         mainRepoContainerFile.commands = defaults.run.map(function (run) {
           return new cardInfoTypes.Command('RUN ' + run);
         });
         mainRepoContainerFile.name = state.instanceName;
         mainRepoContainerFile.path = state.instanceName;
         state.containerFiles = [mainRepoContainerFile];
-        state.ports = loadPorts(ports);
         return updateDockerfileFromState(state, false, true);
       })
       .then(function () {
