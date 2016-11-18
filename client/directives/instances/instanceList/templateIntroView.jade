@@ -5,7 +5,7 @@ p.grid-block.shrink.p.padding-sm Launch your first environment by forking one of
 
 .grid-block.justify-center.align-center.shrink.weight-light.popover-footer(
   data-event-name = "Clicked: Skip Demo/Use Existing Repos"
-  ng-click = "$root.$broadcast('demoService::skip')"
+  ng-click = "$root.$broadcast('demoService::hide')"
   ng-class = "{'disabled' :$root.isLoading.startDemo}"
 ) Start without an example
   svg.grid-block.shrink.iconnables.icons-arrow-forward

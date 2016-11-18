@@ -4,6 +4,7 @@ require('app')
   .directive('setupDemoGuide', setupDemoGuide);
 
 function setupDemoGuide(
+  $rootScope,
   ahaGuide,
   demoRepos,
   errs,
@@ -23,6 +24,9 @@ function setupDemoGuide(
         return demoRepos.createDemoApp(stackKey)
           .then(function () {
             return ahaGuide.endGuide();
+          })
+          .then(function () {
+            $rootScope.$broadcast('demoService::hide');
           })
           .catch(errs.handler)
           .finally(function () {

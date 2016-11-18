@@ -151,7 +151,7 @@ function demoRepos(
       });
   }
 
-  $rootScope.$on('demoService::skip', function () {
+  $rootScope.$on('demoService::hide', function () {
     showDemoSelector = false;
   });
   return {
@@ -213,7 +213,7 @@ function demoRepos(
         });
     },
     shouldShowDemoSelector: function () {
-      return showDemoSelector && (ahaGuide.isInGuide() && !ahaGuide.hasConfirmedSetup());
+      return showDemoSelector;
     }
   };
 }
