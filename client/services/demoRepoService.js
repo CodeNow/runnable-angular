@@ -15,7 +15,13 @@ var stacks = {
     env: [
       'MONGODB_HOST='
     ],
-    repoName: 'node-starter'
+    ports: [
+      80
+    ],
+    repoName: 'node-starter',
+    deps: [
+      'MongoDB'
+    ]
   },
   rails: {
     displayName: 'Rails',
@@ -27,7 +33,13 @@ var stacks = {
     env: [
       'MYSQL_HOST='
     ],
-    repoName: 'rails-starter'
+    ports: [
+      80
+    ],
+    repoName: 'rails-starter',
+    deps: [
+      'MySQL'
+    ]
   },
   django: {
     displayName: 'Django',
@@ -39,7 +51,13 @@ var stacks = {
     env: [
       'POSTGRES_HOST='
     ],
-    repoName: 'django-starter'
+    ports: [
+      80
+    ],
+    repoName: 'django-starter',
+    deps: [
+      'PostgreSQL'
+    ]
   },
   php: {
     displayName: 'Laravel',
@@ -49,9 +67,15 @@ var stacks = {
     cmd: 'apached -d foreground',
     buildCommand: 'composer install',
     env: [
-      'POSTGRES_HOST='
+      'MYSQL_HOST='
     ],
-    repoName: 'laravel-starter'
+    ports: [
+      80
+    ],
+    repoName: 'laravel-starter',
+    deps: [
+      'MySQL'
+    ]
   }
 };
 
@@ -62,7 +86,9 @@ function demoRepos(
   ahaGuide,
   currentOrg,
   createNewBuildAndFetchBranch,
+  createNonRepoInstance,
   fetchInstancesByPod,
+  fetchNonRepoInstances,
   fetchOwnerRepos,
   fetchStackData,
   github,
@@ -115,6 +141,14 @@ function demoRepos(
     var stack = stacks[stackKey];
     return github.forkRepo(stack.repoOwner, stack.repoName, currentOrg.github.oauthName(), keypather.get(currentOrg, 'poppa.attrs.isPersonalAccount'));
   }
+  function findDependencyNonRepoInstances(stack) {
+    return fetchNonRepoInstances()
+      .then(function (instances) {
+        return instances.filter(function (instance) {
+          stack.deps.includes(instance.attrs.name);
+        });
+      });
+  }
 
   $rootScope.$on('demoService::skip', function () {
     showDemoSelector = false;
@@ -122,6 +156,7 @@ function demoRepos(
   return {
     demoStacks: stacks,
     forkGithubRepo: forkGithubRepo,
+    findDependencyNonRepoInstances: findDependencyNonRepoInstances,
     createDemoApp: function (stackKey) {
       var stack = stacks[stackKey];
       return findNewRepo(stack)
@@ -139,7 +174,13 @@ function demoRepos(
           return $q.all({
             repoBuildAndBranch: createNewBuildAndFetchBranch(currentOrg.github, repoModel, '', false),
             stack: fetchStackData(repoModel),
-            instances: fetchInstancesByPod()
+            instances: fetchInstancesByPod(),
+            deps: findDependencyNonRepoInstances(stack)
+              .then(function (deps) {
+                deps.map(function (depInstance) {
+                  createNonRepoInstance(depInstance.attrs.name, depInstance);
+                });
+              })
           });
         })
         .then(function (promiseResults) {

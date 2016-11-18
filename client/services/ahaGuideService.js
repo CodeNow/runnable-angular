@@ -18,7 +18,6 @@ function ahaGuide(
   fetchInstancesByPod,
   isRunnabotPartOfOrg,
   keypather,
-  ModalService,
   patchOrgMetadata
 ) {
   var instances = [];
