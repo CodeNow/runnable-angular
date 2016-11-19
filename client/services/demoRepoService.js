@@ -7,10 +7,10 @@ require('app')
 var stacks = {
   nodejs: {
     displayName: 'Node.js',
-    description: 'A node.js & MongoDB app',
+    description: 'A Node.js & MongoDB app',
     repoOwner: 'RunnableDemo',
     icon: '/build/images/logos/logo-icon-nodejs.svg',
-    cmd: 'npm migrate && npm start',
+    cmd: 'npm run migrate && npm start',
     buildCommand: 'npm install',
     env: [
       'MONGODB_HOST={{MongoDB}}'
