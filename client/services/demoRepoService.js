@@ -198,7 +198,7 @@ function demoRepos(
           });
         })
         .then(function (promiseResults) {
-          var generatedEnvs = fillInEnvs(stack, promiseResults.dep);
+          var generatedEnvs = fillInEnvs(stack, promiseResults.deps);
 
           promiseResults.stack.selectedVersion = promiseResults.stack.suggestedVersion;
           var repoBuildAndBranch = promiseResults.repoBuildAndBranch;
