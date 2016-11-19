@@ -46,13 +46,16 @@ var stacks = {
     description: 'A Django & PostgresSQL app',
     repoOwner: 'RunnableDemo',
     icon: '/build/images/logos/logo-icon-django.svg',
-    cmd: 'python manage.py',
-    buildCommand: 'pip install',
+    cmd: 'sh start.sh',
+    buildCommand: 'pip install -r \'requirements.txt\'',
     env: [
-      'POSTGRES_HOST={{PostgreSQL}}'
+      'DB_HOST={{PostgreSQL}}',
+      'DB_NAME=postgres',
+      'DB_USER=postgres',
+      'DB_PASSWORD='
     ],
     ports: [
-      80
+      8000
     ],
     repoName: 'django-starter',
     deps: [
@@ -198,7 +201,7 @@ function demoRepos(
           });
         })
         .then(function (promiseResults) {
-          var generatedEnvs = fillInEnvs(stack, promiseResults.dep);
+          var generatedEnvs = fillInEnvs(stack, promiseResults.deps);
 
           promiseResults.stack.selectedVersion = promiseResults.stack.suggestedVersion;
           var repoBuildAndBranch = promiseResults.repoBuildAndBranch;
@@ -207,8 +210,7 @@ function demoRepos(
             selectedStack: promiseResults.stack,
             startCommand: stack.cmd,
             keepStartCmd: true,
-            run: [stack.buildCommand],
-            step: 3
+            run: [stack.buildCommand]
           };
 
           return serverCreateService(repoBuildAndBranch, {

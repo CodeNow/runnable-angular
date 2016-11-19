@@ -23,7 +23,6 @@ describe('demoRepos', function () {
     angular.mock.module(function ($provide) {
       $provide.value('currentOrg', mockCurrentOrg);
       $provide.factory('github', function ($q) {
-        console.log('github');
         mockGithub = {
           forkRepo: sinon.stub().returns($q.when())
         };

@@ -29,9 +29,11 @@ function setupDemoGuide(
               instanceName: instance.attrs.name
             });
           })
+          .then(function () {
+            ahaGuide.endGuide();
+          })
           .catch(errs.handler)
           .finally(function () {
-            ahaGuide.endGuide();
             loading('startDemo', false);
             loading(loadingName, false);
           });
