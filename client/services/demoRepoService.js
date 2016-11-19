@@ -122,7 +122,7 @@ function demoRepos(
         count++;
         return $timeout(function () {
           return findNewRepoOnRepeat(stack, count);
-        }, count * 1000);
+        }, count * 500);
       });
   }
   function getUniqueInstanceName (name, instances, count) {
@@ -188,7 +188,7 @@ function demoRepos(
         .then(function (repoModel) {
           return $q.all({
             repoBuildAndBranch: createNewBuildAndFetchBranch(currentOrg.github, repoModel, '', false),
-            stack: fetchStackData(repoModel),
+            stack: fetchStackData(repoModel, true),
             instances: fetchInstancesByPod(),
             deps: findDependencyNonRepoInstances(stack)
               .then(function (deps) {
