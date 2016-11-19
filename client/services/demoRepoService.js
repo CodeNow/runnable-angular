@@ -116,9 +116,10 @@ function demoRepos(
         if (repoModel) {
           return repoModel;
         }
+        count++;
         return $timeout(function () {
-          return findNewRepoOnRepeat(stack, ++count);
-        }, 1000);
+          return findNewRepoOnRepeat(stack, count);
+        }, count * 1000);
       });
   }
   function getUniqueInstanceName (name, instances, count) {
@@ -149,6 +150,16 @@ function demoRepos(
           return stack.deps.includes(instance.attrs.name);
         });
       });
+  }
+  function fillInEnvs(stack, deps) {
+    return stack.env.map(function (env) {
+      stack.deps.forEach(function (dep) {
+        if (deps[dep]) {
+          env = env.replace('{{' + dep + '}}', deps[dep].attrs.elasticHostname);
+        }
+      });
+      return env;
+    });
   }
 
   $rootScope.$on('demoService::hide', function () {
@@ -187,14 +198,8 @@ function demoRepos(
           });
         })
         .then(function (promiseResults) {
-          var generatedEnvs = stack.env.map(function (env) {
-            stack.deps.forEach(function (dep) {
-              if (promiseResults.deps[dep]) {
-                env = env.replace('{{' + dep + '}}', promiseResults.deps[dep].attrs.elasticHostname);
-              }
-            });
-            return env;
-          });
+          var generatedEnvs = fillInEnvs(stack, promiseResults.dep);
+
           promiseResults.stack.selectedVersion = promiseResults.stack.suggestedVersion;
           var repoBuildAndBranch = promiseResults.repoBuildAndBranch;
           repoBuildAndBranch.instanceName = getUniqueInstanceName(stack.repoName, promiseResults.instances);
