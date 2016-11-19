@@ -300,7 +300,7 @@ function ahaGuide(
     return keypather.get(currentOrg, 'poppa.attrs.metadata.hasAha');
   }
 
-  function hasConfirmedSetup() {
+  function hasConfirmedSetup () {
     return keypather.get(instances, 'models.length');
   }
 
@@ -330,7 +330,7 @@ function ahaGuide(
       });
   }
 
-  function resetGuide() {
+  function resetGuide () {
     return patchOrgMetadata(currentOrg.poppa.id(), {
       metadata: {
         hasAha: true,
@@ -375,8 +375,8 @@ function ahaGuide(
     });
   }
 
-  function shouldShowDemoSelector() {
-    return isInGuide() && !keypather.get(instances, 'models.length');
+  function shouldShowDemoSelector () {
+    return isInGuide() && !hasConfirmedSetup();
   }
   return {
     demoNames: possibleNames,
