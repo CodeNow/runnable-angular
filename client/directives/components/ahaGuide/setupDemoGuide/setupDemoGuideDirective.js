@@ -5,6 +5,7 @@ require('app')
 
 function setupDemoGuide(
   $rootScope,
+  $state,
   ahaGuide,
   demoRepos,
   errs,
@@ -22,14 +23,15 @@ function setupDemoGuide(
         var loadingName = 'startDemo-' + stackKey;
         loading(loadingName, true);
         return demoRepos.createDemoApp(stackKey)
-          .then(function () {
-            return ahaGuide.endGuide();
-          })
-          .then(function () {
+          .then(function (instance) {
             $rootScope.$broadcast('demoService::hide');
+            return $state.go('base.instances.instance', {
+              instanceName: instance.attrs.name
+            });
           })
           .catch(errs.handler)
           .finally(function () {
+            ahaGuide.endGuide();
             loading('startDemo', false);
             loading(loadingName, false);
           });

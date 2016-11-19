@@ -107,15 +107,6 @@ describe('ahaGuide'.bold.underline.blue, function () {
       var userInGuide = ahaGuide.isInGuide();
       expect(userInGuide).to.equal(false);
     });
-    it('should return true when the user has confirmed setup', function () {
-      var userConfirmedSetup = ahaGuide.hasConfirmedSetup();
-      expect(userConfirmedSetup).to.equal(false);
-    });
-    it('should return true when the user has confirmed setup', function () {
-      mockOrg.poppa.attrs.metadata.hasConfirmedSetup = true;
-      var userConfirmedSetup = ahaGuide.hasConfirmedSetup();
-      expect(userConfirmedSetup).to.equal(true);
-    });
   });
   describe('getting the current milestone, pre runnabot', function () {
     it('should return the choose org step when no poppa id', function () {
@@ -134,8 +125,9 @@ describe('ahaGuide'.bold.underline.blue, function () {
       expect(addRepoStep).to.equal(true);
     });
     it('should return the add first branch step if setup is confirmed', function () {
+      mockInstance.models[0].attrs.hasAddedBranches = false;
+      fetchInstancesByPodMock.triggerPromise(mockInstance);
       $rootScope.$digest(); // Clear cache
-      mockOrg.poppa.attrs.metadata.hasConfirmedSetup = true;
       var currentStep = ahaGuide.getCurrentStep();
       var addFirstBranch = ahaGuide.isAddingFirstBranch();
       expect(currentStep).to.equal(3);
