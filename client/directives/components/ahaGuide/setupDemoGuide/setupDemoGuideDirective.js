@@ -24,13 +24,11 @@ function setupDemoGuide(
         loading(loadingName, true);
         return demoRepos.createDemoApp(stackKey)
           .then(function (instance) {
+            ahaGuide.endGuide();
             $rootScope.$broadcast('demoService::hide');
             return $state.go('base.instances.instance', {
               instanceName: instance.attrs.name
             });
-          })
-          .then(function () {
-            ahaGuide.endGuide();
           })
           .catch(errs.handler)
           .finally(function () {

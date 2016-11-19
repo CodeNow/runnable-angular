@@ -83,7 +83,7 @@
 
   //- wraps all branch clusters — hide until a branch has been added
   .demo-transition.js-animate(
-    ng-if = "!$root.featureFlags.demoMultiTier && !$root.featureFlags.containersViewEmptyState"
+    ng-if = "(!$root.featureFlags.demoMultiTier || !CIS.shouldShowDemoSelector())"
   )
 
     //- branch clusters
