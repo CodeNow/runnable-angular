@@ -207,8 +207,7 @@ function demoRepos(
             selectedStack: promiseResults.stack,
             startCommand: stack.cmd,
             keepStartCmd: true,
-            run: [stack.buildCommand],
-            step: 3
+            run: [stack.buildCommand]
           };
 
           return serverCreateService(repoBuildAndBranch, {
