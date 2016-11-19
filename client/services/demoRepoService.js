@@ -46,13 +46,16 @@ var stacks = {
     description: 'A Django & PostgresSQL app',
     repoOwner: 'RunnableDemo',
     icon: '/build/images/logos/logo-icon-django.svg',
-    cmd: 'python manage.py',
-    buildCommand: 'pip install',
+    cmd: 'sh start.sh',
+    buildCommand: 'pip install -r \'requirements.txt\'',
     env: [
-      'POSTGRES_HOST={{PostgreSQL}}'
+      'DB_HOST={{PostgreSQL}}',
+      'DB_NAME=postgres',
+      'DB_USER=postgres',
+      'DB_PASSWORD='
     ],
     ports: [
-      80
+      8000
     ],
     repoName: 'django-starter',
     deps: [
