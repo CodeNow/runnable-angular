@@ -67,7 +67,7 @@ var stacks = {
     description: 'A PHP & MySQL app',
     repoOwner: 'RunnableDemo',
     icon: '/build/images/logos/logo-icon-php.svg',
-    cmd: 'apached -d foreground',
+    cmd: 'apache2-foreground',
     buildCommand: 'composer install',
     env: [
       'MYSQL_HOST={{MySQL}}'
