@@ -10,13 +10,13 @@ var stacks = {
     description: 'A Node.js & MongoDB app',
     repoOwner: 'RunnableDemo',
     icon: '/build/images/logos/logo-icon-nodejs.svg',
-    cmd: 'npm run migrate && npm start',
+    cmd: 'npm start',
     buildCommand: 'npm install',
     env: [
       'MONGODB_HOST={{MongoDB}}'
     ],
     ports: [
-      80
+      3000
     ],
     repoName: 'node-starter',
     deps: [
@@ -122,7 +122,7 @@ function demoRepos(
         count++;
         return $timeout(function () {
           return findNewRepoOnRepeat(stack, count);
-        }, count * 1000);
+        }, count * 500);
       });
   }
   function getUniqueInstanceName (name, instances, count) {
@@ -188,7 +188,7 @@ function demoRepos(
         .then(function (repoModel) {
           return $q.all({
             repoBuildAndBranch: createNewBuildAndFetchBranch(currentOrg.github, repoModel, '', false),
-            stack: fetchStackData(repoModel),
+            stack: fetchStackData(repoModel, true),
             instances: fetchInstancesByPod(),
             deps: findDependencyNonRepoInstances(stack)
               .then(function (deps) {

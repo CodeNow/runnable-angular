@@ -872,11 +872,12 @@ function fetchDebugContainer(
 
 function fetchStackData(
   $log,
+  $q,
   fetchStackAnalysis,
   fetchStackInfo,
   hasKeypaths
 ) {
-  return function (repo) {
+  return function (repo, emitNoLanguageDetected) {
     function setStackSelectedVersion(stack, versions) {
       if (versions[stack.key]) {
         stack.suggestedVersion = versions[stack.key];
@@ -893,6 +894,9 @@ function fetchStackData(
           .then(function (data) {
             if (!data.languageFramework) {
               $log.warn('No language detected');
+              if (emitNoLanguageDetected) {
+                return $q.reject(new Error('No language detected'));
+              }
               return;
             }
             if (data.languageFramework === 'ruby_ror') {
