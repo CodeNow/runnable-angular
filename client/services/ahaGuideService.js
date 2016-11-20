@@ -15,9 +15,11 @@ function ahaGuide(
   $rootScope,
   currentOrg,
   eventTracking,
+  featureFlags,
   fetchInstancesByPod,
   isRunnabotPartOfOrg,
   keypather,
+  ModalService,
   patchOrgMetadata
 ) {
   var instances = [];
@@ -301,7 +303,10 @@ function ahaGuide(
   }
 
   function hasConfirmedSetup () {
-    return keypather.get(instances, 'models.length');
+    if (featureFlags.flags.demoMultiTier) {
+      return !!keypather.get(instances, 'models.length');
+    }
+    return keypather.get(currentOrg, 'poppa.attrs.metadata.hasConfirmedSetup');
   }
 
   function updateCurrentOrg (updatedOrg) {
@@ -330,7 +335,7 @@ function ahaGuide(
       });
   }
 
-  function resetGuide () {
+  function resetGuide() {
     return patchOrgMetadata(currentOrg.poppa.id(), {
       metadata: {
         hasAha: true,
@@ -368,8 +373,23 @@ function ahaGuide(
     eventTracking.updateCurrentPersonProfile(currentStep);
   }
 
+  function launchAhaModal () {
+    $rootScope.$broadcast('close-popovers');
+    ModalService.showModal({
+      controller: 'AhaModalController',
+      controllerAs: 'AMC',
+      templateUrl: 'ahaModal'
+    }).then(function (modalController) {
+      ahaModalController = modalController;
+    });
+  }
+
+  if (!featureFlags.flags.demoMultiTier) {
+    $rootScope.$on('ahaGuide::launchModal', launchAhaModal);
+  }
+
   var possibleNames = ['node-starter', 'python-starter', 'ruby-starter'];
-  function hasDemoRepo() {
+  function hasDemoRepo () {
     return !!instances.find(function (instance) {
       return possibleNames.includes(instance.attrs.name);
     });

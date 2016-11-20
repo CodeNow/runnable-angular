@@ -8,7 +8,7 @@
   ng-if = "!isLoading.main"
 )
   .grid-block.justify-center.align-center(
-    ng-if = "!dataInstance.data.instance"
+    ng-if = "$root.featureFlags.demoMultiTier && !dataInstance.data.instance"
   )
     img(
       height = "40"

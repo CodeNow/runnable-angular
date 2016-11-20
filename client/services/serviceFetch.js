@@ -100,6 +100,7 @@ function fetchWhitelistedOrgs(
       });
   };
 }
+
 /**
  * Fetches the orgs that have been whitelisted for our api
  * (This version  does not cache, and should only be used by the org select)
