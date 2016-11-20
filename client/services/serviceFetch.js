@@ -36,6 +36,7 @@ require('app')
   .factory('fetchGitHubTeamMembersByTeam', fetchGitHubTeamMembersByTeam)
   .factory('fetchGithubUserForCommit', fetchGithubUserForCommit)
   .factory('fetchOwnerRepos', fetchOwnerRepos)
+  .factory('fetchOwnerRepo', fetchOwnerRepo)
   .factory('fetchPullRequest', fetchPullRequest)
   // Settings
   .factory('verifySlackAPITokenAndFetchMembers', verifySlackAPITokenAndFetchMembers)
@@ -355,6 +356,23 @@ function fetchOwnerRepos(fetchUser, promisify) {
   };
 }
 
+function fetchOwnerRepo(fetchUser, promisify) {
+  return function (userName, repoName) {
+    var user;
+    var repoType;
+    return fetchUser()
+      .then(function (_user) {
+        if (userName === _user.oauthName()) {
+          user = _user;
+          repoType = 'GithubRepo';
+        } else {
+          user = _user.newGithubOrg(userName);
+          repoType = 'Repo';
+        }
+        return promisify(user, 'fetch' + repoType)(repoName);
+      });
+  };
+}
 
 function fetchRepoBranches(fetchUser, promisify) {
   return function (repo) {

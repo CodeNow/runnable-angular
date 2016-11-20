@@ -92,7 +92,7 @@ function demoRepos(
   createNonRepoInstance,
   fetchInstancesByPod,
   fetchNonRepoInstances,
-  fetchOwnerRepos,
+  fetchOwnerRepo,
   fetchStackData,
   github,
   keypather,
@@ -101,13 +101,7 @@ function demoRepos(
   var showDemoSelector = ahaGuide.isInGuide() && !ahaGuide.hasConfirmedSetup();
 
   function findNewRepo(stack) {
-    return fetchOwnerRepos(currentOrg.github.oauthName())
-      .then(function (repos) {
-        var repoModel = repos.models.find(function (repo) {
-          return repo.attrs.name === stack.repoName;
-        });
-        return repoModel;
-      });
+    return fetchOwnerRepo(currentOrg.github.oauthName(), stack.repoName);
   }
   function findNewRepoOnRepeat(stack, count) {
     count = count || 0;
@@ -175,11 +169,7 @@ function demoRepos(
     createDemoApp: function (stackKey) {
       var stack = stacks[stackKey];
       return findNewRepo(stack)
-        .then(function (repoModel) {
-          if (repoModel) {
-            // If they already have the repo, don't refork it
-            return repoModel;
-          }
+        .catch(function forkRepo() {
           return forkGithubRepo(stackKey)
             .then(function () {
               return findNewRepoOnRepeat(stack);
