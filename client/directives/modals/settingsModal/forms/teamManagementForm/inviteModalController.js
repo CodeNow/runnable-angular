@@ -8,17 +8,14 @@ require('app')
  */
 function InviteModalController(
   $rootScope,
-  $q,
   $state,
   errs,
-  fetchUser,
+  keypather,
+  currentOrg,
   fetchOrgMembers,
   inviteGithubUserToRunnable,
   loading,
 
-  isPersonalAccount,
-  teamName,
-  orgMembers,
   close
 ) {
   var IMC = this;
@@ -26,30 +23,21 @@ function InviteModalController(
     activeUserId: null,
     invitedAll: null,
     invitesSent: false,
-    isPersonalAccount: isPersonalAccount,
-    orgMembers: orgMembers,
+    isPersonalAccount: keypather.get(currentOrg, 'poppa.attrs.isPersonalAccount'),
     name: 'inviteModal',
     sendingInviteUserId: null,
     sending: false,
     showAlternateInviteModal: null,
-    teamName: teamName
+    teamName: $state.params.userName
   });
 
   // Load uninvited members if they are not passed in
   loading(IMC.name, true);
-  $q.when(true)
-    .then(function () {
-      // Empty array is valid input
-      if (!orgMembers.uninvited && !Array.isArray(orgMembers.uninvited)) {
-        return fetchOrgMembers($state.params.userName, true)
-          .then(function (members) {
-            return members.uninvited;
-          });
-      }
-      return orgMembers.uninvited;
-    })
-    .then(function (unInvitedMembers) {
-      unInvitedMembers.forEach(function (member) {
+
+  fetchOrgMembers($state.params.userName, true)
+    .then(function (members) {
+      IMC.orgMembers = members;
+      members.uninvited.forEach(function (member) {
         // Set default invite email
         // We want `email` and `inviteEmail` to be different, since `email` is the
         // user's dfault GH email and should not be modified
@@ -57,7 +45,7 @@ function InviteModalController(
           member.inviteEmail = member.email;
         }
       });
-      IMC.unInvitedMembers = unInvitedMembers;
+      IMC.unInvitedMembers = members.uninvited;
       IMC.invitedAll = IMC.orgMembers.all.length === IMC.orgMembers.registered.length + IMC.orgMembers.invited.length;
       IMC.showAlternateInviteModal = IMC.isPersonalAccount || IMC.invitedAll || !IMC.unInvitedMembers.length;
       loading(IMC.name, false);

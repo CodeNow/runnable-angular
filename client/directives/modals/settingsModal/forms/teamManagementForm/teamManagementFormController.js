@@ -67,19 +67,14 @@ function TeamManagementFormController(
         TMMC.members.registered.forEach(setEmail('userModel.attrs.accounts.github.emails[0].value'));
         TMMC.members.uninvited.forEach(setEmail(null));
       });
-        
+
   }
 
   TMMC.openInvitationModal = function () {
     ModalService.showModal({
       controller: 'InviteModalController',
       controllerAs: 'IMC',
-      templateUrl: 'inviteModalView',
-      inputs: {
-        teamName: $state.params.userName,
-        orgMembers: TMMC.members,
-        isPersonalAccount: TMMC.isPersonalAccount
-      }
+      templateUrl: 'inviteModalView'
     })
     .then(function (modal) {
       return modal.close;
