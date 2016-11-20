@@ -55,7 +55,7 @@ function InviteModalController(
   IMC.sendInvitation = function (user) {
     IMC.sendingInviteUserId = user.id;
     IMC.setActiveUserId(null);
-    return inviteGithubUserToRunnable(user.id, user.email, teamName)
+    return inviteGithubUserToRunnable(user.id, user.email, IMC.teamName)
       .then(function (invitationModel) {
         IMC.invitesSent = true;
         user.inviteSent = true;
