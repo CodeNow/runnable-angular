@@ -19,7 +19,7 @@ function serverModalButtonsDirective(
       SMC: '=serverModalController'
     },
     link: function ($scope) {
-      var hasSaved = false
+      var hasSaved = false;
       function getDisplayFlagHash () {
         // Possible Buttons
         //   cancel
@@ -94,7 +94,7 @@ function serverModalButtonsDirective(
         }
         (($scope.SMC.instance) ? $scope.SMC.updateInstanceAndReset() : $scope.SMC.createServer())
           .then(function () {
-            hasSaved = true
+            hasSaved = true;
             if (forceClose) {
               return fetchInstancesByPod()
                 .then(function (instances) {
