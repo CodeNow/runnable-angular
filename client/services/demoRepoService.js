@@ -193,7 +193,6 @@ function demoRepos(
         .then(function (promiseResults) {
           var generatedEnvs = fillInEnvs(stack, promiseResults.deps);
 
-          promiseResults.stack.selectedVersion = promiseResults.stack.suggestedVersion;
           var repoBuildAndBranch = promiseResults.repoBuildAndBranch;
           repoBuildAndBranch.instanceName = getUniqueInstanceName(stack.repoName, promiseResults.instances);
           repoBuildAndBranch.defaults = {
