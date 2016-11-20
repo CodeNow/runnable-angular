@@ -19,6 +19,7 @@ function serverModalButtonsDirective(
       SMC: '=serverModalController'
     },
     link: function ($scope) {
+      var hasSaved = false
       function getDisplayFlagHash () {
         // Possible Buttons
         //   cancel
@@ -59,9 +60,10 @@ function serverModalButtonsDirective(
 
         // We are at the final stages of setup
         return {
-          save: true,
+          save: !hasSaved || $scope.SMC.isDirty(),
           willRebuildOnSave: true,
           cancel: true,
+          done: hasSaved,
           disableSave: shouldDisableSaveButton()
         };
       }
@@ -92,6 +94,7 @@ function serverModalButtonsDirective(
         }
         (($scope.SMC.instance) ? $scope.SMC.updateInstanceAndReset() : $scope.SMC.createServer())
           .then(function () {
+            hasSaved = true
             if (forceClose) {
               return fetchInstancesByPod()
                 .then(function (instances) {
