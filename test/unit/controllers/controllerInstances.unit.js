@@ -14,6 +14,9 @@ var $controller,
 var isRunnabotPartOfOrgStub;
 var fetchRepoBranchesStub;
 var ahaGuideStub;
+var featureFlags = {
+  flags: {}
+};
 var apiMocks = require('../apiMocks/index');
 var mockFetch = new (require('../fixtures/mockFetch'))();
 var runnable = window.runnable;
@@ -97,11 +100,7 @@ describe('ControllerInstances'.bold.underline.blue, function () {
         return promisifyMock;
       });
       $provide.factory('featureFlags', function () {
-        return {
-          flags: {
-            containersViewTemplateControls: true
-          }
-        };
+        return featureFlags;
       });
       $provide.value('currentOrg', mockOrg);
       $provide.value('favico', {
@@ -526,6 +525,10 @@ describe('ControllerInstances'.bold.underline.blue, function () {
   });
 
   describe('loading the correct state on instantiation/build'.blue, function () {
+
+    beforeEach(function () {
+      featureFlags.flags.containersViewTemplateControls = false;
+    });
 
     it('should not change state normally', function () {
       setup('Jim Jones');
