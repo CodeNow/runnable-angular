@@ -28,7 +28,7 @@ var stacks = {
     description: 'A Ruby on Rails & MySQL app',
     repoOwner: 'RunnableDemo',
     icon: '/build/images/logos/logo-icon-rails.svg',
-    cmd: 'rake db:migrate && rails server start',
+    cmd: 'rake db:migrate && rails server -b 0.0.0.0',
     buildCommand: 'bundle install',
     env: [
       'MYSQL_HOST={{MySQL}}'
