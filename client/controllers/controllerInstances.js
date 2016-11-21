@@ -110,10 +110,8 @@ function ControllerInstances(
       if ($state.current.name !== 'base.instances.instance') {
         if (!instances.models.length) {
           var unwatchFirstBuild = $scope.$on('buildStatusUpdated', function (e, instance) {
-            if (instance.status === 'building') {
-              unwatchFirstBuild();
-              CIS.checkAndLoadInstance(instance.instanceName);
-            }
+            unwatchFirstBuild();
+            CIS.checkAndLoadInstance(instance.instanceName);
           });
         }
 
