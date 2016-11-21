@@ -4,7 +4,7 @@ ul.grid-block.vertical.list-fork(
   li.grid-block.align-center.list-item-fork(
     data-event-name = "Clicked: Start Demo ({{stackKey}})"
     ng-class = "{'disabled': $root.isLoading.startDemo}"
-    ng-click = "createDemo(stackKey)"
+    ng-click = "$root.isLoading.startDemo || createDemo(stackKey)"
     ng-repeat = "(stackKey, demoStack) in demoStacks"
   )
     img.img(
