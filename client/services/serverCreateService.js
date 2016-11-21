@@ -36,6 +36,15 @@ function serverCreateService (
       },
       isTesting: false
     }, options);
+    function defaultSelectedStackVersion (stack) {
+      if (!stack.selectedVersion) {
+        stack.selectedVersion = stack.suggestedVersion;
+      }
+    }
+    defaultSelectedStackVersion(state.selectedStack);
+    if (state.selectedStack.dependencies) {
+      state.selectedStack.dependencies.forEach(defaultSelectedStackVersion);
+    }
 
     return createDockerfileFromSource(state.contextVersion, state.stackName)
       .then(function (dockerfile) {

@@ -53,6 +53,14 @@ function AhaModalController(
       }
     });
 
+  AMC.addOwnRepo = function () {
+    ModalService.showModal({
+      controller: 'NewContainerModalController',
+      controllerAs: 'NCMC',
+      templateUrl: 'newContainerModalView'
+    });
+  };
+
   loading('fetchAccountRepos', true);
   fetchOwnerRepos(currentOrg.github.oauthName())
     .then(function (ownerRepos) {

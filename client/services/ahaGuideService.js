@@ -15,6 +15,7 @@ function ahaGuide(
   $rootScope,
   currentOrg,
   eventTracking,
+  featureFlags,
   fetchInstancesByPod,
   isRunnabotPartOfOrg,
   keypather,
@@ -302,6 +303,9 @@ function ahaGuide(
   }
 
   function hasConfirmedSetup () {
+    if (featureFlags.flags.demoMultiTier) {
+      return !!keypather.get(instances, 'models.length');
+    }
     return keypather.get(currentOrg, 'poppa.attrs.metadata.hasConfirmedSetup');
   }
 
@@ -380,7 +384,9 @@ function ahaGuide(
     });
   }
 
-  $rootScope.$on('ahaGuide::launchModal', launchAhaModal);
+  if (!featureFlags.flags.demoMultiTier) {
+    $rootScope.$on('ahaGuide::launchModal', launchAhaModal);
+  }
 
   var possibleNames = ['node-starter', 'python-starter', 'ruby-starter'];
   function hasDemoRepo () {
@@ -389,6 +395,9 @@ function ahaGuide(
     });
   }
 
+  function shouldShowDemoSelector () {
+    return isInGuide() && !hasConfirmedSetup();
+  }
   return {
     demoNames: possibleNames,
     endGuide: endGuide,
@@ -397,6 +406,7 @@ function ahaGuide(
     getCurrentStep: getCurrentStep,
     hasConfirmedSetup: hasConfirmedSetup,
     hasDemoRepo: hasDemoRepo,
+    shouldShowDemoSelector: shouldShowDemoSelector,
     hasRunnabot: refreshHasRunnabot,
     isInGuide: isInGuide,
     resetGuide: resetGuide,

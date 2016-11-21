@@ -3,7 +3,7 @@
 
   //- 'select demo' guide
   .grid-block.vertical.popover.in.margin-top-xs.popover-demo.demo-transition.js-animate(
-    ng-if = "$root.featureFlags.demoMultiTier && !$root.featureFlags.demoMultiTierAddBranch && !$root.featureFlags.containersViewEmptyState"
+    ng-if = "$root.featureFlags.demoMultiTier && CIS.shouldShowDemoSelector()"
     ng-include = "'templateIntroView'"
   )
 
@@ -12,7 +12,7 @@
 
     //- search
     label.grid-block.shrink.vertical.label-search(
-      ng-if = "!$root.featureFlags.demoMultiTier || $root.featureFlags.demoMultiTierAddBranch"
+      ng-if = "(!$root.featureFlags.demoMultiTier || !CIS.shouldShowDemoSelector())"
     )
       input.input.input-xs.input-search(
         ng-model = "CIS.searchBranches"
@@ -28,7 +28,7 @@
 
     //- master cluster
     .grid-block.shrink.vertical.list-clusters.master-cluster.js-animate(
-      ng-if = "!$root.featureFlags.demoMultiTier || $root.featureFlags.demoMultiTierAddBranch && $root.featureFlags.addBranches && (!CIS.searchBranches || CIS.getFilteredInstanceList().length)"
+      ng-if = "(!$root.featureFlags.demoMultiTier || !CIS.shouldShowDemoSelector()) && (!CIS.searchBranches || CIS.getFilteredInstanceList().length)"
     )
 
       .grid-block.shrink.align-center.list-item-cluster.list-clusters-heading
@@ -67,7 +67,7 @@
           )
 
     .grid-block.vertical.shrink.well.empty.text-center(
-      ng-if = "$root.featureFlags.containersViewTemplateControls && !CIS.getFilteredInstanceList().length && !CIS.searchBranches"
+      ng-if = "$root.featureFlags.containersViewTemplateControls && (!$root.featureFlags.demoMultiTier || !CIS.shouldShowDemoSelector()) && !CIS.getFilteredInstanceList().length && !CIS.searchBranches"
     ) 👆
       br
       .small {{$root.featureFlags.demoMultiTier ? 'First, use the button above to create your first service.' : 'You don’t have any services. Click the button above to create one.'}}
@@ -83,7 +83,7 @@
 
   //- wraps all branch clusters — hide until a branch has been added
   .demo-transition.js-animate(
-    ng-if = "!$root.featureFlags.demoMultiTier && !$root.featureFlags.containersViewEmptyState"
+    ng-if = "(!$root.featureFlags.demoMultiTier || !CIS.shouldShowDemoSelector())"
   )
 
     //- branch clusters
