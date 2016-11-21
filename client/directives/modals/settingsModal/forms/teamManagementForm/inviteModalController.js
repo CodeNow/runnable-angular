@@ -31,7 +31,6 @@ function InviteModalController(
     teamName: $state.params.userName
   });
 
-  // Load uninvited members if they are not passed in
   loading(IMC.name, true);
 
   fetchOrgMembers($state.params.userName, true)
