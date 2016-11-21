@@ -112,7 +112,7 @@ function ControllerInstances(
           var firstBuildWatcher = $scope.$on('buildStatusUpdated', function (e, instance) {
             if (instance.status === 'building') {
               firstBuildWatcher();
-              CIS.checkAndLoadInstance(instance.instanceName)
+              CIS.checkAndLoadInstance(instance.instanceName);
             }
           });
         }
@@ -134,7 +134,7 @@ function ControllerInstances(
         userName: userName
       }, {location: 'replace'});
     }
-  }
+  };
 
   this.filterMatchedAnything = function () {
     if (!CIS.searchBranches) {

@@ -96,7 +96,13 @@ describe('ControllerInstances'.bold.underline.blue, function () {
         });
         return promisifyMock;
       });
-
+      $provide.factory('featureFlags', function () {
+        return {
+          flags: {
+            containersViewTemplateControls: true
+          }
+        };
+      });
       $provide.value('currentOrg', mockOrg);
       $provide.value('favico', {
         reset : sinon.spy(),
@@ -516,6 +522,25 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       expect(results[2]).to.deep.equal([false, false], 'post');
       expect(results[3]).to.deep.equal([false, false], 'FEATURE');
       expect(results[4]).to.deep.equal([true, false], 'aws');
+    });
+  });
+
+  describe('loading the correct state on instantiation/build'.blue, function () {
+
+    it('should not change state normally', function () {
+      setup('Jim Jones');
+      $rootScope.$digest();
+      sinon.assert.notCalled(ctx.fakeGo, 'base.instances.instance');
+    });
+
+    it('should change state when an instance exists', function () {
+      setup('Jim Jones');
+      $rootScope.$digest();
+      CIS.checkAndLoadInstance('new-instance');
+      sinon.assert.calledWith(ctx.fakeGo, 'base.instances.instance', {
+        userName: 'Jim Jones',
+        instanceName: 'new-instance'
+      });
     });
   });
 });
