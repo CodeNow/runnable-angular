@@ -3,15 +3,15 @@
 require('app')
   .factory('demoRepos', demoRepos);
 
-
 var stacks = {
   nodejs: {
     displayName: 'Node.js',
     description: 'A Node.js & MongoDB app',
     repoOwner: 'RunnableDemo',
     icon: '/build/images/logos/logo-icon-nodejs.svg',
-    cmd: 'npm start',
-    buildCommand: [
+    cmd: 'npm run migrate && npm start',
+    packages: [],
+    buildCommands: [
       'npm install'
     ],
     env: [
@@ -31,18 +31,19 @@ var stacks = {
     repoOwner: 'RunnableDemo',
     icon: '/build/images/logos/logo-icon-rails.svg',
     cmd: 'rake db:migrate && rails server -b 0.0.0.0',
-    buildCommand: [
+    packages: [],
+    buildCommands: [
       'bundle install'
     ],
     env: [
-      'MYSQL_HOST={{MySQL}}'
+      'DATABASE_URL=postgres://postgres@{{PostgreSQL}}:5432/postgres'
     ],
     ports: [
-      80
+      3000
     ],
     repoName: 'rails-starter',
     deps: [
-      'MySQL'
+      'PostgreSQL'
     ]
   },
   django: {
@@ -50,12 +51,18 @@ var stacks = {
     description: 'A Django & PostgresSQL app',
     repoOwner: 'RunnableDemo',
     icon: '/build/images/logos/logo-icon-django.svg',
-    cmd: 'sh start.sh',
-    buildCommand: [
-      'pip install -r \'requirements.txt\''
+    cmd: 'python manage.py runserver 0.0.0.0:8000',
+    packages: [
+      'postgresql-client',
+      'mysql-client',
+      'sqlite3'
+    ],
+    buildCommands: [
+      'pip install -r "requirements.txt"'
     ],
     env: [
       'DB_HOST={{PostgreSQL}}',
+      'DB_PORT=5432',
       'DB_NAME=postgres',
       'DB_USER=postgres',
       'DB_PASSWORD='
@@ -73,12 +80,24 @@ var stacks = {
     description: 'A PHP & MySQL app',
     repoOwner: 'RunnableDemo',
     icon: '/build/images/logos/logo-icon-php.svg',
-    cmd: 'apache2-foreground',
-    buildCommand: [
-      'composer install'
+    cmd: 'php artisan migrate && apache2-foreground',
+    packages: [],
+    buildCommands: [
+      'composer install',
+      'rmdir /var/www/html/',
+      'ln -s /var/www/public /var/www/html',
+      'chown -R www-data /var/www/',
+      'chgrp -R www-data /var/www/',
+      'chmod -R 775 /var/www/storage'
     ],
     env: [
-      'MYSQL_HOST={{MySQL}}'
+      'APP_ENV=local',
+      'APP_KEY=Idgz1PE3zO9iNc0E3oeH3CHDPX9MzZe3',
+      'DB_HOST={{MySQL}}',
+      'DB_PORT=3306',
+      'DB_DATABASE=app',
+      'DB_USERNAME=mysql',
+      'DB_PASSWORD=mysql'
     ],
     ports: [
       80
@@ -86,9 +105,6 @@ var stacks = {
     repoName: 'laravel-starter',
     deps: [
       'MySQL'
-    ],
-    packages: [
-      ''
     ]
   }
 };
@@ -210,7 +226,7 @@ function demoRepos(
             selectedStack: promiseResults.stack,
             startCommand: stack.cmd,
             keepStartCmd: true,
-            run: stack.buildCommand,
+            run: stack.buildCommands,
             packages: stack.packages
           };
 
