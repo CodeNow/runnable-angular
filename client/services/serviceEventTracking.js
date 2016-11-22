@@ -564,6 +564,18 @@ function EventTracking(
     return ETS;
   };
 
+  /**
+   * Spun up infrastructure
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.clickedChangeTeam = function () {
+    var eventName = 'Clicked ‘Change Team’';
+    ETS._mixpanel('track', eventName);
+    return ETS;
+  };
+
   ETS.updateCurrentPersonProfile = function (currentStep, orgNameInOrgSelect) {
     return $q.all([
       fetchUserUnCached(),

@@ -14,6 +14,7 @@ function accountsSelect (
   $timeout,
   configEnvironment,
   errs,
+  eventTracking,
   keypather,
   ModalService,
   promisify,
@@ -33,6 +34,9 @@ function accountsSelect (
 
       $scope.popoverAccountMenu = {
         actions: {
+          clickedChangeTeam: function() {
+            eventTracking.clickedChangeTeam();
+          },
           getHeight: function (view) {
             // if no containers '143px'
             if ($rootScope.featureFlags.isolationSetUp && view === 1) {

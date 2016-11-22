@@ -88,6 +88,7 @@
                   xlink:href = "#icons-arrow-down"
                 )
             li.list-item.popover-list-item(
+              ng-click = "actions.clickedChangeTeam()"
               ui-sref = "orgSelect"
               ui-sref-opts = "{reload: true}"
             ) Change Team
@@ -115,6 +116,7 @@
           p.p.strong.text-center Don’t leave your team on the sidelines.
           p.p.weight-light.text-center Switch to a GitHub org to create environments for your team’s code.
           button.btn.btn-sm.green.margin-top-xs(
+            ng-click = "actions.clickedChangeTeam()"
             ui-sref = "orgSelect"
             ui-sref-opts = "{reload: true}"
           ) Change Teams
