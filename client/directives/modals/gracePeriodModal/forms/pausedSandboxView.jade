@@ -1,13 +1,20 @@
-.modal-backdrop.grace-period
-  h1.h1.text-center.padding-sm Welcome back!
-  img.grid-block.img.runnabear(
+.grid-block.vertical.modal-backdrop.welcome
+  img.grid-block.shrink.justify-center.logo.img(
+    alt = "Runnable Logo"
+    height = "36"
+    src = "/build/images/runnable-logo.svg"
+    width = "192"
+  )
+  img.grid-block.shrink.img.runnabear(
     height = "130"
     src = "/build/images/runnabear-waving-3.png"
     width = "230"
   )
-  .modal-dialog.modal-welcome
+  .grid-block.vertical.shrink.modal-dialog.modal-sm
+    header.modal-header
+      h1.modal-heading Welcome back!
     section.modal-body
-      p.p.padding-xs We’ve temporarily&#32;
+      p.p.padding-sm.weight-light We’ve temporarily&#32;
         span(
           title = "paws’d"
         ) paused&#32;
@@ -16,10 +23,10 @@
       button.grid-content.btn.btn-md.green.icons-intercom(
         ng-click = "$root.$broadcast('intercom::pawsd')"
       ) Chat Now
-      a.grid-content.link.text-gray.text-center(
+      a.grid-content.link.text-gray.text-center.margin-bottom-xs(
         href = "mailto:support@runnable.com?subject=I’m back! Please get my environments back up and running."
       ) Email Support
-  .grid-block.justify-center.modal-outer-footer.text-gray(
+  .grid-block.shrink.justify-center.margin-top-sm.margin-bottom-xl.welcome-footer.text-white.weight-light(
     grace-period-footer
     close = "WBC.close"
   )
