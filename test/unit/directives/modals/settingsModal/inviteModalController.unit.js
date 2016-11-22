@@ -64,15 +64,15 @@ describe('InviteModalController'.bold.underline.blue, function () {
           attrs: {
             isPersonalAccount: isPersonalAccountMock
           }
+        },
+        github: {
+          attrs: {
+            login: 'CodeNow'
+          }
         }
       });
       $provide.value('isPersonalAccount', isPersonalAccountMock);
       $provide.value('close', closeStub);
-      $provide.value('$state', {
-        params: {
-          userName: 'CodeNow'
-        }
-      });
     });
     angular.mock.inject(function (
       _$controller_,
@@ -98,6 +98,11 @@ describe('InviteModalController'.bold.underline.blue, function () {
       expect(IMC.invitesSent).to.equal(false);
       expect(IMC.activeUserId).to.equal(null);
       expect(IMC.sendingInviteUserId).to.equal(null);
+    });
+    it('should be loading when started and should not be loading when loaded', function () {
+      expect($rootScope.isLoading[IMC.name]).to.equal(true);
+      $scope.$digest();
+      expect($rootScope.isLoading[IMC.name]).to.equal(false);
     });
   });
 

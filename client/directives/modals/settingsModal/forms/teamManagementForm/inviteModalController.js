@@ -8,7 +8,6 @@ require('app')
  */
 function InviteModalController(
   $rootScope,
-  $state,
   errs,
   keypather,
   currentOrg,
@@ -28,12 +27,12 @@ function InviteModalController(
     sendingInviteUserId: null,
     sending: false,
     showAlternateInviteModal: null,
-    teamName: $state.params.userName
+    teamName: currentOrg.github.attrs.login
   });
 
   loading(IMC.name, true);
 
-  fetchOrgMembers($state.params.userName, true)
+  fetchOrgMembers(IMC.teamName, true)
     .then(function (members) {
       IMC.orgMembers = members;
       members.uninvited.forEach(function (member) {
