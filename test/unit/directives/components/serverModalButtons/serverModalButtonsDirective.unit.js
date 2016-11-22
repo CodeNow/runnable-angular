@@ -8,7 +8,7 @@ var $q;
 var $elScope;
 var apiMocks = require('./../../../apiMocks/index');
 
-describe.only('serverModalButtonsDirective'.bold.underline.blue, function () {
+describe('serverModalButtonsDirective'.bold.underline.blue, function () {
   var ctx;
 
   beforeEach(function () {
