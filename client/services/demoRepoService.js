@@ -11,7 +11,9 @@ var stacks = {
     repoOwner: 'RunnableDemo',
     icon: '/build/images/logos/logo-icon-nodejs.svg',
     cmd: 'npm start',
-    buildCommand: 'npm install',
+    buildCommand: [
+      'npm install'
+    ],
     env: [
       'MONGODB_HOST={{MongoDB}}'
     ],
@@ -29,7 +31,9 @@ var stacks = {
     repoOwner: 'RunnableDemo',
     icon: '/build/images/logos/logo-icon-rails.svg',
     cmd: 'rake db:migrate && rails server -b 0.0.0.0',
-    buildCommand: 'bundle install',
+    buildCommand: [
+      'bundle install'
+    ],
     env: [
       'MYSQL_HOST={{MySQL}}'
     ],
@@ -47,7 +51,9 @@ var stacks = {
     repoOwner: 'RunnableDemo',
     icon: '/build/images/logos/logo-icon-django.svg',
     cmd: 'sh start.sh',
-    buildCommand: 'pip install -r \'requirements.txt\'',
+    buildCommand: [
+      'pip install -r \'requirements.txt\''
+    ],
     env: [
       'DB_HOST={{PostgreSQL}}',
       'DB_NAME=postgres',
@@ -68,7 +74,9 @@ var stacks = {
     repoOwner: 'RunnableDemo',
     icon: '/build/images/logos/logo-icon-php.svg',
     cmd: 'apache2-foreground',
-    buildCommand: 'composer install',
+    buildCommand: [
+      'composer install'
+    ],
     env: [
       'MYSQL_HOST={{MySQL}}'
     ],
@@ -78,6 +86,9 @@ var stacks = {
     repoName: 'laravel-starter',
     deps: [
       'MySQL'
+    ],
+    packages: [
+      ''
     ]
   }
 };
@@ -199,7 +210,8 @@ function demoRepos(
             selectedStack: promiseResults.stack,
             startCommand: stack.cmd,
             keepStartCmd: true,
-            run: [stack.buildCommand]
+            run: stack.buildCommand,
+            packages: stack.packages
           };
 
           return serverCreateService(repoBuildAndBranch, {

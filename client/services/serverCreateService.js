@@ -60,6 +60,13 @@ function serverCreateService (
         mainRepoContainerFile.name = state.instanceName;
         mainRepoContainerFile.path = state.instanceName;
         state.containerFiles = [mainRepoContainerFile];
+
+        if (defaults.packages) {
+          if (Array.isArray(defaults.packages)) {
+            defaults.packages = defaults.packages.join(' ');
+          }
+          state.packages.packageList = defaults.packages;
+        }
         return updateDockerfileFromState(state, false, true);
       })
       .then(function () {
