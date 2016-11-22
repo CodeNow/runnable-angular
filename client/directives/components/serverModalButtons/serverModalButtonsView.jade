@@ -58,5 +58,5 @@ button.btn.btn-md.green.btn-primary.float-right.text-save-build(
 ) Save & Build
 
 span.small.float-right.fade.js-animate(
-  ng-if = "getDisplayFlag('willRebuildOnSave') && !SMC.instance"
+  ng-if = "getDisplayFlag('willRebuildOnSave') && SMC.instance"
 ) You’ve made changes that require a rebuild.
