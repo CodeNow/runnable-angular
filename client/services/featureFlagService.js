@@ -24,6 +24,7 @@ function featureFlags(
     contingencyPlan: false,
     demoFlowPhase2: true,
     demoMultiTier: false,
+    demoMultiTierBuilding: false,
     demoMultiTierAddBranch: false,
     demoMultiTierAddRepo: false,
     demoProject: true,

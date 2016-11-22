@@ -7,7 +7,7 @@
 
 .instance-header-title {
   color: $gray-dark;
-  font-size: 24px;
+  font-size: 19px;
   font-weight: $weight-normal;
   line-height: $input-lg;
   padding: 0 54px 0 12px; // for text-overflow
@@ -22,13 +22,14 @@
 
     .btn {
       color: $gray-light;
+      opacity: .75;
       padding: 0 6px;
 
-      &:hover {
-        color: $gray;
+      &:hover,
+      &:active {
+        opacity: 1;
       }
 
-      &:active,
       &.active {
         color: $purple-light;
       }
@@ -36,7 +37,7 @@
 
     .iconnables {
       height: 100%;
-      width: 21px;
+      width: 18px;
     }
   }
 
@@ -101,6 +102,7 @@
     flex: 1 1 auto;
 
     .input {
+      font-size: 13px;
       overflow-y: auto;
     }
 
@@ -159,37 +161,4 @@
 // connections button
 .btn-connections {
   margin: 0 6px;
-}
-
-// connections badge
-.badge-connections {
-  background: $gray-light;
-  border: 0; // override borders that come with colors
-  border-radius: 16px;
-  color: $white;
-  display: inline-block;
-  font-size: 12px;
-  font-weight: $weight-bold;
-  height: 16px;
-  line-height: 16px;
-  margin-right: 4px;
-  min-width: 16px;
-  padding: 0 4px;
-  position: relative;
-  top: -2px;
-
-  // colored states
-  .gray:active & {
-    background: $purple-light;
-  }
-
-  .orange & {
-    background: $white;
-    color: $orange;
-  }
-
-  .red & {
-    background: $white;
-    color: $red;
-  }
 }
