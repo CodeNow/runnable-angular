@@ -8,7 +8,7 @@ var $q;
 var $elScope;
 var apiMocks = require('./../../../apiMocks/index');
 
-describe('serverModalButtonsDirective'.bold.underline.blue, function () {
+describe.only('serverModalButtonsDirective'.bold.underline.blue, function () {
   var ctx;
 
   beforeEach(function () {
@@ -51,11 +51,11 @@ describe('serverModalButtonsDirective'.bold.underline.blue, function () {
       });
       $scope.thisForm = {};
       $scope.serverModalController = ctx.serverModalController;
+      $scope.serverModalController.isTabVisible = sinon.stub();
       element = $compile(template)($scope);
       $scope.$digest();
       $elScope = element.isolateScope();
       $elScope.isPrimaryButtonDisabled = sinon.stub().returns(false);
-      $elScope.SMC.isTabVisible = sinon.stub();
     });
   });
   describe('createServerOrUpdate', function () {
@@ -184,6 +184,7 @@ describe('serverModalButtonsDirective'.bold.underline.blue, function () {
 
     describe('when editing an instance', function () {
       beforeEach(function () {
+        $elScope.SMC.instance = {};
         $elScope.SMC.isDemo = false;
         $elScope.SMC.isDirty.returns(false);
         $elScope.SMC.needsToBeDirtySaved.returns(false);
