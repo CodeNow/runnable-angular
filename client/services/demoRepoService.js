@@ -10,7 +10,6 @@ var stacks = {
     repoOwner: 'RunnableDemo',
     icon: '/build/images/logos/logo-icon-nodejs.svg',
     cmd: 'npm run migrate && npm start',
-    packages: [],
     buildCommands: [
       'npm install'
     ],
@@ -31,7 +30,6 @@ var stacks = {
     repoOwner: 'RunnableDemo',
     icon: '/build/images/logos/logo-icon-rails.svg',
     cmd: 'rake db:migrate && rails server -b 0.0.0.0',
-    packages: [],
     buildCommands: [
       'bundle install'
     ],
@@ -81,7 +79,6 @@ var stacks = {
     repoOwner: 'RunnableDemo',
     icon: '/build/images/logos/logo-icon-php.svg',
     cmd: 'php artisan migrate && apache2-foreground',
-    packages: [],
     buildCommands: [
       'composer install',
       'rmdir /var/www/html/',
