@@ -83,13 +83,13 @@
 
   //- 'add branch' guide — show until a branch has been added
   .grid-block.vertical.popover.in.popover-demo.demo-transition.js-animate(
-    ng-if = "$root.featureFlags.demoMultiTier && $root.featureFlags.demoMultiTierAddBranch && !$root.featureFlags.containersViewEmptyState"
+    ng-if = "$root.featureFlags.demoMultiTierAddBranch"
     ng-include = "'addBranchView'"
   )
 
   //- wraps all branch clusters — hide until a branch has been added
   .demo-transition.js-animate(
-    ng-if = "(!$root.featureFlags.demoMultiTier || !CIS.shouldShowDemoSelector())"
+    ng-if = "(!$root.featureFlags.demoMultiTier || !CIS.shouldShowDemoSelector()) && !$root.featureFlags.demoMultiTierAddBranch"
   )
 
     //- branch clusters
