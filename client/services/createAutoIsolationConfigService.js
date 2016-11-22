@@ -9,21 +9,23 @@ function createAutoIsolationConfig(
 ) {
   return function (instance, dependencies) {
     return fetchUser().then(function (user) {
+      var requestedDependencies = dependencies.map(function (dep) {
+        if(dep.getRepoName()) {
+          return {
+            org: dep.attrs.owner.username,
+            repo: dep.getRepoName(),
+            instance: dep.id(),
+            matchBranch: true
+          };
+        }
+        return {
+          instance: dep.id()
+        };
+      });
+
       return promisify(user, 'createAutoIsolationConfig')({
         instance: instance.id(),
-        requestedDependencies: dependencies.map(function (dep) {
-          if(!!dep.getRepoName()) {
-            return {
-              org: dep.attrs.owner.username,
-              repo: dep.getRepoName(),
-              instance: dep.id(),
-              matchBranch: true
-            };
-          }
-          return {
-            instance: dep.id()
-          };
-        })
+        requestedDependencies: requestedDependencies
       });
     });
   };
