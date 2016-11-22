@@ -13,6 +13,7 @@ function ControllerInstances(
   $state,
   activeAccount,
   ahaGuide,
+  demoRepos,
   currentOrg,
   errs,
   eventTracking,
@@ -29,6 +30,7 @@ function ControllerInstances(
   var CIS = this;
   var userName = $state.params.userName;
   CIS.isInGuide = ahaGuide.isInGuide;
+  CIS.shouldShowDemoSelector = demoRepos.shouldShowDemoSelector;
   CIS.isAddingFirstBranch = ahaGuide.isAddingFirstBranch;
   CIS.isSettingUpRunnabot = ahaGuide.isSettingUpRunnabot;
   CIS.currentOrg = currentOrg;
@@ -273,5 +275,13 @@ function ControllerInstances(
       .catch(function () {
         CIS.poppedInstance.attrs.shouldNotAutofork = !CIS.poppedInstance.attrs.shouldNotAutofork;
       });
+  };
+
+  this.addOwnRepo = function () {
+    ModalService.showModal({
+      controller: 'NewContainerModalController',
+      controllerAs: 'NCMC',
+      templateUrl: 'newContainerModalView'
+    });
   };
 }
