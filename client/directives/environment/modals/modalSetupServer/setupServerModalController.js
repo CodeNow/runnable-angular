@@ -39,6 +39,7 @@ function SetupServerModalController(
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
   SMC.isAddingFirstRepo = ahaGuide.isAddingFirstRepo;
   SMC.showUrlToolbar = SMC.isAddingFirstRepo();
+  SMC.isSettingUpNewInstance = true;
 
   var parentController = $controller('ServerModalController as SMC', { $scope: $scope });
   angular.extend(SMC, {
