@@ -109,9 +109,9 @@ function ControllerInstances(
       var instanceName = keypather.get(targetInstance, 'attrs.name');
       if ($state.current.name !== 'base.instances.instance') {
         if (!instances.models.length) {
-          var unwatchFirstBuild = $scope.$on('buildStatusUpdated', function (e, instance) {
+          var unwatchFirstBuild = $scope.$on('buildStatusUpdated', function (e, instanceUpdate) {
             unwatchFirstBuild();
-            CIS.checkAndLoadInstance(instance.instanceName);
+            CIS.checkAndLoadInstance(instanceUpdate.instanceName);
           });
         }
 
