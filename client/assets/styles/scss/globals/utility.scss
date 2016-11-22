@@ -27,7 +27,6 @@
 
 // default sizes
 @for $i from 1 to 8 {
-
   // padding
   .padding-#{nth($size-list,$i)} {
     padding: nth($sizes,$i);
