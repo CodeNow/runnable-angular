@@ -27,7 +27,6 @@
 
 // default sizes
 @for $i from 1 to 8 {
-
   // padding
   .padding-#{nth($size-list,$i)} {
     padding: nth($sizes,$i);
@@ -40,7 +39,9 @@
       }
     }
   }
+}
 
+@for $i from 1 to 8 {
   @for $x from 1 to 5 {
     .padding-#{nth($size-directions,$x)}-#{nth($size-list,$i)} {
       padding-#{nth($size-directions,$x)}: nth($sizes,$i);
@@ -54,7 +55,9 @@
       }
     }
   }
+}
 
+@for $i from 1 to 8 {
   // margin
   .margin-#{nth($size-list,$i)} {
     margin: nth($sizes,$i);
@@ -67,7 +70,9 @@
       }
     }
   }
+}
 
+@for $i from 1 to 8 {
   @for $x from 1 to 5 {
     .margin-#{nth($size-directions,$x)}-#{nth($size-list,$i)} {
       margin-#{nth($size-directions,$x)}: nth($sizes,$i);
