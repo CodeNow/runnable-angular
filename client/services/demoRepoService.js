@@ -51,9 +51,7 @@ var stacks = {
     icon: '/build/images/logos/logo-icon-django.svg',
     cmd: 'python manage.py runserver 0.0.0.0:8000',
     packages: [
-      'postgresql-client',
-      'mysql-client',
-      'sqlite3'
+      'postgresql-client'
     ],
     buildCommands: [
       'pip install -r "requirements.txt"'
