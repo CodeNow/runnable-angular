@@ -303,10 +303,7 @@ function ahaGuide(
   }
 
   function hasConfirmedSetup () {
-    if (featureFlags.flags.demoMultiTier) {
-      return !!keypather.get(instances, 'models.length');
-    }
-    return keypather.get(currentOrg, 'poppa.attrs.metadata.hasConfirmedSetup');
+    return !!keypather.get(instances, 'models.length');
   }
 
   function updateCurrentOrg (updatedOrg) {
@@ -373,39 +370,15 @@ function ahaGuide(
     eventTracking.updateCurrentPersonProfile(currentStep);
   }
 
-  function launchAhaModal () {
-    $rootScope.$broadcast('close-popovers');
-    ModalService.showModal({
-      controller: 'AhaModalController',
-      controllerAs: 'AMC',
-      templateUrl: 'ahaModal'
-    }).then(function (modalController) {
-      ahaModalController = modalController;
-    });
-  }
-
-  if (!featureFlags.flags.demoMultiTier) {
-    $rootScope.$on('ahaGuide::launchModal', launchAhaModal);
-  }
-
-  var possibleNames = ['node-starter', 'python-starter', 'ruby-starter'];
-  function hasDemoRepo () {
-    return !!instances.find(function (instance) {
-      return possibleNames.includes(instance.attrs.name);
-    });
-  }
-
   function shouldShowDemoSelector () {
     return isInGuide() && !hasConfirmedSetup();
   }
   return {
-    demoNames: possibleNames,
     endGuide: endGuide,
     furthestSubstep: furthestSubstep,
     getClassForSubstep: getClassForSubstep,
     getCurrentStep: getCurrentStep,
     hasConfirmedSetup: hasConfirmedSetup,
-    hasDemoRepo: hasDemoRepo,
     shouldShowDemoSelector: shouldShowDemoSelector,
     hasRunnabot: refreshHasRunnabot,
     isInGuide: isInGuide,
