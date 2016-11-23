@@ -310,9 +310,7 @@ function ahaGuide(
   }
 
   function updateCurrentOrg (updatedOrg) {
-    if (keypather.has(updatedOrg, 'metadata.hasAha') && keypather.has(updatedOrg, 'metadata.hasConfirmedSetup')) {
-      currentOrg.poppa.attrs.metadata = updatedOrg.metadata;
-    }
+    currentOrg.poppa.attrs.metadata = updatedOrg.metadata;
   }
 
   function skipBranchMilestone () {
