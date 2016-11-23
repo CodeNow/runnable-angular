@@ -49,7 +49,7 @@ var stacks = {
     description: 'A Django & PostgresSQL app',
     repoOwner: 'RunnableDemo',
     icon: '/build/images/logos/logo-icon-django.svg',
-    cmd: 'python manage.py runserver 0.0.0.0:8000',
+    cmd: 'python manage.py migrate && python manage.py runserver 0.0.0.0:8000',
     packages: [
       'postgresql-client'
     ],
