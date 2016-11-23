@@ -123,8 +123,28 @@
 
   // url popover
   > .popover {
+    left: auto;
     max-width: none;
+    right: 12px;
+    top: 41px;
     width: 390px;
+
+    @media (max-width: 894px) {
+      position: fixed;
+      top: 12px;
+
+      .arrow {
+        display: none;
+      }
+    }
+
+    @media (max-width: 420px) {
+      left: 0;
+      margin: 12px 12px 0;
+      right: 0;
+      top: 0;
+      width: auto;
+    }
   }
 }
 
