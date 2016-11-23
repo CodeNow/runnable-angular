@@ -85,7 +85,13 @@
     save-open-items-button
   )
 
-  .popover.bottom.in.popover-aha.popover-aha-url.in(
+  .popover.bottom.in(
+    ng-if = "$root.featureFlags.demoMultiTierUrl"
+    ng-include = "'containerUrlPopoverView'"
+    style = "left: auto; right: 12px; top: 41px;"
+  )
+
+  .popover.bottom.popover-aha.popover-aha-url.in(
     ng-if = "$root.featureFlags.aha && $root.featureFlags.ahaBranchUrlStep"
   )
     .arrow.white(
