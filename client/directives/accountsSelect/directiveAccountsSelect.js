@@ -34,9 +34,7 @@ function accountsSelect (
 
       $scope.popoverAccountMenu = {
         actions: {
-          clickedChangeTeam: function() {
-            eventTracking.clickedChangeTeam();
-          },
+          clickedChangeTeam: eventTracking.clickedChangeTeam,
           getHeight: function (view) {
             // if no containers '143px'
             if ($rootScope.featureFlags.isolationSetUp && view === 1) {
