@@ -46,11 +46,15 @@
               xlink:href = "#icons-arrow-down"
             )
 
-      .grid-block.align-center.padding-sm.popover.in.popover-demo.margin-bottom-xxs(
+      .grid-block.align-center.padding-sm.popover.bottom.in.popover-demo(
         ng-if = "$root.featureFlags.demoMultiTierAddRepo"
+        ng-include = "'popoverDemoServiceCTAView'"
       )
-        .grid-block Add your own repositories to get them running.
-        .grid-block.shrink.margin-left-sm.h3 👆
+
+      .grid-block.align-center.padding-sm.popover.top.in.popover-demo(
+        ng-if = "$root.featureFlags.demoMultiTierUrlHidden"
+        ng-include = "'popoverDemoUrlHiddenView'"
+      )
 
       .grid-block.shrink.list-item-cluster(
         ng-if = "CIS.getFilteredInstanceList().length"
