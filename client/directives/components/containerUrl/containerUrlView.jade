@@ -7,6 +7,7 @@ input.input.input-sm(
 )
 
 a.btn.btn-xs.btn-icon-xs.gray.link(
+  ng-click = "{{openedContainerUrl()}}"
   ng-href = "{{getContainerUrl(instance)}}"
   target = "_blank"
   title = "Open in a new tab"

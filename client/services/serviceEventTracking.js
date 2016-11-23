@@ -576,6 +576,18 @@ function EventTracking(
     return ETS;
   };
 
+  /**
+   * Opened Container URL
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.openedContainerUrl = function () {
+    var eventName = 'Opened Container URL';
+    ETS._mixpanel('track', eventName);
+    return ETS;
+  };
+
   ETS.updateCurrentPersonProfile = function (currentStep, orgNameInOrgSelect) {
     return $q.all([
       fetchUserUnCached(),
