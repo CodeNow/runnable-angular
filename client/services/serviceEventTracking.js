@@ -565,7 +565,7 @@ function EventTracking(
   };
 
   /**
-   * Spun up infrastructure
+   * Clicked ‘Change Team’
    * Reports to:
    *   - mixpanel
    * @return this
