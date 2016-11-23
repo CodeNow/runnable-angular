@@ -20,10 +20,10 @@ function featureFlags(
     cardStatus: false,
     connections: false,
     configTerminal: true, // flag for terminal in config view
-    containersViewTemplateControls: false,
+    containersViewTemplateControls: true,
     contingencyPlan: false,
     demoFlowPhase2: true,
-    demoMultiTier: false,
+    demoMultiTier: true,
     demoMultiTierBuilding: false,
     demoMultiTierAddBranch: false,
     demoMultiTierAddRepo: false,
