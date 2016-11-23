@@ -106,19 +106,9 @@
       overflow-y: auto;
     }
 
-    // new tab
-    .link {
-      padding: 0;
-    }
-
-    .btn-icon-xs {
-      min-width: 24px;
-    }
-
     .icons-link-external {
-      margin: 0 3px;
-      top: -1px;
-      width: 15px;
+      margin-left: 3px;
+      width: 9px;
     }
   }
 
@@ -128,6 +118,32 @@
 
     .icons-arrow-down {
       margin: 0;
+    }
+  }
+
+  // url popover
+  > .popover {
+    left: auto;
+    max-width: none;
+    right: 12px;
+    top: 41px;
+    width: 390px;
+
+    @media (max-width: 894px) {
+      position: fixed;
+      top: 12px;
+
+      .arrow {
+        display: none;
+      }
+    }
+
+    @media (max-width: 420px) {
+      left: 0;
+      margin: 12px 12px 0;
+      right: 0;
+      top: 0;
+      width: auto;
     }
   }
 }

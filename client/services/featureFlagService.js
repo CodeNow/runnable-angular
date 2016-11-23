@@ -26,6 +26,8 @@ function featureFlags(
     demoMultiTier: true,
     demoMultiTierBuilding: false,
     demoMultiTierAddBranch: false,
+    demoMultiTierUrl: false,
+    demoMultiTierUrlHidden: false,
     demoMultiTierAddRepo: false,
     demoProject: true,
     dockerfileMirroringMultiple: false,
