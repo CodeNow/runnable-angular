@@ -212,11 +212,7 @@ function ControllerInstance(
 
   // Only listen to hang tight message if we're going to show it
   if (!$scope.$storage.hasSeenHangTightMessage) {
-    var stopWatcherForNewRepoInstances = $scope.$watch(function () {
-      return instancesByPod.models.filter(function (instance) {
-        return keypather.get(instance, 'attrs.contextVersion.appCodeVersions[0]');
-      }).length;
-    }, numberOfInstancesUpdatedHandler);
+    numberOfInstancesUpdatedHandler();
   }
 
   function numberOfInstancesUpdatedHandler (newVal, previousVal) {
@@ -227,7 +223,7 @@ function ControllerInstance(
         return fetchCurrentInstance();
       })
       .then(function (instance) {
-        var currentInstanceIsRepoInstance = keypather.get(instance, 'attrs.contextVersion.appCodeVersions[0]');
+        var currentInstanceIsRepoInstance = keypather.get(instance, 'contextVersion.getMainAppCodeVersion()');
         // Only show message if user hasn't:
         // 1. Seen message before
         if ($scope.$storage.hasSeenHangTightMessage) { return; }
@@ -237,9 +233,6 @@ function ControllerInstance(
         if (!isBuildingOrStarting(instance.status())) { return; }
         $scope.$storage.hasSeenHangTightMessage = true;
         data.showHangTightMessage = instance.attrs.id;
-        if (stopWatcherForNewRepoInstances) {
-          stopWatcherForNewRepoInstances();
-        }
       });
   }
 
