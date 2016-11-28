@@ -260,7 +260,7 @@ function ControllerInstance(
     return fetchInstances({ name: $stateParams.instanceName }, true);
   }
 
-  function isBuildingOrStarting () {
+  function isBuildingOrStarting (status) {
     return ['building', 'starting'].indexOf(status) !== -1;
   }
 }
