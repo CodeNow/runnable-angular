@@ -564,6 +564,30 @@ function EventTracking(
     return ETS;
   };
 
+  /**
+   * Clicked ‘Change Team’
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.clickedChangeTeam = function () {
+    var eventName = 'Clicked ‘Change Team’';
+    ETS._mixpanel('track', eventName);
+    return ETS;
+  };
+
+  /**
+   * Opened Container URL
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.openedContainerUrl = function () {
+    var eventName = 'Opened Container URL';
+    ETS._mixpanel('track', eventName);
+    return ETS;
+  };
+
   ETS.updateCurrentPersonProfile = function (currentStep, orgNameInOrgSelect) {
     return $q.all([
       fetchUserUnCached(),
