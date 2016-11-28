@@ -204,7 +204,7 @@ function ControllerInstance(
         data.openItems.removeAllButBuildLogs();
         break;
     }
-    if (!isBuildingOrStarting(status) && keypather.get($scope, 'dataInstance.data.instance.attrs.id') === data.showHangTightMessage) {
+    if (!isBuildingOrStarting(status) && data.showHangTightMessage) {
       data.showHangTightMessage = false;
     }
     $timeout(function () {
@@ -221,7 +221,7 @@ function ControllerInstance(
     // 3. Container is currently building or starting
     if (!isBuildingOrStarting(instance.status())) { return; }
     $scope.$storage.hasSeenHangTightMessage = true;
-    data.showHangTightMessage = instance.attrs.id;
+    data.showHangTightMessage = true;
   }
 
   if (ahaGuide.isInGuide()) {
