@@ -202,7 +202,7 @@ function ControllerInstance(
         data.openItems.removeAllButBuildLogs();
         break;
     }
-    if (['building', 'starting'].indexOf(status) === -1 && keypather.get($scope, 'dataInstance.data.instance.attrs.id') === data.showHangTightMessage) {
+    if (!isBuildingOrStarting(status) && keypather.get($scope, 'dataInstance.data.instance.attrs.id') === data.showHangTightMessage) {
       data.showHangTightMessage = false;
     }
     $timeout(function () {
@@ -233,8 +233,8 @@ function ControllerInstance(
         if ($scope.$storage.hasSeenHangTightMessage) { return; }
         // 2. Is looking at a repo instance
         if (!currentInstanceIsRepoInstance) { return; }
-        // 3. Container is currently building
-        if (['building', 'starting'].indexOf(instance.status()) === -1) { return; }
+        // 3. Container is currently building or starting
+        if (!isBuildingOrStarting(instance.status())) { return; }
         $scope.$storage.hasSeenHangTightMessage = true;
         data.showHangTightMessage = instance.attrs.id;
         if (stopWatcherFornewRepoInstanced) {
@@ -258,5 +258,9 @@ function ControllerInstance(
 
   function fetchCurrentInstance () {
     return fetchInstances({ name: $stateParams.instanceName }, true);
+  }
+
+  function isBuildingOrStarting () {
+    return ['building', 'starting'].indexOf(status) !== -1;
   }
 }
