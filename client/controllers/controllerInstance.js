@@ -216,12 +216,11 @@ function ControllerInstance(
   });
 
   function checkForEnablingHangTightMessage (instance) {
-    var currentInstanceIsRepoInstance = keypather.get(instance, 'contextVersion.getMainAppCodeVersion()');
     // Only show message if user hasn't:
     // 1. Seen message before
     if ($scope.$storage.hasSeenHangTightMessage) { return; }
     // 2. Is looking at a repo instance
-    if (!currentInstanceIsRepoInstance) { return; }
+    if (!keypather.get(instance, 'contextVersion.getMainAppCodeVersion()')) { return; }
     // 3. Container is currently building or starting
     if (!isBuildingOrStarting(instance.status())) { return; }
     $scope.$storage.hasSeenHangTightMessage = true;
