@@ -69,7 +69,9 @@ describe('controllerInstance'.bold.underline.blue, function () {
           ADD_FIRST_BRANCH: 123
         }
       });
-      $provide.value('instancesByPod', {});
+      $provide.value('instancesByPod', {
+        models: []
+      });
       $provide.value('favico', mockFavico);
       $provide.factory('fetchUser', function ($q) {
         return function () {

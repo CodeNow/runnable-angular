@@ -29,7 +29,6 @@ function ControllerInstance(
   pageName,
   setLastInstance
 ) {
-
   var CIS = this;
   CIS.isInGuide = ahaGuide.isInGuide;
   var dataInstance = $scope.dataInstance = {
@@ -39,7 +38,9 @@ function ControllerInstance(
     actions: {}
   };
   var data = dataInstance.data;
-  $scope.$storage = $localStorage;
+  $scope.$storage = $localStorage.$default({
+     hasSeenHangTightMessage: false
+  });
   loading('main', true);
 
   data.openItems = new OpenItems();
@@ -59,7 +60,7 @@ function ControllerInstance(
     // product team - track visits to instance page & referrer
     eventTracking.visitedState();
     return $q.all({
-      instance: fetchInstances({ name: $stateParams.instanceName }, true),
+      instance: fetchCurrentInstance(),
       settings: fetchSettings()
     })
       .then(function (results) {
@@ -77,6 +78,8 @@ function ControllerInstance(
       .then(function (results) {
         var instance = results.instance;
         data.instance = instance;
+
+        checkForEnablingHangTightMessage(instance);
 
         // Check that current commit is not already building
         var currentCommit = keypather.get(instance, 'attrs.contextVersion.appCodeVersions[0].commit');
@@ -201,10 +204,25 @@ function ControllerInstance(
         data.openItems.removeAllButBuildLogs();
         break;
     }
+    if (!isBuildingOrStarting(status) && data.showHangTightMessage) {
+      data.showHangTightMessage = false;
+    }
     $timeout(function () {
       favico.setInstanceState(keypather.get($scope, 'dataInstance.data.instance'));
     });
   });
+
+  function checkForEnablingHangTightMessage (instance) {
+    // Only show message if user hasn't:
+    // 1. Seen message before
+    if ($scope.$storage.hasSeenHangTightMessage) { return; }
+    // 2. Is looking at a repo instance
+    if (!keypather.get(instance, 'contextVersion.getMainAppCodeVersion()')) { return; }
+    // 3. Container is currently building or starting
+    if (!isBuildingOrStarting(instance.status())) { return; }
+    $scope.$storage.hasSeenHangTightMessage = true;
+    data.showHangTightMessage = true;
+  }
 
   if (ahaGuide.isInGuide()) {
     if (keypather.get(instancesByPod, 'models.length')) {
@@ -217,5 +235,13 @@ function ControllerInstance(
         });
       }
     }
+  }
+
+  function fetchCurrentInstance () {
+    return fetchInstances({ name: $stateParams.instanceName }, true);
+  }
+
+  function isBuildingOrStarting (status) {
+    return ['building', 'starting'].indexOf(status) !== -1;
   }
 }

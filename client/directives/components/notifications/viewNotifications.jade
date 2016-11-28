@@ -9,6 +9,6 @@
 )
 
 .grid-block(
-  ng-if = "$root.featureFlags.demoMultiTierBuilding"
+  ng-if = "dataInstance.data.showHangTightMessage && $root.featureFlags.demoMultiTierBuilding"
   ng-include = "'firstBuildNotificationView'"
 )

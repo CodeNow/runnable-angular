@@ -12,6 +12,7 @@ var STEPS = {
 };
 
 function ahaGuide(
+  $localStorage,
   $rootScope,
   currentOrg,
   eventTracking,
@@ -25,6 +26,7 @@ function ahaGuide(
   var instances = [];
   var hasRunnabot = false;
   var ahaModalController;
+  var $storage = $localStorage.$default({});
   function refreshInstances() {
     return fetchInstancesByPod()
       .then(function (fetchedInstances) {
@@ -341,6 +343,7 @@ function ahaGuide(
       }
     })
       .then(function (updatedOrg) {
+        delete $storage.hasSeenHangTightMessage;
         updateCurrentOrg(updatedOrg);
       });
   }
