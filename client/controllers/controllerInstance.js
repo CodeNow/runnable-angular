@@ -79,6 +79,11 @@ function ControllerInstance(
         var instance = results.instance;
         data.instance = instance;
 
+        // Only listen to hang tight message if we're going to show it
+        if (!$scope.$storage.hasSeenHangTightMessage) {
+          numberOfInstancesUpdatedHandler(instance);
+        }
+
         // Check that current commit is not already building
         var currentCommit = keypather.get(instance, 'attrs.contextVersion.appCodeVersions[0].commit');
         getCommitForCurrentlyBuildingBuild(instance)
@@ -210,30 +215,17 @@ function ControllerInstance(
     });
   });
 
-  // Only listen to hang tight message if we're going to show it
-  if (!$scope.$storage.hasSeenHangTightMessage) {
-    numberOfInstancesUpdatedHandler();
-  }
-
-  function numberOfInstancesUpdatedHandler () {
-    $q.when()
-      .then(function () {
-        var instance = keypather.get(data, 'instance');
-        if (instance) { return instance; }
-        return fetchCurrentInstance();
-      })
-      .then(function (instance) {
-        var currentInstanceIsRepoInstance = keypather.get(instance, 'contextVersion.getMainAppCodeVersion()');
-        // Only show message if user hasn't:
-        // 1. Seen message before
-        if ($scope.$storage.hasSeenHangTightMessage) { return; }
-        // 2. Is looking at a repo instance
-        if (!currentInstanceIsRepoInstance) { return; }
-        // 3. Container is currently building or starting
-        if (!isBuildingOrStarting(instance.status())) { return; }
-        $scope.$storage.hasSeenHangTightMessage = true;
-        data.showHangTightMessage = instance.attrs.id;
-      });
+  function numberOfInstancesUpdatedHandler (instance) {
+    var currentInstanceIsRepoInstance = keypather.get(instance, 'contextVersion.getMainAppCodeVersion()');
+    // Only show message if user hasn't:
+    // 1. Seen message before
+    if ($scope.$storage.hasSeenHangTightMessage) { return; }
+    // 2. Is looking at a repo instance
+    if (!currentInstanceIsRepoInstance) { return; }
+    // 3. Container is currently building or starting
+    if (!isBuildingOrStarting(instance.status())) { return; }
+    $scope.$storage.hasSeenHangTightMessage = true;
+    data.showHangTightMessage = instance.attrs.id;
   }
 
   if (ahaGuide.isInGuide()) {
