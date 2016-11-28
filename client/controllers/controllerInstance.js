@@ -215,7 +215,7 @@ function ControllerInstance(
     numberOfInstancesUpdatedHandler();
   }
 
-  function numberOfInstancesUpdatedHandler (newVal, previousVal) {
+  function numberOfInstancesUpdatedHandler () {
     $q.when()
       .then(function () {
         var instance = keypather.get(data, 'instance');
