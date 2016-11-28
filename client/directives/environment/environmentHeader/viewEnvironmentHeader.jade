@@ -8,14 +8,3 @@ button.grid-block.shrink.btn.btn-md.green(
       xlink:href = "#icons-add"
     )
   | Add a Service
-
-button.grid-block.shrink.btn.btn-sm.gray.btn-aha(
-  ng-click = "$root.$emit('ahaGuide::launchModal')"
-  ng-if = "$root.featureFlags.aha && EC.isInGuide()"
-  tooltip = "Setup Guide"
-  tooltip-options = "{\"class\":\"left\",\"right\":42,\"top\":0}"
-)
-  svg.iconnables
-    use(
-      xlink:href = "#icons-help"
-      )

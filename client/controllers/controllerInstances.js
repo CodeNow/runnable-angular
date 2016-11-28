@@ -106,21 +106,33 @@ function ControllerInstances(
 
       setLastOrg(userName);
 
+      var instanceName = keypather.get(targetInstance, 'attrs.name');
       if ($state.current.name !== 'base.instances.instance') {
-        if (targetInstance) {
-          return $state.go('base.instances.instance', {
-            instanceName: keypather.get(targetInstance, 'attrs.name'),
-            userName: userName
-          }, {location: 'replace'});
+        if (!instances.models.length) {
+          var unwatchFirstBuild = $scope.$on('buildStatusUpdated', function (e, instanceUpdate) {
+            unwatchFirstBuild();
+            CIS.checkAndLoadInstance(instanceUpdate.instanceName);
+          });
         }
-        if (!featureFlags.flags.containersViewTemplateControls) {
-          return $state.go('base.config', {
-            userName: userName
-          }, {location: 'replace'});
-        }
+
+        CIS.checkAndLoadInstance(instanceName);
       }
     })
     .catch(errs.handler);
+
+  this.checkAndLoadInstance = function (instanceName) {
+    if (instanceName) {
+      return $state.go('base.instances.instance', {
+        instanceName: instanceName,
+        userName: userName
+      }, {location: 'replace'});
+    }
+    if (!featureFlags.flags.containersViewTemplateControls) {
+      return $state.go('base.config', {
+        userName: userName
+      }, {location: 'replace'});
+    }
+  };
 
   this.filterMatchedAnything = function () {
     if (!CIS.searchBranches) {
