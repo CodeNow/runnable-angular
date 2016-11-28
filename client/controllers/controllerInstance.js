@@ -206,6 +206,10 @@ function ControllerInstance(
     }
     if (!isBuildingOrStarting(status) && data.showHangTightMessage) {
       data.showHangTightMessage = false;
+      if (status === 'running') {
+        // Now that we showed the 'hang tight' message, show the URL callout
+        data.data.showUrlCallout = true;
+      }
     }
     $timeout(function () {
       favico.setInstanceState(keypather.get($scope, 'dataInstance.data.instance'));
@@ -222,7 +226,7 @@ function ControllerInstance(
     if (!isBuildingOrStarting(instance.status())) { return; }
     $scope.$storage.hasSeenHangTightMessage = true;
     data.showHangTightMessage = true;
-  }
+    }
 
   if (ahaGuide.isInGuide()) {
     if (keypather.get(instancesByPod, 'models.length')) {

@@ -17,9 +17,11 @@ function instanceHeader(
     templateUrl: 'instanceHeaderView',
     scope: {
       instance: '=',
-      openItems: '='
+      openItems: '=',
+      showUrlCallout: '@'
     },
     link: function ($scope) {
+      console.log('showUrlCallout', $scope.showUrlCallout);
       $scope.$storage = $localStorage;
       $scope.userName = $stateParams.userName;
       $scope.$watch('instance', function (newValue) {
