@@ -14,8 +14,7 @@ function createAutoIsolationConfig(
           return {
             org: dep.attrs.owner.username,
             repo: dep.getRepoName(),
-            instance: dep.id(),
-            matchBranch: true
+            instance: dep.id()
           };
         }
         return {
