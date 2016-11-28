@@ -81,7 +81,7 @@ function ControllerInstance(
 
         // Only listen to hang tight message if we're going to show it
         if (!$scope.$storage.hasSeenHangTightMessage) {
-          numberOfInstancesUpdatedHandler(instance);
+          checkForEnablingHangTightMessage(instance);
         }
 
         // Check that current commit is not already building
@@ -215,7 +215,7 @@ function ControllerInstance(
     });
   });
 
-  function numberOfInstancesUpdatedHandler (instance) {
+  function checkForEnablingHangTightMessage (instance) {
     var currentInstanceIsRepoInstance = keypather.get(instance, 'contextVersion.getMainAppCodeVersion()');
     // Only show message if user hasn't:
     // 1. Seen message before
