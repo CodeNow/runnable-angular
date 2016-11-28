@@ -122,10 +122,10 @@ function ControllerInstances(
                 }, function () {
                   // stateWatcher(); awaiting design feedback...
                   CIS.showInstanceRunningPopover = $state.params.instanceName !== instance.getName();
-                })
+                });
               }
-            })
-          })
+            });
+          });
         }
 
         CIS.checkAndLoadInstance(instanceName);
