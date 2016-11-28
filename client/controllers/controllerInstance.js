@@ -79,10 +79,7 @@ function ControllerInstance(
         var instance = results.instance;
         data.instance = instance;
 
-        // Only listen to hang tight message if we're going to show it
-        if (!$scope.$storage.hasSeenHangTightMessage) {
-          checkForEnablingHangTightMessage(instance);
-        }
+        checkForEnablingHangTightMessage(instance);
 
         // Check that current commit is not already building
         var currentCommit = keypather.get(instance, 'attrs.contextVersion.appCodeVersions[0].commit');
