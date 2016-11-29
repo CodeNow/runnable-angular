@@ -42,7 +42,6 @@ function ControllerInstance(
      hasSeenHangTightMessage: false,
      hasSeenUrlCallout: false
   });
-  console.log('$scope.$storage.hasSeenUrlCallout', $scope.$storage.hasSeenUrlCallout);
   loading('main', true);
 
   data.openItems = new OpenItems();
@@ -83,7 +82,6 @@ function ControllerInstance(
 
         checkForEnablingHangTightMessage(instance);
         checkForEnablingUrlCallout(instance);
-        console.log('controllerInstance', $rootScope.featureFlags.demoMultiTierBuilding && dataInstance.data.showUrlCallout);
 
         // Check that current commit is not already building
         var currentCommit = keypather.get(instance, 'attrs.contextVersion.appCodeVersions[0].commit');
@@ -238,7 +236,6 @@ function ControllerInstance(
     ) {
       // Now that we showed the 'hang tight' message, show the URL callout
       data.showUrlCallout = true;
-      console.log('set showUrlCallout');
     }
   }
 
