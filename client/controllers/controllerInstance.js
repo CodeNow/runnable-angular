@@ -207,10 +207,12 @@ function ControllerInstance(
         data.openItems.removeAllButBuildLogs();
         break;
     }
+
     if (!isBuildingOrStarting(status) && data.demoFlowFlags.showHangTightMessage) {
       data.demoFlowFlags.showHangTightMessage = false;
     }
     checkForEnablingUrlCallout(keypather.get($scope, 'dataInstance.data.instance'));
+
     $timeout(function () {
       favico.setInstanceState(keypather.get($scope, 'dataInstance.data.instance'));
     });
