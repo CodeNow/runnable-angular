@@ -82,6 +82,16 @@ function ControllerInstances(
         }
       }
 
+      function handleInstanceUpdate (instance) {
+        if (instance.status() === 'running') {
+          var stateWatcher = $scope.$watch(function () {
+            return $state.params.instanceName;
+          }, function () {
+            CIS.showInstanceRunningPopover = $state.params.instanceName !== instance.getName();
+          });
+        }
+      }
+
       var targetInstance = null;
       if (lastViewedInstance) {
         targetInstance = instances.find(function (instance) {
@@ -116,15 +126,7 @@ function ControllerInstances(
           if (!keypather.get(currentOrg, 'poppa.attrs.metadata.hasCompletedDemo')) {
             var unwatchDemoUpdate = $scope.$on('demo::building', function (e, instance) {
               unwatchDemoUpdate();
-              instance.on('update', function (event, info) {
-                if (instance.status() === 'running') {
-                  var stateWatcher = $scope.$watch(function () {
-                    return $state.params.instanceName;
-                  }, function () {
-                    CIS.showInstanceRunningPopover = $state.params.instanceName !== instance.getName();
-                  });
-                }
-              });
+              instance.on('update', handleInstanceUpdate.bind(CIS, instance));
             });
           }
         }
