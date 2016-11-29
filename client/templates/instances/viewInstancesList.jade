@@ -87,7 +87,7 @@
 
   //- 'add branch' guide — show until a branch has been added
   .grid-block.vertical.popover.in.popover-demo.demo-transition.js-animate(
-    ng-if = "$root.featureFlags.demoMultiTierAddBranch"
+    ng-if = "$root.featureFlags.demoMultiTierAddBranch && CIS.showAddBranchView"
     ng-include = "'addBranchView'"
   )
 

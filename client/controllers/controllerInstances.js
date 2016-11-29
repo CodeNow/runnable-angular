@@ -39,6 +39,7 @@ function ControllerInstances(
   CIS.instanceBranches = null;
   CIS.unbuiltBranches = null;
   CIS.branchQuery = null;
+  CIS.showAddBranchView = false;
   CIS.$storage = $localStorage.$default({
     instanceListIsClosed: false
   });
@@ -58,6 +59,14 @@ function ControllerInstances(
 
   $scope.$on('showAutoLaunchPopover', function() {
     CIS.showAutofork = true;
+  });
+
+  $scope.$watch(function () {
+    return $localStorage.hasSeenUrlCallout;
+  }, function (newValue, previousValue) {
+    if (newValue === true && !previousValue) {
+      CIS.showAddBranchView = true;
+    }
   });
 
   fetchInstancesByPod()
