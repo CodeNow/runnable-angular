@@ -323,4 +323,8 @@ function ControllerInstances(
       templateUrl: 'newContainerModalView'
     });
   };
+
+  this.getBranchCloneCopyText = function () {
+    return 'git clone https://github.com/' + CIS.userName + '/' + CIS.instanceName + '.git; cd node-starter; git checkout -b my-branch; git push origin my-branch;';
+  };
 }

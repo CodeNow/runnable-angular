@@ -8,10 +8,10 @@ p.padding-sm Now launch a new environment by pushing a branch to GitHub.
       ng-click = "$event.preventDefault()"
       ng-mouseleave = "showToolTip = false"
       on-copied = "showToolTip = true;"
-      text =  "'git clone https://github.com/{{CIS.userName}}/{{CIS.instanceName}}.git; cd node-starter; git checkout -b my-branch; git push origin my-branch;'"
+      text =  "CIS.getBranchCloneCopyText()"
       tooltip
       tooltip-active-attr = "{{showToolTip}}"
-      tooltip-eval="clipboardText" 
+      tooltip-eval="clipboardText"
       tooltip-options = "{\"class\":\"bottom no-arrow\",\"right\":-16,\"top\":27}"
     ) Copy
   pre.monospace.padding-sm.
@@ -29,3 +29,4 @@ p.padding-sm Now launch a new environment by pushing a branch to GitHub.
 //- .small.padding-sm.text-gray Or just&#32;
   span.link launch the latest branch
   | .
+
