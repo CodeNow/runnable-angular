@@ -24,7 +24,6 @@ function instanceHeader(
     link: function ($scope) {
       $scope.$storage = $localStorage;
       $scope.userName = $stateParams.userName;
-      window.wowScope = $scope;
       $scope.$watch('instance', function (newValue) {
         if (!newValue) {
           return;

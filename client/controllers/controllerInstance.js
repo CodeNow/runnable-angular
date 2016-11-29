@@ -216,25 +216,23 @@ function ControllerInstance(
   });
 
   function checkForEnablingHangTightMessage (instance) {
-    // Only show message if user hasn't:
-    // 1. Seen message before
-    if ($scope.$storage.hasSeenHangTightMessage) { return; }
-    // 2. Is looking at a repo instance
-    if (!keypather.get(instance, 'contextVersion.getMainAppCodeVersion()')) { return; }
-    // 3. Container is currently building or starting
-    if (!isBuildingOrStarting(instance.status())) { return; }
-    $scope.$storage.hasSeenHangTightMessage = instance.id();
-    data.showHangTightMessage = true;
+    if ( // Only show message if:
+      !$scope.$storage.hasSeenHangTightMessage && // 1. User has not seen message before
+      keypather.get(instance, 'contextVersion.getMainAppCodeVersion()') &&  // 2. Instance is a repo instance
+      isBuildingOrStarting(instance.status()) // 3. Instance is currently building or starting
+    ) {
+      $scope.$storage.hasSeenHangTightMessage = instance.id();
+      data.showHangTightMessage = true;
+    }
   }
 
   function checkForEnablingUrlCallout (instance) {
     if (
-      !data.showHangTightMessage &&
-      instance.status() === 'running' &&
+      !$scope.$storage.hasSeenUrlCallout &&
       $scope.$storage.hasSeenHangTightMessage === keypather.get(instance, 'id()') &&
-      !$scope.$storage.hasSeenUrlCallout
+      !data.showHangTightMessage &&
+      instance.status() === 'running'
     ) {
-      // Now that we showed the 'hang tight' message, show the URL callout
       data.showUrlCallout = true;
     }
   }
