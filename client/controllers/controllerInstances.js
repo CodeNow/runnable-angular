@@ -13,8 +13,8 @@ function ControllerInstances(
   $state,
   activeAccount,
   ahaGuide,
-  demoRepos,
   currentOrg,
+  demoRepos,
   errs,
   eventTracking,
   featureFlags,
@@ -82,6 +82,16 @@ function ControllerInstances(
         }
       }
 
+      function handleInstanceUpdate (instance) {
+        if (instance.status() === 'running') {
+          var stateWatcher = $scope.$watch(function () {
+            return $state.params.instanceName;
+          }, function () {
+            CIS.showInstanceRunningPopover = $state.params.instanceName !== instance.getName();
+          });
+        }
+      }
+
       var targetInstance = null;
       if (lastViewedInstance) {
         targetInstance = instances.find(function (instance) {
@@ -113,8 +123,13 @@ function ControllerInstances(
             unwatchFirstBuild();
             CIS.checkAndLoadInstance(instanceUpdate.instanceName);
           });
+          if (!keypather.get(currentOrg, 'poppa.attrs.metadata.hasCompletedDemo')) {
+            var unwatchDemoUpdate = $scope.$on('demo::building', function (e, instance) {
+              unwatchDemoUpdate();
+              instance.on('update', handleInstanceUpdate.bind(CIS, instance));
+            });
+          }
         }
-
         CIS.checkAndLoadInstance(instanceName);
       }
     })

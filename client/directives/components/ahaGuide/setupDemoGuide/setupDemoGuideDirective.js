@@ -26,6 +26,7 @@ function setupDemoGuide(
           .then(function (instance) {
             ahaGuide.endGuide();
             $rootScope.$broadcast('demoService::hide');
+            $rootScope.$broadcast('demo::building', instance);
             return $state.go('base.instances.instance', {
               instanceName: instance.attrs.name
             });

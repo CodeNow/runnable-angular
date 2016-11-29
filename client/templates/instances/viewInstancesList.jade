@@ -52,7 +52,7 @@
       )
 
       .grid-block.align-center.padding-sm.popover.top.in.popover-demo(
-        ng-if = "$root.featureFlags.demoMultiTierUrlHidden"
+        ng-if = "$root.featureFlags.demoMultiTierUrlHidden && CIS.showInstanceRunningPopover"
         ng-include = "'popoverDemoUrlHiddenView'"
       )
 
