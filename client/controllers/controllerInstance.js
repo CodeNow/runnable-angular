@@ -240,7 +240,7 @@ function ControllerInstance(
   }
 
   $scope.$on('dismissUrlCallout', function () {
-    if (keypather.get(data, 'showUrlCallout')) {
+    if (data.showUrlCallout) {
       data.showUrlCallout = false;
       $scope.$storage.hasSeenUrlCallout = true;
     }
