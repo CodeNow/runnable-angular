@@ -13,8 +13,8 @@ function ControllerInstances(
   $state,
   activeAccount,
   ahaGuide,
-  demoRepos,
   currentOrg,
+  demoRepos,
   errs,
   eventTracking,
   featureFlags,
@@ -113,21 +113,21 @@ function ControllerInstances(
             unwatchFirstBuild();
             CIS.checkAndLoadInstance(instanceUpdate.instanceName);
           });
-          var unwatchDemoUpdate = $scope.$on('demo::building', function (e, instance) {
-            unwatchDemoUpdate();
-            instance.on('update', function (event, info) {
-              if (instance.status() === 'running') {
-                var stateWatcher = $scope.$watch(function () {
-                  return $state.params.instanceName;
-                }, function () {
-                  // stateWatcher(); awaiting design feedback...
-                  CIS.showInstanceRunningPopover = $state.params.instanceName !== instance.getName();
-                });
-              }
+          if (!keypather.get(currentOrg, 'poppa.attrs.metadata.hasCompletedDemo')) {
+            var unwatchDemoUpdate = $scope.$on('demo::building', function (e, instance) {
+              unwatchDemoUpdate();
+              instance.on('update', function (event, info) {
+                if (instance.status() === 'running') {
+                  var stateWatcher = $scope.$watch(function () {
+                    return $state.params.instanceName;
+                  }, function () {
+                    CIS.showInstanceRunningPopover = $state.params.instanceName !== instance.getName();
+                  });
+                }
+              });
             });
-          });
+          }
         }
-
         CIS.checkAndLoadInstance(instanceName);
       }
     })
