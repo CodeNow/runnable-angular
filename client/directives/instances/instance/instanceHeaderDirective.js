@@ -18,10 +18,11 @@ function instanceHeader(
     scope: {
       instance: '=',
       openItems: '=',
-      showUrlCallout: '@'
+      showUrlCallout: '=?'
     },
     link: function ($scope) {
-      console.log('showUrlCallout', $scope.showUrlCallout);
+      console.log('DIRECTIVE showUrlCallout', $scope.showUrlCallout);
+      console.log('DIRECTIVE instance', $scope.instance);
       $scope.$storage = $localStorage;
       $scope.userName = $stateParams.userName;
       $scope.$watch('instance', function (newValue) {

@@ -346,6 +346,7 @@ function ahaGuide(
     })
       .then(function (updatedOrg) {
         delete $storage.hasSeenHangTightMessage;
+        delete $storage.hasSeenUrlCallout;
         updateCurrentOrg(updatedOrg);
       });
   }

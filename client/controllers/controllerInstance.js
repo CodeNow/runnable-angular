@@ -39,8 +39,10 @@ function ControllerInstance(
   };
   var data = dataInstance.data;
   $scope.$storage = $localStorage.$default({
-     hasSeenHangTightMessage: false
+     hasSeenHangTightMessage: false,
+     hasSeenUrlCallout: false
   });
+  console.log('$scope.$storage.hasSeenUrlCallout', $scope.$storage.hasSeenUrlCallout);
   loading('main', true);
 
   data.openItems = new OpenItems();
@@ -80,6 +82,8 @@ function ControllerInstance(
         data.instance = instance;
 
         checkForEnablingHangTightMessage(instance);
+        checkForEnablingUrlCallout(instance);
+        console.log('controllerInstance', $rootScope.featureFlags.demoMultiTierBuilding && dataInstance.data.showUrlCallout);
 
         // Check that current commit is not already building
         var currentCommit = keypather.get(instance, 'attrs.contextVersion.appCodeVersions[0].commit');
@@ -207,17 +211,7 @@ function ControllerInstance(
     if (!isBuildingOrStarting(status) && data.showHangTightMessage) {
       data.showHangTightMessage = false;
     }
-    var instanceId = keypather.get($scope, 'dataInstance.data.instance.id()');
-    if (
-      !data.showHangTightMessage &&
-      status === 'running' &&
-      $scope.$storage.hasSeenHangTightMessage === instanceId &&
-      !$scope.$storage.hasSeenUrlCallout
-    ) {
-      // Now that we showed the 'hang tight' message, show the URL callout
-      data.showUrlCallout = true;
-      $scope.$storage.hasSeenUrlCallout = instanceId;
-    }
+    checkForEnablingUrlCallout(keypather.get($scope, 'dataInstance.data.instance'));
     $timeout(function () {
       favico.setInstanceState(keypather.get($scope, 'dataInstance.data.instance'));
     });
@@ -231,8 +225,28 @@ function ControllerInstance(
     if (!keypather.get(instance, 'contextVersion.getMainAppCodeVersion()')) { return; }
     // 3. Container is currently building or starting
     if (!isBuildingOrStarting(instance.status())) { return; }
-    $scope.$storage.hasSeenHangTightMessage = true;
+    $scope.$storage.hasSeenHangTightMessage = instance.id();
     data.showHangTightMessage = true;
+  }
+
+  function checkForEnablingUrlCallout (instance) {
+    console.log('!! checkForEnablingUrlCallout');
+    var instanceId = keypather.get(instance, 'id()');
+    console.log('1:', !data.showHangTightMessage);
+    console.log('2:', instance.status() === 'running');
+    console.log('3:', $scope.$storage.hasSeenHangTightMessage === instanceId);
+    console.log('4:', !$scope.$storage.hasSeenUrlCallout);
+    if (
+      !data.showHangTightMessage &&
+      instance.status() === 'running' &&
+      $scope.$storage.hasSeenHangTightMessage === instanceId &&
+      !$scope.$storage.hasSeenUrlCallout
+    ) {
+      // Now that we showed the 'hang tight' message, show the URL callout
+      data.showUrlCallout = true;
+      console.log('set showUrlCallout');
+      $scope.$storage.hasSeenUrlCallout = true;
+    }
   }
 
   if (ahaGuide.isInGuide()) {
@@ -255,4 +269,5 @@ function ControllerInstance(
   function isBuildingOrStarting (status) {
     return ['building', 'starting'].indexOf(status) !== -1;
   }
+
 }
