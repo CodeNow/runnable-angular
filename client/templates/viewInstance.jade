@@ -26,7 +26,7 @@
       ng-class = "{\
         'green': dataInstance.data.showUpdatedMessage,\
         'orange': dataInstance.data.showUpdatingMessage || dataInstance.data.instance.isMigrating(),\
-        'white': $root.featureFlags.demoMultiTierBuilding && dataInstance.data.showHangTightMessage\
+        'white': $root.featureFlags.demoMultiTierBuilding && dataInstance.data.demoFlowFlags.showHangTightMessage\
       }"
       ng-if = "(dataInstance.data.showUpdatingMessage || dataInstance.data.showUpdatedMessage) || dataInstance.data.instance.isMigrating() || $root.featureFlags.demoMultiTierBuilding"
       ng-include = "'viewNotifications'"
