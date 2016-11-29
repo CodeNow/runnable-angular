@@ -33,7 +33,8 @@ function ControllerInstance(
   CIS.isInGuide = ahaGuide.isInGuide;
   var dataInstance = $scope.dataInstance = {
     data: {
-      unsavedAcvs: []
+      unsavedAcvs: [],
+      demoFlowFlags: {}
     },
     actions: {}
   };
@@ -206,8 +207,8 @@ function ControllerInstance(
         data.openItems.removeAllButBuildLogs();
         break;
     }
-    if (!isBuildingOrStarting(status) && data.showHangTightMessage) {
-      data.showHangTightMessage = false;
+    if (!isBuildingOrStarting(status) && data.demoFlowFlags.showHangTightMessage) {
+      data.demoFlowFlags.showHangTightMessage = false;
     }
     checkForEnablingUrlCallout(keypather.get($scope, 'dataInstance.data.instance'));
     $timeout(function () {
@@ -222,7 +223,7 @@ function ControllerInstance(
       isBuildingOrStarting(instance.status()) // 3. Instance is currently building or starting
     ) {
       $scope.$storage.hasSeenHangTightMessage = instance.id();
-      data.showHangTightMessage = true;
+      data.demoFlowFlags.showHangTightMessage = true;
     }
   }
 
@@ -230,16 +231,16 @@ function ControllerInstance(
     if (
       !$scope.$storage.hasSeenUrlCallout &&
       $scope.$storage.hasSeenHangTightMessage === keypather.get(instance, 'id()') &&
-      !data.showHangTightMessage &&
+      !data.demoFlowFlags.showHangTightMessage &&
       instance.status() === 'running'
     ) {
-      data.showUrlCallout = true;
+      data.demoFlowFlags.showUrlCallout = true;
     }
   }
 
   $scope.$on('dismissUrlCallout', function () {
-    if (data.showUrlCallout) {
-      data.showUrlCallout = false;
+    if (data.demoFlowFlags.showUrlCallout) {
+      data.demoFlowFlags.showUrlCallout = false;
       $scope.$storage.hasSeenUrlCallout = true;
     }
   });

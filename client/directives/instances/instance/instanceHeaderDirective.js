@@ -19,7 +19,7 @@ function instanceHeader(
     scope: {
       instance: '=',
       openItems: '=',
-      instanceData: '=?'
+      demoFlowFlags: '=?'
     },
     link: function ($scope) {
       $scope.$storage = $localStorage;
