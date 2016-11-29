@@ -33,13 +33,15 @@ function ControllerInstance(
   CIS.isInGuide = ahaGuide.isInGuide;
   var dataInstance = $scope.dataInstance = {
     data: {
-      unsavedAcvs: []
+      unsavedAcvs: [],
+      demoFlowFlags: {}
     },
     actions: {}
   };
   var data = dataInstance.data;
   $scope.$storage = $localStorage.$default({
-     hasSeenHangTightMessage: false
+     hasSeenHangTightMessage: false,
+     hasSeenUrlCallout: false
   });
   loading('main', true);
 
@@ -80,6 +82,7 @@ function ControllerInstance(
         data.instance = instance;
 
         checkForEnablingHangTightMessage(instance);
+        checkForEnablingUrlCallout(instance);
 
         // Check that current commit is not already building
         var currentCommit = keypather.get(instance, 'attrs.contextVersion.appCodeVersions[0].commit');
@@ -204,25 +207,45 @@ function ControllerInstance(
         data.openItems.removeAllButBuildLogs();
         break;
     }
-    if (!isBuildingOrStarting(status) && data.showHangTightMessage) {
-      data.showHangTightMessage = false;
+
+    if (!isBuildingOrStarting(status) && data.demoFlowFlags.showHangTightMessage) {
+      data.demoFlowFlags.showHangTightMessage = false;
     }
+    checkForEnablingUrlCallout(keypather.get($scope, 'dataInstance.data.instance'));
+
     $timeout(function () {
       favico.setInstanceState(keypather.get($scope, 'dataInstance.data.instance'));
     });
   });
 
   function checkForEnablingHangTightMessage (instance) {
-    // Only show message if user hasn't:
-    // 1. Seen message before
-    if ($scope.$storage.hasSeenHangTightMessage) { return; }
-    // 2. Is looking at a repo instance
-    if (!keypather.get(instance, 'contextVersion.getMainAppCodeVersion()')) { return; }
-    // 3. Container is currently building or starting
-    if (!isBuildingOrStarting(instance.status())) { return; }
-    $scope.$storage.hasSeenHangTightMessage = true;
-    data.showHangTightMessage = true;
+    if ( // Only show message if:
+      !$scope.$storage.hasSeenHangTightMessage && // 1. User has not seen message before
+      keypather.get(instance, 'contextVersion.getMainAppCodeVersion()') &&  // 2. Instance is a repo instance
+      isBuildingOrStarting(instance.status()) // 3. Instance is currently building or starting
+    ) {
+      $scope.$storage.hasSeenHangTightMessage = instance.id();
+      data.demoFlowFlags.showHangTightMessage = true;
+    }
   }
+
+  function checkForEnablingUrlCallout (instance) {
+    if (
+      !$scope.$storage.hasSeenUrlCallout &&
+      $scope.$storage.hasSeenHangTightMessage === keypather.get(instance, 'id()') &&
+      !data.demoFlowFlags.showHangTightMessage &&
+      instance.status() === 'running'
+    ) {
+      data.demoFlowFlags.showUrlCallout = true;
+    }
+  }
+
+  $scope.$on('dismissUrlCallout', function () {
+    if (data.demoFlowFlags.showUrlCallout) {
+      data.demoFlowFlags.showUrlCallout = false;
+      $scope.$storage.hasSeenUrlCallout = true;
+    }
+  });
 
   if (ahaGuide.isInGuide()) {
     if (keypather.get(instancesByPod, 'models.length')) {
@@ -244,4 +267,5 @@ function ControllerInstance(
   function isBuildingOrStarting (status) {
     return ['building', 'starting'].indexOf(status) !== -1;
   }
+
 }

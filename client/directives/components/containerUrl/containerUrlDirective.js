@@ -32,6 +32,10 @@ function containerUrl(
       $scope.openedContainerUrl = eventTracking.openedContainerUrl;
       $scope.shouldShowCopyButton = !UNAVAILABLE_OS_LIST.includes($window.navigator.platform);
 
+      $scope.dismissUrlCallout = function () {
+        $scope.$emit('dismissUrlCallout');
+      };
+
       $scope.onClipboardEvent = function (err) {
         if (err) {
           var modifier = getModifierKey();
