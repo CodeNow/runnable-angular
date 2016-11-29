@@ -24,8 +24,6 @@ function instanceHeader(
     link: function ($scope) {
       $scope.$storage = $localStorage;
       $scope.userName = $stateParams.userName;
-      console.log($scope.demoFlowFlags);
-      window.demoFlowFlags = $scope.demoFlowFlags;
       $scope.$watch('instance', function (newValue) {
         if (!newValue) {
           return;
