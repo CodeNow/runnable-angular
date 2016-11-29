@@ -230,24 +230,24 @@ function ControllerInstance(
   }
 
   function checkForEnablingUrlCallout (instance) {
-    console.log('!! checkForEnablingUrlCallout');
-    var instanceId = keypather.get(instance, 'id()');
-    console.log('1:', !data.showHangTightMessage);
-    console.log('2:', instance.status() === 'running');
-    console.log('3:', $scope.$storage.hasSeenHangTightMessage === instanceId);
-    console.log('4:', !$scope.$storage.hasSeenUrlCallout);
     if (
       !data.showHangTightMessage &&
       instance.status() === 'running' &&
-      $scope.$storage.hasSeenHangTightMessage === instanceId &&
+      $scope.$storage.hasSeenHangTightMessage === keypather.get(instance, 'id()') &&
       !$scope.$storage.hasSeenUrlCallout
     ) {
       // Now that we showed the 'hang tight' message, show the URL callout
       data.showUrlCallout = true;
       console.log('set showUrlCallout');
-      $scope.$storage.hasSeenUrlCallout = true;
     }
   }
+
+  $scope.$on('dismissUrlCallout', function () {
+    if (keypather.get(data, 'showUrlCallout')) {
+      data.showUrlCallout = false;
+      $scope.$storage.hasSeenUrlCallout = true;
+    }
+  });
 
   if (ahaGuide.isInGuide()) {
     if (keypather.get(instancesByPod, 'models.length')) {

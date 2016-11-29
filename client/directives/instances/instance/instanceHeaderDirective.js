@@ -10,7 +10,8 @@ function instanceHeader(
   $localStorage,
   $stateParams,
   ahaGuide,
-  fetchPullRequest
+  fetchPullRequest,
+  keypather
 ) {
   return {
     restrict: 'A',
@@ -18,13 +19,12 @@ function instanceHeader(
     scope: {
       instance: '=',
       openItems: '=',
-      showUrlCallout: '=?'
+      instanceData: '=?'
     },
     link: function ($scope) {
-      console.log('DIRECTIVE showUrlCallout', $scope.showUrlCallout);
-      console.log('DIRECTIVE instance', $scope.instance);
       $scope.$storage = $localStorage;
       $scope.userName = $stateParams.userName;
+      window.wowScope = $scope;
       $scope.$watch('instance', function (newValue) {
         if (!newValue) {
           return;
