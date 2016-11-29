@@ -14,6 +14,7 @@ function ControllerInstances(
   activeAccount,
   ahaGuide,
   currentOrg,
+  demoFlowService,
   demoRepos,
   errs,
   eventTracking,
@@ -133,7 +134,7 @@ function ControllerInstances(
             unwatchFirstBuild();
             CIS.checkAndLoadInstance(instanceUpdate.instanceName);
           });
-          if (!keypather.get(currentOrg, 'poppa.attrs.metadata.hasCompletedDemo')) {
+          if (demoFlowService.isInDemoFlow()) {
             var unwatchDemoUpdate = $scope.$on('demo::building', function (e, instance) {
               unwatchDemoUpdate();
               instance.on('update', handleInstanceUpdate.bind(CIS, instance));
