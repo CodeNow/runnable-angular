@@ -1,7 +1,7 @@
 animated-panel-container.modal-servers
   animated-panel.grid-block.vertical.modal-server-select(
-    name = "containerSelection"
     default = "{{!NCC.disableBackButton}}"
+    name = "containerSelection"
   )
     header.modal-header.grid-block.justify-center(
       ng-class = "{'lg': NCC.instances.models.length > 0 || !NCC.ahaGuide.isAddingFirstRepo()}"
@@ -95,9 +95,9 @@ animated-panel-container.modal-servers
         span Next Step: Configuration
 
   animated-panel.grid-block.vertical.modals-rename(
+    default = "{{NCC.disableBackButton}}"
     name = "nameContainer"
     ng-if = "NCC.state.repo || NCC.state.templateSource"
-    default = "{{NCC.disableBackButton}}"
   )
     header.modal-header
       svg.iconnables.icons-arrow-backward(
