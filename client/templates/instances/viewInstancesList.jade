@@ -4,7 +4,7 @@
   //- 'select demo' guide
   .grid-block.vertical.popover.in.margin-top-xs.popover-demo.demo-transition.js-animate(
     ng-if = "$root.featureFlags.demoMultiTier && CIS.shouldShowDemoSelector()"
-    ng-include = "'templateIntroView'"
+    setup-demo-guide
   )
 
   //- wraps everything that should transition in with the master cluster
@@ -91,6 +91,7 @@
     add-branch
     user-name = "CIS.userName"
     instance = "CIS.demoInstance"
+    is-demo-repo = "CIS.isUsingDemoRepo"
   )
 
   //- wraps all branch clusters — hide until a branch has been added

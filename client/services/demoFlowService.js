@@ -29,10 +29,20 @@ function demoFlowService(
     return $localStorage.hasSeenUrlCallout;
   }
 
+  function setIsUsingDemoRepo (value) {
+    $localStorage.isUsingDemoRepo = value;
+  }
+
+  function isUsingDemoRepo () {
+    return $localStorage.isUsingDemoRepo;
+  }
+
   return {
     hasSeenHangTightMessage: hasSeenHangTightMessage,
     hasSeenUrlCallout: hasSeenUrlCallout,
-    isInDemoFlow: isInDemoFlow
+    isInDemoFlow: isInDemoFlow,
+    isUsingDemoRepo: isUsingDemoRepo,
+    setIsUsingDemoRepo: setIsUsingDemoRepo
   };
 
 }

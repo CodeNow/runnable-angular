@@ -340,6 +340,7 @@ function ControllerInstances(
       .then(function (instance) {
         if (instance) {
           CIS.demoInstance = instance;
+          CIS.isUsingDemoRepo = demoFlowService.isUsingDemoRepo();
           CIS.showAddBranchView = true;
           return;
         }
