@@ -6,14 +6,15 @@ require('app')
  * @ngInject
  */
 function addBranch(
+  errs,
   github
 ) {
   return {
     restrict: 'A',
     templateUrl: 'addBranchView',
     scope: {
-      userName: '=?',
-      instance: '=?',
+      userName: '=',
+      instance: '=',
     },
     link: function ($scope, element, attrs) {
       $scope.getBranchCloneCopyText = function () {
@@ -25,7 +26,8 @@ function addBranch(
         var completeRepoName = acv.attrs.repo.split('/');
         var repoOwner = completeRepoName[0];
         var repoName = completeRepoName[1];
-        return github.createNewBranch(repoOwner, repoName, acv.attrs.commit, 'my-branch');
+        return github.createNewBranch(repoOwner, repoName, acv.attrs.commit, 'my-branch')
+          .catch(errs.handler);
       };
     }
   };
