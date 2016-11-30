@@ -152,7 +152,6 @@ function ControllerInstances(
 
   this.checkAndLoadInstance = function (instanceName) {
     if (instanceName) {
-      CIS.demoInstance = instanceName;
       return $state.go('base.instances.instance', {
         instanceName: instanceName,
         userName: CIS.userName
