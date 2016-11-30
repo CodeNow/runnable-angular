@@ -63,11 +63,12 @@ function ControllerInstances(
   });
 
   if (demoFlowService.isInDemoFlow()) {
-    $scope.$watch(function () {
+    var stopWatchingHasSeenUrlCallout = $scope.$watch(function () {
       return demoFlowService.hasSeenUrlCallout();
     }, function (newValue, previousValue) {
       if (newValue && !previousValue) {
         checkIfBranchViewShouldBeEnabled();
+        stopWatchingHasSeenUrlCallout();
       }
     });
     // Check branch view first time
