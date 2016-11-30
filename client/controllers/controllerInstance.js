@@ -243,7 +243,7 @@ function ControllerInstance(
   $scope.$on('dismissUrlCallout', function () {
     if (data.demoFlowFlags.showUrlCallout) {
       data.demoFlowFlags.showUrlCallout = false;
-      $scope.$storage.hasSeenUrlCallout = true;
+      $scope.$storage.hasSeenUrlCallout = data.instance.id();
     }
   });
 
