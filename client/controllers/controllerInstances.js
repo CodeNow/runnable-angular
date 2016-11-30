@@ -73,7 +73,6 @@ function ControllerInstances(
       CIS.activeAccount = activeAccount;
 
       var instances = instancesByPod;
-      var instanceListener;
       var lastViewedInstance = keypather.get(user, 'attrs.userOptions.uiState.previousLocation.instance');
 
       function isInstanceMatch(instance, nameMatch) {
@@ -86,7 +85,8 @@ function ControllerInstances(
       }
 
       function handleInstanceUpdate (instance) {
-        if (instance.status() === 'running' && demoFlowService.isInDemoFlow()) {
+        if (instance.status() === 'running') {
+          instance.off('update');
           var stateWatcher = $scope.$watch(function () {
             return $state.params.instanceName;
           }, function () {
@@ -96,6 +96,9 @@ function ControllerInstances(
             return instance.children.models.length;
           }, function (newVal, oldVal) {
             if (newVal) {
+              stateWatcher();
+              addBranchWatcher();
+              CIS.showInstanceRunningPopover = false;
               var newBranchInstance = keypather.get(instance, 'children.models[0]');
               var instanceName = newBranchInstance.getName();
               return demoFlowService.endDemoFlow()
