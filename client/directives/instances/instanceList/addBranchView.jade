@@ -15,8 +15,8 @@ p.padding-sm Now launch a new environment by pushing a branch to GitHub.
       tooltip-options = "{\"class\":\"bottom no-arrow\",\"right\":-16,\"top\":27}"
     ) Copy
   pre.monospace.padding-sm.
-    git clone https://github.com/{{userName}}/{{instanceName}}.git
-    cd {{instanceName}}
+    git clone https://github.com/{{userName}}/{{instance.attrs.name}}.git
+    cd {{instance.attrs.name}}
     git checkout -b my-branch
     git push origin my-branch
 
