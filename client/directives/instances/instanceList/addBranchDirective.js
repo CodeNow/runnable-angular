@@ -33,11 +33,11 @@ function addBranch(
           .catch(errs.handler);
       };
 
-      $scope.forkLatestBranch = function () {
+      $scope.forkFirstBranch = function () {
         var acv = $scope.instance.contextVersion.getMainAppCodeVersion();
         return fetchRepoBranches(acv.githubRepo)
           .then(function (branches) {
-            // Gets first repo alphabetically
+            // Gets first brnach alphabetically
             var firstBranch = branches.models[0];
             var branchName = firstBranch.attrs.name;
             var sha = firstBranch.attrs.commit.sha;
