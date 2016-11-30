@@ -242,7 +242,6 @@ function demoRepos(
           });
           return createAutoIsolationConfig(promiseResults.instance, deps)
             .then(function () {
-              promisify(promiseResults.instance, 'update')({ shouldNotAutofork: false })
               return promiseResults.instance;
             });
         });
