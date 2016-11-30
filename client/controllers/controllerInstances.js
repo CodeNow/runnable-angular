@@ -14,6 +14,7 @@ function ControllerInstances(
   activeAccount,
   ahaGuide,
   currentOrg,
+  demoFlowService,
   demoRepos,
   errs,
   eventTracking,
@@ -28,7 +29,8 @@ function ControllerInstances(
   user
 ) {
   var CIS = this;
-  var userName = $state.params.userName;
+  CIS.userName = $state.params.userName;
+  CIS.instanceName = $state.params.instanceName;
   CIS.isInGuide = ahaGuide.isInGuide;
   CIS.shouldShowDemoSelector = demoRepos.shouldShowDemoSelector;
   CIS.isAddingFirstBranch = ahaGuide.isAddingFirstBranch;
@@ -60,11 +62,24 @@ function ControllerInstances(
     CIS.showAutofork = true;
   });
 
+  if (demoFlowService.isInDemoFlow()) {
+    var stopWatchingHasSeenUrlCallout = $scope.$watch(function () {
+      return demoFlowService.hasSeenUrlCallout();
+    }, function (newValue, previousValue) {
+      if (newValue && !previousValue) {
+        checkIfBranchViewShouldBeEnabled();
+        stopWatchingHasSeenUrlCallout();
+      }
+    });
+    // Check branch view first time
+    checkIfBranchViewShouldBeEnabled();
+  }
+
   fetchInstancesByPod()
     .then(function (instancesByPod) {
 
       // If the state has already changed don'  t continue with old data. Let the new one execute.
-      if (userName !== $state.params.userName) {
+      if (CIS.userName !== $state.params.userName) {
         return;
       }
       CIS.instancesByPod = instancesByPod;
@@ -114,7 +129,7 @@ function ControllerInstances(
           });
       }
 
-      setLastOrg(userName);
+      setLastOrg(CIS.userName);
 
       var instanceName = keypather.get(targetInstance, 'attrs.name');
       if ($state.current.name !== 'base.instances.instance') {
@@ -123,7 +138,7 @@ function ControllerInstances(
             unwatchFirstBuild();
             CIS.checkAndLoadInstance(instanceUpdate.instanceName);
           });
-          if (!keypather.get(currentOrg, 'poppa.attrs.metadata.hasCompletedDemo')) {
+          if (demoFlowService.isInDemoFlow()) {
             var unwatchDemoUpdate = $scope.$on('demo::building', function (e, instance) {
               unwatchDemoUpdate();
               instance.on('update', handleInstanceUpdate.bind(CIS, instance));
@@ -139,12 +154,12 @@ function ControllerInstances(
     if (instanceName) {
       return $state.go('base.instances.instance', {
         instanceName: instanceName,
-        userName: userName
+        userName: CIS.userName
       }, {location: 'replace'});
     }
     if (!featureFlags.flags.containersViewTemplateControls) {
       return $state.go('base.config', {
-        userName: userName
+        userName: CIS.userName
       }, {location: 'replace'});
     }
   };
@@ -311,4 +326,25 @@ function ControllerInstances(
       templateUrl: 'newContainerModalView'
     });
   };
+
+  function checkIfBranchViewShouldBeEnabled () {
+    if (!demoFlowService.isInDemoFlow() || !demoFlowService.hasSeenUrlCallout()) {
+      return;
+    }
+    return fetchInstancesByPod()
+      .then(function (instances) {
+        return instances.find(function (instance) {
+          return instance.attrs.id === demoFlowService.hasSeenUrlCallout();
+        });
+      })
+      .then(function (instance) {
+        if (instance) {
+          CIS.demoInstance = instance;
+          CIS.isUsingDemoRepo = demoFlowService.isUsingDemoRepo();
+          CIS.showAddBranchView = true;
+          return;
+        }
+        CIS.showAddBranchView = false;
+      });
+  }
 }
