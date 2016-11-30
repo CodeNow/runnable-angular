@@ -63,6 +63,19 @@ function ControllerInstances(
     CIS.showAutofork = true;
   });
 
+  if (demoFlowService.isInDemoFlow()) {
+    var stopWatchingHasSeenUrlCallout = $scope.$watch(function () {
+      return demoFlowService.hasSeenUrlCallout();
+    }, function (newValue, previousValue) {
+      if (newValue && !previousValue) {
+        checkIfBranchViewShouldBeEnabled();
+        stopWatchingHasSeenUrlCallout();
+      }
+    });
+    // Check branch view first time
+    checkIfBranchViewShouldBeEnabled();
+  }
+
   fetchInstancesByPod()
     .then(function (instancesByPod) {
 
@@ -336,4 +349,25 @@ function ControllerInstances(
       templateUrl: 'newContainerModalView'
     });
   };
+
+  function checkIfBranchViewShouldBeEnabled () {
+    if (!demoFlowService.isInDemoFlow() || !demoFlowService.hasSeenUrlCallout()) {
+      return;
+    }
+    return fetchInstancesByPod()
+      .then(function (instances) {
+        return instances.find(function (instance) {
+          return instance.attrs.id === demoFlowService.hasSeenUrlCallout();
+        });
+      })
+      .then(function (instance) {
+        if (instance) {
+          CIS.demoInstance = instance;
+          CIS.isUsingDemoRepo = demoFlowService.isUsingDemoRepo();
+          CIS.showAddBranchView = true;
+          return;
+        }
+        CIS.showAddBranchView = false;
+      });
+  }
 }

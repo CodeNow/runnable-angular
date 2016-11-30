@@ -46,12 +46,21 @@ function demoFlowService(
   function showAddDemoBranch () {
     return isInDemoFlow() && hasSeenUrlCallout();
   }
+  function setIsUsingDemoRepo (value) {
+    $localStorage.isUsingDemoRepo = value;
+  }
+
+  function isUsingDemoRepo () {
+    return $localStorage.isUsingDemoRepo;
+  }
 
   return {
-    endDemoFlow: endDemoFlow,
+    endDemoFlow: endDemoFlow.
     hasSeenHangTightMessage: hasSeenHangTightMessage,
     hasSeenUrlCallout: hasSeenUrlCallout,
     isInDemoFlow: isInDemoFlow,
+    isUsingDemoRepo: isUsingDemoRepo,
+    setIsUsingDemoRepo: setIsUsingDemoRepo,
     showAddDemoBranch: showAddDemoBranch
   };
 

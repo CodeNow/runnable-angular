@@ -113,6 +113,7 @@ function demoRepos(
   createNewBuildAndFetchBranch,
   createNonRepoInstance,
   currentOrg,
+  demoFlowService,
   fetchInstancesByPod,
   fetchNonRepoInstances,
   fetchOwnerRepo,
