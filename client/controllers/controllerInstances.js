@@ -35,7 +35,7 @@ function ControllerInstances(
   CIS.shouldShowDemoSelector = demoRepos.shouldShowDemoSelector;
   CIS.isAddingFirstBranch = ahaGuide.isAddingFirstBranch;
   CIS.isSettingUpRunnabot = ahaGuide.isSettingUpRunnabot;
-  CIS.showAddDemoBranch = demoFlowService.showAddDemoBranch;
+  CIS.isInDemoFlow = demoFlowService.isInDemoFlow;
   CIS.currentOrg = currentOrg;
   CIS.showAutofork = null;
   CIS.searchBranches = null;
@@ -117,15 +117,23 @@ function ControllerInstances(
           stateWatcher();
           addBranchWatcher();
           CIS.showInstanceRunningPopover = false;
+          CIS.showAddBranchView = false;
           var newBranchInstance = keypather.get(instance, 'children.models[0]');
           var instanceName = newBranchInstance.getName();
-          return demoFlowService.endDemoFlow()
-            .then(function () {
-              return $state.go('base.instances.instance', {
-                instanceName: instanceName,
-                userName: CIS.userName
-              }, {location: 'replace'});
-            })
+          var checkIsolationInstances = setInterval(function () {
+            if (!keypather.get(newBranchInstance, 'isolation.instances.models.length')) {
+              promisify(newBranchInstance.isolation.instances, 'fetch')();
+            } else {
+              clearInterval(checkIsolationInstances);
+              return demoFlowService.endDemoFlow()
+                .then(function () {
+                  $state.go('base.instances.instance', {
+                    instanceName: instanceName,
+                    userName: CIS.userName
+                  }, {location: 'replace'});
+                })
+            }
+          }, 100);
         });
       }
 

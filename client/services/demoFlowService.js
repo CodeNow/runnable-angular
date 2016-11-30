@@ -43,9 +43,6 @@ function demoFlowService(
     return $localStorage.hasSeenUrlCallout;
   }
 
-  function showAddDemoBranch () {
-    return isInDemoFlow() && hasSeenUrlCallout();
-  }
   function setIsUsingDemoRepo (value) {
     $localStorage.isUsingDemoRepo = value;
   }
@@ -55,13 +52,12 @@ function demoFlowService(
   }
 
   return {
-    endDemoFlow: endDemoFlow.
+    endDemoFlow: endDemoFlow,
     hasSeenHangTightMessage: hasSeenHangTightMessage,
     hasSeenUrlCallout: hasSeenUrlCallout,
     isInDemoFlow: isInDemoFlow,
     isUsingDemoRepo: isUsingDemoRepo,
-    setIsUsingDemoRepo: setIsUsingDemoRepo,
-    showAddDemoBranch: showAddDemoBranch
+    setIsUsingDemoRepo: setIsUsingDemoRepo
   };
 
 }

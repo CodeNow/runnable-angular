@@ -328,7 +328,6 @@ function ahaGuide(
     return patchOrgMetadata(currentOrg.poppa.id(), {
       metadata: {
         hasAha: false,
-        hasCompletedDemo: true,
         hasConfirmedSetup: true
       }
     })
