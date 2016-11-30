@@ -73,6 +73,7 @@ function ControllerInstances(
       CIS.activeAccount = activeAccount;
 
       var instances = instancesByPod;
+      var instanceListener;
       var lastViewedInstance = keypather.get(user, 'attrs.userOptions.uiState.previousLocation.instance');
 
       function isInstanceMatch(instance, nameMatch) {
@@ -85,11 +86,26 @@ function ControllerInstances(
       }
 
       function handleInstanceUpdate (instance) {
-        if (instance.status() === 'running') {
+        if (instance.status() === 'running' && demoFlowService.isInDemoFlow()) {
           var stateWatcher = $scope.$watch(function () {
             return $state.params.instanceName;
           }, function () {
             CIS.showInstanceRunningPopover = $state.params.instanceName !== instance.getName();
+          });
+          var addBranchWatcher = $scope.$watch(function () {
+            return instance.children.models.length;
+          }, function (newVal, oldVal) {
+            if (newVal) {
+              var newBranchInstance = keypather.get(instance, 'children.models[0]');
+              var instanceName = newBranchInstance.getName();
+              return demoFlowService.endDemoFlow()
+                .then(function () {
+                  return $state.go('base.instances.instance', {
+                    instanceName: instanceName,
+                    userName: CIS.userName
+                  }, {location: 'replace'});
+                })
+            }
           });
         }
       }
@@ -128,7 +144,10 @@ function ControllerInstances(
           if (demoFlowService.isInDemoFlow()) {
             var unwatchDemoUpdate = $scope.$on('demo::building', function (e, instance) {
               unwatchDemoUpdate();
-              instance.on('update', handleInstanceUpdate.bind(CIS, instance));
+              promisify(instance, 'update')({ shouldNotAutofork: false })
+                .then(function (instance) {
+                  instance.on('update', handleInstanceUpdate.bind(CIS, instance));
+                })
             });
           }
         }
@@ -150,6 +169,10 @@ function ControllerInstances(
         userName: CIS.userName
       }, {location: 'replace'});
     }
+  };
+
+  this.showAddDemoBranch = function () {
+    return demoFlowService.isInDemoFlow() && demoFlowService.hasSeenUrlCallout();
   };
 
   this.filterMatchedAnything = function () {
