@@ -81,7 +81,7 @@ function ControllerInstance(
         var instance = results.instance;
         data.instance = instance;
 
-        checkForEnablingHangTightMessage(instance);
+        checkForEnablingHangTightMessage(instance, true);
         checkForEnablingUrlCallout(instance);
 
         // Check that current commit is not already building
@@ -218,14 +218,23 @@ function ControllerInstance(
     });
   });
 
-  function checkForEnablingHangTightMessage (instance) {
+  function checkForEnablingHangTightMessage (instance, initialCheck) {
     if ( // Only show message if:
       !$scope.$storage.hasSeenHangTightMessage && // 1. User has not seen message before
-      keypather.get(instance, 'contextVersion.getMainAppCodeVersion()') &&  // 2. Instance is a repo instance
-      isBuildingOrStarting(instance.status()) // 3. Instance is currently building or starting
+      keypather.get(instance, 'contextVersion.getMainAppCodeVersion()') // 2. Instance is a repo instance
     ) {
-      $scope.$storage.hasSeenHangTightMessage = instance.id();
-      data.demoFlowFlags.showHangTightMessage = true;
+      // 3. Instance is currently building or starting
+      if (isBuildingOrStarting(instance.status())) {
+        $scope.$storage.hasSeenHangTightMessage = instance.id();
+        data.demoFlowFlags.showHangTightMessage = true;
+        return;
+      }
+      // If instance was already running
+      if (initialCheck) {
+        $scope.$storage.hasSeenHangTightMessage = instance.id();
+        data.demoFlowFlags.showHangTightMessage = false;
+        return;
+      }
     }
   }
 
