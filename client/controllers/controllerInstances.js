@@ -41,7 +41,6 @@ function ControllerInstances(
   CIS.instanceBranches = null;
   CIS.unbuiltBranches = null;
   CIS.branchQuery = null;
-  CIS.showAddBranchView = false;
   CIS.$storage = $localStorage.$default({
     instanceListIsClosed: false
   });
@@ -326,10 +325,6 @@ function ControllerInstances(
       controllerAs: 'NCMC',
       templateUrl: 'newContainerModalView'
     });
-  };
-
-  this.getBranchCloneCopyText = function () {
-    return 'git clone https://github.com/' + CIS.userName + '/' + CIS.demoInstance.attrs.name + '.git; cd node-starter; git checkout -b my-branch; git push origin my-branch;';
   };
 
   function checkIfBranchViewShouldBeEnabled () {
