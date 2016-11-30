@@ -63,13 +63,17 @@ function ControllerInstances(
     CIS.showAutofork = true;
   });
 
-  $scope.$watch(function () {
-    return $localStorage.hasSeenUrlCallout;
-  }, function (newValue, previousValue) {
-    if (newValue === true && !previousValue) {
-      CIS.showAddBranchView = true;
-    }
-  });
+  if (demoFlowService.isInDemoFlow()) {
+    $scope.$watch(function () {
+      return $localStorage.hasSeenUrlCallout;
+    }, function (newValue, previousValue) {
+      if (newValue && !previousValue) {
+        checkIfBranchViewShouldBeEnabled();
+      }
+    });
+    // Check branch view first time
+    checkIfBranchViewShouldBeEnabled();
+  }
 
   fetchInstancesByPod()
     .then(function (instancesByPod) {
@@ -325,6 +329,26 @@ function ControllerInstances(
   };
 
   this.getBranchCloneCopyText = function () {
-    return 'git clone https://github.com/' + CIS.userName + '/' + CIS.instanceName + '.git; cd node-starter; git checkout -b my-branch; git push origin my-branch;';
+    return 'git clone https://github.com/' + CIS.userName + '/' + CIS.demoInstance.attrs.name + '.git; cd node-starter; git checkout -b my-branch; git push origin my-branch;';
   };
+
+  function checkIfBranchViewShouldBeEnabled () {
+    if (!demoFlowService.isInDemoFlow() || !demoFlowService.hasSeenUrlCallout()) {
+      return;
+    }
+    return fetchInstancesByPod()
+      .then(function (instances) {
+        return instances.find(function (instance) {
+          return instance.attrs.id === demoFlowService.hasSeenUrlCallout();
+        });
+      })
+      .then(function (instance) {
+        if (instance) {
+          CIS.demoInstance = instance;
+          CIS.showAddBranchView = true;
+          return;
+        }
+        CIS.showAddBranchView = false;
+      });
+  }
 }
