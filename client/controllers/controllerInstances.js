@@ -103,21 +103,17 @@ function ControllerInstances(
           return;
         }
         instance.off('update');
-        var stateWatcher = $scope.$watch(function () {
-          return $state.params.instanceName;
-        }, function () {
-          CIS.showInstanceRunningPopover = $state.params.instanceName !== instance.getName();
-        });
-        var addBranchWatcher = $scope.$watch(function () {
-          return instance.children.models.length;
-        }, function (newVal, oldVal) {
+        demoFlowService.addListener($scope, $state, 'params.instanceName', function () {
+          this.showInstanceRunningPopover = $state.params.instanceName !== instance.getName();
+        }.bind(CIS));
+        demoFlowService.addListener($scope, instance, 'children.models.length', function (newVal, oldVal) {
           if (!newVal) {
             return;
           }
-          stateWatcher();
-          addBranchWatcher();
-          CIS.showInstanceRunningPopover = false;
-          CIS.showAddBranchView = false;
+          demoFlowService.removeListener('params.instanceName');
+          demoFlowService.removeListener('children.models.length');
+          this.showInstanceRunningPopover = false;
+          this.showAddBranchView = false;
           var newBranchInstance = keypather.get(instance, 'children.models[0]');
           var instanceName = newBranchInstance.getName();
           var checkIsolationInstances = setInterval(function () {
@@ -134,7 +130,7 @@ function ControllerInstances(
                 })
             }
           }, 100);
-        });
+        }.bind(CIS));
       }
 
       var targetInstance = null;

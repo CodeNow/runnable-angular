@@ -10,6 +10,8 @@ function demoFlowService(
   patchOrgMetadata
 ) {
 
+  var listenerHash = {};
+
   function setItem (key, value) {
     $localStorage[key] = value;
   }
@@ -51,12 +53,28 @@ function demoFlowService(
     return $localStorage.isUsingDemoRepo;
   }
 
+  function addListener ($scope, obj, value, cb) {
+    var stateWatcher = $scope.$watch(function () {
+      return keypather.get(obj, value);
+    }, function (newValue, oldValue) {
+      cb(newValue, oldValue);
+    });
+    listenerHash[value] = stateWatcher;
+  }
+
+  function removeListener (value) {
+    listenerHash[value]();
+    delete listenerHash[value];
+  }
+
   return {
+    addListener: addListener,
     endDemoFlow: endDemoFlow,
     hasSeenHangTightMessage: hasSeenHangTightMessage,
     hasSeenUrlCallout: hasSeenUrlCallout,
     isInDemoFlow: isInDemoFlow,
     isUsingDemoRepo: isUsingDemoRepo,
+    removeListener: removeListener,
     setIsUsingDemoRepo: setIsUsingDemoRepo
   };
 
