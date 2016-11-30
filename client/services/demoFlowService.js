@@ -43,11 +43,16 @@ function demoFlowService(
     return $localStorage.hasSeenUrlCallout;
   }
 
+  function showAddDemoBranch () {
+    return isInDemoFlow() && hasSeenUrlCallout();
+  }
+
   return {
     endDemoFlow: endDemoFlow,
     hasSeenHangTightMessage: hasSeenHangTightMessage,
     hasSeenUrlCallout: hasSeenUrlCallout,
-    isInDemoFlow: isInDemoFlow
+    isInDemoFlow: isInDemoFlow,
+    showAddDemoBranch: showAddDemoBranch
   };
 
 }

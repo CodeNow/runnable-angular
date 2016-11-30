@@ -35,6 +35,7 @@ function ControllerInstances(
   CIS.shouldShowDemoSelector = demoRepos.shouldShowDemoSelector;
   CIS.isAddingFirstBranch = ahaGuide.isAddingFirstBranch;
   CIS.isSettingUpRunnabot = ahaGuide.isSettingUpRunnabot;
+  CIS.showAddDemoBranch = demoFlowService.showAddDemoBranch;
   CIS.currentOrg = currentOrg;
   CIS.showAutofork = null;
   CIS.searchBranches = null;
@@ -85,32 +86,34 @@ function ControllerInstances(
       }
 
       function handleInstanceUpdate (instance) {
-        if (instance.status() === 'running') {
-          instance.off('update');
-          var stateWatcher = $scope.$watch(function () {
-            return $state.params.instanceName;
-          }, function () {
-            CIS.showInstanceRunningPopover = $state.params.instanceName !== instance.getName();
-          });
-          var addBranchWatcher = $scope.$watch(function () {
-            return instance.children.models.length;
-          }, function (newVal, oldVal) {
-            if (newVal) {
-              stateWatcher();
-              addBranchWatcher();
-              CIS.showInstanceRunningPopover = false;
-              var newBranchInstance = keypather.get(instance, 'children.models[0]');
-              var instanceName = newBranchInstance.getName();
-              return demoFlowService.endDemoFlow()
-                .then(function () {
-                  return $state.go('base.instances.instance', {
-                    instanceName: instanceName,
-                    userName: CIS.userName
-                  }, {location: 'replace'});
-                })
-            }
-          });
+        if (instance.status() !== 'running') {
+          return;
         }
+        instance.off('update');
+        var stateWatcher = $scope.$watch(function () {
+          return $state.params.instanceName;
+        }, function () {
+          CIS.showInstanceRunningPopover = $state.params.instanceName !== instance.getName();
+        });
+        var addBranchWatcher = $scope.$watch(function () {
+          return instance.children.models.length;
+        }, function (newVal, oldVal) {
+          if (!newVal) {
+            return;
+          }
+          stateWatcher();
+          addBranchWatcher();
+          CIS.showInstanceRunningPopover = false;
+          var newBranchInstance = keypather.get(instance, 'children.models[0]');
+          var instanceName = newBranchInstance.getName();
+          return demoFlowService.endDemoFlow()
+            .then(function () {
+              return $state.go('base.instances.instance', {
+                instanceName: instanceName,
+                userName: CIS.userName
+              }, {location: 'replace'});
+            })
+        });
       }
 
       var targetInstance = null;
@@ -147,10 +150,7 @@ function ControllerInstances(
           if (demoFlowService.isInDemoFlow()) {
             var unwatchDemoUpdate = $scope.$on('demo::building', function (e, instance) {
               unwatchDemoUpdate();
-              promisify(instance, 'update')({ shouldNotAutofork: false })
-                .then(function (instance) {
-                  instance.on('update', handleInstanceUpdate.bind(CIS, instance));
-                })
+              instance.on('update', handleInstanceUpdate.bind(CIS, instance));
             });
           }
         }
@@ -172,10 +172,6 @@ function ControllerInstances(
         userName: CIS.userName
       }, {location: 'replace'});
     }
-  };
-
-  this.showAddDemoBranch = function () {
-    return demoFlowService.isInDemoFlow() && demoFlowService.hasSeenUrlCallout();
   };
 
   this.filterMatchedAnything = function () {

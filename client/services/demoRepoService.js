@@ -119,6 +119,7 @@ function demoRepos(
   fetchStackData,
   github,
   keypather,
+  promisify,
   serverCreateService
 ) {
   var showDemoSelector = ahaGuide.isInGuide() && !ahaGuide.hasConfirmedSetup();
@@ -240,6 +241,7 @@ function demoRepos(
           });
           return createAutoIsolationConfig(promiseResults.instance, deps)
             .then(function () {
+              promisify(instance, 'update')({ shouldNotAutofork: false })
               return promiseResults.instance;
             });
         });
