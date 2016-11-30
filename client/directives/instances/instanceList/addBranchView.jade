@@ -21,20 +21,9 @@ p.padding-sm Now launch a new environment by pushing a branch to GitHub.
     git push origin my-branch
 
 //- if in demo flow
-.small.padding-sm.text-gray.weight-light(
-  ng-if = "isDemoRepo"
-) Or we can&#32;
+.small.padding-sm.text-gray.weight-light Or we can&#32;
   span.link(
     ng-click = "createNewBranch()"
   ) create a branch
   | &#32;for you.
-
-//- if not in demo flow
-.small.padding-sm.text-gray(
-  ng-if = "!isDemoRepo"
-) Or just&#32;
-  span.link(
-    ng-click = "forkFirstBranch()"
-  ) launch the latest branch
-  | .
 
