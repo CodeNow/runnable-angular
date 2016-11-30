@@ -65,7 +65,7 @@ function ControllerInstances(
 
   if (demoFlowService.isInDemoFlow()) {
     $scope.$watch(function () {
-      return $localStorage.hasSeenUrlCallout;
+      return demoFlowService.hasSeenUrlCallout();
     }, function (newValue, previousValue) {
       if (newValue && !previousValue) {
         checkIfBranchViewShouldBeEnabled();
