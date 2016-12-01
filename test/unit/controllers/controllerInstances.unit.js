@@ -190,7 +190,6 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       mockFetch.triggerPromise(many);
       $rootScope.$digest();
       sinon.assert.calledWith(ctx.fakeGo, 'base.instances.instance', {
-        userName: 'SomeKittens',
         instanceName: 'spaaace'
       });
     });
@@ -541,7 +540,6 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       $rootScope.$digest();
       CIS.checkAndLoadInstance('new-instance');
       sinon.assert.calledWith(ctx.fakeGo, 'base.instances.instance', {
-        userName: 'Jim Jones',
         instanceName: 'new-instance'
       });
     });
