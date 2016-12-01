@@ -102,7 +102,7 @@ function ControllerInstances(
         if (instance.status() !== 'running') {
           return;
         }
-
+        CIS.instanceName = instance.getName();
         instance.off('update');
         demoFlowService.addListener($scope, $state, 'params.instanceName', function () {
           this.showInstanceRunningPopover = $state.params.instanceName !== instance.getName();
@@ -175,7 +175,7 @@ function ControllerInstances(
           var unwatchFirstBuild = $scope.$on('buildStatusUpdated', function (e, instanceUpdate) {
             var instance = instanceUpdate.instance;
             unwatchFirstBuild();
-            CIS.checkAndLoadInstance(instance.getName());
+            CIS.checkAndLoadInstance(CIS.instanceName);
             if (demoFlowService.isInDemoFlow()) {
               ahaGuide.endGuide({hasAha: false, hasConfirmedSetup: true});
               demoFlowService.checkInstanceAndAttachListener(instance, handleInstanceUpdate.bind(CIS));
