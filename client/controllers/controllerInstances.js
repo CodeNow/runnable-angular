@@ -13,11 +13,12 @@ function ControllerInstances(
   $state,
   activeAccount,
   ahaGuide,
-  demoRepos,
   currentOrg,
+  demoRepos,
   errs,
   eventTracking,
   featureFlags,
+  fetchInstances,
   fetchInstancesByPod,
   fetchRepoBranches,
   keypather,
@@ -60,8 +61,31 @@ function ControllerInstances(
     CIS.showAutofork = true;
   });
 
+  function listenForFirstNewBranches () {
+    // We don't actually need to return here because we don't care when this promise resolves.
+    // As long as it eventually does, since it's for event tracking only.
+    return fetchInstances({
+      githubUsername: currentOrg.github.login
+    })
+      .then(function (allInstances) {
+        function instanceListener (instanceModel) {
+          if (!instanceModel.attrs.masterPod) {
+            var instanceWithParents = allInstances.models.filter(function (instance) {
+              return instance.attrs.parent === instanceModel.attrs.parent;
+            });
+            if (instanceWithParents.length === 1) {
+              eventTracking.hasAddedBranch();
+              allInstances.off('add', instanceListener);
+            }
+          }
+        }
+        allInstances.on('add', instanceListener);
+      });
+  }
+
   fetchInstancesByPod()
     .then(function (instancesByPod) {
+      listenForFirstNewBranches()
 
       // If the state has already changed don'  t continue with old data. Let the new one execute.
       if (userName !== $state.params.userName) {
