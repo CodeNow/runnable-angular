@@ -44,10 +44,6 @@ function NewContainerController(
     NCC.disableBackButton = true;
   }
 
-  $timeout(function () {
-    $scope.$broadcast('go-to-panel', NCC.state.panel, 'immediate');
-  });
-
   // Start loading repos and templates
   loading.reset('newContainerRepos');
   loading.reset('newContainerTemplates');
