@@ -31,6 +31,14 @@ function addBranch(
         return github.createNewBranch(repoOwner, repoName, acv.attrs.commit, 'my-branch')
           .catch(errs.handler);
       };
+
+      $scope.onClipboardEvent = function (err) {
+        if (err) {
+          $scope.clipboardText = 'Could not copy text';
+        } else {
+          $scope.clipboardText = 'Copied!';
+        }
+      };
     }
   };
 }
