@@ -21,7 +21,7 @@ function addBranch(
     },
     link: function ($scope, element, attrs) {
       $scope.getBranchCloneCopyText = function () {
-        return 'git clone https://github.com/' + $scope.userName + '/' + $scope.instance.attrs.name + '.git; cd node-starter; git checkout -b my-branch; git push origin my-branch;';
+        return 'git clone https://github.com/' + $scope.userName + '/' + $scope.instance.attrs.name + '.git; cd ' + $scope.instance.attrs.name + '; git checkout -b my-branch; git push origin my-branch;';
       };
 
       $scope.createNewBranch = function () {
