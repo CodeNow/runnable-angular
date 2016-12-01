@@ -117,6 +117,7 @@ function ControllerInstances(
           demoFlowService.removeListener('children.models.length');
           this.showInstanceRunningPopover = false;
           this.showAddBranchView = false;
+          loading('creatingNewBranchFromDemo', false);
           var newBranchInstance = keypather.get(instance, 'children.models[0]');
           var instanceName = newBranchInstance.getName();
           if (demoFlowService.isUsingDemoRepo()) {

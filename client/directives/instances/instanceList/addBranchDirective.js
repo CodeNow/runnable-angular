@@ -9,6 +9,7 @@ function addBranch(
   errs,
   github,
   fetchRepoBranches,
+  loading,
   promisify
 ) {
   return {
@@ -24,6 +25,7 @@ function addBranch(
       };
 
       $scope.createNewBranch = function () {
+        loading('creatingNewBranchFromDemo', true);
         var acv = $scope.instance.contextVersion.getMainAppCodeVersion();
         var completeRepoName = acv.attrs.repo.split('/');
         var repoOwner = completeRepoName[0];

@@ -23,6 +23,6 @@ p.padding-sm Now launch a new environment by pushing a branch to GitHub.
 //- if in demo flow
 .small.padding-sm.text-gray.weight-light Or we can&#32;
   span.link(
-    ng-click = "createNewBranch()"
+    ng-click = "$root.isLoading.creatingNewBranchFromDemo || createNewBranch()"
   ) create a branch
   | &#32;for you.
