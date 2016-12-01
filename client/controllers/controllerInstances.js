@@ -63,10 +63,12 @@ function ControllerInstances(
     CIS.showAutofork = true;
   });
 
-
+  /**
+   * This listens for new instances to be created for event tracking purposes
+   * If the new instance is the first of it's kind (it's grouped as added a new branch)
+   * we can report that the user has added their first ever branch!
+   */
   function listenForFirstNewBranches () {
-    // We don't actually need to return here because we don't care when this promise resolves.
-    // As long as it eventually does, since it's for event tracking only.
     return fetchInstances({
       githubUsername: currentOrg.github.login
     })
@@ -101,7 +103,9 @@ function ControllerInstances(
 
   fetchInstancesByPod()
     .then(function (instancesByPod) {
-      listenForFirstNewBranches()
+      // We don't actually need to return here because we don't care when this promise resolves.
+      // As long as it eventually does, since it's for event tracking only.
+      listenForFirstNewBranches();
 
       // If the state has already changed don'  t continue with old data. Let the new one execute.
       if (CIS.userName !== $state.params.userName) {
