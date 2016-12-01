@@ -327,7 +327,9 @@ function ahaGuide(
     }
     return patchOrgMetadata(currentOrg.poppa.id(), {
       metadata: {
-        hasAha: false
+        hasAha: false,
+        hasCompletedDemo: true,
+        hasConfirmedSetup: true
       }
     })
       .then(function (updatedOrg) {
@@ -339,11 +341,13 @@ function ahaGuide(
     return patchOrgMetadata(currentOrg.poppa.id(), {
       metadata: {
         hasAha: true,
+        hasCompletedDemo: false,
         hasConfirmedSetup: false
       }
     })
       .then(function (updatedOrg) {
         delete $storage.hasSeenHangTightMessage;
+        delete $storage.hasSeenUrlCallout;
         updateCurrentOrg(updatedOrg);
       });
   }

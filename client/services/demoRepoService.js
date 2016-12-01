@@ -105,13 +105,15 @@ var stacks = {
 };
 
 function demoRepos(
+  $q,
   $rootScope,
   $timeout,
-  $q,
   ahaGuide,
-  currentOrg,
+  createAutoIsolationConfig,
   createNewBuildAndFetchBranch,
   createNonRepoInstance,
+  currentOrg,
+  demoFlowService,
   fetchInstancesByPod,
   fetchNonRepoInstances,
   fetchOwnerRepo,
@@ -225,10 +227,22 @@ function demoRepos(
             packages: stack.packages
           };
 
-          return serverCreateService(repoBuildAndBranch, {
-            env: generatedEnvs,
-            ports: stack.ports
+          return $q.all({
+            deps: promiseResults.deps,
+            instance: serverCreateService(repoBuildAndBranch, {
+              env: generatedEnvs,
+              ports: stack.ports
+            })
           });
+        })
+        .then(function (promiseResults) {
+          var deps = Object.keys(promiseResults.deps).map(function (id) {
+            return promiseResults.deps[id];
+          });
+          return createAutoIsolationConfig(promiseResults.instance, deps)
+            .then(function () {
+              return promiseResults.instance;
+            });
         });
     },
     shouldShowDemoSelector: function () {

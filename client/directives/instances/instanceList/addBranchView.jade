@@ -5,24 +5,25 @@ p.padding-sm Now launch a new environment by pushing a branch to GitHub.
     //- tooltip should work like the one on the Copy button for container URLs
     button.btn.btn-xxs.float-right(
       clipboard
+      ng-click = "$event.preventDefault()"
       ng-mouseleave = "showToolTip = false"
       on-copied = "showToolTip = true;"
+      text =  "getBranchCloneCopyText()"
       tooltip
       tooltip-active-attr = "{{showToolTip}}"
+      tooltip-eval="clipboardText"
       tooltip-options = "{\"class\":\"bottom no-arrow\",\"right\":-16,\"top\":27}"
     ) Copy
   pre.monospace.padding-sm.
-    git clone https://github.com/CodeNow/node-starter.git
-    cd node-starter
+    git clone https://github.com/{{userName}}/{{instance.attrs.name}}.git
+    cd {{instance.attrs.name}}
     git checkout -b my-branch
     git push origin my-branch
 
 //- if in demo flow
 .small.padding-sm.text-gray.weight-light Or we can&#32;
-  span.link create a branch
+  span.link(
+    ng-click = "createNewBranch()"
+  ) create a branch
   | &#32;for you.
 
-//- if not in demo flow
-//- .small.padding-sm.text-gray Or just&#32;
-  span.link launch the latest branch
-  | .

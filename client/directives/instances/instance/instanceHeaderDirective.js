@@ -10,14 +10,16 @@ function instanceHeader(
   $localStorage,
   $stateParams,
   ahaGuide,
-  fetchPullRequest
+  fetchPullRequest,
+  keypather
 ) {
   return {
     restrict: 'A',
     templateUrl: 'instanceHeaderView',
     scope: {
       instance: '=',
-      openItems: '='
+      openItems: '=',
+      demoFlowFlags: '=?'
     },
     link: function ($scope) {
       $scope.$storage = $localStorage;

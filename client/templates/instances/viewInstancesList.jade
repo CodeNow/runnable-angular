@@ -4,7 +4,7 @@
   //- 'select demo' guide
   .grid-block.vertical.popover.in.margin-top-xs.popover-demo.demo-transition.js-animate(
     ng-if = "$root.featureFlags.demoMultiTier && CIS.shouldShowDemoSelector()"
-    ng-include = "'templateIntroView'"
+    setup-demo-guide
   )
 
   //- wraps everything that should transition in with the master cluster
@@ -52,7 +52,7 @@
       )
 
       .grid-block.align-center.padding-sm.popover.top.in.popover-demo(
-        ng-if = "$root.featureFlags.demoMultiTierUrlHidden"
+        ng-if = "$root.featureFlags.demoMultiTierUrlHidden && CIS.showInstanceRunningPopover"
         ng-include = "'popoverDemoUrlHiddenView'"
       )
 
@@ -87,8 +87,10 @@
 
   //- 'add branch' guide — show until a branch has been added
   .grid-block.vertical.popover.in.popover-demo.demo-transition.js-animate(
-    ng-if = "$root.featureFlags.demoMultiTierAddBranch"
-    ng-include = "'addBranchView'"
+    ng-if = "$root.featureFlags.demoMultiTierAddBranch && CIS.showAddBranchView"
+    add-branch
+    user-name = "CIS.userName"
+    instance = "CIS.demoInstance"
   )
 
   //- wraps all branch clusters — hide until a branch has been added
