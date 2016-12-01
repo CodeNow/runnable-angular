@@ -25,7 +25,7 @@ function setupDemoGuide(
         loading(loadingName, true);
         return demoRepos.createDemoApp(stackKey)
           .then(function (instance) {
-            ahaGuide.endGuide();
+            ahaGuide.endGuide({hasAha: false, hasConfirmedSetup: true});
             demoFlowService.setIsUsingDemoRepo(true);
             $rootScope.$broadcast('demoService::hide');
             $rootScope.$broadcast('demo::building', instance);

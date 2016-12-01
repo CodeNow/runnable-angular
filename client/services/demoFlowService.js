@@ -7,7 +7,8 @@ function demoFlowService(
   $localStorage,
   currentOrg,
   keypather,
-  patchOrgMetadata
+  patchOrgMetadata,
+  promisify
 ) {
 
   var listenerHash = {};
@@ -53,6 +54,13 @@ function demoFlowService(
     return $localStorage.isUsingDemoRepo;
   }
 
+  function checkInstanceAndAttachListener (instance, cb) {
+    if (!isUsingDemoRepo()) {
+      promisify(instance, 'update')({ shouldNotAutofork: false })
+    }
+    instance.on('update', cb);
+  }
+
   function addListener ($scope, obj, value, cb) {
     var stateWatcher = $scope.$watch(function () {
       return keypather.get(obj, value);
@@ -69,6 +77,7 @@ function demoFlowService(
 
   return {
     addListener: addListener,
+    checkInstanceAndAttachListener: checkInstanceAndAttachListener,
     endDemoFlow: endDemoFlow,
     hasSeenHangTightMessage: hasSeenHangTightMessage,
     hasSeenUrlCallout: hasSeenUrlCallout,

@@ -102,35 +102,47 @@ function ControllerInstances(
         if (instance.status() !== 'running') {
           return;
         }
+
         instance.off('update');
         demoFlowService.addListener($scope, $state, 'params.instanceName', function () {
           this.showInstanceRunningPopover = $state.params.instanceName !== instance.getName();
         }.bind(CIS));
+
         demoFlowService.addListener($scope, instance, 'children.models.length', function (newVal, oldVal) {
           if (!newVal) {
             return;
           }
+
           demoFlowService.removeListener('params.instanceName');
           demoFlowService.removeListener('children.models.length');
           this.showInstanceRunningPopover = false;
           this.showAddBranchView = false;
           var newBranchInstance = keypather.get(instance, 'children.models[0]');
           var instanceName = newBranchInstance.getName();
-          var checkIsolationInstances = setInterval(function () {
-            if (!keypather.get(newBranchInstance, 'isolation.instances.models.length')) {
-              promisify(newBranchInstance.isolation.instances, 'fetch')();
-            } else {
-              clearInterval(checkIsolationInstances);
-              return demoFlowService.endDemoFlow()
-                .then(function () {
-                  $state.go('base.instances.instance', {
-                    instanceName: instanceName,
-                    userName: CIS.userName
-                  }, {location: 'replace'});
-                })
-            }
-          }, 100);
+          if (demoFlowService.isUsingDemoRepo()) {
+            var checkIsolationInstances = setInterval(function () {
+              if (!keypather.get(newBranchInstance, 'isolation.instances.models.length')) {
+                if (keypather.get(newBranchInstance, 'isolation.instances')) {
+                  promisify(newBranchInstance.isolation.instances, 'fetch')();
+                }
+              } else {
+                clearInterval(checkIsolationInstances);
+                endDemo(instanceName);
+              }
+            }, 100);
+          } else {
+            endDemo(instanceName);
+          }
         }.bind(CIS));
+      }
+
+      function endDemo (instanceName) {
+        return demoFlowService.endDemoFlow()
+          .then(function () {
+            $state.go('base.instances.instance', {
+              instanceName: instanceName
+            }, {location: 'replace'});
+          })
       }
 
       var targetInstance = null;
@@ -161,13 +173,18 @@ function ControllerInstances(
       if ($state.current.name !== 'base.instances.instance') {
         if (!instances.models.length) {
           var unwatchFirstBuild = $scope.$on('buildStatusUpdated', function (e, instanceUpdate) {
+            var instance = instanceUpdate.instance;
             unwatchFirstBuild();
-            CIS.checkAndLoadInstance(instanceUpdate.instanceName);
+            CIS.checkAndLoadInstance(instance.getName());
+            if (demoFlowService.isInDemoFlow()) {
+              ahaGuide.endGuide({hasAha: false, hasConfirmedSetup: true});
+              demoFlowService.checkInstanceAndAttachListener(instance, handleInstanceUpdate.bind(CIS));
+            }
           });
           if (demoFlowService.isInDemoFlow()) {
             var unwatchDemoUpdate = $scope.$on('demo::building', function (e, instance) {
               unwatchDemoUpdate();
-              instance.on('update', handleInstanceUpdate.bind(CIS, instance));
+              demoFlowService.checkInstanceAndAttachListener(instance, handleInstanceUpdate.bind(CIS));
             });
           }
         }
@@ -178,10 +195,8 @@ function ControllerInstances(
 
   this.checkAndLoadInstance = function (instanceName) {
     if (instanceName) {
-      CIS.demoInstance = instanceName;
       return $state.go('base.instances.instance', {
-        instanceName: instanceName,
-        userName: CIS.userName
+        instanceName: instanceName
       }, {location: 'replace'});
     }
     if (!featureFlags.flags.containersViewTemplateControls) {

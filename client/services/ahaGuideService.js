@@ -320,16 +320,20 @@ function ahaGuide(
     $rootScope.$broadcast('ahaGuide::launchModal');
   }
 
-  function endGuide () {
+  function endGuide (metadata) {
+    if (!metadata) {
+      var metadata = {
+        hasAha: false,
+        hasCompletedDemo: true,
+        hasConfirmedSetup: true
+      }
+    }
     $rootScope.$broadcast('close-popovers');
     if (keypather.get(ahaModalController, 'controller.actions.forceClose')) {
       ahaModalController.controller.actions.forceClose();
     }
     return patchOrgMetadata(currentOrg.poppa.id(), {
-      metadata: {
-        hasAha: false,
-        hasConfirmedSetup: true
-      }
+      metadata: metadata
     })
       .then(function (updatedOrg) {
         updateCurrentOrg(updatedOrg);
