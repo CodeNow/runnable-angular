@@ -20,15 +20,20 @@ p.padding-sm Now launch a new environment by pushing a branch to GitHub.
     git checkout -b my-branch
     git push origin my-branch
 
-.grid-block.align-center
-  .small.padding-sm.text-gray.weight-light Or we can&#32;
+.grid-block.align-center.padding-sm
+  //- hide while creating branch
+  .small.text-gray.weight-light(
+    ng-if = "!data.creating"
+  ) Or we can&#32;
     span.link(
       ng-click = "createNewBranch()"
     ) create a branch
-    | &#32;for you
-    br
-    | using the GitHub API.
-  //- while creating branch
-  //- .spinner-wrapper.spinner-sm.spinner-gray.margin-right-sm(
+    | &#32;for you using the GitHub API.
+
+  //- show while creating branch
+  //- .spinner-wrapper.spinner-sm.spinner-gray.margin-right-xxs(
   //-   ng-include = "'spinner'"
   //- )
+  //- .small.text-gray.weight-light(
+  //-   ng-click = "data.creating = !data.creating"
+  //- ) Creating branch…
