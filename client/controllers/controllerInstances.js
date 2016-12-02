@@ -122,14 +122,11 @@ function ControllerInstances(
           var instanceName = newBranchInstance.getName();
           if (demoFlowService.isUsingDemoRepo()) {
             var checkIsolationInstances = setInterval(function () {
-              if (!keypather.get(newBranchInstance, 'isolation.instances.models.length')) {
-                if (keypather.get(newBranchInstance, 'isolation.instances')) {
-                  promisify(newBranchInstance.isolation.instances, 'fetch')();
-                }
-              } else {
-                clearInterval(checkIsolationInstances);
-                endDemo(instanceName);
+              if (!keypather.get(newBranchInstance, 'isolation.instances.models.length') && keypather.get(newBranchInstance, 'isolation.instances')) {
+                return promisify(newBranchInstance.isolation.instances, 'fetch')();
               }
+              clearInterval(checkIsolationInstances);
+              endDemo(instanceName);
             }, 100);
           } else {
             endDemo(instanceName);
