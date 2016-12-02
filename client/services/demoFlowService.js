@@ -6,6 +6,7 @@ require('app')
 function demoFlowService(
   $localStorage,
   currentOrg,
+  keypather,
   patchOrgMetadata
 ) {
 
@@ -18,7 +19,7 @@ function demoFlowService(
   }
 
   function isInDemoFlow () {
-    return !currentOrg.poppa.attrs.metadata.hasCompletedDemo;
+    return !keypather.get(currentOrg, 'poppa.attrs.metadata.hasCompletedDemo');
   }
 
   function endDemoFlow () {

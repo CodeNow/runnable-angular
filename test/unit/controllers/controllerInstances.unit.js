@@ -87,6 +87,11 @@ describe('ControllerInstances'.bold.underline.blue, function () {
     mockOrg = {
       github: {
         fetchRepo: sinon.stub()
+      },
+      poppa: {
+        attrs: {
+          metadata: {}
+        }
       }
     };
     angular.mock.module('app', function ($provide) {
