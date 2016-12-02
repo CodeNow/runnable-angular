@@ -22,9 +22,7 @@ p.padding-sm Now launch a new environment by pushing a branch to GitHub.
 
 .grid-block.align-center.padding-sm
   //- hide while creating branch
-  .small.text-gray.weight-light(
-    ng-if = "!data.creating"
-  ) Or we can&#32;
+  .small.text-gray.weight-light Or we can&#32;
     span.link(
       ng-click = "createNewBranch()"
     ) create a branch
@@ -34,6 +32,4 @@ p.padding-sm Now launch a new environment by pushing a branch to GitHub.
   //- .spinner-wrapper.spinner-sm.spinner-gray.margin-right-xxs(
   //-   ng-include = "'spinner'"
   //- )
-  //- .small.text-gray.weight-light(
-  //-   ng-click = "data.creating = !data.creating"
-  //- ) Creating branch…
+  //- .small.text-gray.weight-light Creating branch…
