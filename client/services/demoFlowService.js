@@ -6,12 +6,8 @@ require('app')
 function demoFlowService(
   $localStorage,
   currentOrg,
-  keypather,
-  patchOrgMetadata,
-  promisify
+  patchOrgMetadata
 ) {
-
-  var listenerHash = {};
 
   function setItem (key, value) {
     $localStorage[key] = value;
@@ -22,7 +18,7 @@ function demoFlowService(
   }
 
   function isInDemoFlow () {
-    return !keypather.get(currentOrg, 'poppa.attrs.metadata.hasCompletedDemo');
+    return !currentOrg.poppa.attrs.metadata.hasCompletedDemo;
   }
 
   function endDemoFlow () {
@@ -54,36 +50,12 @@ function demoFlowService(
     return $localStorage.isUsingDemoRepo;
   }
 
-  function checkInstanceAndAttachListener (instance, cb) {
-    if (!isUsingDemoRepo()) {
-      promisify(instance, 'update')({ shouldNotAutofork: false })
-    }
-    instance.on('update', cb);
-  }
-
-  function addListener ($scope, obj, value, cb) {
-    var stateWatcher = $scope.$watch(function () {
-      return keypather.get(obj, value);
-    }, function (newValue, oldValue) {
-      cb(newValue, oldValue);
-    });
-    listenerHash[value] = stateWatcher;
-  }
-
-  function removeListener (value) {
-    listenerHash[value]();
-    delete listenerHash[value];
-  }
-
   return {
-    addListener: addListener,
-    checkInstanceAndAttachListener: checkInstanceAndAttachListener,
     endDemoFlow: endDemoFlow,
     hasSeenHangTightMessage: hasSeenHangTightMessage,
     hasSeenUrlCallout: hasSeenUrlCallout,
     isInDemoFlow: isInDemoFlow,
     isUsingDemoRepo: isUsingDemoRepo,
-    removeListener: removeListener,
     setIsUsingDemoRepo: setIsUsingDemoRepo
   };
 

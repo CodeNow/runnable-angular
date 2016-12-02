@@ -322,11 +322,11 @@ function ahaGuide(
 
   function endGuide (metadata) {
     if (!metadata) {
-      var metadata = {
+      metadata = {
         hasAha: false,
         hasCompletedDemo: true,
         hasConfirmedSetup: true
-      }
+      };
     }
     $rootScope.$broadcast('close-popovers');
     if (keypather.get(ahaModalController, 'controller.actions.forceClose')) {

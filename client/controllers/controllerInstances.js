@@ -102,21 +102,23 @@ function ControllerInstances(
         if (instance.status() !== 'running') {
           return;
         }
-        CIS.instanceName = instance.getName();
-        instance.off('update');
-        demoFlowService.addListener($scope, $state, 'params.instanceName', function () {
-          this.showInstanceRunningPopover = $state.params.instanceName !== instance.getName();
-        }.bind(CIS));
 
-        demoFlowService.addListener($scope, instance, 'children.models.length', function (newVal, oldVal) {
+        CIS.instanceName = instance.getName();
+        CIS.showInstanceRunningPopover = function () {
+          return CIS.isInDemoFlow() &&  $state.params.instanceName !== instance.getName();
+        };
+
+        instance.off('update');
+
+        var unregisterIsolationInstanceWatcher = $scope.$watch(function () {
+          return instance.children.models.length;
+        }, function (newVal, oldVal) {
           if (!newVal) {
             return;
           }
 
-          demoFlowService.removeListener('params.instanceName');
-          demoFlowService.removeListener('children.models.length');
-          this.showInstanceRunningPopover = false;
-          this.showAddBranchView = false;
+          unregisterIsolationInstanceWatcher();
+          CIS.showAddBranchView = false;
           loading('creatingNewBranchFromDemo', false);
           var newBranchInstance = keypather.get(instance, 'children.models[0]');
           var instanceName = newBranchInstance.getName();
@@ -131,16 +133,26 @@ function ControllerInstances(
           } else {
             endDemo(instanceName);
           }
-        }.bind(CIS));
+        });
       }
 
       function endDemo (instanceName) {
         return demoFlowService.endDemoFlow()
           .then(function () {
+            if (!instanceName) {
+              return;
+            }
             $state.go('base.instances.instance', {
               instanceName: instanceName
             }, {location: 'replace'});
-          })
+          });
+      }
+
+      function checkInstanceAndAttachListener (instance, cb) {
+        if (!demoFlowService.isUsingDemoRepo()) {
+          promisify(instance, 'update')({ shouldNotAutofork: false });
+        }
+        instance.on('update', cb);
       }
 
       var targetInstance = null;
@@ -174,21 +186,21 @@ function ControllerInstances(
             var instance = instanceUpdate.instance;
             unwatchFirstBuild();
             CIS.checkAndLoadInstance(instance.getName());
-            if (demoFlowService.isInDemoFlow()) {
+            if (CIS.isInDemoFlow()) {
               ahaGuide.endGuide({hasAha: false, hasConfirmedSetup: true});
-              demoFlowService.checkInstanceAndAttachListener(instance, handleInstanceUpdate.bind(CIS));
+              checkInstanceAndAttachListener(instance, handleInstanceUpdate.bind(CIS));
             }
           });
-          if (demoFlowService.isInDemoFlow()) {
+          if (CIS.isInDemoFlow()) {
             var unwatchDemoUpdate = $scope.$on('demo::building', function (e, instance) {
               unwatchDemoUpdate();
-              demoFlowService.checkInstanceAndAttachListener(instance, handleInstanceUpdate.bind(CIS));
+              checkInstanceAndAttachListener(instance, handleInstanceUpdate.bind(CIS));
             });
           }
         }
         CIS.checkAndLoadInstance(instanceName);
       } else if (CIS.isInDemoFlow()) {
-        return demoFlowService.checkInstanceAndAttachListener(targetInstance, handleInstanceUpdate.bind(CIS));
+        return checkInstanceAndAttachListener(targetInstance, handleInstanceUpdate.bind(CIS));
       }
     })
     .catch(errs.handler);
