@@ -190,6 +190,8 @@ function ControllerInstances(
           }
         }
         CIS.checkAndLoadInstance(instanceName);
+      } else if (CIS.isInDemoFlow()) {
+        return demoFlowService.checkInstanceAndAttachListener(targetInstance, handleInstanceUpdate.bind(CIS));
       }
     })
     .catch(errs.handler);
