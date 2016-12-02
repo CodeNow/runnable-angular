@@ -97,7 +97,7 @@
 }
 
 .popover,
-.notification,
+.notification {
 
   &.below-modals {
     z-index: $z-modal-backdrop - 1;
