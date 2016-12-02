@@ -1,5 +1,6 @@
 animated-panel-container.modal-servers
   animated-panel.grid-block.vertical.modal-server-select(
+    default = "{{!NCC.disableBackButton}}"
     name = "containerSelection"
   )
     header.modal-header.grid-block.justify-center(
@@ -94,6 +95,7 @@ animated-panel-container.modal-servers
         span Next Step: Configuration
 
   animated-panel.grid-block.vertical.modals-rename(
+    default = "{{NCC.disableBackButton}}"
     name = "nameContainer"
     ng-if = "NCC.state.repo || NCC.state.templateSource"
   )
