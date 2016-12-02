@@ -76,6 +76,76 @@ function ControllerInstances(
     checkIfBranchViewShouldBeEnabled();
   }
 
+  function isInstanceMatch(instance, nameMatch) {
+    if (instance.destroyed || !instance.id()) {
+      return false;
+    }
+    if (!nameMatch || instance.attrs.name === nameMatch) {
+      return instance;
+    }
+  }
+
+  function handleInstanceUpdate (instance) {
+    if (instance.status() !== 'running') {
+      return;
+    }
+
+    CIS.instanceName = instance.getName();
+    instance.off('update');
+
+    var unregisterIsolationInstanceWatcher = $scope.$watch(function () {
+      return instance.children.models.length;
+    }, function (newVal, oldVal) {
+      if (!newVal) {
+        return;
+      }
+
+      unregisterIsolationInstanceWatcher();
+      CIS.showAddBranchView = false;
+      loading('creatingNewBranchFromDemo', false);
+      var newBranchInstance = keypather.get(instance, 'children.models[0]');
+      var instanceName = newBranchInstance.getName();
+      if (demoFlowService.isUsingDemoRepo()) {
+        listenForDemoIsolation(newBranchInstance);
+      } else {
+        endDemo(instanceName);
+      }
+    });
+  }
+
+  function endDemo (instanceName) {
+    return demoFlowService.endDemoFlow()
+      .then(function () {
+        if (!instanceName) {
+          return;
+        }
+        $state.go('base.instances.instance', {
+          instanceName: instanceName
+        }, {location: 'replace'});
+      });
+  }
+
+  function checkInstanceAndAttachListener (instance, cb) {
+    if (!demoFlowService.isUsingDemoRepo()) {
+      promisify(instance, 'update')({ shouldNotAutofork: false });
+    }
+    instance.on('update', cb);
+  }
+
+  function listenForDemoIsolation (instance) {
+    var isolationListener = $scope.$watch(function () {
+      return keypather.get(instance, 'isolation.instances.fetch');
+    }, function (newValue) {
+      if (newValue) {
+        promisify(instance.isolation.instances, 'fetch')()
+          .then(function () {
+            isolationListener();
+            return endDemo(instance.getName());
+          });
+      }
+    });
+  }
+
   fetchInstancesByPod()
     .then(function (instancesByPod) {
 
@@ -88,72 +158,6 @@ function ControllerInstances(
 
       var instances = instancesByPod;
       var lastViewedInstance = keypather.get(user, 'attrs.userOptions.uiState.previousLocation.instance');
-
-      function isInstanceMatch(instance, nameMatch) {
-        if (instance.destroyed || !instance.id()) {
-          return false;
-        }
-        if (!nameMatch || instance.attrs.name === nameMatch) {
-          return instance;
-        }
-      }
-
-      function handleInstanceUpdate (instance) {
-        if (instance.status() !== 'running') {
-          return;
-        }
-
-        CIS.instanceName = instance.getName();
-        CIS.showInstanceRunningPopover = function () {
-          return CIS.isInDemoFlow() &&  $state.params.instanceName !== instance.getName();
-        };
-
-        instance.off('update');
-
-        var unregisterIsolationInstanceWatcher = $scope.$watch(function () {
-          return instance.children.models.length;
-        }, function (newVal, oldVal) {
-          if (!newVal) {
-            return;
-          }
-
-          unregisterIsolationInstanceWatcher();
-          CIS.showAddBranchView = false;
-          loading('creatingNewBranchFromDemo', false);
-          var newBranchInstance = keypather.get(instance, 'children.models[0]');
-          var instanceName = newBranchInstance.getName();
-          if (demoFlowService.isUsingDemoRepo()) {
-            var checkIsolationInstances = setInterval(function () {
-              if (!keypather.get(newBranchInstance, 'isolation.instances.models.length') && keypather.get(newBranchInstance, 'isolation.instances')) {
-                return promisify(newBranchInstance.isolation.instances, 'fetch')();
-              }
-              clearInterval(checkIsolationInstances);
-              endDemo(instanceName);
-            }, 100);
-          } else {
-            endDemo(instanceName);
-          }
-        });
-      }
-
-      function endDemo (instanceName) {
-        return demoFlowService.endDemoFlow()
-          .then(function () {
-            if (!instanceName) {
-              return;
-            }
-            $state.go('base.instances.instance', {
-              instanceName: instanceName
-            }, {location: 'replace'});
-          });
-      }
-
-      function checkInstanceAndAttachListener (instance, cb) {
-        if (!demoFlowService.isUsingDemoRepo()) {
-          promisify(instance, 'update')({ shouldNotAutofork: false });
-        }
-        instance.on('update', cb);
-      }
 
       var targetInstance = null;
       if (lastViewedInstance) {
@@ -188,22 +192,33 @@ function ControllerInstances(
             CIS.checkAndLoadInstance(instance.getName());
             if (CIS.isInDemoFlow()) {
               ahaGuide.endGuide({hasAha: false, hasConfirmedSetup: true});
+              CIS.demoInstance = instance;
               checkInstanceAndAttachListener(instance, handleInstanceUpdate.bind(CIS));
             }
           });
           if (CIS.isInDemoFlow()) {
             var unwatchDemoUpdate = $scope.$on('demo::building', function (e, instance) {
               unwatchDemoUpdate();
+              CIS.demoInstance = instance;
               checkInstanceAndAttachListener(instance, handleInstanceUpdate.bind(CIS));
             });
           }
         }
         CIS.checkAndLoadInstance(instanceName);
       } else if (CIS.isInDemoFlow()) {
-        return checkInstanceAndAttachListener(targetInstance, handleInstanceUpdate.bind(CIS));
+        CIS.demoInstance = instances.find(function (instance) {
+          return instance.getRepoName();
+        });
+        if (CIS.demoInstance) {
+          return checkInstanceAndAttachListener(CIS.demoInstance, handleInstanceUpdate.bind(CIS));
+        }
       }
     })
     .catch(errs.handler);
+
+  this.showInstanceRunningPopover = function () {
+    return CIS.isInDemoFlow() && demoFlowService.hasSeenHangTightMessage() && $state.params.instanceName !== keypather.get(CIS, 'demoInstance.getName()');
+  };
 
   this.checkAndLoadInstance = function (instanceName) {
     if (instanceName) {
@@ -393,7 +408,6 @@ function ControllerInstances(
       })
       .then(function (instance) {
         if (instance) {
-          CIS.demoInstance = instance;
           CIS.isUsingDemoRepo = demoFlowService.isUsingDemoRepo();
           CIS.showAddBranchView = true;
           return;
