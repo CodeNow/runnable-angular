@@ -176,7 +176,7 @@ function ControllerInstances(
           var unwatchFirstBuild = $scope.$on('buildStatusUpdated', function (e, instanceUpdate) {
             var instance = instanceUpdate.instance;
             unwatchFirstBuild();
-            CIS.checkAndLoadInstance(CIS.instanceName);
+            CIS.checkAndLoadInstance(instance.getName());
             if (demoFlowService.isInDemoFlow()) {
               ahaGuide.endGuide({hasAha: false, hasConfirmedSetup: true});
               demoFlowService.checkInstanceAndAttachListener(instance, handleInstanceUpdate.bind(CIS));
