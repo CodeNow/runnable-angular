@@ -96,8 +96,12 @@
   visibility: visible;
 }
 
-.below-modals.below-modals {
-  z-index: $z-modal-backdrop - 1;
+.popover,
+.notification,
+
+  &.below-modals {
+    z-index: $z-modal-backdrop - 1;
+  }
 }
 
 // if .disabled communicates to the user that an element is not available to them,
