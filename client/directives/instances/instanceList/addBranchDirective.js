@@ -25,13 +25,19 @@ function addBranch(
       };
 
       $scope.createNewBranch = function () {
+        var count = 0;
         loading('creatingNewBranchFromDemo', true);
         var acv = $scope.instance.contextVersion.getMainAppCodeVersion();
         var completeRepoName = acv.attrs.repo.split('/');
         var repoOwner = completeRepoName[0];
         var repoName = completeRepoName[1];
         return github.createNewBranch(repoOwner, repoName, acv.attrs.commit, 'my-branch')
-          .catch(errs.handler);
+          .catch(function (err) {
+            if (err.message.match(/reference already exists/gi)) {
+              return github.createNewBranch(repoOwner, repoName, acv.attrs.commit, 'my-branch-' + $scope.instance.attrs.id);
+            }
+            errs.handler(err);
+          });
       };
 
       $scope.onClipboardEvent = function (err) {
