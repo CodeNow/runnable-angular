@@ -3,11 +3,25 @@
   color: $gray-dark;
   font-size: 15px;
   font-weight: $weight-normal;
+  left: -150px;
   line-height: 1.4;
-  max-width: none;
+  max-width: calc(100vw - 24px);
+  right: auto;
   text-align: left;
+  top: 35px;
   white-space: normal;
   width: 390px;
+
+  @include media(md) {
+    left: auto;
+    position: fixed;
+    right: 12px;
+    top: 50px;
+
+    .arrow {
+      display: none;
+    }
+  }
 
   .img {
     margin: 0 15px;
@@ -24,21 +38,4 @@
     position: relative;
     z-index: 0;
   }
-
-  // @media (max-width: 894px) {
-  //   position: fixed;
-  //   top: 12px;
-
-  //   .arrow {
-  //     display: none;
-  //   }
-  // }
-
-  // @media (max-width: 420px) {
-  //   left: 0;
-  //   margin: 12px 12px 0;
-  //   right: 0;
-  //   top: 0;
-  //   width: auto;
-  // }
 }
