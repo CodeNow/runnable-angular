@@ -46,9 +46,17 @@
     margin-left: 9px;
     padding: 0 3px 0 0;
 
-    .iconnables {
+    > .iconnables {
       height: 100%;
+    }
+
+    > .icons-branch {
       width: 18px;
+    }
+
+    > .icons-link-external {
+      margin-left: 3px;
+      width: 9px;
     }
   }
 

@@ -1,5 +1,5 @@
 //- title of container
-.grid-block.align-center.instance-header-title.text-overflow
+.grid-block.align-center.instance-header-title.text-overflow.noscroll
 
   .grid-block.shrink.header-btn-group
     //- toggle container nav
@@ -20,24 +20,17 @@
   //- container title
     - repository in .span
     - branch in .strong
-  .grid-block.justify-center.align-center
+  .grid-block.justify-center.align-center.noscroll
     span.span {{instance.getMasterPodName()}}
     strong.strong(
       ng-if = "instance.getBranchName()"
     ) /{{instance.getBranchName()}}
 
-    //- pull request link
-    a.btn.btn-xs.green(
-      ng-href = "{{pr.html_url}}"
-      ng-if = "pr"
-      target = "_blank"
-      title = "view pull request on GitHub"
+    .relative(
+      ng-if = "pr || $root.featureFlags.demoMultiTierPRLink"
+      ng-include = "'instanceHeaderPRLinkView'"
     )
-      svg.iconnables.icons-branch.float-left
-        use(
-          xlink:href = "#icons-pull-request"
-        )
-      | \#{{pr.number}}
+
     span(
       ng-if = "$root.featureFlags.internalDebugging"
       style = "bottom: 12px;font-size: 13px;position: relative;top: -5px;"

@@ -1,0 +1,44 @@
+.popover-pr-link {
+  // a bunch of these are only for overriding the button style (its parent)
+  color: $gray-dark;
+  font-size: 15px;
+  font-weight: $weight-normal;
+  line-height: 1.4;
+  max-width: none;
+  text-align: left;
+  white-space: normal;
+  width: 390px;
+
+  .img {
+    margin: 0 15px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .p {
+    background: $gray-lighterest;
+    border-radius: 0 0 $input-border-radius-lg $input-border-radius-lg;
+    border-top: 1px solid $gray-lighter;
+    margin-top: -$md;
+    padding: 39px $md $md;
+    position: relative;
+    z-index: 0;
+  }
+
+  // @media (max-width: 894px) {
+  //   position: fixed;
+  //   top: 12px;
+
+  //   .arrow {
+  //     display: none;
+  //   }
+  // }
+
+  // @media (max-width: 420px) {
+  //   left: 0;
+  //   margin: 12px 12px 0;
+  //   right: 0;
+  //   top: 0;
+  //   width: auto;
+  // }
+}
