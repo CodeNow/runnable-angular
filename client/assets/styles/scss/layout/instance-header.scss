@@ -10,7 +10,7 @@
   font-size: 19px;
   font-weight: $weight-normal;
   line-height: $input-lg;
-  padding: 0 54px 0 12px; // for text-overflow
+  padding: 0 12px; // for text-overflow
   position: relative;
   text-align: center;
   width: 100%;
@@ -185,4 +185,14 @@
 // connections button
 .btn-connections {
   margin: 0 6px;
+}
+
+.list-instances {
+  max-width: calc(100vw - #{$layout-navigation-width + 133});
+
+  &.in + .instance-wrapper .instance-header-title .text-overflow {
+    display: block;
+    direction: rtl;
+    max-width: calc(100vw - #{$layout-navigation-width + $instance-list-width + 133});
+  }
 }

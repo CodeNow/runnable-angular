@@ -1,5 +1,5 @@
 //- pull request link
-a.btn.btn-xs.green(
+a.grid-block.shrink.btn.btn-xs.green(
   ng-href = "{{pr.html_url}}"
   target = "_blank"
   title = "view pull request on GitHub"
@@ -17,5 +17,5 @@ a.btn.btn-xs.green(
 .popover.bottom.in.below-modals.popover-pr-link(
   ng-if = "$root.featureFlags.demoMultiTierPRLink"
   ng-include = "'instanceHeaderPRLinkPopoverView'"
-  style = "left: -150px; right: auto; top: 52px;"
+  style = "left: -150px; right: auto; top: 35px;"
 )
