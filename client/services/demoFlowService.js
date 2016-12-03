@@ -53,11 +53,13 @@ function demoFlowService(
 
   return {
     endDemoFlow: endDemoFlow,
+    getItem: getItem,
     hasSeenHangTightMessage: hasSeenHangTightMessage,
     hasSeenUrlCallout: hasSeenUrlCallout,
     isInDemoFlow: isInDemoFlow,
     isUsingDemoRepo: isUsingDemoRepo,
-    setIsUsingDemoRepo: setIsUsingDemoRepo
+    setIsUsingDemoRepo: setIsUsingDemoRepo,
+    setItem: setItem
   };
 
 }

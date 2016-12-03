@@ -8,6 +8,7 @@ require('app')
 function ControllerInstances(
   $filter,
   $localStorage,
+  $q,
   $rootScope,
   $scope,
   $state,
@@ -26,7 +27,8 @@ function ControllerInstances(
   ModalService,
   promisify,
   setLastOrg,
-  user
+  user,
+  watchOncePromise
 ) {
   var CIS = this;
   CIS.userName = $state.params.userName;
@@ -85,32 +87,36 @@ function ControllerInstances(
     }
   }
 
-  function handleInstanceUpdate (instance) {
+  function handleDemoInstanceUpdate (instance) {
     if (instance.status() !== 'running') {
       return;
     }
 
     CIS.instanceName = instance.getName();
+    var newBranchInstanceName;
     instance.off('update');
 
-    var unregisterIsolationInstanceWatcher = $scope.$watch(function () {
+    return watchOncePromise($scope, function () {
       return instance.children.models.length;
-    }, function (newVal, oldVal) {
-      if (!newVal) {
-        return;
-      }
-
-      unregisterIsolationInstanceWatcher();
-      CIS.showAddBranchView = false;
-      loading('creatingNewBranchFromDemo', false);
-      var newBranchInstance = keypather.get(instance, 'children.models[0]');
-      var instanceName = newBranchInstance.getName();
-      if (demoFlowService.isUsingDemoRepo()) {
-        listenForDemoIsolation(newBranchInstance);
-      } else {
-        endDemo(instanceName);
-      }
-    });
+    }, true) 
+      .then(function (newVal) {
+        CIS.showAddBranchView = false;
+        var newBranchInstance = instance.children.models[0];
+        newBranchInstanceName = newBranchInstance.getName();
+        if (demoFlowService.isUsingDemoRepo()) {
+          return watchOncePromise($scope, function () {
+            return keypather.get(newBranchInstance, 'isolation.instances.fetch')
+          }, true)
+            .then(function () {
+              return promisify(newBranchInstance.isolation.instances, 'fetch')()
+            });
+        }
+      })
+      .finally(function () {
+        loading('creatingNewBranchFromDemo', false);
+        endDemo(newBranchInstanceName);
+      })
+      .catch(errs.handler);
   }
 
   function endDemo (instanceName) {
@@ -130,20 +136,6 @@ function ControllerInstances(
       promisify(instance, 'update')({ shouldNotAutofork: false });
     }
     instance.on('update', cb);
-  }
-
-  function listenForDemoIsolation (instance) {
-    var isolationListener = $scope.$watch(function () {
-      return keypather.get(instance, 'isolation.instances.fetch');
-    }, function (newValue) {
-      if (newValue) {
-        promisify(instance.isolation.instances, 'fetch')()
-          .then(function () {
-            isolationListener();
-            return endDemo(instance.getName());
-          });
-      }
-    });
   }
 
   fetchInstancesByPod()
@@ -193,25 +185,32 @@ function ControllerInstances(
             if (CIS.isInDemoFlow()) {
               ahaGuide.endGuide({hasAha: false, hasConfirmedSetup: true});
               CIS.demoInstance = instance;
-              checkInstanceAndAttachListener(instance, handleInstanceUpdate.bind(CIS));
+              demoFlowService.setItem('launchedFromContainersPage', true);
+              checkInstanceAndAttachListener(instance, handleDemoInstanceUpdate.bind(CIS));
             }
           });
           if (CIS.isInDemoFlow()) {
             var unwatchDemoUpdate = $scope.$on('demo::building', function (e, instance) {
               unwatchDemoUpdate();
               CIS.demoInstance = instance;
-              checkInstanceAndAttachListener(instance, handleInstanceUpdate.bind(CIS));
+              demoFlowService.setItem('launchedFromContainersPage', true);
+              checkInstanceAndAttachListener(instance, handleDemoInstanceUpdate.bind(CIS));
             });
           }
         }
         CIS.checkAndLoadInstance(instanceName);
       } else if (CIS.isInDemoFlow()) {
-        CIS.demoInstance = instances.find(function (instance) {
-          return instance.getRepoName();
-        });
-        if (CIS.demoInstance) {
-          return checkInstanceAndAttachListener(CIS.demoInstance, handleInstanceUpdate.bind(CIS));
+        if (demoFlowService.getItem('launchedFromContainersPage')) {
+          CIS.demoInstance = instances.find(function (instance) {
+            return instance.getRepoName();
+          });
+          if (CIS.demoInstance) {
+            return checkInstanceAndAttachListener(CIS.demoInstance, handleDemoInstanceUpdate.bind(CIS));
+          }
         }
+        return ahaGuide.endGuide({
+          hasCompletedDemo: true
+        });
       }
     })
     .catch(errs.handler);
