@@ -66,14 +66,12 @@ function ControllerInstances(
   });
 
   if (demoFlowService.isInDemoFlow()) {
-    var stopWatchingHasSeenUrlCallout = $scope.$watch(function () {
+    watchOncePromise($scope, function () {
       return demoFlowService.hasSeenUrlCallout();
-    }, function (newValue, previousValue) {
-      if (newValue && !previousValue) {
+    }, true)
+      .then(function () {
         checkIfBranchViewShouldBeEnabled();
-        stopWatchingHasSeenUrlCallout();
-      }
-    });
+      })
     // Check branch view first time
     checkIfBranchViewShouldBeEnabled();
   }
@@ -176,7 +174,7 @@ function ControllerInstances(
       setLastOrg(CIS.userName);
 
       var instanceName = keypather.get(targetInstance, 'attrs.name');
-      if ($state.current.name !== 'base.instances.instance') {
+      if ($state.current.name == 'base.instances') {
         if (!instances.models.length) {
           var unwatchFirstBuild = $scope.$on('buildStatusUpdated', function (e, instanceUpdate) {
             var instance = instanceUpdate.instance;
@@ -216,7 +214,7 @@ function ControllerInstances(
     .catch(errs.handler);
 
   this.showInstanceRunningPopover = function () {
-    return CIS.isInDemoFlow() && demoFlowService.hasSeenHangTightMessage() && $state.params.instanceName !== keypather.get(CIS, 'demoInstance.getName()');
+    return CIS.isInDemoFlow() && demoFlowService.hasSeenHangTightMessage() && CIS.demoInstance && CIS.demoInstance.getName() !== $state.params.instanceName;
   };
 
   this.checkAndLoadInstance = function (instanceName) {
