@@ -174,7 +174,7 @@ function ControllerInstances(
       setLastOrg(CIS.userName);
 
       var instanceName = keypather.get(targetInstance, 'attrs.name');
-      if ($state.current.name == 'base.instances') {
+      if ($state.current.name === 'base.instances') {
         if (!instances.models.length) {
           var unwatchFirstBuild = $scope.$on('buildStatusUpdated', function (e, instanceUpdate) {
             var instance = instanceUpdate.instance;
@@ -183,7 +183,6 @@ function ControllerInstances(
             if (CIS.isInDemoFlow()) {
               ahaGuide.endGuide({hasAha: false, hasConfirmedSetup: true});
               CIS.demoInstance = instance;
-              demoFlowService.setItem('launchedFromContainersPage', true);
               checkInstanceAndAttachListener(instance, handleDemoInstanceUpdate.bind(CIS));
             }
           });
@@ -191,14 +190,14 @@ function ControllerInstances(
             var unwatchDemoUpdate = $scope.$on('demo::building', function (e, instance) {
               unwatchDemoUpdate();
               CIS.demoInstance = instance;
-              demoFlowService.setItem('launchedFromContainersPage', true);
               checkInstanceAndAttachListener(instance, handleDemoInstanceUpdate.bind(CIS));
             });
           }
+        } else {
+          $rootScope.$broadcast('demoService::hide');
         }
         CIS.checkAndLoadInstance(instanceName);
       } else if (CIS.isInDemoFlow()) {
-        if (demoFlowService.getItem('launchedFromContainersPage')) {
           CIS.demoInstance = instances.find(function (instance) {
             return instance.getRepoName();
           });
@@ -209,7 +208,6 @@ function ControllerInstances(
         return ahaGuide.endGuide({
           hasCompletedDemo: true
         });
-      }
     })
     .catch(errs.handler);
 
