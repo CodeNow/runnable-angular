@@ -247,7 +247,7 @@ function demoRepos(
         });
     },
     shouldShowDemoSelector: function (shouldShowDemoSelector) {
-      if (shouldShowDemoSelector) {
+      if (shouldShowDemoSelector !== undefined) {
         showDemoSelector = shouldShowDemoSelector;
       }
       return showDemoSelector;
