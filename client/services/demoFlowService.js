@@ -7,7 +7,8 @@ function demoFlowService(
   $localStorage,
   currentOrg,
   keypather,
-  patchOrgMetadata
+  patchOrgMetadata,
+  promisify
 ) {
 
   function setItem (key, value) {
@@ -51,7 +52,13 @@ function demoFlowService(
     return $localStorage.isUsingDemoRepo;
   }
 
+  function checkInstanceAndAttachListener (instance, cb) {
+    setItem('launchedFromContainersPage', true);
+    instance.on('update', cb);
+  }
+
   return {
+    checkInstanceAndAttachListener: checkInstanceAndAttachListener,
     endDemoFlow: endDemoFlow,
     getItem: getItem,
     hasSeenHangTightMessage: hasSeenHangTightMessage,

@@ -129,13 +129,6 @@ function ControllerInstances(
       });
   }
 
-  function checkInstanceAndAttachListener (instance, cb) {
-    if (!demoFlowService.isUsingDemoRepo()) {
-      promisify(instance, 'update')({ shouldNotAutofork: false });
-    }
-    instance.on('update', cb);
-  }
-
   fetchInstancesByPod()
     .then(function (instancesByPod) {
 
@@ -183,18 +176,18 @@ function ControllerInstances(
             if (CIS.isInDemoFlow()) {
               ahaGuide.endGuide({hasAha: false, hasConfirmedSetup: true});
               CIS.demoInstance = instance;
-              checkInstanceAndAttachListener(instance, handleDemoInstanceUpdate.bind(CIS));
+              demoFlowService.checkInstanceAndAttachListener(instance, handleDemoInstanceUpdate.bind(CIS));
             }
           });
           if (CIS.isInDemoFlow()) {
             var unwatchDemoUpdate = $scope.$on('demo::building', function (e, instance) {
               unwatchDemoUpdate();
               CIS.demoInstance = instance;
-              checkInstanceAndAttachListener(instance, handleDemoInstanceUpdate.bind(CIS));
+              demoFlowService.checkInstanceAndAttachListener(instance, handleDemoInstanceUpdate.bind(CIS));
             });
           }
         } else {
-          $rootScope.$broadcast('demoService::hide');
+          demoRepos.shouldShowDemoSelector(false);
         }
         CIS.checkAndLoadInstance(instanceName);
       } else if (CIS.isInDemoFlow()) {
@@ -202,12 +195,14 @@ function ControllerInstances(
             return instance.getRepoName();
           });
           if (CIS.demoInstance) {
-            return checkInstanceAndAttachListener(CIS.demoInstance, handleDemoInstanceUpdate.bind(CIS));
+            return demoFlowService.checkInstanceAndAttachListener(CIS.demoInstance, handleDemoInstanceUpdate.bind(CIS));
+          }
+          if (!demoFlowService.getItem('launchedFromContainersPage')) {
+            return ahaGuide.endGuide({
+              hasCompletedDemo: true
+            });
           }
         }
-        return ahaGuide.endGuide({
-          hasCompletedDemo: true
-        });
     })
     .catch(errs.handler);
 
