@@ -116,6 +116,7 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       $provide.value('$localStorage', localStorageData);
       $provide.factory('ahaGuide', function ($q) {
         ahaGuideStub = {
+          endGuide: sinon.stub(),
           isInGuide: sinon.stub(),
           isAddingFirstBranch: sinon.stub(),
           isSettingUpRunnabot: sinon.stub()

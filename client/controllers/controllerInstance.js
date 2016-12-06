@@ -14,6 +14,7 @@ function ControllerInstance(
   $stateParams,
   $timeout,
   ahaGuide,
+  demoFlowService,
   eventTracking,
   favico,
   fetchCommitData,
@@ -80,9 +81,6 @@ function ControllerInstance(
       .then(function (results) {
         var instance = results.instance;
         data.instance = instance;
-
-        checkForEnablingHangTightMessage(instance, true);
-        checkForEnablingUrlCallout(instance);
 
         // Check that current commit is not already building
         var currentCommit = keypather.get(instance, 'attrs.contextVersion.appCodeVersions[0].commit');
@@ -208,43 +206,33 @@ function ControllerInstance(
         break;
     }
 
-    if (!isBuildingOrStarting(status) && data.demoFlowFlags.showHangTightMessage) {
-      data.demoFlowFlags.showHangTightMessage = false;
-    }
-    checkForEnablingUrlCallout(keypather.get($scope, 'dataInstance.data.instance'));
+    if (demoFlowService.isInDemoFlow()) {
+      checkForEnablingHangTightMessage(keypather.get($scope, 'dataInstance.data.instance'));
+      checkForEnablingUrlCallout(keypather.get($scope, 'dataInstance.data.instance'));
+   }
 
     $timeout(function () {
       favico.setInstanceState(keypather.get($scope, 'dataInstance.data.instance'));
     });
   });
-
-  function checkForEnablingHangTightMessage (instance, initialCheck) {
-    if ( // Only show message if:
-      !$scope.$storage.hasSeenHangTightMessage && // 1. User has not seen message before
-      keypather.get(instance, 'contextVersion.getMainAppCodeVersion()') // 2. Instance is a repo instance
-    ) {
-      // 3. Instance is currently building or starting
-      if (isBuildingOrStarting(instance.status())) {
-        $scope.$storage.hasSeenHangTightMessage = instance.id();
-        data.demoFlowFlags.showHangTightMessage = true;
-        return;
-      }
-      // If instance was already running
-      if (initialCheck) {
-        $scope.$storage.hasSeenHangTightMessage = instance.id();
+  function checkForEnablingHangTightMessage (instance) {
+    if (!isBuildingOrStarting(instance.status())) {
+      if (data.demoFlowFlags.showHangTightMessage) {
         data.demoFlowFlags.showHangTightMessage = false;
-        return;
+        demoFlowService.setItem('hasSeenHangTightMessage', instance.id());
+      }
+    }
+    if (isBuildingOrStarting(instance.status())) {
+      if (!demoFlowService.hasSeenHangTightMessage()) {
+        data.demoFlowFlags.showHangTightMessage = true;
       }
     }
   }
-
   function checkForEnablingUrlCallout (instance) {
-    if (
-      !$scope.$storage.hasSeenUrlCallout &&
-      $scope.$storage.hasSeenHangTightMessage === keypather.get(instance, 'id()') &&
-      !data.demoFlowFlags.showHangTightMessage &&
-      instance.status() === 'running'
-    ) {
+    if (instance.status() === 'running' &&
+        demoFlowService.hasSeenHangTightMessage() === keypather.get(instance, 'id()') &&
+        !demoFlowService.hasSeenUrlCallout() &&
+        !data.demoFlowFlags.showHangTightMessage) {
       data.demoFlowFlags.showUrlCallout = true;
     }
   }
@@ -252,7 +240,7 @@ function ControllerInstance(
   $scope.$on('dismissUrlCallout', function () {
     if (data.demoFlowFlags.showUrlCallout) {
       data.demoFlowFlags.showUrlCallout = false;
-      $scope.$storage.hasSeenUrlCallout = data.instance.id();
+      demoFlowService.setItem('hasSeenUrlCallout', data.instance.id());
     }
   });
 

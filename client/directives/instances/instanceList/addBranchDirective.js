@@ -6,11 +6,14 @@ require('app')
  * @ngInject
  */
 function addBranch(
+  $state,
+  demoFlowService,
   errs,
+  fetchInstancesByPod,
   github,
-  fetchRepoBranches,
+  keypather,
   loading,
-  promisify
+  watchOncePromise
 ) {
   return {
     restrict: 'A',
@@ -23,10 +26,26 @@ function addBranch(
       $scope.getBranchCloneCopyText = function () {
         return 'git clone https://github.com/' + $scope.userName + '/' + $scope.instance.attrs.name + '.git; cd ' + $scope.instance.attrs.name + '; git checkout -b my-branch; git push origin my-branch;';
       };
+      fetchInstancesByPod()
+        .then(function (instances) {
+          return watchOncePromise($scope, function () {
+            var instance = instances.models.find(function (instance) {
+              return keypather.get(instance, 'children.models[0]');
+            });
+            return keypather.get(instance, 'children.models[0]');
+          }, true);
+        })
+        .then(function (branchInstance) {
+          demoFlowService.endDemoFlow();
+          loading('creatingNewBranchFromDemo', false);
+          return $state.go('base.instances.instance', {
+            instanceName: branchInstance.getName()
+          }, {location: 'replace'});
+        });
 
       $scope.createNewBranch = function (count) {
-        count = count || 0;
         loading('creatingNewBranchFromDemo', true);
+        count = count || 0;
         var acv = $scope.instance.contextVersion.getMainAppCodeVersion();
         var completeRepoName = acv.attrs.repo.split('/');
         var repoOwner = completeRepoName[0];

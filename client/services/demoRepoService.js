@@ -124,6 +124,11 @@ function demoRepos(
   serverCreateService
 ) {
   var showDemoSelector = ahaGuide.isInGuide() && !ahaGuide.hasConfirmedSetup();
+  // If instances have already been added, don't show the guide
+  fetchInstancesByPod()
+    .then(function (instances) {
+      showDemoSelector = showDemoSelector && !instances.models.length;
+    });
 
   function findNewRepo(stack) {
     return fetchOwnerRepo(currentOrg.github.oauthName(), stack.repoName);

@@ -7,9 +7,13 @@ function demoFlowService(
   $localStorage,
   currentOrg,
   keypather,
-  patchOrgMetadata,
-  promisify
+  patchOrgMetadata
 ) {
+  function resetFlags () {
+    $localStorage.hasSeenHangTightMessage = false;
+    $localStorage.isUsingDemoRepo = false;
+    $localStorage.hasSeenUrlCallout = false;
+  }
 
   function setItem (key, value) {
     $localStorage[key] = value;
@@ -65,6 +69,7 @@ function demoFlowService(
     hasSeenUrlCallout: hasSeenUrlCallout,
     isInDemoFlow: isInDemoFlow,
     isUsingDemoRepo: isUsingDemoRepo,
+    resetFlags: resetFlags,
     setIsUsingDemoRepo: setIsUsingDemoRepo,
     setItem: setItem
   };
