@@ -139,6 +139,7 @@ function ControllerInstances(
 
   this.showInstanceRunningPopover = function () {
     return CIS.isInDemoFlow() &&
+      !demoFlowService.hasSeenUrlCallout() &&
       CIS.getDemoInstance() &&
       CIS.getDemoInstance().getName() !== $state.params.instanceName &&
       CIS.getDemoInstance().status() === 'running';
