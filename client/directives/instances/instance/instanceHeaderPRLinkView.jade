@@ -1,0 +1,21 @@
+//- pull request link
+a.grid-block.shrink.btn.btn-xs.green(
+  ng-click = "openedPRUrl()"
+  ng-href = "{{pr.html_url}}"
+  target = "_blank"
+  title = "view pull request on GitHub"
+)
+  svg.iconnables.icons-pull-request.float-left
+    use(
+      xlink:href = "#icons-pull-request"
+    )
+  | Open
+  svg.iconnables.icons-link-external.float-right
+    use(
+      xlink:href = "#icons-link-external-alt"
+    )
+
+.popover.bottom.in.below-modals.popover-pr-link(
+  ng-if = "$root.featureFlags.demoMultiTierPRLink"
+  ng-include = "'instanceHeaderPRLinkPopoverView'"
+)

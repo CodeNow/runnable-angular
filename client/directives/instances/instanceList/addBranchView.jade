@@ -14,19 +14,41 @@ p.padding-sm Now launch a new environment by pushing a branch to GitHub.
       tooltip-eval="clipboardText"
       tooltip-options = "{\"class\":\"bottom no-arrow\",\"right\":-16,\"top\":27}"
     ) Copy
-  pre.monospace.padding-sm.
+  pre.monospace.padding-sm(
+    ng-if = "!$root.featureFlags.demoMultiTierPRLink"
+  ).
     git clone https://github.com/{{userName}}/{{instance.attrs.name}}.git
     cd {{instance.attrs.name}}
     git checkout -b my-branch
     git push origin my-branch
 
+  pre.monospace.padding-sm(
+    ng-if = "$root.featureFlags.demoMultiTierPRLink"
+  ).
+    git clone https://github.com/{{userName}}/{{instance.attrs.name}}.git
+    cd {{instance.attrs.name}}
+    git checkout dark-theme
+    echo ':)' >> readme.md
+    git commit -am 'a friendlier readme'
+    git push origin dark-theme
+
 .grid-block.align-center.padding-sm
   //- hide while creating branch
-  .small.text-gray.weight-light Or we can&#32;
+  .small.text-gray.weight-light(
+    ng-if = "!$root.featureFlags.demoMultiTierPRLink"
+  ) Or we can&#32;
     span.link(
       ng-click = "createNewBranch()"
     ) create a branch
     | &#32;for you using the GitHub API.
+
+  .small.text-gray.weight-light(
+    ng-if = "$root.featureFlags.demoMultiTierPRLink"
+  ) Or we can&#32;
+    span.link(
+      ng-click = "createNewBranch()"
+    ) add a branch
+    | &#32;for you.
 
   //- show while creating branch
   //- .spinner-wrapper.spinner-sm.spinner-gray.margin-right-xxs(

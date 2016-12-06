@@ -89,7 +89,7 @@
   .grid-block.vertical.popover.in.popover-demo.demo-transition.js-animate(
     add-branch
     instance = "CIS.demoInstance"
-    ng-if = "$root.featureFlags.demoMultiTierAddBranch && CIS.showAddBranchView"
+    ng-if = "$root.featureFlags.demoMultiTierAddBranch || CIS.showAddBranchView"
     user-name = "CIS.userName"
   )
 
