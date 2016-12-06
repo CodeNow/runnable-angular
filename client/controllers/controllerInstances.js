@@ -176,6 +176,12 @@ function ControllerInstances(
     return demoFlowService.isInDemoFlow() && keypather.get(CIS, 'instancesByPod.models.length') && !demoRepos.shouldShowDemoSelector() && CIS.getUrlCalloutInstance() && !CIS.getInstanceWithBranches();
   };
 
+  this.getHangTightInstance = function () {
+    return CIS.instancesByPod.models.find(function (instance) {
+      return instance.attrs.id === demoFlowService.hasSeenHangTightMessage();
+    });
+  };
+
   this.checkAndLoadInstance = function (instanceName) {
     if (instanceName) {
       return $state.go('base.instances.instance', {
