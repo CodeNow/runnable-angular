@@ -219,15 +219,14 @@ function ControllerInstance(
     if (!keypather.get(instance, 'contextVersion.getMainAppCodeVersion()')) {
       return;
     }
-    if (!isBuildingOrStarting(instance.status())) {
-      if (data.demoFlowFlags.showHangTightMessage) {
-        data.demoFlowFlags.showHangTightMessage = false;
-        demoFlowService.setItem('hasSeenHangTightMessage', instance.id());
-      }
-    }
     if (isBuildingOrStarting(instance.status())) {
       if (!demoFlowService.hasSeenHangTightMessage()) {
         data.demoFlowFlags.showHangTightMessage = true;
+      }
+    } else {
+      if (data.demoFlowFlags.showHangTightMessage) {
+        data.demoFlowFlags.showHangTightMessage = false;
+        demoFlowService.setItem('hasSeenHangTightMessage', instance.id());
       }
     }
   }

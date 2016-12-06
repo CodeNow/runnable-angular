@@ -143,19 +143,25 @@ function ControllerInstances(
   };
 
   this.getUrlCalloutInstance = function () {
-    return demoFlowService.hasSeenUrlCallout() ? CIS.instancesByPod.models.find(function (instance) {
-      return instance.attrs.id === demoFlowService.hasSeenUrlCallout();
-    }) : null;
+    if (demoFlowService.hasSeenUrlCallout()) {
+      return CIS.instancesByPod.models.find(function (instance) {
+        return instance.attrs.id === demoFlowService.hasSeenUrlCallout();
+      });
+    }
   };
 
   this.getInstanceWithBranches = function () {
-    return CIS.instancesByPod.models.find(function (instance) {
+    return CIS.instancesByPod && CIS.instancesByPod.models.find(function (instance) {
       return instance.attrs.hasAddedBranches;
     });
   };
 
   this.showDemoAddBranchView = function () {
-    return demoFlowService.isInDemoFlow() && keypather.get(CIS, 'instancesByPod.models.length') && !demoRepos.shouldShowDemoSelector() && CIS.getUrlCalloutInstance() && !CIS.getInstanceWithBranches();
+    return demoFlowService.isInDemoFlow() &&
+      keypather.get(CIS, 'instancesByPod.models.length') &&
+      !demoRepos.shouldShowDemoSelector() &&
+      CIS.getUrlCalloutInstance() &&
+      !CIS.getInstanceWithBranches();
   };
 
   this.getDemoInstance = function () {
