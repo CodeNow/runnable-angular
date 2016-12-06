@@ -28,7 +28,7 @@ function demoFlowService(
   }
 
   function endDemoFlow () {
-    return patchOrgMetadata(currentOrg.poppa.id(), {
+    return isInDemoFlow() && patchOrgMetadata(currentOrg.poppa.id(), {
       metadata: {
         hasAha: false,
         hasCompletedDemo: true,

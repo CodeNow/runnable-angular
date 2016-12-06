@@ -246,10 +246,7 @@ function demoRepos(
             });
         });
     },
-    shouldShowDemoSelector: function (shouldShowDemoSelector) {
-      if (shouldShowDemoSelector !== undefined) {
-        showDemoSelector = shouldShowDemoSelector;
-      }
+    shouldShowDemoSelector: function () {
       return showDemoSelector;
     }
   };
