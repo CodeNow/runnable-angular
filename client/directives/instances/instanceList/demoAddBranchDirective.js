@@ -1,11 +1,11 @@
 'use strict';
 
 require('app')
-  .directive('addBranch', addBranch);
+  .directive('demoAddBranch', demoAddBranch);
 /**
  * @ngInject
  */
-function addBranch(
+function demoAddBranch(
   $state,
   demoFlowService,
   errs,
@@ -18,7 +18,7 @@ function addBranch(
 ) {
   return {
     restrict: 'A',
-    templateUrl: 'addBranchView',
+    templateUrl: 'demoAddBranchView',
     scope: {
       userName: '=',
       instance: '='
