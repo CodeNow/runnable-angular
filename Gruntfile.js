@@ -289,8 +289,7 @@ module.exports = function(grunt) {
               env: 'production', // require('./client/config/json/environment.json').environment,
               commitHash: require('./client/config/json/commit.json').commitHash,
               commitTime: require('./client/config/json/commit.json').commitTime,
-              apiHost: require('./client/config/json/api.json').host,
-              mixpanelProxyUrl: require('./client/config/json/api.json').mixpanelProxyUrl
+              apiHost: require('./client/config/json/api.json').host
             };
             locals.rollbarEnv = locals.env;
             if (locals.apiHost.indexOf('runnable-beta.com') > -1) {
@@ -435,7 +434,6 @@ module.exports = function(grunt) {
       function (cb) {
         var configObj = {};
         configObj.host = process.env.API_URL || 'https://api-staging-codenow.runnableapp.com/';
-        configObj.mixpanelProxyUrl = process.env.MIXPANEL_PROXY_URL || 'api.mixpanel.com';
         configObj.socketHost = process.env.API_SOCK_URL || configObj.host;
         configObj.userContentDomain = process.env.USER_CONTENT_DOMAIN || 'runnableapp.com';
         configObj.corporateUrl = process.env.MARKETING_URL || 'https://runnable.io';
