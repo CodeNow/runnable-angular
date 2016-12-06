@@ -47,11 +47,13 @@ function demoAddBranch(
             })
             .then(function () {
               demoFlowService.endDemoFlow();
-              loading('creatingNewBranchFromDemo', false);
               return $state.go('base.instances.instance', {
                 instanceName: branchInstance.getName()
               }, {location: 'replace'});
             });
+        })
+        .finally(function () {
+          loading('creatingNewBranchFromDemo', false);
         });
 
       $scope.createNewBranch = function (count) {
