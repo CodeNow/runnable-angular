@@ -123,30 +123,11 @@ function ControllerInstances(
 
       var instanceName = keypather.get(targetInstance, 'attrs.name');
       if ($state.current.name !== 'base.instances.instance') {
-        if (!instances.models.length) {
-          var unwatchFirstBuild = $scope.$on('buildStatusUpdated', function (e, instanceUpdate) {
-            var instance = instanceUpdate.instance;
-            unwatchFirstBuild();
-            CIS.checkAndLoadInstance(instance.getName());
-            if (CIS.isInDemoFlow()) {
-              ahaGuide.endGuide({hasAha: false, hasConfirmedSetup: true});
-              CIS.demoInstance = instance;
-            }
-          });
-          if (CIS.isInDemoFlow()) {
-            var unwatchDemoUpdate = $scope.$on('demo::building', function (e, instance) {
-              unwatchDemoUpdate();
-              CIS.demoInstance = instance;
-            });
-          }
-        } else {
+        if (instances.models.length) {
           CIS.checkAndLoadInstance(instanceName);
           demoRepos.shouldShowDemoSelector(false);
         }
       } else if (CIS.isInDemoFlow()) {
-        CIS.demoInstance = instances.find(function (instance) {
-          return instance.getRepoName();
-        });
         if (!demoFlowService.getItem('launchedFromContainersPage')) {
           return ahaGuide.endGuide({
             hasCompletedDemo: true
@@ -157,7 +138,10 @@ function ControllerInstances(
     .catch(errs.handler);
 
   this.showInstanceRunningPopover = function () {
-    return CIS.isInDemoFlow() && demoFlowService.hasSeenHangTightMessage() && CIS.demoInstance && CIS.demoInstance.getName() !== $state.params.instanceName;
+    return CIS.isInDemoFlow() &&
+      CIS.getDemoInstance() &&
+      CIS.getDemoInstance().getName() !== $state.params.instanceName &&
+      CIS.getDemoInstance().status() === 'running';
   };
 
   this.getUrlCalloutInstance = function () {
@@ -176,10 +160,13 @@ function ControllerInstances(
     return demoFlowService.isInDemoFlow() && keypather.get(CIS, 'instancesByPod.models.length') && !demoRepos.shouldShowDemoSelector() && CIS.getUrlCalloutInstance() && !CIS.getInstanceWithBranches();
   };
 
-  this.getHangTightInstance = function () {
-    return CIS.instancesByPod.models.find(function (instance) {
-      return instance.contextVersion.getMainAppCodeVersion();
-    });
+  this.getDemoInstance = function () {
+    if (!CIS.demoInstance) {
+      CIS.demoInstance = CIS.instancesByPod.models.find(function (instance) {
+        return keypather.get(instance, 'contextVersion.getMainAppCodeVersion()');
+      });
+    }
+    return CIS.demoInstance;
   };
 
   this.checkAndLoadInstance = function (instanceName) {
