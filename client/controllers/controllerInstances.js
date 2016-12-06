@@ -97,38 +97,39 @@ function ControllerInstances(
       setLastOrg(CIS.userName);
 
       if ($state.current.name !== 'base.instances.instance') {
-        if (!demoRepos.shouldShowDemoSelector()) {
-          // If we're on a blank instances page, but the Demo selector is gone, we need to switch to an instance!
-          return watchOncePromise($scope, function () {
-            // Wait for any instances to exist
-            return keypather.get(instancesByPod, 'models.length');
-          }, true)
-            .then(function () {
-              var instances = instancesByPod;
-              var lastViewedInstance = keypather.get(user, 'attrs.userOptions.uiState.previousLocation.instance');
+        // If we're on a blank instances page, but the Demo selector is gone, we need to switch to an instance!
+        return watchOncePromise($scope, function () {
+          // Wait for any instances to exist
+          return keypather.get(instancesByPod, 'models.length');
+        }, true)
+          .then(function () {
+            if (demoRepos.shouldShowDemoSelector()) {
+              return;
+            }
+            var instances = instancesByPod;
+            var lastViewedInstance = keypather.get(user, 'attrs.userOptions.uiState.previousLocation.instance');
 
-              var targetInstance = null;
-              if (lastViewedInstance) {
-                targetInstance = instances.find(function (instance) {
-                  var instanceMatch = isInstanceMatch(instance, lastViewedInstance);
-                  if (instanceMatch) {
-                    return instanceMatch;
-                  }
-                  if (instance.children) {
-                    return instance.children.find(function (childInstance) {
-                      return isInstanceMatch(childInstance, lastViewedInstance);
-                    });
-                  }
-                });
-              }
+            var targetInstance = null;
+            if (lastViewedInstance) {
+              targetInstance = instances.find(function (instance) {
+                var instanceMatch = isInstanceMatch(instance, lastViewedInstance);
+                if (instanceMatch) {
+                  return instanceMatch;
+                }
+                if (instance.children) {
+                  return instance.children.find(function (childInstance) {
+                    return isInstanceMatch(childInstance, lastViewedInstance);
+                  });
+                }
+              });
+            }
 
-              if (!targetInstance) {
-                targetInstance = $filter('orderBy')(instances.models, 'attrs.name')[0];
-              }
-              var instanceName = keypather.get(targetInstance, 'attrs.name');
-              return CIS.checkAndLoadInstance(instanceName);
-            });
-        }
+            if (!targetInstance) {
+              targetInstance = $filter('orderBy')(instances.models, 'attrs.name')[0];
+            }
+            var instanceName = keypather.get(targetInstance, 'attrs.name');
+            return CIS.checkAndLoadInstance(instanceName);
+          });
       }
     })
     .catch(errs.handler);
