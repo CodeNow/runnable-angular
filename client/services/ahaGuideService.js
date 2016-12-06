@@ -353,7 +353,6 @@ function ahaGuide(
         delete $storage.hasSeenUrlCallout;
         delete $storage.launchedFromContainersPage;
         delete $storage.isUsingDemoRepo;
-        delete $storage.launchedFromContainersPage;
         updateCurrentOrg(updatedOrg);
       });
   }

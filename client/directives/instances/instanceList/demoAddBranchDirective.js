@@ -1,4 +1,4 @@
-'use strict';
+ 'use strict';
 
 require('app')
   .directive('demoAddBranch', demoAddBranch);
@@ -24,9 +24,6 @@ function demoAddBranch(
       instance: '='
     },
     link: function ($scope, element, attrs) {
-      $scope.getBranchCloneCopyText = function () {
-        return 'git clone https://github.com/' + $scope.userName + '/' + $scope.instance.attrs.name + '.git; cd ' + $scope.instance.attrs.name + '; git checkout -b my-branch; git push origin my-branch;';
-      };
       fetchInstancesByPod()
         .then(function (instances) {
           return watchOncePromise($scope, function () {
@@ -55,6 +52,10 @@ function demoAddBranch(
         .finally(function () {
           loading('creatingNewBranchFromDemo', false);
         });
+
+      $scope.getBranchCloneCopyText = function () {
+        return 'git clone https://github.com/' + $scope.userName + '/' + $scope.instance.attrs.name + '.git; cd ' + $scope.instance.attrs.name + '; git checkout -b my-branch; git push origin my-branch;';
+      };
 
       $scope.createNewBranch = function (count) {
         loading('creatingNewBranchFromDemo', true);
