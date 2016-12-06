@@ -23,7 +23,10 @@
   .grid-block.justify-center.align-center.noscroll
     .grid-block.shrink.text-overflow(
       title = "{{instance.getMasterPodName()}}/{{instance.getBranchName()}}"
-    ) {{instance.getMasterPodName()}}/
+    ) {{instance.getMasterPodName()}}
+      span(
+        ng-if = "instance.getBranchName()"
+      ) /
       span.strong(
         ng-if = "instance.getBranchName()"
       ) {{instance.getBranchName()}}
