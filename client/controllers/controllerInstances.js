@@ -178,7 +178,7 @@ function ControllerInstances(
 
   this.getHangTightInstance = function () {
     return CIS.instancesByPod.models.find(function (instance) {
-      return instance.attrs.id === demoFlowService.hasSeenHangTightMessage();
+      return instance.contextVersion.getMainAppCodeVersion();
     });
   };
 

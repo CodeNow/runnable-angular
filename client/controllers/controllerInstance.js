@@ -216,6 +216,9 @@ function ControllerInstance(
     });
   });
   function checkForEnablingHangTightMessage (instance) {
+    if (!keypather.get(instance, 'contextVersion.getMainAppCodeVersion()')) {
+      return;
+    }
     if (!isBuildingOrStarting(instance.status())) {
       if (data.demoFlowFlags.showHangTightMessage) {
         data.demoFlowFlags.showHangTightMessage = false;
@@ -230,7 +233,7 @@ function ControllerInstance(
   }
   function checkForEnablingUrlCallout (instance) {
     if (instance.status() === 'running' &&
-        demoFlowService.hasSeenHangTightMessage() === keypather.get(instance, 'id()') &&
+        keypather.get(instance, 'contextVersion.getMainAppCodeVersion()') &&
         !demoFlowService.hasSeenUrlCallout() &&
         !data.demoFlowFlags.showHangTightMessage) {
       data.demoFlowFlags.showUrlCallout = true;
