@@ -38,7 +38,7 @@ function addBranch(
         .then(function (instance) {
           var branchInstance = instance.children.models[0];
           return watchOncePromise($scope, function () {
-            // This will also fetch it
+            // Wait for the isolation model to populate
             return keypather.get(branchInstance, 'isolation.instances.fetch');
           }, true)
             .then(function () {
