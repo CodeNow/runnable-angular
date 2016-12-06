@@ -23,10 +23,10 @@
   .grid-block.justify-center.align-center.noscroll
     .grid-block.shrink.text-overflow(
       title = "{{instance.getMasterPodName()}}/{{instance.getBranchName()}}"
-    ) {{instance.getMasterPodName()}}
+    ) {{instance.getMasterPodName()}}/
       span.strong(
         ng-if = "instance.getBranchName()"
-      ) /{{instance.getBranchName()}}
+      ) {{instance.getBranchName()}}
     .grid-block.shrink.relative.noscroll(
       ng-if = "pr || $root.featureFlags.demoMultiTierPRLink"
       ng-include = "'instanceHeaderPRLinkView'"
