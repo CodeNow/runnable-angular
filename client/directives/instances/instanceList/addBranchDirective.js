@@ -13,6 +13,7 @@ function addBranch(
   github,
   keypather,
   loading,
+  promisify,
   watchOncePromise
 ) {
   return {
@@ -29,18 +30,28 @@ function addBranch(
       fetchInstancesByPod()
         .then(function (instances) {
           return watchOncePromise($scope, function () {
-            var instance = instances.models.find(function (instance) {
+            return instances.models.find(function (instance) {
               return keypather.get(instance, 'children.models[0]');
             });
-            return keypather.get(instance, 'children.models[0]');
           }, true);
         })
-        .then(function (branchInstance) {
-          demoFlowService.endDemoFlow();
-          loading('creatingNewBranchFromDemo', false);
-          return $state.go('base.instances.instance', {
-            instanceName: branchInstance.getName()
-          }, {location: 'replace'});
+        .then(function (instance) {
+          var branchInstance = instance.children.models[0];
+          return watchOncePromise($scope, function () {
+            // This will also fetch it
+            return keypather.get(branchInstance, 'isolation.instances.fetch');
+          }, true)
+            .then(function () {
+              // Now fetch the isolation
+              return promisify(branchInstance.isolation.instances, 'fetch')();
+            })
+            .then(function () {
+              demoFlowService.endDemoFlow();
+              loading('creatingNewBranchFromDemo', false);
+              return $state.go('base.instances.instance', {
+                instanceName: branchInstance.getName()
+              }, {location: 'replace'});
+            });
         });
 
       $scope.createNewBranch = function (count) {

@@ -123,11 +123,11 @@ function ControllerInstances(
 
       var instanceName = keypather.get(targetInstance, 'attrs.name');
       if ($state.current.name !== 'base.instances.instance') {
+        CIS.checkAndLoadInstance(instanceName);
+      } else if (CIS.isInDemoFlow()) {
         if (instances.models.length) {
-          CIS.checkAndLoadInstance(instanceName);
           demoRepos.shouldShowDemoSelector(false);
         }
-      } else if (CIS.isInDemoFlow()) {
         if (!demoFlowService.getItem('launchedFromContainersPage')) {
           return ahaGuide.endGuide({
             hasCompletedDemo: true
