@@ -588,6 +588,18 @@ function EventTracking(
     return ETS;
   };
 
+  /**
+   * Opened PR URL
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.openedPRUrl = function () {
+    var eventName = 'Opened PR URL';
+    ETS._mixpanel('track', eventName);
+    return ETS;
+  };
+
   ETS.updateCurrentPersonProfile = function (currentStep, orgNameInOrgSelect) {
     return $q.all([
       fetchUserUnCached(),
