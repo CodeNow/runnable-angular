@@ -7,6 +7,7 @@ require('app')
  */
 function demoAddBranch(
   $state,
+  $timeout,
   demoFlowService,
   errs,
   fetchInstancesByPod,
@@ -55,7 +56,9 @@ function demoAddBranch(
           });
         })
         .then(function () {
-          demoFlowService.endDemoFlow();
+          return $timeout(function () {
+            demoFlowService.endDemoFlow();
+          });
         })
         .finally(function () {
           loading('creatingNewBranchFromDemo', false);
