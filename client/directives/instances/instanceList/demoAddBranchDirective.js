@@ -54,7 +54,10 @@ function demoAddBranch(
         });
 
       $scope.getBranchCloneCopyText = function () {
-        return 'git clone https://github.com/' + $scope.userName + '/' + $scope.instance.attrs.name + '.git; cd ' + $scope.instance.attrs.name + '; git checkout -b my-branch; git push origin my-branch;';
+        return 'git clone https://github.com/' +
+          $scope.userName + '/' + $scope.instance.getRepoName() +
+          '.git; cd ' + $scope.instance.getRepoName() +
+          '; git checkout -b my-branch; git push origin my-branch;';
       };
 
       $scope.createNewBranch = function (count) {
