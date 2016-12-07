@@ -54,7 +54,7 @@ function demoFlowService(
           return true;
         }
         return false;
-      })
+      });
   }
 
   function hasSeenHangTightMessage () {
