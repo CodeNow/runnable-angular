@@ -1,9 +1,10 @@
 .popover.menu.right.popover-branch-menu.below-modals(
   ng-class = "{'in': active}"
   ng-style = "popoverStyle.getStyle()"
+  ng-if = "!CIS.isInDemoFlow()"
 )
   .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
-    ng-if = "$root.featureFlags.aha && !$root.isLoading.fetchingBranches && CIS.isAddingFirstBranch()"
+    ng-if = "!$root.isLoading.fetchingBranches && CIS.isAddingFirstBranch()"
     aha-guide
     step-index = 2
     sub-step = "addBranch"

@@ -207,6 +207,7 @@ function SetupMirrorServerModalController(
         return $q.reject(new Error('Instance not created properly'));
       })
       .then(function () {
+        $scope.$emit('demoService::hide');
         eventTracking.createdRepoContainer(SMC.instance.attrs.owner.github, SMC.state.repo.attrs.name);
         return SMC.resetStateContextVersion(SMC.instance.contextVersion, true);
       })

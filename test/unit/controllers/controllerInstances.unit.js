@@ -87,6 +87,11 @@ describe('ControllerInstances'.bold.underline.blue, function () {
     mockOrg = {
       github: {
         fetchRepo: sinon.stub()
+      },
+      poppa: {
+        attrs: {
+          metadata: {}
+        }
       }
     };
     angular.mock.module('app', function ($provide) {
@@ -111,6 +116,7 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       $provide.value('$localStorage', localStorageData);
       $provide.factory('ahaGuide', function ($q) {
         ahaGuideStub = {
+          endGuide: sinon.stub(),
           isInGuide: sinon.stub(),
           isAddingFirstBranch: sinon.stub(),
           isSettingUpRunnabot: sinon.stub()
@@ -190,7 +196,6 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       mockFetch.triggerPromise(many);
       $rootScope.$digest();
       sinon.assert.calledWith(ctx.fakeGo, 'base.instances.instance', {
-        userName: 'SomeKittens',
         instanceName: 'spaaace'
       });
     });
@@ -541,7 +546,6 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       $rootScope.$digest();
       CIS.checkAndLoadInstance('new-instance');
       sinon.assert.calledWith(ctx.fakeGo, 'base.instances.instance', {
-        userName: 'Jim Jones',
         instanceName: 'new-instance'
       });
     });

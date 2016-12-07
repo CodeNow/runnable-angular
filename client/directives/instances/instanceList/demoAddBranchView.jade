@@ -7,7 +7,7 @@ p.padding-sm Now launch a new environment by pushing a branch to GitHub.
       clipboard
       ng-click = "$event.preventDefault()"
       ng-mouseleave = "showToolTip = false"
-      on-copied = "showToolTip = true;"
+      on-copied = "onClipboardEvent(); showToolTip = true;"
       text =  "getBranchCloneCopyText()"
       tooltip
       tooltip-active-attr = "{{showToolTip}}"
@@ -38,7 +38,7 @@ p.padding-sm Now launch a new environment by pushing a branch to GitHub.
     ng-if = "!$root.featureFlags.demoMultiTierPRLink"
   ) Or we can&#32;
     span.link(
-      ng-click = "createNewBranch()"
+      ng-click = "$root.isLoading.creatingNewBranchFromDemo || createNewBranch()"
     ) create a branch
     | &#32;for you using the GitHub API.
 

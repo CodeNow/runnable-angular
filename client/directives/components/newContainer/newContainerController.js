@@ -31,7 +31,10 @@ function NewContainerController(
       tabName: 'repos',
       dockerfile: null,
       configurationMethod: null,
-      namesForAllInstances: []
+      namesForAllInstances: [],
+      opts: {
+        shouldNotAutofork: keypather.get(currentOrg, 'poppa.attrs.metadata.hasCompletedDemo')
+      }
     },
     ahaGuide: ahaGuide
   });
@@ -206,9 +209,11 @@ function NewContainerController(
     } else {
       dockerfilePath = '';
     }
+
     return createNewBuildAndFetchBranch(currentOrg.github, repo, dockerfilePath, configurationMethod)
       .then(function (repoBuildAndBranch) {
         repoBuildAndBranch.instanceName = instanceName;
+        repoBuildAndBranch.build.opts = NCC.state.opts;
         if (configurationMethod === 'dockerfile' && dockerfile) {
           NCC.newMirrorRepositoryContainer(repoBuildAndBranch);
         } else if (configurationMethod === 'blankDockerfile'){

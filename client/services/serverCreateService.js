@@ -35,7 +35,8 @@ function serverCreateService (
       ipWhitelist: {
         enabled: false
       },
-      isTesting: false
+      isTesting: false,
+      shouldNotAutofork: false
     }, options);
     function defaultSelectedStackVersion (stack) {
       if (!stack.selectedVersion) {

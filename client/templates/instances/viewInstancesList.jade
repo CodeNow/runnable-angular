@@ -52,7 +52,7 @@
       )
 
       .grid-block.align-center.padding-sm.popover.top.in.popover-demo(
-        ng-if = "$root.featureFlags.demoMultiTierUrlHidden && CIS.showInstanceRunningPopover"
+        ng-if = "$root.featureFlags.demoMultiTierUrlHidden && CIS.showInstanceRunningPopover()"
         ng-include = "'popoverDemoUrlHiddenView'"
       )
 
@@ -87,21 +87,21 @@
 
   //- 'add branch' guide — show until a branch has been added
   .grid-block.vertical.popover.in.popover-demo.demo-transition.js-animate(
-    add-branch
-    instance = "CIS.demoInstance"
-    ng-if = "$root.featureFlags.demoMultiTierAddBranch || CIS.showAddBranchView"
+    demo-add-branch
+    instance = "CIS.getDemoInstance()"
+    ng-if = "$root.featureFlags.demoMultiTierAddBranch && CIS.showDemoAddBranchView()"
     user-name = "CIS.userName"
   )
 
   //- wraps all branch clusters — hide until a branch has been added
   .demo-transition.js-animate(
-    ng-if = "(!$root.featureFlags.demoMultiTier || !CIS.shouldShowDemoSelector()) && !$root.featureFlags.demoMultiTierAddBranch"
+    ng-if = "(!$root.featureFlags.demoMultiTier || !CIS.shouldShowDemoSelector()) && !CIS.showDemoAddBranchView()"
   )
 
     //- branch clusters
     .grid-block.vertical.shrink.list-clusters.js-animate(
       ng-repeat = "masterInstance in CIS.instancesByPod | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
-      ng-show = "CIS.shouldShowParent(masterInstance)"
+      ng-show = "CIS.shouldShowParent(masterInstance) && !CIS.isInDemoFlow()"
     )
 
       //- cluster list heading
