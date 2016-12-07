@@ -28,7 +28,7 @@ function demoAddBranch(
         .then(function (instances) {
           return watchOncePromise($scope, function () {
             return instances.models.find(function (instance) {
-              return keypather.get(instance, 'children.models');
+              return keypather.get(instance, 'children.models[0]');
             });
           }, true);
         })
@@ -39,7 +39,7 @@ function demoAddBranch(
           }
           return watchOncePromise($scope, function () {
             // Wait for the isolation model to populate
-            return keypather.get(branchInstance, 'isolation.instances');
+            return keypather.get(branchInstance, 'isolation.instances.fetch');
           }, true)
             .then(function () {
               // Now fetch the isolation
