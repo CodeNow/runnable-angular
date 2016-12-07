@@ -28,26 +28,32 @@ function demoAddBranch(
         .then(function (instances) {
           return watchOncePromise($scope, function () {
             return instances.models.find(function (instance) {
-              return keypather.get(instance, 'children.models[0]');
+              return keypather.get(instance, 'children.models');
             });
           }, true);
         })
         .then(function (instance) {
           var branchInstance = instance.children.models[0];
+          if (!branchInstance.attrs.isolated) {
+            return branchInstance;
+          }
           return watchOncePromise($scope, function () {
             // Wait for the isolation model to populate
-            return keypather.get(branchInstance, 'isolation.instances.fetch');
+            return keypather.get(branchInstance, 'isolation.instances');
           }, true)
             .then(function () {
               // Now fetch the isolation
               return promisify(branchInstance.isolation.instances, 'fetch')();
             })
             .then(function () {
-              demoFlowService.endDemoFlow();
-              return $state.go('base.instances.instance', {
-                instanceName: branchInstance.getName()
-              }, {location: 'replace'});
+              return branchInstance;
             });
+        })
+        .then(function (branchInstance) {
+          demoFlowService.endDemoFlow();
+          return $state.go('base.instances.instance', {
+            instanceName: branchInstance.getName()
+          }, {location: 'replace'});
         })
         .finally(function () {
           loading('creatingNewBranchFromDemo', false);
