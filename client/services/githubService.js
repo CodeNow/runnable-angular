@@ -56,6 +56,69 @@ function github(
       return makeGhRequest(ghRequest);
     },
 
+    createCommit: function (repoOwner, repoName, commitSha, treeSha) {
+      var ghRequest = {
+        method: 'post',
+        url: githubAPIUrl + '/repos/' + repoOwner + '/' + repoName + '/git/commits',
+        data: {
+          message: 'This commit was made by Runnable!',
+          tree: treeSha,
+          parents: [commitSha]
+        }
+      };
+      return makeGhRequest(ghRequest);
+    },
+
+    updateRef: function (repoOwner, repoName, branchName, commitSha) {
+      var ghRequest = {
+        method: 'patch',
+        url: githubAPIUrl + '/repos/' + repoOwner + '/' + repoName + '/git/refs/heads/' + branchName,
+        data: {
+          sha: commitSha
+        }
+      };
+      return makeGhRequest(ghRequest);
+    },
+
+    createNewTreeFromSha: function (repoOwner, repoName, sha) {
+      var ghRequest = {
+        method: 'post',
+        url: githubAPIUrl + '/repos/' + repoOwner + '/' + repoName + '/git/trees',
+        data: {
+          base_tree: sha,
+          tree: [{
+            path: 'test-file.txt',
+            mode: '100644',
+            type: 'blob',
+            content: 'File created by runnable!'
+          }]
+        }
+      };
+      return makeGhRequest(ghRequest);
+    },
+
+    getTreeForCommit: function (repoOwner, repoName, sha) {
+      var ghRequest = {
+        method: 'get',
+        url: githubAPIUrl + '/repos/' + repoOwner + '/' + repoName + '/git/commits/' + sha
+      };
+      return makeGhRequest(ghRequest);
+    },
+
+    createPR: function (repoOwner, repoName, branchToMergeTo, branchToMergeFrom) {
+      var ghRequest = {
+        method: 'post',
+        url: githubAPIUrl + '/repos/' + repoOwner + '/' + repoName + '/pulls',
+        data: {
+          title: 'Runnable PR',
+          body: 'This PR was created with Runnable',
+          head: branchToMergeFrom,
+          base: branchToMergeTo
+        }
+      };
+      return makeGhRequest(ghRequest);
+    },
+
     makeGhRequest: makeGhRequest
   };
 }

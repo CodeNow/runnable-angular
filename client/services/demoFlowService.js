@@ -6,6 +6,7 @@ require('app')
 function demoFlowService(
   $localStorage,
   currentOrg,
+  github,
   keypather,
   patchOrgMetadata
 ) {
@@ -41,6 +42,29 @@ function demoFlowService(
       });
   }
 
+  function createDemoPR (instance) {
+    var branchName = instance.getBranchName();
+    var repoName = instance.getRepoName();
+    var repoOwner = keypather.get(instance, 'attrs.owner.username');
+    var sha = keypather.get(instance, 'contextVersion.appCodeVersions.models[0].attrs.commit');
+    return github.getTreeForCommit(repoOwner, repoName, sha)
+      .then(function (res) {
+        var treeSha = res.tree.sha;
+        return github.createNewTreeFromSha(repoOwner, repoName, treeSha);
+      })
+      .then(function (res) {
+        var newTreeSha = res.sha;
+        return github.createCommit(repoOwner, repoName, sha, newTreeSha);
+      })
+      .then(function (res) {
+        var newCommitSha = res.sha;
+        return github.updateRef(repoOwner, repoName, branchName, newCommitSha);
+      })
+      .then(function (res) {
+        return github.createPR(repoOwner, repoName, 'master', branchName);
+      });
+  }
+
   function hasSeenHangTightMessage () {
     return $localStorage.hasSeenHangTightMessage;
   }
@@ -58,6 +82,7 @@ function demoFlowService(
   }
 
   return {
+    createDemoPR: createDemoPR,
     endDemoFlow: endDemoFlow,
     getItem: getItem,
     hasSeenHangTightMessage: hasSeenHangTightMessage,
