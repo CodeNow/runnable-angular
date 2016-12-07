@@ -26,7 +26,8 @@ function demoFlowService(
   }
 
   function isInDemoFlow () {
-    return !keypather.get(currentOrg, 'poppa.attrs.metadata.hasCompletedDemo');
+    return keypather.get(currentOrg, 'poppa.attrs.metadata.hasAha') &&
+      !keypather.get(currentOrg, 'poppa.attrs.metadata.hasCompletedDemo');
   }
 
   function endDemoFlow () {
