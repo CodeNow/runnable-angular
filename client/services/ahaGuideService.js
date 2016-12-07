@@ -320,17 +320,20 @@ function ahaGuide(
     $rootScope.$broadcast('ahaGuide::launchModal');
   }
 
-  function endGuide () {
+  function endGuide (metadata) {
+    if (!metadata) {
+      metadata = {
+        hasAha: false,
+        hasCompletedDemo: true,
+        hasConfirmedSetup: true
+      };
+    }
     $rootScope.$broadcast('close-popovers');
     if (keypather.get(ahaModalController, 'controller.actions.forceClose')) {
       ahaModalController.controller.actions.forceClose();
     }
     return patchOrgMetadata(currentOrg.poppa.id(), {
-      metadata: {
-        hasAha: false,
-        hasCompletedDemo: true,
-        hasConfirmedSetup: true
-      }
+      metadata: metadata
     })
       .then(function (updatedOrg) {
         updateCurrentOrg(updatedOrg);
@@ -348,6 +351,8 @@ function ahaGuide(
       .then(function (updatedOrg) {
         delete $storage.hasSeenHangTightMessage;
         delete $storage.hasSeenUrlCallout;
+        delete $storage.launchedFromContainersPage;
+        delete $storage.isUsingDemoRepo;
         updateCurrentOrg(updatedOrg);
       });
   }

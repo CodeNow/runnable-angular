@@ -6,8 +6,14 @@ require('app')
 function demoFlowService(
   $localStorage,
   currentOrg,
-  keypather
+  keypather,
+  patchOrgMetadata
 ) {
+  function resetFlags () {
+    $localStorage.hasSeenHangTightMessage = false;
+    $localStorage.isUsingDemoRepo = false;
+    $localStorage.hasSeenUrlCallout = false;
+  }
 
   function setItem (key, value) {
     $localStorage[key] = value;
@@ -19,6 +25,19 @@ function demoFlowService(
 
   function isInDemoFlow () {
     return !keypather.get(currentOrg, 'poppa.attrs.metadata.hasCompletedDemo');
+  }
+
+  function endDemoFlow () {
+    return isInDemoFlow() && patchOrgMetadata(currentOrg.poppa.id(), {
+      metadata: {
+        hasAha: false,
+        hasCompletedDemo: true,
+        hasConfirmedSetup: true
+      }
+    })
+      .then(function (updatedOrg) {
+        currentOrg.poppa.attrs.metadata = updatedOrg.metadata;
+      });
   }
 
   function hasSeenHangTightMessage () {
@@ -38,11 +57,15 @@ function demoFlowService(
   }
 
   return {
+    endDemoFlow: endDemoFlow,
+    getItem: getItem,
     hasSeenHangTightMessage: hasSeenHangTightMessage,
     hasSeenUrlCallout: hasSeenUrlCallout,
     isInDemoFlow: isInDemoFlow,
     isUsingDemoRepo: isUsingDemoRepo,
-    setIsUsingDemoRepo: setIsUsingDemoRepo
+    resetFlags: resetFlags,
+    setIsUsingDemoRepo: setIsUsingDemoRepo,
+    setItem: setItem
   };
 
 }

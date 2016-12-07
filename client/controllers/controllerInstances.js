@@ -26,7 +26,8 @@ function ControllerInstances(
   ModalService,
   promisify,
   setLastOrg,
-  user
+  user,
+  watchOncePromise
 ) {
   var CIS = this;
   CIS.userName = $state.params.userName;
@@ -35,6 +36,7 @@ function ControllerInstances(
   CIS.shouldShowDemoSelector = demoRepos.shouldShowDemoSelector;
   CIS.isAddingFirstBranch = ahaGuide.isAddingFirstBranch;
   CIS.isSettingUpRunnabot = ahaGuide.isSettingUpRunnabot;
+  CIS.isInDemoFlow = demoFlowService.isInDemoFlow;
   CIS.currentOrg = currentOrg;
   CIS.showAutofork = null;
   CIS.searchBranches = null;
@@ -63,16 +65,23 @@ function ControllerInstances(
   });
 
   if (demoFlowService.isInDemoFlow()) {
-    var stopWatchingHasSeenUrlCallout = $scope.$watch(function () {
+    watchOncePromise($scope, function () {
       return demoFlowService.hasSeenUrlCallout();
-    }, function (newValue, previousValue) {
-      if (newValue && !previousValue) {
+    }, true)
+      .then(function () {
         checkIfBranchViewShouldBeEnabled();
-        stopWatchingHasSeenUrlCallout();
-      }
-    });
+      });
     // Check branch view first time
     checkIfBranchViewShouldBeEnabled();
+  }
+
+  function isInstanceMatch(instance, nameMatch) {
+    if (instance.destroyed || !instance.id()) {
+      return false;
+    }
+    if (!nameMatch || instance.attrs.name === nameMatch) {
+      return instance;
+    }
   }
 
   fetchInstancesByPod()
@@ -85,76 +94,89 @@ function ControllerInstances(
       CIS.instancesByPod = instancesByPod;
       CIS.activeAccount = activeAccount;
 
-      var instances = instancesByPod;
-      var lastViewedInstance = keypather.get(user, 'attrs.userOptions.uiState.previousLocation.instance');
-
-      function isInstanceMatch(instance, nameMatch) {
-        if (instance.destroyed || !instance.id()) {
-          return false;
-        }
-        if (!nameMatch || instance.attrs.name === nameMatch) {
-          return instance;
-        }
-      }
-
-      function handleInstanceUpdate (instance) {
-        if (instance.status() === 'running') {
-          var stateWatcher = $scope.$watch(function () {
-            return $state.params.instanceName;
-          }, function () {
-            CIS.showInstanceRunningPopover = $state.params.instanceName !== instance.getName();
-          });
-        }
-      }
-
-      var targetInstance = null;
-      if (lastViewedInstance) {
-        targetInstance = instances.find(function (instance) {
-          var instanceMatch = isInstanceMatch(instance, lastViewedInstance);
-          if (instanceMatch) {
-            return instanceMatch;
-          }
-          if (instance.children) {
-            return instance.children.find(function (childInstance) {
-              return isInstanceMatch(childInstance, lastViewedInstance);
-            });
-          }
-        });
-      }
-
-      if (!targetInstance) {
-        targetInstance = $filter('orderBy')(instances, 'attrs.name')
-          .find(function (instance) {
-            return isInstanceMatch(instance);
-          });
-      }
-
       setLastOrg(CIS.userName);
 
-      var instanceName = keypather.get(targetInstance, 'attrs.name');
       if ($state.current.name !== 'base.instances.instance') {
-        if (!instances.models.length) {
-          var unwatchFirstBuild = $scope.$on('buildStatusUpdated', function (e, instanceUpdate) {
-            unwatchFirstBuild();
-            CIS.checkAndLoadInstance(instanceUpdate.instanceName);
+        // If we're on a blank instances page, but the Demo selector is gone, we need to switch to an instance!
+        return watchOncePromise($scope, function () {
+          // Wait for any instances to exist
+          return keypather.get(instancesByPod, 'models.length');
+        }, true)
+          .then(function () {
+            if (demoRepos.shouldShowDemoSelector()) {
+              return;
+            }
+            var instances = instancesByPod;
+            var lastViewedInstance = keypather.get(user, 'attrs.userOptions.uiState.previousLocation.instance');
+
+            var targetInstance = null;
+            if (lastViewedInstance) {
+              targetInstance = instances.find(function (instance) {
+                var instanceMatch = isInstanceMatch(instance, lastViewedInstance);
+                if (instanceMatch) {
+                  return instanceMatch;
+                }
+                if (instance.children) {
+                  return instance.children.find(function (childInstance) {
+                    return isInstanceMatch(childInstance, lastViewedInstance);
+                  });
+                }
+              });
+            }
+
+            if (!targetInstance) {
+              targetInstance = $filter('orderBy')(instances.models, 'attrs.name')[0];
+            }
+            var instanceName = keypather.get(targetInstance, 'attrs.name');
+            return CIS.checkAndLoadInstance(instanceName);
           });
-          if (demoFlowService.isInDemoFlow()) {
-            var unwatchDemoUpdate = $scope.$on('demo::building', function (e, instance) {
-              unwatchDemoUpdate();
-              instance.on('update', handleInstanceUpdate.bind(CIS, instance));
-            });
-          }
-        }
-        CIS.checkAndLoadInstance(instanceName);
       }
     })
     .catch(errs.handler);
 
+  this.showInstanceRunningPopover = function () {
+    return CIS.isInDemoFlow() &&
+      !demoFlowService.hasSeenUrlCallout() &&
+      CIS.getDemoInstance() &&
+      CIS.getDemoInstance().getName() !== $state.params.instanceName &&
+      CIS.getDemoInstance().status() === 'running';
+  };
+
+  this.getUrlCalloutInstance = function () {
+    if (demoFlowService.hasSeenUrlCallout()) {
+      return CIS.instancesByPod.models.find(function (instance) {
+        return instance.attrs.id === demoFlowService.hasSeenUrlCallout();
+      });
+    }
+  };
+
+  this.getInstanceWithBranches = function () {
+    return CIS.instancesByPod && CIS.instancesByPod.models.find(function (instance) {
+      return instance.attrs.hasAddedBranches;
+    });
+  };
+
+  this.showDemoAddBranchView = function () {
+    return demoFlowService.isInDemoFlow() &&
+      keypather.get(CIS, 'instancesByPod.models.length') &&
+      !demoRepos.shouldShowDemoSelector() &&
+      CIS.getUrlCalloutInstance() &&
+      !CIS.getInstanceWithBranches();
+  };
+
+  this.getDemoInstance = function () {
+    if (!CIS.demoInstance) {
+      CIS.demoInstance = CIS.instancesByPod.models.find(function (instance) {
+        return keypather.get(instance, 'contextVersion.getMainAppCodeVersion()');
+      });
+    }
+    return CIS.demoInstance;
+  };
+
   this.checkAndLoadInstance = function (instanceName) {
     if (instanceName) {
       return $state.go('base.instances.instance', {
-        instanceName: instanceName,
-        userName: CIS.userName
+        instanceName: instanceName
       }, {location: 'replace'});
     }
     if (!featureFlags.flags.containersViewTemplateControls) {
@@ -339,12 +361,8 @@ function ControllerInstances(
       })
       .then(function (instance) {
         if (instance) {
-          CIS.demoInstance = instance;
           CIS.isUsingDemoRepo = demoFlowService.isUsingDemoRepo();
-          CIS.showAddBranchView = true;
-          return;
         }
-        CIS.showAddBranchView = false;
       });
   }
 }

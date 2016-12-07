@@ -120,6 +120,7 @@ function demoRepos(
   fetchStackData,
   github,
   keypather,
+  promisify,
   serverCreateService
 ) {
   var showDemoSelector = ahaGuide.isInGuide() && !ahaGuide.hasConfirmedSetup();
