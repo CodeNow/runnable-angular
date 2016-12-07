@@ -39,6 +39,7 @@ function createAndBuildNewContainer(
   alertContainerCreated,
   createNewInstance,
   currentOrg,
+  demoFlowService,
   eventTracking,
   errs,
   fetchInstancesByPod,
@@ -87,6 +88,11 @@ function createAndBuildNewContainer(
         if (options.isolation) {
           newServerModel.opts.isIsolationGroupMaster = false;
           newServerModel.opts.isolated = options.isolation.id();
+        }
+        if (demoFlowService.isInDemoFlow()) {
+          newServerModel.opts = angular.extend(newServerModel.opts, {
+            shouldNotAutofork: false
+          });
         }
         return createNewInstance(
           cachedActiveAccount,

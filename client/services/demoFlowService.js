@@ -5,6 +5,7 @@ require('app')
 
 function demoFlowService(
   $localStorage,
+  $q,
   currentOrg,
   keypather,
   patchOrgMetadata
@@ -28,17 +29,21 @@ function demoFlowService(
       !keypather.get(currentOrg, 'poppa.attrs.metadata.hasCompletedDemo');
   }
 
-  function endDemoFlow () {
-    return isInDemoFlow() && patchOrgMetadata(currentOrg.poppa.id(), {
-      metadata: {
-        hasAha: false,
-        hasCompletedDemo: true,
-        hasConfirmedSetup: true
-      }
-    })
-      .then(function (updatedOrg) {
-        currentOrg.poppa.attrs.metadata = updatedOrg.metadata;
-      });
+  function endDemoFlow() {
+    if (isInDemoFlow()) {
+      return patchOrgMetadata(currentOrg.poppa.id(), {
+        metadata: {
+          hasAha: false,
+          hasCompletedDemo: true,
+          hasConfirmedSetup: true
+        }
+      })
+        .then(function (updatedOrg) {
+          currentOrg.poppa.attrs.metadata = updatedOrg.metadata;
+        });
+    } else {
+      return $q.when();
+    }
   }
 
   function hasSeenHangTightMessage () {

@@ -164,6 +164,7 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       keypather.set($rootScope, 'dataApp.data.activeAccount', ctx.userList[activeAccountUsername]);
     }
     $state.params = ctx.stateParams;
+    $state.current.name = 'base.instances';
     ctx.fakeGo = sinon.stub($state, 'go');
     CIS = $controller('ControllerInstances', {
       '$scope': $scope,

@@ -50,10 +50,12 @@ function demoAddBranch(
             });
         })
         .then(function (branchInstance) {
-          demoFlowService.endDemoFlow();
           return $state.go('base.instances.instance', {
             instanceName: branchInstance.getName()
-          }, {location: 'replace'});
+          });
+        })
+        .then(function () {
+          demoFlowService.endDemoFlow();
         })
         .finally(function () {
           loading('creatingNewBranchFromDemo', false);
