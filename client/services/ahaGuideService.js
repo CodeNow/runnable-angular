@@ -37,7 +37,7 @@ function ahaGuide(
     if (hasRunnabot) { return true; }
     return isRunnabotPartOfOrg(keypather.get(currentOrg, 'github.attrs.login'))
       .then(function (runnabot) {
-        if (runnabot && isInGuide() && (hasConfirmedSetup() || hasCompletedDemo())) {
+        if (runnabot && isInGuide() && hasCompletedDemo()) {
           endGuide()
             .then(function() {
               $rootScope.$broadcast('showAutoLaunchPopover');
