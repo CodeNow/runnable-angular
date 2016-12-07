@@ -34,6 +34,9 @@ function demoAddBranch(
         })
         .then(function (instance) {
           var branchInstance = instance.children.models[0];
+          if (!branchInstance.attrs.isolated) {
+            return branchInstance;
+          }
           return watchOncePromise($scope, function () {
             // Wait for the isolation model to populate
             return keypather.get(branchInstance, 'isolation.instances.fetch');
@@ -43,11 +46,14 @@ function demoAddBranch(
               return promisify(branchInstance.isolation.instances, 'fetch')();
             })
             .then(function () {
-              demoFlowService.endDemoFlow();
-              return $state.go('base.instances.instance', {
-                instanceName: branchInstance.getName()
-              }, {location: 'replace'});
+              return branchInstance;
             });
+        })
+        .then(function (branchInstance) {
+          demoFlowService.endDemoFlow();
+          return $state.go('base.instances.instance', {
+            instanceName: branchInstance.getName()
+          }, {location: 'replace'});
         })
         .finally(function () {
           loading('creatingNewBranchFromDemo', false);
