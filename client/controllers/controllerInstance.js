@@ -6,6 +6,7 @@ require('app')
  * @ngInject
  */
 function ControllerInstance(
+  $interval,
   $localStorage,
   $q,
   $rootScope,
@@ -223,19 +224,13 @@ function ControllerInstance(
       if (!demoFlowService.hasSeenHangTightMessage()) {
         data.demoFlowFlags.showHangTightMessage = true;
       }
-    } else {
-      if (data.demoFlowFlags.showHangTightMessage) {
-        data.demoFlowFlags.showHangTightMessage = false;
-        demoFlowService.setItem('hasSeenHangTightMessage', instance.id());
-      }
     }
   }
   function checkForEnablingUrlCallout (instance) {
     if (instance.status() === 'running' &&
         keypather.get(instance, 'contextVersion.getMainAppCodeVersion()') &&
-        !demoFlowService.hasSeenUrlCallout() &&
-        !data.demoFlowFlags.showHangTightMessage) {
-      data.demoFlowFlags.showUrlCallout = true;
+        !demoFlowService.hasSeenUrlCallout()) {
+      pollContainerUrl(instance);
     }
   }
 
@@ -257,6 +252,20 @@ function ControllerInstance(
         });
       }
     }
+  }
+
+  function pollContainerUrl (instance) {
+    var stopPolling = $interval(function () {
+      return demoFlowService.checkStatusOnInstance(instance)
+        .then(function (statusOK) {
+          if (statusOK) {
+            $interval.cancel(stopPolling);
+            data.demoFlowFlags.showUrlCallout = true;
+            data.demoFlowFlags.showHangTightMessage = false;
+            demoFlowService.setItem('hasSeenHangTightMessage', instance.id());
+          }
+        });
+    }, 2000);
   }
 
   function fetchCurrentInstance () {

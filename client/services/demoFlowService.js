@@ -4,8 +4,10 @@ require('app')
   .factory('demoFlowService', demoFlowService);
 
 function demoFlowService(
+  $http,
   $localStorage,
   currentOrg,
+  defaultContainerUrl,
   keypather,
   patchOrgMetadata
 ) {
@@ -40,6 +42,20 @@ function demoFlowService(
       });
   }
 
+  function checkStatusOnInstance (instance) {
+    var url = defaultContainerUrl(instance);
+    return $http({
+      method: 'get',
+      url: url
+    })
+      .then(function(res) {
+        if (res.status < 300) {
+          return true;
+        }
+        return false;
+      })
+  }
+
   function hasSeenHangTightMessage () {
     return $localStorage.hasSeenHangTightMessage;
   }
@@ -57,6 +73,7 @@ function demoFlowService(
   }
 
   return {
+    checkStatusOnInstance: checkStatusOnInstance,
     endDemoFlow: endDemoFlow,
     getItem: getItem,
     hasSeenHangTightMessage: hasSeenHangTightMessage,
@@ -67,5 +84,4 @@ function demoFlowService(
     setIsUsingDemoRepo: setIsUsingDemoRepo,
     setItem: setItem
   };
-
 }
