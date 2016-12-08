@@ -67,8 +67,8 @@ function demoAddBranch(
       $scope.getBranchCloneCopyText = function () {
         return 'git clone https://github.com/' +
           $scope.userName + '/' + $scope.instance.getRepoName() +
-          '.git; cd ' + $scope.instance.getRepoName() +
-          '; git checkout -b my-branch; git push origin my-branch;';
+          '.git \r\n cd ' + $scope.instance.getRepoName() +
+          '\r\n git checkout -b my-branch \r\n git push origin my-branch \r\n';
       };
 
       $scope.createNewBranch = function (count) {

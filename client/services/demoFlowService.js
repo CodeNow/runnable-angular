@@ -30,20 +30,21 @@ function demoFlowService(
   }
 
   function endDemoFlow() {
-    if (isInDemoFlow()) {
-      return patchOrgMetadata(currentOrg.poppa.id(), {
-        metadata: {
-          hasAha: false,
-          hasCompletedDemo: true,
-          hasConfirmedSetup: true
+    return $q.when()
+      .then(function () {
+        if (isInDemoFlow()) {
+          return patchOrgMetadata(currentOrg.poppa.id(), {
+            metadata: {
+              hasAha: false,
+              hasCompletedDemo: true,
+              hasConfirmedSetup: true
+            }
+          })
+            .then(function (updatedOrg) {
+              currentOrg.poppa.attrs.metadata = updatedOrg.metadata;
+            });
         }
-      })
-        .then(function (updatedOrg) {
-          currentOrg.poppa.attrs.metadata = updatedOrg.metadata;
-        });
-    } else {
-      return $q.when();
-    }
+      });
   }
 
   function hasSeenHangTightMessage () {
