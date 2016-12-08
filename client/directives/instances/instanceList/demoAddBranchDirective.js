@@ -35,7 +35,8 @@ function demoAddBranch(
         })
         .then(function (instance) {
           var branchInstance = instance.children.models[0];
-          if (!branchInstance.attrs.isolated) {
+          if (!instance.attrs.dependencies.length) {
+            // If the master instance depends on anything, then we need to wait for the isolation
             return branchInstance;
           }
           return watchOncePromise($scope, function () {
