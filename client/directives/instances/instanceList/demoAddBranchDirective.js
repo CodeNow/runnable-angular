@@ -7,6 +7,7 @@ require('app')
  */
 function demoAddBranch(
   $state,
+  $timeout,
   demoFlowService,
   errs,
   fetchInstancesByPod,
@@ -34,7 +35,8 @@ function demoAddBranch(
         })
         .then(function (instance) {
           var branchInstance = instance.children.models[0];
-          if (!branchInstance.attrs.isolated) {
+          if (!instance.attrs.dependencies.length) {
+            // If the master instance depends on anything, then we need to wait for the isolation
             return branchInstance;
           }
           return watchOncePromise($scope, function () {
@@ -50,23 +52,27 @@ function demoAddBranch(
             });
         })
         .then(function (branchInstance) {
-          demoFlowService.endDemoFlow();
           return $state.go('base.instances.instance', {
             instanceName: branchInstance.getName()
-          }, {location: 'replace'});
+          });
+        })
+        .then(function () {
+          demoFlowService.hasAddedBranch(true);
+          return demoFlowService.endDemoFlow();
         })
         .finally(function () {
           loading('creatingNewBranchFromDemo', false);
         });
 
       $scope.getBranchCloneCopyText = function () {
+        var lb = ';\r\n';
         return 'git clone https://github.com/' +
-          $scope.userName + '/' + $scope.instance.getRepoName() + '.git; ' +
-          'cd ' + $scope.instance.getRepoName() + '; ' +
-          'git checkout -b my-branch; ' +
-          'echo \':)\' >> README.md; ' +
-          'git add -u; ' +
-          'git commit -m \'a friendlier README\'; ' +
+          $scope.userName + '/' + $scope.instance.getRepoName() + '.git' + lb +
+          'cd ' + $scope.instance.getRepoName() + lb +
+          'git checkout -b my-branch' + lb +
+          'echo \':)\' >> README.md' + lb +
+          'git add -u' + lb +
+          'git commit -m \'a friendlier README\'' + lb +
           'git push origin my-branch;';
       };
 
