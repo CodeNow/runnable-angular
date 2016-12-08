@@ -32,7 +32,9 @@ function NewContainerController(
       dockerfile: null,
       configurationMethod: null,
       namesForAllInstances: [],
-      opts: {}
+      opts: {
+        shouldNotAutofork: keypather.get(currentOrg, 'poppa.attrs.metadata.hasCompletedDemo')
+      }
     },
     ahaGuide: ahaGuide
   });
