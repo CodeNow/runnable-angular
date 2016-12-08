@@ -88,7 +88,7 @@ function demoAddBranch(
         return 'git clone https://github.com/' +
           $scope.userName + '/' + $scope.instance.getRepoName() + '.git' + lb +
           'cd ' + $scope.instance.getRepoName() + lb +
-          'git checkout -b ' + $scope.getBranchName() + lb +
+          'git checkout ' + $scope.getNewBranchString() + $scope.getBranchName() + lb +
           'echo \':)\' >> README.md' + lb +
           'git add -u' + lb +
           'git commit -m \'a friendlier README\'' + lb +
