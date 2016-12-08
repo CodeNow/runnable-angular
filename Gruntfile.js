@@ -435,7 +435,7 @@ module.exports = function(grunt) {
       function (cb) {
         var configObj = {};
         configObj.host = process.env.API_URL || 'https://api-staging-codenow.runnableapp.com/';
-        configObj.mixpanelProxyUrl = process.env.MIXPANEL_PROXY_URL || 'api.mixpanel.com';
+        configObj.mixpanelProxyUrl = process.env.MIXPANEL_PROXY_URL || 'https://api.mixpanel.com';
         configObj.socketHost = process.env.API_SOCK_URL || configObj.host;
         configObj.userContentDomain = process.env.USER_CONTENT_DOMAIN || 'runnableapp.com';
         configObj.corporateUrl = process.env.MARKETING_URL || 'https://runnable.io';

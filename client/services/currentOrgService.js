@@ -3,9 +3,16 @@
 require('app')
   .factory('currentOrg', currentOrg);
 
-function currentOrg() {
+function currentOrg(
+  keypather
+  ) {
   return {
     poppa: {},
-    github: {}
+    github: {},
+    isPersonalAccount: isPersonalAccount
   };
+
+  function isPersonalAccount () {
+    return keypather.get(this, 'poppa.attrs.isPersonalAccount');
+  }
 }

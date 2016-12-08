@@ -76,11 +76,11 @@
             ng-repeat = "masterInstance in CIS.getFilteredInstanceList() | instanceHasRepo:false | orderBy: ['attrs.name'] as nonRepoInstances track by masterInstance.attrs.name"
           )
 
-    .grid-block.vertical.shrink.well.empty.text-center(
-      ng-if = "$root.featureFlags.containersViewTemplateControls && (!$root.featureFlags.demoMultiTier || !CIS.shouldShowDemoSelector()) && !CIS.getFilteredInstanceList().length && !CIS.searchBranches"
-    ) 👆
-      br
-      .small {{$root.featureFlags.demoMultiTier ? 'First, use the button above to create your first service.' : 'You don’t have any services. Click the button above to create one.'}}
+      .grid-block.vertical.shrink.well.empty.text-center(
+        ng-if = "$root.featureFlags.containersViewTemplateControls && (!$root.featureFlags.demoMultiTier || !CIS.shouldShowDemoSelector()) && !CIS.getFilteredInstanceList().length && !CIS.searchBranches"
+      ) 👆
+        br
+        .small {{$root.featureFlags.demoMultiTier ? 'First, use the button above to create your first service.' : 'You don’t have any services. Click the button above to create one.'}}
 
 //- wraps 'add branch' guide and branch clusters
 .grid-block.vertical.noscroll.relative
@@ -95,7 +95,7 @@
 
   //- wraps all branch clusters — hide until a branch has been added
   .demo-transition.js-animate(
-    ng-if = "(!$root.featureFlags.demoMultiTier || !CIS.shouldShowDemoSelector()) && !CIS.showDemoAddBranchView()"
+    ng-if = "!CIS.isInDemoFlow() || ($root.featureFlags.demoMultiTierAddBranch && !CIS.showDemoAddBranchView())"
   )
 
     //- branch clusters
