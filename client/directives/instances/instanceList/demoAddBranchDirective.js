@@ -90,7 +90,7 @@ function demoAddBranch(
         var completeRepoName = acv.attrs.repo.split('/');
         var repoOwner = completeRepoName[0];
         var repoName = completeRepoName[1];
-        var branchName = 'my-branch';
+        var branchName = $scope.getBranchName();
         if (count) {
           branchName += '-' + count;
         }
