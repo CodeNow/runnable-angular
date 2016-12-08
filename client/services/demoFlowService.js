@@ -57,6 +57,12 @@ function demoFlowService(
   function setIsUsingDemoRepo (value) {
     $localStorage.isUsingDemoRepo = value;
   }
+  function hasAddedBranch (value) {
+    if (value !== undefined) {
+      $localStorage.hasAddedBranch = value;
+    }
+    return $localStorage.hasAddedBranch;
+  }
 
   function isUsingDemoRepo () {
     return $localStorage.isUsingDemoRepo;
@@ -65,6 +71,7 @@ function demoFlowService(
   return {
     endDemoFlow: endDemoFlow,
     getItem: getItem,
+    hasAddedBranch: hasAddedBranch,
     hasSeenHangTightMessage: hasSeenHangTightMessage,
     hasSeenUrlCallout: hasSeenUrlCallout,
     isInDemoFlow: isInDemoFlow,

@@ -57,6 +57,7 @@ function demoAddBranch(
           });
         })
         .then(function () {
+          demoFlowService.hasAddedBranch(true);
           return $timeout(function () {
             demoFlowService.endDemoFlow();
           });

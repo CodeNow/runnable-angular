@@ -150,18 +150,12 @@ function ControllerInstances(
     }
   };
 
-  this.getInstanceWithBranches = function () {
-    return CIS.instancesByPod && CIS.instancesByPod.models.find(function (instance) {
-      return instance.attrs.hasAddedBranches;
-    });
-  };
-
   this.showDemoAddBranchView = function () {
     return demoFlowService.isInDemoFlow() &&
       keypather.get(CIS, 'instancesByPod.models.length') &&
       !demoRepos.shouldShowDemoSelector() &&
       CIS.getUrlCalloutInstance() &&
-      !CIS.getInstanceWithBranches();
+      !demoFlowService.hasAddedBranch();
   };
 
   this.getDemoInstance = function () {
