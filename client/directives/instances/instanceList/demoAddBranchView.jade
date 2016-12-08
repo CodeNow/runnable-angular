@@ -17,16 +17,16 @@ p.padding-sm Now launch a new environment by pushing a branch to GitHub.
   pre.monospace.padding-sm(
     ng-if = "!$root.featureFlags.demoMultiTierPRLink"
   ).
-    git clone https://github.com/{{userName}}/{{instance.attrs.name}}.git
-    cd {{instance.attrs.name}}
+    git clone https://github.com/{{userName}}/{{instance.getRepoName()}}.git
+    cd {{instance.getRepoName()}}
     git checkout -b my-branch
     git push origin my-branch
 
   pre.monospace.padding-sm(
     ng-if = "$root.featureFlags.demoMultiTierPRLink"
   ).
-    git clone https://github.com/{{userName}}/{{instance.attrs.name}}.git
-    cd {{instance.attrs.name}}
+    git clone https://github.com/{{userName}}/{{instance.getRepoName()}}.git
+    cd {{instance.getRepoName()}}
     git checkout dark-theme
     echo ':)' >> readme.md
     git commit -am 'a friendlier readme'
@@ -35,15 +35,15 @@ p.padding-sm Now launch a new environment by pushing a branch to GitHub.
 .grid-block.align-center.padding-sm
   //- hide while creating branch
   .small.text-gray.weight-light(
-    ng-if = "!$root.featureFlags.demoMultiTierPRLink"
+    ng-if = "!$root.isLoading.creatingNewBranchFromDemo && !$root.featureFlags.demoMultiTierPRLink"
   ) Or we can&#32;
     span.link(
-      ng-click = "$root.isLoading.creatingNewBranchFromDemo || createNewBranch()"
+      ng-click = "createNewBranch()"
     ) create a branch
     | &#32;for you using the GitHub API.
 
   .small.text-gray.weight-light(
-    ng-if = "$root.featureFlags.demoMultiTierPRLink"
+    ng-if = "!$root.isLoading.creatingNewBranchFromDemo && $root.featureFlags.demoMultiTierPRLink"
   ) Or we can&#32;
     span.link(
       ng-click = "createNewBranch()"
@@ -51,7 +51,10 @@ p.padding-sm Now launch a new environment by pushing a branch to GitHub.
     | &#32;for you.
 
   //- show while creating branch
-  //- .spinner-wrapper.spinner-sm.spinner-gray.margin-right-xxs(
-  //-   ng-include = "'spinner'"
-  //- )
-  //- .small.text-gray.weight-light Creating branch…
+  .spinner-wrapper.spinner-sm.spinner-gray.margin-right-xxs(
+    ng-if = "$root.isLoading.creatingNewBranchFromDemo"
+    ng-include = "'spinner'"
+  )
+  .small.text-gray.weight-light(
+    ng-if = "$root.isLoading.creatingNewBranchFromDemo"
+  ) Creating branch…

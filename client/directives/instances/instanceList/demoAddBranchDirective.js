@@ -58,9 +58,7 @@ function demoAddBranch(
         })
         .then(function () {
           demoFlowService.hasAddedBranch(true);
-          return $timeout(function () {
-            demoFlowService.endDemoFlow();
-          });
+          return demoFlowService.endDemoFlow();
         })
         .finally(function () {
           loading('creatingNewBranchFromDemo', false);
