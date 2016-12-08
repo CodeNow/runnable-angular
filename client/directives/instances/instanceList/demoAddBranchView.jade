@@ -28,7 +28,7 @@ p.padding-sm Now launch a new environment by pushing a branch to GitHub.
   ).
     git clone https://github.com/{{userName}}/{{instance.getRepoName()}}.git
     cd {{instance.getRepoName()}}
-    git checkout {{getBranchName()}}
+    git checkout {{getNewBranchString()}}{{getBranchName()}}
     echo ':)' >> README.md
     git commit -am 'a friendlier readme'
     git push origin dark-theme

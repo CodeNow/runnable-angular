@@ -8,6 +8,7 @@ require('app')
 function demoAddBranch(
   $state,
   $timeout,
+  currentOrg,
   demoFlowService,
   errs,
   fetchInstancesByPod,
@@ -64,11 +65,22 @@ function demoAddBranch(
           loading('creatingNewBranchFromDemo', false);
         });
 
+      $scope.shouldUseBranchForPR = function () {
+        return currentOrg.isPersonalAccount() && demoFlowService.isUsingDemoRepo();
+      };
+
       $scope.getBranchName = function () {
-        if ($scope.demoFlowService.isUsingDemoRepo()) {
+        if ($scope.shouldUseBranchForPR()) {
           return 'dark-theme';
         }
         return 'my-branch';
+      };
+
+      $scope.getNewBranchString = function () {
+        if (!$scope.shouldUseBranchForPR()) {
+          return '-b ';
+        }
+        return '';
       };
 
       $scope.getBranchCloneCopyText = function () {
