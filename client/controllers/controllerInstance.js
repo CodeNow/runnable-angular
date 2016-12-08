@@ -255,17 +255,27 @@ function ControllerInstance(
   }
 
   function pollContainerUrl (instance) {
-    var stopPolling = $interval(function () {
+    var timesToPoll = 15;
+    var stopPolling = $interval(function (timesToPoll) {
+      // zero indexed, once we've polled 15 times just go to add branch
+      if (timesToPoll === 14 && instance.status() === 'running') {
+        demoFlowService.setItem('hasSeenUrlCallout', data.instance.id());
+        return cancelPolling(stopPolling, instance);
+      }
       return demoFlowService.checkStatusOnInstance(instance)
         .then(function (statusOK) {
           if (statusOK) {
-            $interval.cancel(stopPolling);
             data.demoFlowFlags.showUrlCallout = true;
-            data.demoFlowFlags.showHangTightMessage = false;
-            demoFlowService.setItem('hasSeenHangTightMessage', instance.id());
+            return cancelPolling(stopPolling, instance);
           }
         });
-    }, 2000);
+    }, 1000, timesToPoll);
+  }
+
+  function cancelPolling (stopPolling, instance) {
+    $interval.cancel(stopPolling);
+    data.demoFlowFlags.showHangTightMessage = false;
+    demoFlowService.setItem('hasSeenHangTightMessage', instance.id());
   }
 
   function fetchCurrentInstance () {

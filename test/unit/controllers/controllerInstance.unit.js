@@ -4,6 +4,7 @@
 // injector-provided
 var $controller;
 var $httpBackend;
+var $interval;
 var $rootScope;
 var $scope;
 var $state;
@@ -114,6 +115,7 @@ describe('controllerInstance'.bold.underline.blue, function () {
     angular.mock.inject(function (
       _$controller_,
       _$httpBackend_,
+      _$interval_,
       _$rootScope_,
       _$stateParams_,
       _$state_,
@@ -126,6 +128,7 @@ describe('controllerInstance'.bold.underline.blue, function () {
     ) {
       $controller = _$controller_;
       $httpBackend = _$httpBackend_;
+      $interval = _$interval_;
       $rootScope = _$rootScope_;
       $state = _$state_;
       $stateParams = _$stateParams_;

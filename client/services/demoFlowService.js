@@ -54,6 +54,9 @@ function demoFlowService(
           return true;
         }
         return false;
+      })
+      .catch(function () {
+        return true;
       });
   }
 
