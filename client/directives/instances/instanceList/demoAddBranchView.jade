@@ -20,6 +20,9 @@ p.padding-sm Now launch a new environment by pushing a branch to GitHub.
     git clone https://github.com/{{userName}}/{{instance.attrs.name}}.git
     cd {{instance.attrs.name}}
     git checkout -b my-branch
+    echo ':)' >> README.md
+    git add -u
+    git commit -m 'a friendlier README'
     git push origin my-branch
 
   pre.monospace.padding-sm(
