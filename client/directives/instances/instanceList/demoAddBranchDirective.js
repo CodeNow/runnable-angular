@@ -64,16 +64,23 @@ function demoAddBranch(
           loading('creatingNewBranchFromDemo', false);
         });
 
+      $scope.getBranchName = function () {
+        if ($scope.demoFlowService.isUsingDemoRepo()) {
+          return 'dark-theme';
+        }
+        return 'my-branch';
+      };
+
       $scope.getBranchCloneCopyText = function () {
         var lb = ';\r\n';
         return 'git clone https://github.com/' +
           $scope.userName + '/' + $scope.instance.getRepoName() + '.git' + lb +
           'cd ' + $scope.instance.getRepoName() + lb +
-          'git checkout -b my-branch' + lb +
+          'git checkout -b ' + $scope.getBranchName() + lb +
           'echo \':)\' >> README.md' + lb +
           'git add -u' + lb +
           'git commit -m \'a friendlier README\'' + lb +
-          'git push origin my-branch;';
+          'git push origin ' + $scope.getBranchName() + ';';
       };
 
       $scope.createNewBranch = function (count) {
