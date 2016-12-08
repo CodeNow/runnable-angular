@@ -15,7 +15,8 @@ var UNAVAILABLE_OS_LIST = [
  */
 function containerUrl(
   $window,
-  defaultContainerUrl
+  defaultContainerUrl,
+  eventTracking
 ) {
   return {
     restrict: 'A',
@@ -28,7 +29,12 @@ function containerUrl(
       function getModifierKey() {
         return $window.navigator.platform.toLowerCase().indexOf('mac') > -1 ? '⌘' : 'CTRL';
       }
+      $scope.openedContainerUrl = eventTracking.openedContainerUrl;
       $scope.shouldShowCopyButton = !UNAVAILABLE_OS_LIST.includes($window.navigator.platform);
+
+      $scope.dismissUrlCallout = function () {
+        $scope.$emit('dismissUrlCallout');
+      };
 
       $scope.onClipboardEvent = function (err) {
         if (err) {

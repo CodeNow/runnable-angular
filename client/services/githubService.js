@@ -44,6 +44,18 @@ function github(
       }
       return makeGhRequest(ghRequest);
     },
+    createNewBranch: function (repoOwner, repoName, commitToBranchFrom, newBranchName) {
+      var ghRequest = {
+        method: 'post',
+        url: githubAPIUrl + '/repos/' + repoOwner + '/' + repoName + '/git/refs',
+        data: {
+          ref: 'refs/heads/' + newBranchName,
+          sha: commitToBranchFrom
+        }
+      };
+      return makeGhRequest(ghRequest);
+    },
+
     makeGhRequest: makeGhRequest
   };
 }

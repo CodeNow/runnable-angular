@@ -363,7 +363,8 @@ function ServerModalController(
   this.handleInstanceUpdate = function () {
     var buildStatus = this.instance.status();
     $rootScope.$broadcast('buildStatusUpdated', {
-      status: buildStatus
+      status: buildStatus,
+      instance: this.instance
     });
     if (buildStatus === 'running') {
       this.page = 'run';

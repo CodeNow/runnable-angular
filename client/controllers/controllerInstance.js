@@ -14,6 +14,7 @@ function ControllerInstance(
   $stateParams,
   $timeout,
   ahaGuide,
+  demoFlowService,
   eventTracking,
   favico,
   fetchCommitData,
@@ -29,17 +30,20 @@ function ControllerInstance(
   pageName,
   setLastInstance
 ) {
-
   var CIS = this;
   CIS.isInGuide = ahaGuide.isInGuide;
   var dataInstance = $scope.dataInstance = {
     data: {
-      unsavedAcvs: []
+      unsavedAcvs: [],
+      demoFlowFlags: {}
     },
     actions: {}
   };
   var data = dataInstance.data;
-  $scope.$storage = $localStorage;
+  $scope.$storage = $localStorage.$default({
+     hasSeenHangTightMessage: false,
+     hasSeenUrlCallout: false
+  });
   loading('main', true);
 
   data.openItems = new OpenItems();
@@ -59,7 +63,7 @@ function ControllerInstance(
     // product team - track visits to instance page & referrer
     eventTracking.visitedState();
     return $q.all({
-      instance: fetchInstances({ name: $stateParams.instanceName }, true),
+      instance: fetchCurrentInstance(),
       settings: fetchSettings()
     })
       .then(function (results) {
@@ -201,9 +205,45 @@ function ControllerInstance(
         data.openItems.removeAllButBuildLogs();
         break;
     }
+
+    if (demoFlowService.isInDemoFlow()) {
+      checkForEnablingHangTightMessage(keypather.get($scope, 'dataInstance.data.instance'));
+      checkForEnablingUrlCallout(keypather.get($scope, 'dataInstance.data.instance'));
+   }
+
     $timeout(function () {
       favico.setInstanceState(keypather.get($scope, 'dataInstance.data.instance'));
     });
+  });
+  function checkForEnablingHangTightMessage (instance) {
+    if (!keypather.get(instance, 'contextVersion.getMainAppCodeVersion()')) {
+      return;
+    }
+    if (isBuildingOrStarting(instance.status())) {
+      if (!demoFlowService.hasSeenHangTightMessage()) {
+        data.demoFlowFlags.showHangTightMessage = true;
+      }
+    } else {
+      if (data.demoFlowFlags.showHangTightMessage) {
+        data.demoFlowFlags.showHangTightMessage = false;
+        demoFlowService.setItem('hasSeenHangTightMessage', instance.id());
+      }
+    }
+  }
+  function checkForEnablingUrlCallout (instance) {
+    if (instance.status() === 'running' &&
+        keypather.get(instance, 'contextVersion.getMainAppCodeVersion()') &&
+        !demoFlowService.hasSeenUrlCallout() &&
+        !data.demoFlowFlags.showHangTightMessage) {
+      data.demoFlowFlags.showUrlCallout = true;
+    }
+  }
+
+  $scope.$on('dismissUrlCallout', function () {
+    if (data.demoFlowFlags.showUrlCallout) {
+      data.demoFlowFlags.showUrlCallout = false;
+      demoFlowService.setItem('hasSeenUrlCallout', data.instance.id());
+    }
   });
 
   if (ahaGuide.isInGuide()) {
@@ -218,4 +258,13 @@ function ControllerInstance(
       }
     }
   }
+
+  function fetchCurrentInstance () {
+    return fetchInstances({ name: $stateParams.instanceName }, true);
+  }
+
+  function isBuildingOrStarting (status) {
+    return ['building', 'starting'].indexOf(status) !== -1;
+  }
+
 }

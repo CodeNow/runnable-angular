@@ -14,6 +14,7 @@ function serverCreateService (
 ) {
 
   return function (repoBuildAndBranch, options) {
+    var buildDefaults = repoBuildAndBranch.defaults;
     var state = {
       acv: repoBuildAndBranch.build.contextVersion.getMainAppCodeVersion(),
       branch: repoBuildAndBranch.masterBranch,
@@ -22,9 +23,9 @@ function serverCreateService (
       instanceName: repoBuildAndBranch.instanceName,
       packages: new cardInfoTypes.Packages(),
       ports: options.ports,
-      stackName: repoBuildAndBranch.defaults.selectedStack.key,
-      startCommand: repoBuildAndBranch.defaults.startCommand,
-      selectedStack: repoBuildAndBranch.defaults.selectedStack
+      stackName: buildDefaults.selectedStack.key,
+      startCommand: buildDefaults.startCommand,
+      selectedStack: buildDefaults.selectedStack
     };
 
     state.opts = Object.assign({
@@ -34,7 +35,8 @@ function serverCreateService (
       ipWhitelist: {
         enabled: false
       },
-      isTesting: false
+      isTesting: false,
+      shouldNotAutofork: false
     }, options);
     function defaultSelectedStackVersion (stack) {
       if (!stack.selectedVersion) {
@@ -45,6 +47,12 @@ function serverCreateService (
     if (state.selectedStack.dependencies) {
       state.selectedStack.dependencies.forEach(defaultSelectedStackVersion);
     }
+    if (buildDefaults.packages) {
+      if (Array.isArray(buildDefaults.packages)) {
+        buildDefaults.packages = buildDefaults.packages.join(' ');
+      }
+      state.packages.packageList = buildDefaults.packages;
+    }
 
     return createDockerfileFromSource(state.contextVersion, state.stackName)
       .then(function (dockerfile) {
@@ -54,12 +62,19 @@ function serverCreateService (
       .then(function (sourceDockerfile) {
         var mainRepoContainerFile = new cardInfoTypes.MainRepository();
         var defaults = parseDockerfileForDefaults(sourceDockerfile, ['run', 'dst']);
-        mainRepoContainerFile.commands = defaults.run.map(function (run) {
+        mainRepoContainerFile.commands = buildDefaults.run.map(function (run) {
           return new cardInfoTypes.Command('RUN ' + run);
         });
         mainRepoContainerFile.name = state.instanceName;
-        mainRepoContainerFile.path = state.instanceName;
+        mainRepoContainerFile.path = keypather.get(defaults, 'dst[0]') || state.instanceName;
+
+        // this removes any / at the front of the path, since the populater already does it
+        if (/^\/?\//.test(mainRepoContainerFile.path)) {
+          mainRepoContainerFile.path = mainRepoContainerFile.path.replace(/^\/?\//, '');
+        }
+
         state.containerFiles = [mainRepoContainerFile];
+
         return updateDockerfileFromState(state, false, true);
       })
       .then(function () {

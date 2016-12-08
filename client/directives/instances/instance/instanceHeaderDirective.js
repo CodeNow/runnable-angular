@@ -10,18 +10,22 @@ function instanceHeader(
   $localStorage,
   $stateParams,
   ahaGuide,
-  fetchPullRequest
+  eventTracking,
+  fetchPullRequest,
+  keypather
 ) {
   return {
     restrict: 'A',
     templateUrl: 'instanceHeaderView',
     scope: {
       instance: '=',
-      openItems: '='
+      openItems: '=',
+      demoFlowFlags: '=?'
     },
     link: function ($scope) {
       $scope.$storage = $localStorage;
       $scope.userName = $stateParams.userName;
+      $scope.openedPRUrl = eventTracking.openedPRUrl;
       $scope.$watch('instance', function (newValue) {
         if (!newValue) {
           return;

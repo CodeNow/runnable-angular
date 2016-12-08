@@ -1,9 +1,21 @@
 .popover-demo {
   color: $gray-dark;
   left: 0;
+  overflow: visible;
   position: relative;
   top: 0;
   z-index: $z-views-sidebar;
+
+  // specific to the cta popover
+  &.bottom {
+    margin-bottom: 9px;
+    margin-top: 5px;
+  }
+
+  &.top {
+    margin-bottom: 6px;
+    margin-top: 0;
+  }
 
   .list-item-fork {
     border-bottom: $input-border solid $gray-lighter;

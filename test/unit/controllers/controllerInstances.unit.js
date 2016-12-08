@@ -14,6 +14,9 @@ var $controller,
 var isRunnabotPartOfOrgStub;
 var fetchRepoBranchesStub;
 var ahaGuideStub;
+var featureFlags = {
+  flags: {}
+};
 var apiMocks = require('../apiMocks/index');
 var mockFetch = new (require('../fixtures/mockFetch'))();
 var runnable = window.runnable;
@@ -84,6 +87,11 @@ describe('ControllerInstances'.bold.underline.blue, function () {
     mockOrg = {
       github: {
         fetchRepo: sinon.stub()
+      },
+      poppa: {
+        attrs: {
+          metadata: {}
+        }
       }
     };
     angular.mock.module('app', function ($provide) {
@@ -96,7 +104,9 @@ describe('ControllerInstances'.bold.underline.blue, function () {
         });
         return promisifyMock;
       });
-
+      $provide.factory('featureFlags', function () {
+        return featureFlags;
+      });
       $provide.value('currentOrg', mockOrg);
       $provide.value('favico', {
         reset : sinon.spy(),
@@ -106,6 +116,7 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       $provide.value('$localStorage', localStorageData);
       $provide.factory('ahaGuide', function ($q) {
         ahaGuideStub = {
+          endGuide: sinon.stub(),
           isInGuide: sinon.stub(),
           isAddingFirstBranch: sinon.stub(),
           isSettingUpRunnabot: sinon.stub()
@@ -153,6 +164,7 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       keypather.set($rootScope, 'dataApp.data.activeAccount', ctx.userList[activeAccountUsername]);
     }
     $state.params = ctx.stateParams;
+    $state.current.name = 'base.instances';
     ctx.fakeGo = sinon.stub($state, 'go');
     CIS = $controller('ControllerInstances', {
       '$scope': $scope,
@@ -185,7 +197,6 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       mockFetch.triggerPromise(many);
       $rootScope.$digest();
       sinon.assert.calledWith(ctx.fakeGo, 'base.instances.instance', {
-        userName: 'SomeKittens',
         instanceName: 'spaaace'
       });
     });
@@ -516,6 +527,28 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       expect(results[2]).to.deep.equal([false, false], 'post');
       expect(results[3]).to.deep.equal([false, false], 'FEATURE');
       expect(results[4]).to.deep.equal([true, false], 'aws');
+    });
+  });
+
+  describe('loading the correct state on instantiation/build'.blue, function () {
+
+    beforeEach(function () {
+      featureFlags.flags.containersViewTemplateControls = false;
+    });
+
+    it('should not change state normally', function () {
+      setup('Jim Jones');
+      $rootScope.$digest();
+      sinon.assert.notCalled(ctx.fakeGo, 'base.instances.instance');
+    });
+
+    it('should change state when an instance exists', function () {
+      setup('Jim Jones');
+      $rootScope.$digest();
+      CIS.checkAndLoadInstance('new-instance');
+      sinon.assert.calledWith(ctx.fakeGo, 'base.instances.instance', {
+        instanceName: 'new-instance'
+      });
     });
   });
 });

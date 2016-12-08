@@ -47,6 +47,7 @@
       ng-if = "NCC.githubRepos.models.length && !noResults.length"
     ) No repositories match this filter.
     li.grid-block.align-center.list-item.popover-list-item.multi-line(
+      data-event-name = "Selected a Repository"
       ng-click = "!$root.isLoading.newContainerSingleRepo && NCC.setRepo(repo, NCC.openModalAtPanel)"
       ng-repeat = "\
         repo in NCC.githubRepos.models | \

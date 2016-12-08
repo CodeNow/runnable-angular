@@ -6,17 +6,7 @@ input.input.input-sm(
   value = "{{getContainerUrl(instance)}}"
 )
 
-a.btn.btn-xs.btn-icon-xs.gray.link(
-  ng-href = "{{getContainerUrl(instance)}}"
-  target = "_blank"
-  title = "Open in a new tab"
-)
-  svg.iconnables.icons-link-external
-    use(
-      xlink:href = "#icons-link-external"
-    )
-
-button.btn.btn-xs.gray(
+button.btn.btn-xs.white(
   clipboard
   ng-click = "$event.preventDefault()"
   ng-mouseleave = "showToolTip = false"
@@ -35,3 +25,18 @@ button.btn.btn-xs.gray(
   tooltip-eval = "clipboardText"
   tooltip-options = "{\"class\":\"bottom no-arrow\",\"right\":0,\"top\":27}"
 ) Copy
+
+a.btn.btn-xs.white(
+  ng-click = "\
+    dismissUrlCallout();\
+    openedContainerUrl();\
+  "
+  ng-href = "{{getContainerUrl(instance)}}"
+  target = "_blank"
+  title = "Open in a new tab"
+)
+  | Open
+  svg.iconnables.icons-link-external.float-right
+    use(
+      xlink:href = "#icons-link-external-alt"
+    )

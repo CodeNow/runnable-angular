@@ -31,7 +31,8 @@ function NewContainerController(
       tabName: 'repos',
       dockerfile: null,
       configurationMethod: null,
-      namesForAllInstances: []
+      namesForAllInstances: [],
+      opts: {}
     },
     ahaGuide: ahaGuide
   });
@@ -43,10 +44,6 @@ function NewContainerController(
   if (NCC.state.panel !== 'containerSelection') {
     NCC.disableBackButton = true;
   }
-
-  $timeout(function () {
-    $scope.$broadcast('go-to-panel', NCC.state.panel, 'immediate');
-  });
 
   // Start loading repos and templates
   loading.reset('newContainerRepos');
@@ -210,9 +207,11 @@ function NewContainerController(
     } else {
       dockerfilePath = '';
     }
+
     return createNewBuildAndFetchBranch(currentOrg.github, repo, dockerfilePath, configurationMethod)
       .then(function (repoBuildAndBranch) {
         repoBuildAndBranch.instanceName = instanceName;
+        repoBuildAndBranch.build.opts = NCC.state.opts;
         if (configurationMethod === 'dockerfile' && dockerfile) {
           NCC.newMirrorRepositoryContainer(repoBuildAndBranch);
         } else if (configurationMethod === 'blankDockerfile'){

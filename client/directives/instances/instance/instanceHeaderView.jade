@@ -1,5 +1,5 @@
 //- title of container
-.grid-block.align-center.instance-header-title.text-overflow
+.grid-block.align-center.instance-header-title.text-overflow.noscroll
 
   .grid-block.shrink.header-btn-group
     //- toggle container nav
@@ -20,24 +20,21 @@
   //- container title
     - repository in .span
     - branch in .strong
-  .grid-block.justify-center.align-center
-    span.span {{instance.getMasterPodName()}}
-    strong.strong(
-      ng-if = "instance.getBranchName()"
-    ) /{{instance.getBranchName()}}
-
-    //- pull request link
-    a.btn.btn-xs.green(
-      ng-href = "{{pr.html_url}}"
-      ng-if = "pr"
-      target = "_blank"
-      title = "view pull request on GitHub"
+  .grid-block.justify-center.align-center.noscroll
+    .grid-block.shrink.text-overflow(
+      title = "{{instance.getMasterPodName()}}/{{instance.getBranchName()}}"
+    ) {{instance.getMasterPodName()}}
+      span(
+        ng-if = "instance.getBranchName()"
+      ) /
+      span.strong(
+        ng-if = "instance.getBranchName()"
+      ) {{instance.getBranchName()}}
+    .grid-block.shrink.relative.noscroll(
+      ng-if = "pr || $root.featureFlags.demoMultiTierPRLink"
+      ng-include = "'instanceHeaderPRLinkView'"
     )
-      svg.iconnables.icons-branch.float-left
-        use(
-          xlink:href = "#icons-pull-request"
-        )
-      | \#{{pr.number}}
+
     span(
       ng-if = "$root.featureFlags.internalDebugging"
       style = "bottom: 12px;font-size: 13px;position: relative;top: -5px;"
@@ -74,7 +71,12 @@
     save-open-items-button
   )
 
-  .popover.bottom.in.popover-aha.popover-aha-url.in(
+  .popover.bottom.in.popover-url.below-modals(
+    ng-if = "$root.featureFlags.demoMultiTierUrl && demoFlowFlags.showUrlCallout"
+    ng-include = "'containerUrlPopoverView'"
+  )
+
+  .popover.bottom.popover-aha.popover-aha-url.in(
     ng-if = "$root.featureFlags.aha && $root.featureFlags.ahaBranchUrlStep"
   )
     .arrow.white(

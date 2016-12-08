@@ -12,6 +12,7 @@ var STEPS = {
 };
 
 function ahaGuide(
+  $localStorage,
   $rootScope,
   currentOrg,
   eventTracking,
@@ -25,6 +26,7 @@ function ahaGuide(
   var instances = [];
   var hasRunnabot = false;
   var ahaModalController;
+  var $storage = $localStorage.$default({});
   function refreshInstances() {
     return fetchInstancesByPod()
       .then(function (fetchedInstances) {
@@ -35,7 +37,7 @@ function ahaGuide(
     if (hasRunnabot) { return true; }
     return isRunnabotPartOfOrg(keypather.get(currentOrg, 'github.attrs.login'))
       .then(function (runnabot) {
-        if (runnabot && isInGuide()) {
+        if (runnabot && isInGuide() && hasCompletedDemo()) {
           endGuide()
             .then(function() {
               $rootScope.$broadcast('showAutoLaunchPopover');
@@ -302,14 +304,16 @@ function ahaGuide(
     return keypather.get(currentOrg, 'poppa.attrs.metadata.hasAha');
   }
 
+  function hasCompletedDemo () {
+    return keypather.get(currentOrg, 'poppa.attrs.metadata.hasCompletedDemo');
+  }
+
   function hasConfirmedSetup () {
     return !!keypather.get(instances, 'models.length');
   }
 
   function updateCurrentOrg (updatedOrg) {
-    if (keypather.has(updatedOrg, 'metadata.hasAha') && keypather.has(updatedOrg, 'metadata.hasConfirmedSetup')) {
-      currentOrg.poppa.attrs.metadata = updatedOrg.metadata;
-    }
+    currentOrg.poppa.attrs.metadata = updatedOrg.metadata;
   }
 
   function skipBranchMilestone () {
@@ -317,15 +321,20 @@ function ahaGuide(
     $rootScope.$broadcast('ahaGuide::launchModal');
   }
 
-  function endGuide () {
+  function endGuide (metadata) {
+    if (!metadata) {
+      metadata = {
+        hasAha: false,
+        hasCompletedDemo: true,
+        hasConfirmedSetup: true
+      };
+    }
     $rootScope.$broadcast('close-popovers');
     if (keypather.get(ahaModalController, 'controller.actions.forceClose')) {
       ahaModalController.controller.actions.forceClose();
     }
     return patchOrgMetadata(currentOrg.poppa.id(), {
-      metadata: {
-        hasAha: false
-      }
+      metadata: metadata
     })
       .then(function (updatedOrg) {
         updateCurrentOrg(updatedOrg);
@@ -336,10 +345,16 @@ function ahaGuide(
     return patchOrgMetadata(currentOrg.poppa.id(), {
       metadata: {
         hasAha: true,
+        hasCompletedDemo: false,
         hasConfirmedSetup: false
       }
     })
       .then(function (updatedOrg) {
+        delete $storage.hasSeenHangTightMessage;
+        delete $storage.hasSeenUrlCallout;
+        delete $storage.launchedFromContainersPage;
+        delete $storage.isUsingDemoRepo;
+        delete $storage.hasAddedBranch;
         updateCurrentOrg(updatedOrg);
       });
   }

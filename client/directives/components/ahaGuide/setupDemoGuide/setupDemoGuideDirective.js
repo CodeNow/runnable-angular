@@ -7,13 +7,14 @@ function setupDemoGuide(
   $rootScope,
   $state,
   ahaGuide,
+  demoFlowService,
   demoRepos,
   errs,
   loading
 ) {
   return {
     restrict: 'A',
-    templateUrl: 'setupDemoGuideView',
+    templateUrl: 'templateIntroView',
     scope: true,
     link: function ($scope) {
       $scope.demoStacks = demoRepos.demoStacks;
@@ -24,8 +25,12 @@ function setupDemoGuide(
         loading(loadingName, true);
         return demoRepos.createDemoApp(stackKey)
           .then(function (instance) {
-            ahaGuide.endGuide();
+            ahaGuide.endGuide({
+              hasConfirmedSetup: true
+            });
+            demoFlowService.setIsUsingDemoRepo(true);
             $rootScope.$broadcast('demoService::hide');
+            $rootScope.$broadcast('demo::building', instance);
             return $state.go('base.instances.instance', {
               instanceName: instance.attrs.name
             });
@@ -35,6 +40,11 @@ function setupDemoGuide(
             loading('startDemo', false);
             loading(loadingName, false);
           });
+      };
+
+      $scope.skipDemo = function () {
+        $rootScope.$broadcast('demoService::hide');
+        demoFlowService.setIsUsingDemoRepo(false);
       };
     }
   };

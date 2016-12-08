@@ -4,7 +4,7 @@
   //- 'select demo' guide
   .grid-block.vertical.popover.in.margin-top-xs.popover-demo.demo-transition.js-animate(
     ng-if = "$root.featureFlags.demoMultiTier && CIS.shouldShowDemoSelector()"
-    ng-include = "'templateIntroView'"
+    setup-demo-guide
   )
 
   //- wraps everything that should transition in with the master cluster
@@ -46,11 +46,15 @@
               xlink:href = "#icons-arrow-down"
             )
 
-      .grid-block.align-center.padding-sm.popover.in.popover-demo.margin-bottom-xxs(
+      .grid-block.align-center.padding-sm.popover.bottom.in.popover-demo(
         ng-if = "$root.featureFlags.demoMultiTierAddRepo"
+        ng-include = "'popoverDemoServiceCTAView'"
       )
-        .grid-block Add your own repositories to get them running.
-        .grid-block.shrink.margin-left-sm.h3 👆
+
+      .grid-block.align-center.padding-sm.popover.top.in.popover-demo(
+        ng-if = "$root.featureFlags.demoMultiTierUrlHidden && CIS.showInstanceRunningPopover()"
+        ng-include = "'popoverDemoUrlHiddenView'"
+      )
 
       .grid-block.shrink.list-item-cluster(
         ng-if = "CIS.getFilteredInstanceList().length"
@@ -72,30 +76,32 @@
             ng-repeat = "masterInstance in CIS.getFilteredInstanceList() | instanceHasRepo:false | orderBy: ['attrs.name'] as nonRepoInstances track by masterInstance.attrs.name"
           )
 
-    .grid-block.vertical.shrink.well.empty.text-center(
-      ng-if = "$root.featureFlags.containersViewTemplateControls && (!$root.featureFlags.demoMultiTier || !CIS.shouldShowDemoSelector()) && !CIS.getFilteredInstanceList().length && !CIS.searchBranches"
-    ) 👆
-      br
-      .small {{$root.featureFlags.demoMultiTier ? 'First, use the button above to create your first service.' : 'You don’t have any services. Click the button above to create one.'}}
+      .grid-block.vertical.shrink.well.empty.text-center(
+        ng-if = "$root.featureFlags.containersViewTemplateControls && (!$root.featureFlags.demoMultiTier || !CIS.shouldShowDemoSelector()) && !CIS.getFilteredInstanceList().length && !CIS.searchBranches"
+      ) 👆
+        br
+        .small {{$root.featureFlags.demoMultiTier ? 'First, use the button above to create your first service.' : 'You don’t have any services. Click the button above to create one.'}}
 
 //- wraps 'add branch' guide and branch clusters
 .grid-block.vertical.noscroll.relative
 
   //- 'add branch' guide — show until a branch has been added
   .grid-block.vertical.popover.in.popover-demo.demo-transition.js-animate(
-    ng-if = "$root.featureFlags.demoMultiTierAddBranch"
-    ng-include = "'addBranchView'"
+    demo-add-branch
+    instance = "CIS.getDemoInstance()"
+    ng-if = "$root.featureFlags.demoMultiTierAddBranch && CIS.showDemoAddBranchView()"
+    user-name = "CIS.userName"
   )
 
   //- wraps all branch clusters — hide until a branch has been added
   .demo-transition.js-animate(
-    ng-if = "(!$root.featureFlags.demoMultiTier || !CIS.shouldShowDemoSelector()) && !$root.featureFlags.demoMultiTierAddBranch"
+    ng-if = "!CIS.isInDemoFlow() || ($root.featureFlags.demoMultiTierAddBranch && !CIS.showDemoAddBranchView())"
   )
 
     //- branch clusters
     .grid-block.vertical.shrink.list-clusters.js-animate(
       ng-repeat = "masterInstance in CIS.instancesByPod | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
-      ng-show = "CIS.shouldShowParent(masterInstance)"
+      ng-show = "CIS.shouldShowParent(masterInstance) && !CIS.isInDemoFlow()"
     )
 
       //- cluster list heading
