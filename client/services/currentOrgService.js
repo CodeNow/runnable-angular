@@ -5,14 +5,15 @@ require('app')
 
 function currentOrg(
   keypather
-  ) {
-  return {
+) {
+  var org = {
     poppa: {},
-    github: {},
-    isPersonalAccount: isPersonalAccount
+    github: {}
   };
 
-  function isPersonalAccount () {
-    return keypather.get(this, 'poppa.attrs.isPersonalAccount');
-  }
+  org.isPersonalAccount = function () {
+    return keypather.get(org, 'poppa.attrs.isPersonalAccount');
+  };
+
+  return org;
 }

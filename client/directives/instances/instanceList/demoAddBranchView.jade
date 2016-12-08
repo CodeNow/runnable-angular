@@ -14,15 +14,13 @@ p.padding-sm Now launch a new environment by pushing a branch to GitHub.
       tooltip-eval="clipboardText"
       tooltip-options = "{\"class\":\"bottom no-arrow\",\"right\":-16,\"top\":27}"
     ) Copy
+
   pre.monospace.padding-sm(
     ng-if = "!$root.featureFlags.demoMultiTierPRLink"
   ).
     git clone https://github.com/{{userName}}/{{instance.getRepoName()}}.git
     cd {{instance.getRepoName()}}
     git checkout -b my-branch
-    echo ':)' >> README.md
-    git add -u
-    git commit -m 'a friendlier readme'
     git push origin my-branch
 
   pre.monospace.padding-sm(
@@ -30,7 +28,7 @@ p.padding-sm Now launch a new environment by pushing a branch to GitHub.
   ).
     git clone https://github.com/{{userName}}/{{instance.getRepoName()}}.git
     cd {{instance.getRepoName()}}
-    git checkout dark-theme
+    git checkout {{getNewBranchString()}}{{getBranchName()}}
     echo ':)' >> README.md
     git commit -am 'a friendlier readme'
     git push origin dark-theme
