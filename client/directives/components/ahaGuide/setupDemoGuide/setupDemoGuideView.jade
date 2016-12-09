@@ -3,8 +3,7 @@ ul.grid-block.vertical.list-fork(
 )
   li.grid-block.align-center.list-item-fork(
     data-event-name = "Clicked: Start Demo ({{stackKey}})"
-    ng-class = "{'disabled': $root.isLoading.startDemo}"
-    ng-click = "$root.isLoading.startDemo || createDemo(stackKey)"
+    ng-click = "createDemo(stackKey)"
     ng-repeat = "(stackKey, demoStack) in demoStacks"
   )
     img.img(
@@ -15,16 +14,11 @@ ul.grid-block.vertical.list-fork(
     .grid-block.vertical
       strong.strong {{demoStack.displayName}}
       small.small.weight-light {{demoStack.description}}
-    svg.iconnables.icons-arrow-forward.anchor-right(
-      ng-if = "!$root.isLoading['startDemo-' + stackKey]"
-    )
+    svg.iconnables.icons-arrow-forward.anchor-right
       use(
         xlink:href = "#icons-arrow-down"
       )
-    .spinner-wrapper.spinner-sm.spinner-gray.in(
-      ng-if = "$root.isLoading['startDemo-' + stackKey]"
-      ng-include = "'spinner'"
-    )
+
 ul.grid-block.align-center.list-fork(
   ng-class = "{\
     'grid-2': AMC.accountHasRepos,\

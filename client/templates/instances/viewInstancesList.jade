@@ -2,10 +2,25 @@
 .grid-block.vertical.noscroll.relative
 
   //- 'select demo' guide
-  .grid-block.vertical.popover.in.margin-top-xs.popover-demo.demo-transition.js-animate(
+  .grid-block.popover.in.margin-top-xs.popover-demo.demo-transition.js-animate(
     ng-if = "$root.featureFlags.demoMultiTier && CIS.shouldShowDemoSelector()"
-    setup-demo-guide
   )
+    .slide.slide-out.js-animate(
+      ng-class = "{'out': $root.featureFlags.demoForking}"
+      setup-demo-guide
+    )
+    .grid-block.justify-center.vertical.progress-wrapper.slide.slide-in.js-animate(
+      ng-class = "{'in': $root.featureFlags.demoForking}"
+    )
+      p.text-center.text-gray.shrink.p.margin-bottom-sm Loading…
+      p.text-center.text-gray.shrink.p.margin-bottom-sm This is taking longer than
+        br
+        | usual,&#32;
+        a.link(
+          href = "mailto: support@runnable.com"
+        ) contact support
+        | .
+      .progress-bar
 
   //- wraps everything that should transition in with the master cluster
   .demo-transition.js-animate
