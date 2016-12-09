@@ -12,7 +12,7 @@ function hangTight(
     restrict: 'A',
     templateUrl: 'firstBuildNotificationView',
     scope: {
-      instance: '=',
+      instance: '='
     },
     link: function ($scope) {
       var instance = $scope.instance;
@@ -27,11 +27,13 @@ function hangTight(
         var stopPolling = $interval(function (timesToPoll) {
           // zero indexed, once we've polled 15 times just go to add branch
           if (timesToPoll === 14 && instance.status() === 'running') {
-            $scope.$emit('dismissUrlCallout', instance.id());
+            $scope.$emit('demo::dismissUrlCallout', instance);
             return cancelPolling(stopPolling, instance);
           }
+          console.log('demoFlowService');
           return demoFlowService.checkStatusOnInstance(instance)
             .then(function (statusOK) {
+              console.log('status', statusOK);
               if (statusOK) {
                 return cancelPolling(stopPolling, instance);
               }
