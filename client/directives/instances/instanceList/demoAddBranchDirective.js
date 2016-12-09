@@ -54,8 +54,8 @@ function demoAddBranch(
             });
         })
         .then(function (branchInstance) {
-          if (currentOrg.isPersonalAccount()) {
-            return demoFlowService.createDemoPR(branchInstance)
+          if (demoFlowService.isAddingPR()) {
+            return demoFlowService.submitDemoPR(branchInstance)
               .then(function () {
                 return branchInstance;
               })
@@ -76,7 +76,7 @@ function demoAddBranch(
         });
 
       $scope.shouldUseBranchForPR = function () {
-        return currentOrg.isPersonalAccount() && demoFlowService.isUsingDemoRepo();
+        return demoFlowService.isAddingPR();
       };
 
       $scope.getBranchName = function () {

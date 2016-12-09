@@ -48,39 +48,14 @@ function demoFlowService(
       });
   }
 
-  function createDemoPR (instance) {
-    var repoOwner = keypather.get(instance, 'attrs.owner.username');
-    var repoName = instance.getRepoName();
-    var branchName = instance.getBranchName();
-    var sha = keypather.get(instance, 'contextVersion.appCodeVersions.models[0].attrs.commit');
-    return createCommitAndSubmitPR(repoOwner, repoName, branchName, sha);
-  }
-
   function hasSeenHangTightMessage () {
     return $localStorage.hasSeenHangTightMessage;
   }
 
-  function submitPR (repoOwner, repoName, branchName) {
-    return github.createPR(repoOwner, repoName, 'master', branchName);
-  }
-
-  function createCommitAndSubmitPR (repoOwner, repoName, branchName, sha) {
-    return github.getTreeForCommit(repoOwner, repoName, sha)
-      .then(function (res) {
-        var treeSha = res.tree.sha;
-        return github.createNewTreeFromSha(repoOwner, repoName, treeSha);
-      })
-      .then(function (res) {
-        var newTreeSha = res.sha;
-        return github.createCommit(repoOwner, repoName, sha, newTreeSha);
-      })
-      .then(function (res) {
-        var newCommitSha = res.sha;
-        return github.updateRef(repoOwner, repoName, branchName, newCommitSha);
-      })
-      .then(function (res) {
-        return submitPR(repoOwner, repoName, branchName);
-      });
+  function submitDemoPR (instance) {
+    var repoOwner = keypather.get(instance, 'attrs.owner.username');
+    var repoName = instance.getRepoName();
+    return github.createPR(repoOwner, repoName, 'master', 'dark-theme');
   }
 
   function hasSeenUrlCallout () {
@@ -101,13 +76,17 @@ function demoFlowService(
     return $localStorage.isUsingDemoRepo;
   }
 
+  function isAddingPR () {
+    return currentOrg.isPersonalAccount() && isUsingDemoRepo();
+  }
+
   return {
-    createDemoPR: createDemoPR,
     endDemoFlow: endDemoFlow,
     getItem: getItem,
     hasAddedBranch: hasAddedBranch,
     hasSeenHangTightMessage: hasSeenHangTightMessage,
     hasSeenUrlCallout: hasSeenUrlCallout,
+    isAddingPR: isAddingPR,
     isInDemoFlow: isInDemoFlow,
     isUsingDemoRepo: isUsingDemoRepo,
     resetFlags: resetFlags,
