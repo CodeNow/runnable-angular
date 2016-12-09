@@ -6,6 +6,7 @@ require('app')
 function demoFlowService(
   $http,
   $localStorage,
+  $rootScope,
   currentOrg,
   defaultContainerUrl,
   keypather,
@@ -75,6 +76,11 @@ function demoFlowService(
   function isUsingDemoRepo () {
     return $localStorage.isUsingDemoRepo;
   }
+  $rootScope.$on('demo::dismissUrlCallout', function ($event, instance) {
+    if (!hasSeenUrlCallout()) {
+      setItem('hasSeenUrlCallout', instance.id());
+    }
+  });
 
   return {
     checkStatusOnInstance: checkStatusOnInstance,

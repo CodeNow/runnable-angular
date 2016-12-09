@@ -6,42 +6,33 @@ require('app')
 function hangTight(
   $interval,
   demoFlowService,
-  keypather
+  watchOncePromise
 ) {
   return {
     restrict: 'A',
     templateUrl: 'firstBuildNotificationView',
     scope: {
       instance: '=',
-      demoFlowFlags: '='
     },
     link: function ($scope) {
       var instance = $scope.instance;
-      var demoFlowFlags = $scope.demoFlowFlags;
 
-      var stopWatchingForRunningInstance = $scope.$watch(function () {
+      watchOncePromise($scope, function () {
         return instance.status() === 'running';
-      }, function () {
-        if (keypather.get(instance, 'contextVersion.getMainAppCodeVersion()') &&
-           !demoFlowService.hasSeenUrlCallout()) {
-            stopWatchingForRunningInstance();
-            pollContainerUrl(instance);
-        }
-      })
+      }, true)
+        .then(pollContainerUrl);
 
-
-      function pollContainerUrl (instance) {
+      function pollContainerUrl () {
         var timesToPoll = 15;
         var stopPolling = $interval(function (timesToPoll) {
           // zero indexed, once we've polled 15 times just go to add branch
           if (timesToPoll === 14 && instance.status() === 'running') {
-            demoFlowService.setItem('hasSeenUrlCallout', instance.id());
+            $scope.$emit('dismissUrlCallout', instance.id());
             return cancelPolling(stopPolling, instance);
           }
           return demoFlowService.checkStatusOnInstance(instance)
             .then(function (statusOK) {
               if (statusOK) {
-                demoFlowFlags.showUrlCallout = true;
                 return cancelPolling(stopPolling, instance);
               }
             });
@@ -50,7 +41,6 @@ function hangTight(
 
       function cancelPolling (stopPolling, instance) {
         $interval.cancel(stopPolling);
-        demoFlowFlags.showHangTightMessage = false;
         demoFlowService.setItem('hasSeenHangTightMessage', instance.id());
       }
     }
