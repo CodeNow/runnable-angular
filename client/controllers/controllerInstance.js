@@ -216,6 +216,7 @@ function ControllerInstance(
       favico.setInstanceState(keypather.get($scope, 'dataInstance.data.instance'));
     });
   });
+
   function checkForEnablingHangTightMessage (instance) {
     if (!keypather.get(instance, 'contextVersion.getMainAppCodeVersion()')) {
       return;
@@ -229,8 +230,9 @@ function ControllerInstance(
   function checkForEnablingUrlCallout (instance) {
     if (instance.status() === 'running' &&
         keypather.get(instance, 'contextVersion.getMainAppCodeVersion()') &&
+        demoFlowService.hasSeenHangTightMessage() &&
         !demoFlowService.hasSeenUrlCallout()) {
-      pollContainerUrl(instance);
+      data.demoFlowFlags.showUrlCallout = true;
     }
   }
 
@@ -252,30 +254,6 @@ function ControllerInstance(
         });
       }
     }
-  }
-
-  function pollContainerUrl (instance) {
-    var timesToPoll = 15;
-    var stopPolling = $interval(function (timesToPoll) {
-      // zero indexed, once we've polled 15 times just go to add branch
-      if (timesToPoll === 14 && instance.status() === 'running') {
-        demoFlowService.setItem('hasSeenUrlCallout', data.instance.id());
-        return cancelPolling(stopPolling, instance);
-      }
-      return demoFlowService.checkStatusOnInstance(instance)
-        .then(function (statusOK) {
-          if (statusOK) {
-            data.demoFlowFlags.showUrlCallout = true;
-            return cancelPolling(stopPolling, instance);
-          }
-        });
-    }, 1000, timesToPoll);
-  }
-
-  function cancelPolling (stopPolling, instance) {
-    $interval.cancel(stopPolling);
-    data.demoFlowFlags.showHangTightMessage = false;
-    demoFlowService.setItem('hasSeenHangTightMessage', instance.id());
   }
 
   function fetchCurrentInstance () {
