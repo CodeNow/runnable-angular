@@ -11,6 +11,7 @@ function SetupMirrorServerModalController(
   ahaGuide,
   cardInfoTypes,
   createAndBuildNewContainer,
+  demoFlowService,
   errs,
   eventTracking,
   fetchInstancesByPod,
@@ -30,6 +31,7 @@ function SetupMirrorServerModalController(
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
   SMC.isAddingFirstRepo = ahaGuide.isAddingFirstRepo;
+  SMC.isInDemoFlow = demoFlowService.isInDemoFlow;
   SMC.showUrlToolbar = SMC.isAddingFirstRepo();
 
   var parentController = $controller('ServerModalController as SMC', { $scope: $scope });

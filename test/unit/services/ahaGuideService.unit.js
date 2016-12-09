@@ -17,7 +17,7 @@ describe('ahaGuide'.bold.underline.blue, function () {
   function initState () {
     featureFlags = {
       aha: true,
-      demoMultiTier: false
+      demoMultiTier: true
     };
     angular.mock.module('app');
     angular.mock.module(function($provide) {
@@ -120,7 +120,6 @@ describe('ahaGuide'.bold.underline.blue, function () {
       expect(userConfirmedSetup).to.equal(false);
     });
     it('should return true when the user has confirmed setup', function () {
-      $rootScope.featureFlags.demoMultiTier = true;
       fetchInstancesByPodMock.triggerPromise(mockInstance);
       $rootScope.$digest(); // Clear cache
       var userConfirmedSetup = ahaGuide.hasConfirmedSetup();
@@ -144,7 +143,6 @@ describe('ahaGuide'.bold.underline.blue, function () {
       expect(addRepoStep).to.equal(true);
     });
     it('should return the add first branch step if setup is confirmed', function () {
-      $rootScope.featureFlags.demoMultiTier = true;
       mockInstance.models[0].attrs.hasAddedBranches = false;
       fetchInstancesByPodMock.triggerPromise(mockInstance);
       $rootScope.$digest(); // Clear cache

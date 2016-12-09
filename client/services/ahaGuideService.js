@@ -16,16 +16,13 @@ function ahaGuide(
   $rootScope,
   currentOrg,
   eventTracking,
-  featureFlags,
   fetchInstancesByPod,
   isRunnabotPartOfOrg,
   keypather,
-  ModalService,
   patchOrgMetadata
 ) {
   var instances = [];
   var hasRunnabot = false;
-  var ahaModalController;
   var $storage = $localStorage.$default({});
   function refreshInstances() {
     return fetchInstancesByPod()
@@ -330,9 +327,6 @@ function ahaGuide(
       };
     }
     $rootScope.$broadcast('close-popovers');
-    if (keypather.get(ahaModalController, 'controller.actions.forceClose')) {
-      ahaModalController.controller.actions.forceClose();
-    }
     return patchOrgMetadata(currentOrg.poppa.id(), {
       metadata: metadata
     })

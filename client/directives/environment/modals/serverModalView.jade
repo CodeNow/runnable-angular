@@ -215,7 +215,7 @@ section.modal-body(
   )
 
 .popover.top.in.popover-aha.popover-aha-demo(
-  ng-if = "$root.featureFlags.demoFlowPhase2 && SMC.isDemo && !$root.isLoading[SMC.name]"
+  ng-if = "!$root.isLoading[SMC.name]"
 )
   .arrow.white(
     style = "left: auto; right: 60px;"
