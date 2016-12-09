@@ -67,7 +67,9 @@ function demoAddBranch(
         });
 
       $scope.shouldUseBranchForPR = function () {
-        return currentOrg.isPersonalAccount() && demoFlowService.isUsingDemoRepo();
+        return currentOrg.isPersonalAccount() &&
+          demoFlowService.isUsingDemoRepo() &&
+          featureFlags.flags.demoMultiTierPRLink;
       };
 
       $scope.getBranchName = function () {
@@ -90,7 +92,7 @@ function demoAddBranch(
           $scope.userName + '/' + $scope.instance.getRepoName() + '.git' + lb +
           'cd ' + $scope.instance.getRepoName() + lb +
           'git checkout ' + $scope.getNewBranchString() + $scope.getBranchName() + lb;
-        if (featureFlags.flags.demoMultiTierPRLink) {
+        if ($scope.shouldUseBranchForPR()) {
           string += 'echo \':)\' >> README.md' + lb +
             'git add -u' + lb +
             'git commit -m \'a friendlier README\'' + lb;
