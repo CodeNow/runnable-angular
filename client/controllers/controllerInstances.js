@@ -96,7 +96,7 @@ function ControllerInstances(
 
       setLastOrg(CIS.userName);
 
-      if ($state.current.name !== 'base.instances.instance') {
+      if ($state.current.name === 'base.instances') {
         // If we're on a blank instances page, but the Demo selector is gone, we need to switch to an instance!
         return watchOncePromise($scope, function () {
           // Wait for any instances to exist
@@ -150,18 +150,12 @@ function ControllerInstances(
     }
   };
 
-  this.getInstanceWithBranches = function () {
-    return CIS.instancesByPod && CIS.instancesByPod.models.find(function (instance) {
-      return instance.attrs.hasAddedBranches;
-    });
-  };
-
   this.showDemoAddBranchView = function () {
     return demoFlowService.isInDemoFlow() &&
       keypather.get(CIS, 'instancesByPod.models.length') &&
       !demoRepos.shouldShowDemoSelector() &&
       CIS.getUrlCalloutInstance() &&
-      !CIS.getInstanceWithBranches();
+      !demoFlowService.hasAddedBranch();
   };
 
   this.getDemoInstance = function () {
@@ -177,7 +171,7 @@ function ControllerInstances(
     if (instanceName) {
       return $state.go('base.instances.instance', {
         instanceName: instanceName
-      }, {location: 'replace'});
+      });
     }
     if (!featureFlags.flags.containersViewTemplateControls) {
       return $state.go('base.config', {

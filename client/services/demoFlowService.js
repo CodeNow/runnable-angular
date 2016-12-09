@@ -7,6 +7,7 @@ function demoFlowService(
   $http,
   $localStorage,
   $rootScope,
+  $q,
   currentOrg,
   defaultContainerUrl,
   keypather,
@@ -31,16 +32,21 @@ function demoFlowService(
       !keypather.get(currentOrg, 'poppa.attrs.metadata.hasCompletedDemo');
   }
 
-  function endDemoFlow () {
-    return isInDemoFlow() && patchOrgMetadata(currentOrg.poppa.id(), {
-      metadata: {
-        hasAha: false,
-        hasCompletedDemo: true,
-        hasConfirmedSetup: true
-      }
-    })
-      .then(function (updatedOrg) {
-        currentOrg.poppa.attrs.metadata = updatedOrg.metadata;
+  function endDemoFlow() {
+    return $q.when()
+      .then(function () {
+        if (isInDemoFlow()) {
+          return patchOrgMetadata(currentOrg.poppa.id(), {
+            metadata: {
+              hasAha: false,
+              hasCompletedDemo: true,
+              hasConfirmedSetup: true
+            }
+          })
+            .then(function (updatedOrg) {
+              currentOrg.poppa.attrs.metadata = updatedOrg.metadata;
+            });
+        }
       });
   }
 
@@ -72,6 +78,12 @@ function demoFlowService(
   function setIsUsingDemoRepo (value) {
     $localStorage.isUsingDemoRepo = value;
   }
+  function hasAddedBranch (value) {
+    if (value !== undefined) {
+      $localStorage.hasAddedBranch = value;
+    }
+    return $localStorage.hasAddedBranch;
+  }
 
   function isUsingDemoRepo () {
     return $localStorage.isUsingDemoRepo;
@@ -86,6 +98,7 @@ function demoFlowService(
     checkStatusOnInstance: checkStatusOnInstance,
     endDemoFlow: endDemoFlow,
     getItem: getItem,
+    hasAddedBranch: hasAddedBranch,
     hasSeenHangTightMessage: hasSeenHangTightMessage,
     hasSeenUrlCallout: hasSeenUrlCallout,
     isInDemoFlow: isInDemoFlow,
