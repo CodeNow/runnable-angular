@@ -27,8 +27,7 @@ function hangTight(
             stopWatchingForRunningInstance();
             pollContainerUrl(instance);
         }
-      })
-
+      });
 
       function pollContainerUrl (instance) {
         var timesToPoll = 15;
