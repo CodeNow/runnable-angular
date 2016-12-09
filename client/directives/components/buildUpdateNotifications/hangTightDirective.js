@@ -27,7 +27,7 @@ function hangTight(
         var stopPolling = $interval(function (timesToPoll) {
           // zero indexed, once we've polled 15 times just go to add branch
           if (timesToPoll === 14 && instance.status() === 'running') {
-            $scope.$emit('demo::dismissUrlCallout', instance);
+            $scope.$emit('demo::dismissUrlCallout', instance.id());
             return cancelPolling(stopPolling, instance);
           }
           return demoFlowService.checkStatusOnInstance(instance)

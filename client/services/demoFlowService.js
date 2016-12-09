@@ -82,9 +82,9 @@ function demoFlowService(
   function isUsingDemoRepo () {
     return $localStorage.isUsingDemoRepo;
   }
-  $rootScope.$on('demo::dismissUrlCallout', function ($event, instance) {
+  $rootScope.$on('demo::dismissUrlCallout', function ($event, instanceId) {
     if (!hasSeenUrlCallout()) {
-      setItem('hasSeenUrlCallout', instance.id());
+      setItem('hasSeenUrlCallout', instanceId);
     }
   });
 

@@ -95,7 +95,7 @@ describe('hangTight'.bold.underline.blue, function () {
       $interval.flush(15000);
       $scope.$digest();
       sinon.assert.calledOnce(dismissStub);
-      sinon.assert.calledWith(dismissStub, sinon.match.any, mockInstance);
+      sinon.assert.calledWith(dismissStub, sinon.match.any, mockInstance.id());
       sinon.assert.calledOnce($interval.cancel);
       sinon.assert.calledOnce(demoFlowService.setItem);
     });
