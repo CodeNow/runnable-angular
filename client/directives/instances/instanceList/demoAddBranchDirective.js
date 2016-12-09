@@ -8,6 +8,7 @@ require('app')
 function demoAddBranch(
   $state,
   $timeout,
+  currentOrg,
   demoFlowService,
   errs,
   fetchInstancesByPod,
@@ -64,11 +65,34 @@ function demoAddBranch(
           loading('creatingNewBranchFromDemo', false);
         });
 
+      $scope.shouldUseBranchForPR = function () {
+        return currentOrg.isPersonalAccount() && demoFlowService.isUsingDemoRepo();
+      };
+
+      $scope.getBranchName = function () {
+        if ($scope.shouldUseBranchForPR()) {
+          return 'dark-theme';
+        }
+        return 'my-branch';
+      };
+
+      $scope.getNewBranchString = function () {
+        if (!$scope.shouldUseBranchForPR()) {
+          return '-b ';
+        }
+        return '';
+      };
+
       $scope.getBranchCloneCopyText = function () {
+        var lb = ';\r\n';
         return 'git clone https://github.com/' +
-          $scope.userName + '/' + $scope.instance.getRepoName() +
-          '.git \r\n cd ' + $scope.instance.getRepoName() +
-          '\r\n git checkout -b my-branch \r\n git push origin my-branch \r\n';
+          $scope.userName + '/' + $scope.instance.getRepoName() + '.git' + lb +
+          'cd ' + $scope.instance.getRepoName() + lb +
+          'git checkout ' + $scope.getNewBranchString() + $scope.getBranchName() + lb +
+          'echo \':)\' >> README.md' + lb +
+          'git add -u' + lb +
+          'git commit -m \'a friendlier README\'' + lb +
+          'git push origin ' + $scope.getBranchName() + ';';
       };
 
       $scope.createNewBranch = function (count) {
@@ -78,7 +102,7 @@ function demoAddBranch(
         var completeRepoName = acv.attrs.repo.split('/');
         var repoOwner = completeRepoName[0];
         var repoName = completeRepoName[1];
-        var branchName = 'my-branch';
+        var branchName = $scope.getBranchName();
         if (count) {
           branchName += '-' + count;
         }
