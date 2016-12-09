@@ -6,7 +6,6 @@ require('app')
  * @ngInject
  */
 function ControllerInstance(
-  $interval,
   $localStorage,
   $q,
   $rootScope,
