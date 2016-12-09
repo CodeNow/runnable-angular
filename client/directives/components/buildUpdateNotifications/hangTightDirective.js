@@ -30,10 +30,8 @@ function hangTight(
             $scope.$emit('demo::dismissUrlCallout', instance);
             return cancelPolling(stopPolling, instance);
           }
-          console.log('demoFlowService');
           return demoFlowService.checkStatusOnInstance(instance)
             .then(function (statusOK) {
-              console.log('status', statusOK);
               if (statusOK) {
                 return cancelPolling(stopPolling, instance);
               }
