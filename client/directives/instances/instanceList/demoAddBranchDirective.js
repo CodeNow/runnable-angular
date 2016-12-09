@@ -8,11 +8,11 @@ require('app')
 function demoAddBranch(
   $state,
   $timeout,
-  $rootScope,
   currentOrg,
   demoFlowService,
   errs,
   fetchInstancesByPod,
+  featureFlags,
   github,
   keypather,
   loading,
@@ -90,7 +90,7 @@ function demoAddBranch(
           $scope.userName + '/' + $scope.instance.getRepoName() + '.git' + lb +
           'cd ' + $scope.instance.getRepoName() + lb +
           'git checkout ' + $scope.getNewBranchString() + $scope.getBranchName() + lb;
-        if ($rootScope.featureFlags.demoMultiTierPRLink) {
+        if (featureFlags.flags.demoMultiTierPRLink) {
           string += 'echo \':)\' >> README.md' + lb +
             'git add -u' + lb +
             'git commit -m \'a friendlier README\'' + lb;
