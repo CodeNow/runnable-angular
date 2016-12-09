@@ -1,6 +1,7 @@
 .popover-demo {
   color: $gray-dark;
   left: 0;
+  overflow: visible;
   position: relative;
   top: 0;
   z-index: $z-views-sidebar;
@@ -23,20 +24,28 @@
     &.slide-out {
       opacity: 1;
       transform: translate3d(0,0,0);
+      z-index: 2;
 
       &.out {
         opacity: 0;
         transform: translate3d(-50px,0,0);
+        z-index: 1;
       }
     }
 
+    // this one uses ng-animate (so we can reset the animation timer with ng-if)
     &.slide-in {
-      opacity: 0;
-      transform: translate3d(50px,0,0);
 
-      &.in {
+      &.ng-enter {
+        opacity: 0;
+        transform: translate3d(50px,0,0);
+        z-index: 0;
+      }
+
+      &.ng-enter-active {
         opacity: 1;
         transform: translate3d(0,0,0);
+        z-index: 1;
       }
     }
   }
