@@ -9,7 +9,7 @@
 )
 
 .grid-block(
-  ng-if = "$root.featureFlags.demoMultiTierBuilding && dataInstance.data.demoFlowFlags.showHangTightMessage"
+  ng-if = "CI.isInDemoFlow() && $root.featureFlags.demoMultiTierBuilding && dataInstance.data.demoFlowFlags.showHangTightMessage"
   hang-tight
   instance = "dataInstance.data.instance"
   demo-flow-flags = "dataInstance.data.demoFlowFlags"

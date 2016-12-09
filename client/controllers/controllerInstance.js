@@ -33,6 +33,7 @@ function ControllerInstance(
 ) {
   var CIS = this;
   CIS.isInGuide = ahaGuide.isInGuide;
+  CIS.isInDemoFlow = demoFlowService.isInDemoFlow;
   var dataInstance = $scope.dataInstance = {
     data: {
       unsavedAcvs: [],

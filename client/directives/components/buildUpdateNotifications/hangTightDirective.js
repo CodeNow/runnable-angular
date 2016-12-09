@@ -6,7 +6,8 @@ require('app')
 function hangTight(
   $interval,
   demoFlowService,
-  keypather
+  keypather,
+  watchOncePromise
 ) {
   return {
     restrict: 'A',
@@ -19,12 +20,12 @@ function hangTight(
       var instance = $scope.instance;
       var demoFlowFlags = $scope.demoFlowFlags;
 
-      var stopWatchingForRunningInstance = $scope.$watch(function () {
+      watchOncePromise($scope, function () {
         return instance.status() === 'running';
-      }, function () {
+      }, true)
+        .then(function () {
         if (keypather.get(instance, 'contextVersion.getMainAppCodeVersion()') &&
            !demoFlowService.hasSeenUrlCallout()) {
-            stopWatchingForRunningInstance();
             pollContainerUrl(instance);
         }
       });
