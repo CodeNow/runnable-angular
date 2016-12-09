@@ -18,20 +18,12 @@ p.padding-sm Now launch a new environment by pushing a branch to GitHub.
   pre.monospace.padding-sm(
     ng-if = "!$root.featureFlags.demoMultiTierPRLink"
   ).
-    git clone https://github.com/{{userName}}/{{instance.getRepoName()}}.git
-    cd {{instance.getRepoName()}}
-    git checkout -b my-branch
-    git push origin my-branch
+    {{getBranchCloneCopyText()}}
 
   pre.monospace.padding-sm(
     ng-if = "$root.featureFlags.demoMultiTierPRLink"
   ).
-    git clone https://github.com/{{userName}}/{{instance.getRepoName()}}.git
-    cd {{instance.getRepoName()}}
-    git checkout {{getNewBranchString()}}{{getBranchName()}}
-    echo ':)' >> README.md
-    git commit -am 'a friendlier readme'
-    git push origin dark-theme
+    {{getBranchCloneCopyText()}}
 
 .grid-block.align-center.padding-sm
   //- hide while creating branch
