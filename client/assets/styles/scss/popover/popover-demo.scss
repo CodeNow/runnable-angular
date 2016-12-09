@@ -35,17 +35,16 @@
 
     // this one uses ng-animate (so we can reset the animation timer with ng-if)
     &.slide-in {
+      z-index: 2;
 
       &.ng-enter {
         opacity: 0;
         transform: translate3d(50px,0,0);
-        z-index: 0;
       }
 
       &.ng-enter-active {
         opacity: 1;
         transform: translate3d(0,0,0);
-        z-index: 1;
       }
     }
   }
@@ -143,12 +142,12 @@
 
       &:first-child {
         animation: loading-in 25s forwards;
-        margin-top: -30px;
+        margin-top: -33px;
       }
 
       &:nth-child(2) {
         animation: loading-out 25s forwards;
-        margin-top: -39px;
+        margin-top: -54px;
       }
     }
   }
