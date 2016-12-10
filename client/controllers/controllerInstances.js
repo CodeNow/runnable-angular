@@ -65,17 +65,19 @@ function ControllerInstances(
   });
 
   if (demoFlowService.isInDemoFlow()) {
-    var orphanedDemoBuild = demoRepos.isOrphanedDependency();
-    if (orphanedDemoBuild) {
-      loading('startDemo', true);
-      demoRepos.createDemoApp(orphanedDemoBuild)
-        .then(function (instance) {
-          loading('startDemo', false);
-          return $state.go('base.instances.instance', {
-            instanceName: instance.getName()
-          });
-        })
-    };
+    demoRepos.isOrphanedDependency()
+      .then(function (orphanedDemoBuild) {
+        if (orphanedDemoBuild) {
+          loading('startDemo', true);
+          demoRepos.createDemoApp(orphanedDemoBuild)
+            .then(function (instance) {
+              loading('startDemo', false);
+              return $state.go('base.instances.instance', {
+                instanceName: instance.getName()
+              });
+            })
+        }
+      });
 
     watchOncePromise($scope, function () {
       return demoFlowService.hasSeenUrlCallout();

@@ -134,11 +134,29 @@ function demoRepos(
     // a successfully build demo instance would return true here, not the stack key
     
     // this does not work
-    var stackName = demoFlowService.isUsingDemoRepo();
+    // var stackName = demoFlowService.isUsingDemoRepo();
     var stackName = localStorage.getItem('stackKey');
+    // if we've the key exists, we haven't successfully got word back that the instance is building
     if (stacks[stackName]) {
-      return stackName;
+      var dep;
+      var repoInstance;
+      return fetchInstancesByPod()
+        .then(function (instances) {
+          instances.forEach(function (instance) {
+            if (instance.getRepoName()) {
+              repoInstance = instance;
+            } else {
+              dep = instance;
+            }
+          })
+          if (dep && !repoInstance) {
+            return stackName;
+          } else {
+            return false;
+          }
+        })
     }
+    return $q.when(false);
   }
 
   function findNewRepoOnRepeat(stack, count) {
@@ -179,31 +197,34 @@ function demoRepos(
     return github.forkRepo(stack.repoOwner, stack.repoName, currentOrg.github.oauthName(), keypather.get(currentOrg, 'poppa.attrs.isPersonalAccount'));
   }
   function findDependencyNonRepoInstances(stack) {
-    if (isOrphanedDependency()) {
-      return fetchInstancesByPod()
-        .then(function (instances) {
-          var dependency = instances.models.find(function (instance) {
-            return !instance.getRepoName();
+    return isOrphanedDependency()
+      .then(function (hasOrphanedDependency) {
+        if (hasOrphanedDependency) {
+          return fetchInstancesByPod()
+            .then(function (instances) {
+              var dependency = instances.models.find(function (instance) {
+                return !instance.getRepoName();
+              });
+              if (dependency) {
+                var demoDependency = {}
+                demoDependency[dependency.attrs.name] = dependency;
+                return demoDependency;
+              }
+            })
+        }
+        return fetchNonRepoInstances()
+          .then(function (instances) {
+            return instances.filter(function (instance) {
+              return stack.deps.includes(instance.attrs.name);
+            });
+          })
+          .then(function (deps) {
+            var depMap = {};
+            deps.map(function (depInstance) {
+              depMap[depInstance.attrs.name] = createNonRepoInstance(depInstance.attrs.name, depInstance);
+            });
+            return $q.all(depMap);
           });
-          if (dependency) {
-            var demoDependency = {}
-            demoDependency[dependency.attrs.name] = dependency;
-            return $q.when(demoDependency);
-          }
-        })
-    }
-    return fetchNonRepoInstances()
-      .then(function (instances) {
-        return instances.filter(function (instance) {
-          return stack.deps.includes(instance.attrs.name);
-        });
-      })
-      .then(function (deps) {
-        var depMap = {};
-        deps.map(function (depInstance) {
-          depMap[depInstance.attrs.name] = createNonRepoInstance(depInstance.attrs.name, depInstance);
-        });
-        return $q.all(depMap);
       });
   }
   function fillInEnvs(stack, deps) {

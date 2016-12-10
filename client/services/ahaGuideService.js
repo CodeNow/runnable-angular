@@ -309,6 +309,12 @@ function ahaGuide(
   }
 
   function hasConfirmedSetup () {
+    if (featureFlags.flags.demoMultiTier) {
+      return !!keypather.get(instances, 'models.length') &&
+      instances.models.find(function (instance) {
+        return instance.getRepoName();
+      });
+    }
     return keypather.get(currentOrg, 'poppa.attrs.metadata.hasConfirmedSetup');
   }
 
