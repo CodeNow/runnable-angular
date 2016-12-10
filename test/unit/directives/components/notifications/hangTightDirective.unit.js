@@ -42,13 +42,13 @@ describe('hangTight'.bold.underline.blue, function () {
         attrs: {
           name: 'foo'
         },
-        restart: sinon.spy(),
-        fetch: sinon.spy(),
+        restart: sinon.stub(),
+        fetch: sinon.stub(),
         status: sinon.stub().returns('running'),
-        stop: sinon.spy(),
-        start: sinon.spy(),
+        stop: sinon.stub(),
+        start: sinon.stub(),
         build: {
-          deepCopy: sinon.spy()
+          deepCopy: sinon.stub()
         },
         contextVersion: {
           getMainAppCodeVersion: sinon.stub().returns(mockMainACV)
@@ -57,7 +57,7 @@ describe('hangTight'.bold.underline.blue, function () {
           models: []
         }),
         id: sinon.stub().returns(1),
-        on: sinon.spy()
+        on: sinon.stub()
       };
       $scope.instance = mockInstance;
 
