@@ -309,9 +309,6 @@ function ahaGuide(
   }
 
   function hasConfirmedSetup () {
-    if (featureFlags.flags.demoMultiTier) {
-      return !!keypather.get(instances, 'models.length');
-    }
     return keypather.get(currentOrg, 'poppa.attrs.metadata.hasConfirmedSetup');
   }
 

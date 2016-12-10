@@ -7,11 +7,11 @@
   )
     .grid-block
       .slide.slide-out(
-        ng-class = "{'out': $root.featureFlags.demoForking}"
+        ng-class = "{'out': $root.featureFlags.demoForking && $root.isLoading.startDemo}"
         setup-demo-guide
       )
       .grid-block.justify-center.vertical.progress-wrapper.slide.slide-in.js-animate(
-        ng-if = "$root.featureFlags.demoForking"
+        ng-if = "$root.featureFlags.demoForking && $root.isLoading.startDemo"
       )
         p.text-center.text-gray.shrink.p.margin-bottom-sm Loading…
         p.text-center.text-gray.shrink.p.margin-bottom-sm This is taking longer than

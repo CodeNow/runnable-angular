@@ -21,8 +21,6 @@ function setupDemoGuide(
 
       $scope.createDemo = function (stackKey) {
         loading('startDemo', true);
-        var loadingName = 'startDemo-' + stackKey;
-        loading(loadingName, true);
         return demoRepos.createDemoApp(stackKey)
           .then(function (instance) {
             return $state.go('base.instances.instance', {
@@ -32,7 +30,6 @@ function setupDemoGuide(
           .catch(errs.handler)
           .finally(function () {
             loading('startDemo', false);
-            loading(loadingName, false);
           });
       };
 
