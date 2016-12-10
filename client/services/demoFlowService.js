@@ -4,9 +4,10 @@ require('app')
   .factory('demoFlowService', demoFlowService);
 
 function demoFlowService(
+  $http,
   $localStorage,
-  $q,
   currentOrg,
+  defaultContainerUrl,
   keypather,
   patchOrgMetadata
 ) {
@@ -29,21 +30,33 @@ function demoFlowService(
       !keypather.get(currentOrg, 'poppa.attrs.metadata.hasCompletedDemo');
   }
 
-  function endDemoFlow() {
-    return $q.when()
-      .then(function () {
-        if (isInDemoFlow()) {
-          return patchOrgMetadata(currentOrg.poppa.id(), {
-            metadata: {
-              hasAha: false,
-              hasCompletedDemo: true,
-              hasConfirmedSetup: true
-            }
-          })
-            .then(function (updatedOrg) {
-              currentOrg.poppa.attrs.metadata = updatedOrg.metadata;
-            });
+  function endDemoFlow () {
+    return isInDemoFlow() && patchOrgMetadata(currentOrg.poppa.id(), {
+      metadata: {
+        hasAha: false,
+        hasCompletedDemo: true,
+        hasConfirmedSetup: true
+      }
+    })
+      .then(function (updatedOrg) {
+        currentOrg.poppa.attrs.metadata = updatedOrg.metadata;
+      });
+  }
+
+  function checkStatusOnInstance (instance) {
+    var url = defaultContainerUrl(instance);
+    return $http({
+      method: 'get',
+      url: url
+    })
+      .then(function(res) {
+        if (res.status < 300) {
+          return true;
         }
+        return false;
+      })
+      .catch(function () {
+        return true;
       });
   }
 
@@ -58,21 +71,15 @@ function demoFlowService(
   function setIsUsingDemoRepo (value) {
     $localStorage.isUsingDemoRepo = value;
   }
-  function hasAddedBranch (value) {
-    if (value !== undefined) {
-      $localStorage.hasAddedBranch = value;
-    }
-    return $localStorage.hasAddedBranch;
-  }
 
   function isUsingDemoRepo () {
     return $localStorage.isUsingDemoRepo;
   }
 
   return {
+    checkStatusOnInstance: checkStatusOnInstance,
     endDemoFlow: endDemoFlow,
     getItem: getItem,
-    hasAddedBranch: hasAddedBranch,
     hasSeenHangTightMessage: hasSeenHangTightMessage,
     hasSeenUrlCallout: hasSeenUrlCallout,
     isInDemoFlow: isInDemoFlow,
@@ -81,5 +88,4 @@ function demoFlowService(
     setIsUsingDemoRepo: setIsUsingDemoRepo,
     setItem: setItem
   };
-
 }

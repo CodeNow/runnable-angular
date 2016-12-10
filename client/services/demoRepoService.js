@@ -128,12 +128,17 @@ function demoRepos(
   function findNewRepo(stack) {
     return fetchOwnerRepo(currentOrg.github.oauthName(), stack.repoName);
   }
-  
+
   function isOrphanedDependency () {
     // if this item is in the hash of stacks, it has not been built
     // a successfully build demo instance would return true here, not the stack key
-    var stackName = demoFlowService.getItem('isUsingDemoRepo');
-    return stacks[stackName];
+    
+    // this does not work
+    var stackName = demoFlowService.isUsingDemoRepo();
+    var stackName = localStorage.getItem('stackKey');
+    if (stacks[stackName]) {
+      return stackName;
+    }
   }
 
   function findNewRepoOnRepeat(stack, count) {
@@ -212,61 +217,78 @@ function demoRepos(
     });
   }
 
+  function createDemoApp (stackKey) {
+    var stack = stacks[stackKey];
+    return findNewRepo(stack)
+      .catch(function forkRepo() {
+        return forkGithubRepo(stackKey)
+          .then(function () {
+            return findNewRepoOnRepeat(stack);
+          });
+      })
+      .then(function (repoModel) {
+        return $q.all({
+          repoBuildAndBranch: createNewBuildAndFetchBranch(currentOrg.github, repoModel, '', false),
+          stack: fetchStackData(repoModel, true),
+          instances: fetchInstancesByPod(),
+          deps: findDependencyNonRepoInstances(stack)
+        });
+      })
+      .then(function (promiseResults) {
+        // this also does not work
+        // demoFlowService.setIsUsingDemoRepo(stackKey);
+        localStorage.setItem('stackKey', stackKey);
+        var generatedEnvs = fillInEnvs(stack, promiseResults.deps);
+
+        var repoBuildAndBranch = promiseResults.repoBuildAndBranch;
+        repoBuildAndBranch.instanceName = getUniqueInstanceName(stack.repoName, promiseResults.instances);
+        repoBuildAndBranch.defaults = {
+          selectedStack: promiseResults.stack,
+          startCommand: stack.cmd,
+          keepStartCmd: true,
+          run: stack.buildCommands,
+          packages: stack.packages
+        };
+
+        return $q.all({
+          deps: promiseResults.deps,
+          instance: serverCreateService(repoBuildAndBranch, {
+            env: generatedEnvs,
+            ports: stack.ports
+          })
+        });
+      })
+      .then(function (promiseResults) {
+        var deps = Object.keys(promiseResults.deps).map(function (id) {
+          return promiseResults.deps[id];
+        });
+        return createAutoIsolationConfig(promiseResults.instance, deps)
+          .then(function () {
+            return promiseResults.instance;
+          });
+      })
+      .then(function (instance) {
+        ahaGuide.endGuide({
+          hasConfirmedSetup: true
+        });
+        localStorage.setItem('stackKey', null);
+        // this seems to work
+        // demoFlowService.setIsUsingDemoRepo(true);
+        $rootScope.$broadcast('demoService::hide');
+        $rootScope.$broadcast('demo::building', instance);
+        return instance;
+      });
+  };
+
   $rootScope.$on('demoService::hide', function () {
     showDemoSelector = false;
   });
   return {
+    isOrphanedDependency: isOrphanedDependency,
     demoStacks: stacks,
     forkGithubRepo: forkGithubRepo,
     findDependencyNonRepoInstances: findDependencyNonRepoInstances,
-    createDemoApp: function (stackKey) {
-      var stack = stacks[stackKey];
-      return findNewRepo(stack)
-        .catch(function forkRepo() {
-          return forkGithubRepo(stackKey)
-            .then(function () {
-              return findNewRepoOnRepeat(stack);
-            });
-        })
-        .then(function (repoModel) {
-          return $q.all({
-            repoBuildAndBranch: createNewBuildAndFetchBranch(currentOrg.github, repoModel, '', false),
-            stack: fetchStackData(repoModel, true),
-            instances: fetchInstancesByPod(),
-            deps: findDependencyNonRepoInstances(stack)
-          });
-        })
-        .then(function (promiseResults) {
-          var generatedEnvs = fillInEnvs(stack, promiseResults.deps);
-
-          var repoBuildAndBranch = promiseResults.repoBuildAndBranch;
-          repoBuildAndBranch.instanceName = getUniqueInstanceName(stack.repoName, promiseResults.instances);
-          repoBuildAndBranch.defaults = {
-            selectedStack: promiseResults.stack,
-            startCommand: stack.cmd,
-            keepStartCmd: true,
-            run: stack.buildCommands,
-            packages: stack.packages
-          };
-
-          return $q.all({
-            deps: promiseResults.deps,
-            instance: serverCreateService(repoBuildAndBranch, {
-              env: generatedEnvs,
-              ports: stack.ports
-            })
-          });
-        })
-        .then(function (promiseResults) {
-          var deps = Object.keys(promiseResults.deps).map(function (id) {
-            return promiseResults.deps[id];
-          });
-          return createAutoIsolationConfig(promiseResults.instance, deps)
-            .then(function () {
-              return promiseResults.instance;
-            });
-        });
-    },
+    createDemoApp: createDemoApp,
     shouldShowDemoSelector: function () {
       return showDemoSelector;
     }
