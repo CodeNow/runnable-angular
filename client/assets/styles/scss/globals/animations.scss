@@ -126,6 +126,34 @@
   }
 }
 
+@keyframes loading-in {
+  0%,
+  90% {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  91%,
+  100% {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+@keyframes loading-out {
+  0%,
+  90% {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  91%,
+  100% {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
 @keyframes logs-blink {
   0% {
     opacity: 0;
@@ -151,6 +179,28 @@
 
   50.1% {
     opacity: .5;
+  }
+}
+
+@keyframes progress-bar {
+  0% {
+    transform: translate3d(-97%,0,0);
+  }
+
+  40% {
+    transform: translate3d(-40%,0,0);
+  }
+
+  80% {
+    transform: translate3d(-10%,0,0);
+  }
+
+  90% {
+    transform: translate3d(-3%,0,0);
+  }
+
+  100% {
+    transform: translate3d(0,0,0);
   }
 }
 
