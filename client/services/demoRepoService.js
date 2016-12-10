@@ -128,6 +128,14 @@ function demoRepos(
   function findNewRepo(stack) {
     return fetchOwnerRepo(currentOrg.github.oauthName(), stack.repoName);
   }
+  
+  function isOrphanedDependency () {
+    // if this item is in the hash of stacks, it has not been built
+    // a successfully build demo instance would return true here, not the stack key
+    var stackName = demoFlowService.getItem('isUsingDemoRepo');
+    return stacks[stackName];
+  }
+
   function findNewRepoOnRepeat(stack, count) {
     count = count || 0;
     if (count > 30) {
@@ -166,11 +174,31 @@ function demoRepos(
     return github.forkRepo(stack.repoOwner, stack.repoName, currentOrg.github.oauthName(), keypather.get(currentOrg, 'poppa.attrs.isPersonalAccount'));
   }
   function findDependencyNonRepoInstances(stack) {
+    if (isOrphanedDependency()) {
+      return fetchInstancesByPod()
+        .then(function (instances) {
+          var dependency = instances.models.find(function (instance) {
+            return !instance.getRepoName();
+          });
+          if (dependency) {
+            var demoDependency = {}
+            demoDependency[dependency.attrs.name] = dependency;
+            return $q.when(demoDependency);
+          }
+        })
+    }
     return fetchNonRepoInstances()
       .then(function (instances) {
         return instances.filter(function (instance) {
           return stack.deps.includes(instance.attrs.name);
         });
+      })
+      .then(function (deps) {
+        var depMap = {};
+        deps.map(function (depInstance) {
+          depMap[depInstance.attrs.name] = createNonRepoInstance(depInstance.attrs.name, depInstance);
+        });
+        return $q.all(depMap);
       });
   }
   function fillInEnvs(stack, deps) {
@@ -206,13 +234,6 @@ function demoRepos(
             stack: fetchStackData(repoModel, true),
             instances: fetchInstancesByPod(),
             deps: findDependencyNonRepoInstances(stack)
-              .then(function (deps) {
-                var depMap = {};
-                deps.map(function (depInstance) {
-                  depMap[depInstance.attrs.name] = createNonRepoInstance(depInstance.attrs.name, depInstance);
-                });
-                return $q.all(depMap);
-              })
           });
         })
         .then(function (promiseResults) {
