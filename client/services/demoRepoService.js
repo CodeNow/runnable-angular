@@ -132,11 +132,8 @@ function demoRepos(
   function isOrphanedDependency () {
     // if this item is in the hash of stacks, it has not been built
     // a successfully build demo instance would return true here, not the stack key
-    
-    // this does not work
     var stackName = demoFlowService.isUsingDemoRepo();
-    // var stackName = localStorage.getItem('stackKey');
-    // if we've the key exists, we haven't successfully got word back that the instance is building
+    // if the key can retrieve a value, we haven't successfully got word back that the instance is building
     if (stacks[stackName]) {
       var dep;
       var repoInstance;
@@ -240,9 +237,7 @@ function demoRepos(
 
   function createDemoApp (stackKey) {
     var stack = stacks[stackKey];
-    // this also does not work
     demoFlowService.setIsUsingDemoRepo(stackKey);
-    // localStorage.setItem('stackKey', stackKey);
     return findNewRepo(stack)
       .catch(function forkRepo() {
         return forkGithubRepo(stackKey)
@@ -292,8 +287,6 @@ function demoRepos(
         ahaGuide.endGuide({
           hasConfirmedSetup: true
         });
-        // this seems to work
-        // localStorage.setItem('stackKey', null);
         demoFlowService.setIsUsingDemoRepo(true);
         $rootScope.$broadcast('demoService::hide');
         $rootScope.$broadcast('demo::building', instance);
