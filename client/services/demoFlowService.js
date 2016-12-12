@@ -94,5 +94,27 @@ function demoFlowService(
     setItem: setItem,
     submitDemoPR: submitDemoPR
   };
-
 }
+
+ // function createCommitAndSubmitPR (repoOwner, repoName, branchName, sha) {
+ //    return github.getTreeForCommit(repoOwner, repoName, sha)
+ //      .then(function (res) {
+ //        var treeSha = res.tree.sha;
+ //        return github.createNewTreeFromSha(repoOwner, repoName, treeSha);
+ //      })
+ //      .then(function (res) {
+ //        var newTreeSha = res.sha;
+ //        return github.createCommit(repoOwner, repoName, sha, newTreeSha);
+ //      })
+ //      .then(function (res) {
+ //        var newCommitSha = res.sha;
+ //        return github.updateRef(repoOwner, repoName, branchName, newCommitSha);
+ //      })
+ //      .then(function (res) {
+ //        return submitPR(repoOwner, repoName, branchName);
+ //      });
+ //  }
+
+
+
+

@@ -13,6 +13,7 @@ function demoAddBranch(
   demoFlowService,
   errs,
   fetchInstancesByPod,
+  fetchRepoBranches,
   featureFlags,
   github,
   keypather,
@@ -28,6 +29,22 @@ function demoAddBranch(
       instance: '='
     },
     link: function ($scope, element, attrs) {
+
+  function getBranchForPR () {
+    return promisify(currentOrg.github, 'fetchRepo')($scope.instance.getRepoName())
+      .then(function (repo) {
+        return fetchRepoBranches(repo);
+      })
+      .then(function (branches) {
+        var darkTheme = branches.models.find(function(branch) {
+          return keypather.get(branch, 'attrs.name') === 'dark-theme';
+        });
+        var sha = darkTheme.attrs.commit.sha;
+        var branchName = darkTheme.attrs.name;
+        return promisify($scope.instance, 'fork')(branchName, sha)
+      })
+  }
+
       fetchInstancesByPod()
         .then(function (instances) {
           return watchOncePromise($scope, function () {
@@ -120,6 +137,9 @@ function demoAddBranch(
         var branchName = $scope.getBranchName();
         if (count) {
           branchName += '-' + count;
+        }
+        if (demoFlowService.isAddingPR()) {
+          return getBranchForPR($scope.instance);
         }
         return github.createNewBranch(repoOwner, repoName, acv.attrs.commit, branchName)
           .catch(function (err) {
