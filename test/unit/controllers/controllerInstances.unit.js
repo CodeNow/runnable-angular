@@ -73,6 +73,12 @@ describe('ControllerInstances'.bold.underline.blue, function () {
         models: []
       }
     };
+
+    var mockInstances = {
+      models: [],
+      on: sinon.spy(),
+      off: sinon.spy()
+    };
     ctx.setupInstanceResponse = function(username, cb) {
       return function (overrideUsername) {
         cb(null, ctx.instanceLists[overrideUsername || username], overrideUsername || username);
@@ -91,6 +97,11 @@ describe('ControllerInstances'.bold.underline.blue, function () {
     };
     angular.mock.module('app', function ($provide) {
       $provide.factory('fetchInstancesByPod', mockFetch.fetch());
+      $provide.factory('fetchInstances', function ($q) {
+        return function () {
+          return $q.when(mockInstances);
+        };
+      });
       $provide.factory('promisify', function ($q) {
         var promisifyMock = sinon.spy(function (obj, key) {
           return function () {
