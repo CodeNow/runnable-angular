@@ -28,7 +28,7 @@ button.btn.btn-xs.white(
 
 a.btn.btn-xs.white(
   ng-click = "\
-    dismissUrlCallout();\
+    $emit('demo::dismissUrlCallout', instance.id());\
     openedContainerUrl();\
   "
   ng-href = "{{getContainerUrl(instance)}}"

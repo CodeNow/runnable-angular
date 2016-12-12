@@ -26,12 +26,12 @@
       ng-class = "{\
         'green': dataInstance.data.showUpdatedMessage,\
         'orange': dataInstance.data.showUpdatingMessage || dataInstance.data.instance.isMigrating(),\
-        'white below-modals': $root.featureFlags.demoMultiTierBuilding && dataInstance.data.demoFlowFlags.showHangTightMessage\
+        'white below-modals': $root.featureFlags.demoMultiTierBuilding && CI.showHangTightMessage()\
       }"
       ng-if = "\
         (dataInstance.data.showUpdatingMessage || dataInstance.data.showUpdatedMessage) ||\
         dataInstance.data.instance.isMigrating() ||\
-        ($root.featureFlags.demoMultiTierBuilding && dataInstance.data.demoFlowFlags.showHangTightMessage)\
+        ($root.featureFlags.demoMultiTierBuilding && CI.showHangTightMessage())\
       "
       ng-include = "'viewNotifications'"
     )

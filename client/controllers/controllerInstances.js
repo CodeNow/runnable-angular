@@ -75,7 +75,7 @@ function ControllerInstances(
               return $state.go('base.instances.instance', {
                 instanceName: instance.getName()
               });
-            })
+            });
         }
       });
 

@@ -9,7 +9,7 @@ var stacks = {
     description: 'A Node.js & MongoDB app',
     repoOwner: 'RunnableDemo',
     icon: '/build/images/logos/logo-icon-nodejs.svg',
-    cmd: 'npm run migrate && npm start',
+    cmd: 'npm start',
     buildCommands: [
       'npm install'
     ],
@@ -134,8 +134,8 @@ function demoRepos(
     // a successfully build demo instance would return true here, not the stack key
     
     // this does not work
-    // var stackName = demoFlowService.isUsingDemoRepo();
-    var stackName = localStorage.getItem('stackKey');
+    var stackName = demoFlowService.isUsingDemoRepo();
+    // var stackName = localStorage.getItem('stackKey');
     // if we've the key exists, we haven't successfully got word back that the instance is building
     if (stacks[stackName]) {
       var dep;
@@ -148,13 +148,13 @@ function demoRepos(
             } else {
               dep = instance;
             }
-          })
+          });
           if (dep && !repoInstance) {
             return stackName;
           } else {
             return false;
           }
-        })
+        });
     }
     return $q.when(false);
   }
@@ -206,11 +206,11 @@ function demoRepos(
                 return !instance.getRepoName();
               });
               if (dependency) {
-                var demoDependency = {}
+                var demoDependency = {};
                 demoDependency[dependency.attrs.name] = dependency;
                 return demoDependency;
               }
-            })
+            });
         }
         return fetchNonRepoInstances()
           .then(function (instances) {
@@ -240,6 +240,9 @@ function demoRepos(
 
   function createDemoApp (stackKey) {
     var stack = stacks[stackKey];
+    // this also does not work
+    demoFlowService.setIsUsingDemoRepo(stackKey);
+    // localStorage.setItem('stackKey', stackKey);
     return findNewRepo(stack)
       .catch(function forkRepo() {
         return forkGithubRepo(stackKey)
@@ -256,9 +259,6 @@ function demoRepos(
         });
       })
       .then(function (promiseResults) {
-        // this also does not work
-        // demoFlowService.setIsUsingDemoRepo(stackKey);
-        localStorage.setItem('stackKey', stackKey);
         var generatedEnvs = fillInEnvs(stack, promiseResults.deps);
 
         var repoBuildAndBranch = promiseResults.repoBuildAndBranch;
@@ -292,14 +292,14 @@ function demoRepos(
         ahaGuide.endGuide({
           hasConfirmedSetup: true
         });
-        localStorage.setItem('stackKey', null);
         // this seems to work
-        // demoFlowService.setIsUsingDemoRepo(true);
+        // localStorage.setItem('stackKey', null);
+        demoFlowService.setIsUsingDemoRepo(true);
         $rootScope.$broadcast('demoService::hide');
         $rootScope.$broadcast('demo::building', instance);
         return instance;
       });
-  };
+  }
 
   $rootScope.$on('demoService::hide', function () {
     showDemoSelector = false;
