@@ -91,7 +91,8 @@ function demoFlowService(
     isUsingDemoRepo: isUsingDemoRepo,
     resetFlags: resetFlags,
     setIsUsingDemoRepo: setIsUsingDemoRepo,
-    setItem: setItem
+    setItem: setItem,
+    submitDemoPR: submitDemoPR
   };
 
 }
