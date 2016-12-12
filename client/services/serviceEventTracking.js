@@ -535,7 +535,7 @@ function EventTracking(
 
     ETS._mixpanel('track', eventName);
     return ETS;
-  }
+  };
 
   /**
    * Milestone 4: Invited Runnabot
