@@ -129,10 +129,10 @@ function demoRepos(
     return fetchOwnerRepo(currentOrg.github.oauthName(), stack.repoName);
   }
 
-  function isOrphanedDependency () {
+  function checkForOrphanedDependency () {
     // if this item is in the hash of stacks, it has not been built
-    // a successfully build demo instance would return true here, not the stack key
-    var stackName = demoFlowService.isUsingDemoRepo();
+    // a successfully built demo instance would return true here, not the stack key
+    var stackName = demoFlowService.usingDemoRepo();
     // if the key can retrieve a value, we haven't successfully got word back that the instance is building
     if (stacks[stackName]) {
       var dep;
@@ -140,7 +140,9 @@ function demoRepos(
       return fetchInstancesByPod()
         .then(function (instances) {
           instances.forEach(function (instance) {
-            if (instance.getRepoName()) {
+            // we checking here to be sure that the instance has a repo/acv
+            // to distinguish between the dependency instances
+            if (instance.contextVersion.getMainAppCodeVersion()) {
               repoInstance = instance;
             } else {
               dep = instance;
@@ -148,9 +150,8 @@ function demoRepos(
           });
           if (dep && !repoInstance) {
             return stackName;
-          } else {
-            return false;
           }
+          return false;
         });
     }
     return $q.when(false);
@@ -194,19 +195,17 @@ function demoRepos(
     return github.forkRepo(stack.repoOwner, stack.repoName, currentOrg.github.oauthName(), keypather.get(currentOrg, 'poppa.attrs.isPersonalAccount'));
   }
   function findDependencyNonRepoInstances(stack) {
-    return isOrphanedDependency()
+    return checkForOrphanedDependency()
       .then(function (hasOrphanedDependency) {
         if (hasOrphanedDependency) {
           return fetchInstancesByPod()
             .then(function (instances) {
               var dependency = instances.models.find(function (instance) {
-                return !instance.getRepoName();
+                return !instance.contextVersion.getMainAppCodeVersion();
               });
-              if (dependency) {
-                var demoDependency = {};
-                demoDependency[dependency.attrs.name] = dependency;
-                return demoDependency;
-              }
+              var demoDependency = {};
+              demoDependency[dependency.attrs.name] = dependency;
+              return demoDependency;
             });
         }
         return fetchNonRepoInstances()
@@ -237,13 +236,11 @@ function demoRepos(
 
   function createDemoApp (stackKey) {
     var stack = stacks[stackKey];
-    demoFlowService.setIsUsingDemoRepo(stackKey);
+    demoFlowService.setUsingDemoRepo(stackKey);
     return findNewRepo(stack)
       .catch(function forkRepo() {
         return forkGithubRepo(stackKey)
-          .then(function () {
-            return findNewRepoOnRepeat(stack);
-          });
+          .then(findNewRepoOnRepeat.bind(this, stack))
       })
       .then(function (repoModel) {
         return $q.all({
@@ -287,7 +284,7 @@ function demoRepos(
         ahaGuide.endGuide({
           hasConfirmedSetup: true
         });
-        demoFlowService.setIsUsingDemoRepo(true);
+        demoFlowService.setUsingDemoRepo(true);
         $rootScope.$broadcast('demoService::hide');
         $rootScope.$broadcast('demo::building', instance);
         return instance;
@@ -298,7 +295,7 @@ function demoRepos(
     showDemoSelector = false;
   });
   return {
-    isOrphanedDependency: isOrphanedDependency,
+    checkForOrphanedDependency: checkForOrphanedDependency,
     demoStacks: stacks,
     forkGithubRepo: forkGithubRepo,
     findDependencyNonRepoInstances: findDependencyNonRepoInstances,

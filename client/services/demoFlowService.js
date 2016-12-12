@@ -15,7 +15,7 @@ function demoFlowService(
 ) {
   function resetFlags () {
     $localStorage.hasSeenHangTightMessage = false;
-    $localStorage.isUsingDemoRepo = false;
+    $localStorage.usingDemoRepo = false;
     $localStorage.hasSeenUrlCallout = false;
   }
 
@@ -69,8 +69,8 @@ function demoFlowService(
     return $localStorage.hasSeenUrlCallout;
   }
 
-  function setIsUsingDemoRepo (value) {
-    $localStorage.isUsingDemoRepo = value;
+  function setUsingDemoRepo (value) {
+    $localStorage.usingDemoRepo = value;
   }
 
   function hasAddedBranch (value) {
@@ -80,8 +80,8 @@ function demoFlowService(
     return $localStorage.hasAddedBranch;
   }
 
-  function isUsingDemoRepo () {
-    return $localStorage.isUsingDemoRepo;
+  function usingDemoRepo () {
+    return $localStorage.usingDemoRepo;
   }
   $rootScope.$on('demo::dismissUrlCallout', function ($event, instanceId) {
     if (!hasSeenUrlCallout()) {
@@ -97,9 +97,9 @@ function demoFlowService(
     hasSeenHangTightMessage: hasSeenHangTightMessage,
     hasSeenUrlCallout: hasSeenUrlCallout,
     isInDemoFlow: isInDemoFlow,
-    isUsingDemoRepo: isUsingDemoRepo,
+    usingDemoRepo: usingDemoRepo,
     resetFlags: resetFlags,
-    setIsUsingDemoRepo: setIsUsingDemoRepo,
+    setUsingDemoRepo: setUsingDemoRepo,
     setItem: setItem
   };
 }

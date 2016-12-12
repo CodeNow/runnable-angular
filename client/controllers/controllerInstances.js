@@ -65,7 +65,7 @@ function ControllerInstances(
   });
 
   if (demoFlowService.isInDemoFlow()) {
-    demoRepos.isOrphanedDependency()
+    demoRepos.checkForOrphanedDependency()
       .then(function (orphanedDemoBuild) {
         if (orphanedDemoBuild) {
           loading('startDemo', true);
@@ -369,7 +369,7 @@ function ControllerInstances(
       })
       .then(function (instance) {
         if (instance) {
-          CIS.isUsingDemoRepo = demoFlowService.isUsingDemoRepo();
+          CIS.usingDemoRepo = demoFlowService.usingDemoRepo();
         }
       });
   }

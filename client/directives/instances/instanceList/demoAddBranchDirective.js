@@ -68,7 +68,7 @@ function demoAddBranch(
 
       $scope.shouldUseBranchForPR = function () {
         return currentOrg.isPersonalAccount() &&
-          demoFlowService.isUsingDemoRepo() &&
+          demoFlowService.usingDemoRepo() &&
           featureFlags.flags.demoMultiTierPRLink;
       };
 

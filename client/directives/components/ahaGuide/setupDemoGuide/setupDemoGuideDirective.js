@@ -35,7 +35,7 @@ function setupDemoGuide(
 
       $scope.skipDemo = function () {
         $rootScope.$broadcast('demoService::hide');
-        demoFlowService.setIsUsingDemoRepo(false);
+        demoFlowService.setUsingDemoRepo(false);
       };
     }
   };

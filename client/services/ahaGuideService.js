@@ -311,8 +311,8 @@ function ahaGuide(
   function hasConfirmedSetup () {
     if (featureFlags.flags.demoMultiTier) {
       return !!keypather.get(instances, 'models.length') &&
-      instances.models.find(function (instance) {
-        return instance.getRepoName();
+        instances.models.find(function (instance) {
+          return instance.getRepoName();
       });
     }
     return keypather.get(currentOrg, 'poppa.attrs.metadata.hasConfirmedSetup');
@@ -359,7 +359,7 @@ function ahaGuide(
         delete $storage.hasSeenHangTightMessage;
         delete $storage.hasSeenUrlCallout;
         delete $storage.launchedFromContainersPage;
-        delete $storage.isUsingDemoRepo;
+        delete $storage.usingDemoRepo;
         delete $storage.hasAddedBranch;
         updateCurrentOrg(updatedOrg);
       });
