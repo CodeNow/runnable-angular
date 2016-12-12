@@ -19,6 +19,7 @@ function ControllerInstances(
   errs,
   eventTracking,
   featureFlags,
+  fetchInstances,
   fetchInstancesByPod,
   fetchRepoBranches,
   keypather,
@@ -64,6 +65,31 @@ function ControllerInstances(
     CIS.showAutofork = true;
   });
 
+  /**
+   * This listens for new instances to be created for event tracking purposes
+   * If the new instance is the first of it's kind (it's grouped as added a new branch)
+   * we can report that the user has added their first ever branch!
+   */
+  function listenForFirstNewBranches () {
+    return fetchInstances({
+      githubUsername: currentOrg.github.login
+    })
+      .then(function (allInstances) {
+        function instanceListener (instanceModel) {
+          if (!instanceModel.attrs.masterPod) {
+            var instanceWithParents = allInstances.models.filter(function (instance) {
+              return instance.attrs.parent === instanceModel.attrs.parent;
+            });
+            if (instanceWithParents.length === 1) {
+              eventTracking.hasAddedFirstBranch();
+              allInstances.off('add', instanceListener);
+            }
+          }
+        }
+        allInstances.on('add', instanceListener);
+      });
+  }
+
   if (demoFlowService.isInDemoFlow()) {
     watchOncePromise($scope, function () {
       return demoFlowService.hasSeenUrlCallout();
@@ -86,6 +112,8 @@ function ControllerInstances(
 
   fetchInstancesByPod()
     .then(function (instancesByPod) {
+      // Fire-and-forget. Used for event-tracking
+      listenForFirstNewBranches();
 
       // If the state has already changed don'  t continue with old data. Let the new one execute.
       if (CIS.userName !== $state.params.userName) {
