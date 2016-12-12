@@ -79,7 +79,7 @@ function ControllerInstances(
               return instance.attrs.parent === instanceModel.attrs.parent;
             });
             if (instanceWithParents.length === 1) {
-              eventTracking.hasAddedBranch();
+              eventTracking.hasAddedFirstBranch();
               allInstances.off('add', instanceListener);
             }
           }
@@ -103,8 +103,7 @@ function ControllerInstances(
 
   fetchInstancesByPod()
     .then(function (instancesByPod) {
-      // We don't actually need to return here because we don't care when this promise resolves.
-      // As long as it eventually does, since it's for event tracking only.
+      // Fire-and-forget. Used for event-tracking
       listenForFirstNewBranches();
 
       // If the state has already changed don'  t continue with old data. Let the new one execute.

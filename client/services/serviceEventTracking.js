@@ -530,7 +530,7 @@ function EventTracking(
    *  - Mixpanel
    * @returns this
    */
-  ETS.hasAddedBranch = function () {
+  ETS.hasAddedFirstBranch = function () {
     var eventName = 'Added branch';
 
     ETS._mixpanel('track', eventName);
