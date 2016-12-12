@@ -6,6 +6,7 @@ require('app')
 function demoFlowService(
   $http,
   $localStorage,
+  $rootScope,
   $q,
   $rootScope,
   currentOrg,
@@ -48,6 +49,17 @@ function demoFlowService(
             });
         }
        });
+  }
+
+  function checkStatusOnInstance (instance) {
+    var url = defaultContainerUrl(instance);
+    return $http.get(url)
+      .then(function (res) {
+        return res.status >= 200 && res.status < 300;
+      })
+      .catch(function () {
+        return true;
+      });
   }
 
   function checkStatusOnInstance (instance) {
