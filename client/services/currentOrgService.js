@@ -12,8 +12,7 @@ function currentOrg(
   };
 
   org.isPersonalAccount = function () {
-    // return keypather.get(org, 'poppa.attrs.isPersonalAccount');
-    return true;
+    return keypather.get(org, 'poppa.attrs.isPersonalAccount');
   };
 
   return org;
