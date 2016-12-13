@@ -135,6 +135,7 @@ function demoRepos(
     var stackName = demoFlowService.usingDemoRepo();
     // if the key can retrieve a value, we haven't successfully got word back that the instance is building
     if (stacks[stackName]) {
+      var repoName = stacks[stackName].repoName;
       var dep;
       var repoInstance;
       return fetchInstancesByPod()
@@ -142,7 +143,7 @@ function demoRepos(
           instances.models.some(function (instance) {
             // we checking here to be sure that the instance has a repo/acv
             // to distinguish between the dependency instances
-            if (instance.contextVersion.getMainAppCodeVersion()) {
+            if (instance.contextVersion.getMainAppCodeVersion() && instance.attrs.name === repoName) {
               repoInstance = instance;
             } else {
               dep = instance;
@@ -196,13 +197,14 @@ function demoRepos(
     return github.forkRepo(stack.repoOwner, stack.repoName, currentOrg.github.oauthName(), keypather.get(currentOrg, 'poppa.attrs.isPersonalAccount'));
   }
   function findDependencyNonRepoInstances(stack) {
+    var stackDependencies = stack.deps;
     return checkForOrphanedDependency()
       .then(function (hasOrphanedDependency) {
         if (hasOrphanedDependency) {
           return fetchInstancesByPod()
             .then(function (instances) {
               var dependency = instances.models.find(function (instance) {
-                return !instance.contextVersion.getMainAppCodeVersion();
+                return !instance.contextVersion.getMainAppCodeVersion() && stack.deps.includes(instance.attrs.name);
               });
               var demoDependency = {};
               demoDependency[dependency.attrs.name] = dependency;
