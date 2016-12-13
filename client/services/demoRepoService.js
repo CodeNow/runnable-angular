@@ -139,7 +139,7 @@ function demoRepos(
       var repoInstance;
       return fetchInstancesByPod()
         .then(function (instances) {
-          instances.forEach(function (instance) {
+          instances.models.some(function (instance) {
             // we checking here to be sure that the instance has a repo/acv
             // to distinguish between the dependency instances
             if (instance.contextVersion.getMainAppCodeVersion()) {
@@ -147,6 +147,7 @@ function demoRepos(
             } else {
               dep = instance;
             }
+            return dep && repoInstance;
           });
           if (dep && !repoInstance) {
             return stackName;
@@ -215,10 +216,10 @@ function demoRepos(
             });
           })
           .then(function (deps) {
-            var depMap = {};
-            deps.map(function (depInstance) {
-              depMap[depInstance.attrs.name] = createNonRepoInstance(depInstance.attrs.name, depInstance);
-            });
+            var depMap = deps.reduce(function (map, depInstance) {
+              map[depInstance.attrs.name] = createNonRepoInstance(depInstance.attrs.name, depInstance);
+              return map;
+            }, {});
             return $q.all(depMap);
           });
       });
@@ -253,15 +254,16 @@ function demoRepos(
       .then(function (promiseResults) {
         var generatedEnvs = fillInEnvs(stack, promiseResults.deps);
 
-        var repoBuildAndBranch = promiseResults.repoBuildAndBranch;
-        repoBuildAndBranch.instanceName = getUniqueInstanceName(stack.repoName, promiseResults.instances);
-        repoBuildAndBranch.defaults = {
-          selectedStack: promiseResults.stack,
-          startCommand: stack.cmd,
-          keepStartCmd: true,
-          run: stack.buildCommands,
-          packages: stack.packages
-        };
+        var repoBuildAndBranch = Object.assign(promiseResults.repoBuildAndBranch, {
+          instanceName: getUniqueInstanceName(stack.repoName, promiseResults.instances),
+          defaults: {
+            selectedStack: promiseResults.stack,
+            startCommand: stack.cmd,
+            keepStartCmd: true,
+            run: stack.buildCommands,
+            packages: stack.packages
+          }
+        });
 
         return $q.all({
           deps: promiseResults.deps,

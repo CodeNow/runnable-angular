@@ -38,7 +38,7 @@ describe('demoRepos', function () {
       });
       $provide.factory('demoFlowService', function ($q) {
         return {
-          isUsingDemoRepo: sinon.stub().returns(stackNameMock),
+          usingDemoRepo: sinon.stub().returns(stackNameMock),
 
         }
       });
@@ -92,16 +92,21 @@ describe('demoRepos', function () {
   });
 
   describe.only('orphaned dependencies', function () {
+    beforeEach(function () {
+      stackNameMock = 'nodejs';
+    })
+
     it('should return the stack name when it is a dependency only', function (done) {
       mockDemoInstances = [{
-        getRepoName: sinon.stub().returns(null),
+        contextVersion: {
+          getMainAppCodeVersion: sinon.stub().returns(null)
+        },
         attrs: {
           name: 'MongoDB'
         }
       }];
-      stackNameMock = 'nodejs';
       setup();
-      demoRepos.isOrphanedDependency()
+      demoRepos.checkForOrphanedDependency()
         .then(function (stackName) {
           sinon.assert.calledOnce(fetchInstancesByPodStub);
           expect(stackName).to.equal('nodejs');
@@ -112,20 +117,23 @@ describe('demoRepos', function () {
 
     it('should return false if there is no orphaned dependency', function (done) {
       mockDemoInstances = [{
-        getRepoName: sinon.stub().returns(null),
+        contextVersion: {
+          getMainAppCodeVersion: sinon.stub().returns(null)
+        },
         attrs: {
           name: 'MongoDB'
         }
       },
       {
-        getRepoName: sinon.stub().returns('nodejs'),
+        contextVersion: {
+          getMainAppCodeVersion: sinon.stub().returns('nodejs')
+        },
         attrs: {
           name: 'node-starter'
         }
       }];
-      stackNameMock = 'nodejs';
       setup();
-      demoRepos.isOrphanedDependency()
+      demoRepos.checkForOrphanedDependency()
         .then(function (stackName) {
           sinon.assert.calledOnce(fetchInstancesByPodStub);
           expect(stackName).to.equal(false);
