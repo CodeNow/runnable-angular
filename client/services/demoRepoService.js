@@ -197,7 +197,6 @@ function demoRepos(
     return github.forkRepo(stack.repoOwner, stack.repoName, currentOrg.github.oauthName(), keypather.get(currentOrg, 'poppa.attrs.isPersonalAccount'));
   }
   function findDependencyNonRepoInstances(stack) {
-    var stackDependencies = stack.deps;
     return checkForOrphanedDependency()
       .then(function (hasOrphanedDependency) {
         if (hasOrphanedDependency) {
@@ -243,7 +242,7 @@ function demoRepos(
     return findNewRepo(stack)
       .catch(function forkRepo() {
         return forkGithubRepo(stackKey)
-          .then(findNewRepoOnRepeat.bind(this, stack))
+          .then(findNewRepoOnRepeat.bind(this, stack));
       })
       .then(function (repoModel) {
         return $q.all({

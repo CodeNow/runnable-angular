@@ -91,20 +91,22 @@ describe('demoRepos', function () {
     });
   });
 
-  describe.only('orphaned dependencies', function () {
+  describe('orphaned dependencies', function () {
     beforeEach(function () {
       stackNameMock = 'nodejs';
-    })
+    });
 
     it('should return the stack name when it is a dependency only', function (done) {
-      mockDemoInstances = [{
-        contextVersion: {
+      mockDemoInstances = {
+        models: [{
+          contextVersion: {
           getMainAppCodeVersion: sinon.stub().returns(null)
-        },
-        attrs: {
-          name: 'MongoDB'
-        }
-      }];
+          },
+          attrs: {
+            name: 'MongoDB'
+          }
+        }]
+      };
       setup();
       demoRepos.checkForOrphanedDependency()
         .then(function (stackName) {
@@ -116,22 +118,24 @@ describe('demoRepos', function () {
     });
 
     it('should return false if there is no orphaned dependency', function (done) {
-      mockDemoInstances = [{
+      mockDemoInstances = {
+       models: [{
         contextVersion: {
           getMainAppCodeVersion: sinon.stub().returns(null)
         },
         attrs: {
           name: 'MongoDB'
         }
-      },
-      {
-        contextVersion: {
-          getMainAppCodeVersion: sinon.stub().returns('nodejs')
         },
-        attrs: {
-          name: 'node-starter'
-        }
-      }];
+        {
+          contextVersion: {
+            getMainAppCodeVersion: sinon.stub().returns('nodejs')
+          },
+          attrs: {
+            name: 'node-starter'
+          }
+        }]
+      };
       setup();
       demoRepos.checkForOrphanedDependency()
         .then(function (stackName) {
