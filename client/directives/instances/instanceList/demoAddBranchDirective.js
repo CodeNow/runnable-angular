@@ -13,9 +13,6 @@ function demoAddBranch() {
       userName: '=',
       instance: '='
     },
-    controller: 'DemoAddBranchController as DBC',
-    link: function (scope, elem, attrs) {
-      console.log(scope, elem, attrs);
-    }
+    controller: 'DemoAddBranchController as DBC'
   };
 }

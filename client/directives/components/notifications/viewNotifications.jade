@@ -4,11 +4,12 @@
 )
 
 .grid-block(
-  ng-if = "!dataInstance.data.instance.isMigrating() && (!$root.featureFlags.demoMultiTierBuilding || !dataInstance.data.demoFlowFlags.showHangTightMessage)"
+  ng-if = "!dataInstance.data.instance.isMigrating() && (!$root.featureFlags.demoMultiTierBuilding || !CI.showHangTightMessage())"
   ng-include = "'buildNotificationView'"
 )
 
 .grid-block(
-  ng-if = "$root.featureFlags.demoMultiTierBuilding && dataInstance.data.demoFlowFlags.showHangTightMessage"
-  ng-include = "'firstBuildNotificationView'"
+  ng-if = "CI.showHangTightMessage()"
+  hang-tight
+  instance = "dataInstance.data.instance"
 )

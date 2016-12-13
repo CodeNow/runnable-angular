@@ -4,10 +4,13 @@ require('app')
   .factory('demoFlowService', demoFlowService);
 
 function demoFlowService(
+  $http,
   $localStorage,
+  $rootScope,
   $q,
   currentOrg,
   github,
+  defaultContainerUrl,
   keypather,
   patchOrgMetadata
 ) {
@@ -48,6 +51,17 @@ function demoFlowService(
       });
   }
 
+  function checkStatusOnInstance (instance) {
+    var url = defaultContainerUrl(instance);
+    return $http.get(url)
+      .then(function (res) {
+        return res.status >= 200 && res.status < 300;
+      })
+      .catch(function () {
+        return true;
+      });
+  }
+
   function hasSeenHangTightMessage () {
     return $localStorage.hasSeenHangTightMessage;
   }
@@ -75,12 +89,18 @@ function demoFlowService(
   function isUsingDemoRepo () {
     return $localStorage.isUsingDemoRepo;
   }
+  $rootScope.$on('demo::dismissUrlCallout', function ($event, instanceId) {
+    if (!hasSeenUrlCallout()) {
+      setItem('hasSeenUrlCallout', instanceId);
+    }
+  });
 
   function isAddingPR () {
     return currentOrg.isPersonalAccount() && isUsingDemoRepo();
   }
 
   return {
+    checkStatusOnInstance: checkStatusOnInstance,
     endDemoFlow: endDemoFlow,
     getItem: getItem,
     hasAddedBranch: hasAddedBranch,

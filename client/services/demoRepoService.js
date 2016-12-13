@@ -9,7 +9,7 @@ var stacks = {
     description: 'A Node.js & MongoDB app',
     repoOwner: 'RunnableDemo',
     icon: '/build/images/logos/logo-icon-nodejs.svg',
-    cmd: 'npm run migrate && npm start',
+    cmd: 'npm start',
     buildCommands: [
       'npm install'
     ],

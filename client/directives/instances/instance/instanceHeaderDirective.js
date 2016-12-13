@@ -10,6 +10,7 @@ function instanceHeader(
   $localStorage,
   $stateParams,
   ahaGuide,
+  demoFlowService,
   eventTracking,
   fetchPullRequest,
   keypather
@@ -38,6 +39,14 @@ function instanceHeader(
           });
       });
       $scope.isInGuide = ahaGuide.isInGuide;
+
+      $scope.showUrlCallout = function () {
+        return demoFlowService.isInDemoFlow() &&
+          !!keypather.get($scope.instance, 'contextVersion.getMainAppCodeVersion()') &&
+          !demoFlowService.hasSeenUrlCallout() &&
+          demoFlowService.hasSeenHangTightMessage() &&
+          keypather.get($scope.instance, 'status()') === 'running';
+      };
     }
   };
 }
