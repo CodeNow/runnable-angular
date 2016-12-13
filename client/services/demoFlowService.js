@@ -10,6 +10,7 @@ function demoFlowService(
   $q,
   currentOrg,
   defaultContainerUrl,
+  featureFlags,
   keypather,
   patchOrgMetadata
 ) {
@@ -88,6 +89,13 @@ function demoFlowService(
     }
   });
 
+  function shouldShowTeamCTA () {
+    if (!featureFlags.flags.teamCTA) {
+      return false;
+    }
+    return currentOrg.isPersonalAccount() && !isInDemoFlow();
+  }
+
   return {
     checkStatusOnInstance: checkStatusOnInstance,
     endDemoFlow: endDemoFlow,
@@ -99,6 +107,7 @@ function demoFlowService(
     isUsingDemoRepo: isUsingDemoRepo,
     resetFlags: resetFlags,
     setIsUsingDemoRepo: setIsUsingDemoRepo,
-    setItem: setItem
+    setItem: setItem,
+    shouldShowTeamCTA: shouldShowTeamCTA
   };
 }
