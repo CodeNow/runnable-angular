@@ -34,8 +34,8 @@ function DemoAddBranchController(
         });
         var sha = darkTheme.attrs.commit.sha;
         var branchName = darkTheme.attrs.name;
-        return promisify(DBC.instance, 'fork')(branchName, sha)
-      })
+        return promisify(DBC.instance, 'fork')(branchName, sha);
+      });
   }
 
       fetchInstancesByPod()
@@ -65,11 +65,12 @@ function DemoAddBranchController(
             });
         })
         .then(function (branchInstance) {
+          demoFlowService.hasAddedBranch(true);
           if (demoFlowService.isAddingPR()) {
             return demoFlowService.submitDemoPR(branchInstance)
               .then(function () {
                 return branchInstance;
-              })
+              });
           }
           return $q.when(branchInstance);
         })
@@ -79,7 +80,6 @@ function DemoAddBranchController(
           });
         })
         .then(function () {
-          demoFlowService.hasAddedBranch(true);
           return demoFlowService.endDemoFlow();
         })
         .finally(function () {

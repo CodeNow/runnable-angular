@@ -32,13 +32,15 @@ function isRunnabotPersonalCollaborator (
   return function (userName) {
     return fetchInstances()
       .then(function (instances) {
-        var repoCalls = instances.filter(function (instance) {
-          return instance.attrs.masterPod;
-        }).map(function (instance) {
-          var repoName = instance.getRepoName();
-          return githubRunnabotCheck(userName, repoName);
-        });
-        return $q.all(repoCalls);
+        var repoName;
+        var runnabotChecks = instances.reduce(function (repoCalls, instance) {
+          repoName = instance.getRepoName();
+          if (instance.attrs.masterPod && repoName) {
+            repoCalls.push(githubRunnabotCheck(userName, repoName));
+          }
+          return repoCalls;
+        }, []);
+        return $q.all(runnabotChecks);
       });
   };
 
@@ -97,14 +99,19 @@ function removePersonalRunnabot(
   return function (userName) {
     return fetchInstances()
       .then(function (instances) {
-        var repoCalls = instances.map(function (instance) {
-          var repoName = instance.getRepoName();
-          var req = {
-            method: 'delete',
-            url:  'https://api.github.com/repos/' + userName + '/' + repoName + '/collaborators/runnabot'
-          };
-          return github.makeGhRequest(req);
-        });
+        var repoName;
+        var req;
+        var repoCalls = instances.reduce(function (removeRunnabotCalls, instance) {
+          repoName = instance.getRepoName();
+          if (repoName) {
+            req = {
+              method: 'delete',
+              url:  'https://api.github.com/repos/' + userName + '/' + repoName + '/collaborators/runnabot'
+            };
+            removeRunnabotCalls.push(github.makeGhRequest(req));
+          }
+          return removeRunnabotCalls;
+        }, []);
         return $q.all(repoCalls);
       });
   };
