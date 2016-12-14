@@ -71,26 +71,32 @@
   }
 
   // add branch step
-  .commands-wrapper {
+  .commands-wrapper,
+  .skip-wrapper {
     background: $gray-dark;
     color: $gray-lighter;
-  }
 
-  .monospace {
-    overflow-x: auto;
-  }
-
-  // 'copy' button
-  .btn-xxs {
-    background: $gray;
-    color: $white;
-
-    &:hover {
-      background: rgba($gray,.7);
+    .monospace {
+      overflow-x: auto;
     }
 
-    &:active {
-      background: rgba($gray,.5);
+    .btn {
+      background: $gray;
+      color: $white;
+
+      &:hover {
+        background: rgba($gray,.7);
+      }
+
+      &:active {
+        background: rgba($gray,.5);
+      }
     }
+  }
+
+  // skip branch
+  .skip-wrapper {
+    border-radius: 0 0 $input-border-radius-lg $input-border-radius-lg;
+    border-top: 1px solid rgba($black,.2);
   }
 }
