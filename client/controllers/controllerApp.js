@@ -40,10 +40,6 @@ function ControllerApp(
       CA.instancesByPod = instancesByPod;
     });
 
-  CA.showDemoRepo = function () {
-    return ahaGuide.isAddingFirstRepo() && !ahaGuide.hasConfirmedSetup() && ahaGuide.hasDemoRepo();
-  };
-
   $rootScope.ModalService = ModalService;
 
   var allAccounts = orgs.models;
@@ -106,39 +102,6 @@ function ControllerApp(
   $scope.$on('launchAhaNavPopover', function () {
     CA.showAhaNavPopover = !keypather.get(currentOrg, 'poppa.attrs.metadata.hasConfirmedSetup');
   });
-
-  CA.showAhaConfirmation = function(event) {
-    event.stopPropagation();
-    event.preventDefault();
-    CA.showAhaNavPopover = false;
-
-    var confirmationPromise = $q.when(true);
-    if (!ahaGuide.hasDemoRepo()) {
-      confirmationPromise = ModalService.showModal({
-        controller: 'ConfirmationModalController',
-        controllerAs: 'CMC',
-        templateUrl: 'confirmSetupView'
-      })
-        .then(function(modal) {
-          return modal.close;
-        });
-    }
-    confirmationPromise
-      .then(function(confirmed) {
-        if (confirmed) {
-          return patchOrgMetadata(currentOrg.poppa.id(), {
-            metadata: {
-              hasConfirmedSetup: true
-            }
-          })
-            .then(function(updatedOrg) {
-              ahaGuide.updateCurrentOrg(updatedOrg);
-              $state.go('base.instances', {userName: CA.activeAccount.oauthName()});
-            });
-        }
-      })
-      .catch(errs.handler);
-  };
 
   /**
    * broadcast to child scopes when click event propagates up

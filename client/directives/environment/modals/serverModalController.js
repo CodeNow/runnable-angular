@@ -206,11 +206,6 @@ function ServerModalController(
             loading(SMC.name, true);
             return $q.when((state === 'build') ? SMC.getUpdatePromise() : true)
               .then(close)
-              .then(function () {
-                if (SMC.isDemo) {
-                  $rootScope.$broadcast('ahaGuide::launchModal');
-                }
-              })
               .catch(function (err) {
                 errs.handler(err);
                 loading(SMC.name, false);

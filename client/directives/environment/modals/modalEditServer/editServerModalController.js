@@ -10,6 +10,7 @@ function EditServerModalController(
   $scope,
   $controller,
   cleanStartCommand,
+  demoFlowService,
   errs,
   fetchInstancesByPod,
   instance,
@@ -23,6 +24,7 @@ function EditServerModalController(
   close
 ) {
   var SMC = this;
+  SMC.isInDemoFlow = demoFlowService.isInDemoFlow;
 
   var parentController = $controller('ServerModalController as SMC', { $scope: $scope });
   angular.extend(SMC, {

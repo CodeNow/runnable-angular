@@ -30,7 +30,6 @@ function AhaGuideController(
             });
           } else if (ahaGuide.isAddingFirstRepo()) {
             if (AGC.subStepIndex === 7) {
-              callPopover(config, instances);
               updateCaption('success');
             }
           }
@@ -49,12 +48,6 @@ function AhaGuideController(
       }
       registerListeners();
       fetchInstancesByPod()
-        .then(function (instances) {
-          var config = checkContainerInstances(instances);
-          if (config) {
-            callPopover(config, instances);
-          }
-        })
         .catch(errs.handler);
     }
   });
@@ -167,19 +160,6 @@ function AhaGuideController(
       }
     });
     return config;
-  }
-
-  /** this only calls popovers for one specific group. they have built a repo and nonrepo instance only.
-   * @param {object} config an object with two boolean properties, nonRepoInstance and workingRepoInstance
-   * @param {object} instances an object containing a collection of instances
-   */
-  function callPopover (config, instances) {
-    if (config.workingRepoInstance) {
-      if (instances.models.length === 2 || ( ahaGuide.hasDemoRepo() && instances.models.length === 1) ) {
-        $rootScope.$broadcast('launchAhaNavPopover');
-        AGC.showAhaNavPopover = true;
-      }
-    }
   }
 
   function getClassForSubstep () {

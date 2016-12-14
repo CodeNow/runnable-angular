@@ -51,12 +51,6 @@ button.btn.btn-md.white.btn-primary.float-right.js-animate(
       ng-if = "getDisplayFlag('willRebuildOnSave')"
     ) &#32;& Build
 
-button.btn.btn-md.green.btn-primary.float-right.text-save-build(
-  data-event-name = "Demo: Clicked Save & Build"
-  ng-if = "getDisplayFlag('demoSave')"
-  ng-click = "createServerOrUpdate(true)"
-) Save & Build
-
 span.small.float-right.fade.js-animate(
   ng-hide = "!getDisplayFlag('requireRebuildText')"
 ) You’ve made changes that require a rebuild.

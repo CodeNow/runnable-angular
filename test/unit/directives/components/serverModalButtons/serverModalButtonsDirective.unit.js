@@ -155,7 +155,6 @@ describe('serverModalButtonsDirective'.bold.underline.blue, function () {
     'done',
     'save',
     'next',
-    'demoSave',
     'willRebuildOnSave',
     'disableSave'
   ];
@@ -173,15 +172,6 @@ describe('serverModalButtonsDirective'.bold.underline.blue, function () {
     });
   }
   describe('getDisplayFlag', function () {
-    describe('when in demo mode', function () {
-      beforeEach(function () {
-        $rootScope.featureFlags.demoFlowPhase2 = true;
-        $elScope.SMC.isDemo = true;
-        $elScope.$digest();
-      });
-      testButtons(['cancel', 'demoSave']);
-    });
-
     describe('when editing an instance', function () {
       beforeEach(function () {
         $elScope.SMC.instance = {};

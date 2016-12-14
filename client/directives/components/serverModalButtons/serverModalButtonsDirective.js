@@ -30,14 +30,6 @@ function serverModalButtonsDirective(
         //   willRebuildOnSave
         //   disableSave
 
-        if ($rootScope.featureFlags.demoFlowPhase2 && $scope.SMC.isDemo) {
-          // Demo Mode
-          return {
-            demoSave: true,
-            cancel: true
-          };
-        }
-
         if ($scope.SMC.instance) {
           // We have an instance we are editing
           var willRebuild = $scope.SMC.isDirty() === 'build' && !isBuilding;

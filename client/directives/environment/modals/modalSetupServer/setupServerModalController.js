@@ -14,6 +14,7 @@ function SetupServerModalController(
   createAndBuildNewContainer,
   createBuildFromContextVersionId,
   createDockerfileFromSource,
+  demoFlowService,
   dockerfileType,
   errs,
   eventTracking,
@@ -38,6 +39,7 @@ function SetupServerModalController(
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
   SMC.isAddingFirstRepo = ahaGuide.isAddingFirstRepo;
+  SMC.isInDemoFlow = demoFlowService.isInDemoFlow;
   SMC.showUrlToolbar = SMC.isAddingFirstRepo();
 
   var parentController = $controller('ServerModalController as SMC', { $scope: $scope });
@@ -77,7 +79,6 @@ function SetupServerModalController(
     portsSet: false,
     isNewContainer: true,
     openItems: new OpenItems(),
-    isDemo: false,
     state: {
       advanced: false,
       containerFiles: [
@@ -137,9 +138,6 @@ function SetupServerModalController(
     loading(SMC.name, true);
 
     var name = keypather.get(SMC, 'state.opts.name');
-    if (ahaGuide.demoNames.includes(name)) {
-      SMC.isDemo = true;
-    }
 
     createDockerfileFromSource(SMC.state.contextVersion, SMC.state.selectedStack.key)
       .then(function (dockerfile) {
