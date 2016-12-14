@@ -93,6 +93,10 @@ function demoFlowService(
     return featureFlags.flags.teamCTA && currentOrg.isPersonalAccount() && !isInDemoFlow();
   }
 
+  function shouldShowServicesCTA () {
+    return featureFlags.flags.demoMultiTierAddRepo && !currentOrg.isPersonalAccount() && !isInDemoFlow();
+  }
+
   return {
     checkStatusOnInstance: checkStatusOnInstance,
     endDemoFlow: endDemoFlow,
