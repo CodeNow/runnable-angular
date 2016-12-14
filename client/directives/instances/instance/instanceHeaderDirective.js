@@ -26,7 +26,10 @@ function instanceHeader(
     link: function ($scope) {
       $scope.$storage = $localStorage;
       $scope.userName = $stateParams.userName;
-      $scope.openedPRUrl = eventTracking.openedPRUrl;
+      $scope.openedPRUrl = function () {
+        demoFlowService.endDemoFlow();
+        eventTracking.openedPRUrl();
+      };
       $scope.$watch('instance', function (newValue) {
         if (!newValue) {
           return;
@@ -38,6 +41,9 @@ function instanceHeader(
             }
           });
       });
+      $scope.showPrCallout = function () {
+        return demoFlowService.isInDemoFlow() && demoFlowService.shouldAddPR();
+      };
       $scope.isInGuide = ahaGuide.isInGuide;
 
       $scope.showUrlCallout = function () {

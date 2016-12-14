@@ -23,6 +23,7 @@ function DemoAddBranchController(
   var DBC = this;
   DBC.instance = $scope.instance;
   DBC.userName = $scope.userName;
+  
   function getBranchForPR () {
     return promisify(currentOrg.github, 'fetchRepo')(DBC.instance.getRepoName())
       .then(function (repo) {
@@ -72,15 +73,15 @@ function DemoAddBranchController(
             return branchInstance;
           });
       }
-      return $q.when(branchInstance);
+      return demoFlowService.endDemoFlow()
+        .then(function () {
+          return branchInstance;
+        })
     })
     .then(function (branchInstance) {
       return $state.go('base.instances.instance', {
         instanceName: branchInstance.getName()
       });
-    })
-    .then(function () {
-      return demoFlowService.endDemoFlow();
     })
     .finally(function () {
       loading('creatingNewBranchFromDemo', false);
