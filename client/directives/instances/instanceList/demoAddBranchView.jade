@@ -3,7 +3,7 @@ p.padding-sm Now launch a new environment by pushing a branch to GitHub.
   .small.padding-top-sm.padding-left-sm.padding-right-sm
     | Try in your terminal:
     //- tooltip should work like the one on the Copy button for container URLs
-    button.btn.btn-xxs.float-right(
+    button.btn.btn-xxs.btn-copy.float-right(
       clipboard
       ng-click = "$event.preventDefault()"
       ng-mouseleave = "showToolTip = false"
@@ -42,6 +42,6 @@ p.padding-sm Now launch a new environment by pushing a branch to GitHub.
     )
     | Creating branch…
 
-  button.btn.btn-xs.margin-top-xxs(
+  button.btn.btn-sm.green.margin-top-xxs(
     ng-click = "createNewBranch()"
   ) Create Branch
