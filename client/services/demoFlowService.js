@@ -93,6 +93,10 @@ function demoFlowService(
     return featureFlags.flags.teamCTA && currentOrg.isPersonalAccount() && !isInDemoFlow();
   }
 
+  function shouldShowServicesCTA () {
+    return featureFlags.flags.demoMultiTierAddRepo && !isInDemoFlow();
+  }
+
   return {
     checkStatusOnInstance: checkStatusOnInstance,
     endDemoFlow: endDemoFlow,
@@ -105,6 +109,7 @@ function demoFlowService(
     resetFlags: resetFlags,
     setIsUsingDemoRepo: setIsUsingDemoRepo,
     setItem: setItem,
-    shouldShowTeamCTA: shouldShowTeamCTA
+    shouldShowTeamCTA: shouldShowTeamCTA,
+    shouldShowServicesCTA: shouldShowServicesCTA
   };
 }

@@ -47,7 +47,7 @@
             )
 
       .grid-block.align-center.padding-sm.popover.bottom.in.popover-demo(
-        ng-if = "$root.featureFlags.demoMultiTierAddRepo"
+        ng-if = "CIS.shouldShowServicesCTA()"
         ng-include = "'popoverDemoServiceCTAView'"
       )
 

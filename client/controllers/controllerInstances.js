@@ -38,6 +38,7 @@ function ControllerInstances(
   CIS.isAddingFirstBranch = ahaGuide.isAddingFirstBranch;
   CIS.isSettingUpRunnabot = ahaGuide.isSettingUpRunnabot;
   CIS.isInDemoFlow = demoFlowService.isInDemoFlow;
+  CIS.shouldShowServicesCTA = demoFlowService.shouldShowServicesCTA.bind(demoFlowService);
   CIS.currentOrg = currentOrg;
   CIS.showAutofork = null;
   CIS.searchBranches = null;
