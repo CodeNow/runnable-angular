@@ -90,10 +90,7 @@ function demoFlowService(
   });
 
   function shouldShowTeamCTA () {
-    if (!featureFlags.flags.teamCTA) {
-      return false;
-    }
-    return currentOrg.isPersonalAccount() && !isInDemoFlow();
+    return featureFlags.flags.teamCTA && currentOrg.isPersonalAccount() && !isInDemoFlow();
   }
 
   return {
