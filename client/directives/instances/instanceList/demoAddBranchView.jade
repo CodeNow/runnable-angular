@@ -33,6 +33,11 @@ p.padding-sm Now launch a new environment by pushing a branch to GitHub.
     ) add a branch
     | &#32;for you.
 
+  button.btn.btn-sm.green.margin-top-xxs(
+    ng-click = "createNewBranch()"
+    ng-if = "!$root.isLoading.creatingNewBranchFromDemo"
+  ) Create Branch
+
   //- show while creating branch
   .grid-block.align-center.small(
     ng-if = "$root.isLoading.creatingNewBranchFromDemo"
@@ -41,7 +46,3 @@ p.padding-sm Now launch a new environment by pushing a branch to GitHub.
       ng-include = "'spinner'"
     )
     | Creating branch…
-
-  button.btn.btn-sm.green.margin-top-xxs(
-    ng-click = "createNewBranch()"
-  ) Create Branch
