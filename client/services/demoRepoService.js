@@ -119,6 +119,7 @@ function demoRepos(
   fetchOwnerRepo,
   fetchStackData,
   github,
+  invitePersonalRunnabot,
   keypather,
   promisify,
   serverCreateService

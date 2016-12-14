@@ -95,7 +95,7 @@ function demoFlowService(
     }
   });
 
-  function isAddingPR () {
+  function shouldAddPR () {
     return currentOrg.isPersonalAccount() && isUsingDemoRepo();
   }
 
@@ -106,7 +106,7 @@ function demoFlowService(
     hasAddedBranch: hasAddedBranch,
     hasSeenHangTightMessage: hasSeenHangTightMessage,
     hasSeenUrlCallout: hasSeenUrlCallout,
-    isAddingPR: isAddingPR,
+    shouldAddPR: shouldAddPR,
     isInDemoFlow: isInDemoFlow,
     isUsingDemoRepo: isUsingDemoRepo,
     resetFlags: resetFlags,
