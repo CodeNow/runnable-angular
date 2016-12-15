@@ -238,6 +238,7 @@ function demoRepos(
 
   function createDemoApp (stackKey) {
     var stack = stacks[stackKey];
+    demoFlowService.setUsingDemoRepo(stackKey);
     return findNewRepo(stack)
       .catch(function forkRepo() {
         return forkGithubRepo(stackKey)
@@ -252,7 +253,6 @@ function demoRepos(
         });
       })
       .then(function (promiseResults) {
-        demoFlowService.setUsingDemoRepo(stackKey);
         var generatedEnvs = fillInEnvs(stack, promiseResults.deps);
 
         var repoBuildAndBranch = Object.assign(promiseResults.repoBuildAndBranch, {
