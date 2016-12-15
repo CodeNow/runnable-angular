@@ -123,7 +123,7 @@ function demoRepos(
   promisify,
   serverCreateService
 ) {
-  var showDemoSelector = ahaGuide.isInGuide() && !ahaGuide.hasConfirmedSetup();
+  var showDemoSelector = !!stacks[demoFlowService.usingDemoRepo()] || (ahaGuide.isInGuide() && !ahaGuide.hasConfirmedSetup());
 
   function findNewRepo(stack) {
     return fetchOwnerRepo(currentOrg.github.oauthName(), stack.repoName);
