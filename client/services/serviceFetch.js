@@ -161,11 +161,6 @@ function fetchInstances(
     }
     opts.githubUsername = opts.githubUsername || $state.params.userName;
 
-    opts.ignoredFields = [
-      'contextVersions[0].build.log',
-      'contextVersion.build.log'
-    ];
-
     var fetchKey = jsonHash.digest(opts);
     if (resetCache || !fetchCache[fetchKey]) {
       fetchCache[fetchKey] = fetchUser()

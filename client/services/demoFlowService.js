@@ -10,6 +10,7 @@ function demoFlowService(
   $q,
   currentOrg,
   defaultContainerUrl,
+  featureFlags,
   keypather,
   patchOrgMetadata
 ) {
@@ -89,6 +90,14 @@ function demoFlowService(
     }
   });
 
+  function shouldShowTeamCTA () {
+    return featureFlags.flags.teamCTA && currentOrg.isPersonalAccount() && !isInDemoFlow();
+  }
+
+  function shouldShowServicesCTA () {
+    return featureFlags.flags.demoMultiTierAddRepo && !isInDemoFlow();
+  }
+
   return {
     checkStatusOnInstance: checkStatusOnInstance,
     endDemoFlow: endDemoFlow,
@@ -100,6 +109,8 @@ function demoFlowService(
     usingDemoRepo: usingDemoRepo,
     resetFlags: resetFlags,
     setUsingDemoRepo: setUsingDemoRepo,
-    setItem: setItem
+    setItem: setItem,
+    shouldShowTeamCTA: shouldShowTeamCTA,
+    shouldShowServicesCTA: shouldShowServicesCTA
   };
 }

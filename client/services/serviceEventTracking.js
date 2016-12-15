@@ -10,10 +10,6 @@ require('app')
   .service('eventTracking', EventTracking);
 var User = require('@runnable/api-client/lib/models/user');
 var UUID = require('node-uuid');
-var keypather;
-var $location;
-var INTERCOM_APP_ID;
-var SIFT_API_KEY;
 
 /**
  * EventTracking
@@ -36,7 +32,8 @@ function EventTracking(
   siftApiConfig
 ) {
   var ETS = this;
-  SIFT_API_KEY = siftApiConfig;
+  var SIFT_API_KEY = siftApiConfig;
+  var INTERCOM_APP_ID;
 
   if (configEnvironment === 'production') {
     INTERCOM_APP_ID = 'wqzm3rju'; // production ID
@@ -522,6 +519,19 @@ function EventTracking(
    */
   ETS.milestone3AddedBranch = function () {
     var eventName = 'Milestone 3: Added branch';
+
+    ETS._mixpanel('track', eventName);
+    return ETS;
+  };
+
+  /**
+   * Added Branch
+   * Reports to:
+   *  - Mixpanel
+   * @returns this
+   */
+  ETS.hasAddedFirstBranch = function () {
+    var eventName = 'Added branch';
 
     ETS._mixpanel('track', eventName);
     return ETS;

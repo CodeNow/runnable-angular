@@ -3,7 +3,7 @@ p.padding-sm Now launch a new environment by pushing a branch to GitHub.
   .small.padding-top-sm.padding-left-sm.padding-right-sm
     | Try in your terminal:
     //- tooltip should work like the one on the Copy button for container URLs
-    button.btn.btn-xxs.float-right(
+    button.btn.btn-xxs.btn-copy.float-right(
       clipboard
       ng-click = "$event.preventDefault()"
       ng-mouseleave = "showToolTip = false"
@@ -15,21 +15,17 @@ p.padding-sm Now launch a new environment by pushing a branch to GitHub.
       tooltip-options = "{\"class\":\"bottom no-arrow\",\"right\":-16,\"top\":27}"
     ) Copy
 
-  pre.monospace.padding-sm
+  pre.monospace.padding-sm.padding-bottom-xs
     {{getBranchCloneCopyText()}}
 
 
-.grid-block.align-center.padding-sm
+.grid-block.align-start.vertical.padding-sm.padding-top-xs.skip-wrapper
   //- hide while creating branch
-  .small.text-gray.weight-light(
+  small.small(
     ng-if = "!$root.isLoading.creatingNewBranchFromDemo && !$root.featureFlags.demoMultiTierPRLink"
-  ) Or we can&#32;
-    span.link(
-      ng-click = "createNewBranch()"
-    ) create a branch
-    | &#32;for you using the GitHub API.
+  ) Or we can create a branch for you using the GitHub API.
 
-  .small.text-gray.weight-light(
+  small.small(
     ng-if = "!$root.isLoading.creatingNewBranchFromDemo && $root.featureFlags.demoMultiTierPRLink"
   ) Or we can&#32;
     span.link(
@@ -37,11 +33,16 @@ p.padding-sm Now launch a new environment by pushing a branch to GitHub.
     ) add a branch
     | &#32;for you.
 
+  button.btn.btn-sm.green.margin-top-xxs(
+    ng-click = "createNewBranch()"
+    ng-if = "!$root.isLoading.creatingNewBranchFromDemo"
+  ) Create Branch
+
   //- show while creating branch
-  .spinner-wrapper.spinner-sm.spinner-gray.margin-right-xxs(
+  .grid-block.align-center.small.noscroll(
     ng-if = "$root.isLoading.creatingNewBranchFromDemo"
-    ng-include = "'spinner'"
   )
-  .small.text-gray.weight-light(
-    ng-if = "$root.isLoading.creatingNewBranchFromDemo"
-  ) Creating branch…
+    .spinner-wrapper.spinner-sm.spinner-gray.margin-right-xxs(
+      ng-include = "'spinner'"
+    )
+    | Creating branch…

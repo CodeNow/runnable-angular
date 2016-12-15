@@ -73,6 +73,12 @@ describe('ControllerInstances'.bold.underline.blue, function () {
         models: []
       }
     };
+
+    var mockInstances = {
+      models: [],
+      on: sinon.spy(),
+      off: sinon.spy()
+    };
     ctx.setupInstanceResponse = function(username, cb) {
       return function (overrideUsername) {
         cb(null, ctx.instanceLists[overrideUsername || username], overrideUsername || username);
@@ -96,6 +102,11 @@ describe('ControllerInstances'.bold.underline.blue, function () {
     };
     angular.mock.module('app', function ($provide) {
       $provide.factory('fetchInstancesByPod', mockFetch.fetch());
+      $provide.factory('fetchInstances', function ($q) {
+        return function () {
+          return $q.when(mockInstances);
+        };
+      });
       $provide.factory('promisify', function ($q) {
         var promisifyMock = sinon.spy(function (obj, key) {
           return function () {
@@ -250,7 +261,7 @@ describe('ControllerInstances'.bold.underline.blue, function () {
 
       // Change the user
       ctx.stateParams.userName = 'org2';
-      keypather.set($rootScope, 'dataApp.data.activeAccount', ctx.userList['org2']);
+      keypather.set($rootScope, 'dataApp.data.activeAccount', ctx.userList.org2);
 
       $controller('ControllerInstances', {
         '$scope': $scope,
@@ -344,10 +355,10 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       };
       mockBranch = {
         attrs: {
-          "name": "mockBranch",
-          "commit": {
-            "sha": "6e0c5e3778b83f128f6f14c311d5728392053581",
-            "url": "https://api.github.com/repos/cflynn07/bitcoin/commits/6e0c5e3778b83f128f6f14c311d5728392053581"
+          name: 'mockBranch',
+          commit: {
+            sha: '6e0c5e3778b83f128f6f14c311d5728392053581',
+            url: 'https://api.github.com/repos/cflynn07/bitcoin/commits/6e0c5e3778b83f128f6f14c311d5728392053581'
           }
         }
       };
@@ -368,7 +379,7 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       setup('myOrg');
       apiMocks.branches.bitcoinRepoBranches[0].attrs = {
         name: 'henry\'s branch'
-      }
+      };
 
       CIS.instanceBranches = CIS.getUnbuiltBranches(masterInstance, {
         models: apiMocks.branches.bitcoinRepoBranches
@@ -398,7 +409,7 @@ describe('ControllerInstances'.bold.underline.blue, function () {
     it('should set the instance\'s autofork property', function () {
       setup('myOrg');
       CIS.poppedInstance = masterInstance2;
-      masterInstance2.update.returns($q.when(true))
+      masterInstance2.update.returns($q.when(true));
 
       expect(CIS.poppedInstance.attrs.shouldNotAutofork).to.equal(false);
       CIS.setAutofork();

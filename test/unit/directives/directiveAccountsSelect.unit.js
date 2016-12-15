@@ -9,6 +9,7 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
   var ctx;
   var keypather;
   var mockCurrentOrg;
+  var demoFlowService;
 
   beforeEach(function () {
     mockCurrentOrg = {
@@ -22,6 +23,9 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
           hasPaymentMethod: false
         }
       }
+    };
+    demoFlowService = {
+      shouldShowTeamCTA: sinon.stub().returns(false)
     };
     ctx = {};
     ctx.fakeuser = {
@@ -83,6 +87,9 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
         instanceName: 'instanceName'
       });
       $provide.value('currentOrg', mockCurrentOrg);
+      $provide.service('demoFlowService', function () {
+        return demoFlowService;
+      });
     });
     angular.mock.inject(function(
       $compile,
@@ -177,6 +184,12 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
           mockCurrentOrg.poppa.attrs.hasPaymentMethod = true;
           expect($elScope.getBadgeCount()).to.equal('');
         });
+
+        it('should return nothing if payment method is set', function () {
+          mockCurrentOrg.poppa.attrs.hasPaymentMethod = true;
+          demoFlowService.shouldShowTeamCTA.returns(true);
+          expect($elScope.getBadgeCount()).to.equal('•');
+        });
       });
 
       describe('when active', function () {
@@ -213,6 +226,15 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
           'badge-red': false
         });
       });
+
+      it('should return true if it should show the team CTA', function () {
+        demoFlowService.shouldShowTeamCTA.returns(true);
+        expect($elScope.getClasses()).to.deep.equal({
+          badge: true,
+          'badge-red': true
+        });
+      });
+
     });
   });
 });
