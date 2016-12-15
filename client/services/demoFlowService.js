@@ -11,6 +11,7 @@ function demoFlowService(
   currentOrg,
   github,
   defaultContainerUrl,
+  featureFlags,
   keypather,
   patchOrgMetadata
 ) {
@@ -98,6 +99,13 @@ function demoFlowService(
   function shouldAddPR () {
     return currentOrg.isPersonalAccount() && isUsingDemoRepo();
   }
+  function shouldShowTeamCTA () {
+    return featureFlags.flags.teamCTA && currentOrg.isPersonalAccount() && !isInDemoFlow();
+  }
+
+  function shouldShowServicesCTA () {
+    return featureFlags.flags.demoMultiTierAddRepo && !isInDemoFlow();
+  }
 
   return {
     checkStatusOnInstance: checkStatusOnInstance,
@@ -112,6 +120,8 @@ function demoFlowService(
     resetFlags: resetFlags,
     setIsUsingDemoRepo: setIsUsingDemoRepo,
     setItem: setItem,
-    submitDemoPR: submitDemoPR
+    submitDemoPR: submitDemoPR,
+    shouldShowTeamCTA: shouldShowTeamCTA,
+    shouldShowServicesCTA: shouldShowServicesCTA
   };
 }
