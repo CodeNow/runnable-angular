@@ -101,7 +101,7 @@
     //- branch clusters
     .grid-block.vertical.shrink.list-clusters.js-animate(
       ng-repeat = "masterInstance in CIS.instancesByPod | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
-      ng-show = "CIS.shouldShowParent(masterInstance) && !CIS.showDemoAddBranchView()"
+      ng-show = "CIS.shouldShowParent(masterInstance) && CIS.shouldShowBranchView()"
     )
 
       //- cluster list heading
