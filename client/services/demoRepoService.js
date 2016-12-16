@@ -17,7 +17,7 @@ var stacks = {
       'MONGODB_HOST={{MongoDB}}'
     ],
     ports: [
-      3000
+      80
     ],
     repoName: 'node-starter',
     deps: [
@@ -29,7 +29,7 @@ var stacks = {
     description: 'A Ruby on Rails & MySQL app',
     repoOwner: 'RunnableDemo',
     icon: '/build/images/logos/logo-icon-rails.svg',
-    cmd: 'rake db:migrate && rails server -b 0.0.0.0',
+    cmd: 'rake db:migrate && rails server -b 0.0.0.0 -p 80',
     buildCommands: [
       'bundle install'
     ],
@@ -49,7 +49,7 @@ var stacks = {
     description: 'A Django & PostgresSQL app',
     repoOwner: 'RunnableDemo',
     icon: '/build/images/logos/logo-icon-django.svg',
-    cmd: 'python manage.py migrate && python manage.py runserver 0.0.0.0:8000',
+    cmd: 'python manage.py migrate && python manage.py runserver 0.0.0.0:80',
     packages: [
       'postgresql-client'
     ],
