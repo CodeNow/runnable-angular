@@ -11,9 +11,18 @@ var featureFlags;
 var mockInstance;
 var eventTrackingStub;
 var fetchInstancesByPodMock = new (require('../fixtures/mockFetch'))();
+var instances;
 
 describe('ahaGuide'.bold.underline.blue, function () {
   var ahaGuide;
+  instances = {
+    models: [{
+      getRepoName: sinon.stub().returns(true),
+      attrs: {
+        hasAddedBranches: false
+      }
+    }]
+  };
   function initState () {
     featureFlags = {
       aha: true,
@@ -78,19 +87,23 @@ describe('ahaGuide'.bold.underline.blue, function () {
         attrs: {
           name: 'instance',
           hasAddedBranches: true
-        }
+        },
+        getRepoName: sinon.stub().returns(true)
       }, {
         attrs: {
           name: 'instance2'
-        }
+        },
+        getRepoName: sinon.stub().returns(true)
       }, {
         attrs: {
           name: 'instance2-copy'
-        }
+        },
+        getRepoName: sinon.stub().returns(true)
       }, {
         attrs: {
           name: 'instance2-copy2'
-        }
+        },
+        getRepoName: sinon.stub().returns(true)
       }]
     };
     initState();
@@ -149,6 +162,7 @@ describe('ahaGuide'.bold.underline.blue, function () {
       expect(addRepoStep).to.equal(true);
     });
     it('should return the add first branch step if setup is confirmed', function () {
+      fetchInstancesByPodMock.triggerPromise(instances);
       $rootScope.$digest(); // Clear cache
       mockOrg.poppa.attrs.metadata.hasConfirmedSetup = true;
       var currentStep = ahaGuide.getCurrentStep();

@@ -123,11 +123,42 @@ function demoRepos(
   promisify,
   serverCreateService
 ) {
-  var showDemoSelector = ahaGuide.isInGuide() && !ahaGuide.hasConfirmedSetup();
+  var showDemoSelector = !!stacks[demoFlowService.usingDemoRepo()] || (ahaGuide.isInGuide() && !ahaGuide.hasConfirmedSetup());
 
   function findNewRepo(stack) {
     return fetchOwnerRepo(currentOrg.github.oauthName(), stack.repoName);
   }
+
+  function checkForOrphanedDependency () {
+    // if this item is in the hash of stacks, it has not been built
+    // a successfully built demo instance would return true here, not the stack key
+    var stackName = demoFlowService.usingDemoRepo();
+    // if the key can retrieve a value, we haven't successfully got word back that the instance is building
+    if (stacks[stackName]) {
+      var repoName = stacks[stackName].repoName;
+      var dep;
+      var repoInstance;
+      return fetchInstancesByPod()
+        .then(function (instances) {
+          instances.models.some(function (instance) {
+            // we checking here to be sure that the instance has a repo/acv
+            // to distinguish between the dependency instances
+            if (instance.contextVersion.getMainAppCodeVersion() && instance.attrs.name === repoName) {
+              repoInstance = instance;
+            } else {
+              dep = instance;
+            }
+            return dep && repoInstance;
+          });
+          if (dep && !repoInstance) {
+            return stackName;
+          }
+          return false;
+        });
+    }
+    return $q.when(false);
+  }
+
   function findNewRepoOnRepeat(stack, count) {
     count = count || 0;
     if (count > 30) {
@@ -166,11 +197,32 @@ function demoRepos(
     return github.forkRepo(stack.repoOwner, stack.repoName, currentOrg.github.oauthName(), keypather.get(currentOrg, 'poppa.attrs.isPersonalAccount'));
   }
   function findDependencyNonRepoInstances(stack) {
-    return fetchNonRepoInstances()
-      .then(function (instances) {
-        return instances.filter(function (instance) {
-          return stack.deps.includes(instance.attrs.name);
-        });
+    return checkForOrphanedDependency()
+      .then(function (hasOrphanedDependency) {
+        if (hasOrphanedDependency) {
+          return fetchInstancesByPod()
+            .then(function (instances) {
+              var dependency = instances.models.find(function (instance) {
+                return !instance.contextVersion.getMainAppCodeVersion() && stack.deps.includes(instance.attrs.name);
+              });
+              var demoDependency = {};
+              demoDependency[dependency.attrs.name] = dependency;
+              return demoDependency;
+            });
+        }
+        return fetchNonRepoInstances()
+          .then(function (instances) {
+            return instances.filter(function (instance) {
+              return stack.deps.includes(instance.attrs.name);
+            });
+          })
+          .then(function (deps) {
+            var depMap = deps.reduce(function (map, depInstance) {
+              map[depInstance.attrs.name] = createNonRepoInstance(depInstance.attrs.name, depInstance);
+              return map;
+            }, {});
+            return $q.all(depMap);
+          });
       });
   }
   function fillInEnvs(stack, deps) {
@@ -184,68 +236,73 @@ function demoRepos(
     });
   }
 
-  $rootScope.$on('demoService::hide', function () {
-    showDemoSelector = false;
-  });
-  return {
-    demoStacks: stacks,
-    forkGithubRepo: forkGithubRepo,
-    findDependencyNonRepoInstances: findDependencyNonRepoInstances,
-    createDemoApp: function (stackKey) {
-      var stack = stacks[stackKey];
-      return findNewRepo(stack)
-        .catch(function forkRepo() {
-          return forkGithubRepo(stackKey)
-            .then(function () {
-              return findNewRepoOnRepeat(stack);
-            });
-        })
-        .then(function (repoModel) {
-          return $q.all({
-            repoBuildAndBranch: createNewBuildAndFetchBranch(currentOrg.github, repoModel, '', false),
-            stack: fetchStackData(repoModel, true),
-            instances: fetchInstancesByPod(),
-            deps: findDependencyNonRepoInstances(stack)
-              .then(function (deps) {
-                var depMap = {};
-                deps.map(function (depInstance) {
-                  depMap[depInstance.attrs.name] = createNonRepoInstance(depInstance.attrs.name, depInstance);
-                });
-                return $q.all(depMap);
-              })
-          });
-        })
-        .then(function (promiseResults) {
-          var generatedEnvs = fillInEnvs(stack, promiseResults.deps);
+  function createDemoApp (stackKey) {
+    var stack = stacks[stackKey];
+    demoFlowService.setUsingDemoRepo(stackKey);
+    return findNewRepo(stack)
+      .catch(function forkRepo() {
+        return forkGithubRepo(stackKey)
+          .then(findNewRepoOnRepeat.bind(this, stack));
+      })
+      .then(function (repoModel) {
+        return $q.all({
+          repoBuildAndBranch: createNewBuildAndFetchBranch(currentOrg.github, repoModel, '', false),
+          stack: fetchStackData(repoModel, true),
+          instances: fetchInstancesByPod(),
+          deps: findDependencyNonRepoInstances(stack)
+        });
+      })
+      .then(function (promiseResults) {
+        var generatedEnvs = fillInEnvs(stack, promiseResults.deps);
 
-          var repoBuildAndBranch = promiseResults.repoBuildAndBranch;
-          repoBuildAndBranch.instanceName = getUniqueInstanceName(stack.repoName, promiseResults.instances);
-          repoBuildAndBranch.defaults = {
+        var repoBuildAndBranch = Object.assign(promiseResults.repoBuildAndBranch, {
+          instanceName: getUniqueInstanceName(stack.repoName, promiseResults.instances),
+          defaults: {
             selectedStack: promiseResults.stack,
             startCommand: stack.cmd,
             keepStartCmd: true,
             run: stack.buildCommands,
             packages: stack.packages
-          };
-
-          return $q.all({
-            deps: promiseResults.deps,
-            instance: serverCreateService(repoBuildAndBranch, {
-              env: generatedEnvs,
-              ports: stack.ports
-            })
-          });
-        })
-        .then(function (promiseResults) {
-          var deps = Object.keys(promiseResults.deps).map(function (id) {
-            return promiseResults.deps[id];
-          });
-          return createAutoIsolationConfig(promiseResults.instance, deps)
-            .then(function () {
-              return promiseResults.instance;
-            });
+          }
         });
-    },
+
+        return $q.all({
+          deps: promiseResults.deps,
+          instance: serverCreateService(repoBuildAndBranch, {
+            env: generatedEnvs,
+            ports: stack.ports
+          })
+        });
+      })
+      .then(function (promiseResults) {
+        var deps = Object.keys(promiseResults.deps).map(function (id) {
+          return promiseResults.deps[id];
+        });
+        return createAutoIsolationConfig(promiseResults.instance, deps)
+          .then(function () {
+            return promiseResults.instance;
+          });
+      })
+      .then(function (instance) {
+        ahaGuide.endGuide({
+          hasConfirmedSetup: true
+        });
+        demoFlowService.setUsingDemoRepo(true);
+        $rootScope.$broadcast('demoService::hide');
+        $rootScope.$broadcast('demo::building', instance);
+        return instance;
+      });
+  }
+
+  $rootScope.$on('demoService::hide', function () {
+    showDemoSelector = false;
+  });
+  return {
+    checkForOrphanedDependency: checkForOrphanedDependency,
+    demoStacks: stacks,
+    forkGithubRepo: forkGithubRepo,
+    findDependencyNonRepoInstances: findDependencyNonRepoInstances,
+    createDemoApp: createDemoApp,
     shouldShowDemoSelector: function () {
       return showDemoSelector;
     }

@@ -17,7 +17,7 @@ function demoFlowService(
 ) {
   function resetFlags () {
     $localStorage.hasSeenHangTightMessage = false;
-    $localStorage.isUsingDemoRepo = false;
+    $localStorage.usingDemoRepo = false;
     $localStorage.hasSeenUrlCallout = false;
   }
 
@@ -34,7 +34,7 @@ function demoFlowService(
       !keypather.get(currentOrg, 'poppa.attrs.metadata.hasCompletedDemo');
   }
 
-  function endDemoFlow() {
+  function endDemoFlow () {
     return $q.when()
       .then(function () {
         if (isInDemoFlow()) {
@@ -49,7 +49,7 @@ function demoFlowService(
               currentOrg.poppa.attrs.metadata = updatedOrg.metadata;
             });
         }
-      });
+       });
   }
 
   function checkStatusOnInstance (instance) {
@@ -77,9 +77,10 @@ function demoFlowService(
     return $localStorage.hasSeenUrlCallout;
   }
 
-  function setIsUsingDemoRepo (value) {
-    $localStorage.isUsingDemoRepo = value;
+  function setUsingDemoRepo (value) {
+    $localStorage.usingDemoRepo = value;
   }
+
   function hasAddedBranch (value) {
     if (value !== undefined) {
       $localStorage.hasAddedBranch = value;
@@ -87,8 +88,8 @@ function demoFlowService(
     return $localStorage.hasAddedBranch;
   }
 
-  function isUsingDemoRepo () {
-    return $localStorage.isUsingDemoRepo;
+  function usingDemoRepo () {
+    return $localStorage.usingDemoRepo;
   }
   $rootScope.$on('demo::dismissUrlCallout', function ($event, instanceId) {
     if (!hasSeenUrlCallout()) {
@@ -116,9 +117,9 @@ function demoFlowService(
     hasSeenUrlCallout: hasSeenUrlCallout,
     shouldAddPR: shouldAddPR,
     isInDemoFlow: isInDemoFlow,
-    isUsingDemoRepo: isUsingDemoRepo,
+    usingDemoRepo: usingDemoRepo,
     resetFlags: resetFlags,
-    setIsUsingDemoRepo: setIsUsingDemoRepo,
+    setUsingDemoRepo: setUsingDemoRepo,
     setItem: setItem,
     submitDemoPR: submitDemoPR,
     shouldShowTeamCTA: shouldShowTeamCTA,
