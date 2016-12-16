@@ -98,7 +98,7 @@ function demoFlowService(
   });
 
   function shouldAddPR () {
-    return currentOrg.isPersonalAccount() && isUsingDemoRepo();
+    return currentOrg.isPersonalAccount() && usingDemoRepo();
   }
   function shouldShowTeamCTA () {
     return featureFlags.flags.teamCTA && currentOrg.isPersonalAccount() && !isInDemoFlow();
