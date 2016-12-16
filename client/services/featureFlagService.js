@@ -23,6 +23,7 @@ function featureFlags(
     containersViewTemplateControls: true,
     contingencyPlan: false,
     demoFlowPhase2: true,
+    demoForking: false,
     demoMultiTier: true,
     demoMultiTierBuilding: true,
     demoMultiTierAddBranch: true,

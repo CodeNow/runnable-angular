@@ -17,6 +17,38 @@
     margin-top: 0;
   }
 
+  // animation
+  .slide {
+    transition: opacity .15s ease-in-out, transform .15s ease-in-out;
+
+    &.slide-out {
+      opacity: 1;
+      transform: translate3d(0,0,0);
+      z-index: 2;
+
+      &.out {
+        opacity: 0;
+        transform: translate3d(-50px,0,0);
+        z-index: 1;
+      }
+    }
+
+    // this one uses ng-animate (so we can reset the animation timer with ng-if)
+    &.slide-in {
+      z-index: 2;
+
+      &.ng-enter {
+        opacity: 0;
+        transform: translate3d(50px,0,0);
+      }
+
+      &.ng-enter-active {
+        opacity: 1;
+        transform: translate3d(0,0,0);
+      }
+    }
+  }
+
   .list-item-fork {
     border-bottom: $input-border solid $gray-lighter;
     border-top: $input-border solid $gray-lighter;
@@ -94,6 +126,53 @@
     }
   }
 
+  // progress
+  .progress-wrapper {
+    background: $white;
+    border-radius: $input-border-radius-lg;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    width: 100%;
+
+    .p {
+      left: 0;
+      position: absolute;
+      right: 0;
+
+      &:first-child {
+        animation: loading-in 25s forwards;
+        margin-top: -33px;
+      }
+
+      &:nth-child(2) {
+        animation: loading-out 25s forwards;
+        margin-top: -54px;
+      }
+    }
+  }
+
+  .progress-bar {
+    background: $gray-lighter;
+    border-radius: 6px;
+    height: 6px;
+    margin: 0 $md;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+
+    &::before {
+      animation: progress-bar 20s linear forwards;
+      background: linear-gradient(90deg,$purple-light,$blue);
+      border-radius: 6px;
+      content: '';
+      display: block;
+      height: 6px;
+      position: absolute;
+      transform: translate3d(-97%,0,0);
+      width: 100%;
+    }
+  }
   // skip branch
   .skip-wrapper {
     border-radius: 0 0 $input-border-radius-lg $input-border-radius-lg;

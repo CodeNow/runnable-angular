@@ -21,16 +21,8 @@ function setupDemoGuide(
 
       $scope.createDemo = function (stackKey) {
         loading('startDemo', true);
-        var loadingName = 'startDemo-' + stackKey;
-        loading(loadingName, true);
         return demoRepos.createDemoApp(stackKey)
           .then(function (instance) {
-            ahaGuide.endGuide({
-              hasConfirmedSetup: true
-            });
-            demoFlowService.setIsUsingDemoRepo(true);
-            $rootScope.$broadcast('demoService::hide');
-            $rootScope.$broadcast('demo::building', instance);
             return $state.go('base.instances.instance', {
               instanceName: instance.attrs.name
             });
@@ -38,13 +30,12 @@ function setupDemoGuide(
           .catch(errs.handler)
           .finally(function () {
             loading('startDemo', false);
-            loading(loadingName, false);
           });
       };
 
       $scope.skipDemo = function () {
         $rootScope.$broadcast('demoService::hide');
-        demoFlowService.setIsUsingDemoRepo(false);
+        demoFlowService.setUsingDemoRepo(false);
       };
     }
   };

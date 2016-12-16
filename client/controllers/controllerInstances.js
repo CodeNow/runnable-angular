@@ -92,6 +92,20 @@ function ControllerInstances(
   }
 
   if (demoFlowService.isInDemoFlow()) {
+    demoRepos.checkForOrphanedDependency()
+      .then(function (orphanedDemoBuild) {
+        if (orphanedDemoBuild) {
+          loading('startDemo', true);
+          demoRepos.createDemoApp(orphanedDemoBuild)
+            .then(function (instance) {
+              loading('startDemo', false);
+              return $state.go('base.instances.instance', {
+                instanceName: instance.getName()
+              });
+            });
+        }
+      });
+
     watchOncePromise($scope, function () {
       return demoFlowService.hasSeenUrlCallout();
     }, true)
@@ -384,7 +398,7 @@ function ControllerInstances(
       })
       .then(function (instance) {
         if (instance) {
-          CIS.isUsingDemoRepo = demoFlowService.isUsingDemoRepo();
+          CIS.usingDemoRepo = demoFlowService.usingDemoRepo();
         }
       });
   }

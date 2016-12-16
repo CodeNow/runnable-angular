@@ -4,7 +4,15 @@ var $rootScope;
 var keypather;
 var mockGithub;
 var mockCurrentOrg;
+var stacks = {
+  nodejs: {
+    displayName: 'Node.js'
+  }
+};
 var demoRepos;
+var stackNameMock;
+var fetchInstancesByPodStub;
+var mockDemoInstances;
 
 describe('demoRepos', function () {
 
@@ -28,7 +36,16 @@ describe('demoRepos', function () {
         };
         return mockGithub;
       });
+      $provide.factory('demoFlowService', function ($q) {
+        return {
+          usingDemoRepo: sinon.stub().returns(stackNameMock),
 
+        }
+      });
+      $provide.factory('fetchInstancesByPod', function ($q) {
+        fetchInstancesByPodStub = sinon.stub().returns($q.when(mockDemoInstances));
+        return fetchInstancesByPodStub;
+      });
       $provide.factory('ahaGuide', function ($q) {
         return {
           isInGuide: sinon.stub(),
@@ -49,9 +66,9 @@ describe('demoRepos', function () {
     });
   }
 
-  beforeEach(setup);
-
   describe('forkRepo', function () {
+    beforeEach(setup);
+
     it('should fail when the stack doesn\'t exist', function (done) {
       demoRepos.forkGithubRepo('sdafasdfaf')
         .catch(function (err) {
@@ -72,5 +89,61 @@ describe('demoRepos', function () {
         true
       );
     });
+  });
+
+  describe('orphaned dependencies', function () {
+    beforeEach(function () {
+      stackNameMock = 'nodejs';
+    });
+
+    it('should return the stack name when it is a dependency only', function (done) {
+      mockDemoInstances = {
+        models: [{
+          contextVersion: {
+          getMainAppCodeVersion: sinon.stub().returns(null)
+          },
+          attrs: {
+            name: 'MongoDB'
+          }
+        }]
+      };
+      setup();
+      demoRepos.checkForOrphanedDependency()
+        .then(function (stackName) {
+          sinon.assert.calledOnce(fetchInstancesByPodStub);
+          expect(stackName).to.equal('nodejs');
+          done();
+        })
+        $rootScope.$digest();
+    });
+
+    it('should return false if there is no orphaned dependency', function (done) {
+      mockDemoInstances = {
+       models: [{
+        contextVersion: {
+          getMainAppCodeVersion: sinon.stub().returns(null)
+        },
+        attrs: {
+          name: 'MongoDB'
+        }
+        },
+        {
+          contextVersion: {
+            getMainAppCodeVersion: sinon.stub().returns('nodejs')
+          },
+          attrs: {
+            name: 'node-starter'
+          }
+        }]
+      };
+      setup();
+      demoRepos.checkForOrphanedDependency()
+        .then(function (stackName) {
+          sinon.assert.calledOnce(fetchInstancesByPodStub);
+          expect(stackName).to.equal(false);
+          done();
+        });
+      $rootScope.$digest();
+    })
   });
 });
