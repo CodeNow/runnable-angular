@@ -50,7 +50,7 @@ function instanceHeader(
         return demoFlowService.isInDemoFlow() &&
           !!keypather.get($scope.instance, 'contextVersion.getMainAppCodeVersion()') &&
           !demoFlowService.hasSeenUrlCallout() &&
-          demoFlowService.hasSeenHangTightMessage() &&
+          demoFlowService.hasSeenHangTightMessage() === $scope.instance.attrs.id &&
           keypather.get($scope.instance, 'status()') === 'running';
       };
     }
