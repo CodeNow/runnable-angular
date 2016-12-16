@@ -34,7 +34,8 @@ function isRunnabotPersonalCollaborator (
       .then(function (instances) {
         var runnabotChecks = instances.filter(function (instance) {
           return instance.attrs.masterPod && instance.contextVersion.getMainAppCodeVersion();
-        }).map(function (instance) {
+        })
+        .map(function (instance) {
           var repoName = instance.getRepoName();
           return githubRunnabotCheck(userName, repoName);
         });
@@ -101,13 +102,14 @@ function removePersonalRunnabot(
         var repoName;
         var repoCalls = instances.filter(function (instance) {
           return instance.attrs.masterPod && instance.contextVersion.getMainAppCodeVersion();
-        }).map(function (instance) {
-            repoName = instance.getRepoName();
-            req = {
-              method: 'delete',
-              url:  'https://api.github.com/repos/' + userName + '/' + repoName + '/collaborators/runnabot'
-            };
-            return github.makeGhRequest(req);
+        })
+        .map(function (instance) {
+          repoName = instance.getRepoName();
+          req = {
+            method: 'delete',
+            url:  'https://api.github.com/repos/' + userName + '/' + repoName + '/collaborators/runnabot'
+          };
+          return github.makeGhRequest(req);
         });
         return $q.all(repoCalls);
       });

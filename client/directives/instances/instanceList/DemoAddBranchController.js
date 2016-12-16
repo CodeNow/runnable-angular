@@ -21,8 +21,6 @@ function DemoAddBranchController(
   watchOncePromise
 ) {
   var DBC = this;
-  DBC.instance = $scope.instance;
-  DBC.userName = $scope.userName;
 
   function getBranchForPR () {
     return promisify(currentOrg.github, 'fetchRepo')(DBC.instance.getRepoName())
@@ -32,7 +30,7 @@ function DemoAddBranchController(
       .then(function (branch) {
         var sha = branch.attrs.commit.sha;
         var branchName = branch.attrs.name;
-        return promisify(DBC.instance, 'fork')(branchName, sha)
+        return promisify(DBC.instance, 'fork')(branchName, sha);
       });
   }
 

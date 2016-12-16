@@ -9,12 +9,20 @@ function demoFlowService(
   $rootScope,
   $q,
   currentOrg,
+  eventTracking,
   github,
   defaultContainerUrl,
   featureFlags,
   keypather,
   patchOrgMetadata
 ) {
+
+  var stopListeningForCompletion = $rootScope.$on('demo::completed', function () {
+    eventTracking.openedPRUrl();
+    endDemoFlow();
+    stopListeningForCompletion();
+  });
+
   function resetFlags () {
     $localStorage.hasSeenHangTightMessage = false;
     $localStorage.usingDemoRepo = false;

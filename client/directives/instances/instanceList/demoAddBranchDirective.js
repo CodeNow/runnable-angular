@@ -13,6 +13,8 @@ function demoAddBranch() {
       userName: '=',
       instance: '='
     },
-    controller: 'DemoAddBranchController as DBC'
+    controller: 'DemoAddBranchController',
+    controllerAs: 'DBC',
+    bindToController: true
   };
 }

@@ -11,7 +11,6 @@ function instanceHeader(
   $stateParams,
   ahaGuide,
   demoFlowService,
-  eventTracking,
   fetchPullRequest,
   keypather
 ) {
@@ -27,8 +26,7 @@ function instanceHeader(
       $scope.$storage = $localStorage;
       $scope.userName = $stateParams.userName;
       $scope.openedPRUrl = function () {
-        demoFlowService.endDemoFlow();
-        eventTracking.openedPRUrl();
+        $scope.$emit('demo::completed');
       };
       $scope.$watch('instance', function (newValue) {
         if (!newValue) {
