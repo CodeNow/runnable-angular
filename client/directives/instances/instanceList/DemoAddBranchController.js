@@ -27,15 +27,12 @@ function DemoAddBranchController(
   function getBranchForPR () {
     return promisify(currentOrg.github, 'fetchRepo')(DBC.instance.getRepoName())
       .then(function (repo) {
-        return fetchRepoBranches(repo);
+        return promisify(repo, 'fetchBranch')('dark-theme');
       })
-      .then(function (branches) {
-        var darkTheme = branches.models.find(function(branch) {
-          return keypather.get(branch, 'attrs.name') === 'dark-theme';
-        });
-        var sha = darkTheme.attrs.commit.sha;
-        var branchName = darkTheme.attrs.name;
-        return promisify(DBC.instance, 'fork')(branchName, sha);
+      .then(function (branch) {
+        var sha = branch.attrs.commit.sha;
+        var branchName = branch.attrs.name;
+        return promisify(DBC.instance, 'fork')(branchName, sha)
       });
   }
 
@@ -71,6 +68,12 @@ function DemoAddBranchController(
         return demoFlowService.submitDemoPR(branchInstance)
           .then(function () {
             return branchInstance;
+          })
+          .catch(function (err) {
+            if (err.errors[0].message.match(/(pull request.*exists)/)) {
+              return branchInstance;
+            }
+            errs.handler(err);
           });
       }
       return demoFlowService.endDemoFlow()
