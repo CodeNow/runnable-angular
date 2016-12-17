@@ -17,11 +17,13 @@ function demoFlowService(
   patchOrgMetadata
 ) {
 
-  var stopListeningForCompletion = $rootScope.$on('demo::completed', function () {
-    eventTracking.openedPRUrl();
-    endDemoFlow();
-    stopListeningForCompletion();
-  });
+  if (isInDemoFlow()) {
+    var stopListeningForCompletion = $rootScope.$on('demo::completed', function () {
+      eventTracking.openedPRUrl();
+      endDemoFlow();
+      stopListeningForCompletion();
+    });
+  }
 
   function resetFlags () {
     $localStorage.hasSeenHangTightMessage = false;

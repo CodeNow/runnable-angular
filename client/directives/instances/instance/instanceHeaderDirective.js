@@ -25,9 +25,6 @@ function instanceHeader(
     link: function ($scope) {
       $scope.$storage = $localStorage;
       $scope.userName = $stateParams.userName;
-      $scope.openedPRUrl = function () {
-        $scope.$emit('demo::completed');
-      };
       $scope.$watch('instance', function (newValue) {
         if (!newValue) {
           return;
