@@ -9,7 +9,6 @@ function demoFlowService(
   $rootScope,
   $q,
   currentOrg,
-  eventTracking,
   github,
   defaultContainerUrl,
   featureFlags,
@@ -18,10 +17,8 @@ function demoFlowService(
 ) {
 
   if (isInDemoFlow()) {
-    var stopListeningForCompletion = $rootScope.$on('demo::completed', function () {
-      eventTracking.openedPRUrl();
+    $rootScope.$on('demo::completed', function () {
       endDemoFlow();
-      stopListeningForCompletion();
     });
   }
 
@@ -56,6 +53,7 @@ function demoFlowService(
             }
           })
             .then(function (updatedOrg) {
+              resetFlags();
               currentOrg.poppa.attrs.metadata = updatedOrg.metadata;
             });
         }
