@@ -77,6 +77,7 @@ function ChooseOrganizationModalController(
     loading.reset(loadingString);
     loading(loadingString, true);
     COMC.cancelPollingForWhitelisted();
+    $rootScope.$broadcast('org::whitelisted');
 
     return $q(function (resolve) {
       var originalOrgList = grantedOrgs.models.map(function (org) {

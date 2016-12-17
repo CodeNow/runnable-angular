@@ -92,6 +92,14 @@ function ControllerInstances(
   }
 
   if (demoFlowService.isInDemoFlow()) {
+    $scope.$on('demo::complete', function () {
+      CIS.instancesByPod.on('add', function (e, update) {
+        if (demoFlowService.getItem('usingDemoRepo')) {
+          delete $localStorage.usingDemoRepo;
+        }
+      });
+    });
+
     demoRepos.checkForOrphanedDependency()
       .then(function (orphanedDemoBuild) {
         if (orphanedDemoBuild) {

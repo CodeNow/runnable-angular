@@ -16,6 +16,7 @@ function accountsSelect (
   demoFlowService,
   errs,
   eventTracking,
+  fetchWhitelistedOrgs,
   keypather,
   ModalService,
   promisify,
@@ -29,9 +30,20 @@ function accountsSelect (
     },
     link: function ($scope) {
 
+      var isPersonalAccountOnly;
+
       $scope.$on('changed-animated-panel', function (evt, panelName) {
         $scope.data.currentPanelName = panelName;
       });
+
+      $scope.$on('org::whitelisted', function () {
+        isPersonalAccountOnly = false;
+      })
+
+      fetchWhitelistedOrgs()
+        .then(function (orgs) {
+          isPersonalAccountOnly = orgs.length < 2 && currentOrg.poppa.attrs.isPersonalAccount;
+        });
 
       $scope.popoverAccountMenu = {
         actions: {
@@ -119,7 +131,7 @@ function accountsSelect (
           return {};
         }
         var showBadge = currentOrg.poppa.isInTrial() && !currentOrg.poppa.attrs.hasPaymentMethod && currentOrg.poppa.trialDaysRemaining() <= 3;
-        if (demoFlowService.shouldShowTeamCTA()) {
+        if (demoFlowService.shouldShowTeamCTA() && isPersonalAccountOnly) {
           showBadge = true;
         }
         return {

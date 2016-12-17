@@ -46,6 +46,7 @@ function demoFlowService(
           })
             .then(function (updatedOrg) {
               currentOrg.poppa.attrs.metadata = updatedOrg.metadata;
+              $rootScope.$broadcast('demo::complete');
             });
         }
        });
@@ -95,7 +96,7 @@ function demoFlowService(
   }
 
   function shouldShowServicesCTA () {
-    return featureFlags.flags.demoMultiTierAddRepo && !isInDemoFlow();
+    return featureFlags.flags.demoMultiTierAddRepo && !isInDemoFlow() && getItem('usingDemoRepo');
   }
 
   return {
