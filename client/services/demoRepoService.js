@@ -14,7 +14,8 @@ var stacks = {
       'npm install'
     ],
     env: [
-      'MONGODB_HOST={{MongoDB}}'
+      'MONGODB_HOST={{MongoDB}}',
+      'PORT=80'
     ],
     ports: [
       80
