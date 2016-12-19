@@ -68,7 +68,7 @@ function DemoAddBranchController(
             return branchInstance;
           })
           .catch(function (err) {
-            if (err.errors[0].message.match(/(pull request.*exists)/)) {
+            if (keypather.get(err, 'errors[0].message').match(/(pull request.*exists)/)) {
               return branchInstance;
             }
             errs.handler(err);
