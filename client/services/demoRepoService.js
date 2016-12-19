@@ -18,7 +18,7 @@ var stacks = {
       'PORT=80'
     ],
     ports: [
-      80
+      443
     ],
     repoName: 'node-starter',
     deps: [
@@ -38,7 +38,7 @@ var stacks = {
       'DATABASE_URL=postgres://postgres@{{PostgreSQL}}:5432/postgres'
     ],
     ports: [
-      80
+      443
     ],
     repoName: 'rails-starter',
     deps: [
@@ -65,7 +65,7 @@ var stacks = {
       'DB_PASSWORD='
     ],
     ports: [
-      80
+      443
     ],
     repoName: 'django-starter',
     deps: [
