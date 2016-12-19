@@ -9,11 +9,19 @@ function demoFlowService(
   $rootScope,
   $q,
   currentOrg,
+  github,
   defaultContainerUrl,
   featureFlags,
   keypather,
   patchOrgMetadata
 ) {
+
+  if (isInDemoFlow()) {
+    $rootScope.$on('demo::completed', function () {
+      endDemoFlow();
+    });
+  }
+
   function resetFlags () {
     $localStorage.hasSeenHangTightMessage = false;
     $localStorage.usingDemoRepo = false;
@@ -45,6 +53,7 @@ function demoFlowService(
             }
           })
             .then(function (updatedOrg) {
+              resetFlags();
               currentOrg.poppa.attrs.metadata = updatedOrg.metadata;
               $rootScope.$broadcast('demo::complete');
             });
@@ -65,6 +74,12 @@ function demoFlowService(
 
   function hasSeenHangTightMessage () {
     return $localStorage.hasSeenHangTightMessage;
+  }
+
+  function submitDemoPR (instance) {
+    var repoOwner = keypather.get(instance, 'attrs.owner.username');
+    var repoName = instance.getRepoName();
+    return github.createPR(repoOwner, repoName, 'master', 'dark-theme');
   }
 
   function hasSeenUrlCallout () {
@@ -91,6 +106,9 @@ function demoFlowService(
     }
   });
 
+  function shouldAddPR () {
+    return currentOrg.isPersonalAccount() && usingDemoRepo();
+  }
   function shouldShowTeamCTA () {
     return featureFlags.flags.teamCTA && currentOrg.isPersonalAccount() && !isInDemoFlow();
   }
@@ -106,11 +124,13 @@ function demoFlowService(
     hasAddedBranch: hasAddedBranch,
     hasSeenHangTightMessage: hasSeenHangTightMessage,
     hasSeenUrlCallout: hasSeenUrlCallout,
+    shouldAddPR: shouldAddPR,
     isInDemoFlow: isInDemoFlow,
     usingDemoRepo: usingDemoRepo,
     resetFlags: resetFlags,
     setUsingDemoRepo: setUsingDemoRepo,
     setItem: setItem,
+    submitDemoPR: submitDemoPR,
     shouldShowTeamCTA: shouldShowTeamCTA,
     shouldShowServicesCTA: shouldShowServicesCTA
   };

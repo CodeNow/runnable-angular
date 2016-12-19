@@ -7,16 +7,16 @@ p.padding-sm Now launch a new environment by pushing a branch to GitHub.
       clipboard
       ng-click = "$event.preventDefault()"
       ng-mouseleave = "showToolTip = false"
-      on-copied = "onClipboardEvent(); showToolTip = true;"
-      text =  "getBranchCloneCopyText()"
+      on-copied = "DBC.onClipboardEvent(); showToolTip = true;"
+      text =  "DBC.getBranchCloneCopyText()"
       tooltip
       tooltip-active-attr = "{{showToolTip}}"
-      tooltip-eval="clipboardText"
+      tooltip-eval="DBC.clipboardText"
       tooltip-options = "{\"class\":\"bottom no-arrow\",\"right\":-16,\"top\":27}"
     ) Copy
 
   pre.monospace.padding-sm.padding-bottom-xs
-    {{getBranchCloneCopyText()}}
+    {{DBC.getBranchCloneCopyText()}}
 
 
 .grid-block.align-start.vertical.padding-sm.padding-top-xs.skip-wrapper
@@ -29,12 +29,12 @@ p.padding-sm Now launch a new environment by pushing a branch to GitHub.
     ng-if = "!$root.isLoading.creatingNewBranchFromDemo && $root.featureFlags.demoMultiTierPRLink"
   ) Or we can&#32;
     span.link(
-      ng-click = "createNewBranch()"
+      ng-click = "DBC.createNewBranch()"
     ) add a branch
     | &#32;for you.
 
   button.btn.btn-sm.green.margin-top-xxs(
-    ng-click = "createNewBranch()"
+    ng-click = "DBC.createNewBranch()"
     ng-if = "!$root.isLoading.creatingNewBranchFromDemo"
   ) Create Branch
 

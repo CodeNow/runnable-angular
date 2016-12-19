@@ -56,6 +56,11 @@ function ControllerInstances(
     }
   });
 
+  CIS.shouldShowBranchView = function () {
+     return !CIS.showDemoAddBranchView() &&
+            (!CIS.isInDemoFlow() || demoFlowService.hasSeenUrlCallout());
+  };
+
   $scope.$on('popover-opened', function (event, pop) {
     if (keypather.get(pop, 'data') === 'branchSelect') {
       CIS.shouldShowPopover = false;

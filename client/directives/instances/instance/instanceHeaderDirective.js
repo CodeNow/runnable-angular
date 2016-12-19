@@ -38,13 +38,16 @@ function instanceHeader(
             }
           });
       });
+      $scope.showPrCallout = function () {
+        return demoFlowService.isInDemoFlow() && demoFlowService.shouldAddPR();
+      };
       $scope.isInGuide = ahaGuide.isInGuide;
 
       $scope.showUrlCallout = function () {
         return demoFlowService.isInDemoFlow() &&
           !!keypather.get($scope.instance, 'contextVersion.getMainAppCodeVersion()') &&
           !demoFlowService.hasSeenUrlCallout() &&
-          demoFlowService.hasSeenHangTightMessage() &&
+          demoFlowService.hasSeenHangTightMessage() === $scope.instance.attrs.id &&
           keypather.get($scope.instance, 'status()') === 'running';
       };
     }

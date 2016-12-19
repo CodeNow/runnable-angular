@@ -5,4 +5,11 @@
   )
   .grid-block.vertical.shrink.p
     strong.weight-strong Meet our pull request bot.
-    .small Runnabot posts links to your containers directly on the pull pequest page. Open this PR to check it out.
+    .small Runnabot posts links to your containers directly on the pull pequest page.&#32;
+      a.link(
+        href = ""
+        ng-click = "$emit('demo::completed'); openedPRUrl()"
+        ng-href = "{{pr.html_url}}"
+        target = "_blank"
+      ) Open this PR
+      | &#32;to check it out.
