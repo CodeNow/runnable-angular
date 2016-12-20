@@ -16,7 +16,6 @@ function accountsSelect (
   demoFlowService,
   errs,
   eventTracking,
-  fetchWhitelistedOrgs,
   keypather,
   ModalService,
   promisify,
@@ -30,25 +29,14 @@ function accountsSelect (
     },
     link: function ($scope) {
 
-      var isPersonalAccountOnly;
-
       $scope.$on('changed-animated-panel', function (evt, panelName) {
         $scope.data.currentPanelName = panelName;
       });
 
-      $scope.$on('org::whitelisted', function () {
-        isPersonalAccountOnly = false;
-      });
-
-      fetchWhitelistedOrgs()
-        .then(function (orgs) {
-          isPersonalAccountOnly = orgs.models.length < 2 && currentOrg.poppa.attrs.isPersonalAccount;
-        });
-
       $scope.popoverAccountMenu = {
         actions: {
           clickedChangeTeam: eventTracking.clickedChangeTeam,
-          shouldShowTeamCTA: shouldShowTeamCTA,
+          shouldShowTeamCTA: demoFlowService.shouldShowTeamCTA.bind(demoFlowService),
           getHeight: function (view) {
             // if no containers '143px'
             if ($rootScope.featureFlags.isolationSetUp && view === 1) {
@@ -120,7 +108,7 @@ function accountsSelect (
             return trialRemaining;
           }
         }
-        if (shouldShowTeamCTA()) {
+        if (demoFlowService.shouldShowTeamCTA()) {
           return '•';
         }
         return '';
@@ -131,7 +119,7 @@ function accountsSelect (
           return {};
         }
         var showBadge = currentOrg.poppa.isInTrial() && !currentOrg.poppa.attrs.hasPaymentMethod && currentOrg.poppa.trialDaysRemaining() <= 3;
-        if (shouldShowTeamCTA()) {
+        if (demoFlowService.shouldShowTeamCTA()) {
           showBadge = true;
         }
         return {
@@ -139,10 +127,6 @@ function accountsSelect (
           'badge-red': showBadge
         };
       };
-
-      function shouldShowTeamCTA () {
-        return isPersonalAccountOnly && demoFlowService.shouldShowTeamCTA();
-      }
     }
   };
 }
