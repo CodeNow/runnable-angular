@@ -24,7 +24,6 @@ function demoFlowService(
 
   function resetFlags () {
     $localStorage.hasSeenHangTightMessage = false;
-    $localStorage.usingDemoRepo = false;
     $localStorage.hasSeenUrlCallout = false;
   }
 

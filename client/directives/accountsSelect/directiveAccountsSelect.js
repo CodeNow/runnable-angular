@@ -38,7 +38,7 @@ function accountsSelect (
 
       $scope.$on('org::whitelisted', function () {
         isPersonalAccountOnly = false;
-      })
+      });
 
       fetchWhitelistedOrgs()
         .then(function (orgs) {
@@ -48,7 +48,7 @@ function accountsSelect (
       $scope.popoverAccountMenu = {
         actions: {
           clickedChangeTeam: eventTracking.clickedChangeTeam,
-          shouldShowTeamCTA: demoFlowService.shouldShowTeamCTA.bind(demoFlowService),
+          shouldShowTeamCTA: shouldShowTeamCTA,
           getHeight: function (view) {
             // if no containers '143px'
             if ($rootScope.featureFlags.isolationSetUp && view === 1) {
@@ -120,7 +120,7 @@ function accountsSelect (
             return trialRemaining;
           }
         }
-        if (demoFlowService.shouldShowTeamCTA()) {
+        if (shouldShowTeamCTA()) {
           return '•';
         }
         return '';
@@ -139,6 +139,10 @@ function accountsSelect (
           'badge-red': showBadge
         };
       };
+
+      function shouldShowTeamCTA () {
+        return isPersonalAccountOnly && demoFlowService.shouldShowTeamCTA();
+      }
     }
   };
 }
