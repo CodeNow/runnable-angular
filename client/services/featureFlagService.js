@@ -29,7 +29,7 @@ function featureFlags(
     demoMultiTierAddBranch: true,
     demoMultiTierUrl: true,
     demoMultiTierUrlHidden: true,
-    demoMultiTierAddRepo: false,
+    demoMultiTierAddRepo: true,
     demoMultiTierPRLink: true,
     demoProject: true,
     dockerfileMirroringMultiple: false,
@@ -57,7 +57,7 @@ function featureFlags(
     personalAccountsPhase2: true,
     renameContainer: false,
     saveToolbar: false,
-    teamCTA: false,
+    teamCTA: true,
     teamManagement: false,
     teamManagementAdvanced: false, // changes text from org to team in account menu
     testingFeature: false,
