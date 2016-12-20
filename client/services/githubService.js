@@ -56,6 +56,20 @@ function github(
       return makeGhRequest(ghRequest);
     },
 
+    createPR: function (repoOwner, repoName, branchToMergeTo, branchToMergeFrom) {
+      var ghRequest = {
+        method: 'post',
+        url: githubAPIUrl + '/repos/' + repoOwner + '/' + repoName + '/pulls',
+        data: {
+          title: 'Runnable PR',
+          body: 'This PR was created with Runnable',
+          head: branchToMergeFrom,
+          base: branchToMergeTo
+        }
+      };
+      return makeGhRequest(ghRequest);
+    },
+
     makeGhRequest: makeGhRequest
   };
 }

@@ -1,6 +1,6 @@
 //- pull request link
 a.grid-block.shrink.btn.btn-xs.green(
-  ng-click = "openedPRUrl()"
+  ng-click = "$emit('demo::completed'); openedPRUrl()"
   ng-href = "{{pr.html_url}}"
   target = "_blank"
   title = "view pull request on GitHub"
@@ -16,6 +16,6 @@ a.grid-block.shrink.btn.btn-xs.green(
     )
 
 .popover.bottom.in.below-modals.popover-pr-link(
-  ng-if = "$root.featureFlags.demoMultiTierPRLink"
+  ng-if = "$root.featureFlags.demoMultiTierPRLink && showPrCallout()"
   ng-include = "'instanceHeaderPRLinkPopoverView'"
 )

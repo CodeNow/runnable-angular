@@ -87,15 +87,11 @@ describe('hangTight'.bold.underline.blue, function () {
       sinon.assert.calledOnce(demoFlowService.setItem);
     });
     it('should emit dismissUrlCallout when it tries 15 times', function () {
-      var dismissStub = sinon.stub();
-      $rootScope.$on('demo::dismissUrlCallout', dismissStub);
       $interval.flush(1000);
       $scope.$digest();
       sinon.assert.calledOnce(demoFlowService.checkStatusOnInstance);
       $interval.flush(15000);
       $scope.$digest();
-      sinon.assert.calledOnce(dismissStub);
-      sinon.assert.calledWith(dismissStub, sinon.match.any, mockInstance.id());
       sinon.assert.calledOnce($interval.cancel);
       sinon.assert.calledOnce(demoFlowService.setItem);
     });
