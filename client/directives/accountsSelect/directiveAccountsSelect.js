@@ -42,7 +42,7 @@ function accountsSelect (
 
       fetchWhitelistedOrgs()
         .then(function (orgs) {
-          isPersonalAccountOnly = orgs.length < 2 && currentOrg.poppa.attrs.isPersonalAccount;
+          isPersonalAccountOnly = orgs.models.length < 2 && currentOrg.poppa.attrs.isPersonalAccount;
         });
 
       $scope.popoverAccountMenu = {
@@ -131,7 +131,7 @@ function accountsSelect (
           return {};
         }
         var showBadge = currentOrg.poppa.isInTrial() && !currentOrg.poppa.attrs.hasPaymentMethod && currentOrg.poppa.trialDaysRemaining() <= 3;
-        if (demoFlowService.shouldShowTeamCTA() && isPersonalAccountOnly) {
+        if (shouldShowTeamCTA()) {
           showBadge = true;
         }
         return {

@@ -97,14 +97,6 @@ function ControllerInstances(
   }
 
   if (demoFlowService.isInDemoFlow()) {
-    $scope.$on('demo::complete', function () {
-      CIS.instancesByPod.on('add', function (e, update) {
-        if (demoFlowService.getItem('usingDemoRepo')) {
-          delete $localStorage.usingDemoRepo;
-        }
-      });
-    });
-
     demoRepos.checkForOrphanedDependency()
       .then(function (orphanedDemoBuild) {
         if (orphanedDemoBuild) {
@@ -127,6 +119,15 @@ function ControllerInstances(
       });
     // Check branch view first time
     checkIfBranchViewShouldBeEnabled();
+  }
+
+  if (demoFlowService.usingDemoRepo() || demoFlowService.isInDemoFlow()) {
+    watchOncePromise($scope, function () {
+      return CIS.instancesByPod.models.length > 2;
+    }, true)
+      .then(function () {
+        delete $localStorage.usingDemoRepo;
+      });
   }
 
   function isInstanceMatch(instance, nameMatch) {
