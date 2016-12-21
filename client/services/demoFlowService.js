@@ -54,7 +54,6 @@ function demoFlowService(
             .then(function (updatedOrg) {
               resetFlags();
               currentOrg.poppa.attrs.metadata = updatedOrg.metadata;
-              $rootScope.$broadcast('demo::complete');
             });
         }
        });
