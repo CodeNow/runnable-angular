@@ -121,15 +121,6 @@ function ControllerInstances(
     checkIfBranchViewShouldBeEnabled();
   }
 
-  if (demoFlowService.usingDemoRepo() || demoFlowService.isInDemoFlow()) {
-    watchOncePromise($scope, function () {
-      return CIS.instancesByPod.models.length > 2;
-    }, true)
-      .then(function () {
-        delete $localStorage.usingDemoRepo;
-      });
-  }
-
   function isInstanceMatch(instance, nameMatch) {
     if (instance.destroyed || !instance.id()) {
       return false;
