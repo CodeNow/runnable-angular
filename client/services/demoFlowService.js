@@ -26,9 +26,10 @@ function demoFlowService(
   if (usingDemoRepo() || isInDemoFlow()) {
     fetchInstancesByPod()
       .then(function(instances) {
-        instances.on('add', function () {
+        instances.on('add', function deleteUsingDemoRepoKey() {
           if (instances.models.length > 2) {
-            deleteItem('usingDemoRepo')
+            deleteItem('usingDemoRepo');
+            instances.off('add', deleteUsingDemoRepoKey);
           }
         })
       })
