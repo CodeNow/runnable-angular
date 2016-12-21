@@ -12,7 +12,6 @@ function DemoAddBranchController(
   demoFlowService,
   errs,
   fetchInstancesByPod,
-  fetchRepoBranches,
   featureFlags,
   github,
   keypather,

@@ -9,6 +9,7 @@ function demoFlowService(
   $rootScope,
   $q,
   currentOrg,
+  fetchInstancesByPod,
   github,
   defaultContainerUrl,
   featureFlags,
@@ -22,10 +23,21 @@ function demoFlowService(
     });
   }
 
+  if (usingDemoRepo() || isInDemoFlow()) {
+    fetchInstancesByPod()
+      .then(function(instances) {
+        instances.on('add', function deleteUsingDemoRepoKey() {
+          if (instances.models.length > 2) {
+            deleteItem('usingDemoRepo');
+            instances.off('add', deleteUsingDemoRepoKey);
+          }
+        });
+      });
+  }
+
   function resetFlags () {
-    $localStorage.hasSeenHangTightMessage = false;
-    $localStorage.usingDemoRepo = false;
-    $localStorage.hasSeenUrlCallout = false;
+    deleteItem('hasSeenHangTightMessage');
+    deleteItem('hasSeenUrlCallout');
   }
 
   function setItem (key, value) {
@@ -34,6 +46,10 @@ function demoFlowService(
 
   function getItem (key) {
     return $localStorage[key];
+  }
+
+  function deleteItem (key) {
+    delete $localStorage[key];
   }
 
   function isInDemoFlow () {
@@ -113,11 +129,12 @@ function demoFlowService(
   }
 
   function shouldShowServicesCTA () {
-    return featureFlags.flags.demoMultiTierAddRepo && !isInDemoFlow();
+    return featureFlags.flags.demoMultiTierAddRepo && !isInDemoFlow() && getItem('usingDemoRepo');
   }
 
   return {
     checkStatusOnInstance: checkStatusOnInstance,
+    deleteItem: deleteItem,
     endDemoFlow: endDemoFlow,
     getItem: getItem,
     hasAddedBranch: hasAddedBranch,
