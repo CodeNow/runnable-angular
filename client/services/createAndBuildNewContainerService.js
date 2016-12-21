@@ -2,7 +2,8 @@
 
 require('app')
   .factory('createAndBuildNewContainer', createAndBuildNewContainer)
-  .factory('alertContainerCreated', alertContainerCreated);
+  .factory('alertContainerCreated', alertContainerCreated)
+  .factory('reportInstanceFailures', reportInstanceFailures);
 
 function alertContainerCreated (
   $q,
@@ -25,7 +26,23 @@ function alertContainerCreated (
   };
 }
 
- /**
+var errorsToNotReport = [
+  'instance with lowerName already exists'
+];
+function reportInstanceFailures(
+  report
+) {
+  return function (err) {
+    var errorMessage = err.message;
+    if (!errorsToNotReport.includes(errorMessage)) {
+      report.critical(err.message, {
+        err: err
+      });
+    }
+  };
+}
+
+/**
   * Given a `state` object, create a build for the specified context version
   *
   * @param createPromise {Promise} - A promise that returns a `state`object
@@ -46,7 +63,8 @@ function createAndBuildNewContainer(
   fetchPlan,
   fetchUser,
   keypather,
-  invitePersonalRunnabot
+  invitePersonalRunnabot,
+  reportInstanceFailures
 ) {
   return function (createPromiseForState, containerName, options) {
     options = options || {};
@@ -112,6 +130,7 @@ function createAndBuildNewContainer(
         return instance;
       })
       .catch(function (err) {
+        reportInstanceFailures(err);
         // Remove it from the servers list
         if (instance) {
           instance.dealloc();
