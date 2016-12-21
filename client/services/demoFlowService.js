@@ -31,8 +31,8 @@ function demoFlowService(
             deleteItem('usingDemoRepo');
             instances.off('add', deleteUsingDemoRepoKey);
           }
-        })
-      })
+        });
+      });
   }
 
   function resetFlags () {

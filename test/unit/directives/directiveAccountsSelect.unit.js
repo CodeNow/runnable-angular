@@ -9,7 +9,8 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
   var ctx;
   var keypather;
   var mockCurrentOrg;
-  var demoFlowService;
+  var demoFlowServiceStub;
+  var userUrl;
 
   beforeEach(function () {
     mockCurrentOrg = {
@@ -24,7 +25,7 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
         }
       }
     };
-    demoFlowService = {
+    demoFlowServiceStub = {
       shouldShowTeamCTA: sinon.stub().returns(false)
     };
     ctx = {};
@@ -88,7 +89,7 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
       });
       $provide.value('currentOrg', mockCurrentOrg);
       $provide.service('demoFlowService', function () {
-        return demoFlowService;
+        return demoFlowServiceStub;
       });
     });
     angular.mock.inject(function(
@@ -187,7 +188,7 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
 
         it('should return nothing if payment method is set', function () {
           mockCurrentOrg.poppa.attrs.hasPaymentMethod = true;
-          demoFlowService.shouldShowTeamCTA.returns(true);
+          demoFlowServiceStub.shouldShowTeamCTA.returns(true);
           expect($elScope.getBadgeCount()).to.equal('•');
         });
       });
@@ -228,7 +229,7 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
       });
 
       it('should return true if it should show the team CTA', function () {
-        demoFlowService.shouldShowTeamCTA.returns(true);
+        demoFlowServiceStub.shouldShowTeamCTA.returns(true);
         expect($elScope.getClasses()).to.deep.equal({
           badge: true,
           'badge-red': true
