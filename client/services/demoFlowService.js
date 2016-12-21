@@ -61,6 +61,8 @@ function demoFlowService(
   }
 
   function checkStatusOnInstance (instance) {
+    // This is needed to fix an issue with 'Response for preflight has invalid HTTP status code 404'
+    $http.defaults.headers.common = {};
     var url = defaultContainerUrl(instance, true);
     return $http.get(url)
       .then(function (res) {
