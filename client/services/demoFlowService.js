@@ -61,7 +61,7 @@ function demoFlowService(
   }
 
   function checkStatusOnInstance (instance) {
-    var url = defaultContainerUrl(instance);
+    var url = defaultContainerUrl(instance, true);
     return $http.get(url)
       .then(function (res) {
         return res.status >= 200 && res.status < 300;
