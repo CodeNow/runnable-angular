@@ -4,18 +4,21 @@ require('app')
   .controller('ChangePaymentFormController', ChangePaymentFormController);
 
 function ChangePaymentFormController(
+  $interval,
   $rootScope,
   currentOrg,
   errs,
   fetchPaymentMethod,
   fetchPlan,
   fetchWhitelists,
+  keypather,
   loading,
   savePaymentMethod,
   stripe
 ) {
   var CPFC = this;
   CPFC.currentOrg = currentOrg;
+  CPFC.isCurrentOrgAllowed = currentOrg.poppa.attrs.allowed;
 
   CPFC.card = {
     number: undefined,
@@ -38,6 +41,31 @@ function ChangePaymentFormController(
     rate_limit_error: 'We’re currently being rate limited by our payment processor. Please try again'
   };
 
+  function pollForAllowedOrg () {
+    var timesToPoll = 20;
+    var activeOrg = currentOrg.poppa.attrs.lowerName;
+    CPFC.stopPollingForAllowedOrg = $interval(function (timesToPoll) {
+      if (timesToPoll === 19 && !CPFC.isCurrentOrgAllowed) {
+        CPFC.error = 'We were unable to process your invoice payment. Please contact support.';
+        CPFC.stopPollingForActiveOrg();
+        return;
+      }
+      return fetchWhitelists()
+        .then(function (whiteListedOrgs) {
+          var updatedOrg = whiteListedOrgs.filter(function (org) {
+            return org.attrs.lowerName === activeOrg;
+          });
+          if (keypather.get(updatedOrg[0], 'attrs.allowed')) {
+            CPFC.isCurrentOrgAllowed = true;
+            CPFC.stopPollingForAllowedOrg();
+            CPFC.save();
+            CPFC.card = {};
+            $rootScope.$broadcast('updated-payment-method');
+          }
+        });
+    }, 3000, timesToPoll);
+  }
+
   CPFC.actions = {
     save: function () {
       loading.reset('savePayment');
@@ -49,13 +77,17 @@ function ChangePaymentFormController(
         .then(function () {
           return fetchWhitelists();
         })
-        .then(function () {
+        .then(function (whitelists) {
           // Not doing an angular timeout because we don't care about the digest.
           // We want to wait for this form to no longer be visible before we clear it and cause error outlines to show.
+          fetchPaymentMethod.cache.clear();
+          if (!CPFC.isCurrentOrgAllowed) {
+            pollForAllowedOrg();
+            return;
+          }
           setTimeout(function () {
             CPFC.card = {};
           }, 1000);
-          fetchPaymentMethod.cache.clear();
           CPFC.save();
           $rootScope.$broadcast('updated-payment-method');
         })
