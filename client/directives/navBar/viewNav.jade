@@ -10,16 +10,16 @@
   ng-include = "'ahaPopoverView'"
   ng-init = "getClassname = CA.ahaGuide.getClassForSubstep"
 )
-//-
-  a.a(
-    ui-sref = "base.config({ userName: CA.activeAccount.oauthName() })"
-    ui-sref-active = "active"
-  )
-    svg.iconnables.icons-gear-dark
-      use(
-        xlink:href = "#icons-gear-dark"
-      )
-    | Configure
+a.a(
+  ng-if = "!CA.currentOrg.poppa.attrs.isPersonalAccount"
+  ui-sref = "base.config({ userName: CA.activeAccount.oauthName() })"
+  ui-sref-active = "active"
+)
+  svg.iconnables.icons-gear-dark
+    use(
+      xlink:href = "#icons-gear-dark"
+    )
+  | Configure
 
 a.a.disabled(
   ng-if = "(dataApp.state.includes('base.config') && CA.instancesByPod && !CA.instancesByPod.models.length) && !$root.featureFlags.containersViewTemplateControls"
