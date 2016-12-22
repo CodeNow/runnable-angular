@@ -7,7 +7,7 @@ var apiMocks = require('../apiMocks/index');
 var runnable = window.runnable;
 var reportInstanceFailures;
 
-describe.only('reportInstanceFailures'.bold.underline.blue, function () {
+describe('reportInstanceFailures'.bold.underline.blue, function () {
 
   var reportMock;
   beforeEach(function setup() {
