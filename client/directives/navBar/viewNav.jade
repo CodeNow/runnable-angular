@@ -11,9 +11,9 @@
   ng-init = "getClassname = CA.ahaGuide.getClassForSubstep"
 )
 a.a(
+  ng-if = "!CA.currentOrg.isPersonalAccount()"
   ui-sref = "base.config({ userName: CA.activeAccount.oauthName() })"
   ui-sref-active = "active"
-  ng-if = "!CA.currentOrg.isPersonalAccount()"
 )
   svg.iconnables.icons-gear-dark
     use(
