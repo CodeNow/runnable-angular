@@ -62,18 +62,20 @@ function demoFlowService(
 
   function checkStatusOnInstance (instance) {
     // This is needed to fix an issue with 'Response for preflight has invalid HTTP status code 404'
-    var defaults = $http.defaults.headers.common;
-    $http.defaults.headers.common = {};
+    // Caused by the X-CSRF-TOKEN
     var url = defaultContainerUrl(instance, true);
-    return $http.get(url)
+    return $http({
+      method: 'GET',
+      url: url,
+      headers: {
+        'X-CSRF-TOKEN': undefined
+      }
+    })
       .then(function (res) {
         return res.status >= 200 && res.status < 300;
       })
       .catch(function () {
         return true;
-      })
-      .finally(function () {
-        $http.defaults.headers.common = defaults;
       });
   }
 
