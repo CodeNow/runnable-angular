@@ -19,7 +19,7 @@ function currentOrg(
     return !keypather.get(org, 'poppa.attrs.isPermanentlyBanned') &&
            (keypather.get(org, 'poppa.isInGrace()') ||
             keypather.get(org, 'poppa.isGraceExpired()'));
-  }
+  };
 
   return org;
 }

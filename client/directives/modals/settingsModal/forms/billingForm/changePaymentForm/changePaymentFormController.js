@@ -5,8 +5,8 @@ require('app')
 
 function ChangePaymentFormController(
   $interval,
-  $q,
   $rootScope,
+  $state,
   currentOrg,
   errs,
   fetchPaymentMethod,
@@ -56,10 +56,9 @@ function ChangePaymentFormController(
     var activeOrg = currentOrg.poppa.attrs.lowerName;
     CPFC.stopPollingForAllowedOrg = $interval(function (timesToPoll) {
       if (timesToPoll === 19 && !CPFC.isCurrentOrgAllowed) {
-        CPFC.error = 'We were unable to process your invoice payment. Please contact support.';
         $interval.cancel(CPFC.stopPollingForAllowedOrg);
         loading('savePayment', false);
-        return;
+        return $state.go('paused');
       }
       return fetchWhitelists()
         .then(function (whiteListedOrgs) {
@@ -86,9 +85,7 @@ function ChangePaymentFormController(
         .then(function () {
           return fetchWhitelists();
         })
-        .then(function (whitelists) {
-          // Not doing an angular timeout because we don't care about the digest.
-          // We want to wait for this form to no longer be visible before we clear it and cause error outlines to show.
+        .then(function () {
           fetchPaymentMethod.cache.clear();
           if (!CPFC.isCurrentOrgAllowed) {
             return pollForAllowedOrg();
