@@ -161,7 +161,7 @@ function ControllerApp(
     }
   };
 
-  if ($rootScope.featureFlags.billing && (currentOrg.poppa.isInGrace() || currentOrg.poppa.isGraceExpired())) {
+  if ($rootScope.featureFlags.billing && currentOrg.willAcceptPayment()) {
     // Determine if it's a trial end or just a normal payment due
     if (currentOrg.poppa.attrs.hasPaymentMethod) {
       ModalService.showModal({
@@ -178,6 +178,8 @@ function ControllerApp(
         preventClose: true
       });
     }
+  } else if (currentOrg.poppa.attrs.isPermanentlyBanned) {
+    return $state.go('paused');
   }
 
   $rootScope.canEditFeatureFlags = function () {

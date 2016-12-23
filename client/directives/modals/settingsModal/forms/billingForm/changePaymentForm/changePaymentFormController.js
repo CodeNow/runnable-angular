@@ -5,6 +5,7 @@ require('app')
 
 function ChangePaymentFormController(
   $interval,
+  $q,
   $rootScope,
   currentOrg,
   errs,
@@ -41,13 +42,23 @@ function ChangePaymentFormController(
     rate_limit_error: 'We’re currently being rate limited by our payment processor. Please try again'
   };
 
+  function handleActiveOrg () {
+    loading('savePayment', false);
+    CPFC.save();
+    setTimeout(function () {
+      CPFC.card = {};
+    }, 1000);
+    $rootScope.$broadcast('updated-payment-method');
+  }
+
   function pollForAllowedOrg () {
     var timesToPoll = 20;
     var activeOrg = currentOrg.poppa.attrs.lowerName;
     CPFC.stopPollingForAllowedOrg = $interval(function (timesToPoll) {
       if (timesToPoll === 19 && !CPFC.isCurrentOrgAllowed) {
         CPFC.error = 'We were unable to process your invoice payment. Please contact support.';
-        CPFC.stopPollingForActiveOrg();
+        $interval.cancel(CPFC.stopPollingForAllowedOrg);
+        loading('savePayment', false);
         return;
       }
       return fetchWhitelists()
@@ -57,10 +68,8 @@ function ChangePaymentFormController(
           });
           if (keypather.get(updatedOrg[0], 'attrs.allowed')) {
             CPFC.isCurrentOrgAllowed = true;
-            CPFC.stopPollingForAllowedOrg();
-            CPFC.save();
-            CPFC.card = {};
-            $rootScope.$broadcast('updated-payment-method');
+            $interval.cancel(CPFC.stopPollingForAllowedOrg);
+            handleActiveOrg();
           }
         });
     }, 3000, timesToPoll);
@@ -82,16 +91,12 @@ function ChangePaymentFormController(
           // We want to wait for this form to no longer be visible before we clear it and cause error outlines to show.
           fetchPaymentMethod.cache.clear();
           if (!CPFC.isCurrentOrgAllowed) {
-            pollForAllowedOrg();
-            return;
+            return pollForAllowedOrg();
           }
-          setTimeout(function () {
-            CPFC.card = {};
-          }, 1000);
-          CPFC.save();
-          $rootScope.$broadcast('updated-payment-method');
+          handleActiveOrg();
         })
         .catch(function (err) {
+          loading('savePayment', false);
           if (err.type === 'card_error') {
             CPFC.error = err.message;
           } else {
@@ -100,9 +105,6 @@ function ChangePaymentFormController(
           if (!CPFC.error) {
             errs.handler(err);
           }
-        })
-        .finally(function () {
-          loading('savePayment', false);
         });
     },
     back: function () {
