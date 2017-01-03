@@ -46,7 +46,8 @@ function createAndBuildNewContainer(
   fetchPlan,
   fetchUser,
   keypather,
-  invitePersonalRunnabot
+  invitePersonalRunnabot,
+  reportInstanceFailures
 ) {
   return function (createPromiseForState, containerName, options) {
     options = options || {};
@@ -112,6 +113,7 @@ function createAndBuildNewContainer(
         return instance;
       })
       .catch(function (err) {
+        reportInstanceFailures(err);
         // Remove it from the servers list
         if (instance) {
           instance.dealloc();
