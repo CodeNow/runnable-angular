@@ -3,8 +3,11 @@
 var featureFlags;
 var mockOrg;
 var $rootScope;
+var patchOrgMetadataStub;
+var hasAha;
+var hasCompletedDemo;
 
-describe('demoFlowService'.bold.underline.blue, function () {
+describe.only('demoFlowService'.bold.underline.blue, function () {
   var demoFlowService;
   function initState () {
     angular.mock.module('app');
@@ -14,6 +17,10 @@ describe('demoFlowService'.bold.underline.blue, function () {
         return {
           flags: featureFlags
         };
+      });
+      $provide.factory('patchOrgMetadata', function ($q) {
+        patchOrgMetadataStub = sinon.stub().returns($q.when(true));
+        return patchOrgMetadataStub;
       });
     });
     angular.mock.inject(function (
@@ -31,8 +38,8 @@ describe('demoFlowService'.bold.underline.blue, function () {
       poppa: {
         attrs: {
           metadata: {
-            hasAha: false,
-            hasCompletedDemo: true
+            hasAha: hasAha,
+            hasCompletedDemo: hasCompletedDemo
           }
         }
       }
@@ -41,7 +48,28 @@ describe('demoFlowService'.bold.underline.blue, function () {
       teamCTA: true
     };
   });
+
+  describe('ending the demo flow', function () {
+    beforeEach(function () {
+      hasAha = true;
+      hasCompletedDemo = false;
+      initState();
+    });
+
+    it('should end the demo on a demo::completed broadcast', function () {
+      var scope = $rootScope.$new();
+      scope.$emit('demo::completed');
+      $rootScope.$digest();
+      sinon.assert.called(patchOrgMetadataStub);
+    });
+  });
+
   describe('#shouldShowTeamCTA', function () {
+    beforeEach(function () {
+      hasAha = false;
+      hasCompletedDemo = true;
+    });
+
     it('should return false if flag is off', function() {
       featureFlags.teamCTA = false;
       initState();
