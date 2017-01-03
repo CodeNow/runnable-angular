@@ -58,6 +58,7 @@ function ChangePaymentFormController(
       if (timesToPoll === 19 && !CPFC.isCurrentOrgAllowed) {
         $interval.cancel(CPFC.stopPollingForAllowedOrg);
         loading('savePayment', false);
+        CPFC.actions.close();
         return $state.go('paused');
       }
       return fetchWhitelists()
@@ -109,6 +110,9 @@ function ChangePaymentFormController(
     },
     cancel: function () {
       CPFC.cancel();
+    },
+    close: function () {
+      CPFC.close();
     }
   };
 }
