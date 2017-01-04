@@ -10,7 +10,6 @@ function IsolationConfigurationModalController(
   promisify,
   $location,
   keypather,
-  createAutoIsolationConfig,
   fetchUser,
 
   instance,
