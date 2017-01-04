@@ -50,7 +50,6 @@
   }
 
   .list-item-fork {
-    border-bottom: $input-border solid $gray-lighter;
     border-top: $input-border solid $gray-lighter;
     cursor: pointer;
     padding: $xs;
@@ -71,10 +70,6 @@
       }
     }
 
-    + .list-item-fork {
-      margin-top: -$input-border;
-    }
-
     .img {
       margin-right: $xs;
     }
@@ -85,15 +80,14 @@
   }
 
   .popover-footer {
-    border: 0;
+    color: rgba($gray-dark,.5);
     cursor: pointer;
     margin: 0;
-    opacity: .5;
     padding: $sm 0;
 
     &:hover:not(.disabled),
     &:active:not(.disabled) {
-      color: $gray-darker;
+      color: $gray-dark;
     }
 
     &.disabled {
