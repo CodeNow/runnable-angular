@@ -171,7 +171,7 @@ function InstanceNavigationController(
         instance: INC.instance
       }
     });
-  }
+  };
 }
 
 
