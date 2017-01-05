@@ -52,7 +52,7 @@
         //- div instead of button so safari doesn’t get weird with alignment
         .grid-block.align-center.shrink.btn.btn-xxs.white(
           ng-class = "{'active': state.active}"
-          ng-if = "$root.featureFlags.containersViewTemplateControls"
+          ng-if = "$root.featureFlags.containersViewTemplateControls && !CIS.currentOrg.isPersonalAccount()"
           pop-over
           pop-over-options = "{\"top\":-30,\"left\":99}"
           pop-over-template = "templateMenuPopoverView"
@@ -99,7 +99,9 @@
         .small {{$root.featureFlags.demoMultiTier ? 'First, use the button above to create your first service.' : 'You don’t have any services. Click the button above to create one.'}}
 
 //- wraps 'add branch' guide and branch clusters
-.grid-block.vertical.noscroll.relative
+.grid-block.vertical.noscroll.relative(
+  ng-if = "!CIS.currentOrg.isPersonalAccount()"
+)
 
   //- 'add branch' guide — show until a branch has been added
   .grid-block.vertical.popover.in.popover-demo.demo-transition.js-animate(
@@ -174,16 +176,6 @@
             pop-over-template = "introAddBranch"
             pop-over-trigger = "activeAttr"
             pop-over-data = "'ahaTemplate'"
-          )
-
-        //- repo config button (pre auto-isolation)
-        svg.grid-block.shrink.iconnables.icons-gear(
-          ng-click = "CIS.editInstance(masterInstance)"
-          ng-if = "!$root.featureFlags.addBranches"
-          title = "Configure Service"
-        )
-          use(
-            xlink:href = "#icons-gear"
           )
 
       //- wraps the default branch container for a repo (pre auto-isolation)
