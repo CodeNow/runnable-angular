@@ -99,9 +99,7 @@
         .small {{$root.featureFlags.demoMultiTier ? 'First, use the button above to create your first service.' : 'You don’t have any services. Click the button above to create one.'}}
 
 //- wraps 'add branch' guide and branch clusters
-.grid-block.vertical.noscroll.relative(
-  ng-if = "!CIS.currentOrg.isPersonalAccount()"
-)
+.grid-block.vertical.noscroll.relative
 
   //- 'add branch' guide — show until a branch has been added
   .grid-block.vertical.popover.in.popover-demo.demo-transition.js-animate(
@@ -130,13 +128,13 @@
         ) {{masterInstance.getName()}}
         .grid-block.align-center.shrink.btn.btn-xxs.white(
           data-event-name = "Clicked Add Branch button"
-          ng-if = "$root.featureFlags.addBranches"
           ng-click = "CIS.popInstanceOpen(masterInstance)"
+          ng-if = "!CIS.currentOrg.isPersonalAccount()"
           pop-over
           pop-over-controller = "CIS"
+          pop-over-data = "'branchSelect'"
           pop-over-options = "{\"verticallyCentered\":true,\"left\":87,\"pinToViewPort\":true}"
           pop-over-template = "branchMenuPopoverView"
-          pop-over-data = "'branchSelect'"
         ) Add Branch
           //- '+' button for adding branches and configuring clusters
           svg.iconnables.icons-arrow-forward
