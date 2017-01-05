@@ -162,6 +162,18 @@ function InstanceNavigationController(
     })
       .catch(errs.handler);
   };
+
+  INC.setupAutoIsolation = function () {
+    $rootScope.$broadcast('close-popovers');
+    ModalService.showModal({
+      controller: 'IsolationConfigurationModalController',
+      controllerAs: 'ICMC',
+      templateUrl: 'isolationConfigurationModalView',
+      inputs: {
+        instance: INC.instance
+      }
+    });
+  };
 }
 
 
