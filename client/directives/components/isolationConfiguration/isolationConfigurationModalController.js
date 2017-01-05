@@ -10,6 +10,7 @@ function IsolationConfigurationModalController(
   promisify,
   $location,
   keypather,
+  fetchUser,
 
   instance,
   close
@@ -46,6 +47,27 @@ function IsolationConfigurationModalController(
         }
       });
     loading('createIsolation', true);
+    if (ICMC.instance.attrs.masterPod) {
+      return fetchUser()
+        .then(function (user) {
+          return promisify(user, 'createAutoIsolationConfig')({
+            instance: ICMC.instance.id(),
+            redeployOnKilled: true,
+            requestedDependencies: isolatedChildren.map(function (child) {
+              return {
+                instance: child.instance
+              };
+            })
+          })
+            .then(function () {
+              ICMC.close();
+            })
+            .catch(errs.handler)
+            .finally(function () {
+              loading('createIsolation', false);
+            });
+        });
+    }
     createIsolation(ICMC.instance, isolatedChildren)
       .then(function () {
         $location.path('/' + ICMC.instance.attrs.owner.username + '/' + ICMC.instance.attrs.name);
