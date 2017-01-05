@@ -35,13 +35,14 @@ function ServerModalController(
   };
   this.requiresRebuild = function () {
     var SMC = this;
+    var instanceTestingParent = keypather.get(SMC, 'instance.attrs.testingParent') || undefined;
     return loadingPromises.count(SMC.name) > 0 || !SMC.openItems.isClean() ||
       !angular.equals(
         keypather.get(SMC, 'instance.attrs.env') || [],
         keypather.get(SMC, 'state.opts.env') // SMC is pre-filled with a default of []
       ) ||
       (!!SMC.instance && (keypather.get(SMC, 'instance.attrs.isTesting') || false) !== keypather.get(SMC, 'state.opts.isTesting')) ||
-      keypather.get(SMC, 'instance.attrs.testingParent') !== keypather.get(SMC, 'state.opts.testingParent');
+      instanceTestingParent !== keypather.get(SMC, 'state.opts.testingParent');
   };
 
   this.openDockerfile = function (state, openItems) {

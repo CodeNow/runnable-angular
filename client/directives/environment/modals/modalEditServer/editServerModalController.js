@@ -65,7 +65,7 @@ function EditServerModalController(
           enabled: false
         },
         isTesting: keypather.get(instance, 'attrs.isTesting') || false,
-        testingParent: keypather.get(instance, 'attrs.testingParent')
+        testingParent: keypather.get(instance, 'attrs.testingParent') || undefined
       },
       promises: {},
       instance: instance,
