@@ -118,6 +118,7 @@
     .grid-block.vertical.shrink.list-clusters.js-animate(
       ng-repeat = "masterInstance in CIS.instancesByPod | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
       ng-show = "CIS.shouldShowParent(masterInstance) && CIS.shouldShowBranchView()"
+      ng-if = "!masterInstance.attrs.isTesting || (masterInstance.attrs.isTesting && !masterInstance.attrs.testingParentId)"
     )
 
       //- cluster list heading
@@ -191,7 +192,7 @@
         instance = "childInstance"
         instance-navigation
         master-instance = "masterInstance"
-        ng-repeat = "childInstance in masterInstance.children.models | orderBy: ['attrs.name']"
+        ng-repeat = "childInstance in CIS.getSortedMasterInstanceChildren(masterInstance)"
         ng-show = "CIS.shouldShowChild(childInstance)"
       )
 
