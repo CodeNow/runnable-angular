@@ -39,7 +39,7 @@ require('app')
           starting: images.orange,
           stopping: images.green
         };
-        if (keypather.get(instance, 'attrs.isTesting')) {
+        if (keypather.get(instance, 'attrs.isTesting') && keypather.get(instance, 'getRepo()')) {
           icons.running = images.orange;
           icons.stopped = images.green;
         }
