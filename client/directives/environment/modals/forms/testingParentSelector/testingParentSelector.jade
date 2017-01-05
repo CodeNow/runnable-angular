@@ -1,0 +1,7 @@
+fancy-select.monospace.input-validate(
+  value = "TPSC.state.opts.testingParent"
+)
+  fancy-option(
+    ng-repeat = "masterpod in $parent.TPSC.masterpods"
+    value = "masterpod.attrs._id"
+  ) {{$parent.masterpod.attrs.name}}

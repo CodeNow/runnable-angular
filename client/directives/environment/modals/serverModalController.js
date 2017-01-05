@@ -40,7 +40,8 @@ function ServerModalController(
         keypather.get(SMC, 'instance.attrs.env') || [],
         keypather.get(SMC, 'state.opts.env') // SMC is pre-filled with a default of []
       ) ||
-      (!!SMC.instance && (keypather.get(SMC, 'instance.attrs.isTesting') || false) !== keypather.get(SMC, 'state.opts.isTesting'));
+      (!!SMC.instance && (keypather.get(SMC, 'instance.attrs.isTesting') || false) !== keypather.get(SMC, 'state.opts.isTesting')) ||
+      keypather.get(SMC, 'instance.attrs.testingParent') !== keypather.get(SMC, 'state.opts.testingParent');
   };
 
   this.openDockerfile = function (state, openItems) {
