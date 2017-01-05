@@ -11,6 +11,5 @@ function FeatureFlagsController(
   this.$localStorage = $localStorage;
   this.resetAha = function() {
     ahaGuide.resetGuide();
-    demoFlowService.resetFlags();
   };
 }

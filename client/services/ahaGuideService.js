@@ -17,11 +17,13 @@ function ahaGuide(
   currentOrg,
   eventTracking,
   featureFlags,
+  fetchInstances,
   fetchInstancesByPod,
   isRunnabotPartOfOrg,
   keypather,
   ModalService,
-  patchOrgMetadata
+  patchOrgMetadata,
+  promisify
 ) {
   var instances = [];
   var hasRunnabot = false;
@@ -359,6 +361,15 @@ function ahaGuide(
         delete $storage.usingDemoRepo;
         delete $storage.hasAddedBranch;
         updateCurrentOrg(updatedOrg);
+        return fetchInstances(null, true)
+          .then(function (fetchedInstances) {
+            var destroyAllInstances = fetchedInstances.models.map(function(instance) {
+              return promisify(instance, 'destroy');
+            });
+            return destroyAllInstances.forEach(function(execute) {
+              execute();
+            });
+          });
       });
   }
 
