@@ -1,5 +1,4 @@
 .popover-account-menu {
-  min-height: 189px;
   position: fixed;
   width: 240px;
   z-index: $z-spinner + 1; // to appear above instance view spinner
@@ -22,16 +21,19 @@
     }
 
     .team-cta {
+      background: $gray-lighterest;
       border-left: 1px solid $gray-lighter;
       flex: 1 1 auto;
       max-width: none;
-      padding: $sm;
+      padding: $md $sm;
 
       @include media(sm) {
+        background: $white;
         border-bottom: 1px solid $gray-lighter;
         border-left: 0;
         font-size: 15px;
         order: 1;
+        padding: $sm;
       }
 
       .img {

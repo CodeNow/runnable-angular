@@ -59,7 +59,7 @@
         //- div instead of button so safari doesn’t get weird with alignment
         .grid-block.align-center.shrink.btn.btn-xxs.white(
           ng-class = "{'active': state.active}"
-          ng-if = "$root.featureFlags.containersViewTemplateControls"
+          ng-if = "$root.featureFlags.containersViewTemplateControls && !CIS.currentOrg.isPersonalAccount()"
           pop-over
           pop-over-options = "{\"top\":-30,\"left\":99}"
           pop-over-template = "templateMenuPopoverView"
@@ -135,13 +135,13 @@
         ) {{masterInstance.getName()}}
         .grid-block.align-center.shrink.btn.btn-xxs.white(
           data-event-name = "Clicked Add Branch button"
-          ng-if = "$root.featureFlags.addBranches"
           ng-click = "CIS.popInstanceOpen(masterInstance)"
+          ng-if = "!CIS.currentOrg.isPersonalAccount()"
           pop-over
           pop-over-controller = "CIS"
+          pop-over-data = "'branchSelect'"
           pop-over-options = "{\"verticallyCentered\":true,\"left\":87,\"pinToViewPort\":true}"
           pop-over-template = "branchMenuPopoverView"
-          pop-over-data = "'branchSelect'"
         ) Add Branch
           //- '+' button for adding branches and configuring clusters
           svg.iconnables.icons-arrow-forward
@@ -181,16 +181,6 @@
             pop-over-template = "introAddBranch"
             pop-over-trigger = "activeAttr"
             pop-over-data = "'ahaTemplate'"
-          )
-
-        //- repo config button (pre auto-isolation)
-        svg.grid-block.shrink.iconnables.icons-gear(
-          ng-click = "CIS.editInstance(masterInstance)"
-          ng-if = "!$root.featureFlags.addBranches"
-          title = "Configure Service"
-        )
-          use(
-            xlink:href = "#icons-gear"
           )
 
       //- wraps the default branch container for a repo (pre auto-isolation)
