@@ -120,6 +120,9 @@
             ui-sref = "orgSelect"
             ui-sref-opts = "{reload: true}"
           ) Change Teams
+          p.p.strong.text-center(
+            ng-if="$root.featureFlags.demoProgress"
+          ) At step 5.
 
     animated-panel(
       name = "featureFlags"

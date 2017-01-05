@@ -38,3 +38,7 @@ p.padding-sm Now launch a new environment by pushing a branch to GitHub.
       ng-include = "'spinner'"
     )
     | Creating branch…
+
+p.padding-sm(
+  ng-if="$root.featureFlags.demoProgress"
+) At step 3.

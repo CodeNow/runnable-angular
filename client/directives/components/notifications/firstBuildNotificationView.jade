@@ -4,3 +4,6 @@
   p.p.weight-strong Hang tight, we’re building your app.
   .small You’ll be able to access your container by its URL once it’s ready.&#32;
     | {{ 'is in demo flow' ? 'This should only take a minute.' : 'Build time varies depending on your services.' }}
+  .small(
+    ng-if="$root.featureFlags.demoProgress"
+  )

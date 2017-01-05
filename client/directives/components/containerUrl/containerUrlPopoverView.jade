@@ -6,3 +6,8 @@
   .grid-block.vertical
     p.p.weight-strong This is where the magic happens.
     .small Open your container’s URL to see its output. Every branch gets a unique URL.
+.grid-block.padding-sm
+  .grid-block.vertical
+    .small(
+      ng-if="$root.featureFlags.demoProgress"
+    ) At step 2.
