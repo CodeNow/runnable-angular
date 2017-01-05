@@ -13,27 +13,10 @@ a.grid-block.align-center.a-sref(
   )
     //- show repo names for repo containers in the master cluster
     span(
-      ng-if = "INC.instance.attrs.masterPod && INC.instance.getBranchName() && $root.featureFlags.addBranches"
+      ng-if = "INC.instance.attrs.masterPod && INC.instance.getBranchName()"
     ) {{INC.instance.getName()}}/
     //- branch name or service name
     | {{getNavigationName()}}
-
-  .grid-block.shrink.btn.btn-xxs.btn-badge(
-    ng-if = "INC.instance.attrs.isIsolationGroupMaster && !$root.featureFlags.addBranches"
-  ) Isolated
-
-  svg.grid-block.shrink.iconnables.icons-overflow(
-    ng-class = "{'active': INC.popoverShown}"
-    ng-if = "!$root.featureFlags.addBranches && ((INC.masterInstance !== INC.instance && INC.instance.getBranchName()) || (!INC.instance.attrs.isIsolationGroupMaster && INC.instance.attrs.isolated))"
-    pop-over
-    pop-over-active = "INC.popoverShown"
-    pop-over-controller = "INC"
-    pop-over-options = "{\"verticallyCentered\":true,\"left\":28}"
-    pop-over-template = "instanceNavigationPopoverView"
-  )
-    use(
-      xlink:href = "#icons-overflow"
-    )
 
   button.grid-block.shrink.btn-gear(
     ng-class = "{'active': INC.popoverShown}"
@@ -42,22 +25,21 @@ a.grid-block.align-center.a-sref(
     pop-over-controller = "INC"
     pop-over-options = "{\"verticallyCentered\":true,\"left\":28}"
     pop-over-template = "instanceNavigationPopoverView"
-    ng-if = "$root.featureFlags.addBranches"
   )
     svg.iconnables
       use(
-        ng-if = "$root.featureFlags.addBranches && !INC.instance.attrs.isIsolationGroupMaster"
+        ng-if = "!INC.instance.attrs.isIsolationGroupMaster"
         xlink:href = "#icons-gear"
       )
       use(
-        ng-if = "$root.featureFlags.addBranches && INC.instance.attrs.isIsolationGroupMaster || INC.instance.attrs.isolated"
+        ng-if = "INC.instance.attrs.isIsolationGroupMaster || INC.instance.attrs.isolated"
         xlink:href = "#icons-gear-modified"
       )
 
   //- config button for non-repo containers (pre auto-isolation)
   svg.grid-block.shrink.iconnables.icons-gear(
     ng-click="INC.editInstance($event)"
-    ng-if = "$root.featureFlags.editAnyInstance || INC.instance.attrs.masterPod && !INC.instance.getBranchName() && !INC.instance.attrs.isolated && !$root.featureFlags.addBranches"
+    ng-if = "$root.featureFlags.editAnyInstance"
     title = "Configure Service"
   )
     use(

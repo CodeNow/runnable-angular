@@ -69,7 +69,7 @@
         | Remove Branch
 
   .popover-content(
-    ng-if = "$root.featureFlags.addBranches && !$root.featureFlags.autoIsolation"
+    ng-if = "!$root.featureFlags.autoIsolation"
   )
     ul.list.popover-list(
       ng-if = "INC.instance.attrs.masterPod"
@@ -157,77 +157,3 @@
             xlink:href = "#icons-delete"
           )
         | Remove Branch
-
-  .popover-content(
-    ng-if = "!$root.featureFlags.addBranches && !$root.featureFlags.autoIsolation"
-  )
-    //- menu items:
-      - for an isolated branch:
-        - Configure Service
-        - (divider)
-        - Add Container to Isolation
-        - (divider)
-        - Hide
-      - for an isolated branch's containers:
-        - Configure Service
-    ul.list.popover-list
-      li.list-item.popover-list-item(
-        ng-click = "INC.editInstance($event)"
-        ng-if = "INC.instance.attrs.isolated"
-      )
-        svg.iconnables
-          use(
-            xlink:href = "#icons-gear"
-          )
-        | Configure Service
-      li.divider(
-        ng-if = "INC.instance.attrs.isolated"
-      )
-      li.list-item.popover-list-item.multi-line.disabled(
-        ng-if = "!INC.instance.attrs.isolated"
-      )
-        p.p Isolating a branch allows you to…
-        ul.list.list-bulleted.small
-          li.list-item Create a separate environment to use with this branch.
-          li.list-item Configure this branch independently.
-          .btn.btn-sm.btn-block.green(
-            ng-click = "INC.setupIsolation()"
-          ) Enter Isolation
-            //- while we can only isolate with service containers:
-              - only show this if service containers exist
-            //- once we can isolate with service containers and repo containers:
-              - only show this if service containers or *other* repo containers exist
-            span(
-              ng-if = "INC.shouldShowSetupModal"
-            ) …
-      li.list-item.popover-list-item(
-        ng-click = "INC.disableIsolation()"
-        ng-if = "INC.instance.attrs.isIsolationGroupMaster"
-      )
-        svg.iconnables
-          use(
-            xlink:href = "#icons-delete"
-          )
-        | Disable Isolation
-      li.list-item.popover-list-item(
-        ng-click = "INC.deleteContainer()"
-        ng-if = "INC.instance.attrs.isolated && !INC.instance.attrs.isIsolationGroupMaster"
-      )
-        svg.iconnables
-          use(
-            xlink:href = "#icons-isolation-disable"
-          )
-        | Delete from Isolation
-
-      //- navListFilter
-      li.divider(
-        ng-if = "$root.featureFlags.navListFilter"
-      )
-      li.list-item.popover-list-item(
-        ng-if = "$root.featureFlags.navListFilter"
-      )
-        svg.iconnables
-          use(
-            xlink:href = "#icons-hide"
-          )
-        | Hide

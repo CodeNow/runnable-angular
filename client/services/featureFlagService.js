@@ -7,7 +7,6 @@ function featureFlags(
   $localStorage
 ) {
   var defaultFeatureFlags = {
-    addBranches: true,
     aha: true,
     ahaBranchUrlStep: false,
     allowIsolatedUpdate: false,
