@@ -4,9 +4,10 @@ require('app')
   .controller('ChangePaymentFormController', ChangePaymentFormController);
 
 function ChangePaymentFormController(
-  $interval,
   $rootScope,
+  $scope,
   $state,
+  $timeout,
   currentOrg,
   errs,
   fetchPaymentMethod,
@@ -43,6 +44,7 @@ function ChangePaymentFormController(
   };
 
   function handleActiveOrg () {
+    CPFC.isCurrentOrgAllowed = true;
     loading('savePayment', false);
     CPFC.save();
     setTimeout(function () {
@@ -51,28 +53,21 @@ function ChangePaymentFormController(
     $rootScope.$broadcast('updated-payment-method');
   }
 
-  function pollForAllowedOrg () {
-    var timesToPoll = 20;
-    var activeOrg = currentOrg.poppa.attrs.lowerName;
-    CPFC.stopPollingForAllowedOrg = $interval(function (timesToPoll) {
-      if (timesToPoll === 19 && !CPFC.isCurrentOrgAllowed) {
-        $interval.cancel(CPFC.stopPollingForAllowedOrg);
+  function waitForUpdate () {
+    if (!CPFC.isCurrentOrgAllowed) {
+      CPFC.failedPaymentHandler = $timeout(function () {
         loading('savePayment', false);
         CPFC.actions.close();
-        return $state.go('paused');
-      }
-      return fetchWhitelists()
-        .then(function (whiteListedOrgs) {
-          var updatedOrg = whiteListedOrgs.filter(function (org) {
-            return org.attrs.lowerName === activeOrg;
-          });
-          if (keypather.get(updatedOrg[0], 'attrs.allowed')) {
-            CPFC.isCurrentOrgAllowed = true;
-            $interval.cancel(CPFC.stopPollingForAllowedOrg);
-            handleActiveOrg();
-          }
-        });
-    }, 3000, timesToPoll);
+        $state.go('paused');
+      }, 60000);
+
+      $scope.$on('organization.invoice.pay', function () {
+        $timeout.cancel(CPFC.failedPaymentHandler);
+        handleActiveOrg();
+      });
+      return;
+    }
+    return handleActiveOrg();
   }
 
   CPFC.actions = {
@@ -89,7 +84,7 @@ function ChangePaymentFormController(
         .then(function () {
           fetchPaymentMethod.cache.clear();
           if (!CPFC.isCurrentOrgAllowed) {
-            return pollForAllowedOrg();
+            return waitForUpdate();
           }
           handleActiveOrg();
         })
