@@ -142,8 +142,7 @@
               xlink:href = "#icons-arrow-down"
             )
           .stepOneUncloseablePopover(
-            ng-if = "$root.featureFlags.aha &&\
-              $index === 0 &&\
+            ng-if = "$index === 0 &&\
               CIS.shouldShowPopover &&\
               !CIS.$storage.instanceListIsClosed &&\
               CIS.shouldShowParent(masterInstance) &&\
@@ -160,8 +159,7 @@
           )
 
           .autoForkPopover(
-            ng-if = "$root.featureFlags.aha &&\
-              $index === 0 &&\
+            ng-if = "$index === 0 &&\
               !CIS.$storage.instanceListIsClosed &&\
               CIS.shouldShowParent(masterInstance) &&\
               !CIS.isAddingFirstBranch() &&\
