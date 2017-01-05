@@ -26,7 +26,7 @@ function cardBuildStatusTitle(
       unknown: 'unknown'
     };
 
-    if (keypather.get(instance, 'attrs.isTesting') && keypather.get(instance, 'getRepo()')) {
+    if (keypather.get(instance, 'attrs.isTesting') && keypather.get(instance, 'getRepoName()')) {
       statusMap.stopped = 'Passed';
       statusMap.running = 'Testing for';
       statusMap.crashed = 'Failed';

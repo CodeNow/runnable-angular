@@ -27,7 +27,7 @@ function ContainerStatusButtonController(
   }
 
   CSBC.isTesting = function () {
-    return keypather.get(CSBC, 'instance.getRepo()') &&
+    return keypather.get(CSBC, 'instance.getRepoName()') &&
       (
         keypather.get(CSBC, 'instance.isolation.groupMaster.attrs.isTesting') ||
         keypather.get(CSBC, 'instance.attrs.isTesting'
