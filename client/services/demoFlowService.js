@@ -137,7 +137,7 @@ function demoFlowService(
   }
 
   function shouldShowServicesCTA () {
-    return featureFlags.flags.demoMultiTierAddRepo && !isInDemoFlow() && getItem('usingDemoRepo');
+    return featureFlags.flags.demoMultiTierAddRepo && !currentOrg.isPersonalAccount() && !isInDemoFlow() && getItem('usingDemoRepo');
   }
 
   return {

@@ -17,7 +17,6 @@ a.grid-block.align-center.a-sref(
     ) {{INC.instance.getName()}}/
     //- branch name or service name
     | {{getNavigationName()}}
-
   button.grid-block.shrink.btn-gear(
     ng-class = "{'active': INC.popoverShown}"
     pop-over
@@ -25,6 +24,7 @@ a.grid-block.align-center.a-sref(
     pop-over-controller = "INC"
     pop-over-options = "{\"verticallyCentered\":true,\"left\":28}"
     pop-over-template = "instanceNavigationPopoverView"
+    ng-if = "!INC.currentOrg.isPersonalAccount()"
   )
     svg.iconnables
       use(

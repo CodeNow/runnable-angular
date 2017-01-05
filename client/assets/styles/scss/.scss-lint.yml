@@ -162,7 +162,7 @@ linters:
   # Checks for the use of the shortest form for properties that can be written in shorthand.
   Shorthand:
     enabled: true
-    allowed_shorthands: [1, 2, 3]
+    allowed_shorthands: [1, 2, 3, 4]
 
   # Checks that all properties in a rule set are on their own distinct lines.
   SingleLinePerProperty:
