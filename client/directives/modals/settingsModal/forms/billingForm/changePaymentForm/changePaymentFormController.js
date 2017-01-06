@@ -54,7 +54,6 @@ function ChangePaymentFormController(
   }
 
   function waitForUpdate () {
-    if (!CPFC.isCurrentOrgAllowed) {
       CPFC.failedPaymentHandler = $timeout(function () {
         loading('savePayment', false);
         CPFC.actions.close();
@@ -65,9 +64,6 @@ function ChangePaymentFormController(
         $timeout.cancel(CPFC.failedPaymentHandler);
         handleActiveOrg();
       });
-      return;
-    }
-    return handleActiveOrg();
   }
 
   CPFC.actions = {
@@ -100,14 +96,8 @@ function ChangePaymentFormController(
           }
         });
     },
-    back: function () {
-      CPFC.back();
-    },
-    cancel: function () {
-      CPFC.cancel();
-    },
-    close: function () {
-      CPFC.close();
-    }
+    back: CPFC.back.bind(CPFC),
+    cancel: CPFC.cancel.bind(CPFC),
+    close: CPFC.close.bind(CPFC)
   };
 }
