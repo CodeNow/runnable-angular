@@ -14,6 +14,7 @@ describe('filterCardBuildStatusTitle', function () {
     var instance;
     beforeEach(function () {
       instance = {
+        getRepoName: sinon.stub().returns('1234'),
         attrs: {
           isTesting: true
         },
@@ -38,6 +39,7 @@ describe('filterCardBuildStatusTitle', function () {
     var instance;
     beforeEach(function () {
       instance = {
+        getRepoName: sinon.stub().returns('1234'),
         status: sinon.stub()
       };
     });
