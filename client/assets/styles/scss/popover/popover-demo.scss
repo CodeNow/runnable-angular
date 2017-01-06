@@ -98,12 +98,20 @@
   }
 
   // add branch step
-  .commands-wrapper,
-  .skip-wrapper {
+  .commands-wrapper {
     background: $gray-dark;
     color: $gray-lighter;
 
+    &:last-child {
+      border-radius: 0 0 $input-border-radius-lg $input-border-radius-lg;
+    }
+
+    + .commands-wrapper {
+      border-top: 1px solid rgba($black,.2);
+    }
+
     .monospace {
+      font-size: 11px;
       overflow-x: auto;
     }
 
@@ -167,10 +175,5 @@
       transform: translate3d(-97%,0,0);
       width: 100%;
     }
-  }
-  // skip branch
-  .skip-wrapper {
-    border-radius: 0 0 $input-border-radius-lg $input-border-radius-lg;
-    border-top: 1px solid rgba($black,.2);
   }
 }
