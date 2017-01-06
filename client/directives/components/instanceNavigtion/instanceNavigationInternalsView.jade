@@ -16,7 +16,7 @@ a.grid-block.align-center.a-sref(
       ng-if = "INC.instance.attrs.masterPod && INC.instance.getBranchName() && $root.featureFlags.addBranches"
     ) {{INC.instance.getName()}}/
     //- branch name or service name
-    | {{INC.instance.attrs.isTesting && !INC.instance.attrs.masterPod ? INC.instance.getMasterPodName() : getNavigationName()}}
+    | {{INC.instance.attrs.isTesting && !INC.instance.attrs.masterPod ? INC.instance.getMasterPodName() + '/' : ''}}{{getNavigationName()}}
 
   .grid-block.shrink.btn.btn-xxs.btn-badge(
     ng-if = "INC.instance.attrs.isIsolationGroupMaster && !$root.featureFlags.addBranches"
