@@ -46,7 +46,6 @@
     .grid-block.shrink.vertical.list-clusters.master-cluster.js-animate(
       ng-if = "(!$root.featureFlags.demoMultiTier || !CIS.shouldShowDemoSelector()) && (!CIS.searchBranches || CIS.getFilteredInstanceList().length)"
     )
-
       .grid-block.shrink.align-center.list-item-cluster.list-clusters-heading
         span.grid-content.text-overflow Services
         //- div instead of button so safari doesn’t get weird with alignment
@@ -61,7 +60,6 @@
             use(
               xlink:href = "#icons-arrow-down"
             )
-
       .grid-block.align-center.padding-sm.popover.bottom.in.popover-demo(
         ng-if = "CIS.shouldShowServicesCTA()"
         ng-include = "'popoverDemoServiceCTAView'"
@@ -82,6 +80,7 @@
             instance = "masterInstance"
             instance-navigation
             master-instance = "masterInstance"
+            ng-if = "!masterInstance.attrs.isTesting"
             ng-repeat = "masterInstance in CIS.getFilteredInstanceList() | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
           )
           //- master non-repository containers
@@ -89,6 +88,7 @@
             active-account = "CIS.activeAccount"
             instance = "masterInstance"
             instance-navigation
+            ng-if = "!masterInstance.attrs.isTesting"
             ng-repeat = "masterInstance in CIS.getFilteredInstanceList() | instanceHasRepo:false | orderBy: ['attrs.name'] as nonRepoInstances track by masterInstance.attrs.name"
           )
 
@@ -98,6 +98,31 @@
         br
         .small {{$root.featureFlags.demoMultiTier ? 'First, use the button above to create your first service.' : 'You don’t have any services. Click the button above to create one.'}}
 
+
+      .grid-block.shrink.align-center.list-item-cluster.list-clusters-heading(
+        ng-if = "CIS.getFilteredTestingMasters().length"
+      )
+        span.grid-content.text-overflow Testing
+
+      .grid-block.shrink.list-item-cluster(
+        ng-if = "CIS.getFilteredTestingMasters().length"
+      )
+        .grid-block.list-containers.vertical.text-overflow.open
+          //- master repository containers
+          .grid-block(
+            active-account = "CIS.activeAccount"
+            instance = "masterInstance"
+            instance-navigation
+            master-instance = "masterInstance"
+            ng-repeat = "masterInstance in CIS.getFilteredTestingMasters() | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
+          )
+          //- master non-repository containers
+          .grid-block(
+            active-account = "CIS.activeAccount"
+            instance = "masterInstance"
+            instance-navigation
+            ng-repeat = "masterInstance in CIS.getFilteredTestingMasters() | instanceHasRepo:false | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
+          )
 //- wraps 'add branch' guide and branch clusters
 .grid-block.vertical.noscroll.relative
 

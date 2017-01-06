@@ -261,6 +261,12 @@ function ControllerInstances(
       .filter(CIS.filterMasterInstance);
   };
 
+  this.getFilteredTestingMasters = function () {
+    return (this.getFilteredInstanceList() || []).filter(function (masterInstance) {
+      return masterInstance.attrs.isTesting;
+    });
+  };
+
   this.getFilteredBranches = function () {
     if (!CIS.branchQuery) {
       return CIS.instanceBranches;
