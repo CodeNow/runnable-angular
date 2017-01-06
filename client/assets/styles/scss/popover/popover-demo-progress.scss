@@ -8,6 +8,15 @@
     margin: (-$sm) (-$sm) $sm;
   }
 
+  .team-cta & {
+    margin: (-$md) (-$sm) $sm;
+    width: calc(100% + 30px);
+
+    @include media(sm) {
+      margin-top: -$sm;
+    }
+  }
+
   .meter {
     background: $gray-lighter;
     border-radius: 12px;
