@@ -200,15 +200,6 @@
             pop-over-data = "'ahaTemplate'"
           )
 
-      //- wraps the default branch container for a repo (pre auto-isolation)
-      .grid-block.align-center.list-item-cluster(
-        active-account = "CIS.activeAccount"
-        instance = "masterInstance"
-        instance-navigation
-        master-instance = "masterInstance"
-        ng-if = "!$root.featureFlags.addBranches && CIS.filterMasterInstance(masterInstance)"
-      )
-
       //- wraps auto-isolated clusters
       .list-item-cluster(
         active-account = "CIS.activeAccount"
@@ -226,16 +217,3 @@
         pop-over-options = "{\"top\":-33,\"left\":215}"
         pop-over-template = "viewMoreContainersPopover"
       ) 8 more…
-
-  //- non-repo containers (pre auto-isolation)
-  .grid-block.vertical.shrink.list-clusters(
-    ng-if = "!$root.featureFlags.addBranches"
-    ng-show = "nonRepoInstances.length"
-  )
-    .list-item-cluster(
-      active-account = "CIS.activeAccount"
-      instance = "masterInstance"
-      instance-navigation
-      ng-repeat = "masterInstance in CIS.instancesByPod | instanceHasRepo:false | orderBy: ['attrs.name'] as nonRepoInstances track by masterInstance.attrs.name"
-      ng-show = "CIS.shouldShowParent(masterInstance)"
-    )
