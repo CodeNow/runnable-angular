@@ -519,7 +519,7 @@ describe('serverModalController'.bold.underline.blue, function () {
     it('should be true when the testingParent doesnt match ', function () {
       SMC.instance = {
         attrs: {
-          testingParent: '1234'
+          testingParentId: '1234'
         }
       };
       $scope.$digest();
