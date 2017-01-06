@@ -66,7 +66,8 @@ describe('containerStatusButtonDirective'.bold.underline.blue, function () {
         },
         attrs: {
           isTesting: false
-        }
+        },
+        getRepoName: sinon.stub().returns('1234')
       };
       $rootScope.featureFlags = {
         internalDebugging: false
