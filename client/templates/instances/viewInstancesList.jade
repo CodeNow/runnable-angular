@@ -121,7 +121,7 @@
             active-account = "CIS.activeAccount"
             instance = "masterInstance"
             instance-navigation
-            ng-repeat = "masterInstance in CIS.getFilteredTestingMasters() | instanceHasRepo:false | orderBy: ['attrs.name'] as nonRepoInstances track by masterInstance.attrs.name"
+            ng-repeat = "masterInstance in CIS.getFilteredTestingMasters() | instanceHasRepo:false | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
           )
 //- wraps 'add branch' guide and branch clusters
 .grid-block.vertical.noscroll.relative
