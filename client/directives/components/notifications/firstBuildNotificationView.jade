@@ -1,8 +1,8 @@
 .grid-block.align-center.justify-justified.demo-progress(
-  ng-if = "$root.featureFlags.demoProgress"
   demo-progress-bar
   demo-step = 2
   is-personal-account = "$root.dataApp.data.currentOrg.isPersonalAccount()"
+  ng-if = "$root.featureFlags.demoProgress"
 )
 
 .grid-block

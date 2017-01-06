@@ -3,10 +3,10 @@
 )
 .grid-block.vertical
   .grid-block.align-center.justify-justified.demo-progress(
-    ng-if = "$root.featureFlags.demoProgress"
     demo-progress-bar
     demo-step = 3
     is-personal-account = "currentOrg.isPersonalAccount()"
+    ng-if = "$root.featureFlags.demoProgress"
   )
   .grid-block.padding-sm
     .grid-block.shrink.margin-right-xs.h1 ✨
