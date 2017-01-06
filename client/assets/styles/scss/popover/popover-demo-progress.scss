@@ -4,6 +4,10 @@
   border-radius: $input-border-radius-lg $input-border-radius-lg 0 0;
   padding: $xs $sm;
 
+  .notification & {
+    margin: (-$sm) (-$sm) $sm;
+  }
+
   .meter {
     background: $gray-lighter;
     border-radius: 12px;

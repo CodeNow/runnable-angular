@@ -1,9 +1,13 @@
-.grid-block.shrink.margin-right-xs.h1 🤘
+.grid-block.align-center.justify-justified.demo-progress(
+  ng-if = "$root.featureFlags.demoProgress"
+  ng-include = "'popoverDemoProgressView'"
+  ng-init = "state.demo = 2"
+)
 
-.grid-block.vertical
-  p.p.weight-strong Hang tight, we’re building your app.
-  .small You’ll be able to access your container by its URL once it’s ready.&#32;
-    | {{ 'is in demo flow' ? 'This should only take a minute.' : 'Build time varies depending on your services.' }}
-  .small(
-    ng-if="$root.featureFlags.demoProgress"
-  ) At Step 2
+.grid-block
+  .grid-block.shrink.margin-right-xs.h1 🤘
+
+  .grid-block.vertical
+    p.p.weight-strong Hang tight, we’re building your app.
+    .small You’ll be able to access your container by its URL once it’s ready.&#32;
+      | {{ 'is in demo flow' ? 'This should only take a minute.' : 'Build time varies depending on your services.' }}
