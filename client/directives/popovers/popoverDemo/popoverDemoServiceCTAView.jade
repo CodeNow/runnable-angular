@@ -1,7 +1,15 @@
-.arrow.white(
+.arrow(
+  ng-class = "{'gray': $root.featureFlags.demoProgress}"
   style = "left: auto; right: 17px;"
 )
-.grid-block.vertical
-  p.weight-strong Add a service.
-  small.small Choose one of your repositories to get it running.
-.grid-block.shrink.margin-left-sm.h3 👆
+.grid-block.align-center.justify-justified.demo-progress(
+  demo-progress-bar
+  demo-step = 5
+  is-personal-account = "$root.dataApp.data.currentOrg.isPersonalAccount()"
+  ng-if = "$root.featureFlags.demoProgress"
+)
+.grid-block.align-center
+  .grid-block.vertical
+    p.weight-strong Add a service.
+    small.small Choose one of your repositories to get it running.
+  .grid-block.shrink.margin-left-sm.h3 👆

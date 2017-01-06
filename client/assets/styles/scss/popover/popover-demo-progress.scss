@@ -17,6 +17,11 @@
     }
   }
 
+  .service-cta & {
+    margin: (-$sm) (-$sm) $sm;
+    width: calc(100% + 30px);
+  }
+
   .meter {
     background: $gray-lighter;
     border-radius: 12px;
