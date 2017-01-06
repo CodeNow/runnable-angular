@@ -172,6 +172,12 @@ section.modal-body(
     ng-if = "SMC.selectedTab === 'whitelist'"
   )
   .modal-form(
+    testing-parent-selector
+    instance = "SMC.instance"
+    state = "SMC.state"
+    ng-if = "$root.featureFlags.testingFeature && SMC.selectedTab === 'whitelist'"
+  )
+  .modal-form(
     ng-if = "SMC.selectedTab === 'ports'"
     ports = "SMC.state.ports"
     ports-form

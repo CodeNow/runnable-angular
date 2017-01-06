@@ -64,7 +64,8 @@ function EditServerModalController(
         ipWhitelist: angular.copy(keypather.get(instance, 'attrs.ipWhitelist')) || {
           enabled: false
         },
-        isTesting: keypather.get(instance, 'attrs.isTesting') || false
+        isTesting: keypather.get(instance, 'attrs.isTesting') || false,
+        testingParentId: keypather.get(instance, 'attrs.testingParentId') || undefined
       },
       promises: {},
       instance: instance,
