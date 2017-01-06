@@ -1,7 +1,8 @@
 .grid-block.align-center.justify-justified.demo-progress(
   ng-if = "$root.featureFlags.demoProgress"
-  ng-include = "'popoverDemoProgressView'"
-  ng-init = "state.demo = 2"
+  demo-progress-bar
+  demo-step = 2
+  is-personal-account = "$root.dataApp.data.currentOrg.isPersonalAccount()"
 )
 
 .grid-block

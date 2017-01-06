@@ -124,7 +124,6 @@ function demoRepos(
   promisify,
   serverCreateService
 ) {
-  var showDemoSelector = !!stacks[demoFlowService.usingDemoRepo()] || (ahaGuide.isInGuide() && !ahaGuide.hasConfirmedSetup());
 
   function findNewRepo(stack) {
     return fetchOwnerRepo(currentOrg.github.oauthName(), stack.repoName);
@@ -305,7 +304,7 @@ function demoRepos(
     findDependencyNonRepoInstances: findDependencyNonRepoInstances,
     createDemoApp: createDemoApp,
     shouldShowDemoSelector: function () {
-      return showDemoSelector;
+      return !!stacks[demoFlowService.usingDemoRepo()] || (ahaGuide.isInGuide() && !ahaGuide.hasConfirmedSetup());
     }
   };
 }

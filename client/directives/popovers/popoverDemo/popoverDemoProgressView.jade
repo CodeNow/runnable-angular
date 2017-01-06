@@ -1,5 +1,5 @@
 .meter(
-  ng-class = "{'meter-{{state.demo}}': true}"
+  ng-class = "{'meter-{{demoStep}}': true}"
 )
   .tick
   .tick
@@ -7,4 +7,7 @@
   .tick
   .tick
 
-a.link.small.text-gray-light End Tour
+a.link.small.text-gray-light(
+  ng-if = "!isPersonalAccount"
+  ng-click = "endDemo()"
+) End Tour

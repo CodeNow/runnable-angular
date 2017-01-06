@@ -2,8 +2,9 @@
 .grid-block.vertical
   .grid-block.align-center.justify-justified.demo-progress(
     ng-if = "$root.featureFlags.demoProgress"
-    ng-include = "'popoverDemoProgressView'"
-    ng-init = "state.demo = 4"
+    demo-progress-bar
+    demo-step = 4
+    is-personal-account = "currentOrg.isPersonalAccount()"
   )
   img.grid-block.shrink.img(
     src = "/build/images/runnabot-preview.svg"
