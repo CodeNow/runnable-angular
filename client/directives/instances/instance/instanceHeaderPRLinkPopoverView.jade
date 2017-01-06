@@ -1,20 +1,20 @@
-.arrow.white
+.arrow.gray
 .grid-block.vertical
+  .grid-block.align-center.justify-justified.demo-progress(
+    ng-if = "$root.featureFlags.demoProgress"
+    ng-include = "'popoverDemoProgressView'"
+    ng-init = "state.demo = 4"
+  )
   img.grid-block.shrink.img(
     src = "/build/images/runnabot-preview.svg"
   )
   .grid-block.vertical.shrink.p
-    strong.weight-strong Meet our pull request bot.
+    strong.weight-strong Meet your pull request bot.
     .small Runnabot posts links to your containers directly on the pull pequest page.&#32;
       a.link(
         href = ""
         ng-click = "$emit('demo::completed'); openedPRUrl()"
         ng-href = "{{pr.html_url}}"
         target = "_blank"
-      ) Open this PR
+      ) Open your PR page
       | &#32;to check it out.
-  
-  .grid-block.vertical.shrink
-    strong.weight-strong(
-      ng-if="$root.featureFlags.demoProgress"
-    ) At step 4
