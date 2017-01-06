@@ -1,0 +1,48 @@
+.demo-progress {
+  background: $gray-lighterest;
+  border-bottom: 1px solid $gray-lighter;
+  border-radius: $input-border-radius-lg $input-border-radius-lg 0 0;
+  padding: $sm;
+
+  .meter {
+    background: $gray-lighter;
+    border-radius: 12px;
+    height: 12px;
+    overflow: hidden;
+    position: relative;
+    width: 90px;
+    z-index: 1;
+
+    &::before {
+      background: linear-gradient(90deg,$green,$green-light);
+      border-radius: 12px 0 0 12px;
+      content: '';
+      display: block;
+      height: 12px;
+      left: -100%;
+      position: absolute;
+      transform: translate3d(16.667%,0,0);
+      width: 100%;
+    }
+
+    @for $i from 1 to 6 {
+      &.meter-#{$i}::before {
+        transform: translate3d(($i * 100% / 6),0,0);
+      }
+    }
+
+    .tick {
+      background: rgba($white,.6);
+      height: 100%;
+      position: absolute;
+      top: 0;
+      width: 1px;
+
+      @for $i from 1 to 6 {
+        &:nth-child(#{$i}) {
+          left: $i * 100% / 6;
+        }
+      }
+    }
+  }
+}

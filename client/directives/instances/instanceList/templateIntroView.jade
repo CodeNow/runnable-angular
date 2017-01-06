@@ -1,4 +1,10 @@
+.grid-block.align-center.justify-justified.demo-progress(
+  ng-if = "$root.featureFlags.demoProgress"
+  ng-include = "'popoverDemoProgressView'"
+)
+
 p.grid-block.shrink.p.padding-sm Launch your first environment by forking one of these projects to your GitHub account.
+
 .grid-block.shrink.list-fork(
   ng-include = "'setupDemoGuideView'"
 )
