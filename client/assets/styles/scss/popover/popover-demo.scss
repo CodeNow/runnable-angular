@@ -50,24 +50,25 @@
   }
 
   .list-item-fork {
-    border-top: $input-border solid $gray-lighter;
+    border: $input-border solid transparent;
+    border-radius: $input-border-radius-lg;
     cursor: pointer;
-    padding: $xs;
+    margin: 0 $xs/2;
+    padding: $xs $xs/2;
 
-    &:hover:not(.disabled),
-    &:active:not(.disabled) {
-      color: $gray-darker;
+    &:hover {
+      background: $gray-lighterest;
+      border-color: $gray-lighter;
     }
 
-    &.disabled {
-      cursor: default;
-      opacity: .5;
+    &:active {
+      background: transparent;
+      border-color: currentColor;
+      color: $purple-light;
+    }
 
-      .spinner-wrapper {
-        align-items: center;
-        height: 24px;
-        width: 24px;
-      }
+    &:last-child {
+      margin-bottom: $xs/2;
     }
 
     .img {

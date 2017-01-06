@@ -2,7 +2,7 @@
   background: $gray-lighterest;
   border-bottom: 1px solid $gray-lighter;
   border-radius: $input-border-radius-lg $input-border-radius-lg 0 0;
-  padding: $sm;
+  padding: $xs $sm;
 
   .meter {
     background: $gray-lighter;
@@ -44,5 +44,10 @@
         }
       }
     }
+  }
+
+  // end tour button
+  .small {
+    font-size: 11px;
   }
 }
