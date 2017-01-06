@@ -218,6 +218,7 @@
         master-instance = "masterInstance"
         ng-repeat = "childInstance in CIS.getSortedMasterInstanceChildren(masterInstance)"
         ng-show = "CIS.shouldShowChild(childInstance)"
+        ng-class = "childInstance.attrs.isTesting && !childInstance.attrs.masterPod ? 'testing-container' : ''"
       )
 
       //- nav list filter

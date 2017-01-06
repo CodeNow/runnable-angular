@@ -9,14 +9,14 @@ a.grid-block.align-center.a-sref(
     instance = "INC.instance"
   )
   .grid-block.text-overflow(
-    title = "{{getNavigationName()}}{{INC.instance.attrs.isTesting ? '/' + INC.instance.getMasterPodName() : ''}}"
+    title = "{{getNavigationName()}}{{INC.instance.attrs.isTesting && !INC.instance.attrs.masterPod  ? '/' + INC.instance.getMasterPodName() : ''}}"
   )
     //- show repo names for repo containers in the master cluster
     span(
       ng-if = "INC.instance.attrs.masterPod && INC.instance.getBranchName() && $root.featureFlags.addBranches"
     ) {{INC.instance.getName()}}/
     //- branch name or service name
-    | {{getNavigationName()}}{{INC.instance.attrs.isTesting ? '/' + INC.instance.getMasterPodName() : ''}}
+    | {{INC.instance.attrs.isTesting && !INC.instance.attrs.masterPod ? INC.instance.getMasterPodName() : getNavigationName()}}
 
   .grid-block.shrink.btn.btn-xxs.btn-badge(
     ng-if = "INC.instance.attrs.isIsolationGroupMaster && !$root.featureFlags.addBranches"
@@ -69,8 +69,8 @@ a.grid-block.align-center.a-sref(
   active-account = "INC.activeAccount"
   instance = "instance"
   instance-navigation
-  ng-repeat = "instance in INC.instance.isolation.instances | instanceHasRepo:true | orderBy: ['attrs.name']"
   ng-if = "INC.shouldExpand && INC.instance.isolation.instances.models.length"
+  ng-repeat = "instance in INC.instance.isolation.instances | instanceHasRepo:true | orderBy: ['attrs.name']"
 )
 
 //- wraps service friends
@@ -78,6 +78,6 @@ a.grid-block.align-center.a-sref(
   active-account = "INC.activeAccount"
   instance = "instance"
   instance-navigation
-  ng-repeat = "instance in INC.instance.isolation.instances | instanceHasRepo:false | orderBy: ['attrs.name']"
   ng-if = "INC.shouldExpand && INC.instance.isolation.instances.models.length"
+  ng-repeat = "instance in INC.instance.isolation.instances | instanceHasRepo:false | orderBy: ['attrs.name']"
 )
