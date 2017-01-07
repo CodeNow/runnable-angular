@@ -1,4 +1,6 @@
-.arrow.gray
+.arrow(
+  ng-class = "{'gray': $root.featureFlags.demoProgress}"
+)
 .grid-block.vertical
   .grid-block.align-center.justify-justified.demo-progress(
     demo-progress-bar

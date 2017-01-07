@@ -43,9 +43,8 @@
       width: 100%;
     }
 
-    @for $i from 1 to 7 {
-      &.meter-max-7 {
-
+    &.meter-max-7 {
+      @for $i from 1 to 7 {
         &.meter-#{$i}::before {
           transform: translate3d(($i * 100% / 7),0,0);
         }
@@ -56,9 +55,9 @@
       }
     }
 
-    @for $i from 1 to 6 {
-      &.meter-max-6 {
 
+    &.meter-max-6 {
+      @for $i from 1 to 6 {
         &.meter-#{$i}::before {
           transform: translate3d(($i * 100% / 6),0,0);
         }
