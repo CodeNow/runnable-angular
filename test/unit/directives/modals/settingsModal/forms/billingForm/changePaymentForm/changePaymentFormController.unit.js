@@ -20,7 +20,10 @@ describe('ChangePaymentFormController'.bold.underline.blue, function () {
     mockCurrentOrg = {
       poppa: {
         isInTrial: sinon.stub().returns(false),
-        id: sinon.stub().returns('1234')
+        id: sinon.stub().returns('1234'),
+        attrs: {
+          allowed: true
+        }
       }
     };
     angular.mock.module('app', function ($provide) {
@@ -63,8 +66,8 @@ describe('ChangePaymentFormController'.bold.underline.blue, function () {
     ) {
       $rootScope = _$rootScope_;
       sinon.stub($rootScope, '$broadcast');
-      $controller = _$controller_;
       $scope = $rootScope.$new();
+      $controller = _$controller_;
       $q = _$q_;
     });
 
@@ -74,6 +77,7 @@ describe('ChangePaymentFormController'.bold.underline.blue, function () {
     laterController.instance.updating = true;
     laterController.instance.back = sinon.spy();
     laterController.instance.cancel = sinon.spy();
+    laterController.instance.close = sinon.spy();
     laterController.instance.save = sinon.spy();
     CPFC = laterController();
   });
