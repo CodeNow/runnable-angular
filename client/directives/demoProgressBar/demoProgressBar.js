@@ -7,7 +7,8 @@ require('app')
  * @ngInject
  */
 function demoProgressBar(
-  demoFlowService
+  demoFlowService,
+  currentOrg
 ) {
   return {
     restrict: 'A',
@@ -17,6 +18,7 @@ function demoProgressBar(
       isPersonalAccount: '='
     },
     link: function (scope, elem, attrs) {
+      scope.isPersonalAccount = currentOrg.isPersonalAccount;
       scope.endDemo = demoFlowService.endDemoFlow;
     }
   };
