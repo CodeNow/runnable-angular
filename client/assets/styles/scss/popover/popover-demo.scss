@@ -53,8 +53,8 @@
     border: $input-border solid transparent;
     border-radius: $input-border-radius-lg;
     cursor: pointer;
-    margin: 0 $xs/2;
-    padding: $xs $xs/2;
+    margin: 0 $xs / 2;
+    padding: $xs $xs / 2;
 
     &:hover {
       background: $gray-lighterest;
@@ -68,7 +68,7 @@
     }
 
     &:last-child {
-      margin-bottom: $xs/2;
+      margin-bottom: $xs / 2;
     }
 
     .img {

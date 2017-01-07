@@ -1,7 +1,7 @@
 .grid-block.align-center.justify-justified.demo-progress(
-  ng-if = "$root.featureFlags.demoProgress"
   demo-progress-bar
   demo-step = 1
+  ng-if = "$root.featureFlags.demoProgress"
 )
 
 p.grid-block.shrink.p.padding-sm Launch your first environment by forking one of these projects to your GitHub account.
@@ -9,14 +9,3 @@ p.grid-block.shrink.p.padding-sm Launch your first environment by forking one of
 .grid-block.shrink.list-fork(
   ng-include = "'setupDemoGuideView'"
 )
-
-.grid-block.justify-center.align-center.shrink.weight-light.popover-footer(
-  data-event-name = "Clicked: Skip Demo/Use Existing Repos"
-  ng-click = "$root.isLoading.startDemo || skipDemo()"
-  ng-class = "{'disabled' :$root.isLoading.startDemo}"
-  ng-if = "!CA.currentOrg.isPersonalAccount()"
-) Start with your own repo
-  svg.grid-block.shrink.iconnables.icons-arrow-forward
-    use(
-      xlink:href = "#icons-arrow-down"
-    )

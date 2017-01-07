@@ -17,6 +17,11 @@
     }
   }
 
+  .service-cta & {
+    margin: (-$sm) (-$sm) $sm;
+    width: calc(100% + 30px);
+  }
+
   .meter {
     background: $gray-lighter;
     border-radius: 12px;
@@ -38,9 +43,28 @@
       width: 100%;
     }
 
-    @for $i from 1 to 6 {
-      &.meter-#{$i}::before {
-        transform: translate3d(($i * 100% / 6),0,0);
+    &.meter-max-7 {
+      @for $i from 1 to 7 {
+        &.meter-#{$i}::before {
+          transform: translate3d(($i * 100% / 7),0,0);
+        }
+
+        .tick:nth-child(#{$i}) {
+          left: $i * 100% / 7;
+        }
+      }
+    }
+
+
+    &.meter-max-6 {
+      @for $i from 1 to 6 {
+        &.meter-#{$i}::before {
+          transform: translate3d(($i * 100% / 6),0,0);
+        }
+
+        .tick:nth-child(#{$i}) {
+          left: $i * 100% / 6;
+        }
       }
     }
 
@@ -50,12 +74,6 @@
       position: absolute;
       top: 0;
       width: 1px;
-
-      @for $i from 1 to 6 {
-        &:nth-child(#{$i}) {
-          left: $i * 100% / 6;
-        }
-      }
     }
   }
 

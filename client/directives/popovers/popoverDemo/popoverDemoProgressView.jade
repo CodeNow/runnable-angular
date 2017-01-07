@@ -1,13 +1,20 @@
 .meter(
-  ng-class = "{'meter-{{demoStep}}': true}"
+  ng-class = "{\
+    'meter-{{demoStep}}': true,\
+    'meter-max-6': !isPersonalAccount,\
+    'meter-max-7': isPersonalAccount\
+  }"
 )
   .tick
   .tick
   .tick
   .tick
   .tick
+  .tick(
+    ng-if = "isPersonalAccount"
+  )
 
 a.link.small.text-gray-light(
-  ng-if = "!isPersonalAccount"
   ng-click = "endDemo()"
+  ng-if = "!isPersonalAccount"
 ) End Tour
