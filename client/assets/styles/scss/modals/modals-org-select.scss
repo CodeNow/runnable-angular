@@ -52,6 +52,7 @@
   }
 
   .list {
+    margin-bottom: $sm;
     width: 100%;
   }
 
@@ -79,11 +80,15 @@
     border-radius: 0;
     font-size: 18px;
     font-weight: $weight-normal;
-    height: 60px;
+    height: 69px;
 
     &:hover,
     &:active {
       z-index: 1;
+    }
+
+    &:active .small {
+      color: currentColor;
     }
 
     &:not(:hover),
@@ -107,15 +112,14 @@
       margin-top: -1px;
     }
 
-    .icons-missing-org {
-      background: $gray-lightest;
-      border-radius: $input-border-radius;
-      font-size: 21px;
-      height: 30px;
-      line-height: 30px;
-      padding-top: 1px;
-      width: 30px;
+    .small {
+      color: $gray;
     }
+  }
+
+  .icons-octicons-github {
+    height: 30px;
+    width: 30px;
   }
 
   .iframe {
