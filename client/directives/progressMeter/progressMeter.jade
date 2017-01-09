@@ -1,0 +1,9 @@
+.meter(
+  ng-class = "{\
+    'meter-{{step}}': true,\
+    'meter-max-{{meterMax}}': true\
+  }"
+)
+  .tick(
+    ng-repeat = "i in steps track by $index"
+  )

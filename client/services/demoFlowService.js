@@ -24,7 +24,7 @@ function demoFlowService(
   }
 
   if (usingDemoRepo() || isInDemoFlow()) {
-    fetchInstancesByPod()
+    getInstances()
       .then(function(instances) {
         instances.on('add', function deleteUsingDemoRepoKey() {
           if (instances.models.length > 2) {
@@ -33,6 +33,10 @@ function demoFlowService(
           }
         });
       });
+  }
+
+  function getInstances (scope, eventName, callback) {
+    return fetchInstancesByPod();
   }
 
   function resetFlags () {
@@ -137,13 +141,14 @@ function demoFlowService(
   }
 
   function shouldShowServicesCTA () {
-    return featureFlags.flags.demoMultiTierAddRepo && !currentOrg.isPersonalAccount() && !isInDemoFlow() && getItem('usingDemoRepo');
+    return featureFlags.flags.demoMultiTierAddRepo && !currentOrg.isPersonalAccount() && isInDemoFlow() && getItem('usingDemoRepo') && getItem('hasAddedBranch');
   }
 
   return {
     checkStatusOnInstance: checkStatusOnInstance,
     deleteItem: deleteItem,
     endDemoFlow: endDemoFlow,
+    getInstances: getInstances,
     getItem: getItem,
     hasAddedBranch: hasAddedBranch,
     hasSeenHangTightMessage: hasSeenHangTightMessage,

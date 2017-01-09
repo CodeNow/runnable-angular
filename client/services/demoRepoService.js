@@ -288,15 +288,10 @@ function demoRepos(
           hasConfirmedSetup: true
         });
         demoFlowService.setUsingDemoRepo(true);
-        $rootScope.$broadcast('demoService::hide');
         $rootScope.$broadcast('demo::building', instance);
         return instance;
       });
   }
-
-  $rootScope.$on('demoService::hide', function () {
-    showDemoSelector = false;
-  });
   return {
     checkForOrphanedDependency: checkForOrphanedDependency,
     demoStacks: stacks,

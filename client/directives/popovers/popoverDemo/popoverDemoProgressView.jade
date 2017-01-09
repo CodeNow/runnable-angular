@@ -1,18 +1,7 @@
-.meter(
-  ng-class = "{\
-    'meter-{{demoStep}}': true,\
-    'meter-max-6': !isPersonalAccount,\
-    'meter-max-7': isPersonalAccount\
-  }"
+progress-meter(
+  step = "demoStep"
+  meter-max = "isPersonalAccount ? 7 : 6"
 )
-  .tick
-  .tick
-  .tick
-  .tick
-  .tick
-  .tick(
-    ng-if = "isPersonalAccount"
-  )
 
 a.link.small.text-gray-light(
   ng-click = "endDemo()"

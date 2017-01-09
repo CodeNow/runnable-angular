@@ -14,11 +14,10 @@ function demoProgressBar(
     restrict: 'A',
     templateUrl: 'popoverDemoProgressView',
     scope: {
-      demoStep: '=',
-      isPersonalAccount: '='
+      demoStep: '='
     },
     link: function (scope, elem, attrs) {
-      scope.isPersonalAccount = currentOrg.isPersonalAccount;
+      scope.isPersonalAccount = currentOrg.isPersonalAccount();
       scope.endDemo = demoFlowService.endDemoFlow;
     }
   };
