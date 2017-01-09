@@ -96,8 +96,14 @@ function ChangePaymentFormController(
           }
         });
     },
-    back: CPFC.back.bind(CPFC),
-    cancel: CPFC.cancel.bind(CPFC),
-    close: CPFC.close.bind(CPFC)
+    back: function () {
+      CPFC.back();
+    },
+    cancel: function () {
+      CPFC.cancel();
+    },
+    close: function () {
+      CPFC.close();
+    }
   };
 }
