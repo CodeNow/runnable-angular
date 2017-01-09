@@ -8,8 +8,8 @@
   ng-include = "'buildNotificationView'"
 )
 
-.grid-block(
-  ng-if = "CI.showHangTightMessage()"
+.grid-block.vertical.noscroll(
   hang-tight
   instance = "dataInstance.data.instance"
+  ng-if = "CI.showHangTightMessage()"
 )
