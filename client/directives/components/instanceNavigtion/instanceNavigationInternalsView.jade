@@ -51,8 +51,8 @@ a.grid-block.align-center.a-sref(
   active-account = "INC.activeAccount"
   instance = "instance"
   instance-navigation
-  ng-repeat = "instance in INC.instance.isolation.instances | instanceHasRepo:true | orderBy: ['attrs.name']"
   ng-if = "INC.shouldExpand && INC.instance.isolation.instances.models.length"
+  ng-repeat = "instance in INC.instance.isolation.instances | instanceHasRepo:true | orderBy: ['attrs.name']"
 )
 
 //- wraps service friends
@@ -60,6 +60,6 @@ a.grid-block.align-center.a-sref(
   active-account = "INC.activeAccount"
   instance = "instance"
   instance-navigation
-  ng-repeat = "instance in INC.instance.isolation.instances | instanceHasRepo:false | orderBy: ['attrs.name']"
   ng-if = "INC.shouldExpand && INC.instance.isolation.instances.models.length"
+  ng-repeat = "instance in INC.instance.isolation.instances | instanceHasRepo:false | orderBy: ['attrs.name']"
 )

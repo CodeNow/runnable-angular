@@ -99,3 +99,14 @@
             xlink:href = "#icons-delete"
           )
         | Remove Branch
+      li.divider(
+        ng-if = "$root.featureFlags.navListFilter"
+      )
+      li.list-item.popover-list-item(
+        ng-if = "$root.featureFlags.navListFilter"
+      )
+        svg.iconnables
+          use(
+            xlink:href = "#icons-hide"
+          )
+        | Hide
