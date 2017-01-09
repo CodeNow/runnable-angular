@@ -73,10 +73,7 @@ function DemoAddBranchController(
             errs.handler(err);
           });
       }
-      return demoFlowService.endDemoFlow()
-        .then(function () {
-          return branchInstance;
-        });
+      return branchInstance;
     })
     .then(function (branchInstance) {
       return $state.go('base.instances.instance', {

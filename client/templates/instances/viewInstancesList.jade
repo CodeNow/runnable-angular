@@ -60,9 +60,9 @@
             use(
               xlink:href = "#icons-arrow-down"
             )
-      .grid-block.align-center.padding-sm.popover.bottom.in.popover-demo(
+      .grid-block.vertical.padding-sm.popover.bottom.in.popover-demo.service-cta(
+        add-service-cta
         ng-if = "CIS.shouldShowServicesCTA()"
-        ng-include = "'popoverDemoServiceCTAView'"
       )
 
       .grid-block.align-center.padding-sm.popover.top.in.popover-demo(
@@ -143,6 +143,7 @@
     .grid-block.vertical.shrink.list-clusters.js-animate(
       ng-repeat = "masterInstance in CIS.instancesByPod | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
       ng-show = "CIS.shouldShowParent(masterInstance) && CIS.shouldShowBranchView()"
+      ng-if = "!masterInstance.attrs.isTesting || (masterInstance.attrs.isTesting && !masterInstance.attrs.testingParentId)"
     )
 
       //- cluster list heading
@@ -166,8 +167,7 @@
               xlink:href = "#icons-arrow-down"
             )
           .stepOneUncloseablePopover(
-            ng-if = "$root.featureFlags.aha &&\
-              $index === 0 &&\
+            ng-if = "$index === 0 &&\
               CIS.shouldShowPopover &&\
               !CIS.$storage.instanceListIsClosed &&\
               CIS.shouldShowParent(masterInstance) &&\
@@ -184,8 +184,7 @@
           )
 
           .autoForkPopover(
-            ng-if = "$root.featureFlags.aha &&\
-              $index === 0 &&\
+            ng-if = "$index === 0 &&\
               !CIS.$storage.instanceListIsClosed &&\
               CIS.shouldShowParent(masterInstance) &&\
               !CIS.isAddingFirstBranch() &&\
@@ -200,23 +199,15 @@
             pop-over-data = "'ahaTemplate'"
           )
 
-      //- wraps the default branch container for a repo (pre auto-isolation)
-      .grid-block.align-center.list-item-cluster(
-        active-account = "CIS.activeAccount"
-        instance = "masterInstance"
-        instance-navigation
-        master-instance = "masterInstance"
-        ng-if = "!$root.featureFlags.addBranches && CIS.filterMasterInstance(masterInstance)"
-      )
-
       //- wraps auto-isolated clusters
       .list-item-cluster(
         active-account = "CIS.activeAccount"
         instance = "childInstance"
         instance-navigation
         master-instance = "masterInstance"
-        ng-repeat = "childInstance in masterInstance.children.models | orderBy: ['attrs.name']"
+        ng-repeat = "childInstance in CIS.getSortedMasterInstanceChildren(masterInstance)"
         ng-show = "CIS.shouldShowChild(childInstance)"
+        ng-class = "childInstance.attrs.isTesting && !childInstance.attrs.masterPod ? 'testing-container' : ''"
       )
 
       //- nav list filter
@@ -226,16 +217,3 @@
         pop-over-options = "{\"top\":-33,\"left\":215}"
         pop-over-template = "viewMoreContainersPopover"
       ) 8 more…
-
-  //- non-repo containers (pre auto-isolation)
-  .grid-block.vertical.shrink.list-clusters(
-    ng-if = "!$root.featureFlags.addBranches"
-    ng-show = "nonRepoInstances.length"
-  )
-    .list-item-cluster(
-      active-account = "CIS.activeAccount"
-      instance = "masterInstance"
-      instance-navigation
-      ng-repeat = "masterInstance in CIS.instancesByPod | instanceHasRepo:false | orderBy: ['attrs.name'] as nonRepoInstances track by masterInstance.attrs.name"
-      ng-show = "CIS.shouldShowParent(masterInstance)"
-    )
