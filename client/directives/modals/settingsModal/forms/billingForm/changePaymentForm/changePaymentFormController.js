@@ -5,17 +5,22 @@ require('app')
 
 function ChangePaymentFormController(
   $rootScope,
+  $scope,
+  $state,
+  $timeout,
   currentOrg,
   errs,
   fetchPaymentMethod,
   fetchPlan,
   fetchWhitelists,
+  keypather,
   loading,
   savePaymentMethod,
   stripe
 ) {
   var CPFC = this;
   CPFC.currentOrg = currentOrg;
+  CPFC.isCurrentOrgAllowed = currentOrg.poppa.attrs.allowed;
 
   CPFC.card = {
     number: undefined,
@@ -38,6 +43,29 @@ function ChangePaymentFormController(
     rate_limit_error: 'We’re currently being rate limited by our payment processor. Please try again'
   };
 
+  function handleActiveOrg () {
+    CPFC.isCurrentOrgAllowed = true;
+    loading('savePayment', false);
+    CPFC.save();
+    setTimeout(function () {
+      CPFC.card = {};
+    }, 1000);
+    $rootScope.$broadcast('updated-payment-method');
+  }
+
+  function waitForUpdate () {
+      CPFC.failedPaymentHandler = $timeout(function () {
+        loading('savePayment', false);
+        CPFC.actions.close();
+        $state.go('paused');
+      }, 60000);
+
+      $scope.$on('organization.invoice.pay', function () {
+        $timeout.cancel(CPFC.failedPaymentHandler);
+        handleActiveOrg();
+      });
+  }
+
   CPFC.actions = {
     save: function () {
       loading.reset('savePayment');
@@ -50,16 +78,14 @@ function ChangePaymentFormController(
           return fetchWhitelists();
         })
         .then(function () {
-          // Not doing an angular timeout because we don't care about the digest.
-          // We want to wait for this form to no longer be visible before we clear it and cause error outlines to show.
-          setTimeout(function () {
-            CPFC.card = {};
-          }, 1000);
           fetchPaymentMethod.cache.clear();
-          CPFC.save();
-          $rootScope.$broadcast('updated-payment-method');
+          if (!CPFC.isCurrentOrgAllowed) {
+            return waitForUpdate();
+          }
+          handleActiveOrg();
         })
         .catch(function (err) {
+          loading('savePayment', false);
           if (err.type === 'card_error') {
             CPFC.error = err.message;
           } else {
@@ -68,16 +94,10 @@ function ChangePaymentFormController(
           if (!CPFC.error) {
             errs.handler(err);
           }
-        })
-        .finally(function () {
-          loading('savePayment', false);
         });
     },
-    back: function () {
-      CPFC.back();
-    },
-    cancel: function () {
-      CPFC.cancel();
-    }
+    back: CPFC.back.bind(CPFC),
+    cancel: CPFC.cancel.bind(CPFC),
+    close: CPFC.close.bind(CPFC)
   };
 }
