@@ -18,9 +18,10 @@ function addServiceCta(
     link: function (scope, elem, attrs) {
       fetchInstancesByPod()
         .then(function (instances) {
-          instances.on('add', function () {
-            demoFlowService.endDemoFlow();
-          });
+          instances.on('add', demoFlowService.endDemoFlow);
+          scope.$on('$destroy', function () {
+            instances.off('add', demoFlowService.endDemoFlow);
+          })
         });
     }
   };

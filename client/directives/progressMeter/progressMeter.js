@@ -17,7 +17,6 @@ function progressMeter(
     },
     link: function (scope, elem, attrs) {
       scope.meterMax = scope.meterMax || 1;
-      scope.ticks = new Array(scope.meterMax);
       scope.getClass = function () {
         var step = 'meter-' + scope.step;
         var meterMax = 'meter-max-' + scope.meterMax;
@@ -27,7 +26,7 @@ function progressMeter(
         return classObj;
       };
       scope.$watch(scope.meterMax, function () {
-        scope.ticks = new Array(scope.meterMax);
+        scope.ticks = new Array(scope.meterMax - 1); // we want one less tick than the max meter value
       });
     }
   };
