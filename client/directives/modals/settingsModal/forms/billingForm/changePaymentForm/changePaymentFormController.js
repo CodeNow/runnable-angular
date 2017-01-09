@@ -7,7 +7,7 @@ function ChangePaymentFormController(
   $rootScope,
   $scope,
   $state,
-  $timeout,
+  $interval,
   currentOrg,
   errs,
   fetchPaymentMethod,
@@ -45,6 +45,7 @@ function ChangePaymentFormController(
 
   function handleActiveOrg () {
     CPFC.isCurrentOrgAllowed = true;
+    currentOrg.poppa.attrs.allowed = true;
     loading('savePayment', false);
     CPFC.save();
     setTimeout(function () {
@@ -53,17 +54,34 @@ function ChangePaymentFormController(
     $rootScope.$broadcast('updated-payment-method');
   }
 
-  function waitForUpdate () {
-      CPFC.failedPaymentHandler = $timeout(function () {
-        loading('savePayment', false);
+  function pollForAllowedOrg () {
+    var timesToPoll = 20;
+    var activeOrg = currentOrg.poppa.attrs.lowerName;
+    CPFC.stopPollingForAllowedOrg = $interval(function (timesToPoll) {
+      if (timesToPoll === 19 && !CPFC.isCurrentOrgAllowed) {
+        $interval.cancel(CPFC.stopPollingForAllowedOrg);
         CPFC.actions.close();
-        $state.go('paused');
-      }, 60000);
+        return $state.go('paused');
+      }
+      return fetchWhitelists()
+        .then(function (whiteListedOrgs) {
+          var updatedOrg = whiteListedOrgs.filter(function (org) {
+            return org.attrs.lowerName === activeOrg;
+          });
+          if (keypather.get(updatedOrg[0], 'attrs.allowed')) {
+            $interval.cancel(CPFC.stopPollingForAllowedOrg);
+            handleActiveOrg();
+          }
+        });
+    }, 3000, timesToPoll);
+  }
 
-      $scope.$on('organization.invoice.pay', function () {
-        $timeout.cancel(CPFC.failedPaymentHandler);
-        handleActiveOrg();
-      });
+  function waitForUpdate () {
+    pollForAllowedOrg();
+    $scope.$on('organization.invoice.pay', function () {
+      $interval.cancel(CPFC.stopPollingForAllowedOrg);
+      handleActiveOrg();
+    });
   }
 
   CPFC.actions = {
