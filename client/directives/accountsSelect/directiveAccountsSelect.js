@@ -112,9 +112,6 @@ function accountsSelect (
       };
 
       $scope.getClasses = function () {
-        if (!$rootScope.featureFlags.billing) {
-          return {};
-        }
         var showBadge = currentOrg.poppa.isInTrial() && !currentOrg.poppa.attrs.hasPaymentMethod && currentOrg.poppa.trialDaysRemaining() <= 3;
         if (demoFlowService.shouldShowTeamCTA()) {
           showBadge = true;

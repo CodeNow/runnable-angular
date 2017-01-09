@@ -190,11 +190,6 @@ describe('controllerApp'.bold.underline.blue, function () {
       expect(CA.showTrialEndingNotification()).to.equal(false);
     });
 
-    it('should not show if billing feature flag is set', function () {
-      keypather.set($rootScope, 'featureFlags.billing', false);
-      expect(CA.showTrialEndingNotification()).to.equal(false);
-    });
-
     it('should not show if local storage shows its been dismissed', function () {
       keypather.set(mockLocalStorage, 'hasDismissedTrialNotification.' + mockCurrentOrg.github.attrs.id, true);
       expect(CA.showTrialEndingNotification()).to.equal(false);
