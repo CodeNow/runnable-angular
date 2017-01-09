@@ -1,6 +1,6 @@
 .padding-md.infrastructure-view
   //- dock spinning up
-  p.p.text-center.weight-light(
+  p.p.text-center(
     ng-if = "!$root.featureFlags.contingencyPlan"
   ) It’ll only take a few minutes to spin up infrastructure for&#32;
     strong.weight-strong {{COMC.selectedOrgName}}
@@ -14,10 +14,10 @@
     width = "390"
   )
 
-  p.p.text-center.weight-light(
+  p.p.text-center(
     ng-if = "$root.featureFlags.contingencyPlan"
   ) We’re running slower than normal due to high demand.
-  p.p.text-center.weight-light.margin-top-xs(
+  p.p.text-center.margin-top-xs(
     ng-if = "$root.featureFlags.contingencyPlan"
   ) We’ll email you at&#32;
     span {{ COMC.user.attrs.email }}
