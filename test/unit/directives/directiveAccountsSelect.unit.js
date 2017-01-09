@@ -100,7 +100,6 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
     ){
       keypather = _keypather_;
       $rootScope = _$rootScope_;
-      keypather.set($rootScope, 'featureFlags.billing', false);
       $scope = $rootScope.$new();
       $timeout = _$timeout_;
 
@@ -139,10 +138,6 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
   });
 
   describe('with billing feature flag', function () {
-    beforeEach(function () {
-      keypather.set($rootScope, 'featureFlags.billing', true);
-    });
-
     describe('getBadgeCount', function () {
       describe('when in trial', function () {
         beforeEach(function () {
