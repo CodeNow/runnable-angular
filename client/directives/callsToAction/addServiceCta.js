@@ -20,8 +20,8 @@ function addServiceCta(
         .then(function (instances) {
           instances.on('add', function () {
             demoFlowService.endDemoFlow();
-          })
-        })
+          });
+        });
     }
   };
 }

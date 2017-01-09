@@ -19,6 +19,7 @@ function demoProgressBar(
     link: function (scope, elem, attrs) {
       scope.isPersonalAccount = currentOrg.isPersonalAccount();
       scope.endDemo = demoFlowService.endDemoFlow;
+      scope.meterMax = scope.isPersonalAccount ? 7 : 6;
     }
   };
 }

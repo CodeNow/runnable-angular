@@ -16,7 +16,10 @@ function progressMeter(
       meterMax: '='
     },
     link: function (scope, elem, attrs) {
-      scope.ticks = new Array(scope.meterMax - 1);
+      scope.ticks = new Array(scope.meterMax || 6);
+      scope.$watch(scope.meterMax, function () {
+        scope.ticks = new Array(scope.meterMax);
+      });
     }
   };
 }
