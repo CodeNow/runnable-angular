@@ -7,7 +7,7 @@ function ChangePaymentFormController(
   $rootScope,
   $scope,
   $state,
-  $timeout,
+  $interval,
   currentOrg,
   errs,
   fetchPaymentMethod,
