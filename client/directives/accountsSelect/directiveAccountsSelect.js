@@ -99,9 +99,6 @@ function accountsSelect (
       });
 
       $scope.getBadgeCount = function () {
-        if (!$rootScope.featureFlags.billing) {
-          return '';
-        }
         if (currentOrg.poppa.isInTrial() && !currentOrg.poppa.attrs.hasPaymentMethod) {
           var trialRemaining = currentOrg.poppa.trialDaysRemaining();
           if (trialRemaining <= 3) {

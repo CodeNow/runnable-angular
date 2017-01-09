@@ -138,20 +138,6 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
     });
   });
 
-  describe('without billing feature flag', function () {
-    describe('getBadgeCount', function () {
-      it('should return empty string', function () {
-        expect($elScope.getBadgeCount()).to.equal('');
-      });
-    });
-
-    describe('getClasses', function () {
-      it('should return empty object', function () {
-        expect($elScope.getClasses()).to.deep.equal({});
-      });
-    });
-  });
-
   describe('with billing feature flag', function () {
     beforeEach(function () {
       keypather.set($rootScope, 'featureFlags.billing', true);

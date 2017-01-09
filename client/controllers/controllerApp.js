@@ -161,7 +161,7 @@ function ControllerApp(
     }
   };
 
-  if ($rootScope.featureFlags.billing && (currentOrg.poppa.isInGrace() || currentOrg.poppa.isGraceExpired())) {
+  if (currentOrg.poppa.isInGrace() || currentOrg.poppa.isGraceExpired()) {
     // Determine if it's a trial end or just a normal payment due
     if (currentOrg.poppa.attrs.hasPaymentMethod) {
       ModalService.showModal({
