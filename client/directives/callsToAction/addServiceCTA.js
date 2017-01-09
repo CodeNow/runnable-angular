@@ -7,7 +7,8 @@ require('app')
  * @ngInject
  */
 function addServiceCta(
-  demoFlowService
+  demoFlowService,
+  fetchInstancesByPod
 ) {
   return {
     restrict: 'A',
@@ -15,7 +16,7 @@ function addServiceCta(
     scope: {
     },
     link: function (scope, elem, attrs) {
-      demoFlowService.getInstances()
+      fetchInstancesByPod()
         .then(function (instances) {
           instances.on('add', function () {
             demoFlowService.endDemoFlow();

@@ -24,7 +24,7 @@ function demoFlowService(
   }
 
   if (usingDemoRepo() || isInDemoFlow()) {
-    getInstances()
+    fetchInstancesByPod()
       .then(function(instances) {
         instances.on('add', function deleteUsingDemoRepoKey() {
           if (instances.models.length > 2) {
@@ -33,10 +33,6 @@ function demoFlowService(
           }
         });
       });
-  }
-
-  function getInstances (scope, eventName, callback) {
-    return fetchInstancesByPod();
   }
 
   function resetFlags () {
@@ -148,7 +144,6 @@ function demoFlowService(
     checkStatusOnInstance: checkStatusOnInstance,
     deleteItem: deleteItem,
     endDemoFlow: endDemoFlow,
-    getInstances: getInstances,
     getItem: getItem,
     hasAddedBranch: hasAddedBranch,
     hasSeenHangTightMessage: hasSeenHangTightMessage,
