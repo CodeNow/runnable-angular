@@ -7,7 +7,6 @@ function featureFlags(
   $localStorage
 ) {
   var defaultFeatureFlags = {
-    aha: true,
     ahaBranchUrlStep: false,
     allowIsolatedUpdate: false,
     autoDeployError: false,
@@ -29,6 +28,7 @@ function featureFlags(
     demoMultiTierUrlHidden: true,
     demoMultiTierAddRepo: true,
     demoMultiTierPRLink: true,
+    demoProgress: true,
     demoProject: true,
     dockerfileMirroringMultiple: false,
     editAnyInstance: false,

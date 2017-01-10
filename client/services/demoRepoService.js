@@ -124,7 +124,6 @@ function demoRepos(
   promisify,
   serverCreateService
 ) {
-  var showDemoSelector = !!stacks[demoFlowService.usingDemoRepo()] || (ahaGuide.isInGuide() && !ahaGuide.hasConfirmedSetup());
 
   function findNewRepo(stack) {
     return fetchOwnerRepo(currentOrg.github.oauthName(), stack.repoName);
@@ -289,15 +288,10 @@ function demoRepos(
           hasConfirmedSetup: true
         });
         demoFlowService.setUsingDemoRepo(true);
-        $rootScope.$broadcast('demoService::hide');
         $rootScope.$broadcast('demo::building', instance);
         return instance;
       });
   }
-
-  $rootScope.$on('demoService::hide', function () {
-    showDemoSelector = false;
-  });
   return {
     checkForOrphanedDependency: checkForOrphanedDependency,
     demoStacks: stacks,
@@ -305,7 +299,7 @@ function demoRepos(
     findDependencyNonRepoInstances: findDependencyNonRepoInstances,
     createDemoApp: createDemoApp,
     shouldShowDemoSelector: function () {
-      return showDemoSelector;
+      return !!stacks[demoFlowService.usingDemoRepo()] || (ahaGuide.isInGuide() && !ahaGuide.hasConfirmedSetup());
     }
   };
 }

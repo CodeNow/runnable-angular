@@ -6,7 +6,7 @@
 
 //- aha menu --- This should be triggered via an event!
 .popover.right.in.popover-aha.popover-aha-containers(
-  ng-if = "$root.featureFlags.aha && !$root.featureFlags.demoMultiTier && CA.showAhaNavPopover"
+  ng-if = "!$root.featureFlags.demoMultiTier && CA.showAhaNavPopover"
   ng-include = "'ahaPopoverView'"
   ng-init = "getClassname = CA.ahaGuide.getClassForSubstep"
 )
@@ -28,7 +28,7 @@ a.a(
 )
   .aha-overlay-div(
     ng-click = "CA.showAhaConfirmation($event)"
-    ng-if = "$root.featureFlags.aha && CA.ahaGuide.isAddingFirstRepo() && CA.instancesByPod.models.length && !CA.ahaGuide.hasConfirmedSetup()"
+    ng-if = "CA.ahaGuide.isAddingFirstRepo() && CA.instancesByPod.models.length && !CA.ahaGuide.hasConfirmedSetup()"
   )
   svg.iconnables.icons-server-dark
     use(

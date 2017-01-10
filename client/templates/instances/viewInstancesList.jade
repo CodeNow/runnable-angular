@@ -60,9 +60,9 @@
             use(
               xlink:href = "#icons-arrow-down"
             )
-      .grid-block.align-center.padding-sm.popover.bottom.in.popover-demo(
+      .grid-block.vertical.padding-sm.popover.bottom.in.popover-demo.service-cta(
+        add-service-cta
         ng-if = "CIS.shouldShowServicesCTA()"
-        ng-include = "'popoverDemoServiceCTAView'"
       )
 
       .grid-block.align-center.padding-sm.popover.top.in.popover-demo(
@@ -167,8 +167,7 @@
               xlink:href = "#icons-arrow-down"
             )
           .stepOneUncloseablePopover(
-            ng-if = "$root.featureFlags.aha &&\
-              $index === 0 &&\
+            ng-if = "$index === 0 &&\
               CIS.shouldShowPopover &&\
               !CIS.$storage.instanceListIsClosed &&\
               CIS.shouldShowParent(masterInstance) &&\
@@ -185,8 +184,7 @@
           )
 
           .autoForkPopover(
-            ng-if = "$root.featureFlags.aha &&\
-              $index === 0 &&\
+            ng-if = "$index === 0 &&\
               !CIS.$storage.instanceListIsClosed &&\
               CIS.shouldShowParent(masterInstance) &&\
               !CIS.isAddingFirstBranch() &&\
