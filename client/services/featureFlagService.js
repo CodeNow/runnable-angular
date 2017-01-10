@@ -20,7 +20,6 @@ function featureFlags(
     configTerminal: true, // flag for terminal in config view
     containersViewTemplateControls: true,
     contingencyPlan: false,
-    demoFlowPhase2: true,
     demoForking: true,
     demoMultiTier: true,
     demoMultiTierBuilding: true,
