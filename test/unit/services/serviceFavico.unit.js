@@ -31,6 +31,7 @@ describe('serviceFavico'.bold.underline.blue, function () {
   it('should set state based on instance', function () {
     var theSrc = new RegExp('build/images/favicon-orange.png');
     favico.setInstanceState({
+      getRepoName: sinon.stub().returns('1234'),
       status: function () {
         return 'building';
       }
@@ -41,11 +42,13 @@ describe('serviceFavico'.bold.underline.blue, function () {
 
   it('does not change anything if state is the same', function () {
     favico.setInstanceState({
+      getRepoName: sinon.stub().returns('1234'),
       status: function () {
         return 'building';
       }
     });
     favico.setInstanceState({
+      getRepoName: sinon.stub().returns('1234'),
       status: function () {
         return 'building';
       }
@@ -55,6 +58,7 @@ describe('serviceFavico'.bold.underline.blue, function () {
 
   it('should reset on weird states', function () {
     favico.setInstanceState({
+      getRepoName: sinon.stub().returns('1234'),
       status: function () {
         return 'I like turtles';
       }
@@ -66,6 +70,7 @@ describe('serviceFavico'.bold.underline.blue, function () {
     it('should return orange when status is running', function () {
       var theSrc = new RegExp('build/images/favicon-orange.png');
       favico.setInstanceState({
+        getRepoName: sinon.stub().returns('1234'),
         attrs: { isTesting: true },
         status: sinon.stub().returns('running')
       });
@@ -76,6 +81,7 @@ describe('serviceFavico'.bold.underline.blue, function () {
     it('should return green when status is stopped', function () {
       var theSrc = new RegExp('build/images/favicon-green.png');
       favico.setInstanceState({
+        getRepoName: sinon.stub().returns('1234'),
         attrs: { isTesting: true },
         status: sinon.stub().returns('stopped')
       });

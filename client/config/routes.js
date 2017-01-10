@@ -270,7 +270,7 @@ module.exports = [
         featureFlags,
         populateCurrentOrgService // Unused, but required so things are properly populated!
       ) {
-        if (!featureFlags.flags.containersViewTemplateControls && featureFlags.flags.aha && ahaGuide.isInGuide() && !ahaGuide.hasConfirmedSetup()) {
+        if (!featureFlags.flags.containersViewTemplateControls && ahaGuide.isInGuide() && !ahaGuide.hasConfirmedSetup()) {
           $timeout(function () {
             $state.go('base.config', {
               userName: $stateParams.userName
