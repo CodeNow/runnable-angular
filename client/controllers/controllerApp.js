@@ -189,7 +189,7 @@ function ControllerApp(
         preventClose: true
       });
     }
-  } else if (currentOrg.poppa.attrs.isPermanentlyBanned) {
+  } else if (currentOrg.poppa.attrs.isPermanentlyBanned || !currentOrg.poppa.attrs.isActive) {
     return $state.go('paused');
   }
 
