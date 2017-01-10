@@ -9,7 +9,7 @@
   ol.grid-block.vertical.list
     li.grid-block.align-center.list-item.btn.white(
       data-event-name = "Org Selected"
-      ng-click = "COMC.actions.createOrCheckDock(org.oauthName())"
+      ng-click = "COMC.actions.selectAccount(org.oauthName())"
       ng-repeat = "org in COMC.allAccounts.models | orderBy:'attrs.login'"
       title = "{{org.oauthName()}}"
     )
@@ -25,7 +25,7 @@
         )
     li.grid-block.align-center.list-item.btn.white(
       data-event-name = "PA Selected"
-      ng-click = "COMC.actions.createOrCheckDock(COMC.user.oauthName())"
+      ng-click = "COMC.actions.selectAccount(COMC.user.oauthName())"
       ng-if = "$root.featureFlags.personalAccounts"
       title = "{{COMC.user.oauthName()}}"
     )

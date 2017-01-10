@@ -20,7 +20,7 @@ function ChangePaymentFormController(
 ) {
   var CPFC = this;
   CPFC.currentOrg = currentOrg;
-  CPFC.isCurrentOrgAllowed = currentOrg.poppa.attrs.allowed;
+  CPFC.isCurrentOrgAllowed = currentOrg.poppa.isInTrial() || currentOrg.poppa.isInActivePeriod();
 
   CPFC.card = {
     number: undefined,
@@ -65,11 +65,12 @@ function ChangePaymentFormController(
       }
       return fetchWhitelists()
         .then(function (whiteListedOrgs) {
-          var updatedOrg = whiteListedOrgs.filter(function (org) {
+          var updatedOrg = whiteListedOrgs.find(function (org) {
             return org.attrs.lowerName === activeOrg;
           });
-          if (keypather.get(updatedOrg[0], 'attrs.allowed')) {
+          if (updatedOrg.isInActivePeriod() || updatedOrg.isInTrial()) {
             $interval.cancel(CPFC.stopPollingForAllowedOrg);
+            console.log('polling');
             handleActiveOrg();
           }
         });
@@ -79,6 +80,7 @@ function ChangePaymentFormController(
   function waitForUpdate () {
     pollForAllowedOrg();
     $scope.$on('organization.invoice.pay', function () {
+      console.log('socket event');
       $interval.cancel(CPFC.stopPollingForAllowedOrg);
       handleActiveOrg();
     });

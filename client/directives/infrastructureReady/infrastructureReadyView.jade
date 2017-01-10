@@ -14,38 +14,21 @@
 
   .grid-block.vertical.shrink.modal-dialog.modal-sm.modal-org-select
     animated-panel-container
-      //- this is the default panel if the user has one or more orgs
       animated-panel(
         default = "true"
-        name = "orgSelection"
+        name = "dockLoading"
       )
         .fade(
           ng-class = "{'in': isActivePanel()}"
-          ng-include = "'orgSelectModalView'"
+          ng-include = "'infrastructureLoadingModalView'"
         )
-      //- this is the default panel if the user has no orgs
       animated-panel(
-        name = "grantAccess"
+        name = "dockLoaded"
       )
-        .grid-block.vertical.align-center.text-center.fade(
+        .fade(
           ng-class = "{'in': isActivePanel()}"
-          ng-include = "'grantAccessView'"
+          ng-include = "'infrastructureLoadedModalView'"
         )
-      animated-panel.grid-block(
-        name = "createOrg"
-      )
-        .grid-block.vertical.align-center.text-center.fade(
-          ng-class = "{'in': isActivePanel()}"
-          ng-include = "'createOrganizationView'"
-        )
-      animated-panel.grid-block(
-        name = "authorizeOrg"
-      )
-        .grid-block.vertical.align-center.text-center.fade(
-          ng-class = "{'in': isActivePanel()}"
-          ng-include = "'authorizeOrganizationView'"
-        )
-
 
   //- sign out (always) + change team (during grace period)
   .grid-block.shrink.justify-center.margin-top-sm.margin-bottom-xl.welcome-footer.text-white.weight-light(

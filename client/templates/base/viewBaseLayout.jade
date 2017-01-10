@@ -1,3 +1,8 @@
+div(
+  ng-if = "!CA.currentOrg.poppa.attrs.firstDockCreated"
+  infrastructure-ready
+)
+
 //- navigation bar (purple)
 nav.grid-block.noscroll.vertical.layout-navigation(
   ng-class = "{'feature-flag-on': CA.featureFlagsChanged()}"
