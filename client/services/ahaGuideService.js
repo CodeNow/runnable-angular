@@ -259,7 +259,7 @@ function ahaGuide(
   });
   function getCurrentStep() {
     if (!cachedStep) {
-      if (keypather.get($rootScope, 'featureFlags.aha') && !keypather.get(currentOrg, 'poppa.id')) {
+      if (!keypather.get(currentOrg, 'poppa.id')) {
         cachedStep = STEPS.CHOOSE_ORGANIZATION;
       } else if (!isInGuide()) {
         cachedStep = STEPS.COMPLETED;

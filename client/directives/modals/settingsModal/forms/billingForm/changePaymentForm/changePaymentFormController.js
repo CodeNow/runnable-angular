@@ -78,7 +78,7 @@ function ChangePaymentFormController(
 
   function waitForUpdate () {
     pollForAllowedOrg();
-    $scope.$on('organization.invoice.pay', function () {
+    $scope.$on('stripe.invoice.payment-succeeded', function () {
       $interval.cancel(CPFC.stopPollingForAllowedOrg);
       handleActiveOrg();
     });
