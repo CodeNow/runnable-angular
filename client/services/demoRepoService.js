@@ -121,8 +121,8 @@ function demoRepos(
   fetchStackData,
   github,
   keypather,
-  promisify,
-  serverCreateService
+  serverCreateService,
+  errs
 ) {
 
   function findNewRepo(stack) {
@@ -165,6 +165,12 @@ function demoRepos(
       return $q.reject('We were unable to find the repo we just forked. Please try again!');
     }
     return findNewRepo(stack)
+      .catch(function (err) {
+        if (keypather.get(err, 'output.statusCode') === 404) {
+          return;
+        }
+        throw err;
+      })
       .then(function (repoModel) {
         if (repoModel) {
           return repoModel;
@@ -290,7 +296,8 @@ function demoRepos(
         demoFlowService.setUsingDemoRepo(true);
         $rootScope.$broadcast('demo::building', instance);
         return instance;
-      });
+      })
+      .catch(errs.handler);
   }
   return {
     checkForOrphanedDependency: checkForOrphanedDependency,
