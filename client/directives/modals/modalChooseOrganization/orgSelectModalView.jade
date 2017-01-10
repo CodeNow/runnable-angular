@@ -3,7 +3,7 @@
 
 .grid-block.vertical.padding-sm
 
-  p.margin-sm.p(
+  p.margin-sm.margin-top-xxs.p(
     ng-if = "!$root.featureFlags.noOrgs"
   ) Select your team to get started.
   ol.grid-block.vertical.list(
@@ -25,14 +25,14 @@
         use(
           xlink:href = "#icons-arrow-down"
         )
-  p.margin-sm.p(
+  p.margin-sm.margin-top-xxs.p(
     ng-if = "!$root.featureFlags.noOrgs"
   ) Don’t see your team?
-  p.margin-sm.p(
+  p.margin-sm.margin-top-xxs.p(
     ng-if = "$root.featureFlags.noOrgs"
-  ) Runnable is made for teams, but you haven’t
-    br.hidden-xs
-    | &#32;added any yet.
+  ) Runnable is made for teams,
+    br
+    | &#32;but you haven’t added any yet.
   ol.grid-block.vertical.list
     li.grid-block.align-center.list-item.btn.white(
       data-event-name = "Clicked to Grant Access View"
@@ -41,7 +41,7 @@
     )
       svg.grid-content.shrink.iconnables.icons-github
         use(
-          xlink:href = "#icons-octicons-github"
+          xlink:href = "#icons-octicons-github-gray"
         )
       .grid-block.vertical.text-overflow.margin-left-sm
         .text-overflow.text-left Add your team
