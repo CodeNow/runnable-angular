@@ -1,9 +1,9 @@
 .modal-header
   h1.modal-heading Welcome Aboard!
 
-.grid-block.vertical.padding-sm
+.grid-block.vertical.org-select-view
 
-  p.margin-sm.margin-top-xxs.p(
+  p.p(
     ng-if = "!$root.featureFlags.noOrgs"
   ) Select your team to get started.
   ol.grid-block.vertical.list(
@@ -25,10 +25,10 @@
         use(
           xlink:href = "#icons-arrow-down"
         )
-  p.margin-sm.margin-top-xxs.p(
+  p.p(
     ng-if = "!$root.featureFlags.noOrgs"
   ) Don’t see your team?
-  p.margin-sm.margin-top-xxs.p(
+  p.p(
     ng-if = "$root.featureFlags.noOrgs"
   ) Runnable is made for teams,
     br

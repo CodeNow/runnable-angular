@@ -56,9 +56,26 @@
     align-self: stretch;
   }
 
+  .org-select-view {
+    padding: $md $sm;
+
+    .p,
+    .list-item {
+      padding: 0 $sm;
+    }
+
+    .p {
+      margin-bottom: $sm;
+      text-align: center;
+    }
+  }
+
   .list {
-    margin-bottom: $sm;
     width: 100%;
+
+    + .p {
+      margin-top: $md;
+    }
   }
 
   .infrastructure-view {
