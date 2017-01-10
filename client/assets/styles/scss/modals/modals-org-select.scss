@@ -109,11 +109,8 @@
       z-index: 1;
     }
 
-    &:not(:hover),
-    &:not(:active) {
-      .icons-arrow-forward {
-        color: $gray-light;
-      }
+    .icons-arrow-forward {
+      opacity: .5;
     }
 
     &:first-child {
