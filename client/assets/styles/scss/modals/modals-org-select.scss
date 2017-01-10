@@ -57,7 +57,7 @@
   }
 
   .org-select-view {
-    padding: $md $sm;
+    padding: 24px $sm;
 
     .p,
     .list-item {
@@ -74,7 +74,7 @@
     width: 100%;
 
     + .p {
-      margin-top: $md;
+      margin-top: 24px;
     }
   }
 
