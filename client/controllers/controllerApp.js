@@ -172,7 +172,7 @@ function ControllerApp(
     }
   };
 
-  if ((!currentOrg.poppa.attrs.allowed || currentOrg.poppa.isInGrace()) && currentOrg.willAcceptPayment()) {
+  if (currentOrg.isPaymentDue()) {
     // Determine if it's a trial end or just a normal payment due
     if (currentOrg.poppa.attrs.hasPaymentMethod) {
       ModalService.showModal({
@@ -189,7 +189,7 @@ function ControllerApp(
         preventClose: true
       });
     }
-  } else if (currentOrg.poppa.attrs.isPermanentlyBanned || !currentOrg.poppa.attrs.isActive) {
+  } else if (currentOrg.isPaused()) {
     return $state.go('paused');
   }
 

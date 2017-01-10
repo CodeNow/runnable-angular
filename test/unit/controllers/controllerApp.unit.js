@@ -42,7 +42,8 @@ describe('controllerApp'.bold.underline.blue, function () {
           id: 'githubId1234'
         }
       },
-      willAcceptPayment: sinon.stub().returns(true)
+      willAcceptPayment: sinon.stub().returns(true),
+      isPaymentDue: sinon.stub().returns(true)
     };
     ctx = {};
     ctx.fetchInstancesByPodMock = new (require('../fixtures/mockFetch'))();
