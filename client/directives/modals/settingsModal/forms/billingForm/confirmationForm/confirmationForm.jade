@@ -16,7 +16,7 @@
 
 footer.modal-footer.clearfix
   button.btn.btn-md.btn-block.green(
-    ng-if = "EAC.currentOrg.poppa.isInActivePeriod()"
+    ng-if = "!EAC.currentOrg.poppa.isInTrial()"
     ng-click = "EAC.close()"
   ) Go to your Environment
   button.btn.btn-md.btn-block.white(
