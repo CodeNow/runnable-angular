@@ -125,7 +125,7 @@ function demoRepos(
   errs
 ) {
 
-  function findNewRepo(stack) {
+  function _findNewRepo(stack) {
     return fetchOwnerRepo(currentOrg.github.oauthName(), stack.repoName);
   }
 
@@ -159,17 +159,16 @@ function demoRepos(
     return $q.when(false);
   }
 
-  function findNewRepoOnRepeat(stack, count) {
+  function _findNewRepoOnRepeat(stack, count) {
     count = count || 0;
     if (count > 30) {
       return $q.reject('We were unable to find the repo we just forked. Please try again!');
     }
-    return findNewRepo(stack)
+    return _findNewRepo(stack)
       .catch(function (err) {
-        if (keypather.get(err, 'output.statusCode') === 404) {
-          return;
+        if (keypather.get(err, 'output.statusCode') !== 404) {
+          return $q.reject(err);
         }
-        throw err;
       })
       .then(function (repoModel) {
         if (repoModel) {
@@ -177,7 +176,7 @@ function demoRepos(
         }
         count++;
         return $timeout(function () {
-          return findNewRepoOnRepeat(stack, count);
+          return _findNewRepoOnRepeat(stack, count);
         }, count * 500);
       });
   }
@@ -245,10 +244,10 @@ function demoRepos(
   function createDemoApp (stackKey) {
     var stack = stacks[stackKey];
     demoFlowService.setUsingDemoRepo(stackKey);
-    return findNewRepo(stack)
+    return _findNewRepo(stack)
       .catch(function forkRepo() {
         return forkGithubRepo(stackKey)
-          .then(findNewRepoOnRepeat.bind(this, stack));
+          .then(_findNewRepoOnRepeat.bind(this, stack));
       })
       .then(function (repoModel) {
         return $q.all({
@@ -300,6 +299,8 @@ function demoRepos(
       .catch(errs.handler);
   }
   return {
+    _findNewRepo: _findNewRepo, // for testing
+    _findNewRepoOnRepeat: _findNewRepoOnRepeat, // for testing
     checkForOrphanedDependency: checkForOrphanedDependency,
     demoStacks: stacks,
     forkGithubRepo: forkGithubRepo,
