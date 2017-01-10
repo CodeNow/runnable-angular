@@ -41,7 +41,8 @@ describe('controllerApp'.bold.underline.blue, function () {
         attrs: {
           id: 'githubId1234'
         }
-      }
+      },
+      willAcceptPayment: sinon.stub().returns(true)
     };
     ctx = {};
     ctx.fetchInstancesByPodMock = new (require('../fixtures/mockFetch'))();
