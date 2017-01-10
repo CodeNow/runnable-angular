@@ -21,7 +21,7 @@ function addServiceCta(
           instances.on('add', demoFlowService.endDemoFlow);
           scope.$on('$destroy', function () {
             instances.off('add', demoFlowService.endDemoFlow);
-          })
+          });
         });
     }
   };
