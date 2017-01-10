@@ -87,10 +87,6 @@
       z-index: 1;
     }
 
-    &:active .small {
-      color: currentColor;
-    }
-
     &:not(:hover),
     &:not(:active) {
       .icons-arrow-forward {
@@ -119,6 +115,10 @@
 
     .small {
       color: $gray;
+
+      :active & {
+        color: currentColor;
+      }
     }
   }
 
