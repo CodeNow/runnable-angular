@@ -33,9 +33,7 @@ function InfrastructureReadyController(
       fetchUser()
     ])
       .then(function (res) {
-        var selectedOrg = res[0].models.find(function (org) {
-          return selectedOrgName.toLowerCase() === org.oauthName().toLowerCase();
-        });
+        var selectedOrg = IR.matchWhitelistedOrgByName(res[0].models, selectedOrgName);
         if (!selectedOrg) {
           selectedOrg = res[1];
         }
@@ -89,6 +87,7 @@ function InfrastructureReadyController(
           if (keypather.get(updatedOrg, 'attrs.firstDockCreated')) {
             // Update number of orgs for user
             eventTracking.updateCurrentPersonProfile(ahaGuide.getCurrentStep(), keypather.get(updatedOrg, 'attra.name'));
+            console.log('4')
             IR.cancelPollingForDockCreated();
             return $scope.$broadcast('go-to-panel', 'dockLoaded');
           }
