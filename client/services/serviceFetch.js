@@ -15,7 +15,7 @@ require('app')
   .factory('fetchOrgMembers', fetchOrgMembers)
   .factory('fetchGrantedGithubOrgs', fetchGrantedGithubOrgs)
   .factory('fetchOrgTeammateInvitations', fetchOrgTeammateInvitations)
-  .factory('assertWhitelistExist', assertWhitelistExist)
+  .factory('waitForWhitelistExist', waitForWhitelistExist)
   // All whitelisted usernames must be in lowercase
   .value('manuallyWhitelistedUsers', ['jdloft', 'hellorunnable', 'evandrozanatta', 'rsandor'])
   // Containers
@@ -134,7 +134,7 @@ function fetchWhitelistForDockCreated(
  * @param {String} organizationName - Name of organization
  * @return {Promise} - Requested organization
  */
-function assertWhitelistExist(
+function waitForWhitelistExist(
   fetchWhitelistForDockCreated
 ) {
   return function _assertWhiteListExists(organizationName) {

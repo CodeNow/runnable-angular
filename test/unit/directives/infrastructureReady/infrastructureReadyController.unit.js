@@ -293,14 +293,6 @@ describe('InfrastructureReadyController', function () {
     });
   });
 
-  describe('#goToOrgSelect', function () {
-    it('should change the state', function () {
-      IRC.goToOrgSelect();
-      sinon.assert.calledOnce(mockState.go);
-      sinon.assert.calledWith(mockState.go, 'orgSelect');
-    });
-  });
-
   describe('#checkDoc', function () {
     beforeEach(function () {
       sinon.stub(IRC, 'fetchUpdatedWhitelistedOrg');

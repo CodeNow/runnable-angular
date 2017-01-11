@@ -25,7 +25,7 @@ var stubGoToPanel;
 var mockWhitelistedOrgs;
 var promisifyMock;
 var eventTrackingStub;
-var mockAssertWhitelistExist;
+var mockWaitForWhitelistExist;
 
 var codenowWhitelistedOrg;
 var createdDockOrg;
@@ -138,9 +138,9 @@ describe('ChooseOrganizationModalController', function () {
         return mockCreateNewSandboxForUserService;
       });
       $provide.value('errs', mockErrs);
-      $provide.factory('assertWhitelistExist', function ($q) {
-        mockAssertWhitelistExist = sinon.stub().returns($q.when(mockWhitelistedOrgs));
-        return mockAssertWhitelistExist;
+      $provide.factory('waitForWhitelistExist', function ($q) {
+        mockWaitForWhitelistExist = sinon.stub().returns($q.when(mockWhitelistedOrgs));
+        return mockWaitForWhitelistExist;
       });
       $provide.factory('fetchWhitelistForDockCreated', function ($q) {
         mockFetchWhitelistForDockCreated = sinon.stub().returns($q.when(mockWhitelistedOrgs));

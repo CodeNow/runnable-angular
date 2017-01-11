@@ -10,7 +10,7 @@ function ChooseOrganizationModalController(
   $scope,
   $state,
   ahaGuide,
-  assertWhitelistExist,
+  waitForWhitelistExist,
   configEnvironment,
   createNewSandboxForUserService,
   currentOrg,
@@ -134,7 +134,7 @@ function ChooseOrganizationModalController(
             .then(function () {
               // Check is async and we need this in order to assert
               // org has already been added
-              return assertWhitelistExist(selectedOrgName);
+              return waitForWhitelistExist(selectedOrgName);
             });
         })
         .then(function (orgs) {

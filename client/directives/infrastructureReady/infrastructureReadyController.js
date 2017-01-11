@@ -105,10 +105,6 @@ function InfrastructureReadyController(
     IR.cancelPollingForDockCreated();
   });
 
-  IR.goToOrgSelect = function () {
-    $state.go('orgSelect');
-  };
-
   // Init
   IR.checkDock(currentOrg.poppa.attrs.name);
 }
