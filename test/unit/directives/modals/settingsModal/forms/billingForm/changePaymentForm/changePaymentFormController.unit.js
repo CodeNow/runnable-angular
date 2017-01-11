@@ -19,6 +19,7 @@ describe('ChangePaymentFormController'.bold.underline.blue, function () {
   beforeEach(function () {
     mockCurrentOrg = {
       poppa: {
+        isInActivePeriod: sinon.stub().returns(true),
         isInTrial: sinon.stub().returns(false),
         id: sinon.stub().returns('1234'),
         attrs: {

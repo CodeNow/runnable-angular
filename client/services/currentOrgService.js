@@ -25,5 +25,13 @@ function currentOrg(
             keypather.get(org, 'poppa.isGraceExpired()'));
   };
 
+  org.isPaymentDue = function () {
+    return (!org.poppa.attrs.allowed || org.poppa.isInGrace()) && org.willAcceptPayment();
+  };
+
+  org.isPaused = function () {
+    return org.poppa.attrs.isPermanentlyBanned || !org.poppa.attrs.isActive;
+  };
+
   return org;
 }
