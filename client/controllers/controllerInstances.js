@@ -221,11 +221,6 @@ function ControllerInstances(
         instanceName: instanceName
       });
     }
-    if (!featureFlags.flags.containersViewTemplateControls) {
-      return $state.go('base.config', {
-        userName: CIS.userName
-      }, {location: 'replace'});
-    }
   };
 
   this.filterMatchedAnything = function () {
@@ -250,6 +245,20 @@ function ControllerInstances(
     return instanceName.toLowerCase().indexOf(searchQuery) !== -1;
   };
 
+  CIS.getSortedMasterInstanceChildren = function (masterPod) {
+    var children = masterPod.children.models;
+    CIS.instancesByPod
+      .filter(function (instance) {
+        return masterPod.id() === instance.attrs.testingParentId;
+      })
+      .forEach(function (instance) {
+        children = children.concat(instance.children.models);
+      });
+
+    children = $filter('orderBy')(children, 'attrs.isTesting');
+    return $filter('orderBy')(children, 'getBranchName()');
+  };
+
   this.getFilteredInstanceList = function () {
     if (!CIS.instancesByPod) {
       return null;
@@ -259,6 +268,12 @@ function ControllerInstances(
     }
     return CIS.instancesByPod.models
       .filter(CIS.filterMasterInstance);
+  };
+
+  this.getFilteredTestingMasters = function () {
+    return (this.getFilteredInstanceList() || []).filter(function (masterInstance) {
+      return masterInstance.attrs.isTesting;
+    });
   };
 
   this.getFilteredBranches = function () {

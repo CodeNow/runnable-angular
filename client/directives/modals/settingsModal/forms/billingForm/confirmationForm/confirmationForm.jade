@@ -16,10 +16,11 @@
 
 footer.modal-footer.clearfix
   button.btn.btn-md.btn-block.green(
-    ng-if = "currentOrg.poppa.isInActivePeriod()"
+    ng-if = "!EAC.currentOrg.poppa.isInTrial()"
+    ng-click = "EAC.close()"
   ) Go to your Environment
   button.btn.btn-md.btn-block.white(
-    ng-click = "goToPanel('billingForm', 'back');"
-    ng-if = "currentOrg.poppa.isInTrial()"
+    ng-click = "goToPanel('billingForm', 'back')"
+    ng-if = "EAC.currentOrg.poppa.isInTrial()"
     type = "button"
   ) Billing Overview

@@ -4,14 +4,16 @@ require('app')
   .controller('ExpiredAccountController', ExpiredAccountController);
 
 function ExpiredAccountController(
-  close,
   $rootScope,
-  $scope
+  $scope,
+  close,
+  currentOrg
 ) {
   var EAC = this;
   EAC.close = close;
 
   EAC.activeAccount = $rootScope.dataApp.data.activeAccount;
+  EAC.currentOrg = currentOrg;
 
   EAC.actions = {
     close: function () {

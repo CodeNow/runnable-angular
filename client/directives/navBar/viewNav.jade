@@ -6,12 +6,12 @@
 
 //- aha menu --- This should be triggered via an event!
 .popover.right.in.popover-aha.popover-aha-containers(
-  ng-if = "$root.featureFlags.aha && !$root.featureFlags.demoMultiTier && CA.showAhaNavPopover"
+  ng-if = "!$root.featureFlags.demoMultiTier && CA.showAhaNavPopover"
   ng-include = "'ahaPopoverView'"
   ng-init = "getClassname = CA.ahaGuide.getClassForSubstep"
 )
-
 a.a(
+  ng-if = "!CA.currentOrg.isPersonalAccount()"
   ui-sref = "base.config({ userName: CA.activeAccount.oauthName() })"
   ui-sref-active = "active"
 )
@@ -21,25 +21,14 @@ a.a(
     )
   | Configure
 
-a.a.disabled(
-  ng-if = "(dataApp.state.includes('base.config') && CA.instancesByPod && !CA.instancesByPod.models.length) && !$root.featureFlags.containersViewTemplateControls"
-  tooltip = "You don’t have any running containers yet!"
-  tooltip-options = "{\"class\":\"right\",\"left\":75,\"top\":17}"
-)
-  svg.iconnables.icons-server-dark
-    use(
-      xlink:href = "#icons-server-dark"
-    )
-  | Containers
-
 a.a(
-  ng-if = "(dataApp.state.includes('base.instances') || !CA.instancesByPod || CA.instancesByPod.models.length) || $root.featureFlags.containersViewTemplateControls"
+  ng-if = "(dataApp.state.includes('base.instances') || !CA.instancesByPod || CA.instancesByPod.models.length)"
   ui-sref = "base.instances({ userName: CA.activeAccount.oauthName() })"
   ui-sref-active = "active"
 )
   .aha-overlay-div(
     ng-click = "CA.showAhaConfirmation($event)"
-    ng-if = "$root.featureFlags.aha && CA.ahaGuide.isAddingFirstRepo() && CA.instancesByPod.models.length && !CA.ahaGuide.hasConfirmedSetup()"
+    ng-if = "CA.ahaGuide.isAddingFirstRepo() && CA.instancesByPod.models.length && !CA.ahaGuide.hasConfirmedSetup()"
   )
   svg.iconnables.icons-server-dark
     use(

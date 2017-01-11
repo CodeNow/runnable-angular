@@ -17,11 +17,13 @@ function ahaGuide(
   currentOrg,
   eventTracking,
   featureFlags,
+  fetchInstances,
   fetchInstancesByPod,
   isRunnabotPartOfOrg,
   keypather,
   ModalService,
-  patchOrgMetadata
+  patchOrgMetadata,
+  promisify
 ) {
   var instances = [];
   var hasRunnabot = false;
@@ -257,7 +259,7 @@ function ahaGuide(
   });
   function getCurrentStep() {
     if (!cachedStep) {
-      if (keypather.get($rootScope, 'featureFlags.aha') && !keypather.get(currentOrg, 'poppa.id')) {
+      if (!keypather.get(currentOrg, 'poppa.id')) {
         cachedStep = STEPS.CHOOSE_ORGANIZATION;
       } else if (!isInGuide()) {
         cachedStep = STEPS.COMPLETED;
@@ -359,6 +361,17 @@ function ahaGuide(
         delete $storage.usingDemoRepo;
         delete $storage.hasAddedBranch;
         updateCurrentOrg(updatedOrg);
+        return fetchInstances(null, true)
+          .then(function (fetchedInstances) {
+            // this is some weird stuff where I can't use $q.all and straight calls to instance.destroy
+            // in a forEach will not work because the first time an element is destroyed it points the index to a nonexistic thing
+            var destroyAllInstances = fetchedInstances.models.map(function(instance) {
+              return promisify(instance, 'destroy');
+            });
+            return destroyAllInstances.forEach(function(execute) {
+              execute();
+            });
+          });
       });
   }
 

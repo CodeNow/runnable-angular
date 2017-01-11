@@ -50,29 +50,25 @@
   }
 
   .list-item-fork {
-    border-bottom: $input-border solid $gray-lighter;
-    border-top: $input-border solid $gray-lighter;
+    border: $input-border solid transparent;
+    border-radius: $input-border-radius-lg;
     cursor: pointer;
-    padding: $xs;
+    margin: 0 $xs / 2;
+    padding: $xs $xs / 2;
 
-    &:hover:not(.disabled),
-    &:active:not(.disabled) {
-      color: $gray-darker;
+    &:hover {
+      background: $gray-lighterest;
+      border-color: $gray-lighter;
     }
 
-    &.disabled {
-      cursor: default;
-      opacity: .5;
-
-      .spinner-wrapper {
-        align-items: center;
-        height: 24px;
-        width: 24px;
-      }
+    &:active {
+      background: transparent;
+      border-color: currentColor;
+      color: $purple-light;
     }
 
-    + .list-item-fork {
-      margin-top: -$input-border;
+    &:last-child {
+      margin-bottom: $xs / 2;
     }
 
     .img {
@@ -85,15 +81,14 @@
   }
 
   .popover-footer {
-    border: 0;
+    color: rgba($gray-dark,.5);
     cursor: pointer;
     margin: 0;
-    opacity: .5;
     padding: $sm 0;
 
     &:hover:not(.disabled),
     &:active:not(.disabled) {
-      color: $gray-darker;
+      color: $gray-dark;
     }
 
     &.disabled {
@@ -103,12 +98,20 @@
   }
 
   // add branch step
-  .commands-wrapper,
-  .skip-wrapper {
+  .commands-wrapper {
     background: $gray-dark;
     color: $gray-lighter;
 
+    &:last-child {
+      border-radius: 0 0 $input-border-radius-lg $input-border-radius-lg;
+    }
+
+    + .commands-wrapper {
+      border-top: 1px solid rgba($black,.2);
+    }
+
     .monospace {
+      font-size: 11px;
       overflow-x: auto;
     }
 
@@ -172,10 +175,5 @@
       transform: translate3d(-97%,0,0);
       width: 100%;
     }
-  }
-  // skip branch
-  .skip-wrapper {
-    border-radius: 0 0 $input-border-radius-lg $input-border-radius-lg;
-    border-top: 1px solid rgba($black,.2);
   }
 }

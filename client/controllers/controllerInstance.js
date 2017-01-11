@@ -191,7 +191,7 @@ function ControllerInstance(
           data.instance.containers.models[0],
           true
         );
-        if (keypather.get($scope, 'dataInstance.data.instance.attrs.isTesting')) {
+        if (keypather.get($scope, 'dataInstance.data.instance.attrs.isTesting') && keypather.get($scope, 'dataInstance.data.instance.getBranch()')) {
           data.openItems.removeAllButLogs();
         }
         break;

@@ -421,7 +421,7 @@ describe('serverModalController'.bold.underline.blue, function () {
       sinon.stub(SMC, 'requiresRedeploy').returns(false);
       sinon.stub(SMC, 'requiresRebuild').returns(false);
       sinon.stub(SMC.instance, 'status').returns('running');
-      expect(SMC.isDirty()).to.equal(false);
+      expect(SMC.isDirty(), 'is dirty').to.equal(false);
     });
 
     describe('Changes', function () {
@@ -510,6 +510,16 @@ describe('serverModalController'.bold.underline.blue, function () {
       SMC.instance = {
         attrs: {
           env: ['asdasd']
+        }
+      };
+      $scope.$digest();
+      expect(SMC.requiresRebuild(), 'requiresRebuild').to.be.true;
+    });
+
+    it('should be true when the testingParent doesnt match ', function () {
+      SMC.instance = {
+        attrs: {
+          testingParentId: '1234'
         }
       };
       $scope.$digest();
@@ -1082,5 +1092,5 @@ describe('serverModalController'.bold.underline.blue, function () {
     it('should return false when there are no ports on an instance', function() {
       expect(SMC.hasOpenPorts()).to.equal(false);
     });
-  })
+  });
 });

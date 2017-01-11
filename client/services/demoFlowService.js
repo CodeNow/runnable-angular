@@ -77,8 +77,16 @@ function demoFlowService(
   }
 
   function checkStatusOnInstance (instance) {
-    var url = defaultContainerUrl(instance);
-    return $http.get(url)
+    // This is needed to fix an issue with 'Response for preflight has invalid HTTP status code 404'
+    // Caused by the X-CSRF-TOKEN
+    var url = defaultContainerUrl(instance, true);
+    return $http({
+      method: 'GET',
+      url: url,
+      headers: {
+        'X-CSRF-TOKEN': undefined
+      }
+    })
       .then(function (res) {
         return res.status >= 200 && res.status < 300;
       })
@@ -129,7 +137,7 @@ function demoFlowService(
   }
 
   function shouldShowServicesCTA () {
-    return featureFlags.flags.demoMultiTierAddRepo && !isInDemoFlow() && getItem('usingDemoRepo');
+    return featureFlags.flags.demoMultiTierAddRepo && !currentOrg.isPersonalAccount() && isInDemoFlow() && getItem('usingDemoRepo') && getItem('hasAddedBranch');
   }
 
   return {

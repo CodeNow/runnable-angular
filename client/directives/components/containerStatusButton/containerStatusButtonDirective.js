@@ -42,7 +42,7 @@ function containerStatusButton(
           running: 'Tests Running'
         };
 
-        if (keypather.get($scope.CSBC, 'instance.attrs.isTesting') && testingStatusMap[status]) {
+        if (keypather.get($scope.CSBC, 'instance.attrs.isTesting') && keypather.get($scope.CSBC, 'instance.getRepoName()') && testingStatusMap[status]) {
           return testingStatusMap[status];
         }
         return statusMap[status] || 'Unknown';

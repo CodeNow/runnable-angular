@@ -10,6 +10,7 @@ function instanceHeader(
   $localStorage,
   $stateParams,
   ahaGuide,
+  currentOrg,
   demoFlowService,
   eventTracking,
   fetchPullRequest,
@@ -25,8 +26,9 @@ function instanceHeader(
     },
     link: function ($scope) {
       $scope.$storage = $localStorage;
-      $scope.userName = $stateParams.userName;
+      $scope.currentOrg = currentOrg;
       $scope.openedPRUrl = eventTracking.openedPRUrl;
+      $scope.userName = $stateParams.userName;
       $scope.$watch('instance', function (newValue) {
         if (!newValue) {
           return;

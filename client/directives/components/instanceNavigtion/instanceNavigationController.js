@@ -3,18 +3,20 @@
 require('app').controller('InstanceNavigationController', InstanceNavigationController);
 
 function InstanceNavigationController(
+  $location,
   $rootScope,
-  ModalService,
-  errs,
-  keypather,
-  promisify,
-  $timeout,
   $state,
-  fetchInstancesByPod,
+  $timeout,
   createIsolation,
-  $location
+  currentOrg,
+  errs,
+  fetchInstancesByPod,
+  keypather,
+  ModalService,
+  promisify
 ) {
   var INC = this;
+  INC.currentOrg = currentOrg;
   INC.shouldExpand = false;
   function processContainers() {
     if (!INC.instance.attrs.isolated ||
@@ -159,6 +161,18 @@ function InstanceNavigationController(
       }
     })
       .catch(errs.handler);
+  };
+
+  INC.setupAutoIsolation = function () {
+    $rootScope.$broadcast('close-popovers');
+    ModalService.showModal({
+      controller: 'IsolationConfigurationModalController',
+      controllerAs: 'ICMC',
+      templateUrl: 'isolationConfigurationModalView',
+      inputs: {
+        instance: INC.instance
+      }
+    });
   };
 }
 

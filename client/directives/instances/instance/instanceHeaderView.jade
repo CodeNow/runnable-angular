@@ -6,6 +6,7 @@
     button.btn.btn-md.btn-icon-md(
       ng-class = "{'active': !$storage.instanceListIsClosed}"
       ng-click = "$storage.instanceListIsClosed = !$storage.instanceListIsClosed"
+      ng-if = "!currentOrg.isPersonalAccount()"
       pop-over
       pop-over-hover-trigger
       pop-over-options = "{\"top\":45,\"centered\":true}"
@@ -77,7 +78,7 @@
   )
 
   .popover.bottom.popover-aha.popover-aha-url.in(
-    ng-if = "$root.featureFlags.aha && $root.featureFlags.ahaBranchUrlStep"
+    ng-if = "$root.featureFlags.ahaBranchUrlStep"
   )
     .arrow.white(
       style = "left: auto; right: 59px;"
