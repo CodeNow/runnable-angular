@@ -3,12 +3,14 @@
 require('app')
   .controller('ChooseOrganizationModalController', ChooseOrganizationModalController);
 function ChooseOrganizationModalController(
+  $http,
   $interval,
   $q,
   $rootScope,
   $scope,
   $state,
   ahaGuide,
+  assertWhitelistExist,
   configEnvironment,
   createNewSandboxForUserService,
   currentOrg,
@@ -90,7 +92,7 @@ function ChooseOrganizationModalController(
               COMC.cancelPollingForWhitelisted();
               customWindow.close();
               if (COMC.newOrgList.length === 1) {
-                COMC.actions.createOrCheckDock(COMC.newOrgList[0].oauthName());
+                COMC.actions.selectAccount(COMC.newOrgList[0].oauthName());
               } else if (COMC.newOrgList.length > 1) {
                 $scope.$broadcast('go-to-panel', 'orgSelection');
               }
@@ -120,10 +122,27 @@ function ChooseOrganizationModalController(
     selectAccount: function (selectedOrgName) {
       // Update number of orgs for user
       eventTracking.updateCurrentPersonProfile(ahaGuide.getCurrentStep(), selectedOrgName);
-      close();
-      $state.go('base.instances', {
-        userName: selectedOrgName
+      var org = whitelistedOrgs.find(function (org) {
+        return selectedOrgName.toLowerCase() === org.attrs.name.toLowerCase();
       });
+      return $q.when(org)
+        .then(function (foundWhitelistedOrg) {
+          if (foundWhitelistedOrg) {
+            return foundWhitelistedOrg;
+          }
+          return createNewSandboxForUserService(selectedOrgName)
+            .then(function () {
+              // Check is async and we need this in order to assert
+              // org has already been added
+              return assertWhitelistExist(selectedOrgName);
+            });
+        })
+        .then(function (orgs) {
+          close();
+          $state.go('base.instances', {
+            userName: selectedOrgName
+          }, { reload: true });
+        });
     }
   };
 

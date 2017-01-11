@@ -20,7 +20,6 @@ function InfrastructureReadyController(
   loading
 ) {
   var IR = this;
-  window.superIR = IR;
   IR.currentOrg = currentOrg;
 
   fetchUser()
@@ -57,21 +56,11 @@ function InfrastructureReadyController(
     });
   };
 
-  IR.createOrCheckDock = function (selectedOrgName) {
-    var selectedOrg = IR.getSelectedOrg(selectedOrgName);
-    if (!selectedOrg) {
-      return;
-    }
-    loading('chooseOrg', true);
-    return IR.fetchUpdatedWhitelistedOrg(selectedOrgName)
-      .then(function (foundWhitelistedOrg) {
-        if (foundWhitelistedOrg) {
-          return foundWhitelistedOrg;
-        }
-        return createNewSandboxForUserService(selectedOrgName)
-          .then(function () {
-            return null;
-          });
+  IR.checkDock = function (selectedOrgName) {
+    return IR.getSelectedOrg(selectedOrgName)
+      .then(function (selectedOrg) {
+        loading('chooseOrg', true);
+        return IR.fetchUpdatedWhitelistedOrg(selectedOrgName);
       })
       .then(function (org) {
         eventTracking.spunUpInfrastructure();
@@ -122,5 +111,5 @@ function InfrastructureReadyController(
   };
 
   // Init
-  IR.createOrCheckDock(currentOrg.poppa.attrs.name);
+  IR.checkDock(currentOrg.poppa.attrs.name);
 }

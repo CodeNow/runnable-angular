@@ -15,6 +15,7 @@ require('app')
   .factory('fetchOrgMembers', fetchOrgMembers)
   .factory('fetchGrantedGithubOrgs', fetchGrantedGithubOrgs)
   .factory('fetchOrgTeammateInvitations', fetchOrgTeammateInvitations)
+  .factory('assertWhitelistExist', assertWhitelistExist)
   // All whitelisted usernames must be in lowercase
   .value('manuallyWhitelistedUsers', ['jdloft', 'hellorunnable', 'evandrozanatta', 'rsandor'])
   // Containers
@@ -122,6 +123,30 @@ function fetchWhitelistForDockCreated(
         return res.models.filter(function (userWhiteListModel) {
           return !!userWhiteListModel.attrs.org;
         });
+      });
+  };
+}
+/**
+ * Continually check for the existence of a whitelist/organization until it
+ * exists. This is necessary because organizations are created asynchronously
+ * through a worker.
+ *
+ * @param {String} organizationName - Name of organization
+ * @return {Promise} - Requested organization
+ */
+function assertWhitelistExist(
+  fetchWhitelistForDockCreated
+) {
+  return function _assertWhiteListExists(organizationName) {
+    return fetchWhitelistForDockCreated()
+      .then(function (orgCollection) {
+        var org = orgCollection.find(function (userWhiteListModel) {
+          return userWhiteListModel.attrs.name === organizationName;
+        });
+        if (!org) {
+          return _assertWhiteListExists(organizationName);
+        }
+        return org;
       });
   };
 }
