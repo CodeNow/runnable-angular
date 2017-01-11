@@ -22,7 +22,9 @@ function gracePeriodFooter(
       };
 
       $scope.goToOrgSelect = function () {
-        $scope.close();
+        if ($scope.close) {
+          $scope.close();
+        }
         window.location = '/orgSelect';
       };
     }
