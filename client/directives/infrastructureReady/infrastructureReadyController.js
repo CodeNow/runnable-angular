@@ -34,7 +34,7 @@ function InfrastructureReadyController(
     ])
       .then(function (res) {
         var selectedOrg = IR.matchWhitelistedOrgByName(res[0].models, selectedOrgName);
-        if (!selectedOrg) {
+        if (!selectedOrg && selectedOrgName.toLowerCase() === keypather.get(res[1], 'accounts.github.username')) {
           selectedOrg = res[1];
         }
         return selectedOrg;
