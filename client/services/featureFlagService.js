@@ -16,7 +16,6 @@ function featureFlags(
     billing: true,
     cardStatus: false,
     connections: false,
-    configTerminal: true, // flag for terminal in config view
     contingencyPlan: false,
     demoFlowPhase2: true,
     demoForking: true,
