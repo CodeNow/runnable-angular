@@ -89,15 +89,15 @@
         small.grid-block.vertical.small.text-gray per user
           br
           | per month
-      .grid-content.shrink.small Up to&#32;
-        strong.strong 15
+      .grid-content.shrink.small
+        strong.strong 8+
         | &#32; services.
 
   label.grid-block.align-center.padding-xs.well.well-plan.well-summary.disabled(
+    discount = "PSFC.discount"
+    discount-view
     ng-if = "PSFC.discount"
     ng-init = "state.hasDuration = (PSFC.currentOrg.poppa.isInActivePeriod()) ? 'true' : ''"
-    discount-view
-    discount = "PSFC.discount"
   )
 
   p.grid-content.p.text-gray.text-center.padding-sm All plans require at least 3 users. Your plan is automatically determined based on number of services at the end of each billing cycle.

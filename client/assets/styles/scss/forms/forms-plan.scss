@@ -211,6 +211,7 @@
   }
 
   .card-plan {
+    flex: 1 1 33.33%;
     border: 1px solid transparent;
     border-radius: $input-border-radius-lg;
     min-width: 0;
