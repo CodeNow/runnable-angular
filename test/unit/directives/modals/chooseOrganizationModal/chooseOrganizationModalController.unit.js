@@ -25,6 +25,7 @@ var stubGoToPanel;
 var mockWhitelistedOrgs;
 var promisifyMock;
 var eventTrackingStub;
+var mockAssertWhitelistExist;
 
 var codenowWhitelistedOrg;
 var createdDockOrg;
@@ -137,6 +138,10 @@ describe('ChooseOrganizationModalController', function () {
         return mockCreateNewSandboxForUserService;
       });
       $provide.value('errs', mockErrs);
+      $provide.factory('assertWhitelistExist', function ($q) {
+        mockAssertWhitelistExist = sinon.stub().returns($q.when(mockWhitelistedOrgs));
+        return mockAssertWhitelistExist;
+      });
       $provide.factory('fetchWhitelistForDockCreated', function ($q) {
         mockFetchWhitelistForDockCreated = sinon.stub().returns($q.when(mockWhitelistedOrgs));
         return mockFetchWhitelistForDockCreated;
@@ -169,28 +174,6 @@ describe('ChooseOrganizationModalController', function () {
     $rootScope.$apply();
   }
 
-  describe('searching methods', function () {
-    beforeEach(function () {
-      initialize();
-    });
-
-    beforeEach(function () {
-      setup();
-    });
-
-    describe('matchWhitelistedOrgByName', function () {
-      it('should match orgs by their names (case insensitive)', function () {
-        expect(COMC.matchWhitelistedOrgByName('codenow')).to.equal(codenowWhitelistedOrg);
-      });
-    });
-
-    describe('getSelectedOrg', function () {
-      it('should match orgs by their names (case insensitive)', function () {
-        expect(COMC.getSelectedOrg('codenow')).to.equal(mockOrg);
-      });
-    });
-  });
-
   describe('Polling stuff', function () {
     beforeEach(function () {
       initialize();
@@ -211,6 +194,37 @@ describe('ChooseOrganizationModalController', function () {
         COMC.cancelPollingForWhitelisted();
         sinon.assert.calledOnce($interval.cancel);
       });
+    });
+  });
+
+  describe('#selectAccount', function () {
+    beforeEach(function () {
+      initialize();
+    });
+
+    beforeEach(function () {
+      setup();
+    });
+
+    it('should to go to the instances pages if already created', function () {
+      COMC.actions.selectAccount('codeNow');
+      $rootScope.$digest();
+
+      sinon.assert.notCalled(mockCreateNewSandboxForUserService);
+      sinon.assert.calledOnce(closeStub);
+      sinon.assert.calledOnce(mockState.go);
+      sinon.assert.calledWith(mockState.go, 'base.instances', { userName: 'codeNow' }, { reload: true });
+    });
+
+    it ('should to go to the instances pages if already created', function () {
+      COMC.actions.selectAccount('Runnable');
+      $rootScope.$digest();
+
+      sinon.assert.calledOnce(mockCreateNewSandboxForUserService);
+      sinon.assert.calledWith(mockCreateNewSandboxForUserService, 'Runnable');
+      sinon.assert.calledOnce(closeStub);
+      sinon.assert.calledOnce(mockState.go);
+      sinon.assert.calledWith(mockState.go, 'base.instances', { userName: 'Runnable' }, { reload: true });
     });
   });
 
@@ -260,4 +274,5 @@ describe('ChooseOrganizationModalController', function () {
       sinon.assert.calledOnce(COMC.cancelPollingForWhitelisted);
     });
   });
+
 });

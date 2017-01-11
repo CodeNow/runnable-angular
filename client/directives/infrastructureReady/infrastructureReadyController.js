@@ -87,7 +87,6 @@ function InfrastructureReadyController(
           if (keypather.get(updatedOrg, 'attrs.firstDockCreated')) {
             // Update number of orgs for user
             eventTracking.updateCurrentPersonProfile(ahaGuide.getCurrentStep(), keypather.get(updatedOrg, 'attra.name'));
-            console.log('4')
             IR.cancelPollingForDockCreated();
             return $scope.$broadcast('go-to-panel', 'dockLoaded');
           }

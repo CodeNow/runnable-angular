@@ -33,7 +33,7 @@ var codenowWhitelistedOrg;
 var createdDockOrg;
 var IRC;
 
-describe.only('InfrastructureReadyController', function () {
+describe('InfrastructureReadyController', function () {
 
   function initialize() {
     codenowWhitelistedOrg = {
