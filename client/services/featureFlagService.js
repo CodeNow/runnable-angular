@@ -50,6 +50,7 @@ function featureFlags(
     newUserPrompt: false, // modal for new users
     nextPayment: false, // show the next payment date under payment summary
     noBuildLogs: true,
+    noOrgs: false, // if no organizations have been authorized
     optionsInModal: false, // allows delete in modal
     personalAccounts: true, // allows users with personal accounts to create Runnable teams
     personalAccountsPhase2: true,
