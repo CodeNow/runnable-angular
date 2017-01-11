@@ -10,6 +10,7 @@ function BranchCommitSelectorController(
 ) {
   var BCSC = this;
   BCSC.isLatestCommitDeployed = true;
+  BCSC.eventTracking = eventTracking;
 
   BCSC.onCommitFetch = function (commits) {
     if (!commits.models.length) { return; }
@@ -33,10 +34,10 @@ function BranchCommitSelectorController(
     }
   };
 
-  BCSC.selectCommit = function (commit) {
+  BCSC.selectCommit = function (commit, isLatestCommit) {
+    eventTracking.selectCommit(isLatestCommit);
     if (BCSC.isAutoDeployOn() || BCSC.isLatestCommit()) { return; }
     BCSC.data.commit = commit;
-    eventTracking.selectCommit(BCSC.isLatestCommit());
     $scope.$emit('commit::selected', commit);
   };
 
@@ -58,7 +59,6 @@ function BranchCommitSelectorController(
     if (angular.isDefined(isAutoDeployOn)) {
       BCSC.data.locked = !isAutoDeployOn;
     }
-    eventTracking.autoDeployToggled(BCSC.isAutoDeployOn());
     return BCSC.isAutoDeployOn();
   };
 
