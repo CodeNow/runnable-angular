@@ -65,7 +65,6 @@ function InfrastructureReadyController(
         if (keypather.get(org, 'attrs.firstDockCreated')) {
           return;
         }
-        eventTracking.updateCurrentPersonProfile(ahaGuide.getCurrentStep(), selectedOrgName);
         IR.pollForDockCreated(org, selectedOrgName);
       })
       .catch(errs.handler)
@@ -74,10 +73,15 @@ function InfrastructureReadyController(
       });
   };
 
-  IR.pollForDockCreated = function (whitelistedDock, selectedOrgName) {
+  IR.handleDockCreated = function (selectedOrgName) {
+    eventTracking.updateCurrentPersonProfile(ahaGuide.getCurrentStep(), selectedOrgName);
     IR.cancelPollingForDockCreated();
+    return $scope.$broadcast('go-to-panel', 'dockLoaded');
+  };
+
+  IR.pollForDockCreated = function (whitelistedDock, selectedOrgName) {
     if (keypather.get(whitelistedDock, 'attrs.firstDockCreated')) {
-      return $scope.$broadcast('go-to-panel', 'dockLoaded');
+      return IR.handleDockCreated(selectedOrgName);
     }
     $scope.$broadcast('go-to-panel', 'dockLoading');
 
@@ -85,10 +89,7 @@ function InfrastructureReadyController(
       IR.fetchUpdatedWhitelistedOrg(selectedOrgName)
         .then(function (updatedOrg) {
           if (keypather.get(updatedOrg, 'attrs.firstDockCreated')) {
-            // Update number of orgs for user
-            eventTracking.updateCurrentPersonProfile(ahaGuide.getCurrentStep(), keypather.get(updatedOrg, 'attra.name'));
-            IR.cancelPollingForDockCreated();
-            return $scope.$broadcast('go-to-panel', 'dockLoaded');
+            return IR.handleDockCreated(selectedOrgName);
           }
         });
     }, 1000);
