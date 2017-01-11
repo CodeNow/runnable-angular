@@ -50,13 +50,13 @@ var featureFlagsMock = {
 
   }
 };
-var shouldAddPR = true;
+var shouldAddPR;
 
 
 describe('DemoAddBranchController'.bold.underline.blue, function () {
   
   function setup() {
-
+    shouldAddPR = true;
     angular.mock.module('app', function ($provide) {
       $provide.factory('promisify', function ($q) {
         promisifyMock = sinon.spy(function (obj, key) {
@@ -192,8 +192,8 @@ describe('DemoAddBranchController'.bold.underline.blue, function () {
 
   describe('fetching instances on load when not submitting a PR '.blue, function () {
     beforeEach(function () {
-      shouldAddPR = false;
       setup();
+      demoFlowServiceMock.shouldAddPR.returns(false)
     });
 
     it('should call fetch instances and change state for personal account', function () {
