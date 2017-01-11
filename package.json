@@ -1,6 +1,6 @@
 {
   "name": "runnable-angular",
-  "version": "5.7.1",
+  "version": "5.7.4",
   "private": true,
   "description": "Frontend for Runnable.io",
   "scripts": {
@@ -9,6 +9,7 @@
     "start": "./node_modules/.bin/grunt",
     "e2e": "./node_modules/.bin/grunt test:e2e",
     "unit": "./node_modules/.bin/grunt test:unit",
+    "test": "./node_modules/.bin/grunt test",
     "coverage": "./node_modules/.bin/grunt test:unit-coverage",
     "staging": "API_URL=https://api-staging-codenow.runnableapp.com USER_CONTENT_DOMAIN=runnable-staging.com ./node_modules/.bin/grunt",
     "gamma": "API_URL=https://api.runnable-gamma.com USER_CONTENT_DOMAIN=runnable.ninja ./node_modules/.bin/grunt",
