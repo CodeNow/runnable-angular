@@ -1,12 +1,14 @@
 .modal-header
   h1.modal-heading Welcome Aboard!
 
-.grid-block.vertical.padding-sm
-  p.margin-top-sm.margin-bottom-md.p.text-center.weight-light Whose code do&#32;
-    br.visible-xxxs
-    | you want to run?
+.grid-block.vertical.org-select-view
 
-  ol.grid-block.vertical.list
+  p.p(
+    ng-if = "!$root.featureFlags.noOrgs"
+  ) Select your team to get started.
+  ol.grid-block.vertical.list(
+    ng-if = "!$root.featureFlags.noOrgs"
+  )
     li.grid-block.align-center.list-item.btn.white(
       data-event-name = "Org Selected"
       ng-click = "COMC.actions.selectAccount(org.oauthName())"
@@ -23,44 +25,46 @@
         use(
           xlink:href = "#icons-arrow-down"
         )
+  p.p(
+    ng-if = "!$root.featureFlags.noOrgs"
+  ) Don’t see your team?
+  p.p(
+    ng-if = "$root.featureFlags.noOrgs"
+  ) Runnable is made for teams,
+    br
+    | &#32;but you haven’t added any yet.
+  ol.grid-block.vertical.list
+    li.grid-block.align-center.list-item.btn.white(
+      data-event-name = "Clicked to Grant Access View"
+      ng-click = "goToPanel('grantAccess')"
+      title = "Add your team via GitHub"
+    )
+      svg.grid-content.shrink.iconnables.icons-github
+        use(
+          xlink:href = "#icons-octicons-github-gray"
+        )
+      .grid-block.vertical.text-overflow.margin-left-sm
+        .text-overflow.text-left Add your team
+        .text-overflow.text-left.small via GitHub
+      svg.grid-content.iconnables.icons-arrow-forward.shrink
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
     li.grid-block.align-center.list-item.btn.white(
       data-event-name = "PA Selected"
       ng-click = "COMC.actions.selectAccount(COMC.user.oauthName())"
       ng-if = "$root.featureFlags.personalAccounts"
-      title = "{{COMC.user.oauthName()}}"
+      title = "Start with a tour using your personal account"
     )
       img.grid-content.shrink(
         height = "30"
         ng-src = "{{COMC.user.gravitar()}}"
         width = "30"
       )
-      span.grid-content.text-left.text-overflow {{COMC.user.oauthName()}}
+      .grid-block.vertical.align-start.margin-left-sm
+        .text-overflow.text-left Start with a tour
+        .text-overflow.text-left.small using your personal account
       svg.grid-content.iconnables.icons-arrow-forward.shrink
         use(
           xlink:href = "#icons-arrow-down"
         )
-
-  ol.margin-top-sm.grid-block.vertical.list
-    li.grid-block.align-center.list-item.btn.white(
-      data-event-name = "Clicked to Grant Access View"
-      ng-click = "goToPanel('grantAccess')"
-    )
-      .grid-content.shrink.icons-missing-org 🕵
-      span.grid-content.text-left.text-overflow Don’t see your team?
-      svg.grid-content.iconnables.icons-arrow-forward.shrink
-        use(
-          xlink:href = "#icons-arrow-down"
-        )
-
-footer.grid-block.align-center.vertical.padding-top-xxs.padding-bottom-md(
-  ng-if = "!$root.featureFlags.personalAccounts"
-)
-  a.grid-block.shrink.align-center.btn-skip.text-gray.weight-light.link(
-    data-event-name = "Demo: Clicked Skip"
-    ng-click = "COMC.isInDemoFlow = true; goToPanel('createOrg')"
-    ng-if = "$root.featureFlags.demoProject"
-  ) Try a Demo
-    svg.iconnables.icons-arrow-forward
-      use(
-        xlink:href = "#icons-arrow-down"
-      )
