@@ -183,10 +183,6 @@ describe('ChooseOrganizationModalController', function () {
       setup();
     });
 
-    beforeEach(function () {
-      sinon.stub(COMC, 'fetchUpdatedWhitelistedOrg').returns($q.when(codenowWhitelistedOrg));
-    });
-
     describe('cancelPollingForWhitelisted', function () {
       it('should cancel the polling when pollForWhitelistPromise is running', function () {
         sinon.stub($interval, 'cancel').returns();
