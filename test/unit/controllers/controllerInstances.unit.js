@@ -540,26 +540,4 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       expect(results[4]).to.deep.equal([true, false], 'aws');
     });
   });
-
-  describe('loading the correct state on instantiation/build'.blue, function () {
-
-    beforeEach(function () {
-      featureFlags.flags.containersViewTemplateControls = false;
-    });
-
-    it('should not change state normally', function () {
-      setup('Jim Jones');
-      $rootScope.$digest();
-      sinon.assert.notCalled(ctx.fakeGo, 'base.instances.instance');
-    });
-
-    it('should change state when an instance exists', function () {
-      setup('Jim Jones');
-      $rootScope.$digest();
-      CIS.checkAndLoadInstance('new-instance');
-      sinon.assert.calledWith(ctx.fakeGo, 'base.instances.instance', {
-        instanceName: 'new-instance'
-      });
-    });
-  });
 });
