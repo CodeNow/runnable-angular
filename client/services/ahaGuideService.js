@@ -311,10 +311,7 @@ function ahaGuide(
   }
 
   function hasConfirmedSetup () {
-    if (featureFlags.flags.demoMultiTier) {
-      return !!keypather.get(instances, 'models.length');
-    }
-    return keypather.get(currentOrg, 'poppa.attrs.metadata.hasConfirmedSetup');
+    return !!keypather.get(instances, 'models.length');
   }
 
   function updateCurrentOrg (updatedOrg) {
@@ -410,10 +407,6 @@ function ahaGuide(
     }).then(function (modalController) {
       ahaModalController = modalController;
     });
-  }
-
-  if (!featureFlags.flags.demoMultiTier) {
-    $rootScope.$on('ahaGuide::launchModal', launchAhaModal);
   }
 
   var possibleNames = ['node-starter', 'python-starter', 'ruby-starter'];
