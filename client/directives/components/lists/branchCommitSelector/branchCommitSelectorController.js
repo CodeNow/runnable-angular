@@ -5,10 +5,12 @@ require('app')
 
 function BranchCommitSelectorController(
   $scope,
+  eventTracking,
   keypather
 ) {
   var BCSC = this;
   BCSC.isLatestCommitDeployed = true;
+  BCSC.eventTracking = eventTracking;
 
   BCSC.onCommitFetch = function (commits) {
     if (!commits.models.length) { return; }
@@ -32,7 +34,8 @@ function BranchCommitSelectorController(
     }
   };
 
-  BCSC.selectCommit = function (commit) {
+  BCSC.selectCommit = function (commit, isLatestCommit) {
+    eventTracking.selectCommit(isLatestCommit);
     if (BCSC.isAutoDeployOn() || BCSC.isLatestCommit()) { return; }
     BCSC.data.commit = commit;
     $scope.$emit('commit::selected', commit);
