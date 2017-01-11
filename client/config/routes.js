@@ -217,6 +217,7 @@ module.exports = [
         activeAccount,
         currentOrg
       ) {
+        console.log('Populating currentOrg')
         currentOrg.poppa = activeOrg;
         currentOrg.github = activeAccount;
       }

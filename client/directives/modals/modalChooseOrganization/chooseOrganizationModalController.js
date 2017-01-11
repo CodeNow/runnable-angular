@@ -49,12 +49,6 @@ function ChooseOrganizationModalController(
     }
   };
 
-  COMC.cancelPollingForDockCreated = function () {
-    if (COMC.pollForDockCreatedPromise) {
-      $interval.cancel(COMC.pollForDockCreatedPromise);
-    }
-  };
-
   COMC.grantAccess = function (isDemo) {
     var loadingString = 'grantAccess';
     if (isDemo) {
@@ -115,7 +109,6 @@ function ChooseOrganizationModalController(
 
   $scope.$on('$destroy', function () {
     COMC.cancelPollingForWhitelisted();
-    COMC.cancelPollingForDockCreated();
   });
 
 
@@ -123,17 +116,8 @@ function ChooseOrganizationModalController(
   // this will be re-added when they transition to something else
   keypather.set($rootScope, 'dataApp.documentKeydownEventHandler', null);
 
-  COMC.fetchUpdatedWhitelistedOrg = function (selectedOrgName) {
-    return fetchWhitelistForDockCreated()
-      .then(function (res) {
-        COMC.whitelistedOrgs = res;
-        return COMC.matchWhitelistedOrgByName(selectedOrgName);
-      });
-  };
-
   COMC.actions = {
     selectAccount: function (selectedOrgName) {
-      console.log('selectAccount', selectedOrgName);
       // Update number of orgs for user
       eventTracking.updateCurrentPersonProfile(ahaGuide.getCurrentStep(), selectedOrgName);
       close();
@@ -144,11 +128,6 @@ function ChooseOrganizationModalController(
   };
 
   // Searching methods
-  COMC.matchWhitelistedOrgByName = function (selectedOrgName) {
-    return COMC.whitelistedOrgs.find(function (org) {
-      return selectedOrgName.toLowerCase() === org.attrs.name.toLowerCase();
-    });
-  };
   COMC.isChoosingOrg = ahaGuide.isChoosingOrg;
 
   COMC.selectedOrgName = null;

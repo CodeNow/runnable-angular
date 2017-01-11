@@ -6,13 +6,18 @@ require('app')
  * @ngInject
  */
 function infrastructureReady(
-  $document
-
+  $document,
+  currentOrg
 ) {
   return {
     restrict: 'AE',
     controller: 'InfrastructureReadyController',
     controllerAs: 'IRC',
-    templateUrl: 'infrastructureReadyView'
+    templateUrl: 'infrastructureReadyView',
+    link: function ($scope) {
+      $scope.shouldShowInfraReadyView = function () {
+        return !currentOrg.poppa.attrs.firstDockCreated;
+      };
+    }
   };
 }

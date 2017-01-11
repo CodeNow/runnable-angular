@@ -1,37 +1,40 @@
-.grid-block.vertical.modal-backdrop.welcome
-  img.grid-block.shrink.justify-center.logo.img(
-    alt = "Runnable Logo"
-    height = "36"
-    src = "/build/images/runnable-logo.svg"
-    width = "192"
-  )
+div(
+  ng-if = "shouldShowInfraReadyView()"
+)
+  .grid-block.vertical.modal-backdrop.welcome
+    img.grid-block.shrink.justify-center.logo.img(
+      alt = "Runnable Logo"
+      height = "36"
+      src = "/build/images/runnable-logo.svg"
+      width = "192"
+    )
 
-  img.grid-block.shrink.img.runnabear(
-    height = "130"
-    src = "/build/images/runnabear-waving-3.png"
-    width = "230"
-  )
+    img.grid-block.shrink.img.runnabear(
+      height = "130"
+      src = "/build/images/runnabear-waving-3.png"
+      width = "230"
+    )
 
-  .grid-block.vertical.shrink.modal-dialog.modal-sm.modal-org-select
-    animated-panel-container
-      animated-panel(
-        default = "true"
-        name = "dockLoading"
-      )
-        .fade(
-          ng-class = "{'in': isActivePanel()}"
-          ng-include = "'infrastructureLoadingModalView'"
+    .grid-block.vertical.shrink.modal-dialog.modal-sm.modal-org-select
+      animated-panel-container
+        animated-panel(
+          default = "true"
+          name = "dockLoading"
         )
-      animated-panel(
-        name = "dockLoaded"
-      )
-        .fade(
-          ng-class = "{'in': isActivePanel()}"
-          ng-include = "'infrastructureLoadedModalView'"
+          .fade(
+            ng-class = "{'in': isActivePanel()}"
+            ng-include = "'infrastructureLoadingModalView'"
+          )
+        animated-panel(
+          name = "dockLoaded"
         )
+          .fade(
+            ng-class = "{'in': isActivePanel()}"
+            ng-include = "'infrastructureLoadedModalView'"
+          )
 
-  //- sign out (always) + change team (during grace period)
-  .grid-block.shrink.justify-center.margin-top-sm.margin-bottom-xl.welcome-footer.text-white.weight-light(
-    grace-period-footer
-    hide-choose-org = "true"
-  )
+    //- sign out (always) + change team (during grace period)
+    .grid-block.shrink.justify-center.margin-top-sm.margin-bottom-xl.welcome-footer.text-white.weight-light(
+      grace-period-footer
+      hide-choose-org = "true"
+    )
