@@ -22,6 +22,11 @@ function InfrastructureReadyController(
   var IR = this;
   IR.currentOrg = currentOrg;
 
+  fetchUser()
+    .then(function (user) {
+      IR.user = user;
+    });
+
   IR.getSelectedOrg = function (selectedOrgName) {
     return $q.all([
       fetchGrantedGithubOrgs(),
