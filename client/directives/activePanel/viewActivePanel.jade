@@ -59,7 +59,7 @@
       'orange': instance.status() === 'running',\
       'red': instance.status() === 'crashed'\
     }"
-    ng-if = "$root.featureFlags.testingFeature && instance.attrs.isTesting"
+    ng-if = "$root.featureFlags.testingFeature && instance.attrs.isTesting && instance.getRepoName()"
     ng-include = "'testingToolbarView'"
   )
 
