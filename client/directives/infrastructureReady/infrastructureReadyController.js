@@ -20,6 +20,7 @@ function InfrastructureReadyController(
   loading
 ) {
   var IR = this;
+  window.superIR = IR;
   IR.currentOrg = currentOrg;
 
   fetchUser()

@@ -3,7 +3,7 @@
   p.p.text-center(
     ng-if = "!$root.featureFlags.contingencyPlan"
   ) It’ll only take a few minutes to spin up infrastructure for&#32;
-    strong.weight-strong {{ IR.currentOrg.poppa.attrs.name}}
+    strong.weight-strong {{ IRC.currentOrg.poppa.attrs.name }}
     | . We’ll email you and update this page when it’s ready. Watch a tour while you wait.
 
   iframe.iframe.margin-top-md(
@@ -20,10 +20,10 @@
   p.p.text-center.margin-top-xs(
     ng-if = "$root.featureFlags.contingencyPlan"
   ) We’ll email you at&#32;
-    span {{ IR.user.attrs.email }}
+    span {{ IRC.user.attrs.email }}
     | &#32;as soon we’re done spinning up your infrastructure. Thanks for your patience.
 
   p.small.link.text-center.text-gray.margin-top-md(
     data-event-name = "Clicked 'Wanna use a different org?'"
-    ng-click = "IR.goToOrgSelect()"
+    ng-click = "IRC.goToOrgSelect()"
   ) Wanna use a different team?
