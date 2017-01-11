@@ -7,6 +7,7 @@ function InfrastructureReadyController(
   $interval,
   $q,
   $scope,
+  $state,
   ahaGuide,
   currentOrg,
   createNewSandboxForUserService,
@@ -109,6 +110,10 @@ function InfrastructureReadyController(
   $scope.$on('$destroy', function () {
     IR.cancelPollingForDockCreated();
   });
+
+  IR.goToOrgSelect = function () {
+    $state.go('orgSelect');
+  };
 
   // Init
   IR.createOrCheckDock(currentOrg.poppa.attrs.name);

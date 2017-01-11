@@ -209,8 +209,4 @@ function ControllerApp(
   CA.closeTrialEndingNotification = function () {
     keypather.set($localStorage, 'hasDismissedTrialNotification.' + currentOrg.github.attrs.id, true);
   };
-
-  CA.goToOrgSelect = function () {
-    $state.go('orgSelect');
-  };
 }
