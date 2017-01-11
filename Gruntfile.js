@@ -550,7 +550,11 @@ module.exports = function(grunt) {
     'coverage'
   ]);
   grunt.registerTask('test:e2e', ['bgShell:e2e']);
-  grunt.registerTask('test', ['bgShell:karma']);
+  grunt.registerTask('test', [
+    'jade2js',
+    'jshint:prod',
+    'bgShell:karma'
+  ]);
   grunt.registerTask('default', [
     'bgShell:npm-install',
     'copy',
