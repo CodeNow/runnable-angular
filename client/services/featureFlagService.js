@@ -16,7 +16,6 @@ function featureFlags(
     billing: true,
     cardStatus: false,
     connections: false,
-    containersViewTemplateControls: true,
     contingencyPlan: false,
     demoFlowPhase2: true,
     demoForking: true,
