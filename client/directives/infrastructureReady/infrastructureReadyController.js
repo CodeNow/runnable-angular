@@ -55,9 +55,9 @@ function InfrastructureReadyController(
   };
 
   IR.checkDock = function (selectedOrgName) {
+    loading('chooseOrg', true);
     return IR.getSelectedOrg(selectedOrgName)
       .then(function (selectedOrg) {
-        loading('chooseOrg', true);
         return IR.fetchUpdatedWhitelistedOrg(selectedOrgName);
       })
       .then(function (org) {
