@@ -21,7 +21,6 @@ function featureFlags(
     demoForking: true,
     demoMultiTier: true,
     demoMultiTierBuilding: true,
-    demoMultiTierAddBranch: true,
     demoMultiTierUrl: true,
     demoMultiTierUrlHidden: true,
     demoMultiTierAddRepo: true,
