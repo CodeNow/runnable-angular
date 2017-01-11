@@ -70,7 +70,6 @@ function ChangePaymentFormController(
           });
           if (updatedOrg.isInActivePeriod() || updatedOrg.isInTrial()) {
             $interval.cancel(CPFC.stopPollingForAllowedOrg);
-            console.log('polling');
             handleActiveOrg();
           }
         });
