@@ -202,7 +202,6 @@ describe('DemoAddBranchController'.bold.underline.blue, function () {
       sinon.assert.called(watchOncePromiseStub);
       sinon.assert.called(demoFlowServiceMock.hasAddedBranch);
       sinon.assert.called(demoFlowServiceMock.shouldAddPR);
-      sinon.assert.called(demoFlowServiceMock.endDemoFlow);
       sinon.assert.notCalled(demoFlowServiceMock.submitDemoPR);
       sinon.assert.called($stateMock.go);
       sinon.assert.calledWithExactly($stateMock.go, 

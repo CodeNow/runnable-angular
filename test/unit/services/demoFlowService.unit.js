@@ -7,7 +7,7 @@ var patchOrgMetadataStub;
 var hasAha;
 var hasCompletedDemo;
 
-describe.only('demoFlowService'.bold.underline.blue, function () {
+describe('demoFlowService'.bold.underline.blue, function () {
   var demoFlowService;
   function initState () {
     angular.mock.module('app');
@@ -47,21 +47,6 @@ describe.only('demoFlowService'.bold.underline.blue, function () {
     featureFlags = {
       teamCTA: true
     };
-  });
-
-  describe('ending the demo flow', function () {
-    beforeEach(function () {
-      hasAha = true;
-      hasCompletedDemo = false;
-      initState();
-    });
-
-    it('should end the demo on a demo::completed broadcast', function () {
-      var scope = $rootScope.$new();
-      scope.$emit('demo::completed');
-      $rootScope.$digest();
-      sinon.assert.called(patchOrgMetadataStub);
-    });
   });
 
   describe('#shouldShowTeamCTA', function () {
