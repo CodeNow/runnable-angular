@@ -89,12 +89,6 @@ function serverModalButtonsDirective(
         if ($scope.isPrimaryButtonDisabled()) {
           return;
         }
-        if (SMC.state.dockerComposeFile) {
-        return createNewCluster(SMC.state.repo.attrs.url, 'master', SMC.state.dockerfile.path, SMC.state.instanceName)
-          .then(function () {
-            $state.go('base.instances');
-          });
-        }
         loading($scope.SMC.name, true);
         if (!$scope.SMC.instance) {
           $scope.SMC.state.step = 4;

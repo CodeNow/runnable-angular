@@ -11,6 +11,7 @@ function NewContainerController(
   $timeout,
   ahaGuide,
   createNewBuildAndFetchBranch,
+  createNewCluster,
   createNonRepoInstance,
   currentOrg,
   errs,
@@ -80,6 +81,13 @@ function NewContainerController(
         return servers;
       });
   };
+
+  NCC.getSetupMethodText = function () {
+    if (NCC.state.configurationMethod === 'dockerComposeFile') {
+      return 'Create Cluster';
+    }
+    return 'Next Step: Configuration';
+  }
 
   NCC.changeTab = function (tabName) {
     if (!['repos', 'services'].includes(tabName)) {
@@ -175,8 +183,12 @@ function NewContainerController(
 
   NCC.saveDockerfileMirroring = function () {
     if (NCC.state.configurationMethod === 'dockerComposeFile') {
-      NCC.state.dockerfile = NCC.state.dockerComposeFile;
-      NCC.state.configurationMethod = 'dockerfile'
+      return createNewCluster(NCC.state.repo.attrs.full_name, 'master', NCC.state.dockerComposeFile.path, NCC.state.instanceName)
+        .then(function () {
+          $state.go('base.instances');
+          NCC.close();
+        })
+        .catch(errs.handler)
     }
     return NCC.createBuildAndGoToNewRepoModal(NCC.state.instanceName, NCC.state.repo, NCC.state.dockerfile, NCC.state.configurationMethod);
   };

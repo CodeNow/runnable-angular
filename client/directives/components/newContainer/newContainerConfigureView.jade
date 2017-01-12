@@ -92,7 +92,7 @@ animated-panel-container.modal-servers
           ng-include = "'spinner'"
           ng-if = "$root.isLoading.newContainerSingleRepo"
         )
-        span Next Step: Configuration
+        span {{NCC.getSetupMethodText()}}
 
   animated-panel.grid-block.vertical.modals-rename(
     default = "{{NCC.disableBackButton}}"
