@@ -16,6 +16,6 @@ a.grid-block.shrink.btn.btn-xs.green(
     )
 
 .popover.bottom.in.below-modals.popover-pr-link(
-  ng-if = "$root.featureFlags.demoMultiTierPRLink && showPrCallout()"
+  ng-if = "showPrCallout()"
   ng-include = "'instanceHeaderPRLinkPopoverView'"
 )

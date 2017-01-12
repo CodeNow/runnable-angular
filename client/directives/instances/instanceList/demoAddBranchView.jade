@@ -26,9 +26,10 @@ p.p.commands-wrapper.padding-sm Launch new environments by pushing a branch to G
 
 
 .grid-block.align-start.vertical.padding-sm.padding-top-xs.commands-wrapper.skip-wrapper
+
   //- hide while creating branch
   small.small(
-    ng-if = "!$root.isLoading.creatingNewBranchFromDemo && $root.featureFlags.demoMultiTierPRLink"
+    ng-if = "!$root.isLoading.creatingNewBranchFromDemo"
   ) Or we can create a branch for you using the GitHub API.
 
   button.btn.btn-sm.green.margin-top-xxs(
