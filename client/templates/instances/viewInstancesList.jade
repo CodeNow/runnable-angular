@@ -51,7 +51,7 @@
         //- div instead of button so safari doesn’t get weird with alignment
         .grid-block.align-center.shrink.btn.btn-xxs.white(
           ng-class = "{'active': state.active}"
-          ng-if = "$root.featureFlags.containersViewTemplateControls && !CIS.currentOrg.isPersonalAccount()"
+          ng-if = "!CIS.currentOrg.isPersonalAccount()"
           pop-over
           pop-over-options = "{\"top\":-30,\"left\":99}"
           pop-over-template = "templateMenuPopoverView"
@@ -93,7 +93,7 @@
           )
 
       .grid-block.vertical.shrink.well.empty.text-center(
-        ng-if = "$root.featureFlags.containersViewTemplateControls && (!$root.featureFlags.demoMultiTier || !CIS.shouldShowDemoSelector()) && !CIS.getFilteredInstanceList().length && !CIS.searchBranches"
+        ng-if = "(!$root.featureFlags.demoMultiTier || !CIS.shouldShowDemoSelector()) && !CIS.getFilteredInstanceList().length && !CIS.searchBranches"
       ) 👆
         br
         .small {{$root.featureFlags.demoMultiTier ? 'First, use the button above to create your first service.' : 'You don’t have any services. Click the button above to create one.'}}

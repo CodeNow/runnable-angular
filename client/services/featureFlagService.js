@@ -13,14 +13,10 @@ function featureFlags(
     autoIsolation: false,
     autoIsolationSetup: false,
     backup: false,
-    blankDockerfile: true, // allows users to skip the verification flow
     billing: true,
     cardStatus: false,
     connections: false,
-    configTerminal: true, // flag for terminal in config view
-    containersViewTemplateControls: true,
     contingencyPlan: false,
-    demoFlowPhase2: true,
     demoMultiTier: true,
     demoMultiTierBuilding: true,
     demoMultiTierAddBranch: true,
