@@ -141,7 +141,8 @@ function ChooseOrganizationModalController(
           $state.go('base.instances', {
             userName: selectedOrgName
           }, { reload: true });
-        });
+        })
+        .catch(errs.handler);
     }
   };
 
