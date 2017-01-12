@@ -229,7 +229,7 @@ describe('InfrastructureReadyController', function () {
     });
   });
 
-  describe.only('#pollForDockCreated', function () {
+  describe('#pollForDockCreated', function () {
     beforeEach(function () {
       IRC.cancelPollingForDockCreated();
       sinon.stub(IRC, 'handleDockCreated').returns();
