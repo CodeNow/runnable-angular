@@ -1890,7 +1890,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
     });
   });
 
-  describe.only('#waitForWhitelistExist', function () {
+  describe('#waitForWhitelistExist', function () {
     var fetchWhitelistForDockCreatedStub;
     var userWhiteListMock;
     var waitForWhitelistExist;
