@@ -135,16 +135,23 @@ function fetchWhitelistForDockCreated(
  * @return {Promise} - Requested organization
  */
 function waitForWhitelistExist(
+  $q,
+  $timeout,
   fetchWhitelistForDockCreated
 ) {
-  return function _assertWhiteListExists(organizationName) {
+  return function _assertWhiteListExists(organizationName, maxTries) {
     return fetchWhitelistForDockCreated()
       .then(function (orgCollection) {
         var org = orgCollection.find(function (userWhiteListModel) {
           return userWhiteListModel.attrs.name === organizationName;
         });
         if (!org) {
-          return _assertWhiteListExists(organizationName);
+          return $timeout(function () {
+            if (maxTries <= 1) {
+              return $q.reject(new Error('Operation timed out'));
+            }
+            return _assertWhiteListExists(organizationName, (maxTries - 1) || 50);
+          }, 300);
         }
         return org;
       });

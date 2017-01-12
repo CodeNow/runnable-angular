@@ -50,7 +50,8 @@ function InfrastructureReadyController(
 
   IR.matchWhitelistedOrgByName = function (whiteListedOrgs, selectedOrgName) {
     return whiteListedOrgs.find(function (org) {
-      return selectedOrgName.toLowerCase() === org.attrs.name.toLowerCase();
+      var name = org.attrs.name || org.attrs.login;
+      return selectedOrgName.toLowerCase() === name.toLowerCase();
     });
   };
 

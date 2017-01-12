@@ -1889,4 +1889,82 @@ describe('serviceFetch'.bold.underline.blue, function () {
       $rootScope.$digest();
     });
   });
+
+  describe.only('#waitForWhitelistExist', function () {
+    var fetchWhitelistForDockCreatedStub;
+    var userWhiteListMock;
+    var waitForWhitelistExist;
+    var $rootScope;
+    var $timeout;
+
+    beforeEach(function () {
+      userWhiteListMock = [
+        { attrs: { name: 'a' } },
+        { attrs: { name: 'b' } }
+      ];
+      angular.mock.module('app');
+      angular.mock.module(function ($provide) {
+        $provide.factory('fetchWhitelistForDockCreated', function ($q) {
+          fetchWhitelistForDockCreatedStub = sinon.stub().returns($q.when(userWhiteListMock));
+          return fetchWhitelistForDockCreatedStub;
+        });
+      });
+      angular.mock.inject(function (
+        _waitForWhitelistExist_,
+        _$rootScope_,
+        _$timeout_
+      ) {
+        waitForWhitelistExist = _waitForWhitelistExist_;
+        $rootScope = _$rootScope_;
+        $timeout = _$timeout_;
+      });
+    });
+
+    it('should fetch the whitelisted orgs', function () {
+      waitForWhitelistExist('a');
+      $rootScope.$digest();
+
+      sinon.assert.calledOnce(fetchWhitelistForDockCreatedStub);
+    });
+
+    it('should return the org if found', function () {
+      waitForWhitelistExist('a')
+        .then(function (org) {
+          expect(org.attrs.name).to.equal('a');
+        });
+      $rootScope.$digest();
+    });
+
+    it('should try again if the org is not found', function () {
+      waitForWhitelistExist('c', 2)
+        .then(function (org) {
+          expect(org.attrs.name).to.equal('c');
+        });
+
+      $rootScope.$digest();
+      userWhiteListMock.push({ attrs: { name: 'b' } });
+      sinon.assert.calledOnce(fetchWhitelistForDockCreatedStub);
+
+      $timeout.flush();
+      $rootScope.$digest();
+
+      sinon.assert.calledTwice(fetchWhitelistForDockCreatedStub);
+    });
+
+    it('should return an error if never found', function () {
+      waitForWhitelistExist('c', 2)
+        .catch(function (err) {
+          expect(err).to.exist;
+        });
+
+      $rootScope.$digest();
+      userWhiteListMock.push({ attrs: { name: 'b' } });
+      sinon.assert.calledOnce(fetchWhitelistForDockCreatedStub);
+
+      $timeout.flush();
+      $rootScope.$digest();
+
+      sinon.assert.calledTwice(fetchWhitelistForDockCreatedStub);
+    });
+  });
 });
