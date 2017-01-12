@@ -229,14 +229,15 @@ describe('InfrastructureReadyController', function () {
     });
   });
 
-  describe('pollForDockCreated', function () {
+  describe.only('#pollForDockCreated', function () {
     beforeEach(function () {
       IRC.cancelPollingForDockCreated();
-      sinon.stub(IRC, 'cancelPollingForDockCreated').returns();
-      sinon.stub(IRC, 'fetchUpdatedWhitelistedOrg').returns($q.when(codenowWhitelistedOrg));
+      sinon.stub(IRC, 'handleDockCreated').returns();
+      sinon.stub(IRC, 'fetchUpdatedWhitelistedOrg');
+      IRC.fetchUpdatedWhitelistedOrg.returns($q.when(codenowWhitelistedOrg));
     });
     afterEach(function () {
-      IRC.cancelPollingForDockCreated.restore();
+      IRC.handleDockCreated.restore();
       IRC.fetchUpdatedWhitelistedOrg.restore();
     });
 
@@ -245,17 +246,14 @@ describe('InfrastructureReadyController', function () {
       IRC.pollForDockCreated(createdDockOrg, 'name');
       $rootScope.$digest();
 
-      sinon.assert.calledOnce(stubGoToPanel);
-      sinon.assert.calledWith(stubGoToPanel, sinon.match.object, 'dockLoaded');
-      sinon.assert.calledOnce(IRC.cancelPollingForDockCreated);
+      sinon.assert.calledOnce(IRC.handleDockCreated);
     });
 
     it('should go to dockLoading, then poll for update', function () {
       stubGoToPanel.reset();
       IRC.pollForDockCreated(codenowWhitelistedOrg, 'name', stubGoToPanel);
 
-      sinon.assert.calledOnce(IRC.cancelPollingForDockCreated);
-      sinon.assert.calledOnce(stubGoToPanel);
+      sinon.assert.notCalled(IRC.handleDockCreated);
       sinon.assert.calledOnce(stubGoToPanel, sinon.match.object, 'dockLoading');
       expect(IRC.pollForDockCreatedPromise).to.be.truthy;
 
@@ -263,9 +261,7 @@ describe('InfrastructureReadyController', function () {
       $interval.flush(1000);
       $rootScope.$digest();
 
-      sinon.assert.calledTwice(IRC.cancelPollingForDockCreated);
-      sinon.assert.calledTwice(stubGoToPanel);
-      sinon.assert.calledWith(stubGoToPanel, sinon.match.object, 'dockLoaded');
+      sinon.assert.calledOnce(IRC.handleDockCreated);
     });
   });
 
