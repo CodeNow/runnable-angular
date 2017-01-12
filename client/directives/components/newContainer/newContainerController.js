@@ -7,6 +7,7 @@ function NewContainerController(
   $q,
   $rootScope,
   $scope,
+  $state,
   $timeout,
   ahaGuide,
   createNewBuildAndFetchBranch,
@@ -173,6 +174,10 @@ function NewContainerController(
   };
 
   NCC.saveDockerfileMirroring = function () {
+    if (NCC.state.configurationMethod === 'dockerComposeFile') {
+      NCC.state.dockerfile = NCC.state.dockerComposeFile;
+      NCC.state.configurationMethod = 'dockerfile'
+    }
     return NCC.createBuildAndGoToNewRepoModal(NCC.state.instanceName, NCC.state.repo, NCC.state.dockerfile, NCC.state.configurationMethod);
   };
 
