@@ -1,12 +1,10 @@
-.arrow(
-  ng-class = "{'gray': $root.featureFlags.demoProgress}"
+.arrow.gray(
   style = "left: auto; right: 21px;"
 )
 .grid-block.vertical
   .grid-block.align-center.justify-justified.demo-progress(
     demo-progress-bar
     demo-step = 3
-    ng-if = "$root.featureFlags.demoProgress"
   )
   .grid-block.padding-sm
     .grid-block.shrink.margin-right-xs.h1 ✨

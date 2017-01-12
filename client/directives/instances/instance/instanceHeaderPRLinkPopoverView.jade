@@ -1,11 +1,9 @@
-.arrow(
-  ng-class = "{'gray': $root.featureFlags.demoProgress}"
-)
+.arrow.gray
+
 .grid-block.vertical
   .grid-block.align-center.justify-justified.demo-progress(
     demo-progress-bar
     demo-step = 5
-    ng-if = "$root.featureFlags.demoProgress"
   )
   img.grid-block.shrink.img(
     src = "/build/images/runnabot-preview.svg"
