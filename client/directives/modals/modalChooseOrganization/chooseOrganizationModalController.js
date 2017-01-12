@@ -3,7 +3,6 @@
 require('app')
   .controller('ChooseOrganizationModalController', ChooseOrganizationModalController);
 function ChooseOrganizationModalController(
-  $http,
   $interval,
   $q,
   $rootScope,
