@@ -73,7 +73,7 @@
   )
 
   .popover.bottom.in.popover-url.below-modals(
-    ng-if = "$root.featureFlags.demoMultiTierUrl && showUrlCallout()"
+    ng-if = "showUrlCallout()"
     ng-include = "'containerUrlPopoverView'"
   )
 

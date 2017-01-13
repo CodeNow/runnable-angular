@@ -25,7 +25,6 @@
             'badge-orange': SEMC.currentOrg.poppa.isInTrial() && !SEMC.currentOrg.poppa.attrs.hasPaymentMethod,\
           }"
           ng-click = "SEMC.currentTab = 'billing'"
-          ng-show = "$root.featureFlags.billing"
         )
           svg.iconnables.grid-content
             use(

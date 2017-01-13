@@ -200,8 +200,7 @@ function ControllerApp(
   };
 
   CA.showTrialEndingNotification = function () {
-    return $rootScope.featureFlags.billing &&
-      currentOrg.poppa.isInTrial() &&
+    return currentOrg.poppa.isInTrial() &&
       currentOrg.poppa.trialDaysRemaining() <= 3 &&
       !currentOrg.poppa.attrs.hasPaymentMethod && !keypather.get($localStorage, 'hasDismissedTrialNotification.' + currentOrg.github.attrs.id);
   };
