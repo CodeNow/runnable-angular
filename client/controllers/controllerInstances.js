@@ -221,11 +221,6 @@ function ControllerInstances(
         instanceName: instanceName
       });
     }
-    if (!featureFlags.flags.containersViewTemplateControls) {
-      return $state.go('base.config', {
-        userName: CIS.userName
-      }, {location: 'replace'});
-    }
   };
 
   this.filterMatchedAnything = function () {

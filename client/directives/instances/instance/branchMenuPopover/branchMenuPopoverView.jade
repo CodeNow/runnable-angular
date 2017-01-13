@@ -3,13 +3,13 @@
   ng-style = "popoverStyle.getStyle(CIS.instanceBranches)"
 )
   .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
-    ng-if = "$root.featureFlags.aha && CIS.instanceBranches.length && CIS.isAddingFirstBranch()"
+    ng-if = "CIS.instanceBranches.length && CIS.isAddingFirstBranch()"
     aha-guide
     step-index = 2
     sub-step = "selectBranch"
   )
   .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
-    ng-if = "$root.featureFlags.aha && CIS.instanceBranches && !CIS.instanceBranches.length && CIS.isAddingFirstBranch()"
+    ng-if = "CIS.instanceBranches && !CIS.instanceBranches.length && CIS.isAddingFirstBranch()"
     aha-guide
     step-index = 2
     sub-step = "noBranches"

@@ -1,10 +1,10 @@
 .padding-md.infrastructure-view
   //- dock spinning up
-  p.p.text-center.weight-light(
+  p.p.text-center(
     ng-if = "!$root.featureFlags.contingencyPlan"
   ) It’ll only take a few minutes to spin up infrastructure for&#32;
     strong.weight-strong {{COMC.selectedOrgName}}
-    | . We’ll email you and update this page when it’s ready. Watch a tour while you wait.
+    | . We’ll email you and update this page when it’s ready. Watch an overview while you wait.
 
   iframe.iframe.margin-top-md(
     allowfullscreen
@@ -14,10 +14,10 @@
     width = "390"
   )
 
-  p.p.text-center.weight-light(
+  p.p.text-center(
     ng-if = "$root.featureFlags.contingencyPlan"
   ) We’re running slower than normal due to high demand.
-  p.p.text-center.weight-light.margin-top-xs(
+  p.p.text-center.margin-top-xs(
     ng-if = "$root.featureFlags.contingencyPlan"
   ) We’ll email you at&#32;
     span {{ COMC.user.attrs.email }}

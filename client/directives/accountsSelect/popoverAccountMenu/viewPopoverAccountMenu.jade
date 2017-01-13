@@ -95,19 +95,8 @@
               ) Sign Out
         .grid-block.vertical.align-center.justify-center.popover-content.team-cta(
           ng-if = "actions.shouldShowTeamCTA()"
+          ng-include = "'teamCTAView'"
         )
-          img.img.margin-bottom-sm(
-            height = "90"
-            src = "/build/images/runnabear-team.svg"
-            width = "90"
-          )
-          p.p.strong.text-center Don’t leave your team on the sidelines.
-          p.p.weight-light.text-center Switch to a GitHub org to create environments for your team’s code.
-          button.btn.btn-sm.green.margin-top-xs(
-            ng-click = "actions.clickedChangeTeam()"
-            ui-sref = "orgSelect"
-            ui-sref-opts = "{reload: true}"
-          ) Change Teams
 
     animated-panel(
       name = "featureFlags"

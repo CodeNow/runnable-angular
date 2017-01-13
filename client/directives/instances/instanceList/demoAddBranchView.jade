@@ -1,7 +1,14 @@
-p.padding-sm Now launch a new environment by pushing a branch to GitHub.
+.grid-block.align-center.justify-justified.demo-progress(
+  demo-progress-bar
+  demo-step = 4
+  ng-if = "$root.featureFlags.demoProgress"
+)
+
+p.p.commands-wrapper.padding-sm Launch new environments by pushing a branch to GitHub.
+
 .commands-wrapper
   .small.padding-top-sm.padding-left-sm.padding-right-sm
-    | Try in your terminal:
+    | Try it in your terminal:
     //- tooltip should work like the one on the Copy button for container URLs
     button.btn.btn-xxs.btn-copy.float-right(
       clipboard
@@ -14,12 +21,11 @@ p.padding-sm Now launch a new environment by pushing a branch to GitHub.
       tooltip-eval="DBC.clipboardText"
       tooltip-options = "{\"class\":\"bottom no-arrow\",\"right\":-16,\"top\":27}"
     ) Copy
-
   pre.monospace.padding-sm.padding-bottom-xs
     {{DBC.getBranchCloneCopyText()}}
 
 
-.grid-block.align-start.vertical.padding-sm.padding-top-xs.skip-wrapper
+.grid-block.align-start.vertical.padding-sm.padding-top-xs.commands-wrapper.skip-wrapper
   //- hide while creating branch
   small.small(
     ng-if = "!$root.isLoading.creatingNewBranchFromDemo && $root.featureFlags.demoMultiTierPRLink"

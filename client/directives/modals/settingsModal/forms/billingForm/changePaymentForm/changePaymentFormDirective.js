@@ -13,6 +13,7 @@ function changePaymentForm(
     scope: {
       back: '=?',
       cancel: '=?',
+      close: '=?',
       save: '=',
       updating: '='
     },

@@ -7,21 +7,15 @@ function featureFlags(
   $localStorage
 ) {
   var defaultFeatureFlags = {
-    aha: true,
     ahaBranchUrlStep: false,
     allowIsolatedUpdate: false,
     autoDeployError: false,
     autoIsolation: false,
     autoIsolationSetup: false,
     backup: false,
-    blankDockerfile: true, // allows users to skip the verification flow
     cardStatus: false,
     connections: false,
-    configTerminal: true, // flag for terminal in config view
-    containersViewTemplateControls: true,
     contingencyPlan: false,
-    demoFlowPhase2: true,
-    demoForking: true,
     demoMultiTier: true,
     demoMultiTierBuilding: true,
     demoMultiTierAddBranch: true,
@@ -29,6 +23,7 @@ function featureFlags(
     demoMultiTierUrlHidden: true,
     demoMultiTierAddRepo: true,
     demoMultiTierPRLink: true,
+    demoProgress: true,
     demoProject: true,
     dockerfileMirroringMultiple: false,
     editAnyInstance: false,
