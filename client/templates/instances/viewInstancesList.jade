@@ -130,13 +130,13 @@
   .grid-block.vertical.popover.in.popover-demo.demo-transition.js-animate(
     demo-add-branch
     instance = "CIS.getDemoInstance()"
-    ng-if = "$root.featureFlags.demoMultiTierAddBranch && CIS.showDemoAddBranchView()"
+    ng-if = "CIS.showDemoAddBranchView()"
     user-name = "CIS.userName"
   )
 
   //- wraps all branch clusters — hide until a branch has been added
   .demo-transition.js-animate(
-    ng-if = "!CIS.isInDemoFlow() || ($root.featureFlags.demoMultiTierAddBranch && !CIS.showDemoAddBranchView())"
+    ng-if = "!CIS.isInDemoFlow() || !CIS.showDemoAddBranchView()"
   )
 
     //- branch clusters
