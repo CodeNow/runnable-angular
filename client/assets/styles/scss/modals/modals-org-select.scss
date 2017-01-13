@@ -78,20 +78,6 @@
     }
   }
 
-  .infrastructure-view {
-
-    > .padding-md {
-      @include media(xs) {
-        padding-left: $sm;
-        padding-right: $sm;
-      }
-    }
-
-    .weight-strong {
-      word-break: break-word;
-    }
-  }
-
   .icons-link-external {
     height: 9px;
     top: 1px;

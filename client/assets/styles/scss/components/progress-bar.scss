@@ -1,0 +1,22 @@
+.progress-bar {
+  background: $gray-lighter;
+  border-radius: 6px;
+  height: 6px;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+
+  &::before {
+    animation-fill-mode: forwards;
+    animation-name: progress-bar;
+    animation-timing-function: linear;
+    background: linear-gradient(90deg,$purple-light,$blue);
+    border-radius: 6px;
+    content: '';
+    display: block;
+    height: 6px;
+    position: absolute;
+    transform: translate3d(-97%,0,0);
+    width: 100%;
+  }
+}

@@ -1,29 +1,36 @@
+.infrastructure-load-header.padding-md.text-center
+  p.p.text-gray Spinning up your infrastructure.
+    br
+    | This may take up to 3 minutes.
+  .progress-bar.margin-top-sm
 .padding-md.infrastructure-view
-  //- dock spinning up
-  p.p.text-center(
-    ng-if = "!$root.featureFlags.contingencyPlan"
-  ) It’ll only take a few minutes to spin up infrastructure for&#32;
-    strong.weight-strong {{COMC.selectedOrgName}}
-    | . We’ll email you and update this page when it’s ready. Watch an overview while you wait.
+  //- p.p Up next…
+  .grid-block
+    img.grid-block.shrink(
+      height = "60"
+      src = "/build/images/infrastructure-load/icons-stacks.svg"
+      width = "60"
+    )
+    .grid-block.vertical.margin-left-sm
+      p.p.weight-strong Start by choosing your stack.
+      p.small Your containers will build, and in a few minutes you‘ll have a complete environment.
 
-  iframe.iframe.margin-top-md(
-    allowfullscreen
-    frameborder = "0"
-    height = "219"
-    src = "https://www.youtube.com/embed/bZNbWoLcZq4?showinfo=0"
-    width = "390"
-  )
+  .grid-block.margin-top-md
+    img.grid-block.shrink(
+      height = "60"
+      src = "/build/images/infrastructure-load/icons-branches.svg"
+      width = "60"
+    )
+    .grid-block.vertical.margin-left-sm
+      p.p.weight-strong Then launch more environments.
+      p.small Every branch will automatically have a fresh environment for you to test out changes.
 
-  p.p.text-center(
-    ng-if = "$root.featureFlags.contingencyPlan"
-  ) We’re running slower than normal due to high demand.
-  p.p.text-center.margin-top-xs(
-    ng-if = "$root.featureFlags.contingencyPlan"
-  ) We’ll email you at&#32;
-    span {{ COMC.user.attrs.email }}
-    | &#32;as soon we’re done spinning up your infrastructure. Thanks for your patience.
-
-  p.small.link.text-center.text-gray.margin-top-md(
-    data-event-name = "Clicked 'Wanna use a different org?'"
-    ng-click = "goToPanel('orgSelection', 'back')"
-  ) Wanna use a different team?
+  .grid-block.margin-top-md
+    img.grid-block.shrink(
+      height = "60"
+      src = "/build/images/infrastructure-load/icons-github-bot.svg"
+      width = "60"
+    )
+    .grid-block.vertical.margin-left-sm
+      p.p.weight-strong And work from GitHub.
+      p.small Our bot shares links to your environments and results from automated tests are posted on your pull requests.

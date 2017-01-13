@@ -1,0 +1,24 @@
+.infrastructure-load-header {
+  border-bottom: 1px solid $gray-lighter;
+
+  .progress-bar::before {
+    animation-duration: 180s;
+  }
+}
+
+.infrastructure-view {
+  background: $white;
+  border-radius: 0 0 $input-border-radius-lg $input-border-radius-lg;
+
+  > .padding-md {
+    @include media(xs) {
+      padding-left: $sm;
+      padding-right: $sm;
+    }
+  }
+
+  .p {
+    color: $gray-dark;
+    word-break: break-word;
+  }
+}
