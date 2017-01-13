@@ -205,7 +205,7 @@
         instance = "childInstance"
         instance-navigation
         master-instance = "masterInstance"
-        ng-repeat = "childInstance in CIS.getSortedMasterInstanceChildren(masterInstance)"
+        ng-repeat = "childInstance in CIS.getSortedMasterInstanceChildren(masterInstance) track by childInstance.attrs.name"
         ng-show = "CIS.shouldShowChild(childInstance)"
         ng-class = "childInstance.attrs.isTesting && !childInstance.attrs.masterPod ? 'testing-container' : ''"
       )
