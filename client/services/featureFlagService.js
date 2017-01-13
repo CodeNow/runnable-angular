@@ -13,7 +13,6 @@ function featureFlags(
     autoIsolation: false,
     autoIsolationSetup: false,
     backup: false,
-    billing: true,
     cardStatus: false,
     connections: false,
     contingencyPlan: false,
