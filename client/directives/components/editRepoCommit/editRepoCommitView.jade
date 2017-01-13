@@ -1,5 +1,6 @@
 //- repository
 .btn.gray.btn-repository.clearfix(
+  data-event-name = "Clicked: Commit Tray"
   ng-class = "{\
     'error': $root.featureFlags.autoDeployError && ERCC.isLatestCommitDeployed && ERCC.instance.locked,\
     'grid-block align-center justify-center': !ERCC.activeCommit.attrs.commit.message\

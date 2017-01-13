@@ -7,11 +7,11 @@
   )
     .grid-block
       .slide.slide-out(
-        ng-class = "{'out': $root.featureFlags.demoForking && $root.isLoading.startDemo}"
+        ng-class = "{'out': $root.isLoading.startDemo}"
         setup-demo-guide
       )
       .grid-block.justify-center.vertical.progress-wrapper.slide.slide-in.js-animate(
-        ng-if = "$root.featureFlags.demoForking && $root.isLoading.startDemo"
+        ng-if = "$root.isLoading.startDemo"
       )
         p.text-center.text-gray.shrink.p.margin-bottom-sm Loading…
         p.text-center.text-gray.shrink.p.margin-bottom-sm This is taking longer than
@@ -205,7 +205,7 @@
         instance = "childInstance"
         instance-navigation
         master-instance = "masterInstance"
-        ng-repeat = "childInstance in CIS.getSortedMasterInstanceChildren(masterInstance)"
+        ng-repeat = "childInstance in CIS.getSortedMasterInstanceChildren(masterInstance) track by childInstance.attrs.name"
         ng-show = "CIS.shouldShowChild(childInstance)"
         ng-class = "childInstance.attrs.isTesting && !childInstance.attrs.masterPod ? 'testing-container' : ''"
       )
