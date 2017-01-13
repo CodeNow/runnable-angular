@@ -17,7 +17,6 @@ function featureFlags(
     connections: false,
     contingencyPlan: false,
     demoMultiTier: true,
-    demoMultiTierBuilding: true,
     demoMultiTierAddBranch: true,
     demoMultiTierUrl: true,
     demoMultiTierUrlHidden: true,
