@@ -85,8 +85,7 @@ function DemoAddBranchController(
     });
 
   DBC.shouldUseBranchForPR = function () {
-    return demoFlowService.shouldAddPR() &&
-      featureFlags.flags.demoMultiTierPRLink;
+    return demoFlowService.shouldAddPR();
   };
 
   DBC.getBranchName = function () {

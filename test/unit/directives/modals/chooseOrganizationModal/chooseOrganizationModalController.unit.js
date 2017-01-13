@@ -194,16 +194,26 @@ describe('ChooseOrganizationModalController', function () {
   describe('Personal accounts', function () {
     it('should set true if there is one account', function () {
       initialize();
+      mockGrantedOrgs.models = [];
+      mockWhitelistedOrgs = [];
       setup();
       expect(COMC.personalAccountOnly).to.equal(true);
     });
-    it('should set false if there is more than one account', function () {
+    it('should set false if there is more than one whitelisted account', function () {
       initialize();
-      mockWhitelistedOrgs = [codenowWhitelistedOrg, 0]
+      mockGrantedOrgs.models = [];
+      mockWhitelistedOrgs = [codenowWhitelistedOrg];
       setup();
       expect(COMC.personalAccountOnly).to.equal(false);
     });
-  })
+    it('should set false if there is more than one org with grantes access', function () {
+      initialize();
+      mockGrantedOrgs.models = [{ login: 'wow' }];
+      mockWhitelistedOrgs = [];
+      setup();
+      expect(COMC.personalAccountOnly).to.equal(false);
+    });
+  });
 
   describe('Polling stuff', function () {
     beforeEach(function () {

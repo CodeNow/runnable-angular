@@ -31,7 +31,7 @@ function serverModalButtonsDirective(
         //   willRebuildOnSave
         //   disableSave
 
-        if ($rootScope.featureFlags.demoFlowPhase2 && $scope.SMC.isDemo) {
+        if ($scope.SMC.isDemo) {
           // Demo Mode
           return {
             demoSave: true,

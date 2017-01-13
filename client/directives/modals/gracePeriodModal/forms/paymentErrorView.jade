@@ -7,26 +7,23 @@
   )
   img.grid-block.shrink.img.runnabear(
     height = "130"
-    src = "/build/images/runnabear-waving-3.png"
+    src = "/build/images/errorbear-peeking.png"
     width = "230"
   )
   .grid-block.vertical.shrink.modal-dialog.modal-sm
     header.modal-header
-      h1.modal-heading Welcome back!
+      h1.modal-heading Payment Error
     section.modal-body
-      p.p.padding-sm.weight-light We’ve temporarily&#32;
-        span(
-          title = "paws’d"
-        ) paused&#32;
-        | your environments due to inactivity. Give us the go ahead and we’ll get you back up and running.
+      p.p.padding-sm.weight-light Sorry, we couldn’t process your payment due to an issue on our end. Please get in touch with us and we’ll fix it right away.
     footer.grid-block.vertical.modal-footer
+      //- this should say "Help! This thing won’t process my payment."
       button.grid-content.btn.btn-md.green.icons-intercom(
         ng-click = "$root.$broadcast('intercom::pawsd')"
       ) Chat Now
       a.grid-content.link.text-gray.text-center.margin-bottom-xs(
-        href = "mailto:support@runnable.com?subject=I’m back!&body=I’d like to continue using Runnable. Please get my environments back up and running."
+        href = "mailto:support@runnable.com?subject=Payment failed to process&body=Help! I added my card to Runnable, but it won’t process my payment."
       ) Email Support
   .grid-block.shrink.justify-center.margin-top-sm.margin-bottom-xl.welcome-footer.text-white.weight-light(
-    grace-period-footer
     close = "WBC.close"
+    grace-period-footer
   )
