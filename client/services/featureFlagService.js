@@ -17,7 +17,6 @@ function featureFlags(
     connections: false,
     contingencyPlan: false,
     demoMultiTier: true,
-    demoMultiTierAddRepo: true,
     demoMultiTierPRLink: true,
     demoProgress: true,
     demoProject: true,
