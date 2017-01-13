@@ -17,7 +17,6 @@ function featureFlags(
     connections: false,
     contingencyPlan: false,
     demoMultiTier: true,
-    demoMultiTierPRLink: true,
     demoProgress: true,
     demoProject: true,
     dockerfileMirroringMultiple: false,
