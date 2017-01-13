@@ -32,7 +32,7 @@
         ng-if = "instance.getBranchName()"
       ) {{instance.getBranchName()}}
     .grid-block.shrink.relative.noscroll(
-      ng-if = "$root.featureFlags.demoMultiTierPRLink && pr"
+      ng-if = "!!pr"
       ng-include = "'instanceHeaderPRLinkView'"
     )
 
@@ -73,7 +73,7 @@
   )
 
   .popover.bottom.in.popover-url.below-modals(
-    ng-if = "$root.featureFlags.demoMultiTierUrl && showUrlCallout()"
+    ng-if = "showUrlCallout()"
     ng-include = "'containerUrlPopoverView'"
   )
 

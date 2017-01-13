@@ -13,19 +13,10 @@ function featureFlags(
     autoIsolation: false,
     autoIsolationSetup: false,
     backup: false,
-    billing: true,
     cardStatus: false,
     connections: false,
     contingencyPlan: false,
-    demoFlowPhase2: true,
-    demoForking: true,
     demoMultiTier: true,
-    demoMultiTierBuilding: true,
-    demoMultiTierAddBranch: true,
-    demoMultiTierUrl: true,
-    demoMultiTierUrlHidden: true,
-    demoMultiTierAddRepo: true,
-    demoMultiTierPRLink: true,
     demoProject: true,
     dockerfileMirroringMultiple: false,
     editAnyInstance: false,
@@ -47,7 +38,6 @@ function featureFlags(
     newUserPrompt: false, // modal for new users
     nextPayment: false, // show the next payment date under payment summary
     noBuildLogs: true,
-    noOrgs: false, // if no organizations have been authorized
     optionsInModal: false, // allows delete in modal
     personalAccounts: true, // allows users with personal accounts to create Runnable teams
     personalAccountsPhase2: true,
