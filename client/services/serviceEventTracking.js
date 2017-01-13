@@ -270,6 +270,36 @@ function EventTracking(
   };
 
   /**
+   * An auto-deploy toggle event
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.autoDeployToggled = function (state) {
+    var eventName = 'Toggled Auto-deploy';
+
+    ETS._mixpanel('track', eventName, {
+      state: state
+    });
+    return ETS;
+  };
+
+  /**
+   * A commit select event
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.selectCommit = function (latest) {
+    var eventName = 'Select Commit';
+
+    ETS._mixpanel('track', eventName, {
+      latest: latest
+    });
+    return ETS;
+  };
+
+  /**
    * Record user visit to states
    * Reports to:
    *   - mixpanel

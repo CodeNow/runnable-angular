@@ -175,7 +175,6 @@ describe('serverModalButtonsDirective'.bold.underline.blue, function () {
   describe('getDisplayFlag', function () {
     describe('when in demo mode', function () {
       beforeEach(function () {
-        $rootScope.featureFlags.demoFlowPhase2 = true;
         $elScope.SMC.isDemo = true;
         $elScope.$digest();
       });

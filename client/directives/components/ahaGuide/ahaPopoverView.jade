@@ -4,9 +4,3 @@
     ng-include = "'ahaGuideView'"
     ng-init = "showAhaNavPopover = true;"
   )
-.grid-block.justify-right.popover-footer(
-  ng-if = "!$root.featureFlags.demoFlowPhase2"
-)
-  button.grid-block.shrink.btn.btn-sm.green(
-    ng-click = "CA.showAhaNavPopover = false"
-  ) Got It
