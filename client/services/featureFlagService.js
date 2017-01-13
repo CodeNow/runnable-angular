@@ -17,7 +17,6 @@ function featureFlags(
     cardStatus: false,
     connections: false,
     contingencyPlan: false,
-    demoForking: true,
     demoMultiTier: true,
     demoMultiTierBuilding: true,
     demoMultiTierAddBranch: true,
