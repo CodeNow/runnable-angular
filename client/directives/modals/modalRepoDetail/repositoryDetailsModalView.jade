@@ -28,6 +28,7 @@
         ng-click = "RDMC.close()"
       ) Cancel
       button.btn.btn-md.green.float-right(
+        data-event-name = "Clicked: Commit Modal Save/Build"
         ng-click = "RDMC.updateInstance()"
         ng-disabled = "!RDMC.hasCommitBeenUpdated() && !RDMC.hasLockedBeenUpdated()"
       ) {{ RDMC.hasCommitBeenUpdated() ? 'Save and Build' : 'Save' }}
