@@ -2,9 +2,11 @@
 header.modal-header(
   ng-if = "COMC.allAccounts.models.length > 0"
 )
+
+  | grantAccess head buttercup
+
   svg.iconnables.icons-arrow-backward(
     ng-click = "goToPanel('orgSelection', 'back')"
-    ng-if = "$root.featureFlags.demoProject"
   )
     use(
       xlink:href = "#icons-arrow-down"
@@ -47,6 +49,9 @@ header.grid-block.justify-center.align-center.modal-header.nav(
 footer.grid-block.align-center.vertical.footer.padding-md(
   ng-if = "!$root.featureFlags.personalAccounts"
 )
+
+  |grantAccess foot buttercup
+
   //- when orgs exist
   p.grid-block.shrink.p.weight-light.text-gray(
     ng-if = "COMC.allAccounts.models.length > 0"
@@ -60,7 +65,6 @@ footer.grid-block.align-center.vertical.footer.padding-md(
   a.grid-block.shrink.align-center.btn-skip.text-gray.weight-light.link(
     data-event-name = "Demo: Clicked Skip"
     ng-click = "COMC.isInDemoFlow = true; goToPanel('createOrg')"
-    ng-if = "$root.featureFlags.demoProject"
   ) Try a Demo
     svg.iconnables.icons-arrow-forward
       use(

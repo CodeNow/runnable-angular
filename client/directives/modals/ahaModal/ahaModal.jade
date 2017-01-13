@@ -1,10 +1,5 @@
 .modal-backdrop
-  .modal-dialog.modal-aha(
-    ng-class = "{\
-      'modal-lg': $root.featureFlags.demoProject,\
-      'modal-md': !$root.featureFlags.demoProject\
-    }"
-  )
+  .modal-dialog.modal-aha.modal-lg
     header.modal-header
       h1.modal-heading(
         ng-if = "!AMC.isSettingUpRunnabot()"
@@ -37,21 +32,9 @@
         )
 
     .modal-body
-      //- if demo feature is off
-      .grid-block.shrink.vertical.align-center.aha-overview.padding-md.padding-bottom-sm(
-        ng-if = "!$root.featureFlags.demoProject"
-      )
-        p.grid-content.shrink.text-center.p.weight-light It takes just 3 steps to get everything set up.&#32;
-          br
-          | But don’t worry — we’re here to help!
-        button.grid-content.shrink.btn.btn-md.green(
-          data-event-name = "Milestone 2: Started"
-          ng-click = "AMC.getStarted()"
-        ) Get Started
-
-      //- if demo feature is on
+      | ahaModal buttercup
       .grid-block.shrink.vertical.align-center.noscroll.aha-overview(
-        ng-if = "!AMC.isSettingUpRunnabot() && $root.featureFlags.demoProject"
+        ng-if = "!AMC.isSettingUpRunnabot()"
       )
         //- step 1
         .grid-block.vertical.shrink.align-center.padding-sm.aha-guide.disabled
@@ -89,7 +72,7 @@
                 )
             p.grid-block.align-center.aha-text.p.weight-light Step 2: Configure your Application
           .grid-block.shrink.align-center.aha-overview.padding-bottom-sm(
-            ng-if = "$root.featureFlags.demoProject && !$root.isLoading.fetchAccountRepos && AMC.isAddingFirstRepo()"
+            ng-if = "!$root.isLoading.fetchAccountRepos && AMC.isAddingFirstRepo()"
             setup-demo-guide
           )
           .spinner-wrapper.spinner-md.spinner-gray.padding-lg.padding-top-md(
