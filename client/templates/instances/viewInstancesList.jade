@@ -21,7 +21,9 @@
             href = "mailto: support@runnable.com"
           ) contact support
           | .
-        .progress-bar
+        .progress-bar.stripes.animated(
+          ng-include = "'progressBarView'"
+        )
 
   //- wraps everything that should transition in with the master cluster
   .demo-transition.js-animate

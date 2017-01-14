@@ -2,7 +2,9 @@
   p.p.text-gray Spinning up your infrastructure.
     br
     | This may take up to 3 minutes.
-  .progress-bar.margin-top-sm
+  .progress-bar.stripes.animated(
+    ng-include = "'progressBarView'"
+  )
 .padding-md.infrastructure-view
   //- p.p Up next…
   .grid-block

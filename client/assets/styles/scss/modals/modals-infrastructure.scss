@@ -1,8 +1,14 @@
 .infrastructure-load-header {
   border-bottom: 1px solid $gray-lighter;
 
-  .progress-bar::before {
+  .progress-bar {
+    margin: $sm auto 0;
+    max-width: 330px;
+  }
+
+  .progress {
     animation-duration: 180s;
+    animation-timing-function: ease-out;
   }
 }
 
