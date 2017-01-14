@@ -38,7 +38,18 @@
     border-radius: 0 $input-border-radius-lg $input-border-radius-lg 0;
   }
 
+  .ul {
+    @include media(xs) {
+      padding-top: $xxs;
+    }
+  }
+
   .li {
+
+    @include media(xxs) {
+      flex-direction: column;
+      text-align: center;
+    }
 
     + .li {
       margin-top: $md;
@@ -46,6 +57,16 @@
 
     .img {
       margin-right: $sm;
+
+      @media (max-width: 450px) and (min-width: $screen-xxs) {
+        height: 60px;
+        width: 60px;
+      }
+
+      @include media(xxs) {
+        margin-right: 0;
+        margin-bottom: $xs;
+      }
     }
   }
 
