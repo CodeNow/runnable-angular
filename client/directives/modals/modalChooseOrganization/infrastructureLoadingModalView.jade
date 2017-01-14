@@ -6,33 +6,34 @@
     ng-include = "'progressBarView'"
   )
 .padding-md.infrastructure-view
-  //- p.p Up next…
-  .grid-block
-    img.grid-block.shrink(
-      height = "75"
-      src = "/build/images/infrastructure-load/icons-stacks.svg"
-      width = "75"
-    )
-    .grid-block.vertical.margin-left-sm
-      p.p.weight-strong Start by choosing your stack.
-      p.small Your containers will build, and in a few minutes you‘ll have a complete environment.
+  p.p.text-gray-light.text-center.margin-bottom-sm.weight-strong Up Next…
+  ul.grid-block.vertical
+    li.grid-block.align-center.li
+      img.grid-block.shrink.img(
+        height = "75"
+        src = "/build/images/infrastructure-load/icons-stacks.svg"
+        width = "75"
+      )
+      .grid-block.vertical
+        p.p.weight-strong Start by choosing your stack.
+        p.p Your containers will build, and in a few minutes you‘ll have a complete environment.
 
-  .grid-block.margin-top-md
-    img.grid-block.shrink(
-      height = "75"
-      src = "/build/images/infrastructure-load/icons-branches.svg"
-      width = "75"
-    )
-    .grid-block.vertical.margin-left-sm
-      p.p.weight-strong Then launch more environments.
-      p.small Every branch will automatically have a fresh environment for you to test out changes.
+    li.grid-block.align-center.li
+      img.grid-block.shrink.img(
+        height = "75"
+        src = "/build/images/infrastructure-load/icons-branches.svg"
+        width = "75"
+      )
+      .grid-block.vertical
+        p.p.weight-strong Then launch more environments.
+        p.p Every branch will automatically have a fresh environment for you to test out changes.
 
-  .grid-block.margin-top-md
-    img.grid-block.shrink(
-      height = "75"
-      src = "/build/images/infrastructure-load/icons-github-bot.svg"
-      width = "75"
-    )
-    .grid-block.vertical.margin-left-sm
-      p.p.weight-strong And work from GitHub.
-      p.small Our bot shares links to your environments and results from automated tests are shared on your pull requests.
+    li.grid-block.align-center.li
+      img.grid-block.shrink.img(
+        height = "75"
+        src = "/build/images/infrastructure-load/icons-github-bot.svg"
+        width = "75"
+      )
+      .grid-block.vertical
+        p.p.weight-strong And work from GitHub.
+        p.p Our bot shares links to your environments and results from automated tests are shared on your pull requests.

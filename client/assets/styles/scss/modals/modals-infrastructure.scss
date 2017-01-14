@@ -23,9 +23,18 @@
     }
   }
 
-  // override .modals-org-select .p
-  .p.p {
-    color: $gray-dark;
-    word-break: break-word;
+  .li {
+
+    + .li {
+      margin-top: $md;
+    }
+
+    .img {
+      margin-right: $sm;
+    }
+  }
+
+  .p + .p {
+    font-size: 14px;
   }
 }
