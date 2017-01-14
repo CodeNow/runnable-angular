@@ -121,18 +121,18 @@ small.small.text-gray.padding-xxs.label-from(
   label.grid-block.list-item(
     ng-class="{'active': MDC.state.configurationMethod === 'dockerComposeFile'}"
     ng-disabled = "$root.isLoading[MDC.name + 'SingleRepo']"
-    ng-repeat = "dockerfile in MDC.state.repo.dockerComposeFiles"
+    ng-repeat = "dockerComposeFile in MDC.state.repo.dockerComposeFiles"
   )
     svg.grid-content.shrink.iconnables.icons-dockerfile
       use(
         xlink:href = "#icons-dockerfile-repo"
       )
     .grid-content
-      div {{ dockerfile.path }}
+      div {{ dockerComposeFile.path }}
       a.small.link(
         ng-disabled = "$root.isLoading[MDC.name + 'SingleRepo']"
-        ng-href = "{{ dockerfile.html_url }}"
-        ng-if = "dockerfile.html_url"
+        ng-href = "{{ dockerComposeFile.html_url }}"
+        ng-if = "dockerComposeFile.html_url"
         target = "_blank"
       ) From your Repository on GitHub
     //- if there is only one, [check] by default

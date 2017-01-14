@@ -18,9 +18,6 @@ function MirrorDockerfileController(
 
   MDC.resetDockerfilePaths = function () {
     MDC.newDockerfilePaths = [];
-  };
-
-  MDC.resetDockerComposeFilePaths = function () {
     MDC.newDockerComposeFilePaths = [];
   };
 
@@ -76,20 +73,20 @@ function MirrorDockerfileController(
   };
 
   MDC.addDockerComposeFileFromPath = function (newDockerComposeFilePath) {
-    if (newDockerComposeFilePath) {
-      newDockerComposeFilePath = newDockerComposeFilePath.replace(/^\/*/, '/');
-      if (!MDC.newDockerComposeFilePaths.includes(newDockerComposeFilePath)) {
-        MDC.newDockerComposeFilePaths.push(newDockerComposeFilePath);
-      }
-      return MDC.fetchRepoDockerComposeFiles()
-        .then(function (dockerComposeFiles) {
-          MDC.state.dockerComposeFile = dockerComposeFiles.find(function (dockerfile) {
-            return dockerfile.path === newDockerComposeFilePath;
-          });
-        });
+    if (!newDockerComposeFilePath) {
+      // If given no input, return promise
+      return $q.when(true);
     }
-    // If given no input, return promise
-    return $q.when(true);
+    newDockerComposeFilePath = newDockerComposeFilePath.replace(/^\/*/, '/');
+    if (!MDC.newDockerComposeFilePaths.includes(newDockerComposeFilePath)) {
+      MDC.newDockerComposeFilePaths.push(newDockerComposeFilePath);
+    }
+    return MDC.fetchRepoDockerComposeFiles()
+      .then(function (dockerComposeFiles) {
+        MDC.state.dockerComposeFile = dockerComposeFiles.find(function (dockerfile) {
+          return dockerfile.path === newDockerComposeFilePath;
+        });
+      });
   };
 }
 
