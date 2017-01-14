@@ -48,7 +48,6 @@ function MirrorDockerfileController(
   MDC.fetchRepoDockerComposeFiles = function () {
     return fetchRepoDockerfiles(MDC.getFullRepo(), MDC.branchName, MDC.newDockerComposeFilePaths)
       .then(function (dockerfiles) {
-        // remove any dead paths by replacing them with the results
         MDC.newDockerComposeFilePaths = dockerfiles.map(function (dockerfile) {
           return dockerfile.path;
         });
@@ -78,7 +77,6 @@ function MirrorDockerfileController(
 
   MDC.addDockerComposeFileFromPath = function (newDockerComposeFilePath) {
     if (newDockerComposeFilePath) {
-      // This replace will make sure every path being added starts with /
       newDockerComposeFilePath = newDockerComposeFilePath.replace(/^\/*/, '/');
       if (!MDC.newDockerComposeFilePaths.includes(newDockerComposeFilePath)) {
         MDC.newDockerComposeFilePaths.push(newDockerComposeFilePath);

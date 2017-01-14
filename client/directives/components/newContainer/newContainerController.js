@@ -87,7 +87,7 @@ function NewContainerController(
       return 'Create Cluster';
     }
     return 'Next Step: Configuration';
-  }
+  };
 
   NCC.changeTab = function (tabName) {
     if (!['repos', 'services'].includes(tabName)) {
@@ -188,7 +188,7 @@ function NewContainerController(
           $state.go('base.instances');
           NCC.close();
         })
-        .catch(errs.handler)
+        .catch(errs.handler);
     }
     return NCC.createBuildAndGoToNewRepoModal(NCC.state.instanceName, NCC.state.repo, NCC.state.dockerfile, NCC.state.configurationMethod);
   };

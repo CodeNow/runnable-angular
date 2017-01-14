@@ -5,7 +5,6 @@ require('app')
 
 function serverModalButtonsDirective(
   $rootScope,
-  createNewCluster,
   errs,
   loading,
   fetchInstancesByPod,
