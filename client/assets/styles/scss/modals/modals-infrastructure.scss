@@ -1,5 +1,19 @@
-.infrastructure-load-header {
-  border-bottom: 1px solid $gray-lighter;
+// defaults
+.infrastructure-header,
+.infrastructure-body {
+  padding: $md;
+}
+
+.infrastructure-header,
+.infrastructure-footer {
+  border-color: $gray-lighter;
+  color: $gray;
+}
+
+// header
+.infrastructure-header {
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
 
   .progress-bar {
     margin: $sm auto 0;
@@ -12,15 +26,16 @@
   }
 }
 
-.infrastructure-view {
+// body
+.infrastructure-body {
   background: $white;
-  border-radius: 0 0 $input-border-radius-lg $input-border-radius-lg;
 
-  > .padding-md {
-    @include media(xs) {
-      padding-left: $sm;
-      padding-right: $sm;
-    }
+  &:first-child {
+    border-radius: $input-border-radius-lg $input-border-radius-lg 0 0;
+  }
+
+  &:last-child {
+    border-radius: 0 $input-border-radius-lg $input-border-radius-lg 0;
   }
 
   .li {
@@ -37,4 +52,11 @@
   .p + .p {
     font-size: 14px;
   }
+}
+
+// footer
+.infrastructure-footer {
+  border-top-style: solid;
+  border-top-width: 1px;
+  padding: $sm $sm 24px; // 24px to match other org select page
 }
