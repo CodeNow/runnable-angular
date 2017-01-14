@@ -26,7 +26,6 @@ function AhaModalController(
   AMC.actions = {
     forceClose: close,
     close: function (endGuide) {
-      console.log("ahaModalController buttercup")
       if (AMC.hasInstances || !AMC.isAddingFirstRepo()) {
         if (endGuide) {
           ahaGuide.endGuide();

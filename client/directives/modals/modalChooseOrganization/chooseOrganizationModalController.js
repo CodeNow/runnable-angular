@@ -65,8 +65,6 @@ function ChooseOrganizationModalController(
       loadingString = 'grantAccessDemo';
     }
 
-
-    console.log("chooseOrganizationModalController buttercup")
     var connectionUrl = '/githubAuth';
 
     if (isDemo) {
