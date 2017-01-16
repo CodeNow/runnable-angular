@@ -2,8 +2,7 @@
 
 require('app')
   .factory('createNewBuild', createNewBuild)
-  .factory('createNewBuildAndFetchBranch', createNewBuildAndFetchBranch)
-  .factory('createNewCluster', createNewCluster);
+  .factory('createNewBuildAndFetchBranch', createNewBuildAndFetchBranch);
 
 function createNewBuild(
   fetchUser,
@@ -117,25 +116,5 @@ function createNewBuildAndFetchBranch(
           errs.handler(err);
         }
       });
-  };
-}
-
-function createNewCluster(
-  $http,
-  configAPIHost
-) {
-  return function (repo, branch, filePath, name) {
-    var data = {
-      repo: repo,
-      branch: branch,
-      filePath: filePath,
-      name: name
-    };
-
-    return $http({
-      method: 'post',
-      url: configAPIHost + '/docker-compose-cluster',
-      data: data
-    });
   };
 }
