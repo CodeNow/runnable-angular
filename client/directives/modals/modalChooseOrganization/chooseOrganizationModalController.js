@@ -137,6 +137,7 @@ function ChooseOrganizationModalController(
   };
 
   COMC.actions = {
+    trackDemoVideo: eventTracking.trackDemoVideo,
     createOrCheckDock: function (selectedOrgName) {
       var selectedOrg = COMC.getSelectedOrg(selectedOrgName);
       if (!selectedOrg) {
