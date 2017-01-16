@@ -155,8 +155,7 @@
     }
   }
 
-  .progress-bar::before {
+  .progress {
     animation-duration: 20s;
-    margin: 0 $md;
   }
 }
