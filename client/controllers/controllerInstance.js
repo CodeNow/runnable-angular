@@ -15,6 +15,8 @@ function ControllerInstance(
   $timeout,
   ahaGuide,
   demoFlowService,
+  demoRepos,
+  errs,
   eventTracking,
   favico,
   fetchCommitData,
@@ -45,6 +47,20 @@ function ControllerInstance(
      hasSeenUrlCallout: false
   });
   loading('main', true);
+
+
+  $scope.$on('clickedOpenContainerUrl', function (event, instance) {
+    demoRepos.createNewInstanceFromBranch(instance)
+      .then(function () {
+        demoFlowService.submitDemoPR(instance)
+          .catch(function (err) {
+            if (keypather.get(err, 'errors[0].message').match(/(pull request.*exists)/)) {
+              return instance;
+            }
+            errs.handler(err);
+          });
+      })
+  })
 
   data.openItems = new OpenItems();
 

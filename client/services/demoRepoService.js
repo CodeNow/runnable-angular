@@ -121,6 +121,7 @@ function demoRepos(
   fetchStackData,
   github,
   keypather,
+  promisify,
   serverCreateService,
   errs
 ) {
@@ -298,14 +299,41 @@ function demoRepos(
       })
       .catch(errs.handler);
   }
+
+  function createNewInstanceFromBranch (instance) {
+    var acv = instance.contextVersion.getMainAppCodeVersion();
+    var completeRepoName = acv.attrs.repo.split('/');
+    var repoOwner = completeRepoName[0];
+    var repoName = completeRepoName[1];
+    var branchName = 'dark-theme';
+    if (demoFlowService.shouldAddPR()) {
+      return getBranchForPR(instance);
+    }
+    return github.createNewBranch(repoOwner, repoName, acv.attrs.commit, branchName)
+      .catch(errs.handler);
+  }
+
+  function getBranchForPR (instance) {
+    return promisify(currentOrg.github, 'fetchRepo')(instance.getRepoName())
+      .then(function (repo) {
+        return promisify(repo, 'fetchBranch')('dark-theme');
+      })
+      .then(function (branch) {
+        var sha = branch.attrs.commit.sha;
+        var branchName = branch.attrs.name;
+        return promisify(instance, 'fork')(branchName, sha);
+      });
+  }
+
   return {
     _findNewRepo: _findNewRepo, // for testing
     _findNewRepoOnRepeat: _findNewRepoOnRepeat, // for testing
     checkForOrphanedDependency: checkForOrphanedDependency,
+    createDemoApp: createDemoApp,
+    createNewInstanceFromBranch: createNewInstanceFromBranch,
     demoStacks: stacks,
     forkGithubRepo: forkGithubRepo,
     findDependencyNonRepoInstances: findDependencyNonRepoInstances,
-    createDemoApp: createDemoApp,
     shouldShowDemoSelector: function () {
       return !!stacks[demoFlowService.usingDemoRepo()] || (ahaGuide.isInGuide() && !ahaGuide.hasConfirmedSetup());
     }

@@ -57,7 +57,7 @@ function ControllerInstances(
   });
 
   CIS.shouldShowBranchView = function () {
-     return !CIS.showDemoAddBranchView() &&
+     return CIS.showDemoAddBranchView() &&
             (!CIS.isInDemoFlow() || demoFlowService.hasSeenUrlCallout());
   };
 
@@ -69,6 +69,10 @@ function ControllerInstances(
 
   $scope.$on('showAutoLaunchPopover', function() {
     CIS.showAutofork = true;
+  });
+
+  $scope.$on('branch-added', function () {
+
   });
 
   /**
@@ -202,8 +206,7 @@ function ControllerInstances(
     return demoFlowService.isInDemoFlow() &&
       keypather.get(CIS, 'instancesByPod.models.length') &&
       !demoRepos.shouldShowDemoSelector() &&
-      CIS.getUrlCalloutInstance() &&
-      !demoFlowService.hasAddedBranch();
+      CIS.getUrlCalloutInstance();
   };
 
   this.getDemoInstance = function () {
