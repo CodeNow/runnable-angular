@@ -111,11 +111,11 @@ small.grid-block.shrink.align-center.small.text-gray.padding-xxs(
   ) Add Dockerfile…
 
 small.small.text-gray.padding-xxs.label-from(
-  ng-if = "!$root.isLoading.mirrorDockerfile && MDC.state.dockerComposeFile"
+  ng-if = "$root.featureFlags.dockerCompose && !$root.isLoading.mirrorDockerfile && MDC.state.dockerComposeFile"
 ) Docker Compose File
 
 .grid-content.shrink.list.list-bordered(
-  ng-if = "!$root.isLoading.mirrorDockerfile && MDC.state.dockerComposeFile"
+  ng-if = "$root.featureFlags.dockerCompose && !$root.isLoading.mirrorDockerfile && MDC.state.dockerComposeFile"
 )
 
   label.grid-block.list-item(
