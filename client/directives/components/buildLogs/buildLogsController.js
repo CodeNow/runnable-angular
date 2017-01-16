@@ -35,9 +35,10 @@ function BuildLogsController(
       var repoAndBranchName = BLC.instance.getRepoAndBranchName().split('/');
       var repoName = repoAndBranchName[0];
       var branchName = repoAndBranchName[1];
-      var dockerfilePath = keypather.get(BLC, 'instance.mirroredDockerfile.attrs.path') + keypather.get(BLC, 'instance.mirroredDockerfile.attrs.name');
-      if (!!dockerfilePath) {
-        fetchRepoDockerfile(repoName, branchName, dockerfilePath)
+      var dockerfilePath = keypather.get(BLC, 'instance.mirroredDockerfile.attrs.path');
+      var dockerfileName = keypather.get(BLC, 'instance.mirroredDockerfile.attrs.name');
+      if (dockerfilePath && dockerfileName) {
+        fetchRepoDockerfile(repoName, branchName, dockerfilePath + dockerfileName)
           .then(function (dockerfile) {
             BLC.showNoDockerfileError = (BLC.instance.hasDockerfileMirroring() && dockerfile.message === 'Not Found');
           });
