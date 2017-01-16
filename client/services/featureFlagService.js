@@ -37,7 +37,6 @@ function featureFlags(
     navListFilter: false,
     newUserPrompt: false, // modal for new users
     nextPayment: false, // show the next payment date under payment summary
-    noBuildLogs: true,
     optionsInModal: false, // allows delete in modal
     personalAccounts: true, // allows users with personal accounts to create Runnable teams
     personalAccountsPhase2: true,
