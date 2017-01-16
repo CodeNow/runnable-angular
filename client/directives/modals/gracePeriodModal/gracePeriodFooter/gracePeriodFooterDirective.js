@@ -22,7 +22,7 @@ function gracePeriodFooter(
       };
 
       $scope.goToOrgSelect = function () {
-        if ($rootScope.isLoading['chooseOrg']) {
+        if ($rootScope.isLoading['waitingForDockCreated']) {
           return $rootScope.$broadcast('go-to-panel', 'orgSelection', 'back');
         }
         window.location = '/orgSelect';
