@@ -18,9 +18,9 @@
 
       &::before {
         background: repeating-linear-gradient(45deg, rgba($white,0), rgba($white,0) 20px, rgba($white,.1) 20px, rgba($white,.1) 40px);
-        height: 9px;
         content: '';
         display: block;
+        height: 9px;
         width: 200%;
       }
     }

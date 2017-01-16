@@ -64,8 +64,8 @@
       }
 
       @include media(xxs) {
-        margin-right: 0;
         margin-bottom: $xs;
+        margin-right: 0;
       }
     }
   }
