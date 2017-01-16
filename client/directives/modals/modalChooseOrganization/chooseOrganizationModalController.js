@@ -32,6 +32,7 @@ function ChooseOrganizationModalController(
   COMC.close = close;
   COMC.user = user;
   loading.reset('chooseOrg');
+  loading.reset('waitingForDockCreated');
   $rootScope.featureFlags = featureFlags.flags;
   COMC.allAccounts = grantedOrgs;
   COMC.whitelistedOrgs = whitelistedOrgs;
@@ -194,6 +195,7 @@ function ChooseOrganizationModalController(
 
   COMC.selectedOrgName = null;
   COMC.pollForDockCreated = function (whitelistedDock, selectedOrgName) {
+    loading('waitingForDockCreated', true);
     COMC.selectedOrgName = selectedOrgName;
     COMC.cancelPollingForDockCreated();
     if (keypather.get(whitelistedDock, 'attrs.firstDockCreated')) {
@@ -208,6 +210,7 @@ function ChooseOrganizationModalController(
             // Update number of orgs for user
             eventTracking.updateCurrentPersonProfile(ahaGuide.getCurrentStep(), keypather.get(updatedOrg, 'attra.name'));
             COMC.cancelPollingForDockCreated();
+            loading('waitingForDockCreated', false);
             return $scope.$broadcast('go-to-panel', 'dockLoaded');
           }
         });
