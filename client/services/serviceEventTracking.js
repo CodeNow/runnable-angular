@@ -464,6 +464,19 @@ function EventTracking(
   };
 
   /**
+   * Track video click on infrastructure loading
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.trackDemoVideo = function () {
+    var eventName = 'Clicked Demo Video';
+
+    ETS._mixpanel('track', eventName);
+    return ETS;
+  };
+
+  /**
    * Milestone 1: GitHub Primer
    * Reports to:
    *   - mixpanel
