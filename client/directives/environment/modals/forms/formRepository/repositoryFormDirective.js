@@ -35,7 +35,9 @@ require('app')
                 var mainRepoContainerFile = $scope.state.mainRepoContainerFile;
                 var commandsPopulated = (Array.isArray(mainRepoContainerFile.commands) && mainRepoContainerFile.commands.length > 0);
                 if (newStackKey && (newStackKey !== oldStackKey || !commandsPopulated)) {
-                  delete $scope.state.startCommand;
+                  if (!$scope.state.keepStartCmd) {
+                    delete $scope.state.startCommand;
+                  }
                   $scope.state.mainRepoContainerFile.commands = [];
                   var repoName = keypather.get($scope, 'state.acv.attrs.repo.split("/")[1]')|| '';
                   return fetchDockerfileFromSource(

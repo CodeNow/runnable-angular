@@ -1,11 +1,17 @@
-.grid-block.vertical.padding-sm
-  h1.margin-top-sm.h1.text-center Welcome aboard!
-  p.margin-top-sm.margin-bottom-md.p.text-center.weight-light Now select the organization you want to use.
+.modal-header
+  h1.modal-heading Welcome Aboard!
 
-  ol.grid-block.vertical.list
+.grid-block.vertical.org-select-view
+
+  p.p(
+    ng-if = "!COMC.personalAccountOnly"
+  ) Select your team to get started.
+  ol.grid-block.vertical.list(
+    ng-if = "!COMC.personalAccountOnly"
+  )
     li.grid-block.align-center.list-item.btn.white(
       data-event-name = "Org Selected"
-      ng-click = "COMC.actions.createOrCheckDock(org.oauthName(), goToPanel)"
+      ng-click = "COMC.actions.createOrCheckDock(org.oauthName())"
       ng-repeat = "org in COMC.allAccounts.models | orderBy:'attrs.login'"
       title = "{{org.oauthName()}}"
     )
@@ -19,38 +25,46 @@
         use(
           xlink:href = "#icons-arrow-down"
         )
-
-  ol.margin-top-sm.grid-block.vertical.list
+  p.p(
+    ng-if = "!COMC.personalAccountOnly"
+  ) Don’t see your team?
+  p.p(
+    ng-if = "COMC.personalAccountOnly"
+  ) Runnable is made for teams,
+    br
+    | &#32;but you haven’t added any yet.
+  ol.grid-block.vertical.list
     li.grid-block.align-center.list-item.btn.white(
       data-event-name = "Clicked to Grant Access View"
       ng-click = "goToPanel('grantAccess')"
+      title = "Add your team via GitHub"
     )
-      .grid-content.shrink.icons-missing-org 🕵
-      span.grid-content.text-left.text-overflow Don’t see your organization?
+      svg.grid-content.shrink.iconnables.icons-github
+        use(
+          xlink:href = "#icons-octicons-github-gray"
+        )
+      .grid-block.vertical.text-overflow.margin-left-sm
+        .text-overflow.text-left Add your team
+        .text-overflow.text-left.small via GitHub
       svg.grid-content.iconnables.icons-arrow-forward.shrink
         use(
           xlink:href = "#icons-arrow-down"
         )
-
-footer.grid-block.align-center.vertical.footer.margin-top-sm.margin-bottom-md(
-  ng-if = "!$root.featureFlags.demoProject"
-)
-  a.small.link.text-gray(
-    ng-click = "COMC.actions.trackPersonalAccount()"
-    href = "https://support.runnable.com/hc/en-us/articles/213363706"
-    target = "_blank"
-  ) Looking for your personal account?
-    svg.iconnables.icons-link-external.text-gray
-      use(
-        xlink:href = "#icons-link-external-alt"
-      )
-
-a.grid-block.justify-center.shrink.btn.btn-xs.text-gray.margin-top-sm.margin-bottom-md.btn-skip(
-  data-event-name = "Demo: Clicked Skip"
-  ng-click = "COMC.isInDemoFlow = true; goToPanel('createOrg')"
-  ng-if = "$root.featureFlags.demoProject"
-) Skip and try a demo
-  svg.iconnables.icons-arrow-forward
-    use(
-      xlink:href = "#icons-arrow-down"
+    li.grid-block.align-center.list-item.btn.white(
+      data-event-name = "PA Selected"
+      ng-click = "COMC.actions.createOrCheckDock(COMC.user.oauthName())"
+      ng-if = "$root.featureFlags.personalAccounts"
+      title = "Start with a tour using your personal account"
     )
+      img.grid-content.shrink(
+        height = "30"
+        ng-src = "{{COMC.user.gravitar()}}"
+        width = "30"
+      )
+      .grid-block.vertical.align-start.margin-left-sm
+        .text-overflow.text-left Start with a tour
+        .text-overflow.text-left.small using your personal account
+      svg.grid-content.iconnables.icons-arrow-forward.shrink
+        use(
+          xlink:href = "#icons-arrow-down"
+        )

@@ -1,5 +1,6 @@
 //- repository
 .btn.gray.btn-repository.clearfix(
+  data-event-name = "Clicked: Commit Tray"
   ng-class = "{\
     'error': $root.featureFlags.autoDeployError && ERCC.isLatestCommitDeployed && ERCC.instance.locked,\
     'grid-block align-center justify-center': !ERCC.activeCommit.attrs.commit.message\
@@ -49,13 +50,7 @@
         pop-over-options = "{\"left\":-23,\"top\":26}"
         pop-over-template = "userPopoverView"
       )
-      span.small(
-        ng-if = "$root.featureFlags.inviteFlows"
-      ) —{{ERCC.activeCommit.attrs.commit.author.date | timeFrom}}
-      //- else
-      span.small(
-        ng-if = "!$root.featureFlags.inviteFlows"
-      ) {{ERCC.activeCommit.attrs.commit.author.date | timeFrom}}
+      span.small {{$root.featureFlags.inviteFlows ? '—' : ''}}{{ERCC.activeCommit.attrs.commit.author.date | timeFrom}}
 
     //- auto-deploy w/ commit syncing
     //- show alternate text in autoDeployTooltip.jade if disabled

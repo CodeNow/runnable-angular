@@ -60,6 +60,13 @@ module.exports = [
     ) {
       keypather.get(ModalService, 'modalLayers[0].modal.controller.close()');
     },
+    onEnter: function (
+      ModalService
+    ) {
+      ModalService.modalLayers.forEach(function (openModal) {
+        openModal.close();
+      });
+    },
     resolve: {
       grantedOrgs: function (fetchGrantedGithubOrgs) {
         return fetchGrantedGithubOrgs();
@@ -195,7 +202,7 @@ module.exports = [
             return $q.reject(new Error('User Unauthorized for Organization'));
           });
         }
-        if ((!featureFlags.flags.billing && !activeOrg.attrs.allowed) || (featureFlags.flags.billing && !activeOrg.attrs.isActive)) {
+        if (!activeOrg.attrs.isActive) {
           // There is a bug in ui-router and a timeout is the workaround
           return $timeout(function () {
             $state.go('paused');
@@ -221,10 +228,24 @@ module.exports = [
     templateUrl: 'environmentView',
     controller: 'EnvironmentController',
     controllerAs: 'EC',
+    onExit: function (
+      ModalService,
+      keypather
+    ) {
+      keypather.get(ModalService, 'modalLayers[0].modal.controller.actions.forceClose()');
+    },
     resolve: {
-      instancesByPod: function (fetchInstancesByPod, $stateParams, $state) {
+      instancesByPod: function (
+        fetchInstancesByPod,
+        $stateParams,
+        $state,
+        populateCurrentOrgService // unused, but required so things are properly populated!
+      ) {
         $state.params.userName = $stateParams.userName;
         return fetchInstancesByPod();
+      },
+      booted: function (eventTracking, activeAccount) {
+        eventTracking.visitedConfigurePage();
       }
     }
   }, {
@@ -234,27 +255,16 @@ module.exports = [
     templateUrl: 'viewInstances',
     controller: 'ControllerInstances',
     controllerAs: 'CIS',
+    onExit: function (
+      ModalService,
+      keypather
+    ) {
+      keypather.get(ModalService, 'modalLayers[0].modal.controller.actions.forceClose()');
+    },
     resolve: {
       instancesByPod: function (fetchInstancesByPod, $stateParams, $state) {
         $state.params.userName = $stateParams.userName;
         return fetchInstancesByPod();
-      },
-      hasConfirmedSetup: function (
-        $rootScope,
-        $state,
-        $stateParams,
-        $timeout,
-        ahaGuide,
-        featureFlags,
-        populateCurrentOrgService // Unused, but required so things are properly populated!
-      ) {
-        if (featureFlags.flags.aha && ahaGuide.isInGuide() && !ahaGuide.hasConfirmedSetup()) {
-          $timeout(function () {
-            $state.go('base.config', {
-              userName: $stateParams.userName
-            });
-          });
-        }
       },
       booted: function (eventTracking) {
         eventTracking.visitedContainersPage();
@@ -267,6 +277,12 @@ module.exports = [
     templateUrl: 'viewInstance',
     controller: 'ControllerInstance',
     controllerAs: 'CI',
+    onExit: function (
+      ModalService,
+      keypather
+    ) {
+      keypather.get(ModalService, 'modalLayers[0].modal.controller.actions.forceClose()');
+    },
     resolve: {
       instancesByPod: function (fetchInstancesByPod, $stateParams, $state) {
         $state.params.userName = $stateParams.userName;

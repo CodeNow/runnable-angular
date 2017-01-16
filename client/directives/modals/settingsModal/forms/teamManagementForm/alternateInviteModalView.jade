@@ -1,0 +1,29 @@
+.grid-block.vertical.align-center.justify-center.shrink.modal-body
+  svg.iconnables.icons-close(
+    ng-click = "IMC.close()"
+  )
+    use(
+      xlink:href = "#icons-close"
+    )
+  img.grid-block.shrink.margin-top-md(
+    height = "150"
+    src = "/build/images/runnabear-add.svg"
+    width = "150"
+  )
+  p.grid-block.shrink.p.weight-light.text-center.margin-bottom-md.margin-top-md
+    | {{IMC.getTextForInviteModal()}}
+
+footer.modal-footer
+  button.btn.btn-block.btn-md.white(
+    ui-sref = "orgSelect"
+    ng-if = "IMC.isPersonalAccount"
+  ) Switch to a Team
+  a.btn.btn-block.btn-md.gray(
+    ng-href = "https://github.com/orgs/{{IMC.teamName}}/people"
+    ng-if = "!IMC.isPersonalAccount && IMC.orgMembers.all.length === 1"
+    target = "_blank"
+  ) See Team on GitHub
+  button.btn.btn-block.btn-md.white(
+    ng-if = "!IMC.isPersonalAccount && IMC.invitedAll && IMC.orgMembers.all.length > 1"
+    ng-click = "IMC.close()"
+  ) Close

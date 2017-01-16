@@ -1,0 +1,140 @@
+.arrow.gray(
+  style = "top: 39px;"
+)
+.grid-block.popover-header
+  button.grid-block.align-center.btn.btn-radio(
+    ng-class = "{'active': NCC.state.tabName === 'repos'}"
+    ng-click = "NCC.changeTab('repos')"
+    ng-disabled = "NCC.state.tabName !== 'repos'&& $root.isLoading.newContainerSingleRepo"
+  )
+    .grid-block.vertical.shrink Repository
+      .small From your GitHub org
+  button.grid-block.align-center.btn.btn-radio(
+    ng-class = "{'active': NCC.state.tabName === 'services'}"
+    ng-click = "NCC.changeTab('services')"
+    ng-disabled = "NCC.state.tabName !== 'services'&& $root.isLoading.newContainerSingleRepo"
+  )
+    .grid-block.vertical.shrink Non-Repository
+      .small For databases, etc.
+
+.popover-content(
+  ng-if = "NCC.state.tabName === 'repos'"
+)
+  .spinner-wrapper.spinner-sm.spinner-gray.spinner-center(
+    ng-if = "$root.isLoading.newContainerRepos"
+    ng-include = "'spinner'"
+  )
+  .padding-xxs(
+    ng-if = "!$root.isLoading.newContainerRepos"
+  )
+    input.input.input-xs.input-search(
+      autofocus
+      ng-disabled = "$root.isLoading.newContainerSingleRepo"
+      ng-if = "NCC.githubRepos.models.length !== 0"
+      ng-model = "NCC.repoFilter"
+      placeholder = "Filter by name"
+      required
+      type = "search"
+    )
+    //- if the account or org has no repositories
+    .text-center.text-gray.small.padding-lg(
+      ng-if = "NCC.githubRepos.models.length === 0"
+    ) There are no repositories to add.
+  ul.list.popover-list(
+    ng-if = "!$root.isLoading.newContainerRepos"
+  )
+    .text-center.text-gray.small.padding-lg(
+      ng-if = "NCC.githubRepos.models.length && !noResults.length"
+    ) No repositories match this filter.
+    li.grid-block.align-center.list-item.popover-list-item.multi-line(
+      data-event-name = "Selected a Repository"
+      ng-click = "!$root.isLoading.newContainerSingleRepo && NCC.setRepo(repo, NCC.openModalAtPanel)"
+      ng-repeat = "\
+        repo in NCC.githubRepos.models | \
+        repos: NCC.repoFilter | \
+        orderBy: '-attrs.pushed_at' as noResults\
+      "
+      ng-class = "{ \
+        'active': repo.loading, \
+        'disabled': $root.isLoading.newContainerSingleRepo \
+      }"
+    )
+      svg.grid-content.shrink.iconnables.icons-repository
+        use(
+          xlink:href = "#icons-repository"
+        )
+      .grid-block.vertical
+        .grid-content.text-overflow(
+          title = "{{ repo.attrs.name }}"
+        ) {{ repo.attrs.name }}
+        .grid-block(
+          ng-if = "$root.featureFlags.inviteFlows"
+        )
+          .btn-user.text-overflow.no-touching(
+            ng-class = "{'active': state.active}"
+            ng-include = "'userButtonView'"
+          )
+          span.small(
+            ng-if = "$root.featureFlags.inviteFlows"
+          )  — {{repo.attrs.pushed_at | timeFrom}}
+
+        //- else
+        small.small(
+          ng-if = "!$root.featureFlags.inviteFlows"
+        ) Updated {{repo.attrs.pushed_at | timeFrom}}
+
+      button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add(
+        ng-if = "!repo.loading"
+      ) Select
+      .grid-content.shrink.spinner-wrapper.spinner-sm.spinner-green(
+        ng-if = "repo.loading"
+        ng-include = "'spinner'"
+      )
+.popover-content(
+  ng-if = "NCC.state.tabName === 'services'"
+)
+  .spinner-wrapper.spinner-sm.spinner-gray.spinner-center(
+    ng-if = "$root.isLoading.newContainerTemplates"
+    ng-include = "'spinner'"
+  )
+  .padding-xxs(
+    ng-if = "!$root.isLoading.newContainerTemplates"
+  )
+    input.input.input-xs.input-search(
+      autofocus
+      ng-disabled = "$root.isLoading.newContainerTemplates"
+      ng-keyup = "$digest"
+      ng-model = "NCC.serviceFilter"
+      placeholder = "Filter by name"
+      required
+      type = "search"
+    )
+  ul.list.popover-list(
+    ng-if = "!$root.isLoading.newContainerTemplates"
+  )
+    .text-center.text-gray.small.padding-lg(
+      ng-if = "NCC.githubRepos.models.length && !noTemplateResults.length"
+    ) No services match this filter.
+    li.grid-block.align-center.list-item.popover-list-item.multi-line(
+      ng-class = "{'active': $root.isLoading.newContainerTemplates}"
+      ng-click = "NCC.setTemplate(dependency, NCC.openModalAtPanel)"
+      ng-repeat = "\
+        dependency in NCC.templateServers.models | \
+        removeTemplateInstances | \
+        repos: NCC.serviceFilter | \
+        orderBy:'attrs.name' as noTemplateResults\
+      "
+    )
+      img.grid-content.shrink.img(
+        height = "24"
+        ng-src = "/build/images/logos/logo-icon-{{dependency.attrs.name.toLowerCase()}}.png"
+        width = "24"
+      )
+      .grid-content {{dependency.attrs.name}}
+      button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add(
+        ng-if = "!$root.isLoading.newContainerTemplates"
+      ) Select
+      .grid-content.shrink.spinner-wrapper.spinner-sm.spinner-green(
+        ng-if = "$root.isLoading.newContainerTemplates"
+        ng-include = "'spinner'"
+      )

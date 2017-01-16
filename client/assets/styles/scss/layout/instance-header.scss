@@ -7,10 +7,10 @@
 
 .instance-header-title {
   color: $gray-dark;
-  font-size: 24px;
+  font-size: 19px;
   font-weight: $weight-normal;
   line-height: $input-lg;
-  padding: 0 54px 0 12px; // for text-overflow
+  padding: 0 12px; // for text-overflow
   position: relative;
   text-align: center;
   width: 100%;
@@ -22,13 +22,14 @@
 
     .btn {
       color: $gray-light;
+      opacity: .75;
       padding: 0 6px;
 
-      &:hover {
-        color: $gray;
+      &:hover,
+      &:active {
+        opacity: 1;
       }
 
-      &:active,
       &.active {
         color: $purple-light;
       }
@@ -36,7 +37,7 @@
 
     .iconnables {
       height: 100%;
-      width: 21px;
+      width: 18px;
     }
   }
 
@@ -45,9 +46,17 @@
     margin-left: 9px;
     padding: 0 3px 0 0;
 
-    .iconnables {
+    > .iconnables {
       height: 100%;
+    }
+
+    > .icons-pull-request {
       width: 18px;
+    }
+
+    > .icons-link-external {
+      margin-left: 3px;
+      width: 9px;
     }
   }
 
@@ -101,22 +110,13 @@
     flex: 1 1 auto;
 
     .input {
+      font-size: 13px;
       overflow-y: auto;
     }
 
-    // new tab
-    .link {
-      padding: 0;
-    }
-
-    .btn-icon-xs {
-      min-width: 24px;
-    }
-
     .icons-link-external {
-      margin: 0 3px;
-      top: -1px;
-      width: 15px;
+      margin-left: 3px;
+      width: 9px;
     }
   }
 
@@ -126,6 +126,32 @@
 
     .icons-arrow-down {
       margin: 0;
+    }
+  }
+
+  // url popover
+  > .popover {
+    left: auto;
+    max-width: none;
+    right: 12px;
+    top: 41px;
+    width: 390px;
+
+    @media (max-width: 894px) {
+      position: fixed;
+      top: 12px;
+
+      .arrow {
+        display: none;
+      }
+    }
+
+    @media (max-width: 420px) {
+      left: 0;
+      margin: 12px 12px 0;
+      right: 0;
+      top: 0;
+      width: auto;
     }
   }
 }
@@ -161,35 +187,12 @@
   margin: 0 6px;
 }
 
-// connections badge
-.badge-connections {
-  background: $gray-light;
-  border: 0; // override borders that come with colors
-  border-radius: 16px;
-  color: $white;
-  display: inline-block;
-  font-size: 12px;
-  font-weight: $weight-bold;
-  height: 16px;
-  line-height: 16px;
-  margin-right: 4px;
-  min-width: 16px;
-  padding: 0 4px;
-  position: relative;
-  top: -2px;
+.list-instances {
+  max-width: calc(100vw - #{$layout-navigation-width + 133});
 
-  // colored states
-  .gray:active & {
-    background: $purple-light;
-  }
-
-  .orange & {
-    background: $white;
-    color: $orange;
-  }
-
-  .red & {
-    background: $white;
-    color: $red;
+  &.in + .instance-wrapper .instance-header-title .text-overflow {
+    display: block;
+    direction: rtl;
+    max-width: calc(100vw - #{$layout-navigation-width + $instance-list-width + 133});
   }
 }

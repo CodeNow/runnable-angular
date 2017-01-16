@@ -1,6 +1,13 @@
-.modal-backdrop.modal-blackout.grace-period
-  h1.h1.text-center.padding-sm Uh oh.
+.grid-block.vertical.modal-backdrop.modal-backdrop.welcome
+  img.grid-block.shrink.justify-center.logo.img(
+    alt = "Runnable Logo"
+    height = "36"
+    src = "/build/images/runnable-logo.svg"
+    width = "192"
+  )
   .modal-dialog.modal-md
+    header.modal-header
+      h1.modal-heading Uh oh.
     .modal-body
       .modal-form.form-billing
         animated-panel-container
@@ -20,6 +27,7 @@
               ng-class = "{'in': isActivePanel()}"
               change-payment-form
               save = "EAC.actions.save"
+              close = "EAC.close"
               updating = "true"
             )
           animated-panel(
@@ -29,7 +37,7 @@
               ng-class = "{'in': isActivePanel()}"
               ng-include = "'confirmationForm'"
             )
-  .grid-block.justify-center.modal-outer-footer(
+  .grid-block.shrink.justify-center.margin-top-sm.margin-bottom-xl.welcome-footer.text-white.weight-light(
     grace-period-footer
     close = "EAC.close"
   )

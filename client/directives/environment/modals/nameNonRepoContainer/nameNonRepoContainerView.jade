@@ -1,7 +1,7 @@
 .modal-backdrop
   .modal-dialog.modal-sm.modals-rename
     header.modal-header
-      h1.modal-heading.text-overflow Create Template
+      h1.modal-heading.text-overflow Add a Service
       svg.iconnables.icons-close(
         ng-click = "MC.actions.cancel()"
       )
@@ -13,7 +13,7 @@
         name = "nameForm"
       )
         label.label.clearfix
-          .label-col Template Name
+          .label-col Service Name
           .input-col
             div(
               ng-attr-data-length = "{{19 - nameForm.newName.$viewValue.length}}"
@@ -38,7 +38,7 @@
             ul.list.list-bulleted.list-validation
               li.list-item(
                 ng-class = "{'ng-invalid': nameForm.$error.unique}"
-              ) Choose a unique name for this template
+              ) Choose a unique name for this service
               li.list-item(
                 ng-class = "{'ng-invalid': nameForm.$error.pattern || nameForm.$error.noDoubleDash}"
               ) Use letters, numbers, and single hyphens (-)
@@ -58,4 +58,4 @@
           ng-include = "'spinner'"
           ng-if = "MC.saving"
         )
-        span Create Template
+        span Add Service

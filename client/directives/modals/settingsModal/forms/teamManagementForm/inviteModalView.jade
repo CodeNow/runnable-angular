@@ -1,7 +1,13 @@
 .modal-backdrop.in
-  .modal-dialog.modal-xs.modal-sheet.modal-invite.in
+  .modal-dialog.modal-xs.modal-invite.popover.popover-fixed.in(
+    ng-if = "$root.featureFlags.personalAccounts && IMC.showAlternateInviteModal"
+    ng-include = "'alternateInviteModalView'"
+  )
 
-    .modal-header Invite Teammate
+  .modal-dialog.modal-xs.modal-sheet.modal-invite(
+    ng-if = "!IMC.showAlternateInviteModal"
+  )
+    header.modal-header Invite Teammate
       svg.iconnables.icons-close(
         ng-click = "IMC.close()"
       )

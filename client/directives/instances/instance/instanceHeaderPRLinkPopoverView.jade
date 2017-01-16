@@ -1,0 +1,20 @@
+.arrow.gray
+
+.grid-block.vertical
+  .grid-block.align-center.justify-justified.demo-progress(
+    demo-progress-bar
+    demo-step = 5
+  )
+  img.grid-block.shrink.img(
+    src = "/build/images/runnabot-preview.svg"
+  )
+  .grid-block.vertical.shrink.p
+    strong.weight-strong Meet your pull request bot.
+    .small Runnabot posts links to your containers directly on the pull pequest page.&#32;
+      a.link(
+        href = ""
+        ng-click = "$emit('demo::completed'); openedPRUrl()"
+        ng-href = "{{pr.html_url}}"
+        target = "_blank"
+      ) Open your PR page
+      | &#32;to check it out.

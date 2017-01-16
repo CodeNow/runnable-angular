@@ -1,0 +1,176 @@
+animated-panel-container.modal-servers
+  animated-panel.grid-block.vertical.modal-server-select(
+    default = "{{!NCC.disableBackButton}}"
+    name = "containerSelection"
+  )
+    header.modal-header.grid-block.justify-center(
+      ng-class = "{'lg': NCC.instances.models.length > 0 || !NCC.ahaGuide.isAddingFirstRepo()}"
+      ng-click = "NCC.changeTab('nameContainer')"
+    )
+      .grid-block.align-center.shrink.btn.btn-radio(
+        ng-class = "{'active': NCC.state.tabName === 'repos'}"
+        ng-click = "NCC.changeTab('repos')"
+        ng-if = "NCC.instances.models.length > 0 || !NCC.ahaGuide.isAddingFirstRepo()"
+      )
+        svg.iconnables.icons-repository.grid-block.shrink
+          use(
+            xlink:href = "#icons-new-repository-server"
+          )
+        .btn-text.grid-block.vertical.text-left Repository Service
+          small.small From your GitHub org
+
+      .grid-block.align-center.shrink.btn.btn-radio(
+        ng-disabled = "$root.isLoading.newContainerSingleRepo"
+        ng-class = "{\
+          'active': NCC.state.tabName === 'services', \
+          'disabled': $root.isLoading.newContainerSingleRepo \
+        }"
+        ng-click = "!$root.isLoading.newContainerSingleRepo && NCC.changeTab('services')"
+        ng-if = "NCC.instances.models.length > 0 || !NCC.ahaGuide.isAddingFirstRepo()"
+      )
+        svg.iconnables.icons-template.grid-block.shrink
+          use(
+            xlink:href = "#icons-server-new"
+          )
+        .btn-text.grid-block.vertical.text-left Non-Repository Service
+          small.small For a DB or other service
+      svg.iconnables.icons-close(
+        ng-click = "NCC.close()"
+      )
+        use(
+          xlink:href = "#icons-close"
+        )
+
+    .modal-body(
+      ng-if = "NCC.state.tabName === 'repos'"
+      ng-include = "'newRepositorySelectionView'"
+    )
+
+    .modal-body(
+      ng-if = "NCC.state.tabName === 'services'"
+      ng-include = "'templateSelectSectionView'"
+    )
+
+  animated-panel.grid-block.vertical.modal-mirror-dockerfile(
+    ng-if = "NCC.state.repo"
+    name = "dockerfileMirroring"
+  )
+    header.modal-header
+      svg.iconnables.icons-arrow-backward(
+        ng-click = "!$root.isLoading.newContainerSingleRepo && goToPanel('nameContainer', 'back')"
+      )
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+      h1.modal-heading(
+        ng-if = "!NCC.ahaGuide.isAddingFirstRepo()"
+      ) Setup Method
+      svg.iconnables.icons-close(
+        ng-click = "NCC.close()"
+      )
+        use(
+          xlink:href = "#icons-close"
+        )
+
+    .grid-block.vertical.modal-body(
+      branch-name = "NCC.state.repo.attrs.default_branch"
+      mirror-dockerfile
+      name = "'newContainer'"
+      repo = "NCC.state.repo"
+      state = "NCC.state"
+    )
+
+    .modal-footer.clearfix
+      button.btn.btn-md.gray.btn-cancel.float-left(
+        ng-click = "NCC.close()"
+      ) Cancel
+      button.btn.btn-md.green.float-right(
+        ng-disabled = "$root.isLoading.newContainerSingleRepo || NCC.state.configurationMethod === null"
+        ng-click = "NCC.saveDockerfileMirroring()"
+      )
+        .spinner-wrapper.spinner-white.spinner-sm.in(
+          ng-include = "'spinner'"
+          ng-if = "$root.isLoading.newContainerSingleRepo"
+        )
+        span Next Step: Configuration
+
+  animated-panel.grid-block.vertical.modals-rename(
+    default = "{{NCC.disableBackButton}}"
+    name = "nameContainer"
+    ng-if = "NCC.state.repo || NCC.state.templateSource"
+  )
+    header.modal-header
+      svg.iconnables.icons-arrow-backward(
+        ng-class = "{'disabled': $root.isLoading.newContainerSingleRepo}"
+        ng-click = "!$root.isLoading.newContainerSingleRepo && goToPanel('containerSelection', 'back')"
+        ng-if = "!NCC.disableBackButton"
+      )
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
+      h1.modal-heading.text-overflow(
+        ng-if = "!NCC.ahaGuide.isAddingFirstRepo()"
+      ) Service Name
+      svg.iconnables.icons-close(
+        ng-click = "NCC.close()"
+      )
+        use(
+          xlink:href = "#icons-close"
+        )
+    section.modal-body
+      form.modal-form(
+        name = "NCC.nameForm"
+      )
+        label.label.clearfix
+          .input-col
+            div(
+              ng-attr-data-length = "{{19 - NCC.nameForm.instanceName.$viewValue.length}}"
+              ng-class = "{\
+                'ng-invalid': NCC.nameForm.$error.maxlength,\
+                'validate-length': NCC.nameForm.$error.maxlength,\
+                'validate-sm': NCC.nameForm.$error.maxlength\
+              }"
+            )
+              input.input.input-sm.input-validate(
+                autocomplete = "off"
+                name = "instanceName"
+                ng-class = "{'in': $root.isLoading.newContainerSingleRepo}"
+                ng-disabled = "$root.isLoading.newContainerSingleRepo"
+                ng-maxlength = "19"
+                ng-model = "NCC.state.instanceName"
+                ng-pattern = "/^[a-zA-Z0-9-]*$/"
+                spellcheck = "false"
+                unique-validator = "NCC.state.namesForAllInstances"
+                placeholder = "{{NCC.instanceToForkName}}"
+                no-double-dash-validator
+              )
+
+            ul.list.list-bulleted.list-validation
+              li.list-item(
+                ng-class = "{'ng-invalid': NCC.nameForm.$error.unique}"
+              ) Choose a unique name for your service
+              li.list-item(
+                ng-class = "{'ng-invalid': NCC.nameForm.$error.pattern || NCC.nameForm.$error.noDoubleDash}"
+              ) Use letters, numbers, and single hyphens (-)
+              li.list-item(
+                ng-class = "{'ng-invalid': NCC.nameForm.$error.maxlength}"
+              ) Use 19 characters or less
+
+    footer.modal-footer.clearfix
+      button.btn.btn-md.gray.btn-cancel.float-left(
+        ng-click = "NCC.close()"
+      ) Cancel
+      button.btn.btn-md.green.float-right(
+        ng-disabled = "!NCC.state.instanceName.length || NCC.nameForm.$invalid || $root.isLoading.newContainerSingleRepo"
+        ng-click = "NCC.saveName()"
+      )
+        .spinner-wrapper.spinner-white.spinner-sm.float-left(
+          ng-if = "$root.isLoading.newContainerSingleRepo"
+          ng-include = "'spinner'"
+        )
+        span(
+          ng-if = "NCC.state.repo"
+        ) Next Step: Setup
+        span(
+          ng-if = "NCC.state.templateSource"
+        ) Add Service

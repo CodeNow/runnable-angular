@@ -11,7 +11,7 @@
         name = "rename"
       )
         label.label.clearfix
-          .label-col Rename Template
+          .label-col Rename Service
           .input-col
             div(
               ng-class = "{\
@@ -32,7 +32,7 @@
               )
 
             ul.list.list-bulleted.list-validation
-              li.list-item Choose a unique name for this template
+              li.list-item Choose a unique name for this service
               li.list-item(
                 ng-class = "{'ng-invalid': rename.$error.pattern}"
               ) Use letters, numbers, and hyphens (-)
@@ -55,4 +55,4 @@
       ) Cancel
       button.btn.btn-md.green.float-right(
         ng-disabled = "!rename.newName.$viewValue.length || rename.$invalid"
-      ) Rename Template
+      ) Rename Service

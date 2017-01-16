@@ -60,10 +60,8 @@
 @import "components/buttons/buttons-permissions";
 
 // components
-@import "components/aha-button";
 @import "components/aha-guide";
 @import "components/aha-modals";
-@import "components/aha-sidebar";
 @import "components/animated-panel";
 @import "components/badges";
 @import "components/cards";
@@ -72,7 +70,6 @@
 @import "components/help";
 @import "components/icons";
 @import "components/lists";
-@import "components/logo";
 @import "components/logs";
 @import "components/logs-theme";
 @import "components/notifications";
@@ -127,6 +124,8 @@
 @import "modals/modals-sheets";
 
 // modal specific
+@import "modals/modals-aha";
+@import "modals/modals-backdrop-error";
 @import "modals/modals-backup";
 @import "modals/modals-branch-setup";
 @import "modals/modals-confirm-setup";
@@ -161,16 +160,20 @@
 @import "popover/popover-add-tab";
 @import "popover/popover-aha";
 @import "popover/popover-aha-containers";
+@import "popover/popover-aha-demo";
 @import "popover/popover-aha-url";
 @import "popover/popover-branch-menu";
 @import "popover/popover-card-status";
 @import "popover/popover-container-menu";
 @import "popover/popover-debug";
+@import "popover/popover-demo";
+@import "popover/popover-demo-progress";
 @import "popover/popover-dns-mappings";
 @import "popover/popover-files";
 @import "popover/popover-new-server";
 @import "popover/popover-permissions";
 @import "popover/popover-primary-options";
+@import "popover/popover-pr-link";
 @import "popover/popover-rename";
 @import "popover/popover-rules";
 @import "popover/popover-team-management";
@@ -195,14 +198,13 @@
 
 // pages
 @import "pages/github-auth";
-@import "pages/grace-period";
+@import "pages/welcome";
 @import "pages/server-selection";
 
 //deprecated
 @import "deprecated/card-status";
 @import "deprecated/connections";
 @import "deprecated/deleted-commit";
-@import "deprecated/instances-list";
 @import "deprecated/popover-container-menu";
 
 // shame 🔔🔔

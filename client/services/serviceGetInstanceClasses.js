@@ -36,7 +36,7 @@ function getInstanceClasses(
       running: 'orange'
     };
 
-    if (keypather.get(instance, 'attrs.isTesting') && testingStatusMap[status]) {
+    if (keypather.get(instance, 'attrs.isTesting') && keypather.get(instance, 'getRepoName()') && testingStatusMap[status]) {
       h[testingStatusMap[status]] = true;
     } else {
       h[statusMap[status]] = true;

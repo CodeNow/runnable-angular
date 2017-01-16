@@ -6,10 +6,10 @@ require('app')
 function defaultContainerUrl(
   extractInstancePorts
 ) {
-  return function (instance) {
+  return function (instance, forceHttps) {
     var defaultPort = '';
     var ports = extractInstancePorts(instance);
-    var preamble = 'http://';
+    var preamble = forceHttps ? 'https://' : 'http://';
     if (ports.length) {
       if (!ports.includes('80')) {
         if (ports.includes('443')) {

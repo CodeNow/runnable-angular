@@ -10,18 +10,12 @@
 //- empty state
 .card.gray.disabled.load.empty.p(
   ng-class = "{'deprecated': !$root.featureFlags.cardStatus}"
-  ng-if = "$root.featureFlags.aha && !EC.isInGuide() && !$root.isLoading.sidebar && data.instances && !data.instances.models.length"
+  ng-if = "!EC.isInGuide() && !$root.isLoading.sidebar && data.instances && !data.instances.models.length"
 )
-  h1.h1 😐
-  | You don’t have any templates.
+  h1.h1 👆
+  | You don’t have any services.
   br
   | Click the button above to create one.
-
-//- empty state
-.card.gray.disabled.load.empty.p(
-  ng-class = "{'deprecated': !$root.featureFlags.cardStatus}"
-  ng-if = "!$root.featureFlags.aha && !$root.isLoading.sidebar && data.instances && !data.instances.models.length"
-) Create a repository template to get started!
 
 //- server card
 .card.gray.disabled.load(

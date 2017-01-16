@@ -21,6 +21,13 @@
         | Restart
 
       li.popover-list-item(
+        ng-if = "$root.featureFlags.internalDebugging"
+        ng-click = "CSBC.instance.redeploy(angular.noop)"
+      )
+        .icons-status.green
+        | (I) Redeploy
+
+      li.popover-list-item(
         ng-if = "!CSBC.instance.isMigrating() && !CSBC.isTesting() && ['running'].includes(CSBC.instance.status())"
         ng-click = "actions.stopInstance()"
       )
@@ -31,7 +38,7 @@
         ng-if = "!CSBC.instance.isMigrating() && !CSBC.isTesting() && ['running', 'stopped', 'crashed'].includes(CSBC.instance.status())"
       )
 
-      //- rebuild without cache when no new template exists for this container
+      //- rebuild without cache when no new service exists for this container
       li.popover-list-item.multi-line(
         ng-click = "\
           (!CSBC.instance.attrs.isolated && !CSBC.doesMatchMasterPod()) ? \
@@ -43,19 +50,19 @@
         | {{CSBC.isTesting() ? 'Rerun Test' : 'Rebuild'}}
         .small {{CSBC.isTesting() ? 'Will rerun tests without cache.' : 'Will rebuild without cache.'}}
 
-      //- rebuild without cache when no new template exists for this container
+      //- rebuild without cache when no new service exists for this container
       li.popover-list-item.multi-line(
         ng-if = "$root.featureFlags.allowIsolatedUpdate && CSBC.instance.attrs.isolated && !CSBC.doesMatchMasterPod()"
         ng-click = "actions.updateConfigToMatchMaster()"
       )
         .icons-status.orange
-        | Update Template and Rebuild
-        .small Will rebuild and update the template.
+        | Update and Rebuild
+        .small Will update the configuration and rebuild.
     .well.well-popover.orange.text-center.padding-xxs.small(
       ng-if = "(!CSBC.instance.attrs.isolated || $root.featureFlags.allowIsolatedUpdate) && !CSBC.doesMatchMasterPod()"
-    ) This container’s template has been changed. Rebuild to update.
+    ) This container’s configuration has changed. Rebuild to update.
 
-    //- only show if the template has not been changed
+    //- only show if the configuration has not been changed
     .well.well-popover.orange.text-center.padding-xxs.small(
       ng-if = "['buildFailed', 'neverStarted'].includes(CSBC.instance.status()) && CSBC.doesMatchMasterPod()"
     ) Having build problems? Some errors can be resolved by rebuilding.

@@ -1,9 +1,15 @@
 .grid-block(
-  ng-if = "dataInstance.data.instance.isMigrating()"
+  ng-if = "dataInstance.data.instance.isMigrating() && !CI.isInGuide()"
   ng-include = "'migrationNotificationView'"
 )
 
 .grid-block(
-  ng-if = "!dataInstance.data.instance.isMigrating()"
+  ng-if = "!dataInstance.data.instance.isMigrating() && !CI.showHangTightMessage()"
   ng-include = "'buildNotificationView'"
+)
+
+.grid-block.vertical.noscroll(
+  hang-tight
+  instance = "dataInstance.data.instance"
+  ng-if = "CI.showHangTightMessage()"
 )

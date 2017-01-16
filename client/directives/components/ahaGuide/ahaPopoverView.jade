@@ -2,9 +2,5 @@
 .popover-content
   .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
     ng-include = "'ahaGuideView'"
-    ng-init = "showAhaNavPopover = true"
+    ng-init = "showAhaNavPopover = true;"
   )
-.grid-block.justify-right.popover-footer
-  button.grid-block.shrink.btn.btn-sm.green(
-    ng-click = "CA.showAhaNavPopover = false"
-  ) Got It

@@ -35,12 +35,14 @@ function ServerModalController(
   };
   this.requiresRebuild = function () {
     var SMC = this;
+    var instanceTestingParentId = keypather.get(SMC, 'instance.attrs.testingParentId') || undefined;
     return loadingPromises.count(SMC.name) > 0 || !SMC.openItems.isClean() ||
       !angular.equals(
         keypather.get(SMC, 'instance.attrs.env') || [],
         keypather.get(SMC, 'state.opts.env') // SMC is pre-filled with a default of []
       ) ||
-      (!!SMC.instance && (keypather.get(SMC, 'instance.attrs.isTesting') || false) !== keypather.get(SMC, 'state.opts.isTesting'));
+      (!!SMC.instance && (keypather.get(SMC, 'instance.attrs.isTesting') || false) !== keypather.get(SMC, 'state.opts.isTesting')) ||
+      instanceTestingParentId !== keypather.get(SMC, 'state.opts.testingParentId');
   };
 
   this.openDockerfile = function (state, openItems) {
@@ -206,6 +208,11 @@ function ServerModalController(
             loading(SMC.name, true);
             return $q.when((state === 'build') ? SMC.getUpdatePromise() : true)
               .then(close)
+              .then(function () {
+                if (SMC.isDemo) {
+                  $rootScope.$broadcast('ahaGuide::launchModal');
+                }
+              })
               .catch(function (err) {
                 errs.handler(err);
                 loading(SMC.name, false);
@@ -358,7 +365,8 @@ function ServerModalController(
   this.handleInstanceUpdate = function () {
     var buildStatus = this.instance.status();
     $rootScope.$broadcast('buildStatusUpdated', {
-      status: buildStatus
+      status: buildStatus,
+      instance: this.instance
     });
     if (buildStatus === 'running') {
       this.page = 'run';

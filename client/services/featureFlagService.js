@@ -7,28 +7,22 @@ function featureFlags(
   $localStorage
 ) {
   var defaultFeatureFlags = {
-    addBranches: true,
-    aha: true,
     ahaBranchUrlStep: false,
     allowIsolatedUpdate: false,
     autoDeployError: false,
     autoIsolation: false,
     autoIsolationSetup: false,
     backup: false,
-    blankDockerfile: true, // allows users to skip the verification flow
-    billing: true,
     cardStatus: false,
     connections: false,
-    configTerminal: true, // flag for terminal in config view
-    containersViewTemplateControls: false,
-    containersViewEmptyState: false,
     contingencyPlan: false,
+    demoMultiTier: true,
     demoProject: true,
     dockerfileMirroringMultiple: false,
     editAnyInstance: false,
     emptyFolder: false, // shows empty folder markup
-    fullScreen: false,  // toggles full screen
-    fullScreenToggle: false,  // toggles the button that toggles full screen
+    fullScreen: false, // toggles full screen
+    fullScreenToggle: false, // toggles the button that toggles full screen
     gitHubIntegration: true,
     hostnameNotifications: false,
     hostnameTool: false,
@@ -36,6 +30,7 @@ function featureFlags(
     intercomOnMigration: false, // adds intercom link to migration message
     internalDebugging: false,
     inviteFlows: false,
+    isPersonalAccount: false, // if account is a personal account
     multilineFnR: false,
     multilineStartCmd: false,
     multipleRepositoryContainers: false, // for adding multiple containers with the same repository
@@ -44,8 +39,11 @@ function featureFlags(
     nextPayment: false, // show the next payment date under payment summary
     noBuildLogs: true,
     optionsInModal: false, // allows delete in modal
+    personalAccounts: true, // allows users with personal accounts to create Runnable teams
+    personalAccountsPhase2: true,
     renameContainer: false,
     saveToolbar: false,
+    teamCTA: true,
     teamManagement: false,
     teamManagementAdvanced: false, // changes text from org to team in account menu
     testingFeature: false,

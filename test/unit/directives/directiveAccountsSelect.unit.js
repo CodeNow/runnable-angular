@@ -9,6 +9,8 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
   var ctx;
   var keypather;
   var mockCurrentOrg;
+  var demoFlowServiceStub;
+  var userUrl;
 
   beforeEach(function () {
     mockCurrentOrg = {
@@ -22,6 +24,9 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
           hasPaymentMethod: false
         }
       }
+    };
+    demoFlowServiceStub = {
+      shouldShowTeamCTA: sinon.stub().returns(false)
     };
     ctx = {};
     ctx.fakeuser = {
@@ -83,6 +88,9 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
         instanceName: 'instanceName'
       });
       $provide.value('currentOrg', mockCurrentOrg);
+      $provide.service('demoFlowService', function () {
+        return demoFlowServiceStub;
+      });
     });
     angular.mock.inject(function(
       $compile,
@@ -92,7 +100,6 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
     ){
       keypather = _keypather_;
       $rootScope = _$rootScope_;
-      keypather.set($rootScope, 'featureFlags.billing', false);
       $scope = $rootScope.$new();
       $timeout = _$timeout_;
 
@@ -130,25 +137,7 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
     });
   });
 
-  describe('without billing feature flag', function () {
-    describe('getBadgeCount', function () {
-      it('should return empty string', function () {
-        expect($elScope.getBadgeCount()).to.equal('');
-      });
-    });
-
-    describe('getClasses', function () {
-      it('should return empty object', function () {
-        expect($elScope.getClasses()).to.deep.equal({});
-      });
-    });
-  });
-
   describe('with billing feature flag', function () {
-    beforeEach(function () {
-      keypather.set($rootScope, 'featureFlags.billing', true);
-    });
-
     describe('getBadgeCount', function () {
       describe('when in trial', function () {
         beforeEach(function () {
@@ -177,6 +166,12 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
           mockCurrentOrg.poppa.attrs.hasPaymentMethod = true;
           expect($elScope.getBadgeCount()).to.equal('');
         });
+
+        it('should return nothing if payment method is set', function () {
+          mockCurrentOrg.poppa.attrs.hasPaymentMethod = true;
+          demoFlowServiceStub.shouldShowTeamCTA.returns(true);
+          expect($elScope.getBadgeCount()).to.equal('•');
+        });
       });
 
       describe('when active', function () {
@@ -195,14 +190,14 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
         mockCurrentOrg.poppa.isInTrial.returns(false);
         expect($elScope.getClasses()).to.deep.equal({
           badge: false,
-          'badge-orange': false
+          'badge-red': false
         });
       });
 
       it('should return true flags when not in active period', function () {
         expect($elScope.getClasses()).to.deep.equal({
           badge: true,
-          'badge-orange': true
+          'badge-red': true
         });
       });
 
@@ -210,9 +205,18 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
         mockCurrentOrg.poppa.attrs.hasPaymentMethod = true;
         expect($elScope.getClasses()).to.deep.equal({
           badge: false,
-          'badge-orange': false
+          'badge-red': false
         });
       });
+
+      it('should return true if it should show the team CTA', function () {
+        demoFlowServiceStub.shouldShowTeamCTA.returns(true);
+        expect($elScope.getClasses()).to.deep.equal({
+          badge: true,
+          'badge-red': true
+        });
+      });
+
     });
   });
 });

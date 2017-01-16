@@ -1,22 +1,12 @@
-.welcome {
-
-  .runnabear {
-    height: auto;
-    left: 0;
-    margin: 0 auto;
-    position: absolute;
-    right: 0;
-    top: 32px;
-    width: 230px;
-    z-index: 1;
-  }
-}
-
 .modal-org-select {
-  margin-top: 150px;
 
   .h1 {
     font-size: 27px;
+  }
+
+  .p {
+    color: $gray;
+    font-size: 15px;
   }
 
   .well {
@@ -57,56 +47,48 @@
     }
 
     .iconnables {
-      width: 18px;
+      height: 15px;
+      width: 15px;
     }
   }
 
-  // progress for demo org
-  .nav {
+  .modal-header {
     align-self: stretch;
-    position: relative;
+  }
 
-    + .padding-lg {
-      @include media(xxs) {
-        padding: $md;
-      }
+  .org-select-view {
+    padding: 24px $sm;
+
+    .p,
+    .list-item {
+      padding: 0 $sm;
     }
 
-    .li {
-      background: $gray-lighter;
-      border: $input-border solid transparent;
-      border-radius: 50%;
-      color: $white;
-      flex: 0 0 $input-xxs;
-      font-size: 13px;
-      height: $input-xxs;
-      line-height: $input-line-height-xxs;
-      z-index: 1;
-
-      &.active {
-        background: $green;
-        border-color: darken($green,5%);
-      }
-
-      + .li {
-        margin-left: 15px;
-      }
-
-      .iconnables {
-        height: 100%;
-        width: 100%;
-      }
+    .p {
+      margin-bottom: $sm;
+      text-align: center;
     }
   }
 
   .list {
     width: 100%;
+
+    + .p {
+      margin-top: 24px;
+    }
   }
 
-  .infrastructure-view > .padding-md {
-    @include media(xs) {
-      padding-left: $sm;
-      padding-right: $sm;
+  .infrastructure-view {
+
+    > .padding-md {
+      @include media(xs) {
+        padding-left: $sm;
+        padding-right: $sm;
+      }
+    }
+
+    .weight-strong {
+      word-break: break-word;
     }
   }
 
@@ -120,18 +102,15 @@
     border-radius: 0;
     font-size: 18px;
     font-weight: $weight-normal;
-    height: 60px;
+    height: 69px;
 
     &:hover,
     &:active {
       z-index: 1;
     }
 
-    &:not(:hover),
-    &:not(:active) {
-      .icons-arrow-forward {
-        color: $gray-light;
-      }
+    .icons-arrow-forward {
+      opacity: .5;
     }
 
     &:first-child {
@@ -148,14 +127,23 @@
       margin-top: -1px;
     }
 
-    .icons-missing-org {
-      background: $gray-lightest;
-      border-radius: $input-border-radius;
-      font-size: 21px;
+    .icons-github {
       height: 30px;
-      line-height: 30px;
-      padding-top: 1px;
       width: 30px;
     }
+
+    .small {
+      opacity: .6;
+    }
+  }
+
+  .iframe {
+    border-radius: $input-border-radius-lg;
+    max-width: 100%;
+  }
+
+  .footer {
+    align-self: stretch;
+    border-top: 1px solid $gray-lighter;
   }
 }

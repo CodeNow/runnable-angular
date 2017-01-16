@@ -1,10 +1,9 @@
 //- navigation bar (purple)
-nav.grid-block.vertical.layout-navigation(
+nav.grid-block.noscroll.vertical.layout-navigation(
   ng-class = "{'feature-flag-on': CA.featureFlagsChanged()}"
   ng-include = "'viewNav'"
 )
 
-//- second .content...
 main.grid-block.layout-main(
   ui-view
 )
@@ -21,6 +20,6 @@ main.grid-block.layout-main(
       )
 
     .grid-block.vertical.align-center.form-trial.padding-md(
-      trial-form
       from-notification = 'true'
+      trial-form
     )

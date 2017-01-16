@@ -11,6 +11,7 @@ function TeamManagementFormController(
   $rootScope,
   $scope,
   $state,
+  currentOrg,
   errs,
   fetchOrgMembers,
   inviteGithubUserToRunnable,
@@ -20,7 +21,8 @@ function TeamManagementFormController(
   var TMMC = this;
   angular.extend(TMMC, {
     loading: true,
-    members: null
+    members: null,
+    isPersonalAccount: keypather.get(currentOrg, 'poppa.attrs.isPersonalAccount')
   });
 
   // Load initial state
@@ -36,6 +38,7 @@ function TeamManagementFormController(
   $scope.$on('$destroy', newInviteAddedWatchterUnbind);
 
   function fetchMembers () {
+    var currentUser;
     return fetchOrgMembers($state.params.userName, true)
       .then(function (members) {
         TMMC.loading = false;
@@ -55,21 +58,23 @@ function TeamManagementFormController(
             }
           };
         };
+        if (TMMC.isPersonalAccount) {
+          currentUser = keypather.get(currentOrg, 'github.attrs');
+          TMMC.members.registered.push(currentUser);
+          return;
+        }
         TMMC.members.invited.forEach(setEmail('userInvitation.attrs.recipient.email'));
         TMMC.members.registered.forEach(setEmail('userModel.attrs.accounts.github.emails[0].value'));
         TMMC.members.uninvited.forEach(setEmail(null));
       });
+
   }
 
   TMMC.openInvitationModal = function () {
     ModalService.showModal({
       controller: 'InviteModalController',
       controllerAs: 'IMC',
-      templateUrl: 'inviteModalView',
-      inputs: {
-        teamName: $state.params.userName,
-        unInvitedMembers: TMMC.members.uninvited
-      }
+      templateUrl: 'inviteModalView'
     })
     .then(function (modal) {
       return modal.close;

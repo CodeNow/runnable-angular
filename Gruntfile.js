@@ -272,7 +272,7 @@ module.exports = function(grunt) {
           thresholds: {
             statements   : 72.5,
             branches     : 55.3,
-            functions    : 67.6,
+            functions    : 66.0,
             lines        : 72.6
           },
           dir: 'coverage',
@@ -289,7 +289,8 @@ module.exports = function(grunt) {
               env: 'production', // require('./client/config/json/environment.json').environment,
               commitHash: require('./client/config/json/commit.json').commitHash,
               commitTime: require('./client/config/json/commit.json').commitTime,
-              apiHost: require('./client/config/json/api.json').host
+              apiHost: require('./client/config/json/api.json').host,
+              mixpanelProxyUrl: require('./client/config/json/api.json').mixpanelProxyUrl
             };
             locals.rollbarEnv = locals.env;
             if (locals.apiHost.indexOf('runnable-beta.com') > -1) {
@@ -434,6 +435,7 @@ module.exports = function(grunt) {
       function (cb) {
         var configObj = {};
         configObj.host = process.env.API_URL || 'https://api-staging-codenow.runnableapp.com/';
+        configObj.mixpanelProxyUrl = process.env.MIXPANEL_PROXY_URL || 'https://api.mixpanel.com';
         configObj.socketHost = process.env.API_SOCK_URL || configObj.host;
         configObj.userContentDomain = process.env.USER_CONTENT_DOMAIN || 'runnableapp.com';
         configObj.corporateUrl = process.env.MARKETING_URL || 'https://runnable.io';
@@ -548,7 +550,11 @@ module.exports = function(grunt) {
     'coverage'
   ]);
   grunt.registerTask('test:e2e', ['bgShell:e2e']);
-  grunt.registerTask('test', ['bgShell:karma']);
+  grunt.registerTask('test', [
+    'jade2js',
+    'jshint:prod',
+    'bgShell:karma'
+  ]);
   grunt.registerTask('default', [
     'bgShell:npm-install',
     'copy',

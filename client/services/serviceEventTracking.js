@@ -10,10 +10,6 @@ require('app')
   .service('eventTracking', EventTracking);
 var User = require('@runnable/api-client/lib/models/user');
 var UUID = require('node-uuid');
-var keypather;
-var $location;
-var INTERCOM_APP_ID;
-var SIFT_API_KEY;
 
 /**
  * EventTracking
@@ -36,7 +32,8 @@ function EventTracking(
   siftApiConfig
 ) {
   var ETS = this;
-  SIFT_API_KEY = siftApiConfig;
+  var SIFT_API_KEY = siftApiConfig;
+  var INTERCOM_APP_ID;
 
   if (configEnvironment === 'production') {
     INTERCOM_APP_ID = 'wqzm3rju'; // production ID
@@ -273,6 +270,36 @@ function EventTracking(
   };
 
   /**
+   * An auto-deploy toggle event
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.autoDeployToggled = function (state) {
+    var eventName = 'Toggled Auto-deploy';
+
+    ETS._mixpanel('track', eventName, {
+      state: state
+    });
+    return ETS;
+  };
+
+  /**
+   * A commit select event
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.selectCommit = function (latest) {
+    var eventName = 'Select Commit';
+
+    ETS._mixpanel('track', eventName, {
+      latest: latest
+    });
+    return ETS;
+  };
+
+  /**
    * Record user visit to states
    * Reports to:
    *   - mixpanel
@@ -377,6 +404,19 @@ function EventTracking(
   };
 
   /**
+   * Track user visit to /orgname/configure page
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.visitedConfigurePage = function () {
+    var eventName = 'Visited configure page';
+
+    ETS._mixpanel('track', eventName);
+    return ETS;
+  };
+
+  /**
    * Track user visit to /containers page
    * Reports to:
    *   - mixpanel
@@ -443,46 +483,7 @@ function EventTracking(
    * @return this
    */
   ETS.milestone2SelectTemplate = function () {
-    var eventName = 'Milestone 2: Select template';
-
-    ETS._mixpanel('track', eventName);
-    return ETS;
-  };
-
-  /**
-   * Milestone 1: Track personal account
-   * Reports to:
-   *   - mixpanel
-   * @return this
-   */
-  ETS.trackPersonalAccount = function () {
-    var eventName = 'Clicked personal account link';
-
-    ETS._mixpanel('track', eventName);
-    return ETS;
-  };
-
-  /**
-   * Milestone 1: Track create org link
-   * Reports to:
-   *   - mixpanel
-   * @return this
-   */
-  ETS.trackCreateOrgLink = function () {
-    var eventName = 'Clicked create org link';
-
-    ETS._mixpanel('track', eventName);
-    return ETS;
-  };
-
-  /**
-   * Milestone 1: Track clicks on figure
-   * Reports to:
-   *   - mixpanel
-   * @return this
-   */
-  ETS.trackFigureAction = function () {
-    var eventName = 'Clicked figure';
+    var eventName = 'Milestone 2: Select service';
 
     ETS._mixpanel('track', eventName);
     return ETS;
@@ -554,6 +555,19 @@ function EventTracking(
   };
 
   /**
+   * Added Branch
+   * Reports to:
+   *  - Mixpanel
+   * @returns this
+   */
+  ETS.hasAddedFirstBranch = function () {
+    var eventName = 'Added branch';
+
+    ETS._mixpanel('track', eventName);
+    return ETS;
+  };
+
+  /**
    * Milestone 4: Invited Runnabot
    * Reports to:
    *   - mixpanel
@@ -574,6 +588,54 @@ function EventTracking(
    */
   ETS.enabledAutoLaunch = function () {
     var eventName = 'Enabled auto-launch';
+    ETS._mixpanel('track', eventName);
+    return ETS;
+  };
+
+  /**
+   * Spun up infrastructure
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.spunUpInfrastructure = function () {
+    var eventName = 'Spun up infrastructure';
+    ETS._mixpanel('track', eventName);
+    return ETS;
+  };
+
+  /**
+   * Clicked ‘Change Team’
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.clickedChangeTeam = function () {
+    var eventName = 'Clicked ‘Change Team’';
+    ETS._mixpanel('track', eventName);
+    return ETS;
+  };
+
+  /**
+   * Opened Container URL
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.openedContainerUrl = function () {
+    var eventName = 'Opened Container URL';
+    ETS._mixpanel('track', eventName);
+    return ETS;
+  };
+
+  /**
+   * Opened PR URL
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.openedPRUrl = function () {
+    var eventName = 'Opened PR URL';
     ETS._mixpanel('track', eventName);
     return ETS;
   };

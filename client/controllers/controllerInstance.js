@@ -8,13 +8,13 @@ require('app')
 function ControllerInstance(
   $localStorage,
   $q,
+  $rootScope,
   $scope,
   $state,
   $stateParams,
   $timeout,
   ahaGuide,
-  currentOrg,
-  errs,
+  demoFlowService,
   eventTracking,
   favico,
   fetchCommitData,
@@ -23,32 +23,27 @@ function ControllerInstance(
   fetchSettings,
   fetchUser,
   getCommitForCurrentlyBuildingBuild,
+  instancesByPod,
   keypather,
   loading,
   OpenItems,
-  instancesByPod,
   pageName,
   setLastInstance
 ) {
-
-  var CIS = this;
-  CIS.showSidebar = false;
-  CIS.isInGuide = ahaGuide.isInGuide;
-  CIS.toggleSidebar = function (end) {
-    if (end === 'end') {
-      ahaGuide.endGuide();
-    }
-    CIS.showSidebar = !CIS.showSidebar;
-  };
-  $scope.$on('showAhaSidebar', CIS.toggleSidebar);
+  var CI = this;
+  CI.isInGuide = ahaGuide.isInGuide;
   var dataInstance = $scope.dataInstance = {
     data: {
-      unsavedAcvs: []
+      unsavedAcvs: [],
+      demoFlowFlags: {}
     },
     actions: {}
   };
   var data = dataInstance.data;
-  $scope.$storage = $localStorage;
+  $scope.$storage = $localStorage.$default({
+     hasSeenHangTightMessage: false,
+     hasSeenUrlCallout: false
+  });
   loading('main', true);
 
   data.openItems = new OpenItems();
@@ -68,7 +63,7 @@ function ControllerInstance(
     // product team - track visits to instance page & referrer
     eventTracking.visitedState();
     return $q.all({
-      instance: fetchInstances({ name: $stateParams.instanceName }, true),
+      instance: fetchCurrentInstance(),
       settings: fetchSettings()
     })
       .then(function (results) {
@@ -196,7 +191,7 @@ function ControllerInstance(
           data.instance.containers.models[0],
           true
         );
-        if (keypather.get($scope, 'dataInstance.data.instance.attrs.isTesting')) {
+        if (keypather.get($scope, 'dataInstance.data.instance.attrs.isTesting') && keypather.get($scope, 'dataInstance.data.instance.getBranch()')) {
           data.openItems.removeAllButLogs();
         }
         break;
@@ -210,10 +205,17 @@ function ControllerInstance(
         data.openItems.removeAllButBuildLogs();
         break;
     }
+
     $timeout(function () {
       favico.setInstanceState(keypather.get($scope, 'dataInstance.data.instance'));
     });
   });
+
+  CI.showHangTightMessage = function () {
+    return demoFlowService.isInDemoFlow() &&
+      !demoFlowService.hasSeenHangTightMessage() &&
+      !!keypather.get(dataInstance.data, 'instance.contextVersion.getMainAppCodeVersion()');
+  };
 
   if (ahaGuide.isInGuide()) {
     if (keypather.get(instancesByPod, 'models.length')) {
@@ -222,9 +224,13 @@ function ControllerInstance(
         })) {
         // timeout for the animation
         $timeout(function () {
-          CIS.showSidebar = true;
+          $rootScope.$broadcast('ahaGuide::launchModal');
         });
       }
     }
+  }
+
+  function fetchCurrentInstance () {
+    return fetchInstances({ name: $stateParams.instanceName }, true);
   }
 }

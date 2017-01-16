@@ -31,7 +31,6 @@ function EnvironmentController(
   EC.isAddingFirstRepo = ahaGuide.isAddingFirstRepo;
   EC.isInGuide = ahaGuide.isInGuide;
   EC.showCreateTemplate = true;
-  EC.showOverview = true;
   EC.getClassForSubstep = ahaGuide.getClassForSubstep;
   $scope.$on('ahaGuideEvent', function(event, info) {
     if (info.isClear) {
@@ -66,19 +65,10 @@ function EnvironmentController(
   EC.triggerModal = {
     newContainer: function () {
       $rootScope.$broadcast('close-popovers');
-      EC.showSidebar = false;
       return ModalService.showModal({
         controller: 'NewContainerModalController',
-        controllerAs: 'MC', // Shared
+        controllerAs: 'NCMC',
         templateUrl: 'newContainerModalView'
-      });
-    },
-    repoContainer: function () {
-      $rootScope.$broadcast('close-popovers');
-      ModalService.showModal({
-        controller: 'SetupServerModalController',
-        controllerAs: 'SMC',
-        templateUrl: 'setupServerModalView'
       });
     },
     inviteTeammate: function () {
@@ -102,8 +92,7 @@ function EnvironmentController(
   var isAddFirstRepo = ahaGuide.isAddingFirstRepo();
 
   if (isAddFirstRepo && instancesByPod.models.length === 0) {
-    EC.showCreateTemplate = false;
-    EC.showSidebar = true;
+    $rootScope.$broadcast('ahaGuide::launchModal');
   }
 
   // Asynchronously fetch the Dockerfile and check for working instances
@@ -131,11 +120,17 @@ function EnvironmentController(
 
   $scope.$on('alert', function (evt, data) {
     EC.alert = data;
-    if (!data.planChanged) {
-      $timeout(function () {
-        EC.actions.closeAlert();
-      }, 5000);
+    var timeoutDelay = 5000;
+    if (data.newPlan) {
+      if (keypather.get(currentOrg, 'poppa.attrs.hasPaymentMethod')) {
+        timeoutDelay *= 2;
+      } else {
+        EC.alert.newPlan = null;
+      }
     }
+    $timeout(function () {
+      EC.actions.closeAlert();
+    }, timeoutDelay);
   });
 
   EC.actions = {
@@ -154,18 +149,8 @@ function EnvironmentController(
         }
       });
     },
-    showSidebar: function () {
-      EC.showSidebar = !EC.showSidebar;
-      EC.showCreateTemplate = true;
-    },
     endGuide: ahaGuide.endGuide
   };
-
-
-  $scope.$on('showAhaSidebar', EC.actions.showSidebar);
-  $scope.$on('showAddServicesPopover', function(event, toggle) {
-    EC.showAddServicePopover = toggle;
-  });
 
   if (ahaGuide.isInGuide()) {
     if (keypather.get(instancesByPod, 'models.length')) {
@@ -174,7 +159,7 @@ function EnvironmentController(
         })) {
         // timeout for the animation
         $timeout(function () {
-          EC.showSidebar = true;
+          $rootScope.$broadcast('ahaGuide::launchModal');
         });
       }
     }

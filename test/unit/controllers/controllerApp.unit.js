@@ -41,7 +41,9 @@ describe('controllerApp'.bold.underline.blue, function () {
         attrs: {
           id: 'githubId1234'
         }
-      }
+      },
+      willAcceptPayment: sinon.stub().returns(true),
+      isPaymentDue: sinon.stub().returns(true)
     };
     ctx = {};
     ctx.fetchInstancesByPodMock = new (require('../fixtures/mockFetch'))();
@@ -87,7 +89,7 @@ describe('controllerApp'.bold.underline.blue, function () {
       $provide.value('activeAccount', ctx.fakeuser);
       $provide.value('errs', ctx.fakeErrs);
       $provide.value('$localStorage', mockLocalStorage);
-      $provide.factory('ahaGuide', function ($q) {
+      $provide.factory('ahaGuide', function () {
         ahaGuideStub = {
           updateCurrentOrg: sinon.stub()
         };
@@ -174,7 +176,6 @@ describe('controllerApp'.bold.underline.blue, function () {
 
   describe('showTrialEndingNotification', function () {
     beforeEach(function () {
-      keypather.set($rootScope, 'featureFlags.billing', true);
       keypather.set(mockLocalStorage, 'hasDismissedTrialNotification.' + mockCurrentOrg.github.attrs.id, false);
       mockCurrentOrg.poppa.isInTrial.returns(true);
       mockCurrentOrg.poppa.trialDaysRemaining.returns(3);
@@ -187,11 +188,6 @@ describe('controllerApp'.bold.underline.blue, function () {
 
     it('should not show if trial ends in more than 3 days', function () {
       mockCurrentOrg.poppa.trialDaysRemaining.returns(4);
-      expect(CA.showTrialEndingNotification()).to.equal(false);
-    });
-
-    it('should not show if billing feature flag is set', function () {
-      keypather.set($rootScope, 'featureFlags.billing', false);
       expect(CA.showTrialEndingNotification()).to.equal(false);
     });
 
@@ -217,7 +213,6 @@ describe('controllerApp'.bold.underline.blue, function () {
     describe('when we have a payment method', function () {
       beforeEach(function () {
         var controllerSetupFn = setup(true);
-        mockFeatureFlags.flags.billing = true;
         mockCurrentOrg.poppa.isInGrace.returns(true);
         mockCurrentOrg.poppa.isGraceExpired.returns(false);
         mockCurrentOrg.poppa.attrs.hasPaymentMethod = true;
@@ -238,7 +233,6 @@ describe('controllerApp'.bold.underline.blue, function () {
     describe('with no payment method', function () {
       beforeEach(function () {
         var controllerSetupFn = setup(true);
-        mockFeatureFlags.flags.billing = true;
         mockCurrentOrg.poppa.isInGrace.returns(true);
         mockCurrentOrg.poppa.isGraceExpired.returns(false);
         mockCurrentOrg.poppa.attrs.hasPaymentMethod = false;
@@ -262,7 +256,6 @@ describe('controllerApp'.bold.underline.blue, function () {
     describe('when we have a payment method', function () {
       beforeEach(function () {
         var controllerSetupFn = setup(true);
-        mockFeatureFlags.flags.billing = true;
         mockCurrentOrg.poppa.isInGrace.returns(false);
         mockCurrentOrg.poppa.isGraceExpired.returns(true);
         mockCurrentOrg.poppa.attrs.hasPaymentMethod = true;
@@ -284,7 +277,6 @@ describe('controllerApp'.bold.underline.blue, function () {
     describe('with no payment method', function () {
       beforeEach(function () {
         var controllerSetupFn = setup(true);
-        mockFeatureFlags.flags.billing = true;
         mockCurrentOrg.poppa.isInGrace.returns(false);
         mockCurrentOrg.poppa.isGraceExpired.returns(true);
         mockCurrentOrg.poppa.attrs.hasPaymentMethod = false;

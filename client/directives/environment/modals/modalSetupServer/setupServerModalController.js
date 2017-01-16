@@ -4,15 +4,16 @@ require('app')
   .controller('SetupServerModalController', SetupServerModalController);
 
 function SetupServerModalController(
-  $scope,
   $controller,
   $filter,
   $q,
   $rootScope,
+  $scope,
   ahaGuide,
   cardInfoTypes,
   createAndBuildNewContainer,
   createBuildFromContextVersionId,
+  createDockerfileFromSource,
   dockerfileType,
   errs,
   eventTracking,
@@ -24,13 +25,16 @@ function SetupServerModalController(
   loadingPromises,
   OpenItems,
   promisify,
-  updateDockerfileFromState,
   TAB_VISIBILITY,
-  close,
-  instanceName,
-  repo,
+  updateDockerfileFromState,
+  parseDockerfileForDefaults,
+
   build,
-  masterBranch
+  close,
+  defaults,
+  instanceName,
+  masterBranch,
+  repo
 ) {
   var SMC = this; // Server Modal Controller (shared with EditServerModalController)
   SMC.isAddingFirstRepo = ahaGuide.isAddingFirstRepo;
@@ -38,10 +42,11 @@ function SetupServerModalController(
 
   var parentController = $controller('ServerModalController as SMC', { $scope: $scope });
   angular.extend(SMC, {
-    'closeWithConfirmation': parentController.closeWithConfirmation.bind(SMC),
     'changeTab': parentController.changeTab.bind(SMC),
+    'closeWithConfirmation': parentController.closeWithConfirmation.bind(SMC),
     'disableMirrorMode': parentController.disableMirrorMode.bind(SMC),
     'enableMirrorMode': parentController.enableMirrorMode.bind(SMC),
+    'getContainerUrl': parentController.getContainerUrl.bind(SMC),
     'getDisplayName': parentController.getDisplayName.bind(SMC),
     'getElasticHostname': parentController.getElasticHostname.bind(SMC),
     'getNumberOfOpenTabs': parentController.getNumberOfOpenTabs.bind(SMC),
@@ -59,8 +64,8 @@ function SetupServerModalController(
     'saveInstanceAndRefreshCards': parentController.saveInstanceAndRefreshCards.bind(SMC),
     'showAdvancedModeConfirm': parentController.showAdvancedModeConfirm.bind(SMC),
     'switchBetweenAdvancedAndMirroring': parentController.switchBetweenAdvancedAndMirroring.bind(SMC),
-    'switchToMirrorMode': parentController.switchToMirrorMode.bind(SMC),
     'switchToAdvancedMode': parentController.switchToAdvancedMode.bind(SMC),
+    'switchToMirrorMode': parentController.switchToMirrorMode.bind(SMC),
     'updateInstanceAndReset': parentController.updateInstanceAndReset.bind(SMC)
   });
 
@@ -72,6 +77,7 @@ function SetupServerModalController(
     portsSet: false,
     isNewContainer: true,
     openItems: new OpenItems(),
+    isDemo: false,
     state: {
       advanced: false,
       containerFiles: [
@@ -100,11 +106,13 @@ function SetupServerModalController(
       ]
     },
     actions: {
-      close: SMC.closeWithConfirmation.bind(SMC, close)
+      close: SMC.closeWithConfirmation.bind(SMC, close),
+      forceClose: close
     },
     data: {},
     selectedTab: 'repository'
   });
+  angular.extend(SMC.state, defaults);
   loading.reset(SMC.name);
   loadingPromises.clear(SMC.name);
   loading.reset(SMC.name + 'IsBuilding');
@@ -123,6 +131,46 @@ function SetupServerModalController(
     repo: repo,
     repoSelected: true
   });
+
+  // If a stack is already selected, pick it.
+  if (SMC.state.selectedStack) {
+    loading(SMC.name, true);
+
+    var name = keypather.get(SMC, 'state.opts.name');
+    if (ahaGuide.demoNames.includes(name)) {
+      SMC.isDemo = true;
+    }
+
+    createDockerfileFromSource(SMC.state.contextVersion, SMC.state.selectedStack.key)
+      .then(function (dockerfile) {
+        SMC.state.dockerfile = dockerfile;
+        return fetchDockerfileFromSource(SMC.state.selectedStack.key)
+          .then(function (sourceDockerfile) {
+            var defaults = parseDockerfileForDefaults(sourceDockerfile, ['run', 'dst']);
+            mainRepoContainerFile.commands = defaults.run.map(function (run) {
+              return new cardInfoTypes.Command('RUN ' + run);
+            });
+          });
+      })
+      .then(function () {
+        return updateDockerfileFromState(SMC.state);
+      })
+      .then(function () {
+        return loadAllOptions();
+      })
+      .then(function () {
+        if (SMC.state.step === 3) {
+          SMC.changeTab('repository');
+        }
+      })
+      .then(function () {
+        return updateDockerfileFromState(SMC.state, false, true);
+      })
+      .catch(errs.handler)
+      .finally(function () {
+        loading(SMC.name, false);
+      });
+  }
 
   fetchInstancesByPod()
     .then(function (instances) {
@@ -313,6 +361,7 @@ function SetupServerModalController(
       })
       .then(function () {
         eventTracking.createdRepoContainer(SMC.instance.attrs.owner.github, SMC.state.repo.attrs.name);
+        $scope.$emit('demoService::hide');
         return SMC.resetStateContextVersion(SMC.instance.contextVersion, true);
       })
       .catch(function (err) {

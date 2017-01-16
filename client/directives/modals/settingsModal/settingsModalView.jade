@@ -3,7 +3,12 @@
     header.grid-block.vertical.align-center.modal-header
       .container-title-wrapper
         .server-status-card-pop-over.no-touching
-          .container-title {{SEMC.currentOrg.github.attrs.login}} Settings
+          .container-title(
+            ng-if = "!SEMC.isPersonalAccount"
+          ) {{SEMC.currentOrg.github.attrs.login}} Settings
+          .container-title(
+            ng-if = "SEMC.isPersonalAccount"
+          ) Settings
       svg.iconnables.icons-close(
         ng-click = "SEMC.close()"
       )
@@ -20,7 +25,6 @@
             'badge-orange': SEMC.currentOrg.poppa.isInTrial() && !SEMC.currentOrg.poppa.attrs.hasPaymentMethod,\
           }"
           ng-click = "SEMC.currentTab = 'billing'"
-          ng-show = "$root.featureFlags.billing"
         )
           svg.iconnables.grid-content
             use(

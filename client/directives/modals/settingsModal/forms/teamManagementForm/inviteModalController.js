@@ -8,42 +8,34 @@ require('app')
  */
 function InviteModalController(
   $rootScope,
-  $q,
-  $state,
   errs,
-  fetchUser,
+  keypather,
+  currentOrg,
   fetchOrgMembers,
   inviteGithubUserToRunnable,
   loading,
 
-  teamName,
-  unInvitedMembers,
   close
 ) {
   var IMC = this;
   angular.extend(IMC, {
-    name: 'inviteModal',
     activeUserId: null,
+    invitedAll: null,
+    invitesSent: false,
+    isPersonalAccount: keypather.get(currentOrg, 'poppa.attrs.isPersonalAccount'),
+    name: 'inviteModal',
     sendingInviteUserId: null,
     sending: false,
-    invitesSent: false
+    showAlternateInviteModal: null,
+    teamName: currentOrg.github.attrs.login
   });
 
-  // Load uninvited members if they are not passed in
   loading(IMC.name, true);
-  $q.when(true)
-    .then(function () {
-      // Empty array is valid input
-      if (!unInvitedMembers && !Array.isArray(unInvitedMembers)) {
-        return fetchOrgMembers($state.params.userName, true)
-          .then(function (members) {
-            return members.uninvited;
-          });
-      }
-      return unInvitedMembers;
-    })
-    .then(function (unInvitedMembers) {
-      unInvitedMembers.forEach(function (member) {
+
+  fetchOrgMembers(IMC.teamName, true)
+    .then(function (members) {
+      IMC.orgMembers = members;
+      members.uninvited.forEach(function (member) {
         // Set default invite email
         // We want `email` and `inviteEmail` to be different, since `email` is the
         // user's dfault GH email and should not be modified
@@ -51,16 +43,17 @@ function InviteModalController(
           member.inviteEmail = member.email;
         }
       });
-      IMC.unInvitedMembers = unInvitedMembers;
+      IMC.unInvitedMembers = members.uninvited;
+      IMC.invitedAll = IMC.orgMembers.all.length === IMC.orgMembers.registered.length + IMC.orgMembers.invited.length;
+      IMC.showAlternateInviteModal = IMC.isPersonalAccount || IMC.invitedAll || !IMC.unInvitedMembers.length;
       loading(IMC.name, false);
     })
     .catch(errs.handler);
 
-
   IMC.sendInvitation = function (user) {
     IMC.sendingInviteUserId = user.id;
     IMC.setActiveUserId(null);
-    return inviteGithubUserToRunnable(user.id, user.email, teamName)
+    return inviteGithubUserToRunnable(user.id, user.email, IMC.teamName)
       .then(function (invitationModel) {
         IMC.invitesSent = true;
         user.inviteSent = true;
@@ -84,5 +77,17 @@ function InviteModalController(
     // Inform ModalService if any invites were sent
     $rootScope.$emit('updateTeammateInvitations', IMC.invitesSent);
     close(IMC.invitesSent);
+  };
+
+  IMC.getTextForInviteModal = function () {
+    if (IMC.isPersonalAccount) {
+      return 'Only GitHub organizations can have multiple teammates on Runnable, but it looks like you’re using a personal account.';
+    }
+    if (IMC.orgMembers.all.length === 1) {
+      return 'You’re the only one in this team. Add teammates to your GitHub team before inviting them to Runnable.';
+    }
+    if (IMC.invitedAll && IMC.orgMembers.all.length > 1) {
+      return 'You’re amazing! You’ve already invited everyone on your GitHub team to Runnable.';
+    }
   };
 }

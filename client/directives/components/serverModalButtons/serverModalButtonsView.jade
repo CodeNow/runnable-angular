@@ -1,6 +1,6 @@
 button.btn.btn-md.gray.btn-cancel.float-left.js-animate(
   ng-click = "SMC.actions.close()"
-  ng-if = "!SMC.instance"
+  ng-if = "getDisplayFlag('cancel')"
   type = "button"
 ) Cancel
 
@@ -9,14 +9,14 @@ button.btn.btn-md.btn-done.white.float-right(
     'js-animate': SMC.state.step > 3\
   }"
   ng-click = "SMC.actions.close()"
-  ng-if = "SMC.instance"
+  ng-if = "getDisplayFlag('done')"
   type = "button"
 ) Done
 
 button.btn.btn-md.btn-primary.white.text-next.float-right(
   ng-click = "SMC.goToNextStep()"
   ng-disabled = "isPrimaryButtonDisabled()"
-  ng-if = "!SMC.instance && !SMC.isTabVisible('buildfiles')"
+  ng-if = "getDisplayFlag('next')"
   type = "button"
 )
   span.btn-text.float-left Next
@@ -35,13 +35,12 @@ button.btn.btn-md.btn-primary.white.text-next.float-right(
     .text-next
 button.btn.btn-md.white.btn-primary.float-right.js-animate(
   ng-class = "{\
-    'text-save': !showSaveAndBuild(),\
-    'text-save-build': showSaveAndBuild()\
+    'text-save': !getDisplayFlag('willRebuildOnSave'),\
+    'text-save-build': getDisplayFlag('willRebuildOnSave')\
   }"
   ng-click = "thisForm.$invalid || createServerOrUpdate()"
-  ng-disabled = "(SMC.needsToBeDirtySaved() && !SMC.isDirty()) || isPrimaryButtonDisabled()"
-  ng-if = "SMC.instance || SMC.isTabVisible('buildfiles')"
-  type = "submit"
+  ng-disabled = "getDisplayFlag('disableSave')"
+  ng-if = "getDisplayFlag('save')"
 )
   span.btn-text.float-left Save
     //- if save triggers a build
@@ -49,9 +48,15 @@ button.btn.btn-md.white.btn-primary.float-right.js-animate(
       ng-class = "{\
         'fade js-animate': !!SMC.instance\
       }"
-      ng-if = "showSaveAndBuild()"
+      ng-if = "getDisplayFlag('willRebuildOnSave')"
     ) &#32;& Build
 
+button.btn.btn-md.green.btn-primary.float-right.text-save-build(
+  data-event-name = "Demo: Clicked Save & Build"
+  ng-if = "getDisplayFlag('demoSave')"
+  ng-click = "createServerOrUpdate(true)"
+) Save & Build
+
 span.small.float-right.fade.js-animate(
-  ng-if = "SMC.instance && SMC.isDirty() === 'build' && !$root.isLoading[SMC.name]"
+  ng-hide = "!getDisplayFlag('requireRebuildText')"
 ) You’ve made changes that require a rebuild.

@@ -6,6 +6,7 @@
   display: none;
   font-size: 15px;
   height: 100vh;
+  min-width: $instance-list-width;
   overflow-y: auto;
   padding: 0 12px 45px;
   position: relative;
@@ -17,12 +18,11 @@
 
   // search
   .label-search {
-    border-bottom: 1px solid $gray-lighter;
     padding: 16px 10px;
   }
 
   // empty state
-  > .well {
+  .well.empty {
     background: $white;
     border-color: $gray-lighter;
     border-radius: $input-border-radius-lg;
@@ -64,13 +64,37 @@
   }
 }
 
+.demo-transition {
+  transition: opacity .3s ease-out, transform .3s ease-out;
+  width: 100%;
+
+  &.ng-enter {
+    opacity: 0;
+    position: absolute;
+    transform: translate3d(50px,0,0);
+  }
+
+  &.ng-enter-active {
+    opacity: 1;
+    transform: translate3d(0,0,0);
+  }
+
+  &.ng-leave {
+    opacity: 1;
+    position: absolute;
+    transform: rotate3d(0,0,1,0) scale3d(1,1,1) translate3d(0,0,0);
+  }
+
+  &.ng-leave-active {
+    opacity: 0;
+    transform: rotate3d(0,0,1,-9deg) scale3d(.95,.95,1) translate3d(-50px,0,0);
+  }
+}
+
 // wraps the master cluster and each repository section
 .list-clusters {
+  border-top: 1px solid $gray-lighter;
   padding: 15px 0;
-
-  + .list-clusters {
-    border-top: 1px solid $gray-lighter;
-  }
 }
 
 .list-clusters-heading {
@@ -113,6 +137,10 @@
     background: $white;
     border-color: $gray-lighter;
   }
+}
+
+.testing-container {
+  margin-left: 18px;
 }
 
 .btn-gear {

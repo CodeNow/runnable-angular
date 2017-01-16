@@ -12,15 +12,25 @@ describe('Github Integration Controller'.bold.underline.blue, function() {
   var ahaGuideMock;
   var fetchGithubUserIsAdminOfOrgMock;
   var fetchGithubUserIsAdminOfOrgResult;
+  var invitePersonalRunnabotStub;
+  var isRunnabotPersonalCollaboratorStub;
+  var patchOrgMetadataStub;
+  var removePersonalRunnabotStub;
   var errsMock;
   var mockCurrentOrg = {
     poppa: {
+      id: sinon.stub(),
       trialDaysRemaining: sinon.stub(),
       isInTrial: sinon.stub(),
       isInGrace: sinon.stub(),
       isGraceExpired: sinon.stub(),
       attrs: {
-        hasPaymentMethod: false
+        hasPaymentMethod: false,
+        isPersonalAccount: false,
+        name: 'santos l. halper',
+        metadata: {
+          hasPersonalRunnabot: false
+        }
       }
     },
     github: {
@@ -30,6 +40,7 @@ describe('Github Integration Controller'.bold.underline.blue, function() {
       }
     }
   };
+  var mockPersonalRunnabotResponse = [{isRunnabotPersonalCollaborator: true}];
   function injectSetupCompile () {
     errsMock = {
       handler: sinon.spy()
@@ -58,6 +69,22 @@ describe('Github Integration Controller'.bold.underline.blue, function() {
         };
         return fetchGithubUserIsAdminOfOrgMock;
       });
+      $provide.factory('invitePersonalRunnabot', function ($q) {
+        invitePersonalRunnabotStub = sinon.stub().returns($q.when(true));
+        return invitePersonalRunnabotStub;
+      });
+      $provide.factory('isRunnabotPersonalCollaborator', function ($q) {
+        isRunnabotPersonalCollaboratorStub = sinon.stub().returns($q.when(mockPersonalRunnabotResponse));
+        return isRunnabotPersonalCollaboratorStub;
+      });
+      $provide.factory('removePersonalRunnabot', function ($q) {
+        removePersonalRunnabotStub = sinon.stub().returns($q.when(true));
+        return removePersonalRunnabotStub;
+      });
+    $provide.factory('patchOrgMetadata', function ($q) {
+        patchOrgMetadataStub = sinon.stub().returns($q.when(true));
+        return patchOrgMetadataStub;
+      });
     });
 
     angular.mock.inject(function (
@@ -79,57 +106,100 @@ describe('Github Integration Controller'.bold.underline.blue, function() {
     GIC = laterController();
   }
 
-  it('should fetch github user is admin and set isAdmin', function () {
-    fetchGithubUserIsAdminOfOrgResult = true;
-    injectSetupCompile();
-    $scope.$digest();
-    sinon.assert.calledOnce(fetchGithubUserIsAdminOfOrgMock);
-    sinon.assert.calledWith(fetchGithubUserIsAdminOfOrgMock, 'org');
-    expect(GIC.isAdmin).to.be.true;
+  describe('runnabot behavior for orgs', function () {
+
+    it('should fetch github user is admin and set isAdmin', function () {
+      fetchGithubUserIsAdminOfOrgResult = true;
+      injectSetupCompile();
+      $scope.$digest();
+      sinon.assert.calledOnce(fetchGithubUserIsAdminOfOrgMock);
+      sinon.assert.calledWith(fetchGithubUserIsAdminOfOrgMock, 'org');
+      expect(GIC.isAdmin).to.be.true;
+    });
+
+    it('should fetch isRunnabotPartOfOrg and set hasRunnabot', function () {
+      isRunnabotPartOfOrgResult = true;
+      injectSetupCompile();
+      $scope.$digest();
+      sinon.assert.calledOnce(isRunnabotPartOfOrgMock);
+      sinon.assert.calledWith(isRunnabotPartOfOrgMock, 'org');
+      expect(GIC.hasRunnabot).to.be.true;
+    });
+
+    it('should create interval on pollCheckRunnabot', function () {
+      isRunnabotPartOfOrgResult = true;
+      injectSetupCompile();
+      $scope.$digest();
+      GIC.pollCheckRunnabot();
+      expect(GIC.pollingInterval).to.be.ok;
+    });
+
+    it('should stop interval when hasRunnabot and interval is true', function () {
+      isRunnabotPartOfOrgResult = true;
+      injectSetupCompile();
+      sinon.stub($interval, 'cancel').returns();
+      GIC.pollingInterval = true;
+      $scope.$digest();
+      sinon.assert.calledOnce($interval.cancel);
+      sinon.assert.calledWith($interval.cancel, GIC.pollingInterval);
+    });
+
+    it('should update ahaGuide when hasRunnabot', function () {
+      isRunnabotPartOfOrgResult = true;
+      injectSetupCompile();
+      $scope.$digest();
+      sinon.assert.calledOnce(ahaGuideMock.hasRunnabot);
+    });
+
+    it('should stop interval when $destroyed', function () {
+      isRunnabotPartOfOrgResult = true;
+      injectSetupCompile();
+      sinon.stub($interval, 'cancel').returns();
+      $scope.$digest();
+      $scope.$destroy();
+      $scope.$digest();
+      sinon.assert.calledOnce($interval.cancel);
+      sinon.assert.calledWith($interval.cancel, GIC.pollingInterval);
+    });
   });
 
-  it('should fetch isRunnabotPartOfOrg and set hasRunnabot', function () {
-    isRunnabotPartOfOrgResult = true;
-    injectSetupCompile();
-    $scope.$digest();
-    sinon.assert.calledOnce(isRunnabotPartOfOrgMock);
-    sinon.assert.calledWith(isRunnabotPartOfOrgMock, 'org');
-    expect(GIC.hasRunnabot).to.be.true;
+  describe('runnabot behavior for personal accounts w/ runnabot', function () {
+
+    beforeEach(function () {
+      mockCurrentOrg.poppa.attrs.isPersonalAccount = true;
+      mockPersonalRunnabotResponse = [{isRunnabotPersonalCollaborator: true}];
+      isRunnabotPersonalCollaboratorStub.reset();
+    });
+
+    it('should remove runnabot if toggled', function () {
+      injectSetupCompile();
+      $scope.$digest();
+      // simulating user toggling runnabot to false
+      GIC.hasRunnabot = false;
+      GIC.toggleRunnabotCollaborator();
+      $scope.$digest();
+      sinon.assert.calledOnce(removePersonalRunnabotStub);
+      sinon.assert.calledWith(removePersonalRunnabotStub, 'santos l. halper');
+    })
   });
 
-  it('should create interval on pollCheckRunnabot', function () {
-    isRunnabotPartOfOrgResult = true;
-    injectSetupCompile();
-    $scope.$digest();
-    GIC.pollCheckRunnabot();
-    expect(GIC.pollingInterval).to.be.ok;
+  describe('runnabot behavior for personal accounts w/out runnabot', function () {
+
+    beforeEach(function () {
+      mockCurrentOrg.poppa.attrs.isPersonalAccount = true;
+      mockPersonalRunnabotResponse = [{isRunnabotPersonalCollaborator: true},{isRunnabotPersonalCollaborator: false}];
+    });
+
+    it('should invite runnabot if toggled', function () {
+      injectSetupCompile();
+      $scope.$digest();
+      // simulating user toggling runnabot to true
+      GIC.hasRunnabot = true;
+      GIC.toggleRunnabotCollaborator();
+      $scope.$digest();
+      sinon.assert.calledWith(isRunnabotPersonalCollaboratorStub, 'santos l. halper');
+      sinon.assert.calledOnce(invitePersonalRunnabotStub);
+    })
   });
 
-  it('should stop interval when hasRunnabot and interval is true', function () {
-    isRunnabotPartOfOrgResult = true;
-    injectSetupCompile();
-    sinon.stub($interval, 'cancel').returns();
-    GIC.pollingInterval = true;
-    $scope.$digest();
-    sinon.assert.calledOnce($interval.cancel);
-    sinon.assert.calledWith($interval.cancel, GIC.pollingInterval);
-  });
-
-  it('should update ahaGuide when hasRunnabot', function () {
-    isRunnabotPartOfOrgResult = true;
-    injectSetupCompile();
-    $scope.$digest();
-    sinon.assert.calledOnce(ahaGuideMock.hasRunnabot);
-  });
-
-  it('should stop interval when $destroyed', function () {
-    isRunnabotPartOfOrgResult = true;
-    injectSetupCompile();
-    sinon.stub($interval, 'cancel').returns();
-    $scope.$digest();
-    $scope.$destroy();
-    $scope.$digest();
-    sinon.assert.calledOnce($interval.cancel);
-    sinon.assert.calledWith($interval.cancel, GIC.pollingInterval);
-  });
 });

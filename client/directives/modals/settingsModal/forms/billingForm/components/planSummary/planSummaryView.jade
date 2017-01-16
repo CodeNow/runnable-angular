@@ -2,7 +2,7 @@
   ng-if = 'plan'
 )
   p.strong {{plan.name}} Plan
-  small.small Up to {{plan.maxConfigurations}} templates
+  small.small {{plan.maxConfigurations >= 8 ? '8+ services' : 'Up to ' + plan.maxConfigurations + ' services'}}
 .grid-block.shrink.p.align-baseline(
   ng-if = 'plan'
 )

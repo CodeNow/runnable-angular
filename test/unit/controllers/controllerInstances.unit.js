@@ -14,6 +14,9 @@ var $controller,
 var isRunnabotPartOfOrgStub;
 var fetchRepoBranchesStub;
 var ahaGuideStub;
+var featureFlags = {
+  flags: {}
+};
 var apiMocks = require('../apiMocks/index');
 var mockFetch = new (require('../fixtures/mockFetch'))();
 var runnable = window.runnable;
@@ -70,6 +73,12 @@ describe('ControllerInstances'.bold.underline.blue, function () {
         models: []
       }
     };
+
+    var mockInstances = {
+      models: [],
+      on: sinon.spy(),
+      off: sinon.spy()
+    };
     ctx.setupInstanceResponse = function(username, cb) {
       return function (overrideUsername) {
         cb(null, ctx.instanceLists[overrideUsername || username], overrideUsername || username);
@@ -84,10 +93,20 @@ describe('ControllerInstances'.bold.underline.blue, function () {
     mockOrg = {
       github: {
         fetchRepo: sinon.stub()
+      },
+      poppa: {
+        attrs: {
+          metadata: {}
+        }
       }
     };
     angular.mock.module('app', function ($provide) {
       $provide.factory('fetchInstancesByPod', mockFetch.fetch());
+      $provide.factory('fetchInstances', function ($q) {
+        return function () {
+          return $q.when(mockInstances);
+        };
+      });
       $provide.factory('promisify', function ($q) {
         var promisifyMock = sinon.spy(function (obj, key) {
           return function () {
@@ -96,7 +115,9 @@ describe('ControllerInstances'.bold.underline.blue, function () {
         });
         return promisifyMock;
       });
-
+      $provide.factory('featureFlags', function () {
+        return featureFlags;
+      });
       $provide.value('currentOrg', mockOrg);
       $provide.value('favico', {
         reset : sinon.spy(),
@@ -106,6 +127,7 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       $provide.value('$localStorage', localStorageData);
       $provide.factory('ahaGuide', function ($q) {
         ahaGuideStub = {
+          endGuide: sinon.stub(),
           isInGuide: sinon.stub(),
           isAddingFirstBranch: sinon.stub(),
           isSettingUpRunnabot: sinon.stub()
@@ -153,6 +175,7 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       keypather.set($rootScope, 'dataApp.data.activeAccount', ctx.userList[activeAccountUsername]);
     }
     $state.params = ctx.stateParams;
+    $state.current.name = 'base.instances';
     ctx.fakeGo = sinon.stub($state, 'go');
     CIS = $controller('ControllerInstances', {
       '$scope': $scope,
@@ -185,7 +208,6 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       mockFetch.triggerPromise(many);
       $rootScope.$digest();
       sinon.assert.calledWith(ctx.fakeGo, 'base.instances.instance', {
-        userName: 'SomeKittens',
         instanceName: 'spaaace'
       });
     });
@@ -217,22 +239,6 @@ describe('ControllerInstances'.bold.underline.blue, function () {
         instanceName: 'spaaace'
       });
     });
-    it('should navigate to new for org2', function () {
-      setup('org2');
-      $rootScope.$digest();
-      var many = runnable.newInstances(
-        [],
-        {noStore: true}
-      );
-      sinon.stub($state, 'includes')
-        .withArgs('instances').returns(true)
-        .withArgs('instance').returns(false);
-      mockFetch.triggerPromise(many);
-      $rootScope.$digest();
-      sinon.assert.calledWith(ctx.fakeGo, 'base.config', {
-        userName: 'org2'
-      });
-    });
   });
   describe('local storage options'.blue, function () {
     it('should navigate based on local storage');
@@ -255,7 +261,7 @@ describe('ControllerInstances'.bold.underline.blue, function () {
 
       // Change the user
       ctx.stateParams.userName = 'org2';
-      keypather.set($rootScope, 'dataApp.data.activeAccount', ctx.userList['org2']);
+      keypather.set($rootScope, 'dataApp.data.activeAccount', ctx.userList.org2);
 
       $controller('ControllerInstances', {
         '$scope': $scope,
@@ -349,10 +355,10 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       };
       mockBranch = {
         attrs: {
-          "name": "mockBranch",
-          "commit": {
-            "sha": "6e0c5e3778b83f128f6f14c311d5728392053581",
-            "url": "https://api.github.com/repos/cflynn07/bitcoin/commits/6e0c5e3778b83f128f6f14c311d5728392053581"
+          name: 'mockBranch',
+          commit: {
+            sha: '6e0c5e3778b83f128f6f14c311d5728392053581',
+            url: 'https://api.github.com/repos/cflynn07/bitcoin/commits/6e0c5e3778b83f128f6f14c311d5728392053581'
           }
         }
       };
@@ -373,7 +379,7 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       setup('myOrg');
       apiMocks.branches.bitcoinRepoBranches[0].attrs = {
         name: 'henry\'s branch'
-      }
+      };
 
       CIS.instanceBranches = CIS.getUnbuiltBranches(masterInstance, {
         models: apiMocks.branches.bitcoinRepoBranches
@@ -403,7 +409,7 @@ describe('ControllerInstances'.bold.underline.blue, function () {
     it('should set the instance\'s autofork property', function () {
       setup('myOrg');
       CIS.poppedInstance = masterInstance2;
-      masterInstance2.update.returns($q.when(true))
+      masterInstance2.update.returns($q.when(true));
 
       expect(CIS.poppedInstance.attrs.shouldNotAutofork).to.equal(false);
       CIS.setAutofork();

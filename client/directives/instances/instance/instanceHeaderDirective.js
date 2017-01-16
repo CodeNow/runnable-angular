@@ -8,20 +8,26 @@ require('app')
  */
 function instanceHeader(
   $localStorage,
-  $rootScope,
   $stateParams,
+  ahaGuide,
+  currentOrg,
+  demoFlowService,
+  eventTracking,
   fetchPullRequest,
-  ahaGuide
+  keypather
 ) {
   return {
     restrict: 'A',
     templateUrl: 'instanceHeaderView',
     scope: {
       instance: '=',
-      openItems: '='
+      openItems: '=',
+      demoFlowFlags: '=?'
     },
     link: function ($scope) {
       $scope.$storage = $localStorage;
+      $scope.currentOrg = currentOrg;
+      $scope.openedPRUrl = eventTracking.openedPRUrl;
       $scope.userName = $stateParams.userName;
       $scope.$watch('instance', function (newValue) {
         if (!newValue) {
@@ -34,10 +40,18 @@ function instanceHeader(
             }
           });
       });
-      $scope.toggleSidebar = function () {
-        $rootScope.$broadcast('showAhaSidebar');
+      $scope.showPrCallout = function () {
+        return demoFlowService.isInDemoFlow() && demoFlowService.shouldAddPR();
       };
       $scope.isInGuide = ahaGuide.isInGuide;
+
+      $scope.showUrlCallout = function () {
+        return demoFlowService.isInDemoFlow() &&
+          !!keypather.get($scope.instance, 'contextVersion.getMainAppCodeVersion()') &&
+          !demoFlowService.hasSeenUrlCallout() &&
+          demoFlowService.hasSeenHangTightMessage() === $scope.instance.attrs.id &&
+          keypather.get($scope.instance, 'status()') === 'running';
+      };
     }
   };
 }

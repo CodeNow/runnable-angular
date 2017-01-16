@@ -20,6 +20,7 @@ require('app')
   // Containers
   .factory('fetchInstances', fetchInstances)
   .factory('fetchInstance', fetchInstance)
+  .factory('fetchNonRepoInstances', fetchNonRepoInstances)
   .factory('fetchInstancesByPod', fetchInstancesByPod)
   .factory('fetchBuild', fetchBuild)
   .factory('fetchRepoBranches', fetchRepoBranches)
@@ -35,6 +36,7 @@ require('app')
   .factory('fetchGitHubTeamMembersByTeam', fetchGitHubTeamMembersByTeam)
   .factory('fetchGithubUserForCommit', fetchGithubUserForCommit)
   .factory('fetchOwnerRepos', fetchOwnerRepos)
+  .factory('fetchOwnerRepo', fetchOwnerRepo)
   .factory('fetchPullRequest', fetchPullRequest)
   // Settings
   .factory('verifySlackAPITokenAndFetchMembers', verifySlackAPITokenAndFetchMembers)
@@ -159,11 +161,6 @@ function fetchInstances(
     }
     opts.githubUsername = opts.githubUsername || $state.params.userName;
 
-    opts.ignoredFields = [
-      'contextVersions[0].build.log',
-      'contextVersion.build.log'
-    ];
-
     var fetchKey = jsonHash.digest(opts);
     if (resetCache || !fetchCache[fetchKey]) {
       fetchCache[fetchKey] = fetchUser()
@@ -196,6 +193,19 @@ function fetchInstance(
     return fetchUser()
       .then(function (user) {
         return promisify(user, 'fetchInstance')(instanceId);
+      });
+  };
+}
+
+function fetchNonRepoInstances(
+  fetchInstances
+) {
+  return function () {
+    return fetchInstances({ githubUsername: 'HelloRunnable' })
+      .then(function (templates) {
+        return templates.filter(function (templateInstance) {
+          return !(/^TEMPLATE\-/).test(templateInstance.attrs.name);
+        });
       });
   };
 }
@@ -341,6 +351,23 @@ function fetchOwnerRepos(fetchUser, promisify) {
   };
 }
 
+function fetchOwnerRepo(fetchUser, promisify) {
+  return function (userName, repoName) {
+    var user;
+    var repoType;
+    return fetchUser()
+      .then(function (_user) {
+        if (userName === _user.oauthName()) {
+          user = _user;
+          repoType = 'GithubRepo';
+        } else {
+          user = _user.newGithubOrg(userName);
+          repoType = 'Repo';
+        }
+        return promisify(user, 'fetch' + repoType)(repoName);
+      });
+  };
+}
 
 function fetchRepoBranches(fetchUser, promisify) {
   return function (repo) {
@@ -859,11 +886,12 @@ function fetchDebugContainer(
 
 function fetchStackData(
   $log,
+  $q,
   fetchStackAnalysis,
   fetchStackInfo,
   hasKeypaths
 ) {
-  return function (repo) {
+  return function (repo, emitNoLanguageDetected) {
     function setStackSelectedVersion(stack, versions) {
       if (versions[stack.key]) {
         stack.suggestedVersion = versions[stack.key];
@@ -880,6 +908,9 @@ function fetchStackData(
           .then(function (data) {
             if (!data.languageFramework) {
               $log.warn('No language detected');
+              if (emitNoLanguageDetected) {
+                return $q.reject(new Error('No language detected'));
+              }
               return;
             }
             if (data.languageFramework === 'ruby_ror') {

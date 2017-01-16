@@ -5,9 +5,19 @@
 )
 
 .grid-block.vertical.instance(
-  ng-if = "!isLoading.main && !$root.featureFlags.containersViewEmptyState"
+  ng-if = "!isLoading.main"
 )
-  .grid-block.vertical
+  .grid-block.justify-center.align-center(
+    ng-if = "$root.featureFlags.demoMultiTier && !dataInstance.data.instance"
+  )
+    img(
+      height = "40"
+      src = "/build/images/runnabear-head-empty.png"
+      width = "40"
+    )
+  .grid-block.vertical(
+    ng-if = "dataInstance.data.instance"
+  )
     //- show if server build is being swapped out
       - orange when build is updating or has failed
       - green if build is successfully built
@@ -15,9 +25,15 @@
     .grid-block.notification.top-right.padding-sm.js-animate(
       ng-class = "{\
         'green': dataInstance.data.showUpdatedMessage,\
-        'orange': dataInstance.data.showUpdatingMessage || dataInstance.data.instance.isMigrating()\
+        'orange': dataInstance.data.showUpdatingMessage || dataInstance.data.instance.isMigrating(),\
+        'white below-modals': CI.showHangTightMessage(),\
+        'hidden': CIS.isInDemoFlow() && !CI.showHangTightMessage()\
       }"
-      ng-if = "(dataInstance.data.showUpdatingMessage || dataInstance.data.showUpdatedMessage) || dataInstance.data.instance.isMigrating()"
+      ng-if = "\
+        (dataInstance.data.showUpdatingMessage || dataInstance.data.showUpdatedMessage) ||\
+        dataInstance.data.instance.isMigrating() ||\
+        CI.showHangTightMessage()\
+      "
       ng-include = "'viewNotifications'"
     )
 
@@ -25,7 +41,7 @@
       instance = "dataInstance.data.instance"
       instance-header
       open-items = "dataInstance.data.openItems"
-      saving = "dataInstance.data.saving"
+      demo-flow-flags = "dataInstance.data.demoFlowFlags"
     )
 
     .instance-body
@@ -56,10 +72,3 @@
         ng-class = "{'full-screen': $root.featureFlags.fullScreen}"
         open-items = "dataInstance.data.openItems"
       )
-
-.grid-block.vertical.aha-sidebar.padding-sm.js-animate(
-  aha-sidebar
-  toggle-sidebar = "CI.toggleSidebar"
-  show-overview = "false"
-  ng-if = "$root.featureFlags.aha && CI.isInGuide() && CI.showSidebar"
-)

@@ -4,15 +4,13 @@ var $rootScope,
   $scope;
 var element;
 var $compile;
-var keypather;
 var $q;
 var $elScope;
-var readOnlySwitchController;
 var apiMocks = require('./../../../apiMocks/index');
 
 describe('serverModalButtonsDirective'.bold.underline.blue, function () {
   var ctx;
-  
+
   beforeEach(function () {
     ctx = {};
   });
@@ -30,7 +28,8 @@ describe('serverModalButtonsDirective'.bold.underline.blue, function () {
       state: {
         contextVersion: ctx.cv
       },
-      isDirty: sinon.stub()
+      isDirty: sinon.stub(),
+      needsToBeDirtySaved: sinon.stub().returns(false)
     };
 
     ctx.loadingMock = sinon.spy();
@@ -43,7 +42,7 @@ describe('serverModalButtonsDirective'.bold.underline.blue, function () {
       $compile = _$compile_;
       $scope = $rootScope.$new();
       $q = _$q_;
-
+      $rootScope.featureFlags = {};
       $rootScope.isLoading = {};
       var template = directiveTemplate.attribute('server-modal-buttons', {
         'this-form': 'thisForm',
@@ -52,51 +51,11 @@ describe('serverModalButtonsDirective'.bold.underline.blue, function () {
       });
       $scope.thisForm = {};
       $scope.serverModalController = ctx.serverModalController;
+      $scope.serverModalController.isTabVisible = sinon.stub();
       element = $compile(template)($scope);
       $scope.$digest();
       $elScope = element.isolateScope();
-    });
-  });
-  describe('showSaveAndBuild', function () {
-    describe('with steps', function () {
-      it('should be true when steps are less than 4, and no instance', function () {
-        ctx.serverModalController.state.step = 3;
-        ctx.serverModalController.isDirty.returns(false);
-        $rootScope.isLoading.editServerModal = true;
-        expect($elScope.showSaveAndBuild(), 'showSaveAndBuild').to.be.true;
-      });
-      it('should be false when steps are 4, and no instance', function () {
-        ctx.serverModalController.state.step = 4;
-        ctx.serverModalController.isDirty.returns(false);
-        $rootScope.isLoading.editServerModal = true;
-        expect($elScope.showSaveAndBuild(), 'showSaveAndBuild').to.be.false;
-      });
-    });
-
-    describe('without steps', function () {
-      beforeEach(function () {
-        ctx.serverModalController.instance = {};
-      });
-      it('should be false when an instance exists, dirty state is update, and isLoading', function () {
-        ctx.serverModalController.isDirty.returns('update');
-        $rootScope.isLoading.editServerModal = true;
-        expect($elScope.showSaveAndBuild(), 'showSaveAndBuild').to.be.false;
-      });
-      it('should be false when an instance exists, dirty state is false, and isLoading', function () {
-        ctx.serverModalController.isDirty.returns(false);
-        $rootScope.isLoading.editServerModal = true;
-        expect($elScope.showSaveAndBuild(), 'showSaveAndBuild').to.be.false;
-      });
-      it('should be false when an instance exists, dirty state is build, and isLoading', function () {
-        ctx.serverModalController.isDirty.returns('build');
-        $rootScope.isLoading.editServerModal = true;
-        expect($elScope.showSaveAndBuild(), 'showSaveAndBuild').to.be.false;
-      });
-      it('should be true when an instance exists, dirty state is build, and !isLoading', function () {
-        ctx.serverModalController.isDirty.returns('build');
-        $rootScope.isLoading.editServerModal = false;
-        expect($elScope.showSaveAndBuild(), 'showSaveAndBuild').to.be.true;
-      });
+      $elScope.isPrimaryButtonDisabled = sinon.stub().returns(false);
     });
   });
   describe('createServerOrUpdate', function () {
@@ -187,6 +146,114 @@ describe('serverModalButtonsDirective'.bold.underline.blue, function () {
         sinon.assert.calledWith(ctx.loadingMock.secondCall, 'editServerModal', false);
         $scope.$digest();
         sinon.assert.calledOnce(ctx.instance.on);
+      });
+    });
+  });
+
+  var allButtons = [
+    'cancel',
+    'done',
+    'save',
+    'next',
+    'demoSave',
+    'willRebuildOnSave',
+    'disableSave'
+  ];
+  function testButtons (enabledButtons) {
+    allButtons.forEach(function (button) {
+      if (enabledButtons.includes(button)) {
+        it('should enable ' + button + ' button', function () {
+          expect($elScope.getDisplayFlag(button)).to.equal(true);
+        });
+      } else {
+        it('should disable ' + button + ' button', function () {
+          expect($elScope.getDisplayFlag(button)).to.equal(false);
+        });
+      }
+    });
+  }
+  describe('getDisplayFlag', function () {
+    describe('when in demo mode', function () {
+      beforeEach(function () {
+        $elScope.SMC.isDemo = true;
+        $elScope.$digest();
+      });
+      testButtons(['cancel', 'demoSave']);
+    });
+
+    describe('when editing an instance', function () {
+      beforeEach(function () {
+        $elScope.SMC.instance = {};
+        $elScope.SMC.isDemo = false;
+        $elScope.SMC.isDirty.returns(false);
+        $elScope.SMC.needsToBeDirtySaved.returns(false);
+        $elScope.$digest();
+      });
+      testButtons(['cancel', 'save', 'done']);
+
+      it('should enable willRebuildOnSave if is dirty', function () {
+        $elScope.SMC.isDirty.returns('build');
+        $elScope.$digest();
+        expect($elScope.getDisplayFlag('willRebuildOnSave')).to.equal(true);
+      });
+
+      it('should enable the disableSave flag if needsToBeDirtySaved is set and its not dirty', function () {
+        $elScope.SMC.needsToBeDirtySaved.returns(true);
+        $elScope.SMC.isDirty.returns(false);
+        $elScope.$digest();
+        expect($elScope.getDisplayFlag('disableSave')).to.equal(true);
+      });
+
+      it('should disable the disableSave flag if needsToBeDirtySaved is set and its dirty', function () {
+        $elScope.SMC.needsToBeDirtySaved.returns(true);
+        $elScope.SMC.isDirty.returns(true);
+        $elScope.$digest();
+        expect($elScope.getDisplayFlag('disableSave')).to.equal(false);
+      });
+
+      it('should enable the disableSave flag if isPrimaryButtonDisabled is set', function () {
+        $elScope.isPrimaryButtonDisabled.returns(true);
+        $elScope.$digest();
+        expect($elScope.getDisplayFlag('disableSave')).to.equal(true);
+      });
+    });
+
+    describe('when setting up a new instance and not showing build files', function () {
+      beforeEach(function () {
+        $elScope.SMC.isSettingUpNewInstance = true;
+        $elScope.SMC.isTabVisible.returns(false);
+        $elScope.$digest();
+      });
+      testButtons(['cancel', 'next']);
+    });
+
+    describe('when setting up a new instance and showing build files', function () {
+      beforeEach(function () {
+        $elScope.SMC.isSettingUpNewInstance = true;
+        $elScope.SMC.isTabVisible.returns(true);
+        $elScope.$digest();
+      });
+
+      testButtons(['cancel', 'save', 'willRebuildOnSave']);
+
+      it('should enable the disableSave flag if needsToBeDirtySaved is set and its not dirty', function () {
+        $elScope.SMC.needsToBeDirtySaved.returns(true);
+        $elScope.SMC.isDirty.returns(false);
+        $elScope.$digest();
+        expect($elScope.getDisplayFlag('disableSave')).to.equal(true);
+      });
+
+      it('should disable the disableSave flag if needsToBeDirtySaved is set and its dirty', function () {
+        $elScope.SMC.needsToBeDirtySaved.returns(true);
+        $elScope.SMC.isDirty.returns(true);
+        $elScope.$digest();
+        expect($elScope.getDisplayFlag('disableSave')).to.equal(false);
+      });
+
+      it('should enable the disableSave flag if isPrimaryButtonDisabled is set', function () {
+        $elScope.isPrimaryButtonDisabled.returns(true);
+        $elScope.$digest();
+        expect($elScope.getDisplayFlag('disableSave')).to.equal(true);
       });
     });
   });

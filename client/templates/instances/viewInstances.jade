@@ -1,7 +1,6 @@
 //- instance list
 .grid-block.shrink.list-instances(
   ng-class = "{\
-    'deprecated': !$root.featureFlags.addBranches,\
     'in': !CIS.$storage.instanceListIsClosed\
   }"
   ng-if = "CIS.instancesByPod"
@@ -14,7 +13,6 @@
   ng-class = "{'in': !CIS.$storage.instanceListIsClosed}"
   ng-if = "!CIS.instancesByPod"
 )
-
   .spinner-wrapper.spinner-md.spinner-gray.spinner-center.in(
     ng-include = "'spinner'"
   )
@@ -22,3 +20,10 @@
 .grid-block.vertical.instance-wrapper(
   ui-view
 )
+  .grid-block.vertical.instance
+    .grid-block.justify-center.align-center
+      img(
+        height = "40"
+        src = "/build/images/runnabear-head-empty.png"
+        width = "40"
+      )

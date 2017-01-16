@@ -51,19 +51,19 @@
   )
 
   .environment-view-aha-guide(
-    ng-if = "$root.featureFlags.aha && EC.isInGuide()"
+    ng-if = "EC.isInGuide()"
   )
     .grid-block.align-center.justify-center.padding-sm.aha-guide(
-      ng-show = "EC.isAddingFirstRepo() && EC.errorState && data.instances.models.length"
       aha-guide
       error-state = "true"
+      ng-show = "EC.isAddingFirstRepo() && EC.errorState && data.instances.models.length"
       sub-step-index = 7
     )
 
     .grid-block.align-center.justify-center.padding-sm.aha-guide(
-      ng-if = "EC.isInGuide() && !EC.isAddingFirstRepo() && !data.instances.models.length"
       aha-guide
       error-state = "true"
+      ng-if = "EC.isInGuide() && !EC.isAddingFirstRepo() && !data.instances.models.length"
       sub-step = "deletedTemplate"
     )
 
@@ -71,7 +71,7 @@
     ng-class = "{'align-center justify-center': EC.showCreateTemplate && !data.instances.models.length}"
   )
     .modal-dialog.modal-sm(
-      ng-if = "$root.featureFlags.aha && EC.isInGuide() && EC.isAddingFirstRepo() && EC.showCreateTemplate && !data.instances.models.length"
+      ng-if = "EC.isInGuide() && EC.isAddingFirstRepo() && EC.showCreateTemplate && !data.instances.models.length"
     )
       .grid-block.align-center.aha-guide.padding-md(
         ng-include = "'ahaGuideView'"
@@ -79,12 +79,12 @@
       )
 
     .grid-block.card-grid.clearfix(
-      ng-if = "!$root.featureFlags.aha || data.instances.models.length > 0 || !EC.isInGuide()"
+      ng-if = "data.instances.models.length > 0 || !EC.isInGuide()"
       ng-include = "'viewCardGrid'"
     )
 
   footer.environment-footer.small.text-center(
-    ng-if = "EC.showInviteButton"
+    ng-if = "EC.showInviteButton || $root.featureFlags.isPersonalAccount"
   )
     a.link(
       ng-click = "EC.triggerModal.inviteTeammate()"
@@ -95,10 +95,3 @@
         )
       | Invite a teammate
     | &#32;to help you set up your project.
-
-.grid-block.vertical.aha-sidebar.padding-sm.js-animate(
-  aha-sidebar
-  toggle-sidebar = "EC.actions.showSidebar"
-  show-overview = "!EC.showCreateTemplate"
-  ng-if = "$root.featureFlags.aha && EC.isInGuide() && EC.showSidebar"
-)

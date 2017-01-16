@@ -12,16 +12,23 @@ var STEPS = {
 };
 
 function ahaGuide(
+  $localStorage,
   $rootScope,
   currentOrg,
   eventTracking,
+  featureFlags,
+  fetchInstances,
   fetchInstancesByPod,
   isRunnabotPartOfOrg,
   keypather,
-  patchOrgMetadata
+  ModalService,
+  patchOrgMetadata,
+  promisify
 ) {
   var instances = [];
   var hasRunnabot = false;
+  var ahaModalController;
+  var $storage = $localStorage.$default({});
   function refreshInstances() {
     return fetchInstancesByPod()
       .then(function (fetchedInstances) {
@@ -32,7 +39,7 @@ function ahaGuide(
     if (hasRunnabot) { return true; }
     return isRunnabotPartOfOrg(keypather.get(currentOrg, 'github.attrs.login'))
       .then(function (runnabot) {
-        if (runnabot && isInGuide()) {
+        if (runnabot && isInGuide() && hasCompletedDemo()) {
           endGuide()
             .then(function() {
               $rootScope.$broadcast('showAutoLaunchPopover');
@@ -166,10 +173,10 @@ function ahaGuide(
       building: 'We‘re building! Build time varies depending on your build commands.',
       starting: 'We‘re building! Build time varies depending on your build commands.',
       running: 'Looking good! Check out your URL, and click ‘Done’ if it looks good to you too.',
-      stopped: 'Your template isn‘t running yet! Check the logs to debug any issues. If you‘re stumped, ask our engineers!',
-      cmdFailed: 'Your template isn‘t running yet! Check the logs to debug any issues. If you‘re stumped, ask our engineers!',
-      crashed: 'Your template isn‘t running yet! Check the logs to debug any issues. If you‘re stumped, ask our engineers!',
-      buildFailed: 'Your template isn‘t running yet! Check the logs to debug any issues. If you‘re stumped, ask our engineers!'
+      stopped: 'Your service isn‘t running yet! Check the logs to debug any issues. If you‘re stumped, ask our engineers!',
+      cmdFailed: 'Your service isn‘t running yet! Check the logs to debug any issues. If you‘re stumped, ask our engineers!',
+      crashed: 'Your service isn‘t running yet! Check the logs to debug any issues. If you‘re stumped, ask our engineers!',
+      buildFailed: 'Your service isn‘t running yet! Check the logs to debug any issues. If you‘re stumped, ask our engineers!'
     },
     configSubsteps: ['default', 'env', 'files', 'ports', 'translation'],
     defaultSubstep: 'addRepository'
@@ -192,7 +199,7 @@ function ahaGuide(
         value: 100
       },
       deletedTemplate: {
-        caption: 'You\'ve deleted your repository template. Create another one to continue.',
+        caption: 'You’ve deleted your repository service. Create another one to continue.',
         className: 'aha-meter-20',
         value: -1
       }
@@ -223,6 +230,9 @@ function ahaGuide(
  * @returns          {String} substep currently on
  */
   function furthestSubstep(step, newSubstep) {
+    if (!step) {
+      return;
+    }
     if (arguments.length > 1) {
       if (!cachedSubstep[step]) {
         cachedSubstep[step] = newSubstep;
@@ -249,7 +259,7 @@ function ahaGuide(
   });
   function getCurrentStep() {
     if (!cachedStep) {
-      if (keypather.get($rootScope, 'featureFlags.aha') && !keypather.get(currentOrg, 'poppa.id')) {
+      if (!keypather.get(currentOrg, 'poppa.id')) {
         cachedStep = STEPS.CHOOSE_ORGANIZATION;
       } else if (!isInGuide()) {
         cachedStep = STEPS.COMPLETED;
@@ -277,6 +287,9 @@ function ahaGuide(
   }
 
   function getClassForSubstep (errorState) {
+    if (getCurrentStep() > STEPS.ADD_FIRST_REPO) {
+      return ['aha-meter-100'];
+    }
     var step = furthestSubstep(STEPS.ADD_FIRST_REPO);
     var progressDial = stepList[STEPS.ADD_FIRST_REPO].subSteps[step].className;
     var classNames = [];
@@ -293,27 +306,40 @@ function ahaGuide(
     return keypather.get(currentOrg, 'poppa.attrs.metadata.hasAha');
   }
 
+  function hasCompletedDemo () {
+    return keypather.get(currentOrg, 'poppa.attrs.metadata.hasCompletedDemo');
+  }
+
   function hasConfirmedSetup () {
+    if (featureFlags.flags.demoMultiTier) {
+      return !!keypather.get(instances, 'models.length');
+    }
     return keypather.get(currentOrg, 'poppa.attrs.metadata.hasConfirmedSetup');
   }
 
   function updateCurrentOrg (updatedOrg) {
-    if (keypather.has(updatedOrg, 'metadata.hasAha') && keypather.has(updatedOrg, 'metadata.hasConfirmedSetup')) {
-      currentOrg.poppa.attrs.metadata = updatedOrg.metadata;
-    }
+    currentOrg.poppa.attrs.metadata = updatedOrg.metadata;
   }
 
   function skipBranchMilestone () {
     ahaGuide.skippedBranchMilestone = true;
-    $rootScope.$broadcast('showAhaSidebar');
+    $rootScope.$broadcast('ahaGuide::launchModal');
   }
 
-  function endGuide () {
+  function endGuide (metadata) {
+    if (!metadata) {
+      metadata = {
+        hasAha: false,
+        hasCompletedDemo: true,
+        hasConfirmedSetup: true
+      };
+    }
     $rootScope.$broadcast('close-popovers');
+    if (keypather.get(ahaModalController, 'controller.actions.forceClose')) {
+      ahaModalController.controller.actions.forceClose();
+    }
     return patchOrgMetadata(currentOrg.poppa.id(), {
-      metadata: {
-        hasAha: false
-      }
+      metadata: metadata
     })
       .then(function (updatedOrg) {
         updateCurrentOrg(updatedOrg);
@@ -324,11 +350,28 @@ function ahaGuide(
     return patchOrgMetadata(currentOrg.poppa.id(), {
       metadata: {
         hasAha: true,
+        hasCompletedDemo: false,
         hasConfirmedSetup: false
       }
     })
       .then(function (updatedOrg) {
+        delete $storage.hasSeenHangTightMessage;
+        delete $storage.hasSeenUrlCallout;
+        delete $storage.launchedFromContainersPage;
+        delete $storage.usingDemoRepo;
+        delete $storage.hasAddedBranch;
         updateCurrentOrg(updatedOrg);
+        return fetchInstances(null, true)
+          .then(function (fetchedInstances) {
+            // this is some weird stuff where I can't use $q.all and straight calls to instance.destroy
+            // in a forEach will not work because the first time an element is destroyed it points the index to a nonexistic thing
+            var destroyAllInstances = fetchedInstances.models.map(function(instance) {
+              return promisify(instance, 'destroy');
+            });
+            return destroyAllInstances.forEach(function(execute) {
+              execute();
+            });
+          });
       });
   }
 
@@ -358,20 +401,48 @@ function ahaGuide(
     eventTracking.updateCurrentPersonProfile(currentStep);
   }
 
+  function launchAhaModal () {
+    $rootScope.$broadcast('close-popovers');
+    ModalService.showModal({
+      controller: 'AhaModalController',
+      controllerAs: 'AMC',
+      templateUrl: 'ahaModal'
+    }).then(function (modalController) {
+      ahaModalController = modalController;
+    });
+  }
+
+  if (!featureFlags.flags.demoMultiTier) {
+    $rootScope.$on('ahaGuide::launchModal', launchAhaModal);
+  }
+
+  var possibleNames = ['node-starter', 'python-starter', 'ruby-starter'];
+  function hasDemoRepo () {
+    return !!instances.find(function (instance) {
+      return possibleNames.includes(instance.attrs.name);
+    });
+  }
+
+  function shouldShowDemoSelector () {
+    return isInGuide() && !hasConfirmedSetup();
+  }
   return {
+    demoNames: possibleNames,
     endGuide: endGuide,
-    resetGuide: resetGuide,
-    getCurrentStep: getCurrentStep,
+    furthestSubstep: furthestSubstep,
     getClassForSubstep: getClassForSubstep,
+    getCurrentStep: getCurrentStep,
     hasConfirmedSetup: hasConfirmedSetup,
+    hasDemoRepo: hasDemoRepo,
+    shouldShowDemoSelector: shouldShowDemoSelector,
     hasRunnabot: refreshHasRunnabot,
     isInGuide: isInGuide,
+    resetGuide: resetGuide,
+    skipBranchMilestone: skipBranchMilestone,
     stepList: stepList,
     steps: STEPS,
     updateCurrentOrg: updateCurrentOrg,
-    furthestSubstep: furthestSubstep,
     updateTracking: updateTracking,
-    skipBranchMilestone: skipBranchMilestone,
     isChoosingOrg: function() {
       return getCurrentStep() === STEPS.CHOOSE_ORGANIZATION;
     },

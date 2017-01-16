@@ -1,7 +1,7 @@
 //- changing plans
 .padding-md
   .clearfix
-    .label-col.full-width.text-center Templates Used
+    .label-col.full-width.text-center Services Used
   .meter(
     ng-class = "getMeterClass()"
   )
@@ -47,7 +47,7 @@
           | per month
       .grid-content.shrink.small Up to&#32;
         strong.strong 2
-        | &#32; templates.
+        | &#32; services.
 
     .grid-block.vertical.align-center.card.card-plan.disabled.padding-sm.text-center(
       ng-class = "{'active': PSFC.plan.id === 'runnable-standard'}"
@@ -69,7 +69,7 @@
           | per month
       .grid-content.shrink.small Up to&#32;
         strong.strong 7
-        | &#32; templates.
+        | &#32; services.
 
     .grid-block.vertical.align-center.card.card-plan.disabled.padding-sm.text-center(
       ng-class = "{'active': PSFC.plan.id === 'runnable-plus'}"
@@ -89,18 +89,18 @@
         small.grid-block.vertical.small.text-gray per user
           br
           | per month
-      .grid-content.shrink.small Up to&#32;
-        strong.strong 15
-        | &#32; templates.
+      .grid-content.shrink.small
+        strong.strong 8+
+        | &#32; services.
 
   label.grid-block.align-center.padding-xs.well.well-plan.well-summary.disabled(
+    discount = "PSFC.discount"
+    discount-view
     ng-if = "PSFC.discount"
     ng-init = "state.hasDuration = (PSFC.currentOrg.poppa.isInActivePeriod()) ? 'true' : ''"
-    discount-view
-    discount = "PSFC.discount"
   )
 
-  p.grid-content.p.text-gray.text-center.padding-sm All plans require at least 3 users. Your plan is automatically determined based on number of templates at the end of each billing cycle.
+  p.grid-content.p.text-gray.text-center.padding-sm All plans require at least 3 users. Your plan is automatically determined based on number of services at the end of each billing cycle.
 
   .grid-block.justify-center
     button.grid-block.shrink.btn.btn-md.green(

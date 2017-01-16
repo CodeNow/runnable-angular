@@ -13,7 +13,9 @@ function accountsSelect (
   $state,
   $timeout,
   configEnvironment,
+  demoFlowService,
   errs,
+  eventTracking,
   keypather,
   ModalService,
   promisify,
@@ -33,6 +35,8 @@ function accountsSelect (
 
       $scope.popoverAccountMenu = {
         actions: {
+          clickedChangeTeam: eventTracking.clickedChangeTeam,
+          shouldShowTeamCTA: demoFlowService.shouldShowTeamCTA.bind(demoFlowService),
           getHeight: function (view) {
             // if no containers '143px'
             if ($rootScope.featureFlags.isolationSetUp && view === 1) {
@@ -91,36 +95,30 @@ function accountsSelect (
         keypather.set($scope, 'popoverAccountMenu.data.currentOrg', currentOrg);
         keypather.set($scope, 'popoverAccountMenu.data.orgs', $scope.data.orgs);
         keypather.set($scope, 'popoverAccountMenu.data.user', $scope.data.user);
-
-        // Integrations modal
-        if ($scope.data.user.oauthName() === $state.params.userName) {
-          $scope.popoverAccountMenu.data.showIntegrations = false;
-        } else {
-          $scope.popoverAccountMenu.data.showIntegrations = true;
-        }
+        keypather.set($scope, 'popoverAccountMenu.data.showIntegrations', true);
       });
 
       $scope.getBadgeCount = function () {
-        if (!$rootScope.featureFlags.billing) {
-          return '';
-        }
         if (currentOrg.poppa.isInTrial() && !currentOrg.poppa.attrs.hasPaymentMethod) {
           var trialRemaining = currentOrg.poppa.trialDaysRemaining();
           if (trialRemaining <= 3) {
             return trialRemaining;
           }
         }
+        if (demoFlowService.shouldShowTeamCTA()) {
+          return '•';
+        }
         return '';
       };
 
       $scope.getClasses = function () {
-        if (!$rootScope.featureFlags.billing) {
-          return {};
-        }
         var showBadge = currentOrg.poppa.isInTrial() && !currentOrg.poppa.attrs.hasPaymentMethod && currentOrg.poppa.trialDaysRemaining() <= 3;
+        if (demoFlowService.shouldShowTeamCTA()) {
+          showBadge = true;
+        }
         return {
-          badge: showBadge,
-          'badge-orange': showBadge
+          'badge': showBadge,
+          'badge-red': showBadge
         };
       };
     }

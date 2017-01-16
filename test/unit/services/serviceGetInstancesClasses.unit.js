@@ -12,6 +12,7 @@ describe('serviceGetInstancesClasses'.bold.underline.blue, function () {
       }
     };
     instanceMock = {
+      getRepoName: sinon.stub().returns('1234'),
       isMigrating: sinon.stub().returns(false),
       attrs: {
         name: 'instanceName'

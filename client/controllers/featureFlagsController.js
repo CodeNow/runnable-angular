@@ -5,7 +5,8 @@ require('app')
 
 function FeatureFlagsController(
   $localStorage,
-  ahaGuide
+  ahaGuide,
+  demoFlowService
 ) {
   this.$localStorage = $localStorage;
   this.resetAha = function() {
