@@ -1,0 +1,83 @@
+// defaults
+.infrastructure-header,
+.infrastructure-body {
+  padding: $md;
+}
+
+.infrastructure-header,
+.infrastructure-footer {
+  border-color: $gray-lighter;
+  color: $gray;
+}
+
+// header
+.infrastructure-header {
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+
+  .progress-bar {
+    margin: $sm auto 0;
+    max-width: 330px;
+  }
+
+  .progress {
+    animation-duration: 180s;
+    animation-timing-function: ease-out;
+  }
+}
+
+// body
+.infrastructure-body {
+  background: $white;
+
+  &:first-child {
+    border-radius: $input-border-radius-lg $input-border-radius-lg 0 0;
+  }
+
+  &:last-child {
+    border-radius: 0 $input-border-radius-lg $input-border-radius-lg 0;
+  }
+
+  .ul {
+    @include media(xs) {
+      padding-top: $xxs;
+    }
+  }
+
+  .li {
+
+    @include media(xxs) {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    + .li {
+      margin-top: $md;
+    }
+
+    .img {
+      margin-right: $sm;
+
+      @media (max-width: 450px) and (min-width: $screen-xxs) {
+        height: 60px;
+        width: 60px;
+      }
+
+      @include media(xxs) {
+        margin-bottom: $xs;
+        margin-right: 0;
+      }
+    }
+  }
+
+  .p + .p {
+    font-size: 14px;
+  }
+}
+
+// footer
+.infrastructure-footer {
+  border-top-style: solid;
+  border-top-width: 1px;
+  padding: $sm $sm 24px; // 24px to match other org select page
+}
