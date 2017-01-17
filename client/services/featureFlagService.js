@@ -18,7 +18,7 @@ function featureFlags(
     contingencyPlan: false,
     demoMultiTier: true,
     demoProject: true,
-    dockerCompose: true,
+    dockerCompose: false,
     dockerfileMirroringMultiple: false,
     editAnyInstance: false,
     emptyFolder: false, // shows empty folder markup
