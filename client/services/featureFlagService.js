@@ -44,7 +44,6 @@ function featureFlags(
     personalAccountsPhase2: true,
     renameContainer: false,
     saveToolbar: false,
-    teamCTA: true,
     teamManagement: false,
     teamManagementAdvanced: false, // changes text from org to team in account menu
     testingFeature: false,

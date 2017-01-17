@@ -133,7 +133,7 @@ function demoFlowService(
     return currentOrg.isPersonalAccount() && usingDemoRepo();
   }
   function shouldShowTeamCTA () {
-    return featureFlags.flags.teamCTA && currentOrg.isPersonalAccount() && !isInDemoFlow();
+    return currentOrg.isPersonalAccount() && !isInDemoFlow();
   }
 
   function shouldShowServicesCTA () {
