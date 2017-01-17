@@ -6,12 +6,18 @@
   top: 0;
   z-index: $z-views-sidebar;
 
-  // specific to the cta popover
-  &.bottom {
+  // specific to the service cta
+  &.service-cta {
     margin-bottom: 9px;
+    margin-top: 5px;
+  }
+
+  // specific to the branch step
+  &.branch-step {
     margin-top: 6px;
   }
 
+  // specific to the url hidden popover
   &.top {
     margin-bottom: 6px;
     margin-top: 0;
