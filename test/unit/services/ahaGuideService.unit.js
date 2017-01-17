@@ -119,13 +119,13 @@ describe('ahaGuide'.bold.underline.blue, function () {
       mockOrg.poppa.attrs.metadata.hasConfirmedSetup = false;
     });
     it('should return true when the user\'s aha property is active', function () {
-        var userInGuide = ahaGuide.isInGuide();
-        expect(userInGuide).to.equal(true);
+      var userInGuide = ahaGuide.isInGuide();
+      expect(userInGuide).to.equal(true);
     });
     it('should return false when not', function () {
-        mockOrg.poppa.attrs.metadata.hasAha = false;
-        var userInGuide = ahaGuide.isInGuide();
-        expect(userInGuide).to.equal(false);
+      mockOrg.poppa.attrs.metadata.hasAha = false;
+      var userInGuide = ahaGuide.isInGuide();
+      expect(userInGuide).to.equal(false);
     });
   });
   describe('getting the current milestone, pre runnabot', function () {
