@@ -19,6 +19,7 @@ function featureFlags(
     demoAutoAddBranch: false,
     demoMultiTier: true,
     demoProject: true,
+    dockerCompose: false,
     dockerfileMirroringMultiple: false,
     editAnyInstance: false,
     emptyFolder: false, // shows empty folder markup

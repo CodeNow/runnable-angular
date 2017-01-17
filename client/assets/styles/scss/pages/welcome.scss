@@ -26,3 +26,13 @@
     box-shadow: 0 1px 3px rgba($black,.1);
   }
 }
+
+.welcome-footer .link {
+  opacity: .6;
+  text-decoration: none;
+
+  &:hover,
+  &:active {
+    opacity: .9;
+  }
+}
