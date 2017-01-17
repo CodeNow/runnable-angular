@@ -18,12 +18,7 @@ function demoFlowService(
 ) {
 
   if (isInDemoFlow()) {
-    $rootScope.$on('demo::completed', function () {
-      endDemoFlow();
-    });
-    if (getItem('hasSeenUrlCallout') && !getItem('hasSeenAddBranchCTA')) {
-      addBranchListener();
-    }
+    addEventListeners();
   }
 
   if (usingDemoRepo() || isInDemoFlow()) {
@@ -78,6 +73,37 @@ function demoFlowService(
             });
         }
        });
+  }
+
+  function addEventListeners () {
+    // listen for the end of the demo if we are in it
+    $rootScope.$on('demo::completed', function () {
+      endDemoFlow();
+    });
+
+    // listen for the url open event if the user hasn't done it yet
+    if (!getItem('hasSeenUrlCallout')) {
+      var unregisterContainerUrlClickListener = $rootScope.$on('clickedOpenContainerUrl', function (event, instance) {
+        unregisterContainerUrlClickListener();
+        demoRepos.createNewInstanceFromBranch(instance)
+          .then(function () {
+            if (currentOrg.isPersonalAccount()) {
+              demoFlowService.submitDemoPR(instance)
+                .catch(function (err) {
+                  if (keypather.get(err, 'errors[0].message').match(/(pull request.*exists)/)) {
+                    return instance;
+                  }
+                  errs.handler(err);
+                });
+              }
+          });
+      });
+    }
+
+    // listen for the click on a new instance if the user has clicked open url
+    if (getItem('hasSeenUrlCallout') && !getItem('hasSeenAddBranchCTA')) {
+      addBranchListener();
+    }
   }
 
   function addBranchListener () {

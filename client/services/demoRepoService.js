@@ -301,20 +301,17 @@ function demoRepos(
   }
 
   function createNewInstanceFromBranch (instance) {
+    var attempts = 0;
     var acv = instance.contextVersion.getMainAppCodeVersion();
     var completeRepoName = acv.attrs.repo.split('/');
     var repoOwner = completeRepoName[0];
     var repoName = completeRepoName[1];
     var branchName = 'dark-theme';
     demoFlowService.addBranchListener();
-    if (demoFlowService.shouldAddPR()) {
-      return getBranchForPR(instance);
-    }
-    return github.createNewBranch(repoOwner, repoName, acv.attrs.commit, branchName)
-      .catch(errs.handler);
+    return forkNewInstance(instance);
   }
 
-  function getBranchForPR (instance) {
+  function forkNewInstance (instance) {
     return promisify(currentOrg.github, 'fetchRepo')(instance.getRepoName())
       .then(function (repo) {
         return promisify(repo, 'fetchBranch')('dark-theme');
