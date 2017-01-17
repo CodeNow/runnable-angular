@@ -1,0 +1,39 @@
+.progress-bar {
+  background: $gray-lighter;
+  border-radius: 9px;
+  height: 9px;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+
+  &.stripes {
+
+    &.animated .progress::before {
+      animation: progress-bar-stripes 5s infinite linear;
+    }
+
+    .progress {
+      overflow: hidden;
+      position: relative;
+
+      &::before {
+        background: repeating-linear-gradient(45deg, rgba($white,0), rgba($white,0) 20px, rgba($white,.1) 20px, rgba($white,.1) 40px);
+        content: '';
+        display: block;
+        height: 9px;
+        width: 200%;
+      }
+    }
+  }
+
+  .progress {
+    animation-fill-mode: forwards;
+    animation-name: progress-bar;
+    animation-timing-function: linear;
+    background: linear-gradient(90deg,$purple-light 90%,saturate($purple-light,50%));
+    border-radius: 9px;
+    height: 9px;
+    transform: translate3d(-97%,0,0);
+    width: 100%;
+  }
+}
