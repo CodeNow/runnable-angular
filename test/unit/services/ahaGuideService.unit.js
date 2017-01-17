@@ -127,6 +127,23 @@ describe('ahaGuide'.bold.underline.blue, function () {
       var userInGuide = ahaGuide.isInGuide();
       expect(userInGuide).to.equal(false);
     });
+    it('should return true when the user has confirmed setup', function () {
+      var userConfirmedSetup = ahaGuide.hasConfirmedSetup();
+      expect(userConfirmedSetup).to.equal(false);
+    });
+    it('should return true when the user has confirmed setup', function () {
+      fetchInstancesByPodMock.triggerPromise(mockInstance);
+      $rootScope.$digest(); // Clear cache
+      var userConfirmedSetup = ahaGuide.hasConfirmedSetup();
+      expect(userConfirmedSetup).to.equal(true);
+    });
+    it('(demoMultiTier) should return true when the user has confirmed setup', function () {
+      $rootScope.featureFlags.demoMultiTier = true;
+      fetchInstancesByPodMock.triggerPromise(mockInstance);
+      $rootScope.$digest(); // Clear cache
+      var userConfirmedSetup = ahaGuide.hasConfirmedSetup();
+      expect(userConfirmedSetup).to.equal(true);
+    });
   });
   describe('getting the current milestone, pre runnabot', function () {
     it('should return the choose org step when no poppa id', function () {
