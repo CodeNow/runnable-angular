@@ -42,6 +42,8 @@ function AhaModalController(
   AMC.isAddingFirstBranch = ahaGuide.isAddingFirstBranch;
   AMC.getFurthestSubstep = ahaGuide.furthestSubstep;
   AMC.getClassForSubstep = ahaGuide.getClassForSubstep;
+  AMC.isInGuide = ahaGuide.isInGuide;
+  AMC.hasRunnabot = ahaGuide.hasRunnabot;
   AMC.hasInstances = false;
   AMC.accountHasRepos = false;
   AMC.currentOrg = currentOrg;

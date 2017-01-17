@@ -39,7 +39,7 @@
     .modal-body
       //- if demo feature is off
       .grid-block.shrink.vertical.align-center.aha-overview.padding-md.padding-bottom-sm(
-        ng-if = "!$root.featureFlags.demoProject"
+        ng-if = "!$root.featureFlags.demoProject && !AMC.isSettingUpRunnabot() && !AMC.hasRunnabot()"
       )
         p.grid-content.shrink.text-center.p.weight-light It takes just 3 steps to get everything set up.&#32;
           br
@@ -51,7 +51,7 @@
 
       //- if demo feature is on
       .grid-block.shrink.vertical.align-center.noscroll.aha-overview(
-        ng-if = "!AMC.isSettingUpRunnabot() && $root.featureFlags.demoProject"
+        ng-if = "$root.featureFlags.demoProject && !AMC.isSettingUpRunnabot() && !AMC.hasRunnabot()"
       )
         //- step 1
         .grid-block.vertical.shrink.align-center.padding-sm.aha-guide.disabled
@@ -131,9 +131,9 @@
               target = "_blank"
             ) Learn how to add branches.
 
-      .grid-block.vertical.align-center.form-github(
+      .grid-block.vertical.align-center.form-github.padding-md(
         github-integration
-        ng-if = "AMC.isSettingUpRunnabot()"
+        ng-if = "AMC.isSettingUpRunnabot() || AMC.hasRunnabot()"
       )
 
   .grid-block.shrink.justify-center.margin-bottom-xl.welcome-footer(
