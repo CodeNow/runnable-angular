@@ -4,11 +4,6 @@
     font-size: 27px;
   }
 
-  .p {
-    color: $gray;
-    font-size: 15px;
-  }
-
   .well {
     background: $gray-lightest;
 
@@ -65,6 +60,7 @@
     }
 
     .p {
+      font-size: 15px;
       margin-bottom: $sm;
       text-align: center;
     }
@@ -75,20 +71,6 @@
 
     + .p {
       margin-top: 24px;
-    }
-  }
-
-  .infrastructure-view {
-
-    > .padding-md {
-      @include media(xs) {
-        padding-left: $sm;
-        padding-right: $sm;
-      }
-    }
-
-    .weight-strong {
-      word-break: break-word;
     }
   }
 

@@ -21,7 +21,9 @@
             href = "mailto: support@runnable.com"
           ) contact support
           | .
-        .progress-bar
+        .progress-bar.stripes.animated.margin-left-md.margin-right-md(
+          ng-include = "'progressBarView'"
+        )
 
   //- wraps everything that should transition in with the master cluster
   .demo-transition.js-animate
@@ -126,6 +128,14 @@
 //- wraps 'add branch' guide and branch clusters
 .grid-block.vertical.noscroll.relative
 
+  //- 'add branch' guide — show until a branch has been added
+  .grid-block.vertical.popover.in.popover-demo.demo-transition.js-animate(
+    demo-add-branch
+    instance = "CIS.getDemoInstance()"
+    ng-if = "CIS.showDemoAddBranchView() && !$root.featureFlags.demoAutoAddBranch"
+    user-name = "CIS.userName"
+  )
+
   //- wraps all branch clusters — hide until a branch has been added
   .demo-transition.js-animate(
     ng-if = "!CIS.isInDemoFlow() || CIS.showDemoAddBranchView()"
@@ -209,3 +219,9 @@
         pop-over-options = "{\"top\":-33,\"left\":215}"
         pop-over-template = "viewMoreContainersPopover"
       ) 8 more…
+
+      //- show only on demo repos
+      .grid-block.vertical.padding-sm.popover.bottom.in.popover-demo.branch-step(
+        ng-if = "$root.featureFlags.demoAutoAddBranch && CIS.shouldShowAddBranchCTA(masterInstance)"
+        ng-include = "'popoverDemoBranchContainerView'"
+      )

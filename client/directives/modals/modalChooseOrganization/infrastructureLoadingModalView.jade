@@ -1,29 +1,49 @@
-.padding-md.infrastructure-view
-  //- dock spinning up
-  p.p.text-center(
-    ng-if = "!$root.featureFlags.contingencyPlan"
-  ) It’ll only take a few minutes to spin up infrastructure for&#32;
-    strong.weight-strong {{COMC.selectedOrgName}}
-    | . We’ll email you and update this page when it’s ready. Watch an overview while you wait.
-
-  iframe.iframe.margin-top-md(
-    allowfullscreen
-    frameborder = "0"
-    height = "219"
-    src = "https://www.youtube.com/embed/bZNbWoLcZq4?showinfo=0"
-    width = "390"
+header.infrastructure-header.text-center
+  p.p Spinning up your infrastructure.
+    br
+    | This may take up to 3 minutes.
+  .progress-bar.stripes.animated(
+    ng-include = "'progressBarView'"
   )
+.infrastructure-body
+  p.p.text-gray-light.text-center.margin-bottom-sm.weight-strong Up Next…
+  ul.grid-block.vertical.ul
+    li.grid-block.align-center.li
+      img.grid-block.shrink.img(
+        height = "75"
+        src = "/build/images/infrastructure-load/icons-stacks.svg"
+        width = "75"
+      )
+      .grid-block.vertical
+        p.p.weight-strong Add your code.
+        p.p Start with your own repositories, or start with a demo to explore Runnable and get familiar with how it works.
 
-  p.p.text-center(
-    ng-if = "$root.featureFlags.contingencyPlan"
-  ) We’re running slower than normal due to high demand.
-  p.p.text-center.margin-top-xs(
-    ng-if = "$root.featureFlags.contingencyPlan"
-  ) We’ll email you at&#32;
-    span {{ COMC.user.attrs.email }}
-    | &#32;as soon we’re done spinning up your infrastructure. Thanks for your patience.
+    li.grid-block.align-center.li
+      img.grid-block.shrink.img(
+        height = "75"
+        src = "/build/images/infrastructure-load/icons-branches.svg"
+        width = "75"
+      )
+      .grid-block.vertical
+        p.p.weight-strong Instantly launch new environments.
+        p.p Each branch is launched in its own fresh environment for you to view and run tests against.
 
-  p.small.link.text-center.text-gray.margin-top-md(
-    data-event-name = "Clicked 'Wanna use a different org?'"
-    ng-click = "goToPanel('orgSelection', 'back')"
-  ) Wanna use a different team?
+    li.grid-block.align-center.li
+      img.grid-block.shrink.img(
+        height = "75"
+        src = "/build/images/infrastructure-load/icons-github-bot.svg"
+        width = "75"
+      )
+      .grid-block.vertical
+        p.p.weight-strong Enhance your pull requests.
+        p.p Our bot shares links to your environments and results from automated tests are shared on GitHub.
+footer.infrastructure-footer.text-center
+  a.link.small(
+    href = "https://www.youtube.com/watch?v=bZNbWoLcZq4"
+    ng-click = "COMC.actions.trackDemoVideo()"
+    target = "_blank"
+  ) Watch a product overview
+    svg.iconnables.icons-link-external
+      use(
+        xlink:href = "#icons-link-external-alt"
+      )
