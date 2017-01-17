@@ -118,31 +118,37 @@ describe('ahaGuide'.bold.underline.blue, function () {
       mockOrg.poppa.attrs.metadata.hasAha = true;
       mockOrg.poppa.attrs.metadata.hasConfirmedSetup = false;
     });
-    it('should return true when the user\'s aha property is active', function () {
-      var userInGuide = ahaGuide.isInGuide();
-      expect(userInGuide).to.equal(true);
+
+    describe("using isInGuide", function() {
+      it('should return true when the user\'s aha property is active', function () {
+        var userInGuide = ahaGuide.isInGuide();
+        expect(userInGuide).to.equal(true);
+      });
+      it('should return false when not', function () {
+        mockOrg.poppa.attrs.metadata.hasAha = false;
+        var userInGuide = ahaGuide.isInGuide();
+        expect(userInGuide).to.equal(false);
+      });
     });
-    it('should return false when not', function () {
-      mockOrg.poppa.attrs.metadata.hasAha = false;
-      var userInGuide = ahaGuide.isInGuide();
-      expect(userInGuide).to.equal(false);
-    });
-    it('should return true when the user has confirmed setup', function () {
-      var userConfirmedSetup = ahaGuide.hasConfirmedSetup();
-      expect(userConfirmedSetup).to.equal(false);
-    });
-    it('should return true when the user has confirmed setup', function () {
-      fetchInstancesByPodMock.triggerPromise(mockInstance);
-      $rootScope.$digest(); // Clear cache
-      var userConfirmedSetup = ahaGuide.hasConfirmedSetup();
-      expect(userConfirmedSetup).to.equal(true);
-    });
-    it('(demoMultiTier) should return true when the user has confirmed setup', function () {
-      $rootScope.featureFlags.demoMultiTier = true;
-      fetchInstancesByPodMock.triggerPromise(mockInstance);
-      $rootScope.$digest(); // Clear cache
-      var userConfirmedSetup = ahaGuide.hasConfirmedSetup();
-      expect(userConfirmedSetup).to.equal(true);
+
+    describe("using hasConfirmedSetup" , function() {
+      it('should return true when the user has confirmed setup', function () {
+        var userConfirmedSetup = ahaGuide.hasConfirmedSetup();
+        expect(userConfirmedSetup).to.equal(false);
+      });
+      it('should return true when the user has confirmed setup', function () {
+        fetchInstancesByPodMock.triggerPromise(mockInstance);
+        $rootScope.$digest(); // Clear cache
+        var userConfirmedSetup = ahaGuide.hasConfirmedSetup();
+        expect(userConfirmedSetup).to.equal(true);
+      });
+      it('(demoMultiTier) should return true when the user has confirmed setup', function () {
+        $rootScope.featureFlags.demoMultiTier = true;
+        fetchInstancesByPodMock.triggerPromise(mockInstance);
+        $rootScope.$digest(); // Clear cache
+        var userConfirmedSetup = ahaGuide.hasConfirmedSetup();
+        expect(userConfirmedSetup).to.equal(true);
+      });
     });
   });
   describe('getting the current milestone, pre runnabot', function () {
