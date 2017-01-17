@@ -38,6 +38,7 @@ function ControllerInstances(
   CIS.isAddingFirstBranch = ahaGuide.isAddingFirstBranch;
   CIS.isSettingUpRunnabot = ahaGuide.isSettingUpRunnabot;
   CIS.isInDemoFlow = demoFlowService.isInDemoFlow;
+  CIS.shouldShowAddBranchCTA = demoFlowService.shouldShowAddBranchCTA;
   CIS.shouldShowServicesCTA = demoFlowService.shouldShowServicesCTA.bind(demoFlowService);
   CIS.currentOrg = currentOrg;
   CIS.showAutofork = null;
@@ -55,11 +56,6 @@ function ControllerInstances(
       CIS.shouldShowPopover = true;
     }
   });
-
-  CIS.shouldShowBranchView = function () {
-     return CIS.showDemoAddBranchView() &&
-            (!CIS.isInDemoFlow() || demoFlowService.hasSeenUrlCallout());
-  };
 
   $scope.$on('popover-opened', function (event, pop) {
     if (keypather.get(pop, 'data') === 'branchSelect') {

@@ -306,6 +306,7 @@ function demoRepos(
     var repoOwner = completeRepoName[0];
     var repoName = completeRepoName[1];
     var branchName = 'dark-theme';
+    demoFlowService.addBranchListener();
     if (demoFlowService.shouldAddPR()) {
       return getBranchForPR(instance);
     }

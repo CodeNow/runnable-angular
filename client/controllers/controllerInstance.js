@@ -59,8 +59,8 @@ function ControllerInstance(
             }
             errs.handler(err);
           });
-      })
-  })
+      });
+  });
 
   data.openItems = new OpenItems();
 

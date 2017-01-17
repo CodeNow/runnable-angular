@@ -21,6 +21,9 @@ function demoFlowService(
     $rootScope.$on('demo::completed', function () {
       endDemoFlow();
     });
+    if (getItem('hasSeenUrlCallout') && !getItem('hasSeenAddBranchCTA')) {
+      addBranchListener();
+    }
   }
 
   if (usingDemoRepo() || isInDemoFlow()) {
@@ -38,6 +41,7 @@ function demoFlowService(
   function resetFlags () {
     deleteItem('hasSeenHangTightMessage');
     deleteItem('hasSeenUrlCallout');
+    deleteItem('hasSeenAddBranchCTA');
   }
 
   function setItem (key, value) {
@@ -74,6 +78,17 @@ function demoFlowService(
             });
         }
        });
+  }
+
+  function addBranchListener () {
+    var branchListener = $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
+      console.log(toParams);
+      var instanceName = keypather.get(toParams, 'instanceName');
+      if (instanceName && instanceName.match(/dark-theme/)) {
+        setItem('hasSeenAddBranchCTA', true);
+        branchListener();
+      }
+    });
   }
 
   function checkStatusOnInstance (instance) {
@@ -140,7 +155,12 @@ function demoFlowService(
     return !currentOrg.isPersonalAccount() && isInDemoFlow() && getItem('usingDemoRepo') && getItem('hasAddedBranch');
   }
 
+  function shouldShowAddBranchCTA (instance) {
+    return isInDemoFlow() && !getItem('hasSeenAddBranchCTA') && instance.attrs.id === getItem('hasSeenUrlCallout');
+  }
+
   return {
+    addBranchListener: addBranchListener,
     checkStatusOnInstance: checkStatusOnInstance,
     deleteItem: deleteItem,
     endDemoFlow: endDemoFlow,
@@ -155,6 +175,7 @@ function demoFlowService(
     setUsingDemoRepo: setUsingDemoRepo,
     setItem: setItem,
     submitDemoPR: submitDemoPR,
+    shouldShowAddBranchCTA: shouldShowAddBranchCTA,
     shouldShowTeamCTA: shouldShowTeamCTA,
     shouldShowServicesCTA: shouldShowServicesCTA
   };
