@@ -130,7 +130,7 @@
   .grid-block.vertical.popover.in.popover-demo.demo-transition.js-animate(
     demo-add-branch
     instance = "CIS.getDemoInstance()"
-    ng-if = "CIS.showDemoAddBranchView()"
+    ng-if = "CIS.showDemoAddBranchView() && !$root.featureFlags.demoAutoAddBranch"
     user-name = "CIS.userName"
   )
 
@@ -217,3 +217,9 @@
         pop-over-options = "{\"top\":-33,\"left\":215}"
         pop-over-template = "viewMoreContainersPopover"
       ) 8 more…
+
+      //- show only on demo repos
+      .grid-block.vertical.padding-sm.popover.bottom.in.popover-demo.service-cta(
+        ng-if = "CIS.showDemoAddBranchView() && $root.featureFlags.demoAutoAddBranch"
+        ng-include = "'popoverDemoBranchContainerView'"
+      )
