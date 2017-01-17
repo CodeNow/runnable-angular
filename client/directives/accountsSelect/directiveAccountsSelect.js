@@ -99,9 +99,6 @@ function accountsSelect (
       });
 
       $scope.getBadgeCount = function () {
-        if (!$rootScope.featureFlags.billing) {
-          return '';
-        }
         if (currentOrg.poppa.isInTrial() && !currentOrg.poppa.attrs.hasPaymentMethod) {
           var trialRemaining = currentOrg.poppa.trialDaysRemaining();
           if (trialRemaining <= 3) {
@@ -115,9 +112,6 @@ function accountsSelect (
       };
 
       $scope.getClasses = function () {
-        if (!$rootScope.featureFlags.billing) {
-          return {};
-        }
         var showBadge = currentOrg.poppa.isInTrial() && !currentOrg.poppa.attrs.hasPaymentMethod && currentOrg.poppa.trialDaysRemaining() <= 3;
         if (demoFlowService.shouldShowTeamCTA()) {
           showBadge = true;

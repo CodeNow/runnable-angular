@@ -26,6 +26,7 @@ function ControllerApp(
   orgs,
   pageName,
   patchOrgMetadata,
+  primus,
   user
 ) {
   // Load ace after 10 seconds. Should improve user experience overall..
@@ -76,6 +77,7 @@ function ControllerApp(
     actions: {},
     state: $state
   };
+
   $scope.$watch('dataApp.data.activeAccount', function (activeAccount) {
     if (user.socket) {
       user.socket.joinOrgRoom(activeAccount.oauthId());
@@ -92,6 +94,15 @@ function ControllerApp(
   $rootScope.featureFlags = featureFlags.flags;
   $rootScope.resetFeatureFlags = featureFlags.reset;
   this.featureFlagsChanged = featureFlags.changed;
+
+  var orgStream = primus.createUserStream(currentOrg.github.attrs.id);
+
+  orgStream.on('data', function(data) {
+    var task = keypather.get(data, 'data.task');
+    if (task) {
+      $rootScope.$broadcast(task);
+    }
+  });
 
   $scope.$watch(function () {
     return errs.errors.length;
@@ -161,7 +172,7 @@ function ControllerApp(
     }
   };
 
-  if ($rootScope.featureFlags.billing && (currentOrg.poppa.isInGrace() || currentOrg.poppa.isGraceExpired())) {
+  if (currentOrg.isPaymentDue()) {
     // Determine if it's a trial end or just a normal payment due
     if (currentOrg.poppa.attrs.hasPaymentMethod) {
       ModalService.showModal({
@@ -178,6 +189,8 @@ function ControllerApp(
         preventClose: true
       });
     }
+  } else if (currentOrg.isPaused()) {
+    return $state.go('paused');
   }
 
   $rootScope.canEditFeatureFlags = function () {
@@ -187,8 +200,7 @@ function ControllerApp(
   };
 
   CA.showTrialEndingNotification = function () {
-    return $rootScope.featureFlags.billing &&
-      currentOrg.poppa.isInTrial() &&
+    return currentOrg.poppa.isInTrial() &&
       currentOrg.poppa.trialDaysRemaining() <= 3 &&
       !currentOrg.poppa.attrs.hasPaymentMethod && !keypather.get($localStorage, 'hasDismissedTrialNotification.' + currentOrg.github.attrs.id);
   };

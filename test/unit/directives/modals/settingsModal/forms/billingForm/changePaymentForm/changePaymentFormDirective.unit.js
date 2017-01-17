@@ -39,7 +39,13 @@ describe('changePaymentFormDirective'.bold.underline.blue, function () {
       keypather = _keypather_;
       $scope = $rootScope.$new();
       $scope.save = sinon.stub();
+      $scope.back = sinon.stub();
+      $scope.cancel = sinon.stub();
+      $scope.close = sinon.stub();
       var tpl = directiveTemplate.attribute('change-payment-form', {
+        'back': 'back',
+        'cancel': 'cancel',
+        'close': 'close',
         'save': 'save',
         'updating': 'false'
       });

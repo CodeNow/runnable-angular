@@ -49,6 +49,7 @@ label.toggle-wrapper(
     ng-include = "'permissionsButtonView'"
   )
   input.toggle-input(
+    ng-change = "BCSC.eventTracking.autoDeployToggled(BCSC.isAutoDeployOn())"
     ng-disabled = "$root.featureFlags.webhooks"
     ng-model = "BCSC.autoDeploy"
     ng-model-options = "{getterSetter: true}"
@@ -68,7 +69,7 @@ ul.list.list-servers
       'active': BCSC.data.commit === commit,\
       'disabled': BCSC.isAutoDeployOn() || BCSC.isLastestCommit()\
     }"
-    ng-click = "BCSC.selectCommit(commit)"
+    ng-click = "BCSC.selectCommit(commit, $index === 0)"
     ng-if = "!fetchingCommits"
     ng-repeat = "commit in BCSC.data.branch.commits.models | orderBy: '-attrs.commit.committer.date'"
   ) {{commit.attrs.commit.message}}

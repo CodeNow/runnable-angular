@@ -15,19 +15,8 @@ a.a(
     )
   | Configure
 
-a.a.disabled(
-  ng-if = "(dataApp.state.includes('base.config') && CA.instancesByPod && !CA.instancesByPod.models.length) && !$root.featureFlags.containersViewTemplateControls"
-  tooltip = "You don’t have any running containers yet!"
-  tooltip-options = "{\"class\":\"right\",\"left\":75,\"top\":17}"
-)
-  svg.iconnables.icons-server-dark
-    use(
-      xlink:href = "#icons-server-dark"
-    )
-  | Containers
-
 a.a(
-  ng-if = "(dataApp.state.includes('base.instances') || !CA.instancesByPod || CA.instancesByPod.models.length) || $root.featureFlags.containersViewTemplateControls"
+  ng-if = "(dataApp.state.includes('base.instances') || !CA.instancesByPod || CA.instancesByPod.models.length)"
   ui-sref = "base.instances({ userName: CA.activeAccount.oauthName() })"
   ui-sref-active = "active"
 )

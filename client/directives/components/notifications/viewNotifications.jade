@@ -1,10 +1,10 @@
 .grid-block(
-  ng-if = "dataInstance.data.instance.isMigrating() && (!$root.featureFlags.demoMultiTierBuilding || !CI.isInGuide())"
+  ng-if = "dataInstance.data.instance.isMigrating() && !CI.isInGuide()"
   ng-include = "'migrationNotificationView'"
 )
 
 .grid-block(
-  ng-if = "!dataInstance.data.instance.isMigrating() && (!$root.featureFlags.demoMultiTierBuilding || !CI.showHangTightMessage())"
+  ng-if = "!dataInstance.data.instance.isMigrating() && !CI.showHangTightMessage()"
   ng-include = "'buildNotificationView'"
 )
 

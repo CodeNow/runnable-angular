@@ -7,11 +7,11 @@
   )
     .grid-block
       .slide.slide-out(
-        ng-class = "{'out': $root.featureFlags.demoForking && $root.isLoading.startDemo}"
+        ng-class = "{'out': $root.isLoading.startDemo}"
         setup-demo-guide
       )
       .grid-block.justify-center.vertical.progress-wrapper.slide.slide-in.js-animate(
-        ng-if = "$root.featureFlags.demoForking && $root.isLoading.startDemo"
+        ng-if = "$root.isLoading.startDemo"
       )
         p.text-center.text-gray.shrink.p.margin-bottom-sm Loading…
         p.text-center.text-gray.shrink.p.margin-bottom-sm This is taking longer than
@@ -51,7 +51,7 @@
         //- div instead of button so safari doesn’t get weird with alignment
         .grid-block.align-center.shrink.btn.btn-xxs.white(
           ng-class = "{'active': state.active}"
-          ng-if = "$root.featureFlags.containersViewTemplateControls && !CIS.currentOrg.isPersonalAccount()"
+          ng-if = "!CIS.currentOrg.isPersonalAccount()"
           pop-over
           pop-over-options = "{\"top\":-30,\"left\":99}"
           pop-over-template = "templateMenuPopoverView"
@@ -66,7 +66,7 @@
       )
 
       .grid-block.align-center.padding-sm.popover.top.in.popover-demo(
-        ng-if = "$root.featureFlags.demoMultiTierUrlHidden && CIS.showInstanceRunningPopover()"
+        ng-if = "CIS.showInstanceRunningPopover()"
         ng-include = "'popoverDemoUrlHiddenView'"
       )
 
@@ -93,7 +93,7 @@
           )
 
       .grid-block.vertical.shrink.well.empty.text-center(
-        ng-if = "$root.featureFlags.containersViewTemplateControls && !CIS.shouldShowDemoSelector() && !CIS.getFilteredInstanceList().length && !CIS.searchBranches"
+        ng-if = "!CIS.shouldShowDemoSelector() && !CIS.getFilteredInstanceList().length && !CIS.searchBranches"
       ) 👆
         br
         .small First, use the button above to create your first service.
@@ -130,13 +130,13 @@
   .grid-block.vertical.popover.in.popover-demo.demo-transition.js-animate(
     demo-add-branch
     instance = "CIS.getDemoInstance()"
-    ng-if = "$root.featureFlags.demoMultiTierAddBranch && CIS.showDemoAddBranchView()"
+    ng-if = "CIS.showDemoAddBranchView()"
     user-name = "CIS.userName"
   )
 
   //- wraps all branch clusters — hide until a branch has been added
   .demo-transition.js-animate(
-    ng-if = "!CIS.isInDemoFlow() || ($root.featureFlags.demoMultiTierAddBranch && !CIS.showDemoAddBranchView())"
+    ng-if = "!CIS.isInDemoFlow() || !CIS.showDemoAddBranchView()"
   )
 
     //- branch clusters
@@ -205,7 +205,7 @@
         instance = "childInstance"
         instance-navigation
         master-instance = "masterInstance"
-        ng-repeat = "childInstance in CIS.getSortedMasterInstanceChildren(masterInstance)"
+        ng-repeat = "childInstance in CIS.getSortedMasterInstanceChildren(masterInstance) track by childInstance.attrs.name"
         ng-show = "CIS.shouldShowChild(childInstance)"
         ng-class = "childInstance.attrs.isTesting && !childInstance.attrs.masterPod ? 'testing-container' : ''"
       )
