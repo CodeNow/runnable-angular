@@ -17,7 +17,7 @@ header.grid-block.justify-center.align-center.modal-header.nav(
   h1.modal-heading Welcome Aboard!
 
 .grid-block.align-center.vertical.padding-lg.padding-top-md
-  p.p Add your GitHub team&#32;
+  p.p.text-gray Add your GitHub team&#32;
     br.visible-xxs
     | to run its code.
 
@@ -42,25 +42,3 @@ header.grid-block.justify-center.align-center.modal-header.nav(
     ng-if = "$root.isLoading.grantAccess"
     ng-include = "'grantAccessWaitView'"
   )
-
-footer.grid-block.align-center.vertical.footer.padding-md(
-  ng-if = "!$root.featureFlags.personalAccounts"
-)
-  //- when orgs exist
-  p.grid-block.shrink.p.weight-light.text-gray(
-    ng-if = "COMC.allAccounts.models.length > 0"
-  ) Can’t add your team yet?
-
-  //- when no orgs exist
-  p.grid-block.shrink.p.weight-light.text-gray(
-    ng-if = "COMC.allAccounts.models.length === 0"
-  ) Don’t have a team, or can’t add yours yet?
-
-  a.grid-block.shrink.align-center.btn-skip.text-gray.weight-light.link(
-    data-event-name = "Demo: Clicked Skip"
-    ng-click = "COMC.isInDemoFlow = true; goToPanel('createOrg')"
-  ) Try a Demo
-    svg.iconnables.icons-arrow-forward
-      use(
-        xlink:href = "#icons-arrow-down"
-      )
