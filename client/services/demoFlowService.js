@@ -84,7 +84,7 @@ function demoFlowService(
     });
 
     // listen for the url open event if the user hasn't done it yet
-    if (featureFlags.flags.demoAutoAddBranch && !getItem('hasSeenUrlCallout')) {
+    if (featureFlags.flags.demoAutoAddBranch && !$localStorage.hasSeenUrlCallout) {
       var unregisterContainerUrlClickListener = $rootScope.$on('clickedOpenContainerUrl', function (event, instance) {
         unregisterContainerUrlClickListener();
         forkNewInstance(instance)
@@ -103,7 +103,7 @@ function demoFlowService(
     }
 
     // listen for the click on a new instance if the user has clicked open url
-    if (featureFlags.flags.demoAutoAddBranch && getItem('hasSeenUrlCallout') && !getItem('hasSeenAddBranchCTA')) {
+    if (featureFlags.flags.demoAutoAddBranch && $localStorage.hasSeenUrlCallout && !$localStorage.hasSeenAddBranchCTA) {
       addBranchListener();
     }
   }
