@@ -147,7 +147,6 @@
       ng-if = "!masterInstance.attrs.isTesting || (masterInstance.attrs.isTesting && !masterInstance.attrs.testingParentId)"
       ng-repeat = "masterInstance in CIS.instancesByPod | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
       ng-show = "CIS.shouldShowParent(masterInstance)"
-      ng-if = "!masterInstance.attrs.isTesting || (masterInstance.attrs.isTesting && !masterInstance.attrs.testingParentId)"
     )
 
       //- cluster list heading

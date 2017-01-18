@@ -109,12 +109,12 @@ function demoFlowService(
   }
 
   function addBranchListener () {
-    var branchListener = $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
+    var unregisterStateChangeListener = $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
       var instanceName = keypather.get(toParams, 'instanceName');
       if (instanceName && instanceName.match(/dark-theme/)) {
         setItem('hasSeenAddBranchCTA', true);
         hasAddedBranch(true);
-        branchListener();
+        unregisterStateChangeListener();
       }
     });
   }
