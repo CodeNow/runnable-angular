@@ -31,7 +31,6 @@ function ControllerInstances(
   watchOncePromise
 ) {
   var CIS = this;
-  var shouldNotShowAddBranchView
   CIS.userName = $state.params.userName;
   CIS.instanceName = $state.params.instanceName;
   CIS.isInGuide = ahaGuide.isInGuide;
