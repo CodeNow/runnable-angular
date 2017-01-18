@@ -15,8 +15,6 @@ function ControllerInstance(
   $timeout,
   ahaGuide,
   demoFlowService,
-  demoRepos,
-  errs,
   eventTracking,
   favico,
   fetchCommitData,

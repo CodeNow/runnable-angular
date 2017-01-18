@@ -67,10 +67,6 @@ function ControllerInstances(
     CIS.showAutofork = true;
   });
 
-  $scope.$on('branch-added', function () {
-
-  });
-
   /**
    * This listens for new instances to be created for event tracking purposes
    * If the new instance is the first of it's kind (it's grouped as added a new branch)

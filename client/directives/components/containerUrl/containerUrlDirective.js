@@ -15,7 +15,6 @@ var UNAVAILABLE_OS_LIST = [
  */
 function containerUrl(
   $window,
-  $rootScope,
   defaultContainerUrl,
   eventTracking
 ) {

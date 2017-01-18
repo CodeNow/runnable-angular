@@ -9,12 +9,14 @@ function demoFlowService(
   $rootScope,
   $q,
   currentOrg,
+  errs,
   fetchInstancesByPod,
   github,
   defaultContainerUrl,
   featureFlags,
   keypather,
-  patchOrgMetadata
+  patchOrgMetadata,
+  promisify
 ) {
 
   if (isInDemoFlow()) {
@@ -85,10 +87,10 @@ function demoFlowService(
     if (!getItem('hasSeenUrlCallout')) {
       var unregisterContainerUrlClickListener = $rootScope.$on('clickedOpenContainerUrl', function (event, instance) {
         unregisterContainerUrlClickListener();
-        demoRepos.createNewInstanceFromBranch(instance)
+        forkNewInstance(instance)
           .then(function () {
             if (currentOrg.isPersonalAccount()) {
-              demoFlowService.submitDemoPR(instance)
+              submitDemoPR(instance)
                 .catch(function (err) {
                   if (keypather.get(err, 'errors[0].message').match(/(pull request.*exists)/)) {
                     return instance;
@@ -108,10 +110,10 @@ function demoFlowService(
 
   function addBranchListener () {
     var branchListener = $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
-      console.log(toParams);
       var instanceName = keypather.get(toParams, 'instanceName');
       if (instanceName && instanceName.match(/dark-theme/)) {
         setItem('hasSeenAddBranchCTA', true);
+        hasAddedBranch(true);
         branchListener();
       }
     });
@@ -133,6 +135,19 @@ function demoFlowService(
       })
       .catch(function () {
         return true;
+      });
+  }
+
+  function forkNewInstance (instance) {
+    addBranchListener();
+    return promisify(currentOrg.github, 'fetchRepo')(instance.getRepoName())
+      .then(function (repo) {
+        return promisify(repo, 'fetchBranch')('dark-theme');
+      })
+      .then(function (branch) {
+        var sha = branch.attrs.commit.sha;
+        var branchName = branch.attrs.name;
+        return promisify(instance, 'fork')(branchName, sha);
       });
   }
 
@@ -178,7 +193,7 @@ function demoFlowService(
   }
 
   function shouldShowServicesCTA () {
-    return !currentOrg.isPersonalAccount() && isInDemoFlow() && getItem('usingDemoRepo') && getItem('hasAddedBranch');
+    return !currentOrg.isPersonalAccount() && isInDemoFlow() && getItem('usingDemoRepo') && hasAddedBranch();
   }
 
   function shouldShowAddBranchCTA (instance) {
