@@ -141,8 +141,10 @@
     ng-if = "!CIS.isInDemoFlow() || CIS.showDemoAddBranchView()"
   )
 
+
     //- branch clusters
     .grid-block.vertical.shrink.list-clusters.js-animate(
+      ng-if = "!masterInstance.attrs.isTesting || (masterInstance.attrs.isTesting && !masterInstance.attrs.testingParentId)"
       ng-repeat = "masterInstance in CIS.instancesByPod | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
       ng-show = "CIS.shouldShowParent(masterInstance)"
       ng-if = "!masterInstance.attrs.isTesting || (masterInstance.attrs.isTesting && !masterInstance.attrs.testingParentId)"
@@ -207,9 +209,9 @@
         instance = "childInstance"
         instance-navigation
         master-instance = "masterInstance"
+        ng-class = "childInstance.attrs.isTesting && !childInstance.attrs.masterPod ? 'testing-container' : ''"
         ng-repeat = "childInstance in CIS.getSortedMasterInstanceChildren(masterInstance) track by childInstance.attrs.name"
         ng-show = "CIS.shouldShowChild(childInstance)"
-        ng-class = "childInstance.attrs.isTesting && !childInstance.attrs.masterPod ? 'testing-container' : ''"
       )
 
       //- nav list filter

@@ -4,7 +4,6 @@ header.modal-header(
 )
   svg.iconnables.icons-arrow-backward(
     ng-click = "goToPanel('orgSelection', 'back')"
-    ng-if = "$root.featureFlags.demoProject"
   )
     use(
       xlink:href = "#icons-arrow-down"
@@ -43,26 +42,3 @@ header.grid-block.justify-center.align-center.modal-header.nav(
     ng-if = "$root.isLoading.grantAccess"
     ng-include = "'grantAccessWaitView'"
   )
-
-footer.grid-block.align-center.vertical.footer.padding-md(
-  ng-if = "!$root.featureFlags.personalAccounts"
-)
-  //- when orgs exist
-  p.grid-block.shrink.p.weight-light.text-gray(
-    ng-if = "COMC.allAccounts.models.length > 0"
-  ) Can’t add your team yet?
-
-  //- when no orgs exist
-  p.grid-block.shrink.p.weight-light.text-gray(
-    ng-if = "COMC.allAccounts.models.length === 0"
-  ) Don’t have a team, or can’t add yours yet?
-
-  a.grid-block.shrink.align-center.btn-skip.text-gray.weight-light.link(
-    data-event-name = "Demo: Clicked Skip"
-    ng-click = "COMC.isInDemoFlow = true; goToPanel('createOrg')"
-    ng-if = "$root.featureFlags.demoProject"
-  ) Try a Demo
-    svg.iconnables.icons-arrow-forward
-      use(
-        xlink:href = "#icons-arrow-down"
-      )

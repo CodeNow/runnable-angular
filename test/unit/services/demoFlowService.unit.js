@@ -44,22 +44,12 @@ describe('demoFlowService'.bold.underline.blue, function () {
         }
       }
     };
-    featureFlags = {
-      teamCTA: true
-    };
   });
 
   describe('#shouldShowTeamCTA', function () {
     beforeEach(function () {
       hasAha = false;
       hasCompletedDemo = true;
-    });
-
-    it('should return false if flag is off', function() {
-      featureFlags.teamCTA = false;
-      initState();
-      var result = demoFlowService.shouldShowTeamCTA();
-      expect(result).to.equal(false);
     });
 
     it('should return false if the current org is not a personal account', function() {

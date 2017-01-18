@@ -1,5 +1,5 @@
 .blank-panel(
-  ng-if = "$root.featureFlags.noBuildLogs && (hasFailedAndHasNoLogs() || BLC.showErrorPanel)"
+  ng-if = "hasFailedAndHasNoLogs() || BLC.showErrorPanel"
 )
   .spinner-wrapper.spinner-md.in(
     ng-if = "$root.isLoading.buildLogsController"
@@ -30,10 +30,7 @@
   ng-if = "\
     $root.featureFlags.internalDebugging && \
     !BLC.showErrorPanel && \
-    !(\
-      $root.featureFlags.noBuildLogs && \
-      hasFailedAndHasNoLogs() \
-    ) \
+    !hasFailedAndHasNoLogs() \
   "
 )
   .build-log-header
@@ -48,7 +45,7 @@
   ng-if = "\
     !$root.featureFlags.internalDebugging && \
     !BLC.showErrorPanel && \
-    !($root.featureFlags.noBuildLogs && hasFailedAndHasNoLogs()) \
+    !hasFailedAndHasNoLogs() \
   "
 )
   .build-log-header(
@@ -80,10 +77,7 @@
   ng-if = "\
     !$root.featureFlags.internalDebugging && \
     !BLC.showErrorPanel && \
-    !( \
-      $root.featureFlags.noBuildLogs && \
-      hasFailedAndHasNoLogs() \
-    ) \
+    !hasFailedAndHasNoLogs() \
   "
   ng-repeat = "command in BLC.getBuildLogs()"
 )
@@ -144,10 +138,7 @@
     !BLC.buildLogsRunning && \
     getBuildMessage().length && \
     !BLC.showErrorPanel && \
-    !(\
-      $root.featureFlags.noBuildLogs && \
-      hasFailedAndHasNoLogs() \
-    ) \
+    !hasFailedAndHasNoLogs() \
   "
 )
   .build-log-header

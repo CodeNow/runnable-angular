@@ -41,11 +41,11 @@ pre.pre.log-wrapper(
       'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
     }"
     ng-include = "'webViewToolbarView'"
-    ng-if = "SMC.page === 'run' && !SMC.showDebugCmd && $root.featureFlags.webToolbar"
+    ng-if = "SMC.page === 'run' && !SMC.showDebugCmd"
   )
 
   .popover.bottom.padding-sm.popover-aha.popover-sm.in.sans-serif(
-    ng-if = "SMC.showUrlToolbar && SMC.page === 'run' && !SMC.showDebugCmd && $root.featureFlags.webToolbar"
+    ng-if = "SMC.showUrlToolbar && SMC.page === 'run' && !SMC.showDebugCmd"
     style = "left: 12px; top: 60px;"
   )
     .arrow.white
