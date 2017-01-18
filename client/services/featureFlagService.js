@@ -23,7 +23,6 @@ function featureFlags(
     emptyFolder: false, // shows empty folder markup
     fullScreen: false, // toggles full screen
     fullScreenToggle: false, // toggles the button that toggles full screen
-    gitHubIntegration: true,
     hostnameNotifications: false,
     hostnameTool: false,
     imAfraidOfTheDark: false, // toggles theme
