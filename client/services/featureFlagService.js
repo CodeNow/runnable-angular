@@ -16,7 +16,7 @@ function featureFlags(
     cardStatus: false,
     connections: false,
     contingencyPlan: false,
-    demoAutoAddBranch: false,
+    demoAutoAddBranch: true,
     demoMultiTier: true,
     dockerCompose: false,
     dockerfileMirroringMultiple: false,
