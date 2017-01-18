@@ -57,6 +57,11 @@ function ControllerInstances(
     }
   });
 
+  CIS.shouldShowBranchView = function () {
+     return ($rootScope.featureFlags.demoAutoAddBranch ? true : !CIS.showDemoAddBranchView()) &&
+            (!CIS.isInDemoFlow() || demoFlowService.hasSeenUrlCallout());
+  };
+
   $scope.$on('popover-opened', function (event, pop) {
     if (keypather.get(pop, 'data') === 'branchSelect') {
       CIS.shouldShowPopover = false;
@@ -198,7 +203,8 @@ function ControllerInstances(
     return demoFlowService.isInDemoFlow() &&
       keypather.get(CIS, 'instancesByPod.models.length') &&
       !demoRepos.shouldShowDemoSelector() &&
-      CIS.getUrlCalloutInstance();
+      CIS.getUrlCalloutInstance() &&
+      ($rootScope.featureFlags.demoAutoAddBranch ? demoFlowService.hasAddedBranch() : !demoFlowService.hasAddedBranch());
   };
 
   this.getDemoInstance = function () {
