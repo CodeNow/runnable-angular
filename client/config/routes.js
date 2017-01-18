@@ -158,8 +158,9 @@ module.exports = [
             });
           });
       },
-      whitelists: function (fetchWhitelists) {
-        return fetchWhitelists();
+      whitelists: function (fetchWhitelistForDockCreated) {
+        // Don't want this this to use a cached value, at least for now
+        return fetchWhitelistForDockCreated();
       },
       orgs: function (fetchWhitelistedOrgs) {
         return fetchWhitelistedOrgs();
