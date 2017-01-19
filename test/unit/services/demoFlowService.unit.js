@@ -44,6 +44,9 @@ describe('demoFlowService'.bold.underline.blue, function () {
         }
       }
     };
+    featureFlags = {
+      demoAutoAddBranch: false
+    }
   });
 
   describe('#shouldShowTeamCTA', function () {

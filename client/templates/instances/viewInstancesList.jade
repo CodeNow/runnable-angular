@@ -138,36 +138,15 @@
 
   //- wraps all branch clusters — hide until a branch has been added
   .demo-transition.js-animate(
-    ng-if = "!CIS.isInDemoFlow() || !CIS.showDemoAddBranchView() || $root.featureFlags.demoAutoAddBranch"
+    ng-if = "!CIS.isInDemoFlow() || CIS.shouldShowBranchView()"
   )
-
-    //- stubbed out markup for this feature flag, we don't want to keep any of this after implementation:
-    .grid-block.vertical.shrink.list-clusters.js-animate(
-      ng-if = "$root.featureFlags.demoAutoAddBranch"
-    )
-      .grid-block.align-center.list-item-cluster.list-clusters-heading
-        span.grid-content.text-overflow node-starter
-        .grid-block.align-center.shrink.btn.btn-xxs.white Add Branch
-          svg.iconnables.icons-arrow-forward
-            use(
-              xlink:href = "#icons-arrow-down"
-            )
-      .list-item-cluster
-        .grid-block.vertical.list-containers.text-overflow
-          a.grid-block.align-center.a-sref
-            status-icon.grid-block.shrink.green
-            .grid-block.text-overflow dark-theme
-      .grid-block.vertical.padding-sm.popover.bottom.in.popover-demo.branch-step(
-        ng-include = "'popoverDemoBranchContainerView'"
-      )
-    //- end stubbed out markup
 
 
     //- branch clusters
     .grid-block.vertical.shrink.list-clusters.js-animate(
       ng-if = "!masterInstance.attrs.isTesting || (masterInstance.attrs.isTesting && !masterInstance.attrs.testingParentId)"
       ng-repeat = "masterInstance in CIS.instancesByPod | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
-      ng-show = "CIS.shouldShowParent(masterInstance) && CIS.shouldShowBranchView()"
+      ng-show = "CIS.shouldShowParent(masterInstance)"
     )
 
       //- cluster list heading
@@ -241,3 +220,9 @@
         pop-over-options = "{\"top\":-33,\"left\":215}"
         pop-over-template = "viewMoreContainersPopover"
       ) 8 more…
+
+      //- show only on demo repos
+      .grid-block.vertical.padding-sm.popover.bottom.in.popover-demo.branch-step(
+        ng-if = "$root.featureFlags.demoAutoAddBranch && CIS.shouldShowAddBranchCTA(masterInstance)"
+        ng-include = "'popoverDemoBranchContainerView'"
+      )

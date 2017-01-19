@@ -9,18 +9,18 @@ function demoFlowService(
   $rootScope,
   $q,
   currentOrg,
+  errs,
   fetchInstancesByPod,
   github,
   defaultContainerUrl,
   featureFlags,
   keypather,
-  patchOrgMetadata
+  patchOrgMetadata,
+  promisify
 ) {
 
   if (isInDemoFlow()) {
-    $rootScope.$on('demo::completed', function () {
-      endDemoFlow();
-    });
+    addEventListeners();
   }
 
   if (usingDemoRepo() || isInDemoFlow()) {
@@ -38,6 +38,7 @@ function demoFlowService(
   function resetFlags () {
     deleteItem('hasSeenHangTightMessage');
     deleteItem('hasSeenUrlCallout');
+    deleteItem('hasSeenAddBranchCTA');
   }
 
   function setItem (key, value) {
@@ -76,6 +77,48 @@ function demoFlowService(
        });
   }
 
+  function addEventListeners () {
+    // listen for the end of the demo if we are in it
+    $rootScope.$on('demo::completed', function () {
+      endDemoFlow();
+    });
+
+    // listen for the url open event if the user hasn't done it yet
+    if (featureFlags.flags.demoAutoAddBranch && !$localStorage.hasSeenUrlCallout) {
+      var unregisterContainerUrlClickListener = $rootScope.$on('clickedOpenContainerUrl', function (event, instance) {
+        unregisterContainerUrlClickListener();
+        forkNewInstance(instance)
+          .then(function () {
+            if (currentOrg.isPersonalAccount()) {
+              submitDemoPR(instance)
+                .catch(function (err) {
+                  if (keypather.get(err, 'errors[0].message').match(/(pull request.*exists)/)) {
+                    return instance;
+                  }
+                  errs.handler(err);
+                });
+              }
+          });
+      });
+    }
+
+    // listen for the click on a new instance if the user has clicked open url
+    if (featureFlags.flags.demoAutoAddBranch && $localStorage.hasSeenUrlCallout && !$localStorage.hasSeenAddBranchCTA) {
+      addBranchListener();
+    }
+  }
+
+  function addBranchListener () {
+    var unregisterStateChangeListener = $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
+      var instanceName = keypather.get(toParams, 'instanceName');
+      if (instanceName && instanceName.match(/dark-theme/)) {
+        setItem('hasSeenAddBranchCTA', true);
+        hasAddedBranch(true);
+        unregisterStateChangeListener();
+      }
+    });
+  }
+
   function checkStatusOnInstance (instance) {
     // This is needed to fix an issue with 'Response for preflight has invalid HTTP status code 404'
     // Caused by the X-CSRF-TOKEN
@@ -92,6 +135,19 @@ function demoFlowService(
       })
       .catch(function () {
         return true;
+      });
+  }
+
+  function forkNewInstance (instance) {
+    addBranchListener();
+    return promisify(currentOrg.github, 'fetchRepo')(instance.getRepoName())
+      .then(function (repo) {
+        return promisify(repo, 'fetchBranch')('dark-theme');
+      })
+      .then(function (branch) {
+        var sha = branch.attrs.commit.sha;
+        var branchName = branch.attrs.name;
+        return promisify(instance, 'fork')(branchName, sha);
       });
   }
 
@@ -137,10 +193,15 @@ function demoFlowService(
   }
 
   function shouldShowServicesCTA () {
-    return !currentOrg.isPersonalAccount() && isInDemoFlow() && getItem('usingDemoRepo') && getItem('hasAddedBranch');
+    return !currentOrg.isPersonalAccount() && isInDemoFlow() && getItem('usingDemoRepo') && hasAddedBranch();
+  }
+
+  function shouldShowAddBranchCTA (instance) {
+    return isInDemoFlow() && !getItem('hasSeenAddBranchCTA') && instance.attrs.id === getItem('hasSeenUrlCallout');
   }
 
   return {
+    addBranchListener: addBranchListener,
     checkStatusOnInstance: checkStatusOnInstance,
     deleteItem: deleteItem,
     endDemoFlow: endDemoFlow,
@@ -155,6 +216,7 @@ function demoFlowService(
     setUsingDemoRepo: setUsingDemoRepo,
     setItem: setItem,
     submitDemoPR: submitDemoPR,
+    shouldShowAddBranchCTA: shouldShowAddBranchCTA,
     shouldShowTeamCTA: shouldShowTeamCTA,
     shouldShowServicesCTA: shouldShowServicesCTA
   };
