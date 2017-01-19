@@ -65,13 +65,9 @@ function ChooseOrganizationModalController(
     if (isDemo) {
       loadingString = 'grantAccessDemo';
     }
-    var connectionUrl = 'https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9';
-    if (configEnvironment === 'development') {
-      connectionUrl = 'https://github.com/settings/applications';
-    }
-    if ($rootScope.featureFlags.demoProject) {
-      connectionUrl = '/githubAuth';
-    }
+
+    var connectionUrl = '/githubAuth';
+
     if (isDemo) {
       connectionUrl = connectionUrl + '?isDemo=true';
     }
