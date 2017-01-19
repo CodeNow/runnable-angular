@@ -5,7 +5,7 @@
 
   p.p.text-gray(
     ng-if = "!COMC.personalAccountOnly"
-  ) Select your team to get started.
+  ) Select your team to start running its code.
   ol.grid-block.vertical.list(
     ng-if = "!COMC.personalAccountOnly"
   )
@@ -30,9 +30,9 @@
   ) Don’t see your team?
   p.p.text-gray(
     ng-if = "COMC.personalAccountOnly"
-  ) Runnable is made for teams,
+  ) Runnable is made for teams.
     br
-    | &#32;but you haven’t added any yet.
+    | Add yours to start running its code.
   ol.grid-block.vertical.list
     li.grid-block.align-center.list-item.btn.white(
       data-event-name = "Clicked to Grant Access View"
