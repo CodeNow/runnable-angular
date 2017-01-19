@@ -81,9 +81,12 @@ module.exports = [
       whitelistedOrgs: function (fetchWhitelistForDockCreated) {
         return fetchWhitelistForDockCreated();
       },
-      booted: function (eventTracking, user) {
+      booted: function (eventTracking, user, fetchGrantedGithubOrgs) {
         eventTracking.boot(user);
-        eventTracking.visitedOrgSelectPage();
+        fetchGrantedGithubOrgs()
+          .then(function (orgs) {
+            eventTracking.visitedOrgSelectPage(orgs.models.length);
+          });
       }
     }
   }, {
