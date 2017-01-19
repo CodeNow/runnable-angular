@@ -192,6 +192,9 @@ function ChooseOrganizationModalController(
 
   COMC.selectedOrgName = null;
   COMC.pollForDockCreated = function (whitelistedDock, selectedOrgName) {
+    eventTracking.spunUpInfrastructure();
+    if (selectedOrgName.toLowerCase() != org.oauthName().toLowerCase())
+      eventTracking.spunUpInfrastructureForOrg();
     loading('waitingForDockCreated', true);
     COMC.selectedOrgName = selectedOrgName;
     COMC.cancelPollingForDockCreated();
