@@ -5,7 +5,7 @@
 
   p.p.text-gray(
     ng-if = "!COMC.personalAccountOnly"
-  ) Select your team to get started.
+  ) Select your team to start running its code.
   ol.grid-block.vertical.list(
     ng-if = "!COMC.personalAccountOnly"
   )
@@ -30,9 +30,9 @@
   ) Don’t see your team?
   p.p.text-gray(
     ng-if = "COMC.personalAccountOnly"
-  ) Runnable is made for teams,
+  ) Runnable is made for teams.
     br
-    | &#32;but you haven’t added any yet.
+    | Add yours to start running its code.
   ol.grid-block.vertical.list
     li.grid-block.align-center.list-item.btn.white(
       data-event-name = "Clicked to Grant Access View"
@@ -53,7 +53,7 @@
     li.grid-block.align-center.list-item.btn.white(
       data-event-name = "PA Selected"
       ng-click = "COMC.actions.createOrCheckDock(COMC.user.oauthName())"
-      title = "Start with a tour using your personal account"
+      title = "Start with a demo using your personal account"
     )
       img.grid-content.shrink(
         height = "30"
@@ -61,7 +61,7 @@
         width = "30"
       )
       .grid-block.vertical.align-start.margin-left-sm
-        .text-overflow.text-left Start with a tour
+        .text-overflow.text-left Start with a demo
         .text-overflow.text-left.small using your personal account
       svg.grid-content.iconnables.icons-arrow-forward.shrink
         use(
