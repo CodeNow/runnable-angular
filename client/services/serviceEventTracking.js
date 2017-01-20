@@ -393,10 +393,12 @@ function EventTracking(
    *   - segment
    * @return this
    */
-  ETS.visitedOrgSelectPage = function () {
+  ETS.visitedOrgSelectPage = function (orgCount) {
     var eventName = 'Visited org-select page';
 
-    ETS._mixpanel('track', eventName);
+    ETS._mixpanel('track', eventName, {
+        orgCount: orgCount
+    });
     ETS.analytics.ready(function () {
       ETS.analytics.track(eventName);
     });
