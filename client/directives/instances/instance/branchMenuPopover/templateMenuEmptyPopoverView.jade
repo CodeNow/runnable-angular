@@ -1,9 +1,12 @@
 .popover.menu.right.popover-template-menu(
+  close = "NCMC.close"
   ng-class = "{'in': active}"
   ng-style = "popoverStyle.getStyle()"
-  close = "NCMC.close"
+  style = "transform-origin: 0 20%"
 )
-  .arrow
+  .arrow(
+    style = "top: 38px"
+  )
   .grid-block.align-center.vertical.padding-md.empty
     img.grid-block.shrink.img(
       src = "/build/images/add-code-state.svg"

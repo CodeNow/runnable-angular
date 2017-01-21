@@ -1,4 +1,5 @@
 .popover.menu.right.popover-template-menu(
+  close = "NCMC.close"
   new-container = "popover"
   ng-class = "{'in': active}"
   ng-if = "!CIS.currentOrg.isPersonalAccount()"
@@ -7,5 +8,4 @@
     state.loading = null;\
   "
   ng-style = "popoverStyle.getStyle()"
-  close = "NCMC.close"
 )
