@@ -1,10 +1,11 @@
 .popover.menu.right.popover-template-menu(
+  new-container = "popover"
   ng-class = "{'in': active}"
+  ng-if = "!CIS.currentOrg.isPersonalAccount()"
   ng-init = "\
     state.tab = 'repo';\
     state.loading = null;\
   "
   ng-style = "popoverStyle.getStyle()"
-  new-container = "popover"
   close = "NCMC.close"
 )
