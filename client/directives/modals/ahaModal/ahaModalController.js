@@ -6,7 +6,6 @@ require('app')
 function AhaModalController(
   $q,
   $timeout,
-  $rootScope,
   ahaGuide,
   createNewBuildAndFetchBranch,
   currentOrg,
@@ -64,7 +63,7 @@ function AhaModalController(
   loading('fetchAccountRepos', true);
   fetchOwnerRepos(currentOrg.github.oauthName())
     .then(function (ownerRepos) {
-      AMC.accountHasRepos = ownerRepos.models.length;
+      AMC.accountHasRepos = ownerRepos.length;
       loading('fetchAccountRepos', false);
     });
 

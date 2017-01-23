@@ -313,41 +313,40 @@ function fetchBuild(
   };
 }
 
-function fetchOwnerRepos(fetchUser, promisify) {
+function fetchOwnerRepos(
+  github,
+  fetchUser
+) {
   return function (userName) {
-    var user;
-    var repoType;
-    return fetchUser().then(function (_user) {
-      if (userName === _user.oauthName()) {
-        user = _user;
-        repoType = 'GithubRepos';
-      } else {
-        user = _user.newGithubOrg(userName);
-        repoType = 'Repos';
-      }
-      var allRepos = [];
-      function fetchPage(page) {
-        return promisify(user, 'fetch' + repoType)({
-          page: page,
-          sort: 'update'
-        }).then(function (githubRepos) {
-          allRepos = allRepos.concat(githubRepos.models);
-          // recursive until result set returns fewer than
-          // 100 repos, indicating last paginated result
-          if (githubRepos.models.length < 100) {
-            return allRepos;
+    var allRepos = [];
+    return fetchUser()
+      .then(function (_user) {
+        function fetchPage (page) {
+          var fetchPromise;
+          if (userName === _user.oauthName()) {
+            fetchPromise = github.fetchUserRepos(userName, {
+              page: page,
+              sort: 'update'
+            });
+          } else {
+            fetchPromise = github.fetchOrgRepos(userName, {
+              page: page,
+              sort: 'update'
+            });
           }
-          return fetchPage(page + 1);
-        });
-      }
-      return fetchPage(1);
-    }).then(function (reposArr) {
-      var repos = user['new' + repoType](reposArr, {
-        noStore: true
+          return fetchPromise
+            .then(function (githubRepos) {
+              allRepos = allRepos.concat(githubRepos);
+              // recursive until result set returns fewer than
+              // 100 repos, indicating last paginated result
+              if (githubRepos.length < 100) {
+                return allRepos;
+              }
+              return fetchPage(page + 1);
+            });
+        }
+        return fetchPage(1);
       });
-      repos.ownerUsername = userName;
-      return repos;
-    });
   };
 }
 

@@ -70,6 +70,24 @@ function github(
       return makeGhRequest(ghRequest);
     },
 
+    fetchOrgRepos: function (org, params) {
+      return this.fetchRepos('orgs', org, params);
+    },
+
+    fetchUserRepos: function (userName, params) {
+      return this.fetchRepos('users', userName, params);
+    },
+
+    fetchRepos: function (key, ghId, params) {
+      params = params || {};
+      var ghRequest = {
+        method: 'get',
+        url: githubAPIUrl + '/' + key + '/' + ghId + '/repos',
+        params: params
+      };
+      return makeGhRequest(ghRequest);
+    },
+
     makeGhRequest: makeGhRequest
   };
 }
