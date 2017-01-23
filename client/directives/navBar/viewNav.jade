@@ -22,7 +22,7 @@ a.a(
   | Configure
 
 a.a(
-  ng-if = "(dataApp.state.includes('base.instances') || !CA.instancesByPod || CA.instancesByPod.models.length)"
+  ng-if = "(dataApp.state.includes('base.instances') || !currentOrg.isPersonalAccount() || CA.instancesByPod.models.length)"
   ui-sref = "base.instances({ userName: CA.activeAccount.oauthName() })"
   ui-sref-active = "active"
 )
