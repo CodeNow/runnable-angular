@@ -22,18 +22,9 @@ a.a(
   | Configure
 
 a.a(
-  ng-if = "!currentOrg.isPersonalAccount()"
   ui-sref = "base.instances({ userName: CA.activeAccount.oauthName() })"
   ui-sref-active = "active"
 )
-  .aha-overlay-div(
-    ng-click = "CA.showAhaConfirmation($event)"
-    ng-if = "CA.ahaGuide.isAddingFirstRepo() && CA.instancesByPod.models.length && !CA.ahaGuide.hasConfirmedSetup()"
-  )
-  svg.iconnables.icons-server-dark
-    use(
-      xlink:href = "#icons-server-dark"
-    )
   | Containers
 
 a.a.btn-docs(
