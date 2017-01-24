@@ -1,0 +1,18 @@
+.popover.menu.right.popover-template-menu(
+  close = "NCMC.close"
+  ng-class = "{'in': active}"
+  ng-style = "popoverStyle.getStyle()"
+  style = "transform-origin: 0 20%"
+)
+  .arrow(
+    style = "top: 38px"
+  )
+  .grid-block.align-center.vertical.padding-md.empty
+    img.grid-block.shrink.img(
+      src = "/build/images/add-code-state.svg"
+    )
+    p.p.text-center To add your own repositories and services, try Runnable with a GitHub team.
+    button.btn.btn-sm.gray.margin-top-xs(
+      ui-sref = "orgSelect"
+      ui-sref-opts = "{reload: true}"
+    ) Switch to a Team

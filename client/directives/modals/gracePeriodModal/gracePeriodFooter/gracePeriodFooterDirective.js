@@ -4,6 +4,7 @@ require('app').directive('gracePeriodFooter', gracePeriodFooter);
 
 function gracePeriodFooter(
   $rootScope,
+  loading,
   promisify,
   errs
 ) {
