@@ -80,11 +80,11 @@ var stacks = {
     cmd: 'php artisan migrate && apache2-foreground',
     buildCommands: [
       'composer install',
-      'rmdir /var/www/html/',
-      'ln -s /var/www/public /var/www/html',
-      'chown -R www-data /var/www/',
-      'chgrp -R www-data /var/www/',
-      'chmod -R 775 /var/www/storage'
+      'rmdir /var/www/html/ \
+      && ln -s /var/www/public /var/www/html \
+      && chown -R www-data /var/www/ \
+      && chgrp -R www-data /var/www/ \
+      && chmod -R 775 /var/www/storage'
     ],
     env: [
       'APP_ENV=local',
