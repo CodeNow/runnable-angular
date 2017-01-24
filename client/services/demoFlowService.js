@@ -39,6 +39,7 @@ function demoFlowService(
     deleteItem('hasSeenHangTightMessage');
     deleteItem('hasSeenUrlCallout');
     deleteItem('hasSeenAddBranchCTA');
+    deleteItem('hasAddedBranch');
   }
 
   function setItem (key, value) {
