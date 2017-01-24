@@ -39,18 +39,19 @@ function demoFlowService(
     deleteItem('hasSeenHangTightMessage');
     deleteItem('hasSeenUrlCallout');
     deleteItem('hasSeenAddBranchCTA');
+    deleteItem('hasAddedBranch');
   }
 
   function setItem (key, value) {
-    $localStorage[key] = value;
+    $localStorage[currentOrg.poppa.attrs.id + '-' + key] = value;
   }
 
   function getItem (key) {
-    return $localStorage[key];
+    return $localStorage[currentOrg.poppa.attrs.id + '-' + key];
   }
 
   function deleteItem (key) {
-    delete $localStorage[key];
+    delete $localStorage[currentOrg.poppa.attrs.id + '-' + key];
   }
 
   function isInDemoFlow () {
@@ -103,7 +104,7 @@ function demoFlowService(
     }
 
     // listen for the click on a new instance if the user has clicked open url
-    if (featureFlags.flags.demoAutoAddBranch && $localStorage.hasSeenUrlCallout && !$localStorage.hasSeenAddBranchCTA) {
+    if (featureFlags.flags.demoAutoAddBranch && getItem('hasSeenUrlCallout') && !getItem('hasSeenAddBranchCTA')) {
       addBranchListener();
     }
   }
@@ -152,7 +153,7 @@ function demoFlowService(
   }
 
   function hasSeenHangTightMessage () {
-    return $localStorage.hasSeenHangTightMessage;
+    return getItem('hasSeenHangTightMessage');
   }
 
   function submitDemoPR (instance) {
@@ -162,22 +163,22 @@ function demoFlowService(
   }
 
   function hasSeenUrlCallout () {
-    return $localStorage.hasSeenUrlCallout;
+    return getItem('hasSeenUrlCallout');
   }
 
   function setUsingDemoRepo (value) {
-    $localStorage.usingDemoRepo = value;
+    setItem('usingDemoRepo', value);
   }
 
   function hasAddedBranch (value) {
     if (value !== undefined) {
-      $localStorage.hasAddedBranch = value;
+      setItem('hasAddedBranch', value);
     }
-    return $localStorage.hasAddedBranch;
+    return getItem('hasAddedBranch');
   }
 
   function usingDemoRepo () {
-    return $localStorage.usingDemoRepo;
+    return getItem('usingDemoRepo');
   }
   $rootScope.$on('demo::dismissUrlCallout', function ($event, instanceId) {
     if (!hasSeenUrlCallout()) {

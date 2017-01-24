@@ -9,6 +9,7 @@ var keypather;
 var $q;
 var $elScope;
 var ahaGuideStub;
+var demoFlowServiceMock;
 var readOnlySwitchController;
 var apiMocks = require('./../../../apiMocks/index');
 
@@ -76,6 +77,15 @@ describe('instanceHeaderDirective'.bold.underline.blue, function () {
           terminal: true,
           link: angular.noop
         };
+      });
+      $provide.factory('demoFlowService', function () {
+        demoFlowServiceMock = {
+          isInDemoFlow: sinon.stub().returns(false),
+          shouldAddPR: sinon.stub().returns(false),
+          hasSeenUrlCallout: sinon.stub().returns(false),
+          hasSeenHangTightMessage: sinon.stub().returns(false)
+        };
+        return demoFlowServiceMock;
       });
       $provide.factory('dnsConfigurationDirective', function () {
         return {

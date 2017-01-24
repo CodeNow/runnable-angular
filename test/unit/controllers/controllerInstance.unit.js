@@ -19,6 +19,7 @@ var instance;
 var container;
 var commitHash;
 var dockerfile;
+var demoFlowServiceMock;
 var getCommitForCurrentlyBuildingBuild;
 var fetchDockerfileForContextVersionStub;
 var q;
@@ -84,6 +85,13 @@ describe('controllerInstance'.bold.underline.blue, function () {
       $provide.factory('fetchDockerfileForContextVersion', function ($q) {
         fetchDockerfileForContextVersionStub = sinon.stub().returns($q.when(dockerfile));
         return fetchDockerfileForContextVersionStub;
+      });
+      $provide.factory('demoFlowService', function ($q) {
+        demoFlowServiceMock = {
+          isInDemoFlow: sinon.stub().returns(false),
+          hasSeenHangTightMessage: sinon.stub().returns(true)
+        };
+        return demoFlowServiceMock;
       });
       $provide.factory('fetchCommitData', function () {
         return {
