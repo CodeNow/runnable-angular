@@ -19,38 +19,6 @@
         order: 2;
       }
     }
-
-    .team-cta {
-      background: $gray-lighterest;
-      border-left: 1px solid $gray-lighter;
-      border-radius: 0 $input-border-radius-lg $input-border-radius-lg 0;
-      flex: 1 1 auto;
-      max-width: none;
-      padding: $md $sm;
-
-      @include media(sm) {
-        background: $white;
-        border-bottom: 1px solid $gray-lighter;
-        border-left: 0;
-        border-radius: $input-border-radius-lg $input-border-radius-lg 0 0;
-        font-size: 15px;
-        order: 1;
-        padding: $sm;
-      }
-
-      .img {
-        @include media(sm) {
-          height: 75px;
-          width: 75px;
-        }
-      }
-
-      .strong {
-        @include media(sm) {
-          max-width: 180px;
-        }
-      }
-    }
   }
 
   // override default .popover-view
