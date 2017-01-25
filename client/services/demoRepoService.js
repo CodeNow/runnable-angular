@@ -115,17 +115,14 @@ function demoRepos(
   $timeout,
   ahaGuide,
   createNewCluster,
-  createNewBuildAndFetchBranch,
   createNonRepoInstance,
   currentOrg,
   demoFlowService,
   fetchInstancesByPod,
   fetchNonRepoInstances,
   fetchOwnerRepo,
-  fetchStackData,
   github,
   keypather,
-  serverCreateService,
   watchOncePromise,
   errs
 ) {
@@ -253,7 +250,7 @@ function demoRepos(
       .then(function (allInstances) {
         return watchOncePromise($rootScope, function () {
           return allInstances.models.find(function (instance) {
-            return instance.contextVersion.getMainAppCodeVersion() && instance;
+            return instance.getMainAppCodeVersion();
           });
         }, true);
       })
