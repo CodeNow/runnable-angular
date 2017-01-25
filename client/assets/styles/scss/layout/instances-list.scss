@@ -99,6 +99,10 @@
 .list-clusters {
   border-top: 1px solid $gray-lighter;
   padding: 15px 0;
+
+  .popover-demo + & {
+    border-top: 0;
+  }
 }
 
 .list-clusters-heading {
