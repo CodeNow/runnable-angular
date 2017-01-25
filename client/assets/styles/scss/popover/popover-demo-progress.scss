@@ -4,7 +4,8 @@
   border-radius: $input-border-radius-lg $input-border-radius-lg 0 0;
   padding: $xs $sm;
 
-  .notification & {
+  .notification &,
+  .popover > & {
     margin: (-$sm) (-$sm) $sm;
   }
 
@@ -19,7 +20,6 @@
 
   .branch-step &,
   .service-cta & {
-    margin: (-$sm) (-$sm) $sm;
     width: calc(100% + 30px);
   }
 

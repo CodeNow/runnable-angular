@@ -22,6 +22,7 @@ a.a(
   | Configure
 
 a.a(
+  ng-if = "!CA.currentOrg.isPersonalAccount()"
   ui-sref = "base.instances({ userName: CA.activeAccount.oauthName() })"
   ui-sref-active = "active"
 )
@@ -30,6 +31,16 @@ a.a(
       xlink:href = "#icons-server-dark"
     )
   | Containers
+
+a.a(
+  ui-sref = "orgSelect"
+  ui-sref-opts = "{reload: true}"
+)
+  svg.iconnables.icons-add
+    use(
+      xlink:href = "#icons-add"
+    )
+  span Add Team
 
 a.a.btn-docs(
   href = "https://support.runnable.com"

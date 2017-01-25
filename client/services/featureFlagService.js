@@ -16,6 +16,7 @@ function featureFlags(
     cardStatus: false,
     connections: false,
     contingencyPlan: false,
+    demoAddTeamStep: false,
     demoAutoAddBranch: true,
     demoMultiTier: true,
     dockerCompose: true,
