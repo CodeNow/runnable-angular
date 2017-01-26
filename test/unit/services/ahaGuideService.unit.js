@@ -25,8 +25,7 @@ describe('ahaGuide'.bold.underline.blue, function () {
   };
   function initState () {
     featureFlags = {
-      aha: true,
-      demoMultiTier: false
+      aha: true
     };
     angular.mock.module('app');
     angular.mock.module(function($provide) {
@@ -114,35 +113,42 @@ describe('ahaGuide'.bold.underline.blue, function () {
       sinon.assert.calledWithExactly(eventTrackingStub.updateCurrentPersonProfile, 2);
     });
   });
-  describe('returning the org\'s aha progress', function () {
+  describe('returning the org\'s aha progress using isInGuide', function () {
     afterEach(function() {
       mockOrg.poppa.attrs.metadata.hasAha = true;
       mockOrg.poppa.attrs.metadata.hasConfirmedSetup = false;
     });
-    it('should return true when the user\'s aha property is active', function () {
-      var userInGuide = ahaGuide.isInGuide();
-      expect(userInGuide).to.equal(true);
+
+    describe("using isInGuide", function() {
+      it('should return true when the user\'s aha property is active', function () {
+        var userInGuide = ahaGuide.isInGuide();
+        expect(userInGuide).to.equal(true);
+      });
+      it('should return false when not', function () {
+        mockOrg.poppa.attrs.metadata.hasAha = false;
+        var userInGuide = ahaGuide.isInGuide();
+        expect(userInGuide).to.equal(false);
+      });
     });
-    it('should return false when not', function () {
-      mockOrg.poppa.attrs.metadata.hasAha = false;
-      var userInGuide = ahaGuide.isInGuide();
-      expect(userInGuide).to.equal(false);
-    });
-    it('should return true when the user has confirmed setup', function () {
-      var userConfirmedSetup = ahaGuide.hasConfirmedSetup();
-      expect(userConfirmedSetup).to.equal(false);
-    });
-    it('should return true when the user has confirmed setup', function () {
-      mockOrg.poppa.attrs.metadata.hasConfirmedSetup = true;
-      var userConfirmedSetup = ahaGuide.hasConfirmedSetup();
-      expect(userConfirmedSetup).to.equal(true);
-    });
-    it('(demoMultiTier) should return true when the user has confirmed setup', function () {
-      $rootScope.featureFlags.demoMultiTier = true;
-      fetchInstancesByPodMock.triggerPromise(mockInstance);
-      $rootScope.$digest(); // Clear cache
-      var userConfirmedSetup = ahaGuide.hasConfirmedSetup();
-      expect(userConfirmedSetup).to.equal(true);
+
+    describe("using hasConfirmedSetup" , function() {
+      it('should return true when the user has confirmed setup', function () {
+        var userConfirmedSetup = ahaGuide.hasConfirmedSetup();
+        expect(userConfirmedSetup).to.equal(false);
+      });
+      it('should return true when the user has confirmed setup', function () {
+        fetchInstancesByPodMock.triggerPromise(mockInstance);
+        $rootScope.$digest(); // Clear cache
+        var userConfirmedSetup = ahaGuide.hasConfirmedSetup();
+        expect(userConfirmedSetup).to.equal(true);
+      });
+      it('(demoMultiTier) should return true when the user has confirmed setup', function () {
+        $rootScope.featureFlags.demoMultiTier = true;
+        fetchInstancesByPodMock.triggerPromise(mockInstance);
+        $rootScope.$digest(); // Clear cache
+        var userConfirmedSetup = ahaGuide.hasConfirmedSetup();
+        expect(userConfirmedSetup).to.equal(true);
+      });
     });
   });
   describe('getting the current milestone, pre runnabot', function () {
@@ -171,7 +177,6 @@ describe('ahaGuide'.bold.underline.blue, function () {
       expect(addFirstBranch).to.equal(true);
     });
     it('(demoMultiTier) should return the add first branch step if setup is confirmed', function () {
-      $rootScope.featureFlags.demoMultiTier = true;
       mockInstance.models[0].attrs.hasAddedBranches = false;
       fetchInstancesByPodMock.triggerPromise(mockInstance);
       $rootScope.$digest(); // Clear cache
