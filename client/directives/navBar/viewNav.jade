@@ -34,12 +34,12 @@ a.a(
 
 //- show tooltip whenever the "add team" demo step is not visible
 a.grid-block.align-center.justify-center.shrink.btn-add-team(
+  ng-if = "$root.featureFlags.demoAddTeamStep && CA.currentOrg.isPersonalAccount()"
   tooltip = "Add a team"
   tooltip-active-attr = "false"
   tooltip-options = "{\"class\":\"right\",\"left\":42,\"top\":3}"
   ui-sref = "orgSelect"
   ui-sref-opts = "{reload: true}"
-  ng-if = "$root.featureFlags.demoAddTeamStep && CA.currentOrg.isPersonalAccount()"
 )
   svg.iconnables.icons-add
     use(
