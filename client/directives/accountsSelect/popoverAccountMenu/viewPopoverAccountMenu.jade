@@ -93,7 +93,7 @@
                 ng-click = "actions.logout();"
               ) Sign Out
         .grid-block.vertical.align-center.justify-center.popover-content.team-cta(
-          ng-if = "actions.shouldShowTeamCTA()  && !$root.featureFlags.demoAddTeamStep"
+          ng-if = "actions.shouldShowTeamCTA() && !$root.featureFlags.demoAddTeamStep"
           ng-include = "'teamCTAView'"
         )
 

@@ -11,7 +11,6 @@
 
   .team-cta & {
     margin: (-$md) (-$sm) $sm;
-    width: calc(100% + 30px);
 
     @include media(sm) {
       margin-top: -$sm;
@@ -19,7 +18,8 @@
   }
 
   .branch-step &,
-  .service-cta & {
+  .service-cta &,
+  .team-cta & {
     width: calc(100% + 30px);
   }
 

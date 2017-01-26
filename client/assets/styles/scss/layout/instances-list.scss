@@ -22,6 +22,7 @@
 
   // search
   .label-search {
+    border-bottom: 1px solid $gray-lighter;
     padding: 16px 10px;
   }
 
@@ -97,11 +98,10 @@
 
 // wraps the master cluster and each repository section
 .list-clusters {
-  border-top: 1px solid $gray-lighter;
   padding: 15px 0;
 
-  .popover-demo + & {
-    border-top: 0;
+  + .list-clusters {
+    border-top: 1px solid $gray-lighter;
   }
 }
 
