@@ -250,7 +250,8 @@ function demoRepos(
       .then(function (allInstances) {
         return watchOncePromise($rootScope, function () {
           return allInstances.models.find(function (instance) {
-            return instance.getMainAppCodeVersion();
+            // We need to get the main instance
+            return instance.getRepoName();
           });
         }, true);
       })
