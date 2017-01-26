@@ -92,10 +92,10 @@
               a.list-link(
                 ng-click = "actions.logout();"
               ) Sign Out
-          .grid-block.vertical.align-center.justify-center.popover-content.team-cta(
-            ng-include = "'teamCTAView'"
-          )
-            //- ng-if = "actions.shouldShowTeamCTA()"
+        .grid-block.vertical.align-center.justify-center.popover-content.team-cta(
+          ng-if = "actions.shouldShowTeamCTA()"
+          ng-include = "'teamCTAView'"
+        )
 
     animated-panel(
       name = "featureFlags"
