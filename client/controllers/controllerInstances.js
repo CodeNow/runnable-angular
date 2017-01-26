@@ -38,6 +38,7 @@ function ControllerInstances(
   CIS.isAddingFirstBranch = ahaGuide.isAddingFirstBranch;
   CIS.isSettingUpRunnabot = ahaGuide.isSettingUpRunnabot;
   CIS.isInDemoFlow = demoFlowService.isInDemoFlow;
+  CIS.shouldShowAddBranchCTA = demoFlowService.shouldShowAddBranchCTA;
   CIS.shouldShowServicesCTA = demoFlowService.shouldShowServicesCTA.bind(demoFlowService);
   CIS.currentOrg = currentOrg;
   CIS.showAutofork = null;
@@ -57,7 +58,9 @@ function ControllerInstances(
   });
 
   CIS.shouldShowBranchView = function () {
-     return !CIS.showDemoAddBranchView() &&
+    // we want to show the add branch view if either the feature flag is on, or if the user has
+    // clicked to add a new branch, which would cause the showDemoAddBranchView to return false
+     return ($rootScope.featureFlags.demoAutoAddBranch || !CIS.showDemoAddBranchView()) &&
             (!CIS.isInDemoFlow() || demoFlowService.hasSeenUrlCallout());
   };
 
@@ -199,11 +202,19 @@ function ControllerInstances(
   };
 
   this.showDemoAddBranchView = function () {
+    // if this FF is active, we only want to show the view if the branch has been auto added.
+    // if this FF is not active, we want ot show the view if the user clicks to add a branch.
+    var showDemoAddBranch;
+    if ($rootScope.featureFlags.demoAutoAddBranch) {
+      showDemoAddBranch = demoFlowService.hasAddedBranch();
+    } else {
+      showDemoAddBranch = !demoFlowService.hasAddedBranch();
+    }
     return demoFlowService.isInDemoFlow() &&
       keypather.get(CIS, 'instancesByPod.models.length') &&
       !demoRepos.shouldShowDemoSelector() &&
       CIS.getUrlCalloutInstance() &&
-      !demoFlowService.hasAddedBranch();
+      showDemoAddBranch;
   };
 
   this.getDemoInstance = function () {

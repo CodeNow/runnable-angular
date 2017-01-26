@@ -73,6 +73,7 @@
 @import "components/logs";
 @import "components/logs-theme";
 @import "components/notifications";
+@import "components/progress-bar";
 @import "components/repository-details-content";
 @import "components/select";
 @import "components/spinner";
@@ -134,6 +135,7 @@
 @import "modals/modals-edit-dockerfile";
 @import "modals/modals-error";
 @import "modals/modals-guide";
+@import "modals/modals-infrastructure";
 @import "modals/modals-integrations";
 @import "modals/modals-invite";
 @import "modals/modals-invite-admin";
@@ -198,8 +200,8 @@
 
 // pages
 @import "pages/github-auth";
-@import "pages/welcome";
 @import "pages/server-selection";
+@import "pages/welcome";
 
 //deprecated
 @import "deprecated/card-status";

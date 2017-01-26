@@ -393,10 +393,12 @@ function EventTracking(
    *   - segment
    * @return this
    */
-  ETS.visitedOrgSelectPage = function () {
+  ETS.visitedOrgSelectPage = function (orgCount) {
     var eventName = 'Visited org-select page';
 
-    ETS._mixpanel('track', eventName);
+    ETS._mixpanel('track', eventName, {
+        orgCount: orgCount
+    });
     ETS.analytics.ready(function () {
       ETS.analytics.track(eventName);
     });
@@ -460,6 +462,19 @@ function EventTracking(
     ETS.analytics.ready(function () {
       ETS.analytics.track(eventName, {org: orgName});
     });
+    return ETS;
+  };
+
+  /**
+   * Track video click on infrastructure loading
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.trackDemoVideo = function () {
+    var eventName = 'Clicked Demo Video';
+
+    ETS._mixpanel('track', eventName);
     return ETS;
   };
 

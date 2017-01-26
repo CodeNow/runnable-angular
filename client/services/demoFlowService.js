@@ -9,18 +9,18 @@ function demoFlowService(
   $rootScope,
   $q,
   currentOrg,
+  errs,
   fetchInstancesByPod,
   github,
   defaultContainerUrl,
   featureFlags,
   keypather,
-  patchOrgMetadata
+  patchOrgMetadata,
+  promisify
 ) {
 
   if (isInDemoFlow()) {
-    $rootScope.$on('demo::completed', function () {
-      endDemoFlow();
-    });
+    addEventListeners();
   }
 
   if (usingDemoRepo() || isInDemoFlow()) {
@@ -38,18 +38,20 @@ function demoFlowService(
   function resetFlags () {
     deleteItem('hasSeenHangTightMessage');
     deleteItem('hasSeenUrlCallout');
+    deleteItem('hasSeenAddBranchCTA');
+    deleteItem('hasAddedBranch');
   }
 
   function setItem (key, value) {
-    $localStorage[key] = value;
+    $localStorage[currentOrg.poppa.attrs.id + '-' + key] = value;
   }
 
   function getItem (key) {
-    return $localStorage[key];
+    return $localStorage[currentOrg.poppa.attrs.id + '-' + key];
   }
 
   function deleteItem (key) {
-    delete $localStorage[key];
+    delete $localStorage[currentOrg.poppa.attrs.id + '-' + key];
   }
 
   function isInDemoFlow () {
@@ -76,6 +78,48 @@ function demoFlowService(
        });
   }
 
+  function addEventListeners () {
+    // listen for the end of the demo if we are in it
+    $rootScope.$on('demo::completed', function () {
+      endDemoFlow();
+    });
+
+    // listen for the url open event if the user hasn't done it yet
+    if (featureFlags.flags.demoAutoAddBranch && !$localStorage.hasSeenUrlCallout) {
+      var unregisterContainerUrlClickListener = $rootScope.$on('clickedOpenContainerUrl', function (event, instance) {
+        unregisterContainerUrlClickListener();
+        forkNewInstance(instance)
+          .then(function () {
+            if (currentOrg.isPersonalAccount()) {
+              submitDemoPR(instance)
+                .catch(function (err) {
+                  if (keypather.get(err, 'errors[0].message').match(/(pull request.*exists)/)) {
+                    return instance;
+                  }
+                  errs.handler(err);
+                });
+              }
+          });
+      });
+    }
+
+    // listen for the click on a new instance if the user has clicked open url
+    if (featureFlags.flags.demoAutoAddBranch && getItem('hasSeenUrlCallout') && !getItem('hasSeenAddBranchCTA')) {
+      addBranchListener();
+    }
+  }
+
+  function addBranchListener () {
+    var unregisterStateChangeListener = $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
+      var instanceName = keypather.get(toParams, 'instanceName');
+      if (instanceName && instanceName.match(/dark-theme/)) {
+        setItem('hasSeenAddBranchCTA', true);
+        hasAddedBranch(true);
+        unregisterStateChangeListener();
+      }
+    });
+  }
+
   function checkStatusOnInstance (instance) {
     // This is needed to fix an issue with 'Response for preflight has invalid HTTP status code 404'
     // Caused by the X-CSRF-TOKEN
@@ -95,8 +139,21 @@ function demoFlowService(
       });
   }
 
+  function forkNewInstance (instance) {
+    addBranchListener();
+    return promisify(currentOrg.github, 'fetchRepo')(instance.getRepoName())
+      .then(function (repo) {
+        return promisify(repo, 'fetchBranch')('dark-theme');
+      })
+      .then(function (branch) {
+        var sha = branch.attrs.commit.sha;
+        var branchName = branch.attrs.name;
+        return promisify(instance, 'fork')(branchName, sha);
+      });
+  }
+
   function hasSeenHangTightMessage () {
-    return $localStorage.hasSeenHangTightMessage;
+    return getItem('hasSeenHangTightMessage');
   }
 
   function submitDemoPR (instance) {
@@ -106,22 +163,22 @@ function demoFlowService(
   }
 
   function hasSeenUrlCallout () {
-    return $localStorage.hasSeenUrlCallout;
+    return getItem('hasSeenUrlCallout');
   }
 
   function setUsingDemoRepo (value) {
-    $localStorage.usingDemoRepo = value;
+    setItem('usingDemoRepo', value);
   }
 
   function hasAddedBranch (value) {
     if (value !== undefined) {
-      $localStorage.hasAddedBranch = value;
+      setItem('hasAddedBranch', value);
     }
-    return $localStorage.hasAddedBranch;
+    return getItem('hasAddedBranch');
   }
 
   function usingDemoRepo () {
-    return $localStorage.usingDemoRepo;
+    return getItem('usingDemoRepo');
   }
   $rootScope.$on('demo::dismissUrlCallout', function ($event, instanceId) {
     if (!hasSeenUrlCallout()) {
@@ -133,14 +190,19 @@ function demoFlowService(
     return currentOrg.isPersonalAccount() && usingDemoRepo();
   }
   function shouldShowTeamCTA () {
-    return featureFlags.flags.teamCTA && currentOrg.isPersonalAccount() && !isInDemoFlow();
+    return currentOrg.isPersonalAccount() && !isInDemoFlow();
   }
 
   function shouldShowServicesCTA () {
-    return !currentOrg.isPersonalAccount() && isInDemoFlow() && getItem('usingDemoRepo') && getItem('hasAddedBranch');
+    return !currentOrg.isPersonalAccount() && isInDemoFlow() && getItem('usingDemoRepo') && hasAddedBranch();
+  }
+
+  function shouldShowAddBranchCTA (instance) {
+    return isInDemoFlow() && !getItem('hasSeenAddBranchCTA') && instance.attrs.id === getItem('hasSeenUrlCallout');
   }
 
   return {
+    addBranchListener: addBranchListener,
     checkStatusOnInstance: checkStatusOnInstance,
     deleteItem: deleteItem,
     endDemoFlow: endDemoFlow,
@@ -155,6 +217,7 @@ function demoFlowService(
     setUsingDemoRepo: setUsingDemoRepo,
     setItem: setItem,
     submitDemoPR: submitDemoPR,
+    shouldShowAddBranchCTA: shouldShowAddBranchCTA,
     shouldShowTeamCTA: shouldShowTeamCTA,
     shouldShowServicesCTA: shouldShowServicesCTA
   };

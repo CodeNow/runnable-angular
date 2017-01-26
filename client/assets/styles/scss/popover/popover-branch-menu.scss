@@ -118,4 +118,21 @@
   .btn-add {
     margin-left: 15px;
   }
+
+  // the empty state
+  .empty {
+
+    .img {
+      border-bottom: 1px solid $gray-lighter;
+      margin-bottom: $sm;
+      padding: 0 $md;
+      width: 270px;
+    }
+
+    .p {
+      color: $gray-dark;
+      font-size: 16px;
+      max-width: 240px;
+    }
+  }
 }

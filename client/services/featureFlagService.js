@@ -16,13 +16,13 @@ function featureFlags(
     cardStatus: false,
     connections: false,
     contingencyPlan: false,
-    demoProject: true,
+    demoAutoAddBranch: true,
+    dockerCompose: true,
     dockerfileMirroringMultiple: false,
     editAnyInstance: false,
     emptyFolder: false, // shows empty folder markup
     fullScreen: false, // toggles full screen
     fullScreenToggle: false, // toggles the button that toggles full screen
-    gitHubIntegration: true,
     hostnameNotifications: false,
     hostnameTool: false,
     imAfraidOfTheDark: false, // toggles theme
@@ -36,13 +36,9 @@ function featureFlags(
     navListFilter: false,
     newUserPrompt: false, // modal for new users
     nextPayment: false, // show the next payment date under payment summary
-    noBuildLogs: true,
     optionsInModal: false, // allows delete in modal
-    personalAccounts: true, // allows users with personal accounts to create Runnable teams
-    personalAccountsPhase2: true,
     renameContainer: false,
     saveToolbar: false,
-    teamCTA: true,
     teamManagement: false,
     teamManagementAdvanced: false, // changes text from org to team in account menu
     testingFeature: false,
@@ -50,7 +46,6 @@ function featureFlags(
     trial: false, // sets account to trial mode
     undoDelete: false, // undo delete configuration
     webhooks: false,
-    webToolbar: true, // webview toolbar
     whitelistIpFiltering: false
   };
 

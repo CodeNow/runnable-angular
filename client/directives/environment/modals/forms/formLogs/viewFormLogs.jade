@@ -41,11 +41,11 @@ pre.pre.log-wrapper(
       'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
     }"
     ng-include = "'webViewToolbarView'"
-    ng-if = "SMC.page === 'run' && !SMC.showDebugCmd && $root.featureFlags.webToolbar"
+    ng-if = "SMC.page === 'run' && !SMC.showDebugCmd"
   )
 
   .popover.bottom.padding-sm.popover-aha.popover-sm.in.sans-serif(
-    ng-if = "SMC.showUrlToolbar && SMC.page === 'run' && !SMC.showDebugCmd && $root.featureFlags.webToolbar"
+    ng-if = "SMC.showUrlToolbar && SMC.page === 'run' && !SMC.showDebugCmd"
     style = "left: 12px; top: 60px;"
   )
     .arrow.white
@@ -103,7 +103,7 @@ pre.pre.log-wrapper(
     //- IF CMD error:
     //- | Your container is having trouble running. Check the CMD Logs and your CMD Command.&#32;
     a.link(
-      href = "https://support.runnable.com"
+      href = "https://runnable.com/docs"
       target = "_blank"
     ) View Documentation
   button.grid-content.shrink.btn.btn-xs.orange(

@@ -302,10 +302,10 @@ function demoRepos(
     _findNewRepo: _findNewRepo, // for testing
     _findNewRepoOnRepeat: _findNewRepoOnRepeat, // for testing
     checkForOrphanedDependency: checkForOrphanedDependency,
+    createDemoApp: createDemoApp,
     demoStacks: stacks,
     forkGithubRepo: forkGithubRepo,
     findDependencyNonRepoInstances: findDependencyNonRepoInstances,
-    createDemoApp: createDemoApp,
     shouldShowDemoSelector: function () {
       return !!stacks[demoFlowService.usingDemoRepo()] || (ahaGuide.isInGuide() && !ahaGuide.hasConfirmedSetup());
     }

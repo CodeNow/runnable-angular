@@ -21,7 +21,9 @@
             href = "mailto: support@runnable.com"
           ) contact support
           | .
-        .progress-bar
+        .progress-bar.stripes.animated.margin-left-md.margin-right-md(
+          ng-include = "'progressBarView'"
+        )
 
   //- wraps everything that should transition in with the master cluster
   .demo-transition.js-animate
@@ -46,20 +48,10 @@
     .grid-block.shrink.vertical.list-clusters.master-cluster.js-animate(
       ng-if = "!CIS.shouldShowDemoSelector() && (!CIS.searchBranches || CIS.getFilteredInstanceList().length)"
     )
-      .grid-block.shrink.align-center.list-item-cluster.list-clusters-heading
-        span.grid-content.text-overflow Services
-        //- div instead of button so safari doesn’t get weird with alignment
-        .grid-block.align-center.shrink.btn.btn-xxs.white(
-          ng-class = "{'active': state.active}"
-          ng-if = "!CIS.currentOrg.isPersonalAccount()"
-          pop-over
-          pop-over-options = "{\"top\":-30,\"left\":99}"
-          pop-over-template = "templateMenuPopoverView"
-        ) Add a Service
-          svg.iconnables.icons-arrow-forward
-            use(
-              xlink:href = "#icons-arrow-down"
-            )
+      .grid-block.shrink.align-center.list-item-cluster.list-clusters-heading(
+        ng-include = "'servicesHeadingView'"
+      )
+
       .grid-block.vertical.padding-sm.popover.bottom.in.popover-demo.service-cta(
         add-service-cta
         ng-if = "CIS.shouldShowServicesCTA()"
@@ -130,20 +122,21 @@
   .grid-block.vertical.popover.in.popover-demo.demo-transition.js-animate(
     demo-add-branch
     instance = "CIS.getDemoInstance()"
-    ng-if = "CIS.showDemoAddBranchView()"
+    ng-if = "CIS.showDemoAddBranchView() && !$root.featureFlags.demoAutoAddBranch"
     user-name = "CIS.userName"
   )
 
   //- wraps all branch clusters — hide until a branch has been added
   .demo-transition.js-animate(
-    ng-if = "!CIS.isInDemoFlow() || !CIS.showDemoAddBranchView()"
+    ng-if = "!CIS.isInDemoFlow() || CIS.shouldShowBranchView()"
   )
+
 
     //- branch clusters
     .grid-block.vertical.shrink.list-clusters.js-animate(
-      ng-repeat = "masterInstance in CIS.instancesByPod | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
-      ng-show = "CIS.shouldShowParent(masterInstance) && CIS.shouldShowBranchView()"
       ng-if = "!masterInstance.attrs.isTesting || (masterInstance.attrs.isTesting && !masterInstance.attrs.testingParentId)"
+      ng-repeat = "masterInstance in CIS.instancesByPod | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
+      ng-show = "CIS.shouldShowParent(masterInstance)"
     )
 
       //- cluster list heading
@@ -205,9 +198,9 @@
         instance = "childInstance"
         instance-navigation
         master-instance = "masterInstance"
+        ng-class = "childInstance.attrs.isTesting && !childInstance.attrs.masterPod ? 'testing-container' : ''"
         ng-repeat = "childInstance in CIS.getSortedMasterInstanceChildren(masterInstance) track by childInstance.attrs.name"
         ng-show = "CIS.shouldShowChild(childInstance)"
-        ng-class = "childInstance.attrs.isTesting && !childInstance.attrs.masterPod ? 'testing-container' : ''"
       )
 
       //- nav list filter
@@ -217,3 +210,9 @@
         pop-over-options = "{\"top\":-33,\"left\":215}"
         pop-over-template = "viewMoreContainersPopover"
       ) 8 more…
+
+      //- show only on demo repos
+      .grid-block.vertical.padding-sm.popover.bottom.in.popover-demo.branch-step(
+        ng-if = "$root.featureFlags.demoAutoAddBranch && CIS.shouldShowAddBranchCTA(masterInstance)"
+        ng-include = "'popoverDemoBranchContainerView'"
+      )
