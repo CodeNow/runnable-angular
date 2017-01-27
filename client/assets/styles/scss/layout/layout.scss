@@ -90,7 +90,7 @@
 
   .btn-add-team {
     background-color: darken(saturate($purple-light,6),5);
-    border-radius: 3px;
+    border-radius: $input-border-radius;
     height: 42px;
     margin-top: 18px;
     width: 42px;
