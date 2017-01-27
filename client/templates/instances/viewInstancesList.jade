@@ -44,6 +44,11 @@
       ng-if = "!CIS.filterMatchedAnything()"
     ) No containers match this filter.
 
+    .grid-block.vertical.padding-sm.popover.right.in.popover-demo.team-step(
+      ng-if = "$root.featureFlags.demoAddTeamStep && CA.currentOrg.isPersonalAccount()"
+      ng-include = "'popoverDemoAddTeamView'"
+    )
+
     //- master cluster
     .grid-block.shrink.vertical.list-clusters.master-cluster.js-animate(
       ng-if = "!CIS.shouldShowDemoSelector() && (!CIS.searchBranches || CIS.getFilteredInstanceList().length)"
