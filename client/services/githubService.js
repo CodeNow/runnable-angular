@@ -7,9 +7,10 @@ function github(
   $http,
   $q,
   fetchUser,
-  keypather
+  keypather,
+  configGithubUrl
 ) {
-  var githubAPIUrl = 'https://api.github.com';
+  var githubAPIUrl = configGithubUrl;
   function makeGhRequest(options) {
     return fetchUser()
       .then(function (user) {
