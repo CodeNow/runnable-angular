@@ -12,10 +12,6 @@
   position: relative;
   width: $instance-list-width;
 
-  &.noscroll {
-    overflow: visible;
-  }
-
   &.in {
     display: block;
   }
