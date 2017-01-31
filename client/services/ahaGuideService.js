@@ -12,9 +12,9 @@ var STEPS = {
 };
 
 function ahaGuide(
-  $localStorage,
   $rootScope,
   currentOrg,
+  demoFlowService,
   eventTracking,
   featureFlags,
   fetchInstances,
@@ -28,7 +28,6 @@ function ahaGuide(
   var instances = [];
   var hasRunnabot = false;
   var ahaModalController;
-  var $storage = $localStorage.$default({});
   function refreshInstances() {
     return fetchInstancesByPod()
       .then(function (fetchedInstances) {
@@ -352,11 +351,7 @@ function ahaGuide(
       }
     })
       .then(function (updatedOrg) {
-        delete $storage.hasSeenHangTightMessage;
-        delete $storage.hasSeenUrlCallout;
-        delete $storage.launchedFromContainersPage;
-        delete $storage.usingDemoRepo;
-        delete $storage.hasAddedBranch;
+        demoFlowService.resetFlags();
         updateCurrentOrg(updatedOrg);
         return fetchInstances(null, true)
           .then(function (fetchedInstances) {
