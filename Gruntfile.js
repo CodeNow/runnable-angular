@@ -566,6 +566,7 @@ module.exports = function(grunt) {
     'generateConfigs',
     'browserify:watch',
     'jade:compile',
+    'browserSync',
     'concurrent'
   ]);
   grunt.registerTask('no-bs', [ // No browser sync
@@ -591,7 +592,8 @@ module.exports = function(grunt) {
     'generateConfigs',
     'browserify:watch',
     'jade:compile',
-    'concurrent'
+    'concurrent',
+    'browserSync'
   ]);
   grunt.registerTask('deploy', [
     'copy',
