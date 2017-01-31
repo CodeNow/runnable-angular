@@ -35,7 +35,7 @@ function mirrorDockerfileDirective(
           $scope.viewState.showAddDockerfile = true;
           $scope.viewState.showAddDockerComposeFile = false;
         }
-      }
+      };
       $scope.$watch('MDC.repo.attrs.name', function () {
         $scope.MDC.resetDockerfilePaths();
         loading('mirrorDockerfile', true);
