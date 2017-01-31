@@ -566,7 +566,6 @@ module.exports = function(grunt) {
     'generateConfigs',
     'browserify:watch',
     'jade:compile',
-    'browserSync',
     'concurrent'
   ]);
   grunt.registerTask('no-bs', [ // No browser sync
