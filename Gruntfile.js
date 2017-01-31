@@ -592,8 +592,8 @@ module.exports = function(grunt) {
     'generateConfigs',
     'browserify:watch',
     'jade:compile',
-    'concurrent',
-    'browserSync'
+    'browserSync',
+    'concurrent'
   ]);
   grunt.registerTask('deploy', [
     'copy',
