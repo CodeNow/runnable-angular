@@ -563,12 +563,12 @@ module.exports = function(grunt) {
     'autoprefixer',
     'jade2js',
     'autoBundleDependencies',
-    'generateConfigs:production',
+    'generateConfigs',
     'browserify:watch',
     'jade:compile',
     'browserSync',
     'concurrent'
-   ]);
+  ]);
   grunt.registerTask('no-bs', [ // No browser sync
     'bgShell:npm-install',
     'copy',
