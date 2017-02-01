@@ -403,7 +403,6 @@ describe('ChooseOrganizationModalController', function () {
         sinon.assert.calledWith(COMC.pollForDockCreated, null, 'CodeNow');
 
         sinon.assert.calledOnce(eventTrackingStub.spunUpInfrastructure);
-        sinon.assert.calledOnce(eventTrackingStub.spunUpInfrastructureForOrg);
       });
 
       it('should go to created panel since this org is ready', function () {
@@ -420,7 +419,6 @@ describe('ChooseOrganizationModalController', function () {
         sinon.assert.notCalled(COMC.pollForDockCreated);
 
         sinon.assert.calledOnce(eventTrackingStub.spunUpInfrastructure);
-        sinon.assert.calledOnce(eventTrackingStub.spunUpInfrastructureForOrg);
       });
     });
   });
