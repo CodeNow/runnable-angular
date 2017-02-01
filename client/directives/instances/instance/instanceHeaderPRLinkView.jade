@@ -1,6 +1,6 @@
 //- pull request link
 a.grid-block.shrink.btn.btn-xs.green(
-  ng-click = "$emit('demo::completed'); openedPRUrl()"
+  ng-click = "$emit('demo::prLinkClicked'); openedPRUrl()"
   ng-href = "{{pr.html_url}}"
   target = "_blank"
   title = "view pull request on GitHub"

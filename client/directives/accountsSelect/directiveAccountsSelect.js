@@ -36,7 +36,6 @@ function accountsSelect (
       $scope.popoverAccountMenu = {
         actions: {
           clickedChangeTeam: eventTracking.clickedChangeTeam,
-          shouldShowTeamCTA: demoFlowService.shouldShowTeamCTA.bind(demoFlowService),
           getHeight: function (view) {
             // if no containers '143px'
             if ($rootScope.featureFlags.isolationSetUp && view === 1) {
@@ -105,17 +104,11 @@ function accountsSelect (
             return trialRemaining;
           }
         }
-        if (demoFlowService.shouldShowTeamCTA()) {
-          return '•';
-        }
         return '';
       };
 
       $scope.getClasses = function () {
         var showBadge = currentOrg.poppa.isInTrial() && !currentOrg.poppa.attrs.hasPaymentMethod && currentOrg.poppa.trialDaysRemaining() <= 3;
-        if (demoFlowService.shouldShowTeamCTA()) {
-          showBadge = true;
-        }
         return {
           'badge': showBadge,
           'badge-red': showBadge

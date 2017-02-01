@@ -13,7 +13,7 @@
     .small Runnabot posts links to your containers directly on the pull request page.&#32;
       a.link(
         href = ""
-        ng-click = "$emit('demo::completed'); openedPRUrl()"
+        ng-click = "$emit('demo::prLinkClicked'); openedPRUrl()"
         ng-href = "{{pr.html_url}}"
         target = "_blank"
       ) Open your PR page
