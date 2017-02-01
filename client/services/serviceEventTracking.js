@@ -618,6 +618,18 @@ function EventTracking(
     ETS._mixpanel('track', eventName);
     return ETS;
   };
+    
+  /**
+   * Spun up infrastructure for Org
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.spunUpInfrastructureForOrg = function () {
+    var eventName = 'Spun up infrastructure for Org';
+    ETS._mixpanel('track', eventName);
+    return ETS;
+  };
 
   /**
    * Clicked ‘Change Team’
