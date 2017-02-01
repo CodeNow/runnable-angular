@@ -79,4 +79,5 @@ Currently, this repo depends on the built assets from [runnable.com](github.com/
 [Casey Flynn (cflynn07)](https://github.com/cflynn07)
 
 <img src="http://www.gravatar.com/avatar/12d7b42352806d7d85ec8746ca018d97?s=64">&nbsp;
-[Jorge Silva(thejsj)](https://github.com/thejsj)
+[Jorge R. Silva(thejsj)](https://github.com/thejsj)
+
