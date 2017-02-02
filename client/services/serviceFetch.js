@@ -147,10 +147,10 @@ function waitForWhitelistExist(
         });
         if (!org) {
           return $timeout(function () {
-            if (maxTries <= 1) {
+            if (maxTries > 50) {
               return $q.reject(new Error('Operation timed out'));
             }
-            return _assertWhiteListExists(organizationName, (maxTries - 1) || 50);
+            return _assertWhiteListExists(organizationName, (maxTries + 1) || 0);
           }, 300);
         }
         return org;
