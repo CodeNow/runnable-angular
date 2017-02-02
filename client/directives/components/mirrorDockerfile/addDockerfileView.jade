@@ -1,5 +1,5 @@
 svg.iconnables.icons-close(
-  ng-click = "viewState.showAddDockerfile = false"
+  ng-click = "closeDockerFileInput()"
 )
   use(
     xlink:href = "#icons-close"
@@ -8,7 +8,7 @@ svg.iconnables.icons-close(
 label.clearfix(
   for = "add-dockerfile-input"
 )
-  .label-col Dockerfile Path
+  .label-col {{ fileType }} Path
 form.label-row(
   name = "dockerfilePathForm"
 )
@@ -26,9 +26,9 @@ form.label-row(
   )
   button.grid-block.align-center.btn.btn-sm.white.float-right(
     ng-disabled = "!newDockerfile && (dockerfilePathForm.$pending || dockerfilePathForm.$invalid)"
-    ng-click = "addDockerfileFomPath(newDockerfile)"
+    ng-click = "addDockerFile(newDockerfile, fileType)"
   )
-    span Add Dockerfile
+    span Add {{ fileType }}
     .spinner-wrapper.spinner-sm.spinner-gray.in(
       ng-if = "dockerfilePathForm.$pending"
       ng-include = "'spinner'"
@@ -36,6 +36,6 @@ form.label-row(
 
 .invalid-message(
   ng-if = "dockerfilePathForm.$invalid && !dockerfilePathForm.$pristine"
-) We couldn’t find a Dockerfile at that path.
+) We couldn’t find a {{ fileName }} at that path.
 
-small.grid-block.padding-xxs.small Specify the relative path to your Dockerfile in your repository (e.g. if your Dockerfile is in a root folder named “config”, your path would be “config/Dockerfile”).
+small.grid-block.padding-xxs.small Specify the relative path to your {{ fileType }} in your repository (e.g. if your {{ fileName }} is in a root folder named “config”, your path would be “config/{{ fileName }}).
