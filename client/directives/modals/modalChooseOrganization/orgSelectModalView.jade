@@ -3,11 +3,11 @@
 
 .grid-block.vertical.org-select-view
 
-  p.p(
-    ng-if = "!$root.featureFlags.noOrgs"
-  ) Select your team to get started.
+  p.p.text-gray(
+    ng-if = "!COMC.personalAccountOnly"
+  ) Select your team to start running its code.
   ol.grid-block.vertical.list(
-    ng-if = "!$root.featureFlags.noOrgs"
+    ng-if = "!COMC.personalAccountOnly"
   )
     li.grid-block.align-center.list-item.btn.white(
       data-event-name = "Org Selected"
@@ -25,14 +25,14 @@
         use(
           xlink:href = "#icons-arrow-down"
         )
-  p.p(
-    ng-if = "!$root.featureFlags.noOrgs"
+  p.p.text-gray(
+    ng-if = "!COMC.personalAccountOnly"
   ) Don’t see your team?
-  p.p(
-    ng-if = "$root.featureFlags.noOrgs"
-  ) Runnable is made for teams,
+  p.p.text-gray(
+    ng-if = "COMC.personalAccountOnly"
+  ) Runnable is made for teams.
     br
-    | &#32;but you haven’t added any yet.
+    | Add yours to start running its code.
   ol.grid-block.vertical.list
     li.grid-block.align-center.list-item.btn.white(
       data-event-name = "Clicked to Grant Access View"
@@ -54,7 +54,6 @@
       data-event-name = "PA Selected"
       ng-click = "COMC.actions.selectAccount(COMC.user.oauthName())"
       ng-if = "$root.featureFlags.personalAccounts"
-      title = "Start with a tour using your personal account"
     )
       img.grid-content.shrink(
         height = "30"
@@ -62,7 +61,7 @@
         width = "30"
       )
       .grid-block.vertical.align-start.margin-left-sm
-        .text-overflow.text-left Start with a tour
+        .text-overflow.text-left Start with a demo
         .text-overflow.text-left.small using your personal account
       svg.grid-content.iconnables.icons-arrow-forward.shrink
         use(

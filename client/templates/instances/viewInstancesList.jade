@@ -3,15 +3,15 @@
 
   //- 'select demo' guide
   .grid-block.popover.in.margin-top-xs.popover-demo.demo-transition.js-animate(
-    ng-if = "$root.featureFlags.demoMultiTier && CIS.shouldShowDemoSelector()"
+    ng-if = "CIS.shouldShowDemoSelector()"
   )
     .grid-block
       .slide.slide-out(
-        ng-class = "{'out': $root.featureFlags.demoForking && $root.isLoading.startDemo}"
+        ng-class = "{'out': $root.isLoading.startDemo}"
         setup-demo-guide
       )
       .grid-block.justify-center.vertical.progress-wrapper.slide.slide-in.js-animate(
-        ng-if = "$root.featureFlags.demoForking && $root.isLoading.startDemo"
+        ng-if = "$root.isLoading.startDemo"
       )
         p.text-center.text-gray.shrink.p.margin-bottom-sm Loading…
         p.text-center.text-gray.shrink.p.margin-bottom-sm This is taking longer than
@@ -21,14 +21,16 @@
             href = "mailto: support@runnable.com"
           ) contact support
           | .
-        .progress-bar
+        .progress-bar.stripes.animated.margin-left-md.margin-right-md(
+          ng-include = "'progressBarView'"
+        )
 
   //- wraps everything that should transition in with the master cluster
   .demo-transition.js-animate
 
     //- search
     label.grid-block.shrink.vertical.label-search(
-      ng-if = "(!$root.featureFlags.demoMultiTier || !CIS.shouldShowDemoSelector())"
+      ng-if = "!CIS.shouldShowDemoSelector()"
     )
       input.input.input-xs.input-search(
         ng-model = "CIS.searchBranches"
@@ -42,31 +44,26 @@
       ng-if = "!CIS.filterMatchedAnything()"
     ) No containers match this filter.
 
+    .grid-block.vertical.padding-sm.popover.right.in.popover-demo.team-step(
+      ng-if = "$root.featureFlags.demoAddTeamStep && CA.shouldShowTeamCTA()"
+      ng-include = "'popoverDemoAddTeamView'"
+    )
+
     //- master cluster
     .grid-block.shrink.vertical.list-clusters.master-cluster.js-animate(
-      ng-if = "(!$root.featureFlags.demoMultiTier || !CIS.shouldShowDemoSelector()) && (!CIS.searchBranches || CIS.getFilteredInstanceList().length)"
+      ng-if = "!CIS.shouldShowDemoSelector() && (!CIS.searchBranches || CIS.getFilteredInstanceList().length)"
     )
-      .grid-block.shrink.align-center.list-item-cluster.list-clusters-heading
-        span.grid-content.text-overflow Services
-        //- div instead of button so safari doesn’t get weird with alignment
-        .grid-block.align-center.shrink.btn.btn-xxs.white(
-          ng-class = "{'active': state.active}"
-          ng-if = "$root.featureFlags.containersViewTemplateControls && !CIS.currentOrg.isPersonalAccount()"
-          pop-over
-          pop-over-options = "{\"top\":-30,\"left\":99}"
-          pop-over-template = "templateMenuPopoverView"
-        ) Add a Service
-          svg.iconnables.icons-arrow-forward
-            use(
-              xlink:href = "#icons-arrow-down"
-            )
+      .grid-block.shrink.align-center.list-item-cluster.list-clusters-heading(
+        ng-include = "'servicesHeadingView'"
+      )
+
       .grid-block.vertical.padding-sm.popover.bottom.in.popover-demo.service-cta(
         add-service-cta
         ng-if = "CIS.shouldShowServicesCTA()"
       )
 
       .grid-block.align-center.padding-sm.popover.top.in.popover-demo(
-        ng-if = "$root.featureFlags.demoMultiTierUrlHidden && CIS.showInstanceRunningPopover()"
+        ng-if = "CIS.showInstanceRunningPopover()"
         ng-include = "'popoverDemoUrlHiddenView'"
       )
 
@@ -93,10 +90,10 @@
           )
 
       .grid-block.vertical.shrink.well.empty.text-center(
-        ng-if = "$root.featureFlags.containersViewTemplateControls && (!$root.featureFlags.demoMultiTier || !CIS.shouldShowDemoSelector()) && !CIS.getFilteredInstanceList().length && !CIS.searchBranches"
+        ng-if = "!CIS.shouldShowDemoSelector() && !CIS.getFilteredInstanceList().length && !CIS.searchBranches"
       ) 👆
         br
-        .small {{$root.featureFlags.demoMultiTier ? 'First, use the button above to create your first service.' : 'You don’t have any services. Click the button above to create one.'}}
+        .small First, use the button above to create your first service.
 
 
       .grid-block.shrink.align-center.list-item-cluster.list-clusters-heading(
@@ -130,20 +127,21 @@
   .grid-block.vertical.popover.in.popover-demo.demo-transition.js-animate(
     demo-add-branch
     instance = "CIS.getDemoInstance()"
-    ng-if = "$root.featureFlags.demoMultiTierAddBranch && CIS.showDemoAddBranchView()"
+    ng-if = "CIS.showDemoAddBranchView() && !$root.featureFlags.demoAutoAddBranch"
     user-name = "CIS.userName"
   )
 
   //- wraps all branch clusters — hide until a branch has been added
   .demo-transition.js-animate(
-    ng-if = "!CIS.isInDemoFlow() || ($root.featureFlags.demoMultiTierAddBranch && !CIS.showDemoAddBranchView())"
+    ng-if = "!CIS.isInDemoFlow() || CIS.shouldShowBranchView()"
   )
+
 
     //- branch clusters
     .grid-block.vertical.shrink.list-clusters.js-animate(
-      ng-repeat = "masterInstance in CIS.instancesByPod | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
-      ng-show = "CIS.shouldShowParent(masterInstance) && CIS.shouldShowBranchView()"
       ng-if = "!masterInstance.attrs.isTesting || (masterInstance.attrs.isTesting && !masterInstance.attrs.testingParentId)"
+      ng-repeat = "masterInstance in CIS.instancesByPod | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
+      ng-show = "CIS.shouldShowParent(masterInstance)"
     )
 
       //- cluster list heading
@@ -205,9 +203,9 @@
         instance = "childInstance"
         instance-navigation
         master-instance = "masterInstance"
-        ng-repeat = "childInstance in CIS.getSortedMasterInstanceChildren(masterInstance)"
-        ng-show = "CIS.shouldShowChild(childInstance)"
         ng-class = "childInstance.attrs.isTesting && !childInstance.attrs.masterPod ? 'testing-container' : ''"
+        ng-repeat = "childInstance in CIS.getSortedMasterInstanceChildren(masterInstance) track by childInstance.attrs.name"
+        ng-show = "CIS.shouldShowChild(childInstance)"
       )
 
       //- nav list filter
@@ -217,3 +215,9 @@
         pop-over-options = "{\"top\":-33,\"left\":215}"
         pop-over-template = "viewMoreContainersPopover"
       ) 8 more…
+
+      //- show only on demo repos
+      .grid-block.vertical.padding-sm.popover.bottom.in.popover-demo.branch-step(
+        ng-if = "$root.featureFlags.demoAutoAddBranch && CIS.shouldShowAddBranchCTA(masterInstance)"
+        ng-include = "'popoverDemoBranchContainerView'"
+      )

@@ -6,12 +6,25 @@
   top: 0;
   z-index: $z-views-sidebar;
 
-  // specific to the cta popover
-  &.bottom {
+  // specific to the service cta
+  &.service-cta {
     margin-bottom: 9px;
     margin-top: 5px;
   }
 
+  // specific to the branch step
+  &.branch-step {
+    margin-top: 6px;
+  }
+
+  &.team-step {
+    left: -18px;
+    margin-left: 0;
+    margin-top: -$xxs;
+    width: 293px;
+  }
+
+  // specific to the url hidden popover
   &.top {
     margin-bottom: 6px;
     margin-top: 0;
@@ -155,25 +168,7 @@
     }
   }
 
-  .progress-bar {
-    background: $gray-lighter;
-    border-radius: 6px;
-    height: 6px;
-    margin: 0 $md;
-    overflow: hidden;
-    position: relative;
-    z-index: 1;
-
-    &::before {
-      animation: progress-bar 20s linear forwards;
-      background: linear-gradient(90deg,$purple-light,$blue);
-      border-radius: 6px;
-      content: '';
-      display: block;
-      height: 6px;
-      position: absolute;
-      transform: translate3d(-97%,0,0);
-      width: 100%;
-    }
+  .progress {
+    animation-duration: 20s;
   }
 }

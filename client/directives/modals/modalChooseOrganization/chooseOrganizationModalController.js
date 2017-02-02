@@ -33,9 +33,14 @@ function ChooseOrganizationModalController(
   COMC.close = close;
   COMC.user = user;
   loading.reset('chooseOrg');
+  loading.reset('waitingForDockCreated');
   $rootScope.featureFlags = featureFlags.flags;
   COMC.allAccounts = grantedOrgs;
   COMC.whitelistedOrgs = whitelistedOrgs;
+  var nonPersonalWhitelistedOrgs = whitelistedOrgs.filter(function (org) {
+    return !org.attrs.isPersonalAccount;
+  });
+  COMC.personalAccountOnly = grantedOrgs.models.length === 0 && nonPersonalWhitelistedOrgs.length === 0;
   COMC.demoOrg = null;
 
   COMC.defaultBasePanel = 'orgSelection';
@@ -55,13 +60,9 @@ function ChooseOrganizationModalController(
     if (isDemo) {
       loadingString = 'grantAccessDemo';
     }
-    var connectionUrl = 'https://github.com/settings/connections/applications/d42d6634d4070c9d9bf9';
-    if (configEnvironment === 'development') {
-      connectionUrl = 'https://github.com/settings/applications';
-    }
-    if ($rootScope.featureFlags.demoProject) {
-      connectionUrl = '/githubAuth';
-    }
+
+    var connectionUrl = '/githubAuth';
+
     if (isDemo) {
       connectionUrl = connectionUrl + '?isDemo=true';
     }
@@ -118,6 +119,7 @@ function ChooseOrganizationModalController(
   keypather.set($rootScope, 'dataApp.documentKeydownEventHandler', null);
 
   COMC.actions = {
+    trackDemoVideo: eventTracking.trackDemoVideo,
     selectAccount: function (selectedOrgName) {
       // Update number of orgs for user
       eventTracking.updateCurrentPersonProfile(ahaGuide.getCurrentStep(), selectedOrgName);
@@ -150,6 +152,32 @@ function ChooseOrganizationModalController(
   COMC.isChoosingOrg = ahaGuide.isChoosingOrg;
 
   COMC.selectedOrgName = null;
+  COMC.pollForDockCreated = function (whitelistedDock, selectedOrgName) {
+    eventTracking.spunUpInfrastructure();
+    if (selectedOrgName.toLowerCase() !== COMC.user.oauthName().toLowerCase()) {
+      eventTracking.spunUpInfrastructureForOrg();
+    }
+    loading('waitingForDockCreated', true);
+    COMC.selectedOrgName = selectedOrgName;
+    COMC.cancelPollingForDockCreated();
+    if (keypather.get(whitelistedDock, 'attrs.firstDockCreated')) {
+      return $scope.$broadcast('go-to-panel', 'dockLoaded');
+    }
+    $scope.$broadcast('go-to-panel', 'dockLoading');
+
+    COMC.pollForDockCreatedPromise = $interval(function () {
+      COMC.fetchUpdatedWhitelistedOrg(selectedOrgName)
+        .then(function (updatedOrg) {
+          if (keypather.get(updatedOrg, 'attrs.firstDockCreated')) {
+            // Update number of orgs for user
+            eventTracking.updateCurrentPersonProfile(ahaGuide.getCurrentStep(), keypather.get(updatedOrg, 'attra.name'));
+            COMC.cancelPollingForDockCreated();
+            loading('waitingForDockCreated', false);
+            return $scope.$broadcast('go-to-panel', 'dockLoaded');
+          }
+        });
+    }, 1000);
+  };
 
   // Since this is a root route, it needs this stuff
   $scope.$watch(function () {

@@ -13,6 +13,7 @@ var stacks = {
     buildCommands: [
       'npm install'
     ],
+    dockerComposePath: 'docker-compose.yml',
     env: [
       'MONGODB_HOST={{MongoDB}}',
       'PORT=80'
@@ -34,6 +35,7 @@ var stacks = {
     buildCommands: [
       'bundle install'
     ],
+    dockerComposePath: 'docker-compose.yml',
     env: [
       'DATABASE_URL=postgres://postgres@{{PostgreSQL}}:5432/postgres'
     ],
@@ -57,6 +59,7 @@ var stacks = {
     buildCommands: [
       'pip install -r "requirements.txt"'
     ],
+    dockerComposePath: 'docker-compose.yml',
     env: [
       'DB_HOST={{PostgreSQL}}',
       'DB_PORT=5432',
@@ -86,6 +89,7 @@ var stacks = {
       'chgrp -R www-data /var/www/',
       'chmod -R 775 /var/www/storage'
     ],
+    dockerComposePath: 'docker-compose.yml',
     env: [
       'APP_ENV=local',
       'APP_KEY=Idgz1PE3zO9iNc0E3oeH3CHDPX9MzZe3',
@@ -110,18 +114,16 @@ function demoRepos(
   $rootScope,
   $timeout,
   ahaGuide,
-  createAutoIsolationConfig,
-  createNewBuildAndFetchBranch,
+  createNewCluster,
   createNonRepoInstance,
   currentOrg,
   demoFlowService,
   fetchInstancesByPod,
   fetchNonRepoInstances,
   fetchOwnerRepo,
-  fetchStackData,
   github,
   keypather,
-  serverCreateService,
+  watchOncePromise,
   errs
 ) {
 
@@ -230,16 +232,6 @@ function demoRepos(
           });
       });
   }
-  function fillInEnvs(stack, deps) {
-    return stack.env.map(function (env) {
-      stack.deps.forEach(function (dep) {
-        if (deps[dep]) {
-          env = env.replace('{{' + dep + '}}', deps[dep].attrs.elasticHostname);
-        }
-      });
-      return env;
-    });
-  }
 
   function createDemoApp (stackKey) {
     var stack = stacks[stackKey];
@@ -250,43 +242,18 @@ function demoRepos(
           .then(_findNewRepoOnRepeat.bind(this, stack));
       })
       .then(function (repoModel) {
-        return $q.all({
-          repoBuildAndBranch: createNewBuildAndFetchBranch(currentOrg.github, repoModel, '', false),
-          stack: fetchStackData(repoModel, true),
-          instances: fetchInstancesByPod(),
-          deps: findDependencyNonRepoInstances(stack)
-        });
+        return createNewCluster(repoModel.attrs.full_name, 'master', stack.dockerComposePath, stack.repoName);
       })
-      .then(function (promiseResults) {
-        var generatedEnvs = fillInEnvs(stack, promiseResults.deps);
-
-        var repoBuildAndBranch = Object.assign(promiseResults.repoBuildAndBranch, {
-          instanceName: getUniqueInstanceName(stack.repoName, promiseResults.instances),
-          defaults: {
-            selectedStack: promiseResults.stack,
-            startCommand: stack.cmd,
-            keepStartCmd: true,
-            run: stack.buildCommands,
-            packages: stack.packages
-          }
-        });
-
-        return $q.all({
-          deps: promiseResults.deps,
-          instance: serverCreateService(repoBuildAndBranch, {
-            env: generatedEnvs,
-            ports: stack.ports
-          })
-        });
+      .then(function () {
+        return fetchInstancesByPod();
       })
-      .then(function (promiseResults) {
-        var deps = Object.keys(promiseResults.deps).map(function (id) {
-          return promiseResults.deps[id];
-        });
-        return createAutoIsolationConfig(promiseResults.instance, deps)
-          .then(function () {
-            return promiseResults.instance;
+      .then(function (allInstances) {
+        return watchOncePromise($rootScope, function () {
+          return allInstances.models.find(function (instance) {
+            // We need to get the main instance
+            return instance.getRepoName();
           });
+        }, true);
       })
       .then(function (instance) {
         ahaGuide.endGuide({
@@ -302,10 +269,10 @@ function demoRepos(
     _findNewRepo: _findNewRepo, // for testing
     _findNewRepoOnRepeat: _findNewRepoOnRepeat, // for testing
     checkForOrphanedDependency: checkForOrphanedDependency,
+    createDemoApp: createDemoApp,
     demoStacks: stacks,
     forkGithubRepo: forkGithubRepo,
     findDependencyNonRepoInstances: findDependencyNonRepoInstances,
-    createDemoApp: createDemoApp,
     shouldShowDemoSelector: function () {
       return !!stacks[demoFlowService.usingDemoRepo()] || (ahaGuide.isInGuide() && !ahaGuide.hasConfirmedSetup());
     }

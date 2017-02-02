@@ -1,7 +1,7 @@
 .popover.menu.popover-account-menu.right(
   ng-class = "{\
     'in': active,\
-    'lg': actions.shouldShowTeamCTA()\
+    'lg': actions.shouldShowTeamCTA() && !$root.featureFlags.demoAddTeamStep\
    }"
   style = "left: 68px; transform-origin: 0 0; top: 18px"
 )
@@ -27,7 +27,6 @@
             li.list-item.popover-list-item.small.disabled {{data.currentOrg.github.oauthName()}} Settings
             li.list-item.popover-list-item(
               ng-click = "actions.openSettingsModal('billing')"
-              ng-if = "$root.featureFlags.billing"
             )
               svg.iconnables
                 use(
@@ -49,7 +48,6 @@
               | Teammates
             li.list-item.popover-list-item(
               ng-click = "actions.openSettingsModal('githubIntegration')"
-              ng-if = "$root.featureFlags.gitHubIntegration"
             )
               svg.iconnables
                 use(
@@ -95,7 +93,7 @@
                 ng-click = "actions.logout();"
               ) Sign Out
         .grid-block.vertical.align-center.justify-center.popover-content.team-cta(
-          ng-if = "actions.shouldShowTeamCTA()"
+          ng-if = "actions.shouldShowTeamCTA() && !$root.featureFlags.demoAddTeamStep"
           ng-include = "'teamCTAView'"
         )
 

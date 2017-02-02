@@ -5,6 +5,7 @@ var $q;
 var keypather;
 var apiMocks = require('../apiMocks/index');
 var runnable = window.runnable;
+var demoFlowServiceMock;
 var fetchInstancesByPodMock = new (require('../fixtures/mockFetch'))();
 var createNewInstanceMock = new (require('../fixtures/mockFetch'))();
 var createAndBuildNewContainer;
@@ -68,6 +69,12 @@ describe('createAndBuildNewContainer'.bold.underline.blue, function () {
         $provide.factory('fetchUser', function ($q) {
           ctx.fetchUserMock = sinon.stub().returns($q.when(ctx.fakeUser));
           return ctx.fetchUserMock;
+        });
+        $provide.factory('demoFlowService', function () {
+          demoFlowServiceMock = {
+            isInDemoFlow: sinon.stub().returns(false)
+          };
+          return demoFlowServiceMock;
         });
         $provide.factory('fetchInstancesByPod', fetchInstancesByPodMock.fetch());
         $provide.factory('createNewInstance', createNewInstanceMock.fetch());

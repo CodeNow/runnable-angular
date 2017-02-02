@@ -4,12 +4,6 @@
   data = "dataApp.data"
 )
 
-//- aha menu --- This should be triggered via an event!
-.popover.right.in.popover-aha.popover-aha-containers(
-  ng-if = "!$root.featureFlags.demoMultiTier && CA.showAhaNavPopover"
-  ng-include = "'ahaPopoverView'"
-  ng-init = "getClassname = CA.ahaGuide.getClassForSubstep"
-)
 a.a(
   ng-if = "!CA.currentOrg.isPersonalAccount()"
   ui-sref = "base.config({ userName: CA.activeAccount.oauthName() })"
@@ -21,34 +15,32 @@ a.a(
     )
   | Configure
 
-a.a.disabled(
-  ng-if = "(dataApp.state.includes('base.config') && CA.instancesByPod && !CA.instancesByPod.models.length) && !$root.featureFlags.containersViewTemplateControls"
-  tooltip = "You don’t have any running containers yet!"
-  tooltip-options = "{\"class\":\"right\",\"left\":75,\"top\":17}"
-)
-  svg.iconnables.icons-server-dark
-    use(
-      xlink:href = "#icons-server-dark"
-    )
-  | Containers
-
 a.a(
-  ng-if = "(dataApp.state.includes('base.instances') || !CA.instancesByPod || CA.instancesByPod.models.length) || $root.featureFlags.containersViewTemplateControls"
+  ng-if = "!CA.currentOrg.isPersonalAccount()"
   ui-sref = "base.instances({ userName: CA.activeAccount.oauthName() })"
   ui-sref-active = "active"
 )
-  .aha-overlay-div(
-    ng-click = "CA.showAhaConfirmation($event)"
-    ng-if = "CA.ahaGuide.isAddingFirstRepo() && CA.instancesByPod.models.length && !CA.ahaGuide.hasConfirmedSetup()"
-  )
   svg.iconnables.icons-server-dark
     use(
       xlink:href = "#icons-server-dark"
     )
   | Containers
 
+//- show tooltip whenever the "add team" demo step is not visible
+a.grid-block.align-center.justify-center.shrink.btn-add-team(
+  ng-if = "$root.featureFlags.demoAddTeamStep && CA.shouldShowTeamCTA()"
+  tooltip = "Add a team"
+  tooltip-active-attr = "false"
+  tooltip-options = "{\"class\":\"right\",\"left\":42,\"top\":3}"
+  ng-click = "CA.demoAddOrg()"
+)
+  svg.iconnables.icons-add
+    use(
+      xlink:href = "#icons-add"
+    )
+
 a.a.btn-docs(
-  href = "https://support.runnable.com"
+  href = "https://runnable.com/docs"
   target = "_blank"
 )
   svg.iconnables.icons-docs-dark

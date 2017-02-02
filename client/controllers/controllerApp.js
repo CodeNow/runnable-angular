@@ -18,6 +18,7 @@ function ControllerApp(
   configLoginURL,
   currentOrg,
   debounce,
+  demoFlowService,
   errs,
   featureFlags,
   fetchInstancesByPod,
@@ -35,6 +36,7 @@ function ControllerApp(
   var CA = this;
   CA.ahaGuide = ahaGuide;
   CA.currentOrg = currentOrg;
+  CA.shouldShowTeamCTA = demoFlowService.shouldShowTeamCTA;
 
   fetchInstancesByPod()
     .then(function (instancesByPod) {
@@ -43,6 +45,13 @@ function ControllerApp(
 
   CA.showDemoRepo = function () {
     return ahaGuide.isAddingFirstRepo() && !ahaGuide.hasConfirmedSetup() && ahaGuide.hasDemoRepo();
+  };
+
+  CA.demoAddOrg = function () {
+    demoFlowService.endDemoFlow();
+    $state.go('orgSelect', {
+      reload: true
+    });
   };
 
   $rootScope.ModalService = ModalService;
@@ -200,8 +209,7 @@ function ControllerApp(
   };
 
   CA.showTrialEndingNotification = function () {
-    return $rootScope.featureFlags.billing &&
-      currentOrg.poppa.isInTrial() &&
+    return currentOrg.poppa.isInTrial() &&
       currentOrg.poppa.trialDaysRemaining() <= 3 &&
       !currentOrg.poppa.attrs.hasPaymentMethod && !keypather.get($localStorage, 'hasDismissedTrialNotification.' + currentOrg.github.attrs.id);
   };

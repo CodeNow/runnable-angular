@@ -40,10 +40,8 @@ function ControllerInstance(
     actions: {}
   };
   var data = dataInstance.data;
-  $scope.$storage = $localStorage.$default({
-     hasSeenHangTightMessage: false,
-     hasSeenUrlCallout: false
-  });
+
+  $scope.$storage = $localStorage;
   loading('main', true);
 
   data.openItems = new OpenItems();

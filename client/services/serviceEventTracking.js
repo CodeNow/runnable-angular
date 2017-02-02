@@ -270,6 +270,36 @@ function EventTracking(
   };
 
   /**
+   * An auto-deploy toggle event
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.autoDeployToggled = function (state) {
+    var eventName = 'Toggled Auto-deploy';
+
+    ETS._mixpanel('track', eventName, {
+      state: state
+    });
+    return ETS;
+  };
+
+  /**
+   * A commit select event
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.selectCommit = function (latest) {
+    var eventName = 'Select Commit';
+
+    ETS._mixpanel('track', eventName, {
+      latest: latest
+    });
+    return ETS;
+  };
+
+  /**
    * Record user visit to states
    * Reports to:
    *   - mixpanel
@@ -363,10 +393,12 @@ function EventTracking(
    *   - segment
    * @return this
    */
-  ETS.visitedOrgSelectPage = function () {
+  ETS.visitedOrgSelectPage = function (orgCount) {
     var eventName = 'Visited org-select page';
 
-    ETS._mixpanel('track', eventName);
+    ETS._mixpanel('track', eventName, {
+        orgCount: orgCount
+    });
     ETS.analytics.ready(function () {
       ETS.analytics.track(eventName);
     });
@@ -430,6 +462,19 @@ function EventTracking(
     ETS.analytics.ready(function () {
       ETS.analytics.track(eventName, {org: orgName});
     });
+    return ETS;
+  };
+
+  /**
+   * Track video click on infrastructure loading
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.trackDemoVideo = function () {
+    var eventName = 'Clicked Demo Video';
+
+    ETS._mixpanel('track', eventName);
     return ETS;
   };
 
@@ -570,6 +615,18 @@ function EventTracking(
    */
   ETS.spunUpInfrastructure = function () {
     var eventName = 'Spun up infrastructure';
+    ETS._mixpanel('track', eventName);
+    return ETS;
+  };
+    
+  /**
+   * Spun up infrastructure for Org
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.spunUpInfrastructureForOrg = function () {
+    var eventName = 'Spun up infrastructure for Org';
     ETS._mixpanel('track', eventName);
     return ETS;
   };

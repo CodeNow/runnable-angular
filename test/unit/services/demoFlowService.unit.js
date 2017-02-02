@@ -3,6 +3,9 @@
 var featureFlags;
 var mockOrg;
 var $rootScope;
+var patchOrgMetadataStub;
+var hasAha;
+var hasCompletedDemo;
 
 describe('demoFlowService'.bold.underline.blue, function () {
   var demoFlowService;
@@ -14,6 +17,10 @@ describe('demoFlowService'.bold.underline.blue, function () {
         return {
           flags: featureFlags
         };
+      });
+      $provide.factory('patchOrgMetadata', function ($q) {
+        patchOrgMetadataStub = sinon.stub().returns($q.when(true));
+        return patchOrgMetadataStub;
       });
     });
     angular.mock.inject(function (
@@ -31,22 +38,21 @@ describe('demoFlowService'.bold.underline.blue, function () {
       poppa: {
         attrs: {
           metadata: {
-            hasAha: false,
-            hasCompletedDemo: true
+            hasAha: hasAha,
+            hasCompletedDemo: hasCompletedDemo
           }
         }
       }
     };
     featureFlags = {
-      teamCTA: true
-    };
+      demoAutoAddBranch: false
+    }
   });
+
   describe('#shouldShowTeamCTA', function () {
-    it('should return false if flag is off', function() {
-      featureFlags.teamCTA = false;
-      initState();
-      var result = demoFlowService.shouldShowTeamCTA();
-      expect(result).to.equal(false);
+    beforeEach(function () {
+      hasAha = false;
+      hasCompletedDemo = true;
     });
 
     it('should return false if the current org is not a personal account', function() {
@@ -56,18 +62,19 @@ describe('demoFlowService'.bold.underline.blue, function () {
       expect(result).to.equal(false);
     });
 
-    it('should return false if the current org has not completed the demo', function() {
+    it('should return true if the current org has not completed the demo', function() {
       mockOrg.poppa.attrs.metadata.hasAha = true;
       mockOrg.poppa.attrs.metadata.hasCompletedDemo = false;
       initState();
-      var result = demoFlowService.shouldShowTeamCTA();
-      expect(result).to.equal(false);
-    });
-
-    it('should return true if the current org is a peronal account and has completed the demo flow', function() {
-      initState();
+      demoFlowService.setItem('clickedPrLink', true);
       var result = demoFlowService.shouldShowTeamCTA();
       expect(result).to.equal(true);
+    });
+
+    it('should return false if the current org is a peronal account and has completed the demo flow', function() {
+      initState();
+      var result = demoFlowService.shouldShowTeamCTA();
+      expect(result).to.equal(false);
     });
   });
 });

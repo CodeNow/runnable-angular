@@ -129,7 +129,8 @@ describe('ChooseOrganizationModalController', function () {
       $provide.factory('eventTracking', function ($q) {
         eventTrackingStub = {
           updateCurrentPersonProfile: sinon.stub(),
-          spunUpInfrastructure: sinon.stub()
+          spunUpInfrastructure: sinon.stub(),
+          spunUpInfrastructureForOrg: sinon.stub()
         };
         return eventTrackingStub;
       });
@@ -173,6 +174,52 @@ describe('ChooseOrganizationModalController', function () {
     COMC = laterController();
     $rootScope.$apply();
   }
+
+  describe('searching methods', function () {
+    beforeEach(function () {
+      initialize();
+    });
+
+    beforeEach(function () {
+      setup();
+    });
+
+    describe('matchWhitelistedOrgByName', function () {
+      it('should match orgs by their names (case insensitive)', function () {
+        expect(COMC.matchWhitelistedOrgByName('codenow')).to.equal(codenowWhitelistedOrg);
+      });
+    });
+
+    describe('getSelectedOrg', function () {
+      it('should match orgs by their names (case insensitive)', function () {
+        expect(COMC.getSelectedOrg('codenow')).to.equal(mockOrg);
+      });
+    });
+  });
+
+  describe('Personal accounts', function () {
+    it('should set true if there is one account', function () {
+      initialize();
+      mockGrantedOrgs.models = [];
+      mockWhitelistedOrgs = [];
+      setup();
+      expect(COMC.personalAccountOnly).to.equal(true);
+    });
+    it('should set false if there is more than one whitelisted account', function () {
+      initialize();
+      mockGrantedOrgs.models = [];
+      mockWhitelistedOrgs = [codenowWhitelistedOrg];
+      setup();
+      expect(COMC.personalAccountOnly).to.equal(false);
+    });
+    it('should set false if there is more than one org with grantes access', function () {
+      initialize();
+      mockGrantedOrgs.models = [{ login: 'wow' }];
+      mockWhitelistedOrgs = [];
+      setup();
+      expect(COMC.personalAccountOnly).to.equal(false);
+    });
+  });
 
   describe('Polling stuff', function () {
     beforeEach(function () {
@@ -271,4 +318,60 @@ describe('ChooseOrganizationModalController', function () {
     });
   });
 
+  describe('actions', function () {
+    beforeEach(function () {
+      initialize();
+    });
+
+    beforeEach(function () {
+      setup();
+    });
+    beforeEach(function () {
+      sinon.stub(COMC, 'getSelectedOrg');
+    });
+
+    describe('createOrCheckDock', function () {
+      beforeEach(function () {
+        sinon.stub(COMC, 'fetchUpdatedWhitelistedOrg');
+        COMC.fetchUpdatedWhitelistedOrg.returns($q.when());
+        sinon.stub(COMC, 'pollForDockCreated').returns();
+      });
+      it('should go nowhere if no org was selected', function () {
+        COMC.getSelectedOrg.returns();
+
+        COMC.actions.createOrCheckDock();
+
+        sinon.assert.notCalled(COMC.fetchUpdatedWhitelistedOrg);
+      });
+      it('should create the sandbox, then start polling ', function () {
+        COMC.getSelectedOrg.returns(codenowWhitelistedOrg);
+
+        COMC.actions.createOrCheckDock('CodeNow');
+
+        sinon.assert.calledOnce(COMC.fetchUpdatedWhitelistedOrg);
+        sinon.assert.calledWith(COMC.fetchUpdatedWhitelistedOrg, 'CodeNow');
+        $rootScope.$digest();
+
+        sinon.assert.calledOnce(mockCreateNewSandboxForUserService);
+        sinon.assert.calledWith(mockCreateNewSandboxForUserService, 'CodeNow');
+
+        sinon.assert.calledOnce(COMC.pollForDockCreated);
+        sinon.assert.calledWith(COMC.pollForDockCreated, null, 'CodeNow');
+      });
+
+      it('should go to created panel since this org is ready', function () {
+        COMC.getSelectedOrg.returns(createdDockOrg);
+        COMC.fetchUpdatedWhitelistedOrg.returns($q.when(createdDockOrg));
+
+        COMC.actions.createOrCheckDock('Runnable');
+
+        sinon.assert.calledOnce(COMC.fetchUpdatedWhitelistedOrg);
+        sinon.assert.calledWith(COMC.fetchUpdatedWhitelistedOrg, 'Runnable');
+        $rootScope.$digest();
+
+        sinon.assert.notCalled(mockCreateNewSandboxForUserService);
+        sinon.assert.notCalled(COMC.pollForDockCreated);
+      });
+    });
+  });
 });

@@ -8,7 +8,7 @@
   ng-if = "!isLoading.main"
 )
   .grid-block.justify-center.align-center(
-    ng-if = "$root.featureFlags.demoMultiTier && !dataInstance.data.instance"
+    ng-if = "!dataInstance.data.instance"
   )
     img(
       height = "40"
@@ -26,13 +26,13 @@
       ng-class = "{\
         'green': dataInstance.data.showUpdatedMessage,\
         'orange': dataInstance.data.showUpdatingMessage || dataInstance.data.instance.isMigrating(),\
-        'white below-modals': $root.featureFlags.demoMultiTierBuilding && CI.showHangTightMessage(),\
+        'white below-modals': CI.showHangTightMessage(),\
         'hidden': CIS.isInDemoFlow() && !CI.showHangTightMessage()\
       }"
       ng-if = "\
         (dataInstance.data.showUpdatingMessage || dataInstance.data.showUpdatedMessage) ||\
         dataInstance.data.instance.isMigrating() ||\
-        ($root.featureFlags.demoMultiTierBuilding && CI.showHangTightMessage())\
+        CI.showHangTightMessage()\
       "
       ng-include = "'viewNotifications'"
     )

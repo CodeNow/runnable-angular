@@ -4,21 +4,22 @@
   border-radius: $input-border-radius-lg $input-border-radius-lg 0 0;
   padding: $xs $sm;
 
-  .notification & {
+  .notification &,
+  .popover-demo > & {
     margin: (-$sm) (-$sm) $sm;
   }
 
   .team-cta & {
     margin: (-$md) (-$sm) $sm;
-    width: calc(100% + 30px);
 
     @include media(sm) {
       margin-top: -$sm;
     }
   }
 
-  .service-cta & {
-    margin: (-$sm) (-$sm) $sm;
+  .branch-step &,
+  .service-cta &,
+  .team-cta & {
     width: calc(100% + 30px);
   }
 
@@ -77,7 +78,7 @@
     }
   }
 
-  // end tour button
+  // end demo button
   .small {
     font-size: 11px;
   }

@@ -1,10 +1,10 @@
 .popover.menu.right.popover-template-menu(
+  close = "NCMC.close"
+  new-container = "popover"
   ng-class = "{'in': active}"
   ng-init = "\
     state.tab = 'repo';\
     state.loading = null;\
   "
   ng-style = "popoverStyle.getStyle()"
-  new-container = "popover"
-  close = "NCMC.close"
 )
