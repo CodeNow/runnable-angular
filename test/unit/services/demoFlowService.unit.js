@@ -62,18 +62,19 @@ describe('demoFlowService'.bold.underline.blue, function () {
       expect(result).to.equal(false);
     });
 
-    it('should return false if the current org has not completed the demo', function() {
+    it('should return true if the current org has not completed the demo', function() {
       mockOrg.poppa.attrs.metadata.hasAha = true;
       mockOrg.poppa.attrs.metadata.hasCompletedDemo = false;
       initState();
-      var result = demoFlowService.shouldShowTeamCTA();
-      expect(result).to.equal(false);
-    });
-
-    it('should return true if the current org is a peronal account and has completed the demo flow', function() {
-      initState();
+      demoFlowService.setItem('clickedPrLink', true);
       var result = demoFlowService.shouldShowTeamCTA();
       expect(result).to.equal(true);
+    });
+
+    it('should return false if the current org is a peronal account and has completed the demo flow', function() {
+      initState();
+      var result = demoFlowService.shouldShowTeamCTA();
+      expect(result).to.equal(false);
     });
   });
 });

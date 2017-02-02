@@ -166,12 +166,6 @@ describe('directiveAccountsSelect'.bold.underline.blue, function() {
           mockCurrentOrg.poppa.attrs.hasPaymentMethod = true;
           expect($elScope.getBadgeCount()).to.equal('');
         });
-
-        it('should return nothing if payment method is set', function () {
-          mockCurrentOrg.poppa.attrs.hasPaymentMethod = true;
-          demoFlowServiceStub.shouldShowTeamCTA.returns(true);
-          expect($elScope.getBadgeCount()).to.equal('•');
-        });
       });
 
       describe('when active', function () {
