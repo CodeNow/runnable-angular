@@ -18,6 +18,7 @@ function ControllerApp(
   configLoginURL,
   currentOrg,
   debounce,
+  demoFlowService,
   errs,
   featureFlags,
   fetchInstancesByPod,
@@ -35,6 +36,7 @@ function ControllerApp(
   var CA = this;
   CA.ahaGuide = ahaGuide;
   CA.currentOrg = currentOrg;
+  CA.shouldShowTeamCTA = demoFlowService.shouldShowTeamCTA;
 
   fetchInstancesByPod()
     .then(function (instancesByPod) {
@@ -43,6 +45,13 @@ function ControllerApp(
 
   CA.showDemoRepo = function () {
     return ahaGuide.isAddingFirstRepo() && !ahaGuide.hasConfirmedSetup() && ahaGuide.hasDemoRepo();
+  };
+
+  CA.demoAddOrg = function () {
+    demoFlowService.endDemoFlow();
+    $state.go('orgSelect', {
+      reload: true
+    });
   };
 
   $rootScope.ModalService = ModalService;

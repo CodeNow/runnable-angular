@@ -92,6 +92,7 @@
     background-color: darken(saturate($purple-light,6),5);
     border: $input-border solid rgba($black,.1);
     border-radius: $input-border-radius;
+    cursor: pointer;
     height: 42px;
     margin-top: 18px;
     width: 42px;

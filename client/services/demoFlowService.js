@@ -40,6 +40,7 @@ function demoFlowService(
     deleteItem('hasSeenUrlCallout');
     deleteItem('hasSeenAddBranchCTA');
     deleteItem('hasAddedBranch');
+    deleteItem('clickedPrLink');
   }
 
   function setItem (key, value) {
@@ -79,11 +80,10 @@ function demoFlowService(
   }
 
   function addEventListeners () {
-    // listen for the end of the demo if we are in it
-    $rootScope.$on('demo::completed', function () {
-      endDemoFlow();
+    // listen to pr link clicking
+    $rootScope.$on('demo::prLinkClicked', function () {
+      setItem('clickedPrLink', true);
     });
-
     // listen for the url open event if the user hasn't done it yet
     if (featureFlags.flags.demoAutoAddBranch && !$localStorage.hasSeenUrlCallout) {
       var unregisterContainerUrlClickListener = $rootScope.$on('clickedOpenContainerUrl', function (event, instance) {
@@ -190,7 +190,7 @@ function demoFlowService(
     return currentOrg.isPersonalAccount() && usingDemoRepo();
   }
   function shouldShowTeamCTA () {
-    return currentOrg.isPersonalAccount() && !isInDemoFlow();
+    return currentOrg.isPersonalAccount() && isInDemoFlow() && getItem('clickedPrLink');
   }
 
   function shouldShowServicesCTA () {
