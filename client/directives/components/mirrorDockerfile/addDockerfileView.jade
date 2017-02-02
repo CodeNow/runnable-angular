@@ -36,6 +36,6 @@ form.label-row(
 
 .invalid-message(
   ng-if = "dockerfilePathForm.$invalid && !dockerfilePathForm.$pristine"
-) We couldn’t find a {{ fileType }} at that path.
+) We couldn’t find a {{ fileName }} at that path.
 
-small.grid-block.padding-xxs.small Specify the relative path to your {{ fileType }} in your repository (e.g. if your {{ fileType }} is in a root folder named “config”, your path would be “config/{{ fileType }}).
+small.grid-block.padding-xxs.small Specify the relative path to your {{ fileType }} in your repository (e.g. if your {{ fileName }} is in a root folder named “config”, your path would be “config/{{ fileName }}).

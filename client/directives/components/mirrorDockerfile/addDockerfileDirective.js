@@ -17,6 +17,11 @@ function addDockerfile(
       fileType: '@'
     },
     link: function ($scope, elem, attrs, MDC) {
+      if ($scope.fileType === 'Docker Compose') {
+        $scope.fileName = 'docker-compose.yml';
+      } else {
+        $scope.fileName = 'Dockerfile';
+      }
       $scope.closeDockerFileInput = function () {
         if ($scope.fileType === 'Docker Compose') {
           $scope.viewState.showAddDockerComposeFile = false;
