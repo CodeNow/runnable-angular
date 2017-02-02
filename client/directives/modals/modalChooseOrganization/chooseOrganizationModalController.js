@@ -148,36 +148,7 @@ function ChooseOrganizationModalController(
     }
   };
 
-  // Searching methods
   COMC.isChoosingOrg = ahaGuide.isChoosingOrg;
-
-  COMC.selectedOrgName = null;
-  COMC.pollForDockCreated = function (whitelistedDock, selectedOrgName) {
-    eventTracking.spunUpInfrastructure();
-    if (selectedOrgName.toLowerCase() !== COMC.user.oauthName().toLowerCase()) {
-      eventTracking.spunUpInfrastructureForOrg();
-    }
-    loading('waitingForDockCreated', true);
-    COMC.selectedOrgName = selectedOrgName;
-    COMC.cancelPollingForDockCreated();
-    if (keypather.get(whitelistedDock, 'attrs.firstDockCreated')) {
-      return $scope.$broadcast('go-to-panel', 'dockLoaded');
-    }
-    $scope.$broadcast('go-to-panel', 'dockLoading');
-
-    COMC.pollForDockCreatedPromise = $interval(function () {
-      COMC.fetchUpdatedWhitelistedOrg(selectedOrgName)
-        .then(function (updatedOrg) {
-          if (keypather.get(updatedOrg, 'attrs.firstDockCreated')) {
-            // Update number of orgs for user
-            eventTracking.updateCurrentPersonProfile(ahaGuide.getCurrentStep(), keypather.get(updatedOrg, 'attra.name'));
-            COMC.cancelPollingForDockCreated();
-            loading('waitingForDockCreated', false);
-            return $scope.$broadcast('go-to-panel', 'dockLoaded');
-          }
-        });
-    }, 1000);
-  };
 
   // Since this is a root route, it needs this stuff
   $scope.$watch(function () {

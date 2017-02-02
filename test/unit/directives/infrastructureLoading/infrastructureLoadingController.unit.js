@@ -33,7 +33,7 @@ var codenowWhitelistedOrg;
 var createdDockOrg;
 var IRC;
 
-describe('InfrastructureReadyController', function () {
+describe('InfrastructureLoadingController', function () {
 
   function initialize() {
     codenowWhitelistedOrg = {
@@ -160,6 +160,8 @@ describe('InfrastructureReadyController', function () {
       });
       $provide.value('whitelistedOrgs', mockWhitelistedOrgs);
       $provide.value('currentOrg', { poppa: codenowWhitelistedOrg });
+      $provide.value('close', closeStub);
+
     });
     angular.mock.inject(function (
       _$controller_,
@@ -177,9 +179,7 @@ describe('InfrastructureReadyController', function () {
     });
     stubGoToPanel = sinon.stub();
     $scope.$on('go-to-panel', stubGoToPanel);
-    var laterController = $controller('InfrastructureReadyController', {
-      $scope: $scope
-    }, true);
+    var laterController = $controller('InfrastructureLoadingController', { $scope: $scope }, true);
     IRC = laterController();
     $rootScope.$apply();
   }
@@ -301,13 +301,6 @@ describe('InfrastructureReadyController', function () {
       IRC.fetchUpdatedWhitelistedOrg.restore();
       IRC.pollForDockCreated.restore();
     });
-    it('should go nowhere if no org was selected', function () {
-      IRC.getSelectedOrg.returns($q.when());
-
-      IRC.checkDock();
-
-      sinon.assert.notCalled(IRC.fetchUpdatedWhitelistedOrg);
-    });
     it('should go to created panel since this org is ready', function () {
       eventTrackingStub.spunUpInfrastructure.reset();
       IRC.getSelectedOrg.returns($q.when(createdDockOrg));
@@ -315,8 +308,6 @@ describe('InfrastructureReadyController', function () {
 
       IRC.checkDock('Runnable');
 
-      sinon.assert.calledOnce(IRC.getSelectedOrg);
-      sinon.assert.calledWith(IRC.getSelectedOrg, 'Runnable');
       $rootScope.$digest();
 
       sinon.assert.calledOnce(IRC.fetchUpdatedWhitelistedOrg);
