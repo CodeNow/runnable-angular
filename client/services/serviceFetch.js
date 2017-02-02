@@ -148,7 +148,7 @@ function waitForWhitelistExist(
         if (!org) {
           return $timeout(function () {
             if (maxTries > 50) {
-              return $q.reject(new Error('Operation timed out'));
+              return $q.reject(new Error('We had a problem detecting your new organization. Please reload the page and try again'));
             }
             return _assertWhiteListExists(organizationName, (maxTries + 1) || 0);
           }, 300);
