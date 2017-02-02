@@ -57,10 +57,7 @@ function InfrastructureReadyController(
 
   IR.checkDock = function (selectedOrgName) {
     loading('chooseOrg', true);
-    return IR.getSelectedOrg(selectedOrgName)
-      .then(function (selectedOrg) {
-        return IR.fetchUpdatedWhitelistedOrg(selectedOrgName);
-      })
+    return IR.fetchUpdatedWhitelistedOrg(selectedOrgName)
       .then(function (org) {
         eventTracking.spunUpInfrastructure();
         if (keypather.get(org, 'attrs.firstDockCreated')) {
