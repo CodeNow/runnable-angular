@@ -1,9 +1,9 @@
 'use strict';
 
 require('app')
-  .controller('InfrastructureReadyController', InfrastructureReadyController);
+  .controller('InfrastructureLoadingController', InfrastructureLoadingController);
 
-function InfrastructureReadyController(
+function InfrastructureLoadingController(
   $interval,
   $q,
   $scope,
@@ -17,7 +17,8 @@ function InfrastructureReadyController(
   fetchUser,
   fetchWhitelistForDockCreated,
   keypather,
-  loading
+  loading,
+  close
 ) {
   var IR = this;
   IR.currentOrg = currentOrg;
@@ -74,7 +75,7 @@ function InfrastructureReadyController(
   IR.handleDockCreated = function (selectedOrgName) {
     eventTracking.updateCurrentPersonProfile(ahaGuide.getCurrentStep(), selectedOrgName);
     IR.cancelPollingForDockCreated();
-    return $scope.$broadcast('go-to-panel', 'dockLoaded');
+    return close(); // Close modal
   };
 
   IR.pollForDockCreated = function (whitelistedDock, selectedOrgName) {

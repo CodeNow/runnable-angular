@@ -38,6 +38,14 @@ function ControllerApp(
   CA.currentOrg = currentOrg;
   CA.shouldShowTeamCTA = demoFlowService.shouldShowTeamCTA;
 
+  if(!currentOrg.poppa.attrs.firstDockCreated) {
+    ModalService.showModal({
+      controller: 'InfrastructureLoadingController',
+      controllerAs: 'IRC',
+      templateUrl: 'infrastructureLoadingView'
+    });
+  }
+
   fetchInstancesByPod()
     .then(function (instancesByPod) {
       CA.instancesByPod = instancesByPod;
