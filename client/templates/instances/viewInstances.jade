@@ -2,7 +2,7 @@
 .grid-block.shrink.list-instances(
   ng-class = "{\
     'in': !CIS.$storage.instanceListIsClosed,\
-    'noscroll': $root.featureFlags.demoAddTeamStep\
+    'noscroll': $root.featureFlags.demoAddTeamStep && CA.shouldShowTeamCTA()\
   }"
   ng-if = "CIS.instancesByPod"
   ng-include = "'viewInstancesList'"
