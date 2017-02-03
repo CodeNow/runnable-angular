@@ -11,6 +11,10 @@ function currentOrg(
     github: {}
   };
 
+  org.getDisplayName = function () {
+    return keypather.get(org, 'github.oauthName()');
+  };
+
   org.isPersonalAccount = function () {
     return keypather.get(org, 'poppa.attrs.isPersonalAccount');
   };

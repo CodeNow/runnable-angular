@@ -122,6 +122,7 @@ function demoRepos(
   fetchNonRepoInstances,
   fetchOwnerRepo,
   github,
+  invitePersonalRunnabot,
   keypather,
   watchOncePromise,
   errs
@@ -242,7 +243,16 @@ function demoRepos(
           .then(_findNewRepoOnRepeat.bind(this, stack));
       })
       .then(function (repoModel) {
-        return createNewCluster(repoModel.attrs.full_name, 'master', stack.dockerComposePath, stack.repoName);
+        var promises = [
+          createNewCluster(repoModel.attrs.full_name, 'master', stack.dockerComposePath, stack.repoName)
+        ];
+        if (currentOrg.isPersonalAccount()) {
+          promises.push(invitePersonalRunnabot({
+            repoName: stack.repoName,
+            githubUsername: currentOrg.getDisplayName()
+          }));
+        }
+        return $q.all(promises);
       })
       .then(function () {
         return fetchInstancesByPod();
