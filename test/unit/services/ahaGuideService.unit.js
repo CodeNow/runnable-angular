@@ -71,6 +71,7 @@ describe('ahaGuide'.bold.underline.blue, function () {
   }
   beforeEach(function() {
     mockOrg = {
+      isPersonalAccount: sinon.stub().returns(false),
       poppa:{
         id: sinon.stub().returns(101),
         attrs: {
