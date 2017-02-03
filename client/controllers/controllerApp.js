@@ -200,6 +200,12 @@ function ControllerApp(
     }
   } else if (currentOrg.isPaused()) {
     return $state.go('paused');
+  } else if (!currentOrg.poppa.attrs.firstDockCreated) {
+    ModalService.showModal({
+      controller: 'InfrastructureLoadingController',
+      controllerAs: 'IRC',
+      templateUrl: 'infrastructureLoadingView'
+    });
   }
 
   $rootScope.canEditFeatureFlags = function () {
@@ -217,5 +223,4 @@ function ControllerApp(
   CA.closeTrialEndingNotification = function () {
     keypather.set($localStorage, 'hasDismissedTrialNotification.' + currentOrg.github.attrs.id, true);
   };
-
 }

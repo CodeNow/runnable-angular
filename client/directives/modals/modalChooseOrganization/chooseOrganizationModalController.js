@@ -9,6 +9,7 @@ function ChooseOrganizationModalController(
   $scope,
   $state,
   ahaGuide,
+  waitForWhitelistExist,
   configEnvironment,
   createNewSandboxForUserService,
   currentOrg,
@@ -54,12 +55,6 @@ function ChooseOrganizationModalController(
     }
   };
 
-  COMC.cancelPollingForDockCreated = function () {
-    if (COMC.pollForDockCreatedPromise) {
-      $interval.cancel(COMC.pollForDockCreatedPromise);
-    }
-  };
-
   COMC.grantAccess = function (isDemo) {
     var loadingString = 'grantAccess';
     if (isDemo) {
@@ -97,7 +92,7 @@ function ChooseOrganizationModalController(
               COMC.cancelPollingForWhitelisted();
               customWindow.close();
               if (COMC.newOrgList.length === 1) {
-                COMC.actions.createOrCheckDock(COMC.newOrgList[0].oauthName());
+                COMC.actions.selectAccount(COMC.newOrgList[0].oauthName());
               } else if (COMC.newOrgList.length > 1) {
                 $scope.$broadcast('go-to-panel', 'orgSelection');
               }
@@ -116,7 +111,6 @@ function ChooseOrganizationModalController(
 
   $scope.$on('$destroy', function () {
     COMC.cancelPollingForWhitelisted();
-    COMC.cancelPollingForDockCreated();
   });
 
 
@@ -124,99 +118,37 @@ function ChooseOrganizationModalController(
   // this will be re-added when they transition to something else
   keypather.set($rootScope, 'dataApp.documentKeydownEventHandler', null);
 
-  COMC.fetchUpdatedWhitelistedOrg = function (selectedOrgName) {
-    return fetchWhitelistForDockCreated()
-      .then(function (res) {
-        COMC.whitelistedOrgs = res;
-        return COMC.matchWhitelistedOrgByName(selectedOrgName);
-      });
-  };
-
   COMC.actions = {
     trackDemoVideo: eventTracking.trackDemoVideo,
-    createOrCheckDock: function (selectedOrgName) {
-      var selectedOrg = COMC.getSelectedOrg(selectedOrgName);
-      if (!selectedOrg) {
-        return;
-      }
-      loading('chooseOrg', true);
-      return COMC.fetchUpdatedWhitelistedOrg(selectedOrgName)
+    selectAccount: function (selectedOrgName) {
+      // Update number of orgs for user
+      eventTracking.updateCurrentPersonProfile(ahaGuide.getCurrentStep(), selectedOrgName);
+      var org = whitelistedOrgs.find(function (org) {
+        return selectedOrgName.toLowerCase() === org.attrs.name.toLowerCase();
+      });
+      return $q.when(org)
         .then(function (foundWhitelistedOrg) {
           if (foundWhitelistedOrg) {
             return foundWhitelistedOrg;
           }
           return createNewSandboxForUserService(selectedOrgName)
             .then(function () {
-              return null;
+              // Check is async and we need this in order to assert
+              // org has already been added
+              return waitForWhitelistExist(selectedOrgName);
             });
         })
-        .then(function (org) {
-          eventTracking.spunUpInfrastructure();
-          if (keypather.get(org, 'attrs.firstDockCreated')) {
-            return COMC.actions.selectAccount(selectedOrgName);
-          }
-          eventTracking.updateCurrentPersonProfile(ahaGuide.getCurrentStep(), selectedOrgName);
-          COMC.pollForDockCreated(org, selectedOrgName);
+        .then(function (orgs) {
+          close();
+          $state.go('base.instances', {
+            userName: selectedOrgName
+          }, { reload: true });
         })
-        .catch(errs.handler)
-        .finally(function () {
-          loading('chooseOrg', false);
-        });
-    },
-    selectAccount: function (selectedOrgName) {
-      // Update number of orgs for user
-      eventTracking.updateCurrentPersonProfile(ahaGuide.getCurrentStep(), selectedOrgName);
-      close();
-      $state.go('base.instances', {
-        userName: selectedOrgName
-      });
+        .catch(errs.handler);
     }
   };
 
-  // Searching methods
-  COMC.matchWhitelistedOrgByName = function (selectedOrgName) {
-    return COMC.whitelistedOrgs.find(function (org) {
-      return selectedOrgName.toLowerCase() === org.attrs.name.toLowerCase();
-    });
-  };
-  COMC.getSelectedOrg = function (selectedOrgName) {
-    var selectedOrg = COMC.allAccounts.models.find(function (org) {
-      return selectedOrgName.toLowerCase() === org.oauthName().toLowerCase();
-    });
-    if (!selectedOrg) {
-      selectedOrg = COMC.user;
-    }
-    return selectedOrg;
-  };
   COMC.isChoosingOrg = ahaGuide.isChoosingOrg;
-
-  COMC.selectedOrgName = null;
-  COMC.pollForDockCreated = function (whitelistedDock, selectedOrgName) {
-    eventTracking.spunUpInfrastructure();
-    if (selectedOrgName.toLowerCase() !== COMC.user.oauthName().toLowerCase()) {
-      eventTracking.spunUpInfrastructureForOrg();
-    }
-    loading('waitingForDockCreated', true);
-    COMC.selectedOrgName = selectedOrgName;
-    COMC.cancelPollingForDockCreated();
-    if (keypather.get(whitelistedDock, 'attrs.firstDockCreated')) {
-      return $scope.$broadcast('go-to-panel', 'dockLoaded');
-    }
-    $scope.$broadcast('go-to-panel', 'dockLoading');
-
-    COMC.pollForDockCreatedPromise = $interval(function () {
-      COMC.fetchUpdatedWhitelistedOrg(selectedOrgName)
-        .then(function (updatedOrg) {
-          if (keypather.get(updatedOrg, 'attrs.firstDockCreated')) {
-            // Update number of orgs for user
-            eventTracking.updateCurrentPersonProfile(ahaGuide.getCurrentStep(), keypather.get(updatedOrg, 'attra.name'));
-            COMC.cancelPollingForDockCreated();
-            loading('waitingForDockCreated', false);
-            return $scope.$broadcast('go-to-panel', 'dockLoaded');
-          }
-        });
-    }, 1000);
-  };
 
   // Since this is a root route, it needs this stuff
   $scope.$watch(function () {

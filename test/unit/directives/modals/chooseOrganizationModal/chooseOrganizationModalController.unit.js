@@ -25,6 +25,7 @@ var stubGoToPanel;
 var mockWhitelistedOrgs;
 var promisifyMock;
 var eventTrackingStub;
+var mockWaitForWhitelistExist;
 
 var codenowWhitelistedOrg;
 var createdDockOrg;
@@ -138,6 +139,10 @@ describe('ChooseOrganizationModalController', function () {
         return mockCreateNewSandboxForUserService;
       });
       $provide.value('errs', mockErrs);
+      $provide.factory('waitForWhitelistExist', function ($q) {
+        mockWaitForWhitelistExist = sinon.stub().returns($q.when(mockWhitelistedOrgs));
+        return mockWaitForWhitelistExist;
+      });
       $provide.factory('fetchWhitelistForDockCreated', function ($q) {
         mockFetchWhitelistForDockCreated = sinon.stub().returns($q.when(mockWhitelistedOrgs));
         return mockFetchWhitelistForDockCreated;
@@ -169,28 +174,6 @@ describe('ChooseOrganizationModalController', function () {
     COMC = laterController();
     $rootScope.$apply();
   }
-
-  describe('searching methods', function () {
-    beforeEach(function () {
-      initialize();
-    });
-
-    beforeEach(function () {
-      setup();
-    });
-
-    describe('matchWhitelistedOrgByName', function () {
-      it('should match orgs by their names (case insensitive)', function () {
-        expect(COMC.matchWhitelistedOrgByName('codenow')).to.equal(codenowWhitelistedOrg);
-      });
-    });
-
-    describe('getSelectedOrg', function () {
-      it('should match orgs by their names (case insensitive)', function () {
-        expect(COMC.getSelectedOrg('codenow')).to.equal(mockOrg);
-      });
-    });
-  });
 
   describe('Personal accounts', function () {
     it('should set true if there is one account', function () {
@@ -225,19 +208,6 @@ describe('ChooseOrganizationModalController', function () {
       setup();
     });
 
-    beforeEach(function () {
-      sinon.stub(COMC, 'fetchUpdatedWhitelistedOrg').returns($q.when(codenowWhitelistedOrg));
-    });
-
-    describe('cancelPollingForDockCreated', function () {
-      it('should cancel the polling when pollForDockCreatedPromise is running', function () {
-        sinon.stub($interval, 'cancel').returns();
-        COMC.pollForDockCreatedPromise = true;
-        COMC.cancelPollingForDockCreated();
-        sinon.assert.calledOnce($interval.cancel);
-      });
-    });
-
     describe('cancelPollingForWhitelisted', function () {
       it('should cancel the polling when pollForWhitelistPromise is running', function () {
         sinon.stub($interval, 'cancel').returns();
@@ -246,43 +216,9 @@ describe('ChooseOrganizationModalController', function () {
         sinon.assert.calledOnce($interval.cancel);
       });
     });
-
-    describe('pollForDockCreated', function () {
-      beforeEach(function () {
-        sinon.stub(COMC, 'cancelPollingForDockCreated').returns();
-      });
-
-      it('should return and goToPanel dockLoaded if whitelistedDock is ready', function () {
-        stubGoToPanel.reset();
-        COMC.pollForDockCreated(createdDockOrg, 'name');
-        $rootScope.$digest();
-
-        sinon.assert.calledOnce(stubGoToPanel);
-        sinon.assert.calledWith(stubGoToPanel, sinon.match.object, 'dockLoaded');
-        sinon.assert.calledOnce(COMC.cancelPollingForDockCreated);
-      });
-
-      it('should go to dockLoading, then poll for update', function () {
-        stubGoToPanel.reset();
-        COMC.pollForDockCreated(codenowWhitelistedOrg, 'name', stubGoToPanel);
-
-        sinon.assert.calledOnce(COMC.cancelPollingForDockCreated);
-        sinon.assert.calledOnce(stubGoToPanel);
-        sinon.assert.calledOnce(stubGoToPanel, sinon.match.object, 'dockLoading');
-        expect(COMC.pollForDockCreatedPromise).to.be.truthy;
-
-        codenowWhitelistedOrg.attrs.firstDockCreated = true;
-        $interval.flush(1000);
-        $rootScope.$digest();
-
-        sinon.assert.calledTwice(COMC.cancelPollingForDockCreated);
-        sinon.assert.calledTwice(stubGoToPanel);
-        sinon.assert.calledWith(stubGoToPanel, sinon.match.object, 'dockLoaded');
-      });
-    });
   });
 
-  describe('fetchUpdatedWhitelistedOrg', function () {
+  describe('#selectAccount', function () {
     beforeEach(function () {
       initialize();
     });
@@ -291,23 +227,25 @@ describe('ChooseOrganizationModalController', function () {
       setup();
     });
 
-    beforeEach(function () {
-      sinon.stub(COMC, 'matchWhitelistedOrgByName').returns(createdDockOrg);
+    it('should to go to the instances pages if already created', function () {
+      COMC.actions.selectAccount('codeNow');
+      $rootScope.$digest();
+
+      sinon.assert.notCalled(mockCreateNewSandboxForUserService);
+      sinon.assert.calledOnce(closeStub);
+      sinon.assert.calledOnce(mockState.go);
+      sinon.assert.calledWith(mockState.go, 'base.instances', { userName: 'codeNow' }, { reload: true });
     });
 
-    it('should update the controllers orgs, and attempt to match the name for the return value', function (done) {
-      expect(COMC.whitelistedOrgs).to.deep.equal(mockWhitelistedOrgs);
-      mockWhitelistedOrgs.push(createdDockOrg);
-
-      COMC.fetchUpdatedWhitelistedOrg('codenow')
-        .then(function (matchedOrg) {
-          expect(matchedOrg).to.equal(createdDockOrg);
-          sinon.assert.calledWith(COMC.matchWhitelistedOrgByName, 'codenow');
-          expect(COMC.whitelistedOrgs).to.equal(mockWhitelistedOrgs);
-          expect(COMC.whitelistedOrgs.length).to.equal(2);
-          done();
-        });
+    it ('should to go to the instances pages if already created', function () {
+      COMC.actions.selectAccount('Runnable');
       $rootScope.$digest();
+
+      sinon.assert.calledOnce(mockCreateNewSandboxForUserService);
+      sinon.assert.calledWith(mockCreateNewSandboxForUserService, 'Runnable');
+      sinon.assert.calledOnce(closeStub);
+      sinon.assert.calledOnce(mockState.go);
+      sinon.assert.calledWith(mockState.go, 'base.instances', { userName: 'Runnable' }, { reload: true });
     });
   });
 
@@ -326,7 +264,6 @@ describe('ChooseOrganizationModalController', function () {
       }));
       $interval.flush(10 * 1000);
       $rootScope.$digest();
-      console.log(promisifyMock.callCount);
       expect(COMC.showGrantAccess).to.be.falsey;
       sinon.assert.calledWith(mockLoading, 'grantAccess', false);
     });
@@ -347,75 +284,15 @@ describe('ChooseOrganizationModalController', function () {
   describe('on $destroy', function () {
     beforeEach(function () {
       sinon.stub(COMC, 'cancelPollingForWhitelisted');
-      sinon.stub(COMC, 'cancelPollingForDockCreated');
     });
 
     afterEach(function () {
       COMC.cancelPollingForWhitelisted.restore();
-      COMC.cancelPollingForDockCreated.restore();
     });
 
     it('should cancel all polling operaions', function () {
       $scope.$broadcast('$destroy');
       sinon.assert.calledOnce(COMC.cancelPollingForWhitelisted);
-      sinon.assert.calledOnce(COMC.cancelPollingForDockCreated);
-    });
-  });
-
-  describe('actions', function () {
-    beforeEach(function () {
-      initialize();
-    });
-
-    beforeEach(function () {
-      setup();
-    });
-    beforeEach(function () {
-      sinon.stub(COMC, 'getSelectedOrg');
-    });
-
-    describe('createOrCheckDock', function () {
-      beforeEach(function () {
-        sinon.stub(COMC, 'fetchUpdatedWhitelistedOrg');
-        COMC.fetchUpdatedWhitelistedOrg.returns($q.when());
-        sinon.stub(COMC, 'pollForDockCreated').returns();
-      });
-      it('should go nowhere if no org was selected', function () {
-        COMC.getSelectedOrg.returns();
-
-        COMC.actions.createOrCheckDock();
-
-        sinon.assert.notCalled(COMC.fetchUpdatedWhitelistedOrg);
-      });
-      it('should create the sandbox, then start polling ', function () {
-        COMC.getSelectedOrg.returns(codenowWhitelistedOrg);
-
-        COMC.actions.createOrCheckDock('CodeNow');
-
-        sinon.assert.calledOnce(COMC.fetchUpdatedWhitelistedOrg);
-        sinon.assert.calledWith(COMC.fetchUpdatedWhitelistedOrg, 'CodeNow');
-        $rootScope.$digest();
-
-        sinon.assert.calledOnce(mockCreateNewSandboxForUserService);
-        sinon.assert.calledWith(mockCreateNewSandboxForUserService, 'CodeNow');
-
-        sinon.assert.calledOnce(COMC.pollForDockCreated);
-        sinon.assert.calledWith(COMC.pollForDockCreated, null, 'CodeNow');
-      });
-
-      it('should go to created panel since this org is ready', function () {
-        COMC.getSelectedOrg.returns(createdDockOrg);
-        COMC.fetchUpdatedWhitelistedOrg.returns($q.when(createdDockOrg));
-
-        COMC.actions.createOrCheckDock('Runnable');
-
-        sinon.assert.calledOnce(COMC.fetchUpdatedWhitelistedOrg);
-        sinon.assert.calledWith(COMC.fetchUpdatedWhitelistedOrg, 'Runnable');
-        $rootScope.$digest();
-
-        sinon.assert.notCalled(mockCreateNewSandboxForUserService);
-        sinon.assert.notCalled(COMC.pollForDockCreated);
-      });
     });
   });
 });

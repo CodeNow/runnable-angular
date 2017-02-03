@@ -16,10 +16,12 @@ form.padding-md(
 
   //- limit all fields to numbers only
   //- add .invalid class for errors from stripe
-  .grid-block.vertical.well.gray.padding-sm.well-payment
+  .grid-block.vertical.well.gray.padding-sm.well-payment(
+    ng-class = "{'invalid': CPFC.error}"
+  )
     p.red.small.text-center(
-      ng-if = "CPFC.error"
       ng-bind = "CPFC.error"
+      ng-if = "CPFC.error"
     )
     label.grid-block.vertical.label-payment.label-cc
       .small Card Number
@@ -160,11 +162,11 @@ footer.modal-footer.clearfix
     ng-if = "CPFC.currentOrg.poppa.isInGrace() || CPFC.currentOrg.poppa.isGraceExpired()"
     type = "button"
   )
-      .spinner-wrapper.spinner-sm.spinner-white.in(
-        ng-include = "'spinner'"
-        ng-if = "$root.isLoading.savePayment"
-      )
-      span Submit Payment
+    .spinner-wrapper.spinner-sm.spinner-white.in(
+      ng-if = "$root.isLoading.savePayment"
+      ng-include = "'spinner'"
+    )
+    span Submit Payment
 
   button.btn.btn-md.gray.btn-cancel.float-right(
     ng-click = "CPFC.actions.back()"
