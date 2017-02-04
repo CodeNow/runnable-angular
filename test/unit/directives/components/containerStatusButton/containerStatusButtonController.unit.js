@@ -82,7 +82,8 @@ describe('containerStatusButtonController'.bold.underline.blue, function () {
     it('should return true if fulfilled is false', function () {
       mockInstance.doesMatchMasterPod = sinon.stub().returns({
         isFulfilled: sinon.stub().returns(false),
-        value: sinon.stub().returns(new Error('NO'))
+        value: sinon.stub().returns(new Error('NO')),
+        then: sinon.stub().returns()
       });
       $scope.$digest();
       expect(CSBC.doesMatchMasterPod()).to.be.true;
