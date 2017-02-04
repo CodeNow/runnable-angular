@@ -554,6 +554,7 @@ module.exports = function(grunt) {
   grunt.registerTask('test', [
     'jade2js',
     'jshint:prod',
+    'autoprefixer',
     'autoBundleDependencies',
     'generateConfigs',
     'bgShell:karma'
