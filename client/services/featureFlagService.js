@@ -8,7 +8,7 @@ function featureFlags(
 ) {
   var defaultFeatureFlags = {
     ahaBranchUrlStep: false,
-    allowIsolatedUpdate: false,
+    allowIsolatedUpdate: true,
     autoDeployError: false,
     autoIsolation: false,
     autoIsolationSetup: false,
