@@ -18,6 +18,7 @@ function featureFlags(
     contingencyPlan: false,
     demoAddTeamStep: true,
     demoAutoAddBranch: true,
+    demoOrg: false,
     dockerCompose: true,
     dockerfileMirroringMultiple: false,
     editAnyInstance: false,
