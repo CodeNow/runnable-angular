@@ -37,7 +37,7 @@
     }
 
     &::after {
-      animation: scrollbarIn 1.25s .5s 1 forwards;
+      animation: scrollbarIn 1.25s .75s 1 forwards;
       background: rgba($black,.3);
       border: 1px solid rgba($white,.1);
       border-radius: 9px;
@@ -52,7 +52,7 @@
   }
 
   .img-wrapper {
-    animation: figureIn 1s .5s 1 forwards;
+    animation: figureIn 1s .75s 1 forwards;
     height: auto;
     width: 660px;
 
@@ -68,7 +68,7 @@
   }
 
   .cursor {
-    animation: cursorIn 1s 1s 1 forwards ease-in-out;
+    animation: cursorIn 1s 1.25s 1 forwards ease-in-out;
     bottom: 180px;
     height: 45px;
     position: absolute;
@@ -89,12 +89,12 @@
     }
 
     &::after {
-      animation: cursorSwap 1s 1s 1 forwards ease-in-out;
+      animation: cursorSwap 1s 1.25s 1 forwards ease-in-out;
       background-image: url(/build/images/cursor-default.svg);
     }
 
     &::before {
-      animation: cursorSwapPointer 1s 1s 1 forwards ease-in-out;
+      animation: cursorSwapPointer 1s 1.25s 1 forwards ease-in-out;
       background-image: url(/build/images/cursor-pointer.svg);
     }
   }
