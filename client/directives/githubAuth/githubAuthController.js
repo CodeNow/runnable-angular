@@ -19,6 +19,9 @@ function GithubAuthController(
   GAC.actions = {
     confirmGitHub: function () {
       eventTracking.trackPrimer();
+    },
+    clickedToAuthDocs: function () {
+      eventTracking.clickedToAuthDocs();
     }
   };
 }

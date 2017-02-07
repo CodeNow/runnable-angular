@@ -618,7 +618,7 @@ function EventTracking(
     ETS._mixpanel('track', eventName);
     return ETS;
   };
-    
+
   /**
    * Spun up infrastructure for Org
    * Reports to:
@@ -639,6 +639,19 @@ function EventTracking(
    */
   ETS.clickedChangeTeam = function () {
     var eventName = 'Clicked ‘Change Team’';
+    ETS._mixpanel('track', eventName);
+    return ETS;
+  };
+
+  /**
+   * Clicked to view docs on GitHub auth
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.clickedToAuthDocs = function () {
+    var eventName = 'Clicked to view docs on GitHub auth';
+
     ETS._mixpanel('track', eventName);
     return ETS;
   };
