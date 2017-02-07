@@ -1,30 +1,24 @@
 .layout-github {
   background: $gray-lighterest;
   height: 100vh;
-  min-height: 510px;
+  min-height: 600px;
   overflow: hidden;
 
-  .header {
-    @media (max-height: 520px) {
-      margin-top: 30px;
-    }
+  @include media(xs) {
+    min-height: 630px;
   }
 
-  .p {
-    max-width: 360px;
-
-    @include media(xxs) {
-      max-width: 290px;
-    }
+  .h1 {
+    font-size: 30px;
   }
 
   .figure {
+    background-color: $white;
     border: 1px solid $gray-lighter;
     border-bottom: 0;
     border-radius: $input-border-radius-lg $input-border-radius-lg 0 0;
-    flex: 0 0 auto;
-    margin: 0 auto;
-    max-height: 462px;
+    flex: 1 1 auto;
+    height: 10px;
     max-width: 660px;
     overflow: hidden;
     position: relative;
@@ -32,7 +26,6 @@
     z-index: 1; // for border clipping
 
     @include media(sm) {
-      height: 462px;
       width: 510px;
     }
 
@@ -40,12 +33,11 @@
       border-left: 0;
       border-radius: 0;
       border-right: 0;
-      height: 462px;
       width: 100vw;
     }
 
     &::after {
-      animation: scrollbarIn 2.5s 1s 1 forwards;
+      animation: scrollbarIn 1.25s .5s 1 forwards;
       background: rgba($black,.3);
       border: 1px solid rgba($white,.1);
       border-radius: 9px;
@@ -59,8 +51,8 @@
     }
   }
 
-  .img {
-    animation: figureIn 2s 1s 1 forwards;
+  .img-wrapper {
+    animation: figureIn 1s .5s 1 forwards;
     height: auto;
     width: 660px;
 
@@ -70,8 +62,13 @@
     }
   }
 
+  .img {
+    height: 100%;
+    width: 100%;
+  }
+
   .cursor {
-    animation: cursorIn 1s 3s 1 forwards ease-in-out;
+    animation: cursorIn 1s 1s 1 forwards ease-in-out;
     bottom: 180px;
     height: 45px;
     position: absolute;
@@ -92,12 +89,12 @@
     }
 
     &::after {
-      animation: cursorSwap 1s 3s 1 forwards ease-in-out;
+      animation: cursorSwap 1s 1s 1 forwards ease-in-out;
       background-image: url(/build/images/cursor-default.svg);
     }
 
     &::before {
-      animation: cursorSwapPointer 1s 3s 1 forwards ease-in-out;
+      animation: cursorSwapPointer 1s 1s 1 forwards ease-in-out;
       background-image: url(/build/images/cursor-pointer.svg);
     }
   }
@@ -105,21 +102,15 @@
   .footer {
     background: $gray-lighterest;
     border-top: 1px solid $gray-lighter;
-    height: 73px;
+    max-width: 100%;
     width: 720px;
     z-index: 1;
+  }
 
-    @media (max-height: 695px) {
-      bottom: 0;
-      left: 0;
-      margin: 0 auto;
-      position: fixed;
-      right: 0;
-    }
-
-    @include media(sm) {
-      width: 570px;
-    }
+  .icons-link-external {
+    height: 9px;
+    margin-left: 3px;
+    width: 9px;
   }
 }
 
@@ -173,11 +164,8 @@
   }
 
   100% {
-    transform: scale3d(1,1,1) translate3d(0,0,0);
-  }
-
-  100% {
     opacity: 1;
+    transform: scale3d(1,1,1) translate3d(0,0,0);
   }
 }
 

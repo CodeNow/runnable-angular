@@ -1,28 +1,16 @@
 main.grid-block.vertical.align-center.layout-github
-  header.grid-block.vertical.justify-center.align-center.shrink.header.margin-top-lg.margin-bottom-sm
-
-    //- if not in demo flow
-    h1.p.text-center.weight-strong(
-      ng-if = "GAC.isInDemoFlow"
-    ) How to Add Your Organization
-    p.p.text-center.weight-light.margin-top-xxs.margin-bottom-xs(
-      ng-if = "GAC.isInDemoFlow"
-    ) Scroll to the bottom and click Grant Access on the organization you want to use.
-
-    //- if in demo flow
-    h1.p.text-center.weight-strong(
-      ng-if = "!GAC.isInDemoFlow"
-    ) How to Add a Team
-    p.p.text-center.weight-light.margin-top-xxs.margin-bottom-xs(
-      ng-if = "!GAC.isInDemoFlow"
-    ) Scroll to the bottom and click Grant Access on the team you want to use.
-
+  header.grid-block.vertical.shrink.justify-center.align-center.header.padding-md
+    h1.h1.text-center.weight-strong How to Add a Team
+    p.p.text-center.margin-top-sm On the next page, scroll to the bottom and click&#32;
+      br.hidden-xs
+      | Grant Access next to the team you want to use.
   figure.figure
-    img.grid-block.img(
-      src = "/build/images/github-permissions-lg.svg"
-    )
-    .cursor
-  footer.grid-block.shrink.justify-center.align-center.padding-sm.footer
+    .img-wrapper
+      img.img(
+        src = "/build/images/github-permissions-lg.svg"
+      )
+      .cursor
+  footer.grid-block.vertical.shrink.justify-center.align-center.footer.padding-md
     a.grid-block.shrink.align-center.btn.btn-md.green(
       ng-click = "GAC.actions.confirmGitHub()"
     ) Got it! Take me to GitHub
@@ -30,3 +18,11 @@ main.grid-block.vertical.align-center.layout-github
         use(
           xlink:href = "#icons-arrow-down"
         )
+    p.p.small.strong.text-gray.text-center.margin-top-sm We need access to your code so we can run it.&#32;
+      br.hidden-xxs
+      | We never store or modify your source code.&#32;
+      a.link Learn more
+        svg.iconnables.icons-link-external
+          use(
+            xlink:href = "#icons-link-external-alt"
+          )
