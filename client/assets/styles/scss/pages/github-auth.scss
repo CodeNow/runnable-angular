@@ -1,11 +1,11 @@
 .layout-github {
   background: $gray-lighterest;
   height: 100vh;
-  min-height: 570px;
+  min-height: 600px;
   overflow: hidden;
 
   @include media(xs) {
-    min-height: 600px;
+    min-height: 630px;
   }
 
   .h1 {
