@@ -232,6 +232,7 @@
       }
 
       &.well-merged {
+        background: $white;
         border-left: 0;
         border-right: 0;
         left: $input-border;
