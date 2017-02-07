@@ -5,11 +5,10 @@ main.grid-block.vertical.align-center.layout-github
       br.hidden-xs
       | Grant Access next to the team you want to use.
   figure.figure
-    .img-wrapper
-      img.img(
-        src = "/build/images/github-permissions-lg.png"
-      )
-      .cursor
+    img.grid-block.img(
+      src = "/build/images/github-permissions-lg.png"
+    )
+    .cursor
   footer.grid-block.vertical.shrink.justify-center.align-center.footer.padding-md
     a.grid-block.shrink.align-center.btn.btn-md.green(
       ng-click = "GAC.actions.confirmGitHub()"
