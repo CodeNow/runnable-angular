@@ -161,8 +161,8 @@ module.exports = [
             });
           });
       },
-      whitelists: function (fetchWhitelists) {
-        return fetchWhitelists();
+      whitelists: function (fetchWhitelistForDockCreated) {
+        return fetchWhitelistForDockCreated();
       },
       orgs: function (fetchWhitelistedOrgs) {
         return fetchWhitelistedOrgs();

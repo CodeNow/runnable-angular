@@ -45,20 +45,7 @@
           ng-class = "{'in': isActivePanel()}"
           ng-include = "'authorizeOrganizationView'"
         )
-      animated-panel(
-        name = "dockLoading"
-      )
-        .fade(
-          ng-class = "{'in': isActivePanel()}"
-          ng-include = "'infrastructureLoadingModalView'"
-        )
-      animated-panel(
-        name = "dockLoaded"
-      )
-        .fade(
-          ng-class = "{'in': isActivePanel()}"
-          ng-include = "'infrastructureLoadedModalView'"
-        )
+
 
   //- sign out (always) + change team (during grace period)
   .grid-block.shrink.justify-center.margin-top-sm.margin-bottom-xl.welcome-footer.text-white(

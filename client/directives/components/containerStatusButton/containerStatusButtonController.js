@@ -7,6 +7,7 @@ require('app')
  */
 function ContainerStatusButtonController(
   $rootScope,
+  $scope,
   errs,
   keypather,
   loading,
@@ -15,7 +16,14 @@ function ContainerStatusButtonController(
 ) {
   var CSBC = this;
   CSBC.doesMatchMasterPod = function () {
-    return !CSBC.instance.doesMatchMasterPod().isFulfilled() || CSBC.instance.doesMatchMasterPod().value();
+    if (!CSBC.instance.doesMatchMasterPod().isFulfilled()) {
+      CSBC.instance.doesMatchMasterPod()
+        .then(function () {
+          $scope.$applyAsync(angular.noop);
+        });
+      return true;
+    }
+    return CSBC.instance.doesMatchMasterPod().value();
   };
 
   function modInstance(action, opts) {

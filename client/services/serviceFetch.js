@@ -15,6 +15,7 @@ require('app')
   .factory('fetchOrgMembers', fetchOrgMembers)
   .factory('fetchGrantedGithubOrgs', fetchGrantedGithubOrgs)
   .factory('fetchOrgTeammateInvitations', fetchOrgTeammateInvitations)
+  .factory('waitForWhitelistExist', waitForWhitelistExist)
   // All whitelisted usernames must be in lowercase
   .value('manuallyWhitelistedUsers', ['jdloft', 'hellorunnable', 'evandrozanatta', 'rsandor'])
   // Containers
@@ -122,6 +123,37 @@ function fetchWhitelistForDockCreated(
         return res.models.filter(function (userWhiteListModel) {
           return !!userWhiteListModel.attrs.org;
         });
+      });
+  };
+}
+/**
+ * Continually check for the existence of a whitelist/organization until it
+ * exists. This is necessary because organizations are created asynchronously
+ * through a worker.
+ *
+ * @param {String} organizationName - Name of organization
+ * @return {Promise} - Requested organization
+ */
+function waitForWhitelistExist(
+  $q,
+  $timeout,
+  fetchWhitelistForDockCreated
+) {
+  return function _assertWhiteListExists(organizationName, maxTries) {
+    return fetchWhitelistForDockCreated()
+      .then(function (orgCollection) {
+        var org = orgCollection.find(function (userWhiteListModel) {
+          return userWhiteListModel.attrs.name === organizationName;
+        });
+        if (!org) {
+          return $timeout(function () {
+            if (maxTries > 50) {
+              return $q.reject(new Error('We had a problem detecting your new organization. Please reload the page and try again'));
+            }
+            return _assertWhiteListExists(organizationName, (maxTries + 1) || 0);
+          }, 300);
+        }
+        return org;
       });
   };
 }

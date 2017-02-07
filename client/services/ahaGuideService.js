@@ -36,7 +36,7 @@ function ahaGuide(
       });
   }
   function refreshHasRunnabot() {
-    if (hasRunnabot) { return true; }
+    if (hasRunnabot || currentOrg.isPersonalAccount()) { return true; }
     return isRunnabotPartOfOrg(keypather.get(currentOrg, 'github.attrs.login'))
       .then(function (runnabot) {
         if (runnabot && isInGuide() && hasCompletedDemo()) {
