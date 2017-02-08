@@ -7,7 +7,9 @@
   .arrow(
     style = "top: 38px"
   )
-  .grid-block.align-center.vertical.padding-md.empty
+  .grid-block.align-center.vertical.padding-md.empty(
+    ng-if = "!$root.featureFlags.demoOrg"
+  )
     img.grid-block.shrink.img(
       src = "/build/images/add-code-state.svg"
     )
@@ -16,3 +18,14 @@
       ui-sref = "orgSelect"
       ui-sref-opts = "{reload: true}"
     ) Switch to a Team
+
+  .grid-block.align-center.vertical.padding-md.empty(
+    ng-if = "$root.featureFlags.demoOrg"
+  )
+    img.grid-block.shrink.img(
+      src = "/build/images/add-code-state.svg"
+    )
+    p.p.text-center.weight-strong.margin-top-xxs Can’t wait to add your code?
+    p.p.text-center.margin-top-xxs We want you to try the demo first, but you can&#32;
+      a.link end the demo
+      | &#32;now if you’re ready.

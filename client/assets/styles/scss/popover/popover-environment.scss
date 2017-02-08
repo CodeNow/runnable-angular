@@ -1,0 +1,23 @@
+.popover-environment {
+  margin: 0 auto $sm;
+  max-width: 480px;
+  position: static;
+
+  @include media(xs) {
+    max-width: 330px;
+
+    > .grid-block {
+      flex-direction: column;
+      padding: $md $sm $sm;
+      text-align: center;
+    }
+
+    .margin-right-sm {
+      margin: 0 auto $xs;
+    }
+
+    .margin-left-sm {
+      margin: $xs auto 0;
+    }
+  }
+}
