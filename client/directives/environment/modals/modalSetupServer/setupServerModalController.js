@@ -361,7 +361,6 @@ function SetupServerModalController(
       })
       .then(function () {
         eventTracking.createdRepoContainer(SMC.instance.attrs.owner.github, SMC.state.repo.attrs.name);
-        $scope.$emit('demoService::hide');
         return SMC.resetStateContextVersion(SMC.instance.contextVersion, true);
       })
       .catch(function (err) {

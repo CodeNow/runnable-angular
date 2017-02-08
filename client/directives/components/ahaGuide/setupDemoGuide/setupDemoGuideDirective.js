@@ -6,8 +6,6 @@ require('app')
 function setupDemoGuide(
   $rootScope,
   $state,
-  ahaGuide,
-  demoFlowService,
   demoRepos,
   errs,
   loading
@@ -31,11 +29,6 @@ function setupDemoGuide(
           .finally(function () {
             loading('startDemo', false);
           });
-      };
-
-      $scope.skipDemo = function () {
-        $rootScope.$broadcast('demoService::hide');
-        demoFlowService.setUsingDemoRepo(false);
       };
     }
   };

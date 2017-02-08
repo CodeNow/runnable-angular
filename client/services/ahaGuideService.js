@@ -355,7 +355,6 @@ function ahaGuide(
         delete $storage.hasSeenHangTightMessage;
         delete $storage.hasSeenUrlCallout;
         delete $storage.launchedFromContainersPage;
-        delete $storage.usingDemoRepo;
         delete $storage.hasAddedBranch;
         updateCurrentOrg(updatedOrg);
         return fetchInstances(null, true)

@@ -10,7 +10,6 @@ function demoFlowService(
   $q,
   currentOrg,
   errs,
-  fetchInstancesByPod,
   github,
   defaultContainerUrl,
   featureFlags,
@@ -21,18 +20,6 @@ function demoFlowService(
 
   if (isInDemoFlow()) {
     addEventListeners();
-  }
-
-  if (usingDemoRepo() || isInDemoFlow()) {
-    fetchInstancesByPod()
-      .then(function(instances) {
-        instances.on('add', function deleteUsingDemoRepoKey() {
-          if (instances.models.length > 2) {
-            deleteItem('usingDemoRepo');
-            instances.off('add', deleteUsingDemoRepoKey);
-          }
-        });
-      });
   }
 
   function resetFlags () {
@@ -166,10 +153,6 @@ function demoFlowService(
     return getItem('hasSeenUrlCallout');
   }
 
-  function setUsingDemoRepo (value) {
-    setItem('usingDemoRepo', value);
-  }
-
   function hasAddedBranch (value) {
     if (value !== undefined) {
       setItem('hasAddedBranch', value);
@@ -177,9 +160,6 @@ function demoFlowService(
     return getItem('hasAddedBranch');
   }
 
-  function usingDemoRepo () {
-    return getItem('usingDemoRepo');
-  }
   $rootScope.$on('demo::dismissUrlCallout', function ($event, instanceId) {
     if (!hasSeenUrlCallout()) {
       setItem('hasSeenUrlCallout', instanceId);
@@ -187,14 +167,14 @@ function demoFlowService(
   });
 
   function shouldAddPR () {
-    return currentOrg.isPersonalAccount() && usingDemoRepo();
+    return currentOrg.isPersonalAccount();
   }
   function shouldShowTeamCTA () {
     return currentOrg.isPersonalAccount() && isInDemoFlow() && getItem('clickedPrLink');
   }
 
   function shouldShowServicesCTA () {
-    return !currentOrg.isPersonalAccount() && isInDemoFlow() && getItem('usingDemoRepo') && hasAddedBranch();
+    return !currentOrg.isPersonalAccount() && isInDemoFlow() && hasAddedBranch();
   }
 
   function shouldShowAddBranchCTA (instance) {
@@ -212,9 +192,7 @@ function demoFlowService(
     hasSeenUrlCallout: hasSeenUrlCallout,
     shouldAddPR: shouldAddPR,
     isInDemoFlow: isInDemoFlow,
-    usingDemoRepo: usingDemoRepo,
     resetFlags: resetFlags,
-    setUsingDemoRepo: setUsingDemoRepo,
     setItem: setItem,
     submitDemoPR: submitDemoPR,
     shouldShowAddBranchCTA: shouldShowAddBranchCTA,
