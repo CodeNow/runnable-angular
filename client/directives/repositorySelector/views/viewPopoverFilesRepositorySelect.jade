@@ -14,13 +14,13 @@
 //- don't fade for spinner
 .popover-content.fade(
   ng-class = "{\
-    'fade': !repoSelector.data.githubRepos.models,\
+    'fade': !repoSelector.data.githubRepos,\
     'in': isActivePanel()\
   }"
 )
   input.input.input-xs.input-search(
     ng-disabled = "repoSelected"
-    ng-if = "repoSelector.data.githubRepos.models"
+    ng-if = "repoSelector.data.githubRepos"
     ng-model = "repoSelector.data.repoFilter"
     placeholder = "Filter by name"
     required
@@ -29,12 +29,12 @@
   )
 
   .spinner-wrapper.spinner-backdrop.spinner-gray.spinner-md.in(
-    ng-if = "!repoSelector.data.githubRepos.models"
+    ng-if = "!repoSelector.data.githubRepos"
     ng-include = "'spinner'"
   )
 
   ul.list.list-servers(
-    ng-if = "repoSelector.data.githubRepos.models"
+    ng-if = "repoSelector.data.githubRepos"
   )
     li.grid-block.align-center.list-item.multi-line(
       ng-class = "{\
@@ -43,15 +43,15 @@
       }"
       ng-click = "repoSelector.actions.selectRepo(repo)"
       ng-repeat = "\
-        repo in repoSelector.data.githubRepos.models | \
+        repo in repoSelector.data.githubRepos | \
         repos: repoSelector.data.repoFilter | \
         allBut: data.appCodeVersions | \
         orderBy: '-attrs.pushed_at'\
       "
     )
       .grid-content.text-overflow(
-        title = "{{ repo.attrs.name}}"
-      ) {{ repo.attrs.name}}
+        title = "{{ repo..name}}"
+      ) {{ repo..name}}
 
         //- if invite flows...
         .row.row-author(
@@ -63,12 +63,12 @@
           )
           span.small(
             ng-if = "$root.featureFlags.inviteFlows"
-          ) —{{repo.attrs.pushed_at | timeFrom}}
+          ) —{{repo..pushed_at | timeFrom}}
 
         //- else
         small.small(
           ng-if = "!$root.featureFlags.inviteFlows"
-        ) Updated {{ repo.attrs.pushed_at | timeFrom }}
+        ) Updated {{ repo..pushed_at | timeFrom }}
 
       svg.grid-content.shrink.iconnables.icons-arrow-down(
         ng-if = "!repo.loading"

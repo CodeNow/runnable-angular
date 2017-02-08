@@ -25,7 +25,7 @@
 .grid-block.well.gray.justify-center.padding-md(
   ng-if = "\
     !$root.isLoading.newContainerRepos && \
-    NCC.githubRepos.models.length === 0 \
+    NCC.githubRepos.length === 0 \
   "
 )
   .p.empty
@@ -41,11 +41,11 @@
 ul.list.list-servers(
   ng-if = "\
     !$root.isLoading.newContainerRepos && \
-    NCC.githubRepos.models.length !== 0\
+    NCC.githubRepos.length !== 0\
   "
 )
   li.p.empty(
-    ng-if = "NCC.githubRepos.models && !noResults.length"
+    ng-if = "NCC.githubRepos && !noResults.length"
   ) We couldn’t find any repositories named
     br
     | ‘{{NCC.repoFilter}}’.
@@ -56,7 +56,7 @@ ul.list.list-servers(
     ng-disabled = "$root.isLoading.newContainerSingleRepo"
     ng-click = "!$root.isLoading.newContainerSingleRepo && NCC.setRepo(repo, goToPanel)"
     ng-repeat = "\
-      repo in NCC.githubRepos.models | \
+      repo in NCC.githubRepos | \
       repos: NCC.repoFilter | \
       orderBy: '-attrs.pushed_at' as noResults\
     "
@@ -66,8 +66,8 @@ ul.list.list-servers(
     }"
   )
     .grid-content.text-overflow(
-      title = "{{ repo.attrs.name }}"
-    ) {{ repo.attrs.name }}
+      title = "{{ repo.name }}"
+    ) {{ repo.name }}
       .row.row-author(
         ng-if = "$root.featureFlags.inviteFlows"
       )
@@ -82,10 +82,10 @@ ul.list.list-servers(
         )
         span.small(
           ng-if = "$root.featureFlags.inviteFlows"
-        ) {{repo.attrs.pushed_at | timeFrom}}
+        ) {{repo.pushed_at | timeFrom}}
       small.small(
         ng-if = "!$root.featureFlags.inviteFlows"
-      ) {{repo.attrs.pushed_at | timeFrom}}
+      ) {{repo.pushed_at | timeFrom}}
         svg.iconnables.icons-server(
           ng-if = "$root.featureFlags.multipleRepositoryContainers"
           pop-over

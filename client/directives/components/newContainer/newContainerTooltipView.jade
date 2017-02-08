@@ -30,7 +30,7 @@
     input.input.input-xs.input-search(
       autofocus
       ng-disabled = "$root.isLoading.newContainerSingleRepo"
-      ng-if = "NCC.githubRepos.models.length !== 0"
+      ng-if = "NCC.githubRepos.length !== 0"
       ng-model = "NCC.repoFilter"
       placeholder = "Filter by name"
       required
@@ -38,19 +38,19 @@
     )
     //- if the account or org has no repositories
     .text-center.text-gray.small.padding-lg(
-      ng-if = "NCC.githubRepos.models.length === 0"
+      ng-if = "NCC.githubRepos.length === 0"
     ) There are no repositories to add.
   ul.list.popover-list(
     ng-if = "!$root.isLoading.newContainerRepos"
   )
     .text-center.text-gray.small.padding-lg(
-      ng-if = "NCC.githubRepos.models.length && !noResults.length"
+      ng-if = "NCC.githubRepos.length && !noResults.length"
     ) No repositories match this filter.
     li.grid-block.align-center.list-item.popover-list-item.multi-line(
       data-event-name = "Selected a Repository"
       ng-click = "!$root.isLoading.newContainerSingleRepo && NCC.setRepo(repo, NCC.openModalAtPanel)"
       ng-repeat = "\
-        repo in NCC.githubRepos.models | \
+        repo in NCC.githubRepos | \
         repos: NCC.repoFilter | \
         orderBy: '-attrs.pushed_at' as noResults\
       "
@@ -65,8 +65,8 @@
         )
       .grid-block.vertical
         .grid-content.text-overflow(
-          title = "{{ repo.attrs.name }}"
-        ) {{ repo.attrs.name }}
+          title = "{{ repo.name }}"
+        ) {{ repo.name }}
         .grid-block(
           ng-if = "$root.featureFlags.inviteFlows"
         )
@@ -76,12 +76,12 @@
           )
           span.small(
             ng-if = "$root.featureFlags.inviteFlows"
-          )  — {{repo.attrs.pushed_at | timeFrom}}
+          )  — {{repo.pushed_at | timeFrom}}
 
         //- else
         small.small(
           ng-if = "!$root.featureFlags.inviteFlows"
-        ) Updated {{repo.attrs.pushed_at | timeFrom}}
+        ) Updated {{repo.pushed_at | timeFrom}}
 
       button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add(
         ng-if = "!repo.loading"
@@ -113,7 +113,7 @@
     ng-if = "!$root.isLoading.newContainerTemplates"
   )
     .text-center.text-gray.small.padding-lg(
-      ng-if = "NCC.githubRepos.models.length && !noTemplateResults.length"
+      ng-if = "NCC.githubRepos.length && !noTemplateResults.length"
     ) No services match this filter.
     li.grid-block.align-center.list-item.popover-list-item.multi-line(
       ng-class = "{'active': $root.isLoading.newContainerTemplates}"
