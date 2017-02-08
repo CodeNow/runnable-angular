@@ -599,5 +599,15 @@ describe('setupMirrorServerModalController'.bold.underline.blue, function () {
       sinon.assert.calledOnce(errsMock.handler);
     });
   });
+
+  describe('changing the branch should change dockerfile', function () {
+    beforeEach(initState.bind(null, {}));
+    it('should call openDockerfile if the ACV event is emitted', function () {
+      SMC.openDockerfile = sinon.stub();
+      $scope.$emit('updatedACV');
+      $scope.$digest();
+      sinon.assert.calledOnce(SMC.openDockerfile);
+    });
+  });
 });
 

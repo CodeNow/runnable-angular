@@ -56,6 +56,9 @@ require('app')
               $scope.loadingPromisesTarget,
               promisify($scope.state.acv, 'update')(newState)
             )
+              .then(function () {
+                $scope.$emit('updatedACV');
+              })
               .catch(errs.handler);
           }
         };
