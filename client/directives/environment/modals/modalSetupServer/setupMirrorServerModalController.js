@@ -32,6 +32,10 @@ function SetupMirrorServerModalController(
   SMC.isAddingFirstRepo = ahaGuide.isAddingFirstRepo;
   SMC.showUrlToolbar = SMC.isAddingFirstRepo();
 
+  $scope.$on('updatedACV', function () {
+    SMC.openDockerfile(SMC.state, SMC.openItems);
+  });
+
   var parentController = $controller('ServerModalController as SMC', { $scope: $scope });
   angular.extend(SMC, {
     'changeTab': parentController.changeTab.bind(SMC),
