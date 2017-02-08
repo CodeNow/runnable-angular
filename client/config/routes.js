@@ -1,5 +1,13 @@
 'use strict';
 
+function goToStateOnError($q, $state, $timeout, destination, errorMessage) {
+  return function () {
+    return $timeout(function () {
+      $state.go(destination);
+      return $q.reject(new Error(errorMessage));
+    });
+  };
+}
 module.exports = [
   {
     state: 'loadingDebug',
@@ -154,12 +162,7 @@ module.exports = [
             user.isManuallyWhitelisted = manuallyWhitelistedUsers.includes(userName);
             return user;
           })
-          .catch(function () {
-            return $timeout(function () {
-              $state.go('orgSelect');
-              return $q.reject(new Error('User Unauthorized for Organization'));
-            });
-          });
+          .catch(goToStateOnError($q, $state, $timeout, 'orgSelect', 'Unauthorized'));
       },
       whitelists: function (fetchWhitelistForDockCreated) {
         return fetchWhitelistForDockCreated();
@@ -248,12 +251,7 @@ module.exports = [
       ) {
         $state.params.userName = $stateParams.userName;
         return fetchInstancesByPod()
-          .catch(function () {
-            return $timeout(function () {
-              $state.go('orgSelect');
-              return $q.reject(new Error('User Unauthorized for Organization'));
-            });
-          });
+          .catch(goToStateOnError($q, $state, $timeout, 'orgSelect', 'Unauthorized'));
       },
       booted: function (eventTracking, activeAccount) {
         eventTracking.visitedConfigurePage();
@@ -282,12 +280,7 @@ module.exports = [
       ) {
         $state.params.userName = $stateParams.userName;
         return fetchInstancesByPod()
-          .catch(function () {
-            return $timeout(function () {
-              $state.go('orgSelect');
-              return $q.reject(new Error('User Unauthorized for Organization'));
-            });
-          });
+          .catch(goToStateOnError($q, $state, $timeout, 'orgSelect', 'Unauthorized'));
       },
       booted: function (eventTracking) {
         eventTracking.visitedContainersPage();
@@ -316,12 +309,7 @@ module.exports = [
       ) {
         $state.params.userName = $stateParams.userName;
         return fetchInstancesByPod()
-          .catch(function () {
-            return $timeout(function () {
-              $state.go('orgSelect');
-              return $q.reject(new Error('User Unauthorized for Organization'));
-            });
-          });
+          .catch(goToStateOnError($q, $state, $timeout, 'orgSelect', 'Unauthorized'));
       }
     }
   }
