@@ -239,13 +239,21 @@ module.exports = [
     },
     resolve: {
       instancesByPod: function (
-        fetchInstancesByPod,
+        $q,
         $stateParams,
         $state,
+        $timeout,
+        fetchInstancesByPod,
         populateCurrentOrgService // unused, but required so things are properly populated!
       ) {
         $state.params.userName = $stateParams.userName;
-        return fetchInstancesByPod();
+        return fetchInstancesByPod()
+          .catch(function () {
+            return $timeout(function () {
+              $state.go('orgSelect');
+              return $q.reject(new Error('User Unauthorized for Organization'));
+            });
+          });
       },
       booted: function (eventTracking, activeAccount) {
         eventTracking.visitedConfigurePage();
@@ -265,9 +273,21 @@ module.exports = [
       keypather.get(ModalService, 'modalLayers[0].modal.controller.actions.forceClose()');
     },
     resolve: {
-      instancesByPod: function (fetchInstancesByPod, $stateParams, $state) {
+      instancesByPod: function (
+        $q,
+        $stateParams,
+        $state,
+        $timeout,
+        fetchInstancesByPod
+      ) {
         $state.params.userName = $stateParams.userName;
-        return fetchInstancesByPod();
+        return fetchInstancesByPod()
+          .catch(function () {
+            return $timeout(function () {
+              $state.go('orgSelect');
+              return $q.reject(new Error('User Unauthorized for Organization'));
+            });
+          });
       },
       booted: function (eventTracking) {
         eventTracking.visitedContainersPage();
@@ -287,9 +307,21 @@ module.exports = [
       keypather.get(ModalService, 'modalLayers[0].modal.controller.actions.forceClose()');
     },
     resolve: {
-      instancesByPod: function (fetchInstancesByPod, $stateParams, $state) {
+      instancesByPod: function (
+        $q,
+        $stateParams,
+        $state,
+        $timeout,
+        fetchInstancesByPod
+      ) {
         $state.params.userName = $stateParams.userName;
-        return fetchInstancesByPod();
+        return fetchInstancesByPod()
+          .catch(function () {
+            return $timeout(function () {
+              $state.go('orgSelect');
+              return $q.reject(new Error('User Unauthorized for Organization'));
+            });
+          });
       }
     }
   }
