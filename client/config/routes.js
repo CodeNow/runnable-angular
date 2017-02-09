@@ -241,6 +241,17 @@ module.exports = [
       keypather.get(ModalService, 'modalLayers[0].modal.controller.actions.forceClose()');
     },
     resolve: {
+      checkIfAllowed: function (
+        $q,
+        $state,
+        $timeout,
+        demoFlowService,
+        featureFlags
+      ) {
+        if (featureFlags.flags.demoOrg && demoFlowService.isInDemoFlow()) {
+          return goToStateOnError($q, $state, $timeout, 'base.instances', 'Still in Demo')();
+        }
+      },
       instancesByPod: function (
         $q,
         $stateParams,

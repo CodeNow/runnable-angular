@@ -37,6 +37,7 @@ function ControllerApp(
   CA.ahaGuide = ahaGuide;
   CA.currentOrg = currentOrg;
   CA.shouldShowTeamCTA = demoFlowService.shouldShowTeamCTA;
+  CA.isInDemoFlow = demoFlowService.isInDemoFlow;
 
   fetchInstancesByPod()
     .then(function (instancesByPod) {
