@@ -6,13 +6,13 @@ require('app')
 function demoFlowService(
   $http,
   $localStorage,
-  $rootScope,
   $q,
+  $rootScope,
   currentOrg,
-  errs,
-  github,
   defaultContainerUrl,
+  errs,
   featureFlags,
+  github,
   keypather,
   patchOrgMetadata,
   promisify
