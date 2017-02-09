@@ -113,16 +113,16 @@ function demoRepos(
   $q,
   $rootScope,
   $timeout,
-  demoFlowService,
   createNewCluster,
   currentOrg,
+  demoFlowService,
+  errs,
   fetchInstancesByPod,
   fetchOwnerRepo,
   github,
   invitePersonalRunnabot,
   keypather,
-  watchOncePromise,
-  errs
+  watchOncePromise
 ) {
 
   function _findNewRepo(stack) {
