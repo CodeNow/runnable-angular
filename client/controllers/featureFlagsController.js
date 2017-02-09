@@ -12,6 +12,7 @@ function FeatureFlagsController(
   this.resetAha = function() {
     if (window.confirm('All containers will be deleted. Are you sure you want to reset your account?')) {
       ahaGuide.resetGuide();
+      demoFlowService.resetFlags();
     }
   };
 }

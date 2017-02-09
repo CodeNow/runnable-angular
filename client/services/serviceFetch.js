@@ -21,7 +21,6 @@ require('app')
   // Containers
   .factory('fetchInstances', fetchInstances)
   .factory('fetchInstance', fetchInstance)
-  .factory('fetchNonRepoInstances', fetchNonRepoInstances)
   .factory('fetchInstancesByPod', fetchInstancesByPod)
   .factory('fetchBuild', fetchBuild)
   .factory('fetchRepoBranches', fetchRepoBranches)
@@ -225,19 +224,6 @@ function fetchInstance(
     return fetchUser()
       .then(function (user) {
         return promisify(user, 'fetchInstance')(instanceId);
-      });
-  };
-}
-
-function fetchNonRepoInstances(
-  fetchInstances
-) {
-  return function () {
-    return fetchInstances({ githubUsername: 'HelloRunnable' })
-      .then(function (templates) {
-        return templates.filter(function (templateInstance) {
-          return !(/^TEMPLATE\-/).test(templateInstance.attrs.name);
-        });
       });
   };
 }

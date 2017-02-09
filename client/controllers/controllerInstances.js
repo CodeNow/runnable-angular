@@ -18,7 +18,6 @@ function ControllerInstances(
   demoRepos,
   errs,
   eventTracking,
-  featureFlags,
   fetchInstances,
   fetchInstancesByPod,
   fetchRepoBranches,
@@ -97,17 +96,6 @@ function ControllerInstances(
         }
         allInstances.on('add', instanceListener);
       });
-  }
-
-  if (demoFlowService.isInDemoFlow()) {
-    watchOncePromise($scope, function () {
-      return demoFlowService.hasSeenUrlCallout();
-    }, true)
-      .then(function () {
-        checkIfBranchViewShouldBeEnabled();
-      });
-    // Check branch view first time
-    checkIfBranchViewShouldBeEnabled();
   }
 
   function isInstanceMatch(instance, nameMatch) {
@@ -402,21 +390,4 @@ function ControllerInstances(
       templateUrl: 'newContainerModalView'
     });
   };
-
-  function checkIfBranchViewShouldBeEnabled () {
-    if (!demoFlowService.isInDemoFlow() || !demoFlowService.hasSeenUrlCallout()) {
-      return;
-    }
-    return fetchInstancesByPod()
-      .then(function (instances) {
-        return instances.find(function (instance) {
-          return instance.attrs.id === demoFlowService.hasSeenUrlCallout();
-        });
-      })
-      .then(function (instance) {
-        if (instance) {
-          CIS.usingDemoRepo = demoFlowService.usingDemoRepo();
-        }
-      });
-  }
 }
