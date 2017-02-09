@@ -113,10 +113,9 @@ function demoRepos(
   $q,
   $rootScope,
   $timeout,
-  ahaGuide,
+  demoFlowService,
   createNewCluster,
   currentOrg,
-  demoFlowService,
   fetchInstancesByPod,
   fetchOwnerRepo,
   github,
@@ -175,6 +174,21 @@ function demoRepos(
     return github.forkRepo(stack.repoOwner, stack.repoName, currentOrg.github.oauthName(), keypather.get(currentOrg, 'poppa.attrs.isPersonalAccount'));
   }
 
+  var hasDemoBuiltPromise = fetchInstancesByPod()
+      .then(function (allInstances) {
+        return watchOncePromise($rootScope, function () {
+          return allInstances.models.find(function (instance) {
+            // We need to get the main instance
+            return instance.getRepoName();
+          });
+        }, true);
+      });
+
+  var shouldShowDemoSelector = true;
+  hasDemoBuiltPromise.then(function () {
+    shouldShowDemoSelector = false;
+  });
+
   function createDemoApp (stackKey) {
     var stack = stacks[stackKey];
     return _findNewRepo(stack)
@@ -195,20 +209,9 @@ function demoRepos(
         return $q.all(promises);
       })
       .then(function () {
-        return fetchInstancesByPod();
-      })
-      .then(function (allInstances) {
-        return watchOncePromise($rootScope, function () {
-          return allInstances.models.find(function (instance) {
-            // We need to get the main instance
-            return instance.getRepoName();
-          });
-        }, true);
+        return hasDemoBuiltPromise;
       })
       .then(function (instance) {
-        ahaGuide.endGuide({
-          hasConfirmedSetup: true
-        });
         $rootScope.$broadcast('demo::building', instance);
         return instance;
       })
@@ -221,7 +224,7 @@ function demoRepos(
     demoStacks: stacks,
     forkGithubRepo: forkGithubRepo,
     shouldShowDemoSelector: function () {
-      return ahaGuide.isInGuide() && !ahaGuide.hasConfirmedSetup();
+      return demoFlowService.isInDemoFlow() && shouldShowDemoSelector;
     }
   };
 }
