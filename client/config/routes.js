@@ -1,5 +1,13 @@
 'use strict';
 
+function goToStateOnError($q, $state, $timeout, destination, errorMessage) {
+  return function () {
+    return $timeout(function () {
+      $state.go(destination);
+      return $q.reject(new Error(errorMessage));
+    });
+  };
+}
 module.exports = [
   {
     state: 'loadingDebug',
@@ -154,12 +162,7 @@ module.exports = [
             user.isManuallyWhitelisted = manuallyWhitelistedUsers.includes(userName);
             return user;
           })
-          .catch(function () {
-            return $timeout(function () {
-              $state.go('orgSelect');
-              return $q.reject(new Error('User Unauthorized for Organization'));
-            });
-          });
+          .catch(goToStateOnError($q, $state, $timeout, 'orgSelect', 'Unauthorized'));
       },
       whitelists: function (fetchWhitelistForDockCreated) {
         return fetchWhitelistForDockCreated();
@@ -239,13 +242,16 @@ module.exports = [
     },
     resolve: {
       instancesByPod: function (
-        fetchInstancesByPod,
+        $q,
         $stateParams,
         $state,
+        $timeout,
+        fetchInstancesByPod,
         populateCurrentOrgService // unused, but required so things are properly populated!
       ) {
         $state.params.userName = $stateParams.userName;
-        return fetchInstancesByPod();
+        return fetchInstancesByPod()
+          .catch(goToStateOnError($q, $state, $timeout, 'orgSelect', 'Unauthorized'));
       },
       booted: function (eventTracking, activeAccount) {
         eventTracking.visitedConfigurePage();
@@ -265,9 +271,16 @@ module.exports = [
       keypather.get(ModalService, 'modalLayers[0].modal.controller.actions.forceClose()');
     },
     resolve: {
-      instancesByPod: function (fetchInstancesByPod, $stateParams, $state) {
+      instancesByPod: function (
+        $q,
+        $stateParams,
+        $state,
+        $timeout,
+        fetchInstancesByPod
+      ) {
         $state.params.userName = $stateParams.userName;
-        return fetchInstancesByPod();
+        return fetchInstancesByPod()
+          .catch(goToStateOnError($q, $state, $timeout, 'orgSelect', 'Unauthorized'));
       },
       booted: function (eventTracking) {
         eventTracking.visitedContainersPage();
@@ -287,9 +300,16 @@ module.exports = [
       keypather.get(ModalService, 'modalLayers[0].modal.controller.actions.forceClose()');
     },
     resolve: {
-      instancesByPod: function (fetchInstancesByPod, $stateParams, $state) {
+      instancesByPod: function (
+        $q,
+        $stateParams,
+        $state,
+        $timeout,
+        fetchInstancesByPod
+      ) {
         $state.params.userName = $stateParams.userName;
-        return fetchInstancesByPod();
+        return fetchInstancesByPod()
+          .catch(goToStateOnError($q, $state, $timeout, 'orgSelect', 'Unauthorized'));
       }
     }
   }
