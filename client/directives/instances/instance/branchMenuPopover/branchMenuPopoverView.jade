@@ -103,9 +103,7 @@
           .padding-xxs(
             ng-if = "CIS.instanceBranches"
           )
-            .grid-block.shrink.align-center.well.gray.padding-xxs(
-              ng-if = "!$root.featureFlags.autoIsolation"
-            )
+            .grid-block.shrink.align-center.well.gray.padding-xxs
               .grid-content
                 .small Automatically add branches as they’re updated on GitHub.
                 button.btn.btn-xs.btn-permissions(
