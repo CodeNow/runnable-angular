@@ -352,10 +352,6 @@ function ahaGuide(
       }
     })
       .then(function (updatedOrg) {
-        delete $storage.hasSeenHangTightMessage;
-        delete $storage.hasSeenUrlCallout;
-        delete $storage.launchedFromContainersPage;
-        delete $storage.hasAddedBranch;
         updateCurrentOrg(updatedOrg);
         return fetchInstances(null, true)
           .then(function (fetchedInstances) {
