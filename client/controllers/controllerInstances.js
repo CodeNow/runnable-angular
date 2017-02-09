@@ -18,7 +18,6 @@ function ControllerInstances(
   demoRepos,
   errs,
   eventTracking,
-  featureFlags,
   fetchInstances,
   fetchInstancesByPod,
   fetchRepoBranches,
@@ -97,12 +96,6 @@ function ControllerInstances(
         }
         allInstances.on('add', instanceListener);
       });
-  }
-
-  if (demoFlowService.isInDemoFlow()) {
-    watchOncePromise($scope, function () {
-      return demoFlowService.hasSeenUrlCallout();
-    }, true);
   }
 
   function isInstanceMatch(instance, nameMatch) {
