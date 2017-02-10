@@ -2,7 +2,8 @@ span.grid-content.text-overflow Services
 //- div instead of button so safari doesn’t get weird with alignment
 .grid-block.align-center.shrink.btn.btn-xxs.white(
   ng-class = "{'active': state.active}"
-  ng-if = "!CIS.currentOrg.isPersonalAccount() && !$root.featureFlags.demoOrg"
+  ng-if = "($root.featureFlags.demoOrg && (CIS.shouldShowServicesCTA() || !CIS.isInDemoFlow())) || (!$root.featureFlags.demoOrg && !CIS.currentOrg.isPersonalAccount())"
+  ng-click = "$root.featureFlags.demoOrg && CIS.isInDemoFlow() && $emit('demo::end')"
   pop-over
   pop-over-options = "{\"top\":-30,\"left\":99}"
   pop-over-template = "templateMenuPopoverView"
@@ -14,7 +15,7 @@ span.grid-content.text-overflow Services
 
 .grid-block.align-center.shrink.btn.btn-xxs.white(
   ng-class = "{'active': state.active}"
-  ng-if = "CIS.currentOrg.isPersonalAccount() || $root.featureFlags.demoOrg"
+  ng-if = "($root.featureFlags.demoOrg && !CIS.shouldShowServicesCTA() && CIS.isInDemoFlow()) || (!$root.featureFlags.demoOrg && CIS.currentOrg.isPersonalAccount())"
   pop-over
   pop-over-options = "{\"top\":-30,\"left\":99}"
   pop-over-template = "templateMenuEmptyPopoverView"

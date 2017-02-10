@@ -164,6 +164,10 @@ function demoFlowService(
     }
   });
 
+  $rootScope.$on('demo::end', function () {
+    return endDemoFlow();
+  });
+
   function shouldAddPR () {
     return currentOrg.isPersonalAccount();
   }
