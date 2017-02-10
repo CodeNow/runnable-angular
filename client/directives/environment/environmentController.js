@@ -39,6 +39,10 @@ function EnvironmentController(
       EC.errorState = info.error;
     }
   });
+  fetchUser()
+    .then(function (user) {
+      EC.user = user;
+    });
 
   var unbindUpdateTeammateInvitation = $rootScope.$on('updateTeammateInvitations', function (event, invitesCreated) {
     if (invitesCreated) {
@@ -88,6 +92,10 @@ function EnvironmentController(
   pageName.setTitle('Configure - Runnable');
   $scope.data = { };
   $scope.data.instances = instancesByPod;
+
+  EC.shouldShowExplanationUi = function () {
+    return !keypather.get(EC, 'user.attrs.userOptions.uiState.demo.explanationUi');
+  };
 
   var isAddFirstRepo = ahaGuide.isAddingFirstRepo();
 

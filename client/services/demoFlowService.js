@@ -15,7 +15,8 @@ function demoFlowService(
   github,
   keypather,
   patchOrgMetadata,
-  promisify
+  promisify,
+  setUiState
 ) {
 
   if (isInDemoFlow()) {
@@ -23,6 +24,7 @@ function demoFlowService(
   }
 
   function resetFlags () {
+    setUiState('demo.explanationUi', false);
     deleteItem('hasSeenHangTightMessage');
     deleteItem('hasSeenUrlCallout');
     deleteItem('hasSeenAddBranchCTA');
