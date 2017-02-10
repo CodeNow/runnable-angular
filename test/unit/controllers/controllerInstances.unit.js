@@ -96,7 +96,9 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       },
       poppa: {
         attrs: {
-          metadata: {}
+          metadata: {
+            hasCompletedDemo: true
+          }
         }
       }
     };

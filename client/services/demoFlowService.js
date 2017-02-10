@@ -6,13 +6,13 @@ require('app')
 function demoFlowService(
   $http,
   $localStorage,
-  $rootScope,
   $q,
+  $rootScope,
   currentOrg,
-  errs,
-  github,
   defaultContainerUrl,
+  errs,
   featureFlags,
+  github,
   keypather,
   patchOrgMetadata,
   promisify
@@ -43,8 +43,7 @@ function demoFlowService(
   }
 
   function isInDemoFlow () {
-    return keypather.get(currentOrg, 'poppa.attrs.metadata.hasAha') &&
-      !keypather.get(currentOrg, 'poppa.attrs.metadata.hasCompletedDemo');
+    return !keypather.get(currentOrg, 'poppa.attrs.metadata.hasCompletedDemo');
   }
 
   function endDemoFlow () {
@@ -53,7 +52,6 @@ function demoFlowService(
         if (isInDemoFlow()) {
           return patchOrgMetadata(currentOrg.poppa.id(), {
             metadata: {
-              hasAha: false,
               hasCompletedDemo: true,
               hasConfirmedSetup: true
             }

@@ -48,8 +48,8 @@ describe('demoRepos', function () {
           usingDemoRepo: sinon.stub().returns(stackNameMock)
         }
       });
-      $provide.factory('fetchInstancesByPod', function () {
-        fetchInstancesByPodStub = sinon.stub();
+      $provide.factory('fetchInstancesByPod', function ($q) {
+        fetchInstancesByPodStub = sinon.stub().returns($q.when({models: []}));
         return fetchInstancesByPodStub;
       });
       $provide.factory('ahaGuide', function () {
