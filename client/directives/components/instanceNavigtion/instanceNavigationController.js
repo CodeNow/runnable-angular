@@ -9,6 +9,7 @@ function InstanceNavigationController(
   $timeout,
   createIsolation,
   currentOrg,
+  demoFlowService,
   errs,
   fetchInstancesByPod,
   keypather,
@@ -17,6 +18,7 @@ function InstanceNavigationController(
 ) {
   var INC = this;
   INC.currentOrg = currentOrg;
+  INC.isInDemoFlow = demoFlowService.isInDemoFlow;
   INC.shouldExpand = false;
   function processContainers() {
     if (!INC.instance.attrs.isolated ||
