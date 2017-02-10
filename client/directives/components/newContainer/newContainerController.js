@@ -183,7 +183,12 @@ function NewContainerController(
 
   NCC.saveDockerfileMirroring = function () {
     if (NCC.state.configurationMethod === 'dockerComposeFile') {
-      return createNewCluster(NCC.state.repo.attrs.full_name, 'master', NCC.state.dockerComposeFile.path, NCC.state.instanceName)
+      return createNewCluster(
+        NCC.state.repo.attrs.full_name,
+        NCC.state.repo.attrs.default_branch,
+        NCC.state.dockerComposeFile.path,
+        NCC.state.instanceName
+      )
         .then(function () {
           $state.go('base.instances');
           NCC.close();
