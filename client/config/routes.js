@@ -242,14 +242,17 @@ module.exports = [
     },
     resolve: {
       checkIfAllowed: function (
-        $q,
         $state,
-        $timeout,
+        $stateParams,
         demoFlowService,
-        featureFlags
+        featureFlags,
+        populateCurrentOrgService // unused, but required so things are properly populated!
       ) {
+        $state.params.userName = $stateParams.userName;
         if (featureFlags.flags.demoOrg && demoFlowService.isInDemoFlow()) {
-          return goToStateOnError($q, $state, $timeout, 'base.instances', 'Still in Demo')();
+          return $state.go('base.instances', {
+            userName: $stateParams.userName
+          });
         }
       },
       instancesByPod: function (
