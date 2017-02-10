@@ -45,8 +45,8 @@
   ng-class = "{'empty': EC.isInGuide() && EC.isAddingFirstRepo() && data.instances.models.length === 0}"
 )
   .popover.popover-environment.in(
-    ng-if = "$root.featureFlags.demoOrg"
-    ng-include = "'configureIntroView'"
+    ng-if = "$root.featureFlags.demoOrg && EC.shouldShowExplanationUi()"
+    configure-intro
   )
 
   header.grid-block.align-center.environment-header(
