@@ -327,7 +327,6 @@ function ahaGuide(
     if (!metadata) {
       metadata = {
         hasAha: false,
-        hasCompletedDemo: true,
         hasConfirmedSetup: true
       };
     }
