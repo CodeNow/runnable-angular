@@ -15,7 +15,7 @@ span.grid-content.text-overflow Services
 
 .grid-block.align-center.shrink.btn.btn-xxs.white(
   ng-class = "{'active': state.active}"
-  ng-if = "!($root.featureFlags.demoOrg && (CIS.shouldShowServicesCTA() || !CIS.isInDemoFlow())) || (!$root.featureFlags.demoOrg && CIS.currentOrg.isPersonalAccount())"
+  ng-if = "($root.featureFlags.demoOrg && !CIS.shouldShowServicesCTA() && CIS.isInDemoFlow()) || (!$root.featureFlags.demoOrg && CIS.currentOrg.isPersonalAccount())"
   pop-over
   pop-over-options = "{\"top\":-30,\"left\":99}"
   pop-over-template = "templateMenuEmptyPopoverView"
