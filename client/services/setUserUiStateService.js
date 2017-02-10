@@ -13,7 +13,7 @@ function setUiState(
     var opts = {};
     opts['userOptions.uiState.' + path] = value;
     return fetchUser()
-      .then(function (user){
+      .then(function (user) {
         return promisify(user, 'update')(opts);
       })
       .catch(errs.handler);
