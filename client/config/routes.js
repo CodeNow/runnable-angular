@@ -241,6 +241,19 @@ module.exports = [
       keypather.get(ModalService, 'modalLayers[0].modal.controller.actions.forceClose()');
     },
     resolve: {
+      checkIfAllowed: function (
+        $state,
+        $stateParams,
+        demoFlowService,
+        featureFlags,
+        populateCurrentOrgService // unused, but required so things are properly populated!
+      ) {
+        if (featureFlags.flags.demoOrg && demoFlowService.isInDemoFlow()) {
+          return $state.go('base.instances', {
+            userName: $stateParams.userName
+          });
+        }
+      },
       instancesByPod: function (
         $q,
         $stateParams,
