@@ -3,7 +3,6 @@ span.grid-content.text-overflow Services
 .grid-block.align-center.shrink.btn.btn-xxs.white(
   ng-class = "{'active': addService}"
   ng-click = "$root.featureFlags.demoOrg && CIS.shouldShowServicesCTA() && $emit('demo::end')"
-  ng-if = "$root.featureFlags.demoOrg"
   pop-over
   pop-over-active = "addService"
   pop-over-options = "{\"top\":-30,\"left\":100}"
