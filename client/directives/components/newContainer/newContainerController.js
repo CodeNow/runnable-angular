@@ -41,6 +41,7 @@ function NewContainerController(
   });
   angular.extend(NCC.state, defaultState);
   NCC.isInDemoFlow = demoFlowService.isInDemoFlow;
+  NCC.shouldShowServicesCTA = demoFlowService.shouldShowServicesCTA;
 
   // Disable the back button because we are loading the modal with state, other than the default state
   // This means we have already finished the containerSelection step and the user can't go back to a different view
