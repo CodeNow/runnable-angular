@@ -16,9 +16,12 @@
   )
     .grid-block.vertical.shrink Non-Repository
       .small For databases, etc.
-
 .popover-content(
-  ng-if = "NCC.state.tabName === 'repos'"
+  ng-if = "NCC.isInDemoFlow()"
+  ng-include = "templateMenuEmptyPopoverView"
+)
+.popover-content(
+  ng-if = "!NCC.isInDemoFlow() && NCC.state.tabName === 'repos'"
 )
   .spinner-wrapper.spinner-sm.spinner-gray.spinner-center(
     ng-if = "$root.isLoading.newContainerRepos"
@@ -91,7 +94,7 @@
         ng-include = "'spinner'"
       )
 .popover-content(
-  ng-if = "NCC.state.tabName === 'services'"
+  ng-if = "!NCC.isInDemoFlow() && NCC.state.tabName === 'services'"
 )
   .spinner-wrapper.spinner-sm.spinner-gray.spinner-center(
     ng-if = "$root.isLoading.newContainerTemplates"

@@ -14,6 +14,7 @@ function NewContainerController(
   createNewCluster,
   createNonRepoInstance,
   currentOrg,
+  demoFlowService,
   errs,
   fetchInstances,
   fetchInstancesByPod,
@@ -39,6 +40,7 @@ function NewContainerController(
     ahaGuide: ahaGuide
   });
   angular.extend(NCC.state, defaultState);
+  NCC.isInDemoFlow = demoFlowService.isInDemoFlow;
 
   // Disable the back button because we are loading the modal with state, other than the default state
   // This means we have already finished the containerSelection step and the user can't go back to a different view

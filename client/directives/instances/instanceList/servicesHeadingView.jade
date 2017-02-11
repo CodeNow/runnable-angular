@@ -1,10 +1,24 @@
 span.grid-content.text-overflow Services
 //- div instead of button so safari doesn’t get weird with alignment
 .grid-block.align-center.shrink.btn.btn-xxs.white(
-  ng-class = "{'active': state.active}"
-  ng-if = "($root.featureFlags.demoOrg && (CIS.shouldShowServicesCTA() || !CIS.isInDemoFlow())) || (!$root.featureFlags.demoOrg && !CIS.currentOrg.isPersonalAccount())"
-  ng-click = "$root.featureFlags.demoOrg && CIS.isInDemoFlow() && $emit('demo::end')"
+  ng-class = "{'active': addService}"
+  ng-if = "$root.featureFlags.demoOrg"
+  ng-click = "$root.featureFlags.demoOrg && CIS.shouldShowServicesCTA() && $emit('demo::end')"
   pop-over
+  pop-over-active = "addService"
+  pop-over-options = "{\"top\":-30,\"left\":99}"
+  pop-over-template = "templateMenuPopoverView"
+) Add a Service
+  svg.iconnables.icons-arrow-forward
+    use(
+      xlink:href = "#icons-arrow-down"
+    )
+.grid-block.align-center.shrink.btn.btn-xxs.white(
+  ng-class = "{'active': addService}"
+  ng-if = "(!$root.featureFlags.demoOrg && CIS.currentOrg.isPersonalAccount())"
+  pop-over
+  pop-over-active = "addService"
+  pop-over-data = "popovers"
   pop-over-options = "{\"top\":-30,\"left\":99}"
   pop-over-template = "templateMenuPopoverView"
 ) Add a Service
@@ -14,9 +28,11 @@ span.grid-content.text-overflow Services
     )
 
 .grid-block.align-center.shrink.btn.btn-xxs.white(
-  ng-class = "{'active': state.active}"
-  ng-if = "($root.featureFlags.demoOrg && !CIS.shouldShowServicesCTA() && CIS.isInDemoFlow()) || (!$root.featureFlags.demoOrg && CIS.currentOrg.isPersonalAccount())"
+  ng-class = "{'active': popovers.emptyService}"
+  ng-if = "(!$root.featureFlags.demoOrg && CIS.currentOrg.isPersonalAccount())"
   pop-over
+  pop-over-active = "popovers.emptyService"
+  pop-over-data = "popovers"
   pop-over-options = "{\"top\":-30,\"left\":99}"
   pop-over-template = "templateMenuEmptyPopoverView"
 ) Add a Service
