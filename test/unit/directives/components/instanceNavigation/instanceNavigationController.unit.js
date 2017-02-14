@@ -20,6 +20,7 @@ describe('InstanceNavigationController'.bold.underline.blue, function () {
   var createIsolationStub;
   var fetchInstancesByPodStub;
   var mockFetchInstancesByPodResults;
+  var demoFlowServiceStub;
 
   function setup() {
     angular.mock.module('app', function ($provide) {
@@ -48,6 +49,10 @@ describe('InstanceNavigationController'.bold.underline.blue, function () {
       $provide.factory('createIsolation', function ($q) {
         createIsolationStub = sinon.stub().returns($q.when({id: 'newIsolation'}));
         return createIsolationStub;
+      });
+      $provide.factory('demoFlowService', function () {
+        demoFlowServiceStub = sinon.stub().returns($q.when({}));
+        return demoFlowServiceStub;
       });
       $provide.factory('fetchInstancesByPod', function ($q) {
         fetchInstancesByPodStub = sinon.stub().returns($q.when(mockFetchInstancesByPodResults));
