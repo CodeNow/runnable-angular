@@ -41,7 +41,7 @@ function instanceHeader(
           });
       });
       $scope.showPrCallout = function () {
-        return demoFlowService.isInDemoFlow() && demoFlowService.shouldAddPR() && !demoFlowService.getItem('clickedPrLink');
+        return demoFlowService.isInDemoFlow() && !demoFlowService.getItem('clickedPrLink');
       };
       $scope.isInGuide = ahaGuide.isInGuide;
 

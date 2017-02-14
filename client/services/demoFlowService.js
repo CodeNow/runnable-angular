@@ -77,15 +77,13 @@ function demoFlowService(
         unregisterContainerUrlClickListener();
         forkNewInstance(instance)
           .then(function () {
-            if (currentOrg.isPersonalAccount()) {
-              submitDemoPR(instance)
-                .catch(function (err) {
-                  if (keypather.get(err, 'errors[0].message').match(/(pull request.*exists)/)) {
-                    return instance;
-                  }
-                  errs.handler(err);
-                });
-              }
+            submitDemoPR(instance)
+              .catch(function (err) {
+                if (keypather.get(err, 'errors[0].message').match(/(pull request.*exists)/)) {
+                  return instance;
+                }
+                errs.handler(err);
+              });
           });
       });
     }
@@ -170,9 +168,6 @@ function demoFlowService(
     return endDemoFlow();
   });
 
-  function shouldAddPR () {
-    return currentOrg.isPersonalAccount();
-  }
   function shouldShowTeamCTA () {
     return currentOrg.isPersonalAccount() && isInDemoFlow() && getItem('clickedPrLink');
   }
@@ -194,7 +189,6 @@ function demoFlowService(
     hasAddedBranch: hasAddedBranch,
     hasSeenHangTightMessage: hasSeenHangTightMessage,
     hasSeenUrlCallout: hasSeenUrlCallout,
-    shouldAddPR: shouldAddPR,
     isInDemoFlow: isInDemoFlow,
     resetFlags: resetFlags,
     setItem: setItem,
