@@ -87,10 +87,10 @@ div(
               ng-if = "$root.featureFlags.inviteFlows"
             )  — {{repo.attrs.pushed_at | timeFrom}}
 
-        //- else
-        small.small(
-          ng-if = "!$root.featureFlags.inviteFlows"
-        ) Updated {{repo.attrs.pushed_at | timeFrom}}
+          //- else
+          small.small(
+            ng-if = "!$root.featureFlags.inviteFlows"
+          ) Updated {{repo.attrs.pushed_at | timeFrom}}
 
         button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add(
           ng-if = "!repo.loading"
