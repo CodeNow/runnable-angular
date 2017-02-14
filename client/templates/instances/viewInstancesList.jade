@@ -164,38 +164,6 @@
             use(
               xlink:href = "#icons-arrow-down"
             )
-          .stepOneUncloseablePopover(
-            ng-if = "$index === 0 &&\
-              CIS.shouldShowPopover &&\
-              !CIS.$storage.instanceListIsClosed &&\
-              CIS.shouldShowParent(masterInstance) &&\
-              (CIS.isAddingFirstBranch() && !masterInstance.attrs.hasAddedBranches)\
-           "
-            pop-over
-            pop-over-active = "CIS.shouldShowPopover"
-            pop-over-controller = "CIS"
-            pop-over-options = "{\"verticallyCentered\":true,\"left\":6}"
-            pop-over-template = "introAddBranch"
-            pop-over-trigger = "activeAttr"
-            pop-over-uncloseable = "CIS.isAddingFirstBranch()"
-            pop-over-data = "'ahaTemplate'"
-          )
-
-          .autoForkPopover(
-            ng-if = "$index === 0 &&\
-              !CIS.$storage.instanceListIsClosed &&\
-              CIS.shouldShowParent(masterInstance) &&\
-              !CIS.isAddingFirstBranch() &&\
-              (CIS.showAutofork && masterInstance.attrs.shouldNotAutofork)\
-           "
-            pop-over
-            pop-over-active = "CIS.showAutofork"
-            pop-over-controller = "CIS"
-            pop-over-options = "{\"verticallyCentered\":true,\"left\":6}"
-            pop-over-template = "introAddBranch"
-            pop-over-trigger = "activeAttr"
-            pop-over-data = "'ahaTemplate'"
-          )
 
       //- wraps auto-isolated clusters
       .list-item-cluster(

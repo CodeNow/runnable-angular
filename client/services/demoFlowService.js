@@ -24,12 +24,18 @@ function demoFlowService(
   }
 
   function resetFlags () {
-    setUiState('demo.explanationUi', false);
     deleteItem('hasSeenHangTightMessage');
     deleteItem('hasSeenUrlCallout');
     deleteItem('hasSeenAddBranchCTA');
     deleteItem('hasAddedBranch');
     deleteItem('clickedPrLink');
+  }
+
+  /**
+   * This should only be called in the FF popover
+   */
+  function internalResetFlags() {
+    setUiState('demo.explanationUi', false);
   }
 
   function setItem (key, value) {
@@ -197,6 +203,7 @@ function demoFlowService(
     shouldAddPR: shouldAddPR,
     isInDemoFlow: isInDemoFlow,
     resetFlags: resetFlags,
+    internalResetFlags: internalResetFlags,
     setItem: setItem,
     submitDemoPR: submitDemoPR,
     shouldShowAddBranchCTA: shouldShowAddBranchCTA,
