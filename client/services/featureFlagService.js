@@ -19,6 +19,7 @@ function featureFlags(
     demoAddTeamStep: true,
     demoAutoAddBranch: true,
     demoOrg: false,
+    demoUrlPolling: false,
     dockerCompose: true,
     dockerfileMirroringMultiple: false,
     editAnyInstance: false,
