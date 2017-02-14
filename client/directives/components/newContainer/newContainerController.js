@@ -40,6 +40,7 @@ function NewContainerController(
     ahaGuide: ahaGuide
   });
   angular.extend(NCC.state, defaultState);
+  NCC.isPersonalAccount = currentOrg.isPersonalAccount;
   NCC.isInDemoFlow = demoFlowService.isInDemoFlow;
   NCC.shouldShowServicesCTA = demoFlowService.shouldShowServicesCTA;
 

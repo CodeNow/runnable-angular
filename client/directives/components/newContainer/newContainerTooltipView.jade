@@ -1,15 +1,15 @@
 .arrow(
-  ng-class = "{'gray': (!$root.featureFlags.demoOrg && !CIS.currentOrg.isPersonalAccount()) || ($root.featureFlags.demoOrg && !NCC.isInDemoFlow())}"
+  ng-class = "{'gray': (!$root.featureFlags.demoOrg && !NCC.isPersonalAccount()) || ($root.featureFlags.demoOrg && !NCC.isInDemoFlow())}"
   style = "top: 39px;"
 )
 
 div(
-  ng-if = "(!$root.featureFlags.demoOrg && CIS.currentOrg.isPersonalAccount()) || ($root.featureFlags.demoOrg && (!NCC.shouldShowServicesCTA() && NCC.isInDemoFlow()))"
+  ng-if = "(!$root.featureFlags.demoOrg && NCC.isPersonalAccount()) || ($root.featureFlags.demoOrg && (!NCC.shouldShowServicesCTA() && NCC.isInDemoFlow()))"
   ng-include = "'templateMenuEmptyPopoverView'"
 )
 
 div(
-  ng-if = "(!$root.featureFlags.demoOrg && !CIS.currentOrg.isPersonalAccount()) || ($root.featureFlags.demoOrg && (NCC.shouldShowServicesCTA() || !NCC.isInDemoFlow()))"
+  ng-if = "(!$root.featureFlags.demoOrg && !NCC.isPersonalAccount()) || ($root.featureFlags.demoOrg && (NCC.shouldShowServicesCTA() || !NCC.isInDemoFlow()))"
 )
   .grid-block.popover-header
     button.grid-block.align-center.btn.btn-radio(
