@@ -1,0 +1,23 @@
+.grid-block.vertical.modal-backdrop.welcome
+  img.grid-block.shrink.justify-center.logo.img(
+    alt = "Runnable Logo"
+    height = "36"
+    src = "/build/images/runnable-logo.svg"
+    width = "192"
+  )
+  img.grid-block.shrink.img.runnabear(
+    height = "130"
+    src = "/build/images/runnabear-error.svg"
+    width = "230"
+  )
+  .grid-block.vertical.shrink.modal-dialog.modal-sm
+    header.modal-header
+      h1.modal-heading Woah there!
+    section.modal-body
+      p.p.padding-sm.weight-light.text-center You don’t have access to that page.
+    footer.grid-block.vertical.modal-footer
+      button.grid-content.btn.btn-md.green Continue to Runnable
+  .grid-block.shrink.justify-center.margin-top-sm.margin-bottom-xl.welcome-footer.text-white(
+    grace-period-footer
+    close = "WBC.close"
+  )
