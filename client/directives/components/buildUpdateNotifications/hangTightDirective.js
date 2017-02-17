@@ -6,6 +6,7 @@ require('app')
 function hangTight(
   $interval,
   demoFlowService,
+  eventTracking,
   watchOncePromise
 ) {
   return {
@@ -23,6 +24,7 @@ function hangTight(
         .then(pollContainerUrl);
 
       function pollContainerUrl () {
+        eventTracking.polledContainerUrl();
         var timesToPoll = 15;
         var stopPolling = $interval(function (timesToPoll) {
           // zero indexed, once we've polled 15 times just go to add branch
