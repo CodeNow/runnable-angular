@@ -16,7 +16,6 @@ function featureFlags(
     cardStatus: false,
     connections: false,
     contingencyPlan: false,
-    demoAddTeamStep: true,
     demoAutoAddBranch: true,
     demoOrg: true,
     demoUrlPolling: false,
