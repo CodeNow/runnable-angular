@@ -38,9 +38,9 @@ function github(
       var repo = acv.attrs.lowerRepo
       var githubUrl
       if (pullRequest) {
-        githubUrl = '/repos/' + repo + '/pulls/' + pullRequest + '/commits'
+        githubUrl = '/repos/' + repo + '/pulls/' + pullRequest + '/commits?per_page=100'
       } else {
-        githubUrl = '/repos/' + repo + '/commits?sha=' + acv.attrs.lowerBranch
+        githubUrl = '/repos/' + repo + '/commits?sha=' + acv.attrs.lowerBranch + '&per_page=100'
       }
       var ghRequest = {
         method: 'get',
