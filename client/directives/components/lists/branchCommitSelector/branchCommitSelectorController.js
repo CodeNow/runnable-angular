@@ -15,6 +15,7 @@ function BranchCommitSelectorController(
   BCSC.onCommitFetch = function (commits) {
     if (!commits.length) { return; }
     BCSC.data.commits = commits;
+    BCSC.data.branch.commits = commits;
     if (BCSC.data.commit) {
       BCSC.data.commit = commits.find(function (otherCommits) {
         return otherCommits === BCSC.data.commit;
@@ -25,7 +26,7 @@ function BranchCommitSelectorController(
 
   BCSC.isLatestCommit = function (setToLatestCommit) {
     if (arguments.length) {
-      BCSC.data.commit = keypather.get(BCSC.data.branch, 'commits.models[0]');
+      BCSC.data.commit = keypather.get(BCSC.data.branch, 'commits[0]');
       BCSC.data.useLatest = setToLatestCommit;
       if (setToLatestCommit) {
         $scope.$emit('commit::selected', BCSC.data.commit);
@@ -44,7 +45,7 @@ function BranchCommitSelectorController(
 
   BCSC.deployLatestCommit = function () {
     if (BCSC.isAutoDeployOn() && !BCSC.isLatestCommitDeployed) {
-      BCSC.data.commit = keypather.get(BCSC.data.branch, 'commits.models[0]');
+      BCSC.data.commit = keypather.get(BCSC.data.branch, 'commits[0]');
       BCSC.updateInstance();
     }
   };
