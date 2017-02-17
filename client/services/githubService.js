@@ -34,19 +34,19 @@ function github(
   }
   return {
     branchCommits: function (acv) {
-      var pullRequest = acv.attrs.pullRequest
-      var repo = acv.attrs.lowerRepo
-      var githubUrl
+      var pullRequest = acv.attrs.pullRequest;
+      var repo = acv.attrs.lowerRepo;
+      var githubUrl;
       if (pullRequest) {
-        githubUrl = '/repos/' + repo + '/pulls/' + pullRequest + '/commits?per_page=100'
+        githubUrl = '/repos/' + repo + '/pulls/' + pullRequest + '/commits?per_page=100';
       } else {
-        githubUrl = '/repos/' + repo + '/commits?sha=' + acv.attrs.lowerBranch + '&per_page=100'
+        githubUrl = '/repos/' + repo + '/commits?sha=' + acv.attrs.lowerBranch + '&per_page=100';
       }
       var ghRequest = {
         method: 'get',
         url: githubAPIUrl + githubUrl
       };
-      return makeGhRequest(ghRequest)
+      return makeGhRequest(ghRequest);
     },
     forkRepo: function (repoOwner, repoName, targetOrg, isPersonalAccount) {
       var ghRequest = {
