@@ -106,7 +106,9 @@ function repositorySelector(
               $scope.repoSelector.data.useLatest = true;
               $scope.repoSelector.data.name = $scope.repoSelector.data.repo.attrs.name;
             })
-            .catch(errs.handler);
+            .catch(function (err) {
+              console.log('xxxxx', err)
+            });
         },
         save: function () {
           $scope.state.saving = true;

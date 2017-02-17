@@ -16,7 +16,8 @@ function EditRepoCommitController(
   errs,
   loading,
   ModalService,
-  updateInstanceWithNewAcvData
+  updateInstanceWithNewAcvData,
+  github
 ) {
     var ERCC = this;
     ERCC.isLatestCommitDeployed = true;
@@ -32,12 +33,12 @@ function EditRepoCommitController(
         var branch = ERCC.acv.githubRepo.newBranch(ERCC.acv.attrs.branch, {warn: false});
         $q.all({
           activeCommit: fetchCommitData.activeCommit(ERCC.acv),
-          branchCommits: promisify(branch.commits, 'fetch')()
+          branchCommits: github.branchCommits(ERCC.acv)
         })
           .then(function(commits) {
             ERCC.activeCommit = commits.activeCommit;
-            ERCC.latestBranchCommit = keypather.get(commits, 'branchCommits.models[0]');
-            ERCC.isLatestCommitDeployed = ERCC.activeCommit.attrs.sha === ERCC.latestBranchCommit.attrs.sha;
+            ERCC.latestBranchCommit = keypather.get(commits, 'branchCommits[0]');
+            ERCC.isLatestCommitDeployed = ERCC.activeCommit.attrs.sha === ERCC.latestBranchCommit.sha;
           });
       }
     });

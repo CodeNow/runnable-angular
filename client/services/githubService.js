@@ -33,6 +33,21 @@ function github(
       });
   }
   return {
+    branchCommits: function (acv) {
+      var pullRequest = acv.attrs.pullRequest
+      var repo = acv.attrs.lowerRepo
+      var githubUrl
+      if (pullRequest) {
+        githubUrl = '/repos/' + repo + '/pulls/' + pullRequest + '/commits'
+      } else {
+        githubUrl = '/repos/' + repo + '/commits?sha=' + acv.attrs.lowerBranch
+      }
+      var ghRequest = {
+        method: 'get',
+        url: githubAPIUrl + githubUrl
+      };
+      return makeGhRequest(ghRequest)
+    },
     forkRepo: function (repoOwner, repoName, targetOrg, isPersonalAccount) {
       var ghRequest = {
         method: 'post',
