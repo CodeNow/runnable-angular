@@ -30,7 +30,9 @@ function branchCommitSelector(
           $scope.fetchingCommits = true;
           return promisify(branch.commits, 'fetch')()
             .then($scope.BCSC.onCommitFetch)
-            .catch(errs.handler)
+            .catch(function (err) {
+              console.log('error', err)
+            })
             .finally(function () {
               $scope.fetchingCommits = false;
             });
