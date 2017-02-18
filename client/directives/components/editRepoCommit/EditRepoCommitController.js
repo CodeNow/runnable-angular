@@ -30,7 +30,6 @@ function EditRepoCommitController(
 
     $scope.$watch('ERCC.acv', function (newAcv, oldAcv) {
       if (newAcv) {
-        var branch = ERCC.acv.githubRepo.newBranch(ERCC.acv.attrs.branch, {warn: false});
         $q.all({
           activeCommit: fetchCommitData.activeCommit(ERCC.acv),
           branchCommits: github.branchCommits(ERCC.acv)
@@ -108,13 +107,12 @@ function EditRepoCommitController(
     };
 
     ERCC.updateInstance = function() {
-      var branch = ERCC.acv.githubRepo.newBranch(ERCC.acv.attrs.branch, {warn: false});
       loading('updatingInstance', true);
-      promisify(branch.commits, 'fetch')()
+      $q.when(github.branchCommits(ERCC.acv))
         .then(function(commits) {
-          ERCC.latestBranchCommit = keypather.get(commits, 'models[0]');
+          ERCC.latestBranchCommit = commits[0];
           repoObject.commit = ERCC.latestBranchCommit;
-          if (ERCC.activeCommit.attrs.sha !== ERCC.latestBranchCommit.attrs.sha) {
+          if (ERCC.activeCommit.attrs.sha !== ERCC.latestBranchCommit.sha) {
             return updateInstanceWithNewAcvData(ERCC.instance, ERCC.acv, repoObject)
               .then(function(instance) {
                 loading('updatingInstance', false);

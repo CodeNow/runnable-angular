@@ -11,31 +11,26 @@ describe('EditRepoCommitController'.bold.underline.blue, function() {
   var $q;
   var editRepoCommitController;
   var ERCC;
-  var getCommitStub;
   var commits;
+  var newCommits;
   var acvMock;
-  var newBranchStub;
+  var branchCommitsStub;
 
   function setup() {
     ctx = {};
+    ctx.commitData = apiMocks.commit.bitcoinRepoCommit1
     ctx.branch = {attrs: apiMocks.branches.bitcoinRepoBranches[0]};
-    ctx.commit = {attrs: apiMocks.commit.bitcoinRepoCommit1};
-    getCommitStub = sinon.stub().returns({models: [ctx.commit]});
-    newBranchStub = sinon.stub().returns({
-      commits: {
-        fetch: getCommitStub
-      }
-    })
+    ctx.commit = {attrs: ctx.commitData};
+    branchCommitsStub = sinon.stub().returns([ctx.commitData]);
     acvMock = {
       attrs: {
         repo: 'foo/bar',
         commit: 'commitSha'
       },
-      githubRepo: {
-        newBranch: newBranchStub
-      }
+      githubRepo: {}
     };
     commits = {models: [apiMocks.commit.bitcoinRepoCommit2, ctx.commit]};
+    newCommits = [apiMocks.commit.bitcoinRepoCommit2, ctx.commitData]
     angular.mock.module('app', function ($provide) {
       $provide.factory('fetchCommitData', function ($q) {
         ctx.fetchCommitData = {
@@ -59,6 +54,12 @@ describe('EditRepoCommitController'.bold.underline.blue, function() {
           };
         });
         return promisifyMock;
+      });
+      $provide.factory('github', function ($q) {
+        ctx.github = {
+          branchCommits: branchCommitsStub
+        };
+        return ctx.github;
       });
     });
 
@@ -120,7 +121,7 @@ describe('EditRepoCommitController'.bold.underline.blue, function() {
 
       expect($scope.model.attrs.commit).to.equal(sha);
     });
-    
+
     it('should trigger update on change of locked attribute', function () {
       expect($scope.ERCC.autoDeploy()).to.not.be.ok;
 
@@ -159,15 +160,14 @@ describe('EditRepoCommitController'.bold.underline.blue, function() {
 
   describe('updating the instance when new commits are made', function() {
     beforeEach(function() {
-      getCommitStub.returns(commits);
+      branchCommitsStub.returns(newCommits);
       $scope.ERCC.acv = {
         attrs: {
           repo: 'foo/bar',
           commit: 'commitSha'
         },
-        githubRepo: {
-          newBranch: newBranchStub
-      }};
+        githubRepo: {}
+      };
       $scope.$digest();
     });
 
@@ -176,11 +176,11 @@ describe('EditRepoCommitController'.bold.underline.blue, function() {
     });
 
     it('should update the instance when triggered by user', function () {
-      getCommitStub.reset();
+      branchCommitsStub.reset();
       $scope.ERCC.updateInstance();
       $scope.$digest();
-      expect($scope.ERCC.latestBranchCommit.attrs.sha).to.equal(commits.models[0].attrs.sha);
-      sinon.assert.calledOnce(getCommitStub);
+      expect($scope.ERCC.latestBranchCommit.sha).to.equal(newCommits[0].sha);
+      sinon.assert.calledOnce(branchCommitsStub);
       sinon.assert.calledOnce(updateInstanceWithNewAcvDataStub);
     });
   });
