@@ -139,6 +139,51 @@ module.exports = [
       }
     }
   }, {
+    state: 'myAppRedirect',
+    url: '^/-myAppRedirect/:demoName',
+    abstract: false,
+    controller: 'MyAppRedirectController',
+    controllerAs: 'MAR',
+    resolve: {
+      user: function (fetchUser, $rootScope, keypather) {
+        return fetchUser()
+          .then(function (user) {
+            keypather.set($rootScope, 'dataApp.data.user', user);
+            return user;
+          });
+      }
+    }
+  }, {
+    state: 'myRunAppRedirect',
+    url: '^/-myRunAppRedirect/:demoName',
+    abstract: false,
+    controller: 'MyRunAppRedirectController',
+    controllerAs: 'MRAR',
+    resolve: {
+      user: function (fetchUser, $rootScope, keypather) {
+        return fetchUser()
+          .then(function (user) {
+            keypather.set($rootScope, 'dataApp.data.user', user);
+            return user;
+          });
+      }
+    }
+  }, {
+    state: 'noAccess',
+    url: '^/-noAccess',
+    abstract: false,
+    templateUrl: 'noAccessView',
+    resolve: {
+      user: function (fetchUser, $rootScope, keypather) {
+        return fetchUser()
+          .then(function (user) {
+            keypather.set($rootScope, 'dataApp.data.user', user);
+            return user;
+          });
+      }
+    }
+
+  }, {
     state: 'branchSelection',
     abstract: false,
     url: '^/branchSelection/:hostname',

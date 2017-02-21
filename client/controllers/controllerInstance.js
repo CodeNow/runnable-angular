@@ -28,7 +28,8 @@ function ControllerInstance(
   loading,
   OpenItems,
   pageName,
-  setLastInstance
+  setLastInstance,
+  defaultContainerUrl
 ) {
   var CI = this;
   CI.isInGuide = ahaGuide.isInGuide;
@@ -42,6 +43,8 @@ function ControllerInstance(
   var data = dataInstance.data;
 
   $scope.$storage = $localStorage;
+  $scope.getContainerUrl = defaultContainerUrl;
+
   loading('main', true);
 
   data.openItems = new OpenItems();
@@ -104,6 +107,16 @@ function ControllerInstance(
         data.hasToken = keypather.get(results, 'settings.attrs.notifications.slack.apiToken');
         setLastInstance($stateParams.instanceName);
         loading('main', false);
+
+        // Does not need to be in scope
+        $localStorage.demo = $localStorage.demo || {};
+        $localStorage.demo[$state.params.instanceName] = {
+          app: $scope.getContainerUrl(instance),
+          runnable: {
+            userName: $state.params.userName,
+            instanceName: $state.params.instanceName
+          }
+        };
       })
       .catch(function () {
         // Don't handle the instance fetch err, because it's super annoying
