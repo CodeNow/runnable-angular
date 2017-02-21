@@ -29,7 +29,6 @@ describe('MyAppRedirectController'.bold.underline.blue, function () {
 
   describe('controllerConstructor', function() {
     it('valid', function () {
-      console.log('start of t1')
       $state.go = sinon.stub();
       $localStorage.demo = {
         myDemo: {
@@ -47,7 +46,6 @@ describe('MyAppRedirectController'.bold.underline.blue, function () {
       });
 
       expect($state.params.demoName).to.equal('myDemo');
-      // I was having issues with mocking window.location.href so went with this instead
       sinon.assert.notCalled($state.go);
     });
 
