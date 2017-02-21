@@ -15,7 +15,6 @@ function BranchCommitSelectorController(
   BCSC.onCommitFetch = function (commits) {
     if (!commits.length) { return; }
     BCSC.data.commits = commits;
-    BCSC.data.branch.commits = commits;
     if (BCSC.data.commit) {
       BCSC.data.commit = commits.find(function (otherCommits) {
         return otherCommits === BCSC.data.commit;

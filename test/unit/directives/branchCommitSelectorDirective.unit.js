@@ -42,9 +42,7 @@ describe('branchCommitSelectorDirective'.bold.underline.blue, function () {
       });
       $provide.factory('github', function ($q) {
         ctx.github = {
-          branchCommits: sinon.spy(function (acv) {
-            return $q.when(ctx.commits);
-          })
+          branchCommits: sinon.stub().returns($q.when(ctx.commits))
         };
         return ctx.github;
       });
