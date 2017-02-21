@@ -57,7 +57,7 @@ describe('EditRepoCommitController'.bold.underline.blue, function() {
       });
       $provide.factory('github', function ($q) {
         ctx.github = {
-          branchCommits: branchCommitsStub
+          branchOrPRCommits: branchCommitsStub
         };
         return ctx.github;
       });

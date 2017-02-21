@@ -33,7 +33,7 @@ function github(
       });
   }
   return {
-    branchCommits: function (acv) {
+    branchOrPRCommits: function (acv) {
       var pullRequest = acv.attrs.pullRequest;
       var repo = acv.attrs.lowerRepo;
       var githubUrl;

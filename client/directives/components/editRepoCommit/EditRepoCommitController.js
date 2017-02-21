@@ -32,7 +32,7 @@ function EditRepoCommitController(
       if (newAcv) {
         $q.all({
           activeCommit: fetchCommitData.activeCommit(ERCC.acv),
-          branchCommits: github.branchCommits(ERCC.acv)
+          branchCommits: github.branchOrPRCommits(ERCC.acv)
         })
           .then(function(commits) {
             ERCC.activeCommit = commits.activeCommit;
@@ -108,7 +108,7 @@ function EditRepoCommitController(
 
     ERCC.updateInstance = function() {
       loading('updatingInstance', true);
-      $q.when(github.branchCommits(ERCC.acv))
+      $q.when(github.branchOrPRCommits(ERCC.acv))
         .then(function(commits) {
           ERCC.latestBranchCommit = commits[0];
           repoObject.commit = ERCC.latestBranchCommit;

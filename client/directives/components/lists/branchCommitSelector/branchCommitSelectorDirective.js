@@ -30,7 +30,7 @@ function branchCommitSelector(
         if (branch) {
           $scope.fetchingCommits = true;
           var acv = $scope.BCSC.data.acv;
-          return github.branchCommits(acv)
+          return github.branchOrPRCommits(acv)
             .then($scope.BCSC.onCommitFetch)
             .catch(errs.handler)
             .finally(function () {
