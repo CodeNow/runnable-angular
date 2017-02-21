@@ -26,11 +26,22 @@ a.a(
     )
   | Containers
 
-//- show tooltip whenever the "add team" demo step is not visible
+//- without tooltip
+//- show during the "add team" step
 a.grid-block.align-center.justify-center.shrink.btn-add-team(
   ng-if = "CA.shouldShowTeamCTA()"
+  ng-click = "CA.demoAddOrg()"
+)
+  svg.iconnables.icons-add
+    use(
+      xlink:href = "#icons-add"
+    )
+
+//- with tooltip
+//- show for personal accounts outside the "add team step"
+a.grid-block.align-center.justify-center.shrink.btn-add-team(
+  ng-if = "!CA.shouldShowTeamCTA() && CA.currentOrg.isPersonalAccount() && $root.featureFlags.demoPersistentAddTeam"
   tooltip = "Add a team"
-  tooltip-active-attr = "false"
   tooltip-options = "{\"class\":\"right\",\"left\":42,\"top\":3}"
   ng-click = "CA.demoAddOrg()"
 )
