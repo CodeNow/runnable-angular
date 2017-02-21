@@ -3,7 +3,6 @@
 require('../apiMocks/index');
 
 describe('MyAppRedirectController'.bold.underline.blue, function () {
-  var MAR;
   var $controller;
   var $rootScope;
   var $scope;
@@ -12,7 +11,6 @@ describe('MyAppRedirectController'.bold.underline.blue, function () {
 
   beforeEach(function() {
     angular.mock.module('app');
-
     angular.mock.inject(function (
       _$controller_,
       _$rootScope_,
@@ -38,12 +36,7 @@ describe('MyAppRedirectController'.bold.underline.blue, function () {
       $state.params = {
         demoName: 'myDemo'
       };
-
-      MAR = $controller('MyAppRedirectController', {
-        $scope: $scope,
-        $state: $state,
-        $localStorage: $localStorage
-      });
+      $controller('MyAppRedirectController');
 
       expect($state.params.demoName).to.equal('myDemo');
       sinon.assert.notCalled($state.go);
@@ -57,14 +50,9 @@ describe('MyAppRedirectController'.bold.underline.blue, function () {
         }
       };
       $state.params = {
-        demoName: 'polluted'
+        demoName: 'notvalid'
       };
-
-      MAR = $controller('MyAppRedirectController', {
-        $scope: $scope,
-        $state: $state,
-        $localStorage: $localStorage
-      });
+      $controller('MyAppRedirectController');
 
       sinon.assert.calledWith($state.go, 'noAccess');
     });

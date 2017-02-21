@@ -3,16 +3,14 @@
 require('../apiMocks/index');
 
 describe('MyRunAppRedirectController'.bold.underline.blue, function () {
-  var MRAR;
   var $controller;
   var $rootScope;
   var $scope;
   var $state;
   var $localStorage;
 
-  function injectSetupCompile() {
+  beforeEach(function () {
     angular.mock.module('app');
-
     angular.mock.inject(function (
       _$controller_,
       _$rootScope_,
@@ -25,14 +23,10 @@ describe('MyRunAppRedirectController'.bold.underline.blue, function () {
       $state = _$state_;
       $localStorage = _$localStorage_;
     });
-  }
-
-  beforeEach(function () {
-    injectSetupCompile();
   });
 
-  describe('controllerConstructor valid', function() {
-    it('base', function () {
+  describe('controllerConstructor', function() {
+    it('valid', function () {
       $state.go = sinon.stub();
       $localStorage.demo = {
         myDemo: {
@@ -45,22 +39,15 @@ describe('MyRunAppRedirectController'.bold.underline.blue, function () {
       $state.params = {
         demoName: 'myDemo'
       };
-
-      MRAR = $controller('MyRunAppRedirectController', {
-        $scope: $scope,
-        $state: $state,
-        $localStorage: $localStorage
-      });
+      $controller('MyRunAppRedirectController');
 
       sinon.assert.calledWith($state.go, 'base.instances.instance', {
         userName: 'userName',
         instanceName: 'instanceName'
       });
     });
-  });
 
-  describe('controllerConstructor invalid', function() {
-    it('base', function () {
+    it('invalid', function () {
       $state.go = sinon.stub();
       $localStorage.demo = {
         myDemo: {
@@ -73,12 +60,7 @@ describe('MyRunAppRedirectController'.bold.underline.blue, function () {
       $state.params = {
         demoName: 'doesNotMatch'
       };
-
-      MRAR = $controller('MyRunAppRedirectController', {
-        $scope: $scope,
-        $state: $state,
-        $localStorage: $localStorage
-      });
+      $controller('MyRunAppRedirectController');
 
       sinon.assert.calledWith($state.go, 'noAccess');
     });
