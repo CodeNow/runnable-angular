@@ -191,12 +191,15 @@ function demoRepos(
 
   function createDemoApp (stackKey) {
     var stack = stacks[stackKey];
+    // TODO: Remove find new repo
     return _findNewRepo(stack)
       .catch(function forkRepo() {
         return forkGithubRepo(stackKey)
           .then(_findNewRepoOnRepeat.bind(this, stack));
       })
       .then(function (repoModel) {
+        // TODO: Create the main instance from context version
+        // TODO: Create the service instance
         var promises = [
           createNewCluster(repoModel.attrs.full_name, 'master', stack.dockerComposePath, stack.repoName)
         ];
