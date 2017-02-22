@@ -13,6 +13,10 @@ var stacks = {
     buildCommands: [
       'npm install'
     ],
+    parent: {
+      contextId: '58adfd0cec03231000160c94',
+      contextVersionId: '58adfd10ec03231000160ca7'
+    },
     dockerComposePath: 'docker-compose.yml',
     env: [
       'MONGODB_HOST={{MongoDB}}',
@@ -35,6 +39,10 @@ var stacks = {
     buildCommands: [
       'bundle install'
     ],
+    parent: {
+      context: '58ae098ff5ccae1100279172',
+      contextVersion: '58ae0992f5ccae1100279185'
+    },
     dockerComposePath: 'docker-compose.yml',
     env: [
       'DATABASE_URL=postgres://postgres@{{PostgreSQL}}:5432/postgres'
@@ -59,6 +67,10 @@ var stacks = {
     buildCommands: [
       'pip install -r "requirements.txt"'
     ],
+    parent: {
+      context: '58ae099cd214931000e40fb3',
+      contextVersion: '58ae099ed214931000e40fc5'
+    },
     dockerComposePath: 'docker-compose.yml',
     env: [
       'DB_HOST={{PostgreSQL}}',
@@ -89,6 +101,10 @@ var stacks = {
       'chgrp -R www-data /var/www/',
       'chmod -R 775 /var/www/storage'
     ],
+    parent: {
+      context: '58ae098402403f1100b65032',
+      contextVersion: '58ae098702403f1100b65046'
+    },
     dockerComposePath: 'docker-compose.yml',
     env: [
       'APP_ENV=local',
@@ -120,6 +136,7 @@ function demoRepos(
   currentOrg,
   demoFlowService,
   errs,
+  fetchContextVersion,
   fetchInstancesByPod,
   fetchNonRepoInstances,
   fetchOwnerRepo,
@@ -206,38 +223,31 @@ function demoRepos(
     });
   }
 
-  function checkForOrphanedDependency () {
-    // if this item is in the hash of stacks, it has not been built
-    // a successfully built demo instance would return true here, not the stack key
-    var stackName = demoFlowService.usingDemoRepo();
-    // if the key can retrieve a value, we haven't successfully got word back that the instance is building
-    if (stacks[stackName]) {
-      var repoName = stacks[stackName].repoName;
-      var dep;
-      var repoInstance;
-      return fetchInstancesByPod()
-        .then(function (instances) {
-          instances.models.some(function (instance) {
-            // we checking here to be sure that the instance has a repo/acv
-            // to distinguish between the dependency instances
-            if (instance.contextVersion.getMainAppCodeVersion() && instance.attrs.name === repoName) {
-              repoInstance = instance;
-            } else {
-              dep = instance;
-            }
-            return dep && repoInstance;
-          });
-          if (dep && !repoInstance) {
-            return stackName;
+  function checkForOrphanedDependency (stackName) {
+    var repoName = stacks[stackName].repoName;
+    var dep;
+    var repoInstance;
+    return fetchInstancesByPod()
+      .then(function (instances) {
+        instances.models.some(function (instance) {
+          // we checking here to be sure that the instance has a repo/acv
+          // to distinguish between the dependency instances
+          if (instance.contextVersion.getMainAppCodeVersion() && instance.attrs.name === repoName) {
+            repoInstance = instance;
+          } else {
+            dep = instance;
           }
-          return false;
+          return dep && repoInstance;
         });
-    }
-    return $q.when(false);
+        if (dep && !repoInstance) {
+          return stackName;
+        }
+        return false;
+      });
   }
 
-  function findDependencyNonRepoInstances(stack) {
-    return checkForOrphanedDependency()
+  function findDependencyNonRepoInstances(stack, stackKey) {
+    return checkForOrphanedDependency(stackKey)
       .then(function (hasOrphanedDependency) {
         if (hasOrphanedDependency) {
           return fetchInstancesByPod()
@@ -268,9 +278,16 @@ function demoRepos(
 
   function createDemoAppForPersonalAccounts (stackKey) {
     var stack = stacks[stackKey];
-    return fetchOwnerRepo(stack.repoOwner, stack.repoName)
-      .then(function (repoModel) {
+    console.log(stack.parent.contextId, stack.parent.contextVersionId);
+    return $q.all([
+      fetchOwnerRepo(stack.repoOwner, stack.repoName),
+      fetchContextVersion(stack.parent.contextId, stack.parent.contextVersionId)
+    ])
+      .then(function (res) {
         var inviteRunnabot;
+        var repoModel = res[0];
+        var contextVersion = res[1];
+        console.log('contextVersion', contextVersion);
         if (currentOrg.isPersonalAccount()) {
           inviteRunnabot = invitePersonalRunnabot({
             repoName: stack.repoName,
@@ -278,10 +295,10 @@ function demoRepos(
           });
         }
         return $q.all({
-          repoBuildAndBranch: createNewBuildByContextVersion(currentOrg.github, stack.parentContextVersion),
+          repoBuildAndBranch: createNewBuildByContextVersion(currentOrg.github, contextVersion),
           stack: fetchStackData(repoModel, true),
           instances: fetchInstancesByPod(),
-          deps: findDependencyNonRepoInstances(stack),
+          deps: findDependencyNonRepoInstances(stack, stackKey),
           inviteRunnabot: inviteRunnabot
         });
       })

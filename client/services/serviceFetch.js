@@ -26,6 +26,7 @@ require('app')
   .factory('fetchBuild', fetchBuild)
   .factory('fetchRepoBranches', fetchRepoBranches)
   .factory('fetchContexts', fetchContexts)
+  .factory('fetchContextVersion', fetchContextVersion)
   .factory('fetchDebugContainer', fetchDebugContainer)
   .factory('fetchStackData', fetchStackData)
   // Github API
@@ -1015,6 +1016,22 @@ function fetchInvoices(
   }, function () {
     return currentOrg.poppa.id();
   });
+}
+
+function fetchContextVersion (
+  fetchUser,
+  keypather,
+  promisify
+) {
+  return function (contextId, contextVersionId) {
+    return fetchUser()
+      .then(function (user) {
+        return promisify(user, 'fetchContext')(contextId);
+      })
+      .then(function (context) {
+        return promisify(context, 'fetchVersion')(contextVersionId);
+      });
+  };
 }
 
 function fetchPaymentMethod(
