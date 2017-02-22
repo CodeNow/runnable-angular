@@ -5,15 +5,32 @@
         use(
           xlink:href = "#icons-close"
         )
-      img.img(
-        height = "400"
-        width = "500"
-      )
+      figure.figure.margin-top-lg
+        img.img(
+          height = "352"
+          src = "/build/images/github-permissions-org.png"
+          width = "400"
+        )
+        .stars
+          svg.iconnables.icons-star
+            use(
+              xlink:href = "#icons-star"
+            )
+          svg.iconnables.icons-star
+            use(
+              xlink:href = "#icons-star"
+            )
+          svg.iconnables.icons-star
+            use(
+              xlink:href = "#icons-star"
+            )
       .grid-block.vertical.padding-md.align-center
-        p.p.text-center.weight-strong We’re ready to start running your code!
-        p.p.text-center Grant access to your organization on GitHub to get started.
+        p.p.text-center.weight-strong We’re ready to start running your code.
+        p.p.text-center Remember to grant access to your organization—
+          br.hidden-xs
+          | we’ll need access to run code!
         a.btn.btn-md.green.text-center.margin-top-sm Continue on GitHub
-          svg.iconnables
+          svg.iconnables.icons-link-external
             use(
               xlink:href = "#icons-link-external-alt"
             )
