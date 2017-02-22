@@ -113,15 +113,21 @@ function demoRepos(
   $q,
   $rootScope,
   $timeout,
+  createAutoIsolationConfig,
+  createNewBuildByContextVersion,
   createNewCluster,
+  createNonRepoInstance,
   currentOrg,
   demoFlowService,
   errs,
   fetchInstancesByPod,
+  fetchNonRepoInstances,
   fetchOwnerRepo,
+  fetchStackData,
   github,
   invitePersonalRunnabot,
   keypather,
+  serverCreateService,
   watchOncePromise
 ) {
 
@@ -189,27 +195,144 @@ function demoRepos(
     shouldShowDemoSelector = false;
   });
 
-  function createDemoApp (stackKey) {
+  function fillInEnvs(stack, deps) {
+    return stack.env.map(function (env) {
+      stack.deps.forEach(function (dep) {
+        if (deps[dep]) {
+          env = env.replace('{{' + dep + '}}', deps[dep].attrs.elasticHostname);
+        }
+      });
+      return env;
+    });
+  }
+
+  function checkForOrphanedDependency () {
+    // if this item is in the hash of stacks, it has not been built
+    // a successfully built demo instance would return true here, not the stack key
+    var stackName = demoFlowService.usingDemoRepo();
+    // if the key can retrieve a value, we haven't successfully got word back that the instance is building
+    if (stacks[stackName]) {
+      var repoName = stacks[stackName].repoName;
+      var dep;
+      var repoInstance;
+      return fetchInstancesByPod()
+        .then(function (instances) {
+          instances.models.some(function (instance) {
+            // we checking here to be sure that the instance has a repo/acv
+            // to distinguish between the dependency instances
+            if (instance.contextVersion.getMainAppCodeVersion() && instance.attrs.name === repoName) {
+              repoInstance = instance;
+            } else {
+              dep = instance;
+            }
+            return dep && repoInstance;
+          });
+          if (dep && !repoInstance) {
+            return stackName;
+          }
+          return false;
+        });
+    }
+    return $q.when(false);
+  }
+
+  function findDependencyNonRepoInstances(stack) {
+    return checkForOrphanedDependency()
+      .then(function (hasOrphanedDependency) {
+        if (hasOrphanedDependency) {
+          return fetchInstancesByPod()
+            .then(function (instances) {
+              var dependency = instances.models.find(function (instance) {
+                return !instance.contextVersion.getMainAppCodeVersion() && stack.deps.includes(instance.attrs.name);
+              });
+              var demoDependency = {};
+              demoDependency[dependency.attrs.name] = dependency;
+              return demoDependency;
+            });
+        }
+        return fetchNonRepoInstances()
+          .then(function (instances) {
+            return instances.filter(function (instance) {
+              return stack.deps.includes(instance.attrs.name);
+            });
+          })
+          .then(function (deps) {
+            var depMap = deps.reduce(function (map, depInstance) {
+              map[depInstance.attrs.name] = createNonRepoInstance(depInstance.attrs.name, depInstance);
+              return map;
+            }, {});
+            return $q.all(depMap);
+          });
+      });
+  }
+
+  function createDemoAppForPersonalAccounts (stackKey) {
     var stack = stacks[stackKey];
-    // TODO: Remove find new repo
-    return _findNewRepo(stack)
-      .catch(function forkRepo() {
-        return forkGithubRepo(stackKey)
-          .then(_findNewRepoOnRepeat.bind(this, stack));
-      })
+    return fetchOwnerRepo(stack.repoOwner, stack.repoName)
       .then(function (repoModel) {
-        // TODO: Create the main instance from context version
-        // TODO: Create the service instance
+        var inviteRunnabot;
+        if (currentOrg.isPersonalAccount()) {
+          inviteRunnabot = invitePersonalRunnabot({
+            repoName: stack.repoName,
+            githubUsername: currentOrg.getDisplayName()
+          });
+        }
+        return $q.all({
+          repoBuildAndBranch: createNewBuildByContextVersion(currentOrg.github, stack.parentContextVersion),
+          stack: fetchStackData(repoModel, true),
+          instances: fetchInstancesByPod(),
+          deps: findDependencyNonRepoInstances(stack),
+          inviteRunnabot: inviteRunnabot
+        });
+      })
+      .then(function (promiseResults) {
+        var generatedEnvs = fillInEnvs(stack, promiseResults.deps);
+
+        var repoBuildAndBranch = Object.assign(promiseResults.repoBuildAndBranch, {
+          instanceName: getUniqueInstanceName(stack.repoName, promiseResults.instances),
+          defaults: {
+            selectedStack: promiseResults.stack,
+            startCommand: stack.cmd,
+            keepStartCmd: true,
+            run: stack.buildCommands,
+            packages: stack.packages
+          }
+        });
+
+        return $q.all({
+          deps: promiseResults.deps,
+          instance: serverCreateService(repoBuildAndBranch, {
+            env: generatedEnvs,
+            ports: stack.ports
+          })
+        });
+      })
+      .then(function (promiseResults) {
+        var deps = Object.keys(promiseResults.deps).map(function (id) {
+          return promiseResults.deps[id];
+        });
+        return createAutoIsolationConfig(promiseResults.instance, deps)
+          .then(function () {
+            return promiseResults.instance;
+          });
+      });
+  }
+
+  function createDemoAppForNonPersonalAccounts (stackKey) {
+    var stack = stacks[stackKey];
+    return fetchOwnerRepo(stack.repoOwner, stack.repoName)
+     .then(function (repoModel) {
         var promises = [
           createNewCluster(repoModel.attrs.full_name, 'master', stack.dockerComposePath, stack.repoName)
         ];
-        if (currentOrg.isPersonalAccount()) {
-          promises.push(invitePersonalRunnabot({
-            repoName: stack.repoName,
-            githubUsername: currentOrg.getDisplayName()
-          }));
-        }
         return $q.all(promises);
+      });
+  }
+
+  function createDemoApp (stackKey) {
+    return $q.when()
+      .then(function () {
+        return createDemoAppForPersonalAccounts(stackKey);
       })
       .then(function () {
         return hasDemoBuiltPromise;
