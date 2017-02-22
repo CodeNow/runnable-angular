@@ -22,6 +22,7 @@ require('app')
   .factory('fetchInstances', fetchInstances)
   .factory('fetchInstance', fetchInstance)
   .factory('fetchInstancesByPod', fetchInstancesByPod)
+  .factory('fetchNonRepoInstances', fetchNonRepoInstances)
   .factory('fetchBuild', fetchBuild)
   .factory('fetchRepoBranches', fetchRepoBranches)
   .factory('fetchContexts', fetchContexts)
@@ -310,6 +311,19 @@ function fetchInstancesByPod(
     }
 
     return fetchByPodCache[username];
+  };
+}
+
+function fetchNonRepoInstances(
+  fetchInstances
+) {
+  return function () {
+    return fetchInstances({ githubUsername: 'HelloRunnable' })
+      .then(function (templates) {
+        return templates.filter(function (templateInstance) {
+          return !(/^TEMPLATE\-/).test(templateInstance.attrs.name);
+        });
+      });
   };
 }
 
