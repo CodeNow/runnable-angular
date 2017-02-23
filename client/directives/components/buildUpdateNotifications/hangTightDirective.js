@@ -6,6 +6,7 @@ require('app')
 function hangTight(
   $interval,
   demoFlowService,
+  eventTracking,
   loading,
   watchOncePromise
 ) {
@@ -24,6 +25,7 @@ function hangTight(
         .then(pollContainerUrl);
 
       function pollContainerUrl () {
+        eventTracking.polledContainerUrl();
         var timesToPoll = 15;
         loading('demoUrlPolling', true);
         var stopPolling = $interval(function (timesToPoll) {
