@@ -43,7 +43,6 @@ function ControllerInstance(
   var data = dataInstance.data;
 
   $scope.$storage = $localStorage;
-  $scope.getContainerUrl = defaultContainerUrl;
 
   loading('main', true);
 
@@ -111,7 +110,7 @@ function ControllerInstance(
         // Does not need to be in scope
         if (demoFlowService.isInDemoFlow()) {
           keypather.set($localStorage, 'demo.' + $state.params.instanceName, {
-            app: $scope.getContainerUrl(instance),
+            app: defaultContainerUrl(instance),
             runnable: {
               userName: $state.params.userName,
               instanceName: $state.params.instanceName
