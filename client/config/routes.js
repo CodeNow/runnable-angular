@@ -142,8 +142,6 @@ module.exports = [
     state: 'myAppRedirect',
     url: '^/-myAppRedirect/:demoName',
     abstract: false,
-    controller: 'MyAppRedirectController',
-    controllerAs: 'MAR',
     resolve: {
       user: function (fetchUser, $rootScope, keypather) {
         return fetchUser()
@@ -152,13 +150,18 @@ module.exports = [
             return user;
           });
       }
+    },
+    onEnter: function (
+      $stateParams,
+      redirectFromLocalStorage
+    ) {
+      redirectFromLocalStorage.toApp($stateParams.demoName);
     }
+
   }, {
     state: 'myRunAppRedirect',
     url: '^/-myRunAppRedirect/:demoName',
     abstract: false,
-    controller: 'MyRunAppRedirectController',
-    controllerAs: 'MRAR',
     resolve: {
       user: function (fetchUser, $rootScope, keypather) {
         return fetchUser()
@@ -167,7 +170,13 @@ module.exports = [
             return user;
           });
       }
-    }
+    },
+    onEnter: function (
+      $stateParams,
+      redirectFromLocalStorage
+    ) {
+      redirectFromLocalStorage.toRunApp($stateParams.demoName);
+    },
   }, {
     state: 'noAccess',
     url: '^/-noAccess',

@@ -109,14 +109,15 @@ function ControllerInstance(
         loading('main', false);
 
         // Does not need to be in scope
-        $localStorage.demo = $localStorage.demo || {};
-        $localStorage.demo[$state.params.instanceName] = {
-          app: $scope.getContainerUrl(instance),
-          runnable: {
-            userName: $state.params.userName,
-            instanceName: $state.params.instanceName
-          }
-        };
+        if (demoFlowService.isInDemoFlow()) {
+          keypather.set($localStorage, 'demo.' + $state.params.instanceName, {
+            app: $scope.getContainerUrl(instance),
+            runnable: {
+              userName: $state.params.userName,
+              instanceName: $state.params.instanceName
+            }
+          });
+        }
       })
       .catch(function () {
         // Don't handle the instance fetch err, because it's super annoying
