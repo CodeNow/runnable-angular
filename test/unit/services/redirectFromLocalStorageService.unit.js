@@ -3,24 +3,28 @@
 describe('redirectFromLocalStorage'.bold.underline.blue, function () {
   var $localStorage;
   var $state;
-  var $window;
+  var windowMock;
   var keypather;
   var redirectFromLocalStorage;
 
   beforeEach(function() {
-    angular.mock.module('app');
+    windowMock = {
+      location: ''
+    };
+    angular.mock.module('app', function ($provide) {
+      $provide.value('$window', windowMock);
+    });
     angular.mock.inject(function (
       _$state_,
       _$localStorage_,
-      _$window_,
       _keypather_,
       _redirectFromLocalStorage_
     ) {
       $state = _$state_;
       $localStorage = _$localStorage_;
-      $window = _$window_;
       keypather = _keypather_;
       redirectFromLocalStorage = _redirectFromLocalStorage_;
+      sinon.stub($state, 'go');
     });
   });
 
@@ -31,10 +35,9 @@ describe('redirectFromLocalStorage'.bold.underline.blue, function () {
           app: 'a url'
         }
       };
-      $state.go = sinon.stub();
-
       redirectFromLocalStorage.toApp('myDemo');
       sinon.assert.notCalled($state.go);
+      expect(windowMock.location).to.equal($localStorage.demo.myDemo.app);
     });
 
     it('invalid', function () {
@@ -43,8 +46,6 @@ describe('redirectFromLocalStorage'.bold.underline.blue, function () {
           app: 'a url'
         }
       };
-      $state.go = sinon.stub();
-
       redirectFromLocalStorage.toApp('notMyDemo');
       sinon.assert.calledWith($state.go, 'noAccess');
     });
@@ -60,8 +61,6 @@ describe('redirectFromLocalStorage'.bold.underline.blue, function () {
           }
         }
       };
-      $state.go = sinon.stub();
-
       redirectFromLocalStorage.toRunApp('myDemo');
       sinon.assert.calledWith($state.go, 'base.instances.instance', {
         userName: 'userName',
@@ -78,8 +77,6 @@ describe('redirectFromLocalStorage'.bold.underline.blue, function () {
           }
         }
       };
-      $state.go = sinon.stub();
-
       redirectFromLocalStorage.toApp('notMyDemo');
       sinon.assert.calledWith($state.go, 'noAccess');
     });
