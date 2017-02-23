@@ -229,6 +229,9 @@ module.exports = function(grunt) {
       }
     },
     bgShell: {
+      _defaults: {
+        fail: true
+      },
       karma: {
         bg: false,
         cmd: 'karma start ./test/karma.conf.js --single-run'
