@@ -13,6 +13,7 @@ var stacks = {
     buildCommands: [
       'npm install'
     ],
+    // TODO: Remove all parent properties and pull directly
     parent: {
       contextId: '58adfd0cec03231000160c94',
       contextVersionId: '58adfd10ec03231000160ca7'
