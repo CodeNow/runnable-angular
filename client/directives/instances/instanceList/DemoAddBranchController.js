@@ -23,14 +23,14 @@ function DemoAddBranchController(
 
   function getBranchForPR (instance) {
     var githubId = keypather.get(instance, 'attrs.contextVersion.owner.github') || currentOrg.github;
-    return promisify(githubId, 'fetchRepo')(DBC.instance.getRepoName())
+    return promisify(githubId, 'fetchRepo')(instance.getRepoName())
       .then(function (repo) {
         return promisify(repo, 'fetchBranch')('dark-theme');
       })
       .then(function (branch) {
         var sha = branch.attrs.commit.sha;
         var branchName = branch.attrs.name;
-        return promisify(DBC.instance, 'fork')(branchName, sha);
+        return promisify(instance, 'fork')(branchName, sha);
       });
   }
 
