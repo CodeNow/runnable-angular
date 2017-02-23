@@ -13,7 +13,7 @@ function redirect(
     toApp: function(demoName) {
       var appUrl = keypather.get($localStorage, 'demo.' + demoName + '.app');
       if (appUrl) {
-        $window.location.href = appUrl;
+        $window.location = appUrl;
       } else {
         $state.go('noAccess');
       }
