@@ -45,7 +45,7 @@
     ) No containers match this filter.
 
     .grid-block.vertical.padding-sm.popover.right.in.popover-demo.team-step(
-      ng-if = "$root.featureFlags.demoAddTeamStep && CA.shouldShowTeamCTA()"
+      ng-if = "CA.shouldShowTeamCTA()"
       ng-include = "'popoverDemoAddTeamView'"
     )
 
