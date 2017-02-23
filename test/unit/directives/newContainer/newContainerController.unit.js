@@ -63,6 +63,9 @@ describe('NewContainerController'.bold.underline.blue, function () {
         fetchRepoDockerfilesStub = sinon.stub().returns($q.when([]));
         return fetchRepoDockerfilesStub;
       });
+      $provide.factory('demoFlowService', function () {
+        return {};
+      });
       $provide.factory('createNonRepoInstance', function ($q) {
         createNonRepoInstanceStub = sinon.stub().returns($q.when(true));
         return createNonRepoInstanceStub;

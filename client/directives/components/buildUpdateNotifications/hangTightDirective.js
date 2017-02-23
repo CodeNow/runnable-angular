@@ -7,6 +7,7 @@ function hangTight(
   $interval,
   demoFlowService,
   eventTracking,
+  loading,
   watchOncePromise
 ) {
   return {
@@ -26,6 +27,7 @@ function hangTight(
       function pollContainerUrl () {
         eventTracking.polledContainerUrl();
         var timesToPoll = 15;
+        loading('demoUrlPolling', true);
         var stopPolling = $interval(function (timesToPoll) {
           // zero indexed, once we've polled 15 times just go to add branch
           if (timesToPoll === 14 && instance.status() === 'running') {
@@ -42,6 +44,7 @@ function hangTight(
 
       function cancelPolling (stopPolling, instance) {
         $interval.cancel(stopPolling);
+        loading('demoUrlPolling', false);
         demoFlowService.setItem('hasSeenHangTightMessage', instance.id());
       }
     }
