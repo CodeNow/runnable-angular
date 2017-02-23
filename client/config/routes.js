@@ -8,6 +8,15 @@ function goToStateOnError($q, $state, $timeout, destination, errorMessage) {
     });
   };
 }
+
+function setAppUser(fetchUser, $rootScope, keypather) {
+  return fetchUser()
+    .then(function (user) {
+      keypather.set($rootScope, 'dataApp.data.user', user);
+      return user;
+    });
+}
+
 module.exports = [
   {
     state: 'loadingDebug',
@@ -80,11 +89,7 @@ module.exports = [
         return fetchGrantedGithubOrgs();
       },
       user: function (fetchUser, $rootScope, keypather) {
-        return fetchUser()
-          .then(function (user) {
-            keypather.set($rootScope, 'dataApp.data.user', user);
-            return user;
-          });
+        return setAppUser(fetchUser, $rootScope, keypather);
       },
       whitelistedOrgs: function (fetchWhitelistForDockCreated) {
         return fetchWhitelistForDockCreated();
@@ -109,11 +114,7 @@ module.exports = [
     },
     resolve: {
       user: function (fetchUser, $rootScope, keypather) {
-        return fetchUser()
-          .then(function (user) {
-            keypather.set($rootScope, 'dataApp.data.user', user);
-            return user;
-          });
+        return setAppUser(fetchUser, $rootScope, keypather);
       },
       booted: function (eventTracking, user) {
         return eventTracking.boot(user);
@@ -128,16 +129,54 @@ module.exports = [
     controllerAs: 'WBC',
     resolve: {
       user: function (fetchUser, $rootScope, keypather) {
-        return fetchUser()
-          .then(function (user) {
-            keypather.set($rootScope, 'dataApp.data.user', user);
-            return user;
-          });
+        return setAppUser(fetchUser, $rootScope, keypather);
       },
       booted: function (eventTracking, user) {
         return eventTracking.boot(user);
       }
     }
+  }, {
+    state: 'myAppRedirect',
+    url: '^/-myAppRedirect/:demoName',
+    abstract: false,
+    resolve: {
+      user: function (fetchUser, $rootScope, keypather) {
+        return setAppUser(fetchUser, $rootScope, keypather);
+      }
+    },
+    onEnter: function (
+      $stateParams,
+      redirectFromLocalStorage
+    ) {
+      redirectFromLocalStorage.toApp($stateParams.demoName);
+    }
+
+  }, {
+    state: 'myRunAppRedirect',
+    url: '^/-myRunAppRedirect/:demoName',
+    abstract: false,
+    resolve: {
+      user: function (fetchUser, $rootScope, keypather) {
+        return setAppUser(fetchUser, $rootScope, keypather);
+      }
+    },
+    onEnter: function (
+      $stateParams,
+      redirectFromLocalStorage
+    ) {
+      redirectFromLocalStorage.toRunApp($stateParams.demoName);
+    },
+  }, {
+    state: 'noAccess',
+    url: '^/-noAccess',
+    abstract: false,
+    templateUrl: 'noAccessView',
+    resolve: {
+      user: function (fetchUser, $rootScope, keypather) {
+        return setAppUser(fetchUser, $rootScope, keypather);
+      }
+    }
+
   }, {
     state: 'branchSelection',
     abstract: false,

@@ -118,6 +118,9 @@ describe('controllerInstance'.bold.underline.blue, function () {
         getCommitForCurrentlyBuildingBuild = sinon.stub().returns($q.when(false));
         return getCommitForCurrentlyBuildingBuild;
       });
+      $provide.factory('defaultContainerUrl', function () {
+        return sinon.stub();
+      });
     });
     angular.mock.inject(function (
       _$controller_,

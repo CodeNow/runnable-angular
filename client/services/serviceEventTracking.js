@@ -651,7 +651,18 @@ function EventTracking(
    */
   ETS.clickedToAuthDocs = function () {
     var eventName = 'Clicked to view docs on GitHub auth';
+    ETS._mixpanel('track', eventName);
+    return ETS;
+  };
 
+   /**
+   * Polled Container URL
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.polledContainerUrl = function () {
+    var eventName = 'Polled Container URL';
     ETS._mixpanel('track', eventName);
     return ETS;
   };
