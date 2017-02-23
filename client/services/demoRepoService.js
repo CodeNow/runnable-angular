@@ -40,8 +40,8 @@ var stacks = {
       'bundle install'
     ],
     parent: {
-      context: '58ae098ff5ccae1100279172',
-      contextVersion: '58ae0992f5ccae1100279185'
+      contextId: '58ae098ff5ccae1100279172',
+      contextVersionId: '58ae0992f5ccae1100279185'
     },
     dockerComposePath: 'docker-compose.yml',
     env: [
@@ -68,8 +68,8 @@ var stacks = {
       'pip install -r "requirements.txt"'
     ],
     parent: {
-      context: '58ae099cd214931000e40fb3',
-      contextVersion: '58ae099ed214931000e40fc5'
+      contextId: '58ae099cd214931000e40fb3',
+      contextVersionId: '58ae099ed214931000e40fc5'
     },
     dockerComposePath: 'docker-compose.yml',
     env: [
@@ -102,8 +102,8 @@ var stacks = {
       'chmod -R 775 /var/www/storage'
     ],
     parent: {
-      context: '58ae098402403f1100b65032',
-      contextVersion: '58ae098702403f1100b65046'
+      contextId: '58ae098402403f1100b65032',
+      contextVersionId: '58ae098702403f1100b65046'
     },
     dockerComposePath: 'docker-compose.yml',
     env: [
@@ -132,6 +132,7 @@ function demoRepos(
   createAutoIsolationConfig,
   createNewBuildByContextVersion,
   createNewCluster,
+  createNewInstance,
   createNonRepoInstance,
   currentOrg,
   demoFlowService,
@@ -140,10 +141,12 @@ function demoRepos(
   fetchInstancesByPod,
   fetchNonRepoInstances,
   fetchOwnerRepo,
+  fetchUser,
   fetchStackData,
   github,
   invitePersonalRunnabot,
   keypather,
+  promisify,
   serverCreateService,
   watchOncePromise
 ) {
@@ -256,6 +259,9 @@ function demoRepos(
                 return !instance.contextVersion.getMainAppCodeVersion() && stack.deps.includes(instance.attrs.name);
               });
               var demoDependency = {};
+              if (!dependency || !dependency.attrs) {
+                 debugger;
+              }
               demoDependency[dependency.attrs.name] = dependency;
               return demoDependency;
             });
@@ -276,9 +282,40 @@ function demoRepos(
       });
   }
 
+  function createInstance (containerName, build, activeAccount, opts) {
+    return fetchUser()
+    .then(function (user) {
+      var instanceOptions = {
+        name: containerName,
+        owner: {
+          username: activeAccount.oauthName()
+        }
+      };
+      return user.newInstance(instanceOptions, {warn: false});
+    })
+    .then(function (instance) {
+      opts = angular.extend({
+        masterPod: true,
+        name: containerName,
+        env: [],
+        ipWhitelist: {
+          enabled: false
+        },
+        isTesting: false,
+        shouldNotAutofork: false
+      }, opts);
+      return createNewInstance(
+        activeAccount,
+        build,
+        opts,
+        instance
+      );
+    });
+  }
+
   function createDemoAppForPersonalAccounts (stackKey) {
     var stack = stacks[stackKey];
-    console.log(stack.parent.contextId, stack.parent.contextVersionId);
+    // TODO: Change hard-coded CVs to other stuff
     return $q.all([
       fetchOwnerRepo(stack.repoOwner, stack.repoName),
       fetchContextVersion(stack.parent.contextId, stack.parent.contextVersionId)
@@ -287,7 +324,6 @@ function demoRepos(
         var inviteRunnabot;
         var repoModel = res[0];
         var contextVersion = res[1];
-        console.log('contextVersion', contextVersion);
         if (currentOrg.isPersonalAccount()) {
           inviteRunnabot = invitePersonalRunnabot({
             repoName: stack.repoName,
@@ -295,7 +331,7 @@ function demoRepos(
           });
         }
         return $q.all({
-          repoBuildAndBranch: createNewBuildByContextVersion(currentOrg.github, contextVersion),
+          build: createNewBuildByContextVersion(currentOrg.github, contextVersion),
           stack: fetchStackData(repoModel, true),
           instances: fetchInstancesByPod(),
           deps: findDependencyNonRepoInstances(stack, stackKey),
@@ -304,21 +340,10 @@ function demoRepos(
       })
       .then(function (promiseResults) {
         var generatedEnvs = fillInEnvs(stack, promiseResults.deps);
-
-        var repoBuildAndBranch = Object.assign(promiseResults.repoBuildAndBranch, {
-          instanceName: getUniqueInstanceName(stack.repoName, promiseResults.instances),
-          defaults: {
-            selectedStack: promiseResults.stack,
-            startCommand: stack.cmd,
-            keepStartCmd: true,
-            run: stack.buildCommands,
-            packages: stack.packages
-          }
-        });
-
+        var instanceName = getUniqueInstanceName(stack.repoName, promiseResults.instances);
         return $q.all({
           deps: promiseResults.deps,
-          instance: serverCreateService(repoBuildAndBranch, {
+          instance: createInstance(instanceName, promiseResults.build, $rootScope.dataApp.data.activeAccount, {
             env: generatedEnvs,
             ports: stack.ports
           })

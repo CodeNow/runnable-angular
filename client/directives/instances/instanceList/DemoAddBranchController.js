@@ -21,8 +21,9 @@ function DemoAddBranchController(
 ) {
   var DBC = this;
 
-  function getBranchForPR () {
-    return promisify(currentOrg.github, 'fetchRepo')(DBC.instance.getRepoName())
+  function getBranchForPR (instance) {
+    var githubId = keypather.get(instance, 'attrs.contextVersion.owner.github') || currentOrg.github;
+    return promisify(githubId, 'fetchRepo')(DBC.instance.getRepoName())
       .then(function (repo) {
         return promisify(repo, 'fetchBranch')('dark-theme');
       })

@@ -21,9 +21,6 @@ function createNewBuildByContextVersion(
       })
       .then(function (build) {
         // This is needed for part of GS
-        console.log('build', build);
-        console.log('version', version);
-        debugger;
         build.contextVersion = version;
         return build;
       });
