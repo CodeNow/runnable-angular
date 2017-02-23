@@ -19,7 +19,7 @@ a.grid-block.align-center.a-sref(
     | {{getNavigationName()}}
   button.grid-block.shrink.btn-gear(
     ng-class = "{'active': INC.popoverShown}"
-    ng-if = "($root.featureFlags.demoOrg && !INC.isInDemoFlow()) || (!$root.featureFlags.demoOrg && !INC.currentOrg.isPersonalAccount())"
+    ng-if = "!INC.currentOrg.isPersonalAccount() && (!$root.featureFlags.demoOrg || $root.featureFlags.demoOrg && !INC.isInDemoFlow())"
     pop-over
     pop-over-active = "INC.popoverShown"
     pop-over-controller = "INC"
