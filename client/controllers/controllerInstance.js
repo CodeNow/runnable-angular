@@ -43,7 +43,6 @@ function ControllerInstance(
   var data = dataInstance.data;
 
   $scope.$storage = $localStorage;
-
   loading('main', true);
 
   data.openItems = new OpenItems();
