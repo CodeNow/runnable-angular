@@ -81,3 +81,5 @@ Currently, this repo depends on the built assets from [runnable.com](github.com/
 <img src="http://www.gravatar.com/avatar/12d7b42352806d7d85ec8746ca018d97?s=64">&nbsp;
 [Jorge R. Silva(thejsj)](https://github.com/thejsj)
 
+<img src="http://www.gravatar.com/avatar/51bb06dc450d9f962f64891b840e43ab?s=64">&nbsp;
+[Damien Hayeck(damienrunnable)](https://github.com/damienrunnable)
