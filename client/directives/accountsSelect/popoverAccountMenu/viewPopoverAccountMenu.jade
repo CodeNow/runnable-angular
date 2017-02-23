@@ -1,8 +1,5 @@
 .popover.menu.popover-account-menu.right(
-  ng-class = "{\
-    'in': active,\
-    'lg': actions.shouldShowTeamCTA() && !$root.featureFlags.demoAddTeamStep\
-   }"
+  ng-class = "{'in': active}"
   style = "left: 68px; transform-origin: 0 0; top: 18px"
 )
   .arrow.js-animate(
@@ -92,10 +89,6 @@
               a.list-link(
                 ng-click = "actions.logout();"
               ) Sign Out
-        .grid-block.vertical.align-center.justify-center.popover-content.team-cta(
-          ng-if = "actions.shouldShowTeamCTA() && !$root.featureFlags.demoAddTeamStep"
-          ng-include = "'teamCTAView'"
-        )
 
     animated-panel(
       name = "featureFlags"
