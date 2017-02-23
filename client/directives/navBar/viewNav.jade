@@ -29,8 +29,8 @@ a.a(
 //- without tooltip
 //- show during the "add team" step
 a.grid-block.align-center.justify-center.shrink.btn-add-team(
-  ng-if = "CA.shouldShowTeamCTA()"
   ng-click = "CA.demoAddOrg()"
+  ng-if = "CA.shouldShowTeamCTA()"
 )
   svg.iconnables.icons-add
     use(
@@ -40,10 +40,10 @@ a.grid-block.align-center.justify-center.shrink.btn-add-team(
 //- with tooltip
 //- show for personal accounts outside the "add team step"
 a.grid-block.align-center.justify-center.shrink.btn-add-team(
+  ng-click = "CA.demoAddOrg()"
   ng-if = "!CA.shouldShowTeamCTA() && CA.currentOrg.isPersonalAccount() && $root.featureFlags.demoPersistentAddTeam"
   tooltip = "Add a team"
   tooltip-options = "{\"class\":\"right\",\"left\":42,\"top\":3}"
-  ng-click = "CA.demoAddOrg()"
 )
   svg.iconnables.icons-add
     use(
