@@ -8,6 +8,15 @@ function goToStateOnError($q, $state, $timeout, destination, errorMessage) {
     });
   };
 }
+
+function setAppUser(fetchUser, $rootScope, keypather) {
+  return fetchUser()
+    .then(function (user) {
+      keypather.set($rootScope, 'dataApp.data.user', user);
+      return user;
+    });
+}
+
 module.exports = [
   {
     state: 'loadingDebug',
@@ -80,11 +89,7 @@ module.exports = [
         return fetchGrantedGithubOrgs();
       },
       user: function (fetchUser, $rootScope, keypather) {
-        return fetchUser()
-          .then(function (user) {
-            keypather.set($rootScope, 'dataApp.data.user', user);
-            return user;
-          });
+        return setAppUser(fetchUser, $rootScope, keypather);
       },
       whitelistedOrgs: function (fetchWhitelistForDockCreated) {
         return fetchWhitelistForDockCreated();
@@ -109,11 +114,7 @@ module.exports = [
     },
     resolve: {
       user: function (fetchUser, $rootScope, keypather) {
-        return fetchUser()
-          .then(function (user) {
-            keypather.set($rootScope, 'dataApp.data.user', user);
-            return user;
-          });
+        return setAppUser(fetchUser, $rootScope, keypather);
       },
       booted: function (eventTracking, user) {
         return eventTracking.boot(user);
@@ -128,11 +129,7 @@ module.exports = [
     controllerAs: 'WBC',
     resolve: {
       user: function (fetchUser, $rootScope, keypather) {
-        return fetchUser()
-          .then(function (user) {
-            keypather.set($rootScope, 'dataApp.data.user', user);
-            return user;
-          });
+        return setAppUser(fetchUser, $rootScope, keypather);
       },
       booted: function (eventTracking, user) {
         return eventTracking.boot(user);
@@ -144,11 +141,7 @@ module.exports = [
     abstract: false,
     resolve: {
       user: function (fetchUser, $rootScope, keypather) {
-        return fetchUser()
-          .then(function (user) {
-            keypather.set($rootScope, 'dataApp.data.user', user);
-            return user;
-          });
+        return setAppUser(fetchUser, $rootScope, keypather);
       }
     },
     onEnter: function (
@@ -164,11 +157,7 @@ module.exports = [
     abstract: false,
     resolve: {
       user: function (fetchUser, $rootScope, keypather) {
-        return fetchUser()
-          .then(function (user) {
-            keypather.set($rootScope, 'dataApp.data.user', user);
-            return user;
-          });
+        return setAppUser(fetchUser, $rootScope, keypather);
       }
     },
     onEnter: function (
@@ -184,11 +173,7 @@ module.exports = [
     templateUrl: 'noAccessView',
     resolve: {
       user: function (fetchUser, $rootScope, keypather) {
-        return fetchUser()
-          .then(function (user) {
-            keypather.set($rootScope, 'dataApp.data.user', user);
-            return user;
-          });
+        return setAppUser(fetchUser, $rootScope, keypather);
       }
     }
 
