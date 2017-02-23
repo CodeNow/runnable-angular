@@ -13,11 +13,6 @@ var stacks = {
     buildCommands: [
       'npm install'
     ],
-    // TODO: Remove all parent properties and pull directly
-    parent: {
-      contextId: '58adfd0cec03231000160c94',
-      contextVersionId: '58adfd10ec03231000160ca7'
-    },
     dockerComposePath: 'docker-compose.yml',
     env: [
       'MONGODB_HOST={{MongoDB}}',
@@ -40,10 +35,6 @@ var stacks = {
     buildCommands: [
       'bundle install'
     ],
-    parent: {
-      contextId: '58ae098ff5ccae1100279172',
-      contextVersionId: '58ae0992f5ccae1100279185'
-    },
     dockerComposePath: 'docker-compose.yml',
     env: [
       'DATABASE_URL=postgres://postgres@{{PostgreSQL}}:5432/postgres'
@@ -68,10 +59,6 @@ var stacks = {
     buildCommands: [
       'pip install -r "requirements.txt"'
     ],
-    parent: {
-      contextId: '58ae099cd214931000e40fb3',
-      contextVersionId: '58ae099ed214931000e40fc5'
-    },
     dockerComposePath: 'docker-compose.yml',
     env: [
       'DB_HOST={{PostgreSQL}}',
@@ -102,10 +89,6 @@ var stacks = {
       'chgrp -R www-data /var/www/',
       'chmod -R 775 /var/www/storage'
     ],
-    parent: {
-      contextId: '58ae098402403f1100b65032',
-      contextVersionId: '58ae098702403f1100b65046'
-    },
     dockerComposePath: 'docker-compose.yml',
     env: [
       'APP_ENV=local',
@@ -314,12 +297,32 @@ function demoRepos(
     });
   }
 
+  function fecthContextVersionForStack (stackName) {
+    return fetchUser()
+      .then(function (user) {
+        // Should be contexts with the stack name. These need to be added
+        return promisify(user, 'fetchContexts')({ isSource: true });
+      })
+      .then(function (contexts) {
+        var context = contexts.find(function (context) {
+          return context.attrs.name === stackName;
+        });
+        if (!context) {
+          return $q.reject(new Error('No context found for ' + stackName));
+        }
+        return promisify(context, 'fetchVersions')({ qs: { sort: '-created' }});
+      })
+      .then(function (versions) {
+        return versions.models[0];
+      });
+  }
+
   function createDemoAppForPersonalAccounts (stackKey) {
     var stack = stacks[stackKey];
     // TODO: Change hard-coded CVs to other stuff
     return $q.all([
       fetchOwnerRepo(stack.repoOwner, stack.repoName),
-      fetchContextVersion(stack.parent.contextId, stack.parent.contextVersionId)
+      fecthContextVersionForStack(stack.repoName)
     ])
       .then(function (res) {
         var inviteRunnabot;
