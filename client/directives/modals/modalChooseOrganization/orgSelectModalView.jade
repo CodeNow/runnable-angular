@@ -1,14 +1,19 @@
-.modal-header
+.modal-header(
+  ng-if = "!$root.featureFlags.demoOrgSelect"
+)
   h1.modal-heading Welcome Aboard!
 
 .grid-block.vertical.org-select-view
 
   p.p.text-gray(
     ng-if = "!COMC.personalAccountOnly"
-  ) Select your team to start running its code.
+  ) Select a team to start running its code.
   ol.grid-block.vertical.list(
     ng-if = "!COMC.personalAccountOnly"
   )
+    .org-select-bar
+      | Your GitHub Teams
+      button.btn.btn-xxs.white Add a Team
     li.grid-block.align-center.list-item.btn.white(
       data-event-name = "Org Selected"
       ng-click = "COMC.actions.selectAccount(org.oauthName())"
@@ -26,14 +31,16 @@
           xlink:href = "#icons-arrow-down"
         )
   p.p.text-gray(
-    ng-if = "!COMC.personalAccountOnly"
+    ng-if = "!COMC.personalAccountOnly && !$root.featureFlags.demoOrgSelect"
   ) Don’t see your team?
   p.p.text-gray(
-    ng-if = "COMC.personalAccountOnly"
+    ng-if = "COMC.personalAccountOnly && !$root.featureFlags.demoOrgSelect"
   ) Runnable is made for teams.
     br
     | Add yours to start running its code.
-  ol.grid-block.vertical.list
+  ol.grid-block.vertical.list(
+    ng-if = "!$root.featureFlags.demoOrgSelect"
+  )
     li.grid-block.align-center.list-item.btn.white(
       data-event-name = "Clicked to Grant Access View"
       ng-click = "goToPanel('grantAccess')"

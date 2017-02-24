@@ -52,7 +52,7 @@
   }
 
   .org-select-view {
-    padding: 24px $sm;
+    padding: $md $sm $sm;
 
     .p,
     .list-item {
@@ -60,8 +60,7 @@
     }
 
     .p {
-      font-size: 15px;
-      margin-bottom: $sm;
+      margin-bottom: 24px;
       text-align: center;
     }
   }
@@ -84,7 +83,7 @@
     border-radius: 0;
     font-size: 18px;
     font-weight: $weight-normal;
-    height: 69px;
+    height: 72px;
 
     &:hover,
     &:active {
@@ -127,5 +126,21 @@
   .footer {
     align-self: stretch;
     border-top: 1px solid $gray-lighter;
+  }
+}
+
+.org-select-bar {
+  align-items: center;
+  border: 1px solid $gray-lighter;
+  border-bottom: 0;
+  border-radius: 6px 6px 0 0;
+  color: $gray;
+  display: flex;
+  font-size: 13px;
+  height: 36px + 1px;
+  padding: 0 9px 0 18px;
+
+  .btn {
+    margin-left: auto;
   }
 }
