@@ -143,17 +143,21 @@
   .btn {
     margin-left: auto;
   }
+
+  .spinner-wrapper {
+    margin-right: 6px;
+  }
 }
 
 .org-select-empty-state {
+  align-items: center;
+  background-color: $white;
   border: 1px solid $gray-lighter;
   border-radius: 0 0 6px 6px;
   color: $gray;
-  font-size: 13px;
   display: flex;
-  align-items: center;
+  font-size: 13px;
   justify-content: center;
-  text-align: center;
-  background-color: $white;
   padding: 45px 0;
+  text-align: center;
 }

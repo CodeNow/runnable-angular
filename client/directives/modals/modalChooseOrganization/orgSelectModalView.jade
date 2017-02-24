@@ -10,10 +10,23 @@
   ) Select a team to start running its code.
   ol.grid-block.vertical.list(
     ng-if = "!COMC.personalAccountOnly"
+    ng-init = "data.loading = false"
   )
     .org-select-bar
-      | Your GitHub Teams
-      button.btn.btn-xxs.white Add a Team
+      span(
+        ng-if = "!$root.isLoading.grantAccess"
+      ) Your GitHub Teams
+      .spinner-wrapper.spinner-gray.spinner-sm.in(
+        ng-include = "'spinner'"
+        ng-if = "$root.isLoading.grantAccess"
+      )
+      span(
+        ng-if = "$root.isLoading.grantAccess"
+      ) Listening for new teams…
+      button.btn.btn-xxs.white(
+        ng-click = "COMC.grantAccess()"
+      ) Add a Team
+        //- ng-click = "COMC.grantAccess()"
     .org-select-empty-state(
       ng-if = "COMC.personalAccountOnly && $root.featureFlags.demoOrgSelect"
     ) Runnable is made for teams, but it looks
