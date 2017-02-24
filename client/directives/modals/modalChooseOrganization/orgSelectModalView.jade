@@ -1,23 +1,23 @@
 .modal-header(
-  ng-if = "!$root.featureFlags.demoOrgSelect"
+  ng-if = "!$root.featureFlags.demoOrgSelectUpdate"
 )
   h1.modal-heading Welcome Aboard!
 
 .grid-block.vertical.org-select-view
 
   p.p.strong.text-center(
-    ng-if = "$root.featureFlags.demoOrgSelect"
+    ng-if = "$root.featureFlags.demoOrgSelectUpdate"
   ) Welcome back!
   p.p.text-center.text-gray.margin-bottom-md(
-    ng-class = "{'deprecated': !$root.featureFlags.demoOrgSelect}"
-    ng-if = "!COMC.personalAccountOnly || $root.featureFlags.demoOrgSelect"
+    ng-class = "{'deprecated': !$root.featureFlags.demoOrgSelectUpdate}"
+    ng-if = "!COMC.personalAccountOnly || $root.featureFlags.demoOrgSelectUpdate"
   ) Select a team to start running its code.
   ol.grid-block.vertical.list(
     ng-if = "!COMC.personalAccountOnly"
     ng-init = "data.loading = false"
   )
     .grid-block.align-center.text-gray.small.teams-bar(
-      ng-if = "$root.featureFlags.demoOrgSelect"
+      ng-if = "$root.featureFlags.demoOrgSelectUpdate"
     )
       .spinner-wrapper.spinner-gray.spinner-sm.hidden-xxxs(
         ng-include = "'spinner'"
@@ -32,7 +32,7 @@
             xlink:href = "#icons-link-external-alt"
           )
     .grid-block.align-center.justify-center.text-gray.text-center.small.teams-empty-state(
-      ng-if = "COMC.personalAccountOnly && $root.featureFlags.demoOrgSelect"
+      ng-if = "COMC.personalAccountOnly && $root.featureFlags.demoOrgSelectUpdate"
     ) Runnable is made for teams, but it looks&#32;
       br.hidden-xxxs
       | like you haven’t added any yet.
@@ -53,17 +53,17 @@
           xlink:href = "#icons-arrow-down"
         )
   p.p.text-gray.text-center(
-    ng-class = "{'deprecated': !$root.featureFlags.demoOrgSelect}"
-    ng-if = "!COMC.personalAccountOnly && !$root.featureFlags.demoOrgSelect"
+    ng-class = "{'deprecated': !$root.featureFlags.demoOrgSelectUpdate}"
+    ng-if = "!COMC.personalAccountOnly && !$root.featureFlags.demoOrgSelectUpdate"
   ) Don’t see your team?
   p.p.text-gray(
-    ng-class = "{'deprecated': !$root.featureFlags.demoOrgSelect}"
-    ng-if = "COMC.personalAccountOnly && !$root.featureFlags.demoOrgSelect"
+    ng-class = "{'deprecated': !$root.featureFlags.demoOrgSelectUpdate}"
+    ng-if = "COMC.personalAccountOnly && !$root.featureFlags.demoOrgSelectUpdate"
   ) Runnable is made for teams.
     br
     | Add yours to start running its code.
   ol.grid-block.vertical.list(
-    ng-if = "!$root.featureFlags.demoOrgSelect"
+    ng-if = "!$root.featureFlags.demoOrgSelectUpdate"
   )
     li.grid-block.align-center.list-item.btn.white(
       data-event-name = "Clicked to Grant Access View"
