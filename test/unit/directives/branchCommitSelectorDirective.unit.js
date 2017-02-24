@@ -40,6 +40,12 @@ describe('branchCommitSelectorDirective'.bold.underline.blue, function () {
           link: angular.noop
         };
       });
+      $provide.factory('github', function ($q) {
+        ctx.github = {
+          branchCommits: sinon.stub().returns($q.when(ctx.commits))
+        };
+        return ctx.github;
+      });
     });
 
     angular.mock.inject(function (
@@ -81,7 +87,7 @@ describe('branchCommitSelectorDirective'.bold.underline.blue, function () {
       //Should fetch once the branch is set
       $scope.$digest();
       expect($elScope.BCSC.data.branch, 'data.branch').to.equal(ctx.branch);
-      sinon.assert.called(ctx.branch.commits.fetch);
+      sinon.assert.called(ctx.github.branchCommits);
       expect($elScope.fetchingCommits, 'fetchingCommits').to.be.false;
       $rootScope.$destroy();
     });

@@ -16,12 +16,7 @@ describe('branchCommitSelectorController'.bold.underline.blue, function () {
     ctx.commit = {
       name: 'This is a commit message!'
     };
-    ctx.commits = {
-      fetch: sinon.stub().returns({
-        models: [ctx.commit]
-      }),
-      models: [ctx.commit]
-    };
+    ctx.commits = [ctx.commit];
     ctx.branch = {
       attrs: {
         name: 'default'
@@ -89,7 +84,7 @@ describe('branchCommitSelectorController'.bold.underline.blue, function () {
       $scope.$digest();
       branchCommitSelectorController.onCommitFetch(ctx.commits);
       $scope.$digest();
-      expect(branchCommitSelectorController.data.commit, 'data.commit').to.equal(ctx.commits.models[0]);
+      expect(branchCommitSelectorController.data.commit, 'data.commit').to.equal(ctx.commits[0]);
       $rootScope.$destroy();
     });
 
@@ -97,7 +92,7 @@ describe('branchCommitSelectorController'.bold.underline.blue, function () {
       var newCommit = {
         sadsa: 'asdasd'
       };
-      ctx.commits.models.push(newCommit);
+      ctx.commits.push(newCommit);
       branchCommitSelectorController.data = {
         useLatest: true,
         branch: ctx.branch,
@@ -120,7 +115,7 @@ describe('branchCommitSelectorController'.bold.underline.blue, function () {
       branchCommitSelectorController.isLatestCommit(false);
       expect(branchCommitSelectorController.isLatestCommit(), 'useLatest').to.be.false;
       expect(branchCommitSelectorController.data.useLatest, 'data.useLatest').to.be.false;
-      expect(branchCommitSelectorController.data.commit, 'data.commit').to.equal(ctx.commits.models[0]);
+      expect(branchCommitSelectorController.data.commit, 'data.commit').to.equal(ctx.commits[0]);
       $rootScope.$destroy();
     });
     it('useLatest emits commit::selected on set true, not false', function () {
@@ -139,7 +134,7 @@ describe('branchCommitSelectorController'.bold.underline.blue, function () {
       sinon.assert.calledOnce(commitSelectedSpy);
 
       expect(branchCommitSelectorController.data.useLatest, 'data.useLatest').to.be.true;
-      expect(branchCommitSelectorController.data.commit, 'data.commit').to.equal(ctx.commits.models[0]);
+      expect(branchCommitSelectorController.data.commit, 'data.commit').to.equal(ctx.commits[0]);
       $rootScope.$destroy();
     });
 
