@@ -20,8 +20,8 @@
       ng-if = "$root.featureFlags.demoOrgSelectUpdate"
     )
       .spinner-wrapper.spinner-gray.spinner-sm.hidden-xxxs(
-        ng-include = "'spinner'"
         ng-if = "$root.isLoading.grantAccess"
+        ng-include = "'spinner'"
       )
       | {{ $root.isLoading.grantAccess ? "Listening for teams…" : "Your GitHub Teams" }}
       button.btn.btn-xxs.white(
@@ -32,13 +32,14 @@
             xlink:href = "#icons-link-external-alt"
           )
     .grid-block.align-center.justify-center.text-gray.text-center.small.teams-empty-state(
-      ng-if = "COMC.personalAccountOnly && $root.featureFlags.demoOrgSelectUpdate"
+      ng-if = "COMC.personalAccountOnly || $root.featureFlags.demoNoOrgs"
     ) Runnable is made for teams, but it looks&#32;
       br.hidden-xxxs
       | like you haven’t added any yet.
     li.grid-block.align-center.list-item.btn.white(
       data-event-name = "Org Selected"
       ng-click = "COMC.actions.selectAccount(org.oauthName())"
+      ng-if = "!$root.featureFlags.demoNoOrgs"
       ng-repeat = "org in COMC.allAccounts.models | orderBy:'attrs.login'"
       title = "{{org.oauthName()}}"
     )
