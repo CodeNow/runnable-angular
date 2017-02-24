@@ -1,3 +1,6 @@
+//- ************************
+//- deprecated file, delete with $root.featureFlags.demoOrgSelect
+
 .modal-org-select {
 
   .modal-header {
@@ -6,6 +9,11 @@
 
   .h1 {
     font-size: 27px;
+  }
+
+  .p.deprecated {
+    font-size: 15px;
+    margin-bottom: $sm;
   }
 
   .list + .p {
@@ -54,3 +62,6 @@
     }
   }
 }
+
+//- end deprecated file
+//- ************************

@@ -9,13 +9,16 @@
     ng-if = "$root.featureFlags.demoOrgSelect"
   ) Welcome back!
   p.p.text-center.text-gray.margin-bottom-md(
+    ng-class = "{'deprecated': !$root.featureFlags.demoOrgSelect}"
     ng-if = "!COMC.personalAccountOnly || $root.featureFlags.demoOrgSelect"
   ) Select a team to start running its code.
   ol.grid-block.vertical.list(
     ng-if = "!COMC.personalAccountOnly"
     ng-init = "data.loading = false"
   )
-    .grid-block.align-center.text-gray.small.teams-bar
+    .grid-block.align-center.text-gray.small.teams-bar(
+      ng-if = "$root.featureFlags.demoOrgSelect"
+    )
       .spinner-wrapper.spinner-gray.spinner-sm.hidden-xxxs(
         ng-include = "'spinner'"
         ng-if = "$root.isLoading.grantAccess"
@@ -49,10 +52,12 @@
         use(
           xlink:href = "#icons-arrow-down"
         )
-  p.p.text-gray(
+  p.p.text-gray.text-center(
+    ng-class = "{'deprecated': !$root.featureFlags.demoOrgSelect}"
     ng-if = "!COMC.personalAccountOnly && !$root.featureFlags.demoOrgSelect"
   ) Don’t see your team?
   p.p.text-gray(
+    ng-class = "{'deprecated': !$root.featureFlags.demoOrgSelect}"
     ng-if = "COMC.personalAccountOnly && !$root.featureFlags.demoOrgSelect"
   ) Runnable is made for teams.
     br
