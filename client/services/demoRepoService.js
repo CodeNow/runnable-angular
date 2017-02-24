@@ -8,6 +8,7 @@ var stacks = {
     displayName: 'Node.js',
     description: 'A Node.js & MongoDB app',
     repoOwner: 'RunnableDemo',
+    branchName: 'master',
     icon: '/build/images/logos/logo-icon-nodejs.svg',
     cmd: 'npm start',
     buildCommands: [
@@ -30,6 +31,7 @@ var stacks = {
     displayName: 'Rails',
     description: 'A Ruby on Rails & MySQL app',
     repoOwner: 'RunnableDemo',
+    branchName: 'master',
     icon: '/build/images/logos/logo-icon-rails.svg',
     cmd: 'rake db:migrate && rails server -b 0.0.0.0 -p 80',
     buildCommands: [
@@ -51,6 +53,7 @@ var stacks = {
     displayName: 'Django',
     description: 'A Django & PostgresSQL app',
     repoOwner: 'RunnableDemo',
+    branchName: 'master',
     icon: '/build/images/logos/logo-icon-django.svg',
     cmd: 'python manage.py migrate && python manage.py runserver 0.0.0.0:80',
     packages: [
@@ -79,6 +82,7 @@ var stacks = {
     displayName: 'Laravel',
     description: 'A PHP & MySQL app',
     repoOwner: 'RunnableDemo',
+    branchName: 'master',
     icon: '/build/images/logos/logo-icon-php.svg',
     cmd: 'php artisan migrate && apache2-foreground',
     buildCommands: [
@@ -122,6 +126,7 @@ function demoRepos(
   demoFlowService,
   errs,
   fetchContextVersion,
+  fetchGitHubRepoBranches,
   fetchInstancesByPod,
   fetchNonRepoInstances,
   fetchOwnerRepo,
@@ -297,7 +302,8 @@ function demoRepos(
     });
   }
 
-  function fecthContextVersionForStack (stackName) {
+  function fecthContextVersionForStack (stack) {
+    var stackName = stack.repoName;
     return fetchUser()
       .then(function (user) {
         // Should be contexts with the stack name. These need to be added
@@ -313,15 +319,19 @@ function demoRepos(
         return promisify(context, 'fetchVersions')({ qs: { sort: '-created' }});
       })
       .then(function (versions) {
-        var version = versions.find(function (version) {
-          var branch = keypather.get(version, 'getMainAppCodeVersion().attrs.branch');
-          var buildFailed = keypather.get(version, 'attrs.build.failed');
-          return branch === 'master' && !buildFailed;
-        });
-        if (!version) {
-          return $q.reject(new Error('No context version found for ' + stackName));
-        }
-        return version;
+        return fetchGitHubRepoBranches(stack.repoOwner, stack.repoName, stack.branchName)
+          .then(function (branch) {
+            var version = versions.find(function (version) {
+              var branchName = keypather.get(version, 'getMainAppCodeVersion().attrs.branch');
+              var commit = keypather.get(version, 'getMainAppCodeVersion().attrs.commit');
+              var buildFailed = keypather.get(version, 'attrs.build.failed');
+              return branchName === stack.branchName && !buildFailed && commit === branch.commit.sha;
+            });
+            if (!version) {
+              return $q.reject(new Error('No context version found for ' + stackName));
+            }
+            return version;
+          });
       });
   }
 
@@ -330,7 +340,7 @@ function demoRepos(
     // TODO: Change hard-coded CVs to other stuff
     return $q.all([
       fetchOwnerRepo(stack.repoOwner, stack.repoName),
-      fecthContextVersionForStack(stack.repoName)
+      fecthContextVersionForStack(stack)
     ])
       .then(function (res) {
         var inviteRunnabot;
