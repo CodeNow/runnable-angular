@@ -1,0 +1,57 @@
+.modal-github-scope {
+
+  .figure {
+    border-radius: $input-border-radius $input-border-radius 0 0;
+    box-shadow: 0 2px 15px rgba($black,.05);
+    position: relative;
+
+    .img {
+      display: block;
+    }
+
+    .icons-star {
+      animation: spin-fade 2s infinite ease-in-out;
+      // scss-lint:disable ColorVariable
+      color: #ffd583;
+      // scss-lint:enable ColorVariable
+      position: absolute;
+
+      &:nth-child(1) {
+        bottom: 87px;
+        height: 15px;
+        right: 55px;
+        width: 15px;
+      }
+
+      &:nth-child(2) {
+        animation-delay: .3s;
+        bottom: 84px;
+        height: 12px;
+        right: 72px;
+        width: 12px;
+      }
+
+      &:nth-child(3) {
+        animation-delay: .6s;
+        bottom: 78px;
+        height: 9px;
+        right: 63px;
+        width: 9px;
+      }
+    }
+  }
+
+  .padding-md {
+    background: $gray-lighterest;
+    border-top: 1px solid $gray-lightest;
+    position: relative;
+    width: 100%;
+    z-index: 1;
+  }
+
+  .btn .iconnables {
+    height: 100%;
+    margin-left: 3px;
+    width: 15px;
+  }
+}

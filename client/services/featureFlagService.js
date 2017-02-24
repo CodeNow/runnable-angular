@@ -28,6 +28,7 @@ function featureFlags(
     fullScreenToggle: false, // toggles the button that toggles full screen
     hostnameNotifications: false,
     hostnameTool: false,
+    gitHubScope: false,
     imAfraidOfTheDark: false, // toggles theme
     intercomOnMigration: false, // adds intercom link to migration message
     internalDebugging: false,
