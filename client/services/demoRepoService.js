@@ -248,9 +248,6 @@ function demoRepos(
                 return !instance.contextVersion.getMainAppCodeVersion() && stack.deps.includes(instance.attrs.name);
               });
               var demoDependency = {};
-              if (!dependency || !dependency.attrs) {
-                 debugger;
-              }
               demoDependency[dependency.attrs.name] = dependency;
               return demoDependency;
             });
@@ -343,15 +340,12 @@ function demoRepos(
       fecthContextVersionForStack(stack)
     ])
       .then(function (res) {
-        var inviteRunnabot;
         var repoModel = res[0];
         var contextVersion = res[1];
-        if (currentOrg.isPersonalAccount()) {
-          inviteRunnabot = invitePersonalRunnabot({
-            repoName: stack.repoName,
-            githubUsername: currentOrg.getDisplayName()
-          });
-        }
+        var inviteRunnabot = invitePersonalRunnabot({
+          repoName: stack.repoName,
+          githubUsername: currentOrg.getDisplayName()
+        });
         return $q.all({
           build: createNewBuildByContextVersion(currentOrg.github, contextVersion),
           stack: fetchStackData(repoModel, true),
@@ -396,7 +390,10 @@ function demoRepos(
   function createDemoApp (stackKey) {
     return $q.when()
       .then(function () {
-        return createDemoAppForPersonalAccounts(stackKey);
+        if (currentOrg.isPersonalAccount()) {
+          return createDemoAppForPersonalAccounts(stackKey);
+        }
+        return createDemoAppForNonPersonalAccounts(stackKey);
       })
       .then(function () {
         return hasDemoBuiltPromise;
@@ -410,6 +407,7 @@ function demoRepos(
   return {
     _findNewRepo: _findNewRepo, // for testing
     _findNewRepoOnRepeat: _findNewRepoOnRepeat, // for testing
+    checkForOrphanedDependency: checkForOrphanedDependency,
     createDemoApp: createDemoApp,
     demoStacks: stacks,
     forkGithubRepo: forkGithubRepo,

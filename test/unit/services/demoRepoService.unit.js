@@ -17,7 +17,7 @@ var $q;
 var fetchOwnerRepoStub;
 var mockRepoModel;
 
-describe('demoRepos', function () {
+describe.only('demoRepos', function () {
 
   beforeEach(function () {
     mockRepoModel = {
@@ -46,7 +46,7 @@ describe('demoRepos', function () {
       $provide.factory('demoFlowService', function () {
         return {
           usingDemoRepo: sinon.stub().returns(stackNameMock)
-        }
+        };
       });
       $provide.factory('fetchInstancesByPod', function ($q) {
         fetchInstancesByPodStub = sinon.stub().returns($q.when({models: []}));
@@ -101,6 +101,58 @@ describe('demoRepos', function () {
         'myOauthName',
         true
       );
+    });
+  });
+
+  describe('orphaned dependencies', function () {
+    it('should return the stack name when it is a dependency only', function (done) {
+      fetchInstancesByPodStub.reset();
+      fetchInstancesByPodStub.returns($q.when({
+        models: [{
+          contextVersion: {
+          getMainAppCodeVersion: sinon.stub().returns(null)
+          },
+          attrs: {
+            name: 'MongoDB'
+          }
+        }]
+      }));
+      demoRepos.checkForOrphanedDependency('nodejs')
+        .then(function (stackName) {
+          sinon.assert.calledOnce(fetchInstancesByPodStub);
+          expect(stackName).to.equal('nodejs');
+          done();
+        });
+        $rootScope.$digest();
+    });
+
+    it('should return false if there is no orphaned dependency', function (done) {
+      fetchInstancesByPodStub.reset();
+      fetchInstancesByPodStub.returns($q.when({
+       models: [{
+        contextVersion: {
+          getMainAppCodeVersion: sinon.stub().returns(null)
+        },
+        attrs: {
+          name: 'MongoDB'
+        }
+        },
+        {
+          contextVersion: {
+            getMainAppCodeVersion: sinon.stub().returns('nodejs')
+          },
+          attrs: {
+            name: 'node-starter'
+          }
+        }]
+      }));
+      demoRepos.checkForOrphanedDependency('nodejs')
+        .then(function (stackName) {
+          sinon.assert.calledOnce(fetchInstancesByPodStub);
+          expect(stackName).to.equal(false);
+          done();
+        });
+      $rootScope.$digest();
     });
   });
 

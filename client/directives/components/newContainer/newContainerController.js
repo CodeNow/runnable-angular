@@ -79,7 +79,6 @@ function NewContainerController(
     // Fetch all non-repo containres
     return fetchInstances({ githubUsername: 'HelloRunnable' })
       .then(function (servers) {
-        console.log('Fetched template servers', servers);
         NCC.templateServers = servers;
         loading('newContainerTemplates', false);
         return servers;
