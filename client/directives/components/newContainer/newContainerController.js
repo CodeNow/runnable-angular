@@ -291,6 +291,10 @@ function NewContainerController(
     });
   };
 
+  NCC.showAddServicesPopover = function () {
+    return !NCC.isPersonalAccount() && (NCC.shouldShowServicesCTA() || !NCC.isInDemoFlow());
+  };
+
   NCC.openModalAtPanel = function (panelName) {
     $rootScope.$broadcast('close-popovers');
     NCC.state.panel = panelName;

@@ -4,12 +4,12 @@
 )
 
 div(
-  ng-if = "(!$root.featureFlags.demoOrg && NCC.isPersonalAccount()) || ($root.featureFlags.demoOrg && (!NCC.shouldShowServicesCTA() && NCC.isInDemoFlow()))"
+  ng-if = "!NCC.showAddServicesPopover()"
   ng-include = "'templateMenuEmptyPopoverView'"
 )
 
 div(
-  ng-if = "(!$root.featureFlags.demoOrg && !NCC.isPersonalAccount()) || ($root.featureFlags.demoOrg && (NCC.shouldShowServicesCTA() || !NCC.isInDemoFlow()))"
+  ng-if = "NCC.showAddServicesPopover()"
 )
   .grid-block.popover-header
     button.grid-block.align-center.btn.btn-radio(
