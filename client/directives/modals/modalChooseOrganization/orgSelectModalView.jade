@@ -24,6 +24,10 @@
       button.btn.btn-xxs.white(
         ng-click = "COMC.grantAccess()"
       ) Add a Team
+        svg.iconnables.icons-link-external
+          use(
+            xlink:href = "#icons-link-external-alt"
+          )
     .grid-block.align-center.justify-center.text-gray.text-center.small.teams-empty-state(
       ng-if = "COMC.personalAccountOnly && $root.featureFlags.demoOrgSelect"
     ) Runnable is made for teams, but it looks&#32;
