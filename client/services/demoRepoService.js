@@ -313,7 +313,15 @@ function demoRepos(
         return promisify(context, 'fetchVersions')({ qs: { sort: '-created' }});
       })
       .then(function (versions) {
-        return versions.models[0];
+        var version = versions.find(function (version) {
+          var branch = keypather.get(version, 'getMainAppCodeVersion().attrs.branch');
+          var buildFailed = keypather.get(version, 'attrs.build.failed');
+          return branch === 'master' && !buildFailed;
+        });
+        if (!version) {
+          return $q.reject(new Error('No context version found for ' + stackName));
+        }
+        return version;
       });
   }
 
