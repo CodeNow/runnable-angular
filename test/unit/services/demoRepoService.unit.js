@@ -17,7 +17,7 @@ var $q;
 var fetchOwnerRepoStub;
 var mockRepoModel;
 
-describe.only('demoRepos', function () {
+describe('demoRepos', function () {
 
   beforeEach(function () {
     mockRepoModel = {
@@ -220,6 +220,60 @@ describe.only('demoRepos', function () {
           expect(err).to.equal('We were unable to find the repo we just forked. Please try again!');
         });
       $rootScope.$digest();
+    });
+  });
+
+  describe('createInstance', function () {
+    it('should fetch the user', function () {
+    });
+
+    it('should create a new instance model', function () {
+    });
+
+    it('should create a new Instance', function () {
+    });
+  });
+
+  describe('fecthContextVersionForStack', function () {
+    it('should fetch the user', function () {
+    });
+
+    it('should fetch the context', function () {
+    });
+
+    it('should throw an error if not contexts are found', function () {
+    });
+
+    it('should fetch the context versions', function () {
+    });
+
+    it('fetch the github repo branches', function () {
+    });
+
+    it('should throw an erro if no context versions are found', function () {
+    });
+  });
+
+  describe('createDemoAppForPersonalAccounts', function () {
+    it('should fetch the owner repo', function () {
+    });
+
+    it('should fetch the context verion for stack', function () {
+    });
+
+    it('should invite runnabot', function () {
+    });
+
+    it('should create new build, fetch stack, fetch instances, find dependencies', function () {
+    });
+
+    it('should replace the ENVs', function () {
+    });
+
+    it('should create the instance', function () {
+    });
+
+    it('should create an auto isolation config', function () {
     });
   });
 });

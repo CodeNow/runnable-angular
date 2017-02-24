@@ -334,7 +334,6 @@ function demoRepos(
 
   function createDemoAppForPersonalAccounts (stackKey) {
     var stack = stacks[stackKey];
-    // TODO: Change hard-coded CVs to other stuff
     return $q.all([
       fetchOwnerRepo(stack.repoOwner, stack.repoName),
       fecthContextVersionForStack(stack)
