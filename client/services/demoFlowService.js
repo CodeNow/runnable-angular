@@ -180,7 +180,7 @@ function demoFlowService(
     return currentOrg.isPersonalAccount();
   }
   function shouldShowTeamCTA () {
-    return currentOrg.isPersonalAccount() && getItem('clickedPrLink');
+    return currentOrg.isPersonalAccount() && !!getItem('clickedPrLink');
   }
 
   function shouldShowServicesCTA () {

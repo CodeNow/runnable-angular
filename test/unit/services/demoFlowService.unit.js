@@ -71,10 +71,10 @@ describe('demoFlowService'.bold.underline.blue, function () {
       expect(result).to.equal(true);
     });
 
-    it('should return a falsy value if the current org is a peronal account and has completed the demo flow', function() {
+    it('should return false if the current org is a peronal account and has completed the demo flow', function() {
       initState();
       var result = demoFlowService.shouldShowTeamCTA();
-      expect(!!result).to.equal(false);
+      expect(result).to.equal(false);
     });
   });
 });
