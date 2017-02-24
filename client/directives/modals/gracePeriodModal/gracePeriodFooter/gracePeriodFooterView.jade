@@ -1,10 +1,15 @@
-a.grid-content.shrink.link(
-  ng-if = "$root.featureFlags.demoOrgSelect"
-) Try a Demo
-a.grid-content.shrink.link(
-  ng-if = "!hideChooseOrg"
-  ng-click = "goToOrgSelect()"
-) Change Team
-a.grid-content.shrink.link(
-  ng-click = "logout()"
-) Sign Out
+.grid-block.vertical.align-center
+  img.logo.margin-bottom-sm(
+    src="/build/images/runnable-logo-gray.svg"
+  )
+  .grid-block
+    a.grid-content.shrink.link(
+      ng-if = "$root.featureFlags.demoOrgSelect"
+    ) Try a Demo
+    a.grid-content.shrink.link(
+      ng-if = "!hideChooseOrg"
+      ng-click = "goToOrgSelect()"
+    ) Change Team
+    a.grid-content.shrink.link(
+      ng-click = "logout()"
+    ) Sign Out
