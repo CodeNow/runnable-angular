@@ -15,26 +15,19 @@
     ng-if = "!COMC.personalAccountOnly"
     ng-init = "data.loading = false"
   )
-    .org-select-bar
-      span(
-        ng-if = "!$root.isLoading.grantAccess"
-      ) Your GitHub Teams
+    .grid-block.align-center.text-gray.small.teams-bar
       .spinner-wrapper.spinner-gray.spinner-sm.hidden-xxxs(
         ng-include = "'spinner'"
         ng-if = "$root.isLoading.grantAccess"
       )
-      span(
-        ng-if = "$root.isLoading.grantAccess"
-      ) Listening for&#32;
-        span.hidden-xxxs new&#32;
-        | teams…
+      | {{ $root.isLoading.grantAccess ? "Listening for teams…" : "Your GitHub Teams" }}
       button.btn.btn-xxs.white(
         ng-click = "COMC.grantAccess()"
       ) Add a Team
-    .org-select-empty-state(
+    .grid-block.align-center.justify-center.text-gray.text-center.small.teams-empty-state(
       ng-if = "COMC.personalAccountOnly && $root.featureFlags.demoOrgSelect"
-    ) Runnable is made for teams, but it looks
-      br
+    ) Runnable is made for teams, but it looks&#32;
+      br.hidden-xxxs
       | like you haven’t added any yet.
     li.grid-block.align-center.list-item.btn.white(
       data-event-name = "Org Selected"

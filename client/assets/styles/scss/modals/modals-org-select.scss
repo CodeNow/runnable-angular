@@ -1,80 +1,5 @@
 .modal-org-select {
 
-  .h1 {
-    font-size: 27px;
-  }
-
-  .well {
-    background: $gray-lightest;
-
-    .icons-github-listening {
-      color: $gray-light;
-      display: block;
-      height: 45px;
-      margin: 0 auto $xxs;
-      width: 45px;
-    }
-
-    .icons-github {
-      height: 12px;
-      margin-right: 4px;
-      top: 1px;
-      width: 12px;
-    }
-
-    .icons-link-external {
-      height: 9px;
-      top: 5px;
-      width: 15px;
-    }
-  }
-
-  .green .icons-link-external {
-    height: 12px;
-    width: 18px;
-  }
-
-  .btn-skip {
-
-    &:hover .iconnables,
-    &:active .iconnables {
-      transform: rotate(-90deg) translate3d(0,2px,0);
-    }
-
-    .iconnables {
-      height: 15px;
-      width: 15px;
-    }
-  }
-
-  .modal-header {
-    align-self: stretch;
-  }
-
-  .org-select-view {
-    padding: $md $sm $sm;
-
-    .p,
-    .list-item {
-      font-size: 19px;
-      padding: 0 $sm;
-    }
-  }
-
-  .list {
-    width: 100%;
-
-    + .p {
-      margin-top: 24px;
-    }
-  }
-
-  .icons-link-external {
-    height: 9px;
-    top: 1px;
-    width: 18px;
-  }
-
   .list-item {
     border-radius: 0;
     font-weight: $weight-normal;
@@ -102,20 +27,6 @@
     + .list-item {
       margin-top: -1px;
     }
-
-    .icons-github {
-      height: 30px;
-      width: 30px;
-    }
-
-    .small {
-      opacity: .6;
-    }
-  }
-
-  .iframe {
-    border-radius: $input-border-radius-lg;
-    max-width: 100%;
   }
 
   .footer {
@@ -124,35 +35,36 @@
   }
 }
 
-.org-select-bar {
-  align-items: center;
-  border: 1px solid $gray-lighter;
-  border-bottom: 0;
-  border-radius: 6px 6px 0 0;
-  color: $gray;
-  display: flex;
-  font-size: 13px;
-  height: 36px + 1px;
-  padding: 0 9px 0 18px;
+.org-select-view {
+  padding: $md $sm $sm;
+
+  .p,
+  .list-item {
+    font-size: 19px;
+    padding: 0 $sm;
+  }
+}
+
+.teams-bar {
+  border-left: 1px solid $gray-lighter;
+  border-radius: $input-border-radius-lg $input-border-radius-lg 0 0;
+  border-right: 1px solid $gray-lighter;
+  border-top: 1px solid $gray-lighter;
+  height: 36px + $input-border;
+  padding: 0 $xxs 0 18px;
 
   .btn {
     margin-left: auto;
   }
 
   .spinner-wrapper {
-    margin-right: 6px;
+    margin-right: $input-border-radius-lg;
   }
 }
 
-.org-select-empty-state {
-  align-items: center;
+.teams-empty-state {
   background-color: $white;
   border: 1px solid $gray-lighter;
-  border-radius: 0 0 6px 6px;
-  color: $gray;
-  display: flex;
-  font-size: 13px;
-  justify-content: center;
-  padding: 45px 0;
-  text-align: center;
+  border-radius: 0 0 $input-border-radius-lg $input-border-radius-lg;
+  padding: $lg $sm;
 }
