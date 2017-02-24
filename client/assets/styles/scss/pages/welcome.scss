@@ -1,8 +1,9 @@
 .welcome {
+  background: linear-gradient(rgba($purple-light,.99), rgba($purple-blue,.98));
 
   .logo {
     height: auto;
-    width: 120px;
+    padding: 27px 0 18px;
   }
 
   .runnabear {
@@ -11,7 +12,7 @@
     margin: 0 auto;
     position: absolute;
     right: 0;
-    top: 32px;
+    top: 113px;
     width: 230px;
     z-index: 1;
 
@@ -19,10 +20,14 @@
       margin-top: 150px;
     }
   }
+
+  .modal-dialog {
+    border: 0;
+    box-shadow: 0 1px 3px rgba($black,.1);
+  }
 }
 
 .welcome-footer .link {
-  color: $gray;
   opacity: .6;
   text-decoration: none;
 
