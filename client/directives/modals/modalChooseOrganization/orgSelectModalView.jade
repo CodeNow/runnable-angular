@@ -16,17 +16,18 @@
       span(
         ng-if = "!$root.isLoading.grantAccess"
       ) Your GitHub Teams
-      .spinner-wrapper.spinner-gray.spinner-sm.in(
+      .spinner-wrapper.spinner-gray.spinner-sm.hidden-xxxs(
         ng-include = "'spinner'"
         ng-if = "$root.isLoading.grantAccess"
       )
       span(
         ng-if = "$root.isLoading.grantAccess"
-      ) Listening for new teams…
+      ) Listening for&#32;
+        span.hidden-xxxs new&#32;
+        | teams…
       button.btn.btn-xxs.white(
         ng-click = "COMC.grantAccess()"
       ) Add a Team
-        //- ng-click = "COMC.grantAccess()"
     .org-select-empty-state(
       ng-if = "COMC.personalAccountOnly && $root.featureFlags.demoOrgSelect"
     ) Runnable is made for teams, but it looks
