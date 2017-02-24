@@ -144,3 +144,16 @@
     margin-left: auto;
   }
 }
+
+.org-select-empty-state {
+  border: 1px solid $gray-lighter;
+  border-radius: 0 0 6px 6px;
+  color: $gray;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: $white;
+  padding: 45px 0;
+}

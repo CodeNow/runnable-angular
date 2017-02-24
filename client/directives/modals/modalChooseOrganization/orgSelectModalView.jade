@@ -14,6 +14,11 @@
     .org-select-bar
       | Your GitHub Teams
       button.btn.btn-xxs.white Add a Team
+    .org-select-empty-state(
+      ng-if = "COMC.personalAccountOnly && $root.featureFlags.demoOrgSelect"
+    ) Runnable is made for teams, but it looks
+      br
+      | like you haven’t added any yet.
     li.grid-block.align-center.list-item.btn.white(
       data-event-name = "Org Selected"
       ng-click = "COMC.actions.selectAccount(org.oauthName())"
