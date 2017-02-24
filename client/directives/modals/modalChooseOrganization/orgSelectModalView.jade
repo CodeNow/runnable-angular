@@ -5,8 +5,11 @@
 
 .grid-block.vertical.org-select-view
 
-  p.p.text-gray(
-    ng-if = "!COMC.personalAccountOnly"
+  p.p.strong.text-center(
+    ng-if = "$root.featureFlags.demoOrgSelect"
+  ) Welcome back!
+  p.p.text-center.text-gray.margin-bottom-md(
+    ng-if = "!COMC.personalAccountOnly || $root.featureFlags.demoOrgSelect"
   ) Select a team to start running its code.
   ol.grid-block.vertical.list(
     ng-if = "!COMC.personalAccountOnly"
