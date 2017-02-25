@@ -52,17 +52,16 @@
   border-right: 1px solid $gray-lighter;
   border-top: 1px solid $gray-lighter;
   height: 36px + $input-border;
-  padding: 0 $xxs 0 18px;
+  padding: 0 6px 0 18px;
 
   .btn {
     margin-left: auto;
   }
 
   .icons-link-external {
-    height: 7px;
-    margin-left: 2px;
-    margin-right: -1px;
-    width: 7px;
+    height: 8px;
+    margin-left: 3px;
+    width: 8px;
   }
 
   .spinner-wrapper {

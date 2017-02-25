@@ -24,7 +24,7 @@
         ng-include = "'spinner'"
       )
       | {{ $root.isLoading.grantAccess ? "Listening for teams…" : "Your GitHub Teams" }}
-      button.btn.btn-xxs.white(
+      button.btn.btn-xs.gray(
         ng-click = "COMC.grantAccess()"
       ) Add a Team
         svg.iconnables.icons-link-external
