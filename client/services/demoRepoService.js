@@ -126,7 +126,7 @@ function demoRepos(
   demoFlowService,
   errs,
   fetchContextVersion,
-  fetchGitHubRepoBranches,
+  fetchGitHubRepoBranch,
   fetchInstancesByPod,
   fetchNonRepoInstances,
   fetchOwnerRepo,
@@ -308,7 +308,7 @@ function demoRepos(
       })
       .then(function (contexts) {
         var context = contexts.find(function (context) {
-          return context.attrs.name === stackName;
+          return stackName === keypather.get(context, 'attrs.name');
         });
         if (!context) {
           return $q.reject(new Error('No context found for ' + stackName));
@@ -316,7 +316,7 @@ function demoRepos(
         return promisify(context, 'fetchVersions')({ qs: { sort: '-created' }});
       })
       .then(function (versions) {
-        return fetchGitHubRepoBranches(stack.repoOwner, stack.repoName, stack.branchName)
+        return fetchGitHubRepoBranch(stack.repoOwner, stack.repoName, stack.branchName)
           .then(function (branch) {
             var version = versions.find(function (version) {
               var branchName = keypather.get(version, 'getMainAppCodeVersion().attrs.branch');
@@ -339,6 +339,7 @@ function demoRepos(
       fecthContextVersionForStack(stack)
     ])
       .then(function (res) {
+        console.log('res', res)
         var repoModel = res[0];
         var contextVersion = res[1];
         var inviteRunnabot = invitePersonalRunnabot({
@@ -408,6 +409,10 @@ function demoRepos(
     _findNewRepoOnRepeat: _findNewRepoOnRepeat, // for testing
     checkForOrphanedDependency: checkForOrphanedDependency,
     createDemoApp: createDemoApp,
+    createInstance: createInstance,
+    createDemoAppForPersonalAccounts: createDemoAppForPersonalAccounts,
+    fecthContextVersionForStack: fecthContextVersionForStack,
+    fecthContextVersionForStack: fecthContextVersionForStack,
     demoStacks: stacks,
     forkGithubRepo: forkGithubRepo,
     shouldShowDemoSelector: function () {

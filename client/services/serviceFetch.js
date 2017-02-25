@@ -11,7 +11,7 @@ require('app')
   .factory('fetchWhitelistedOrgs', fetchWhitelistedOrgs)
   .factory('fetchWhitelists', fetchWhitelists)
   .factory('fetchGithubOrgId', fetchGithubOrgId)
-  .factory('fetchGitHubRepoBranches', fetchGitHubRepoBranches)
+  .factory('fetchGitHubRepoBranch', fetchGitHubRepoBranch)
   .factory('fetchOrgRegisteredMembers', fetchOrgRegisteredMembers)
   .factory('fetchOrgMembers', fetchOrgMembers)
   .factory('fetchGrantedGithubOrgs', fetchGrantedGithubOrgs)
@@ -831,7 +831,7 @@ function fetchGitHubAdminsByRepo(
   };
 }
 
-function fetchGitHubRepoBranches(
+function fetchGitHubRepoBranch(
   $http,
   configAPIHost
 ) {
