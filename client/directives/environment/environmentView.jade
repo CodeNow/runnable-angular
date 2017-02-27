@@ -46,7 +46,7 @@
 )
   .popover.popover-environment.in(
     configure-intro
-    ng-if = "$root.featureFlags.demoOrg && EC.shouldShowExplanationUi()"
+    ng-if = "EC.shouldShowExplanationUi()"
   )
 
   header.grid-block.align-center.environment-header(

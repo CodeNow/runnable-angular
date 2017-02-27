@@ -287,7 +287,7 @@ module.exports = [
         featureFlags,
         populateCurrentOrgService // unused, but required so things are properly populated!
       ) {
-        if (featureFlags.flags.demoOrg && demoFlowService.isInDemoFlow()) {
+        if (demoFlowService.isInDemoFlow()) {
           return $state.go('base.instances', {
             userName: $stateParams.userName
           });

@@ -17,7 +17,6 @@ function featureFlags(
     connections: false,
     contingencyPlan: false,
     demoAutoAddBranch: true,
-    demoOrg: true,
     demoPersistentAddTeam: false,
     demoUrlPolling: true,
     dockerCompose: true,

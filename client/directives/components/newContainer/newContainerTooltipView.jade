@@ -1,5 +1,5 @@
 .arrow(
-  ng-class = "{'gray': (!$root.featureFlags.demoOrg && !NCC.isPersonalAccount()) || ($root.featureFlags.demoOrg && !NCC.isInDemoFlow())}"
+  ng-class = "{'gray': !NCC.isPersonalAccount() || !NCC.isInDemoFlow()}"
   style = "top: 39px;"
 )
 
