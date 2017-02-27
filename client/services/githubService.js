@@ -35,12 +35,12 @@ function github(
   return {
     branchOrPRCommits: function (acv) {
       var pullRequest = acv.attrs.pullRequest;
-      var repo = acv.attrs.repo;
+      var repo = acv.attrs.lowerRepo;
       var githubUrl;
       if (pullRequest) {
         githubUrl = '/repos/' + repo + '/pulls/' + pullRequest + '/commits?per_page=100';
       } else {
-        githubUrl = '/repos/' + repo + '/commits?sha=' + acv.attrs.branch + '&per_page=100';
+        githubUrl = '/repos/' + repo + '/commits?sha=' + acv.attrs.lowerBranch + '&per_page=100';
       }
       var ghRequest = {
         method: 'get',
