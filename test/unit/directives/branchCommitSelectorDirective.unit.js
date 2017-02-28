@@ -42,7 +42,7 @@ describe('branchCommitSelectorDirective'.bold.underline.blue, function () {
       });
       $provide.factory('github', function ($q) {
         ctx.github = {
-          branchCommits: sinon.stub().returns($q.when(ctx.commits))
+          branchOrPRCommits: sinon.stub().returns($q.when(ctx.commits))
         };
         return ctx.github;
       });
@@ -87,7 +87,7 @@ describe('branchCommitSelectorDirective'.bold.underline.blue, function () {
       //Should fetch once the branch is set
       $scope.$digest();
       expect($elScope.BCSC.data.branch, 'data.branch').to.equal(ctx.branch);
-      sinon.assert.called(ctx.github.branchCommits);
+      sinon.assert.called(ctx.github.branchOrPRCommits);
       expect($elScope.fetchingCommits, 'fetchingCommits').to.be.false;
       $rootScope.$destroy();
     });
