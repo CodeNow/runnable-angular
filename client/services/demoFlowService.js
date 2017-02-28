@@ -12,7 +12,7 @@ function demoFlowService(
   defaultContainerUrl,
   errs,
   featureFlags,
-  fetchGitHubRepoBranches,
+  fetchGitHubRepoBranch,
   github,
   keypather,
   patchOrgMetadata,
@@ -139,7 +139,7 @@ function demoFlowService(
     var orgName = fullReponame[0];
     var repoName = fullReponame[1];
     addBranchListener();
-    return fetchGitHubRepoBranches(orgName, repoName, 'dark-theme')
+    return fetchGitHubRepoBranch(orgName, repoName, 'dark-theme')
       .then(function (branch) {
         var sha = branch.commit.sha;
         var branchName = branch.name;
