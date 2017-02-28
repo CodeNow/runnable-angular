@@ -215,60 +215,24 @@ function demoRepos(
     });
   }
 
-  function checkForOrphanedDependency (stackName) {
-    var repoName = stacks[stackName].repoName;
-    var dep;
-    var repoInstance;
-    return fetchInstancesByPod()
-      .then(function (instances) {
-        instances.models.some(function (instance) {
-          // we checking here to be sure that the instance has a repo/acv
-          // to distinguish between the dependency instances
-          if (instance.contextVersion.getMainAppCodeVersion() && instance.attrs.name === repoName) {
-            repoInstance = instance;
-          } else {
-            dep = instance;
-          }
-          return dep && repoInstance;
-        });
-        if (dep && !repoInstance) {
-          return stackName;
-        }
-        return false;
-      });
-  }
-
   function findDependencyNonRepoInstances(stack, stackKey) {
-    return checkForOrphanedDependency(stackKey)
-      .then(function (hasOrphanedDependency) {
-        if (hasOrphanedDependency) {
-          return fetchInstancesByPod()
-            .then(function (instances) {
-              var dependency = instances.models.find(function (instance) {
-                return !instance.contextVersion.getMainAppCodeVersion() && stack.deps.includes(instance.attrs.name);
-              });
-              var demoDependency = {};
-              demoDependency[dependency.attrs.name] = dependency;
-              return demoDependency;
-            });
-        }
-        return fetchNonRepoInstances()
-          .then(function (instances) {
-            return instances.filter(function (instance) {
-              return stack.deps.includes(instance.attrs.name);
-            });
-          })
-          .then(function (deps) {
-            var depMap = deps.reduce(function (map, depInstance) {
-              map[depInstance.attrs.name] = createNonRepoInstance(depInstance.attrs.name, depInstance);
-              return map;
-            }, {});
-            return $q.all(depMap);
-          });
+    return fetchNonRepoInstances()
+      .then(function (instances) {
+        return instances.filter(function (instance) {
+          return stack.deps.includes(instance.attrs.name);
+        });
+      })
+      .then(function (deps) {
+        var depMap = deps.reduce(function (map, depInstance) {
+          map[depInstance.attrs.name] = createNonRepoInstance(depInstance.attrs.name, depInstance);
+          return map;
+        }, {});
+        return $q.all(depMap);
       });
   }
 
   function createInstance (containerName, build, activeAccount, opts) {
+    console.log('createInstance')
     return fetchUser()
     .then(function (user) {
       var instanceOptions = {
@@ -333,18 +297,21 @@ function demoRepos(
   }
 
   function createDemoAppForPersonalAccounts (stackKey) {
+    console.log('1');
     var stack = stacks[stackKey];
     return $q.all([
       fetchOwnerRepo(stack.repoOwner, stack.repoName),
       fetchContextVersionForStack(stack)
     ])
       .then(function (res) {
+        console.log('2');
         var repoModel = res[0];
         var contextVersion = res[1];
         var inviteRunnabot = invitePersonalRunnabot({
           repoName: stack.repoName,
           githubUsername: currentOrg.getDisplayName()
         });
+        console.log('2.1');
         return $q.all({
           build: createNewBuildByContextVersion(currentOrg.github, contextVersion),
           stack: fetchStackData(repoModel, true),
@@ -354,6 +321,7 @@ function demoRepos(
         });
       })
       .then(function (promiseResults) {
+        console.log('3');
         var generatedEnvs = fillInEnvs(stack, promiseResults.deps);
         var instanceName = getUniqueInstanceName(stack.repoName, promiseResults.instances);
         return $q.all({
@@ -365,6 +333,7 @@ function demoRepos(
         });
       })
       .then(function (promiseResults) {
+        console.log('4');
         var deps = Object.keys(promiseResults.deps).map(function (id) {
           return promiseResults.deps[id];
         });
@@ -406,7 +375,6 @@ function demoRepos(
   return {
     _findNewRepo: _findNewRepo, // for testing
     _findNewRepoOnRepeat: _findNewRepoOnRepeat, // for testing
-    checkForOrphanedDependency: checkForOrphanedDependency,
     createDemoApp: createDemoApp,
     createInstance: createInstance,
     createDemoAppForPersonalAccounts: createDemoAppForPersonalAccounts,
