@@ -32,7 +32,7 @@
       ng-if = "\
         (dataInstance.data.showUpdatingMessage || dataInstance.data.showUpdatedMessage) ||\
         dataInstance.data.instance.isMigrating() ||\
-        CI.showHangTightMessage()\
+        (CI.showHangTightMessage() && !$root.featureFlags.demoPersonalOnly)\
       "
       ng-include = "'viewNotifications'"
     )
