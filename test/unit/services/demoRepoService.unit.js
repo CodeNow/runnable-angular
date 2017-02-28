@@ -366,21 +366,21 @@ describe('demoRepos', function () {
     });
   });
 
-  describe('fecthContextVersionForStack', function () {
+  describe('fetchContextVersionForStack', function () {
     var stack;
     beforeEach(function () {
       stack = angular.extend({}, demoRepos.demoStacks.nodejs);
     });
 
     it('should fetch the user', function () {
-      demoRepos.fecthContextVersionForStack(stack);
+      demoRepos.fetchContextVersionForStack(stack);
       $rootScope.$digest();
       sinon.assert.calledOnce(fetchUserStub);
     });
 
     it('should fetch the contexts', function () {
       var error = null;
-      demoRepos.fecthContextVersionForStack(stack)
+      demoRepos.fetchContextVersionForStack(stack)
         .catch(function (err) { error = err; });
       $rootScope.$digest();
       sinon.assert.calledOnce(userMock.fetchContexts);
@@ -393,7 +393,7 @@ describe('demoRepos', function () {
       userMock.fetchContexts.returns([
         { name: 'idontknow' }
       ]);
-      demoRepos.fecthContextVersionForStack(stack)
+      demoRepos.fetchContextVersionForStack(stack)
         .catch(function (err) { error = err; });
       $rootScope.$digest();
       sinon.assert.calledOnce(userMock.fetchContexts);
@@ -403,14 +403,14 @@ describe('demoRepos', function () {
     });
 
     it('should fetch the context versions', function () {
-      demoRepos.fecthContextVersionForStack(stack);
+      demoRepos.fetchContextVersionForStack(stack);
       $rootScope.$digest();
       sinon.assert.calledOnce(contexts[0].fetchVersions);
       sinon.assert.calledWith(contexts[0].fetchVersions, { qs: { sort: '-created' } });
     });
 
     it('fetch the github repo branches', function () {
-      demoRepos.fecthContextVersionForStack(stack);
+      demoRepos.fetchContextVersionForStack(stack);
       $rootScope.$digest();
       sinon.assert.calledOnce(fetchGitHubRepoBranchStub);
       sinon.assert.calledWith(fetchGitHubRepoBranchStub, stack.repoOwner, stack.repoName, stack.branchName);
@@ -420,7 +420,7 @@ describe('demoRepos', function () {
       var error = null;
       versions[0].attrs.build.failed = true;
       contexts[0].fetchVersions.returns(versions);
-      demoRepos.fecthContextVersionForStack(stack)
+      demoRepos.fetchContextVersionForStack(stack)
         .catch(function (err) { error = err; });
       $rootScope.$digest();
       expect(error).to.not.equal(null);
@@ -428,19 +428,19 @@ describe('demoRepos', function () {
     });
   });
 
-  describe.('createDemoAppForPersonalAccounts', function () {
+  describe('createDemoAppForPersonalAccounts', function () {
     var version;
     var stack;
     var depsMock;
     beforeEach(function () {
       version = {};
       stack = angular.extend({}, demoRepos.demoStacks.nodejs);
-      sinon.stub(demoRepos, 'fecthContextVersionForStack').returns($q.when(version));
+      sinon.stub(demoRepos, 'fetchContextVersionForStack').returns($q.when(version));
       sinon.stub(demoRepos, 'findDependencyNonRepoInstances').returns($q.when(depsMock));
     });
 
     afterEach(function () {
-      demoRepos.fecthContextVersionForStack.restore();
+      demoRepos.fetchContextVersionForStack.restore();
       demoRepos.findDependencyNonRepoInstances.restore();
     });
 
@@ -454,8 +454,8 @@ describe('demoRepos', function () {
     it('should fetch the context verion for stack', function () {
       demoRepos.createDemoAppForPersonalAccounts('nodejs');
       $rootScope.$digest();
-      sinon.assert.calledOnce(demoRepos.fecthContextVersionForStack);
-      sinon.assert.calledWith(demoRepos.fecthContextVersionForStack, stack);
+      sinon.assert.calledOnce(demoRepos.fetchContextVersionForStack);
+      sinon.assert.calledWith(demoRepos.fetchContextVersionForStack, stack);
     });
 
     it('should invite runnabot', function () {

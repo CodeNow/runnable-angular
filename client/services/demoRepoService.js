@@ -299,7 +299,7 @@ function demoRepos(
     });
   }
 
-  function fecthContextVersionForStack (stack) {
+  function fetchContextVersionForStack (stack) {
     var stackName = stack.repoName;
     return fetchUser()
       .then(function (user) {
@@ -336,10 +336,9 @@ function demoRepos(
     var stack = stacks[stackKey];
     return $q.all([
       fetchOwnerRepo(stack.repoOwner, stack.repoName),
-      fecthContextVersionForStack(stack)
+      fetchContextVersionForStack(stack)
     ])
       .then(function (res) {
-        console.log('res', res)
         var repoModel = res[0];
         var contextVersion = res[1];
         var inviteRunnabot = invitePersonalRunnabot({
@@ -411,8 +410,7 @@ function demoRepos(
     createDemoApp: createDemoApp,
     createInstance: createInstance,
     createDemoAppForPersonalAccounts: createDemoAppForPersonalAccounts,
-    fecthContextVersionForStack: fecthContextVersionForStack,
-    fecthContextVersionForStack: fecthContextVersionForStack,
+    fetchContextVersionForStack: fetchContextVersionForStack,
     demoStacks: stacks,
     forkGithubRepo: forkGithubRepo,
     shouldShowDemoSelector: function () {
