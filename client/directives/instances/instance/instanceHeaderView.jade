@@ -73,7 +73,7 @@
   )
 
   .popover.bottom.in.popover-url.below-modals(
-    ng-if = "showUrlCallout()"
+    ng-if = "showUrlCallout() && !($root.featureFlags.demoPersonalOnly && !currentOrg.isPersonalAccount())"
     ng-include = "'containerUrlPopoverView'"
   )
 

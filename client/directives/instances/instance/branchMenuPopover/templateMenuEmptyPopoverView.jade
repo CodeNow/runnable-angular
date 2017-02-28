@@ -11,7 +11,7 @@
   ) Switch to a Team
 
 .grid-block.align-center.vertical.padding-md.empty(
-  ng-if = "!NCC.isPersonalAccount()"
+  ng-if = "!NCC.isPersonalAccount() && !$root.featureFlags.demoPersonalOnly"
 )
   img.grid-block.shrink.img(
     src = "/build/images/add-code-state.svg"

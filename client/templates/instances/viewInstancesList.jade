@@ -3,7 +3,7 @@
 
   //- 'select demo' guide
   .grid-block.popover.in.margin-top-xs.popover-demo.demo-transition.js-animate(
-    ng-if = "CIS.shouldShowDemoSelector()"
+    ng-if = "CIS.shouldShowDemoSelector() && !($root.featureFlags.demoPersonalOnly && !CIS.currentOrg.isPersonalAccount())"
   )
     .grid-block
       .slide.slide-out(
@@ -30,7 +30,7 @@
 
     //- search
     label.grid-block.shrink.vertical.label-search(
-      ng-if = "!CIS.shouldShowDemoSelector()"
+      ng-if = "!CIS.shouldShowDemoSelector() || ($root.featureFlags.demoPersonalOnly && !CIS.currentOrg.isPersonalAccount())"
     )
       input.input.input-xs.input-search(
         ng-model = "CIS.searchBranches"
@@ -51,7 +51,7 @@
 
     //- master cluster
     .grid-block.shrink.vertical.list-clusters.master-cluster.js-animate(
-      ng-if = "!CIS.shouldShowDemoSelector() && (!CIS.searchBranches || CIS.getFilteredInstanceList().length)"
+      ng-if = "(!CIS.shouldShowDemoSelector() || $root.featureFlags.demoPersonalOnly) && (!CIS.searchBranches || CIS.getFilteredInstanceList().length)"
     )
       .grid-block.shrink.align-center.list-item-cluster.list-clusters-heading(
         ng-include = "'servicesHeadingView'"
@@ -59,11 +59,11 @@
 
       .grid-block.vertical.padding-sm.popover.bottom.in.popover-demo.service-cta(
         add-service-cta
-        ng-if = "CIS.shouldShowServicesCTA()"
+        ng-if = "CIS.shouldShowServicesCTA() && !$root.featureFlags.demoPersonalOnly"
       )
 
       .grid-block.align-center.padding-sm.popover.top.in.popover-demo(
-        ng-if = "CIS.showInstanceRunningPopover()"
+        ng-if = "CIS.showInstanceRunningPopover() && !($root.featureFlags.demoPersonalOnly && !CIS.currentOrg.isPersonalAccount())"
         ng-include = "'popoverDemoUrlHiddenView'"
       )
 
@@ -90,11 +90,10 @@
           )
 
       .grid-block.vertical.shrink.well.empty.text-center(
-        ng-if = "!CIS.shouldShowDemoSelector() && !CIS.getFilteredInstanceList().length && !CIS.searchBranches"
+        ng-if = "(!CIS.shouldShowDemoSelector() || $root.featureFlags.demoPersonalOnly) && !CIS.getFilteredInstanceList().length && !CIS.searchBranches"
       ) 👆
         br
         .small First, use the button above to create your first service.
-
 
       .grid-block.shrink.align-center.list-item-cluster.list-clusters-heading(
         ng-if = "CIS.getFilteredTestingMasters().length"
@@ -133,9 +132,8 @@
 
   //- wraps all branch clusters — hide until a branch has been added
   .demo-transition.js-animate(
-    ng-if = "!CIS.isInDemoFlow() || CIS.shouldShowBranchView()"
+    ng-if = "!CIS.isInDemoFlow() || CIS.shouldShowBranchView() || ($root.featureFlags.demoPersonalOnly && !CIS.currentOrg.isPersonalAccount())"
   )
-
 
     //- branch clusters
     .grid-block.vertical.shrink.list-clusters.js-animate(
@@ -186,6 +184,6 @@
 
       //- show only on demo repos
       .grid-block.vertical.padding-sm.popover.bottom.in.popover-demo.branch-step(
-        ng-if = "$root.featureFlags.demoAutoAddBranch && CIS.shouldShowAddBranchCTA(masterInstance)"
+        ng-if = "$root.featureFlags.demoAutoAddBranch && CIS.shouldShowAddBranchCTA(masterInstance) && !($root.featureFlags.demoPersonalOnly && !currentOrg.isPersonalAccount())"
         ng-include = "'popoverDemoBranchContainerView'"
       )

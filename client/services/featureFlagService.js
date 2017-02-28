@@ -17,6 +17,7 @@ function featureFlags(
     connections: false,
     contingencyPlan: false,
     demoAutoAddBranch: true,
+    demoPersonalOnly: false, // no more demos for orgs
     demoPersistentAddTeam: false,
     demoUrlPolling: true,
     dockerCompose: true,

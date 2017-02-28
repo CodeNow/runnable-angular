@@ -6,12 +6,6 @@
   top: 0;
   z-index: $z-views-sidebar;
 
-  // specific to the service cta
-  &.service-cta {
-    margin-bottom: 9px;
-    margin-top: 5px;
-  }
-
   // specific to the branch step
   &.branch-step {
     margin-top: 6px;
