@@ -632,6 +632,30 @@ function EventTracking(
   };
 
   /**
+   * Opened auth primer (1)
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.openedFirstAuthPrimer = function () {
+    var eventName = 'Opened First Auth Primer';
+    ETS._mixpanel('track', eventName);
+    return ETS;
+  };
+
+  /**
+   * Opened auth primer (2)
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.openedSecondAuthPrimer = function () {
+    var eventName = 'Opened Second Auth Primer';
+    ETS._mixpanel('track', eventName);
+    return ETS;
+  };
+
+  /**
    * Clicked ‘Change Team’
    * Reports to:
    *   - mixpanel

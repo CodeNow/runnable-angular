@@ -16,6 +16,7 @@ function NewContainerController(
   currentOrg,
   demoFlowService,
   errs,
+  eventTracking,
   fetchInstances,
   fetchInstancesByPod,
   fetchOwnerRepos,
@@ -73,6 +74,10 @@ function NewContainerController(
     .finally(function () {
       loading('newContainerRepos', false);
     });
+
+  NCC.openedFirstAuthPrimer = function () {
+    eventTracking.openedFirstAuthPrimer();
+  };
 
   NCC.fetchTemplateServers = function () {
     loading('newContainerTemplates', true);

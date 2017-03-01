@@ -20,6 +20,7 @@ function ControllerApp(
   debounce,
   demoFlowService,
   errs,
+  eventTracking,
   featureFlags,
   fetchInstancesByPod,
   keypather,
@@ -43,6 +44,10 @@ function ControllerApp(
     .then(function (instancesByPod) {
       CA.instancesByPod = instancesByPod;
     });
+
+  CA.openedFirstAuthPrimer = function () {
+    eventTracking.openedFirstAuthPrimer();
+  };
 
   CA.showDemoRepo = function () {
     return ahaGuide.isAddingFirstRepo() && !ahaGuide.hasConfirmedSetup() && ahaGuide.hasDemoRepo();
