@@ -309,7 +309,6 @@ describe('demoRepos', function () {
         ports: [ port1, port2 ],
         shouldNotAutofork: false,
       };
-      console.log('2o2');
       sinon.assert.calledWith(createNewInstanceStub, activeAccount, build, finalOpts, instanceMock);
     });
   });
