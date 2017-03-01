@@ -18,6 +18,8 @@ function featureFlags(
     contingencyPlan: false,
     demoAutoAddBranch: true,
     demoOrg: true,
+    demoOrgSelectUpdate: false, // updated org select for reduced github auth flow
+    demoNoOrgs: false, // simulates no orgs in the org select upate
     demoPersistentAddTeam: false,
     demoUrlPolling: true,
     dockerCompose: true,

@@ -1,0 +1,67 @@
+//- ************************
+//- deprecated file, delete with $root.featureFlags.demoOrgSelectUpdate
+
+.modal-org-select {
+
+  .modal-header {
+    align-self: stretch;
+  }
+
+  .h1 {
+    font-size: 27px;
+  }
+
+  .p.deprecated {
+    font-size: 15px;
+    margin-bottom: $sm;
+  }
+
+  .list + .p {
+    margin-top: 24px;
+  }
+
+  .list-item {
+
+    .icons-github {
+      height: 30px;
+      width: 30px;
+    }
+
+    .small {
+      opacity: .6;
+    }
+  }
+
+  .green .icons-link-external {
+    height: 12px;
+    width: 18px;
+  }
+
+  .well {
+    background: $gray-lightest;
+
+    .icons-github-listening {
+      color: $gray-light;
+      display: block;
+      height: 45px;
+      margin: 0 auto $xxs;
+      width: 45px;
+    }
+
+    .icons-github {
+      height: 12px;
+      margin-right: 4px;
+      top: 1px;
+      width: 12px;
+    }
+
+    .icons-link-external {
+      height: 9px;
+      top: 5px;
+      width: 15px;
+    }
+  }
+}
+
+//- end deprecated file
+//- ************************

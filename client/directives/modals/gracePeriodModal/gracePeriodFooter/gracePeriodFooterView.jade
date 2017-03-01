@@ -1,4 +1,7 @@
 a.grid-content.shrink.link(
+  ng-if = "$root.featureFlags.demoOrgSelectUpdate"
+) Try a Demo
+a.grid-content.shrink.link(
   ng-if = "!hideChooseOrg"
   ng-click = "goToOrgSelect()"
 ) Change Team
