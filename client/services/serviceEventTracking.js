@@ -424,10 +424,10 @@ function EventTracking(
    *   - mixpanel
    * @return this
    */
-  ETS.visitedContainersPage = function () {
+  ETS.visitedContainersPage = function (isPersonalAccount) {
     var eventName = 'Visited containers page';
 
-    ETS._mixpanel('track', eventName);
+    ETS._mixpanel('track', eventName, {isPersonalAccount: isPersonalAccount});
     return ETS;
   };
 

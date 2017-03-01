@@ -29,6 +29,7 @@ a.a(
 //- without tooltip
 //- show during the "add team" step
 a.grid-block.align-center.justify-center.shrink.btn-add-team(
+  data-event-name = "Open First Auth Primer"
   ng-click = "CA.demoAddOrg()"
   ng-if = "CA.shouldShowTeamCTA() && !$root.featureFlags.demoPersistentAddTeam"
 )
