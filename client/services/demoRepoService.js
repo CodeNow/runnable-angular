@@ -17,10 +17,10 @@ var stacks = {
     dockerComposePath: 'docker-compose.yml',
     env: [
       'MONGODB_HOST={{MongoDB}}',
-      'PORT=80'
+      'PORT=3000'
     ],
     ports: [
-      80
+      3000
     ],
     repoName: 'node-starter',
     deps: [
@@ -42,7 +42,7 @@ var stacks = {
       'DATABASE_URL=postgres://postgres@{{PostgreSQL}}:5432/postgres'
     ],
     ports: [
-      80
+      3000
     ],
     repoName: 'rails-starter',
     deps: [
@@ -71,7 +71,7 @@ var stacks = {
       'DB_PASSWORD='
     ],
     ports: [
-      80
+      8000
     ],
     repoName: 'django-starter',
     deps: [
@@ -232,7 +232,6 @@ function demoRepos(
   }
 
   function createInstance (containerName, build, activeAccount, opts) {
-    console.log('createInstance')
     return fetchUser()
     .then(function (user) {
       var instanceOptions = {
@@ -297,21 +296,18 @@ function demoRepos(
   }
 
   function createDemoAppForPersonalAccounts (stackKey) {
-    console.log('1');
     var stack = stacks[stackKey];
     return $q.all([
       fetchOwnerRepo(stack.repoOwner, stack.repoName),
       fetchContextVersionForStack(stack)
     ])
       .then(function (res) {
-        console.log('2');
         var repoModel = res[0];
         var contextVersion = res[1];
         var inviteRunnabot = invitePersonalRunnabot({
           repoName: stack.repoName,
           githubUsername: currentOrg.getDisplayName()
         });
-        console.log('2.1');
         return $q.all({
           build: createNewBuildByContextVersion(currentOrg.github, contextVersion),
           stack: fetchStackData(repoModel, true),
@@ -321,7 +317,6 @@ function demoRepos(
         });
       })
       .then(function (promiseResults) {
-        console.log('3');
         var generatedEnvs = fillInEnvs(stack, promiseResults.deps);
         var instanceName = getUniqueInstanceName(stack.repoName, promiseResults.instances);
         return $q.all({
@@ -333,7 +328,6 @@ function demoRepos(
         });
       })
       .then(function (promiseResults) {
-        console.log('4');
         var deps = Object.keys(promiseResults.deps).map(function (id) {
           return promiseResults.deps[id];
         });

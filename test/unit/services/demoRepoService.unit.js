@@ -190,58 +190,6 @@ describe('demoRepos', function () {
     });
   });
 
-  describe('orphaned dependencies', function () {
-    it('should return the stack name when it is a dependency only', function (done) {
-      fetchInstancesByPodStub.reset();
-      fetchInstancesByPodStub.returns($q.when({
-        models: [{
-          contextVersion: {
-          getMainAppCodeVersion: sinon.stub().returns(null)
-          },
-          attrs: {
-            name: 'MongoDB'
-          }
-        }]
-      }));
-      demoRepos.checkForOrphanedDependency('nodejs')
-        .then(function (stackName) {
-          sinon.assert.calledOnce(fetchInstancesByPodStub);
-          expect(stackName).to.equal('nodejs');
-          done();
-        });
-        $rootScope.$digest();
-    });
-
-    it('should return false if there is no orphaned dependency', function (done) {
-      fetchInstancesByPodStub.reset();
-      fetchInstancesByPodStub.returns($q.when({
-       models: [{
-        contextVersion: {
-          getMainAppCodeVersion: sinon.stub().returns(null)
-        },
-        attrs: {
-          name: 'MongoDB'
-        }
-        },
-        {
-          contextVersion: {
-            getMainAppCodeVersion: sinon.stub().returns('nodejs')
-          },
-          attrs: {
-            name: 'node-starter'
-          }
-        }]
-      }));
-      demoRepos.checkForOrphanedDependency('nodejs')
-        .then(function (stackName) {
-          sinon.assert.calledOnce(fetchInstancesByPodStub);
-          expect(stackName).to.equal(false);
-          done();
-        });
-      $rootScope.$digest();
-    });
-  });
-
   describe('_findNewRepoOnRepeat', function () {
     var stack;
     beforeEach(function () {
