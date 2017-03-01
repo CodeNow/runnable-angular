@@ -71,7 +71,6 @@ function ChooseOrganizationModalController(
       width: 1020, // match github minimum width
       height: 660
     });
-
     loading.reset(loadingString);
     loading(loadingString, true);
     COMC.cancelPollingForWhitelisted();
