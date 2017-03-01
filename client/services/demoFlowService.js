@@ -12,6 +12,7 @@ function demoFlowService(
   defaultContainerUrl,
   errs,
   featureFlags,
+  fetchGitHubRepoBranch,
   github,
   keypather,
   patchOrgMetadata,
@@ -133,14 +134,15 @@ function demoFlowService(
   }
 
   function forkNewInstance (instance) {
+    var acv = instance.contextVersion.getMainAppCodeVersion();
+    var fullReponame = acv.attrs.repo.split('/');
+    var orgName = fullReponame[0];
+    var repoName = fullReponame[1];
     addBranchListener();
-    return promisify(currentOrg.github, 'fetchRepo')(instance.getRepoName())
-      .then(function (repo) {
-        return promisify(repo, 'fetchBranch')('dark-theme');
-      })
+    return fetchGitHubRepoBranch(orgName, repoName, 'dark-theme')
       .then(function (branch) {
-        var sha = branch.attrs.commit.sha;
-        var branchName = branch.attrs.name;
+        var sha = branch.commit.sha;
+        var branchName = branch.name;
         return promisify(instance, 'fork')(branchName, sha);
       });
   }
