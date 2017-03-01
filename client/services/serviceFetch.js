@@ -12,6 +12,7 @@ require('app')
   .factory('fetchWhitelists', fetchWhitelists)
   .factory('fetchGithubOrgId', fetchGithubOrgId)
   .factory('fetchGitHubRepoBranch', fetchGitHubRepoBranch)
+  .factory('fetchGitHubRepoBranches', fetchGitHubRepoBranches)
   .factory('fetchOrgRegisteredMembers', fetchOrgRegisteredMembers)
   .factory('fetchOrgMembers', fetchOrgMembers)
   .factory('fetchGrantedGithubOrgs', fetchGrantedGithubOrgs)
@@ -839,6 +840,24 @@ function fetchGitHubRepoBranch(
     return $http({
       method: 'get',
       url: configAPIHost + '/github/repos/' + orgName + '/' + repoName + '/branches/' + branchName,
+      headers: {
+        Accept: 'application/vnd.github.ironman-preview+json'
+      }
+    })
+    .then(function (res) {
+      return res.data;
+    });
+  };
+}
+
+function fetchGitHubRepoBranches(
+  $http,
+  configAPIHost
+) {
+  return function (orgName, repoName) {
+    return $http({
+      method: 'get',
+      url: configAPIHost + '/github/repos/' + orgName + '/' + repoName + '/branches',
       headers: {
         Accept: 'application/vnd.github.ironman-preview+json'
       }
