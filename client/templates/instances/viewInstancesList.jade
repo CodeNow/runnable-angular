@@ -3,7 +3,7 @@
 
   //- 'select demo' guide
   .grid-block.popover.in.margin-top-xs.popover-demo.demo-transition.js-animate(
-    ng-if = "CIS.shouldShowDemoSelector() && !($root.featureFlags.demoPersonalOnly && !CIS.currentOrg.isPersonalAccount())"
+    ng-if = "CIS.shouldShowDemoSelector() && !$root.featureFlags.demoPersonalOnly"
   )
     .grid-block
       .slide.slide-out(
@@ -30,7 +30,7 @@
 
     //- search
     label.grid-block.shrink.vertical.label-search(
-      ng-if = "!CIS.shouldShowDemoSelector() || ($root.featureFlags.demoPersonalOnly && !CIS.currentOrg.isPersonalAccount())"
+      ng-if = "!CIS.shouldShowDemoSelector() || $root.featureFlags.demoPersonalOnly"
     )
       input.input.input-xs.input-search(
         ng-model = "CIS.searchBranches"
@@ -63,7 +63,7 @@
       )
 
       .grid-block.align-center.padding-sm.popover.top.in.popover-demo(
-        ng-if = "CIS.showInstanceRunningPopover() && !($root.featureFlags.demoPersonalOnly && !CIS.currentOrg.isPersonalAccount())"
+        ng-if = "CIS.showInstanceRunningPopover() && !$root.featureFlags.demoPersonalOnly"
         ng-include = "'popoverDemoUrlHiddenView'"
       )
 
@@ -132,7 +132,7 @@
 
   //- wraps all branch clusters — hide until a branch has been added
   .demo-transition.js-animate(
-    ng-if = "!CIS.isInDemoFlow() || CIS.shouldShowBranchView() || ($root.featureFlags.demoPersonalOnly && !CIS.currentOrg.isPersonalAccount())"
+    ng-if = "!CIS.isInDemoFlow() || CIS.shouldShowBranchView() || $root.featureFlags.demoPersonalOnly"
   )
 
     //- branch clusters
@@ -184,6 +184,6 @@
 
       //- show only on demo repos
       .grid-block.vertical.padding-sm.popover.bottom.in.popover-demo.branch-step(
-        ng-if = "$root.featureFlags.demoAutoAddBranch && CIS.shouldShowAddBranchCTA(masterInstance) && !($root.featureFlags.demoPersonalOnly && !currentOrg.isPersonalAccount())"
+        ng-if = "$root.featureFlags.demoAutoAddBranch && CIS.shouldShowAddBranchCTA(masterInstance) && !$root.featureFlags.demoPersonalOnly"
         ng-include = "'popoverDemoBranchContainerView'"
       )
