@@ -22,6 +22,11 @@
 
   .list-item {
 
+    &.deprecated:first-child {
+      border-top-left-radius: $input-border-radius-lg;
+      border-top-right-radius: $input-border-radius-lg;
+    }
+
     .icons-github {
       height: 30px;
       width: 30px;
