@@ -1,15 +1,15 @@
 .arrow(
-  ng-class = "{'gray': (!$root.featureFlags.demoOrg && !NCC.isPersonalAccount()) || ($root.featureFlags.demoOrg && !NCC.isInDemoFlow())}"
+  ng-class = "{'gray': !NCC.isPersonalAccount() || !NCC.isInDemoFlow()}"
   style = "top: 39px;"
 )
 
 div(
-  ng-if = "!NCC.showAddServicesPopover()"
+  ng-if = "!NCC.showAddServicesPopover() && !$root.featureFlags.demoPersonalOnly"
   ng-include = "'templateMenuEmptyPopoverView'"
 )
 
 div(
-  ng-if = "NCC.showAddServicesPopover()"
+  ng-if = "NCC.showAddServicesPopover() || $root.featureFlags.demoPersonalOnly"
 )
   .grid-block.popover-header
     button.grid-block.align-center.btn.btn-radio(

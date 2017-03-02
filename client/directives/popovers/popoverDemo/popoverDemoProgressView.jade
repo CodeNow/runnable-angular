@@ -6,5 +6,5 @@ progress-meter(
 a.link.small.text-gray-light(
   data-event-name = "Clicked: End Tour"
   ng-click = "endDemo()"
-  ng-if = "!isPersonalAccount || demoStep === 6"
+  ng-if = "(!isPersonalAccount && !$root.featureFlags.demoPersonalOnly) || demoStep === 6"
 ) End Demo

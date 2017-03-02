@@ -41,7 +41,6 @@ function ChooseOrganizationModalController(
     return !org.attrs.isPersonalAccount;
   });
   COMC.personalAccountOnly = grantedOrgs.models.length === 0 && nonPersonalWhitelistedOrgs.length === 0;
-  COMC.demoOrg = null;
 
   COMC.defaultBasePanel = 'orgSelection';
 

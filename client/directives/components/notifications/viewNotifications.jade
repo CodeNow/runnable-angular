@@ -11,5 +11,5 @@
 .grid-block.vertical.noscroll(
   hang-tight
   instance = "dataInstance.data.instance"
-  ng-if = "CI.showHangTightMessage()"
+  ng-if = "CI.showHangTightMessage() && !$root.featureFlags.demoPersonalOnly"
 )

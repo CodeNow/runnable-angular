@@ -5,7 +5,7 @@
 )
 
 a.a(
-  ng-if = "!CA.currentOrg.isPersonalAccount() && (!$root.featureFlags.demoOrg || $root.featureFlags.demoOrg && !CA.isInDemoFlow())"
+  ng-if = "!CA.currentOrg.isPersonalAccount() && (!CA.isInDemoFlow() || $root.featureFlags.demoPersonalOnly)"
   ui-sref = "base.config({ userName: CA.activeAccount.oauthName() })"
   ui-sref-active = "active"
 )
