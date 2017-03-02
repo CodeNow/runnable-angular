@@ -5,6 +5,7 @@ describe('branchCommitSelectorDirective'.bold.underline.blue, function () {
   var $scope;
   var $rootScope;
   var keypather;
+  var fetchCommitDataStub;
   var $elScope;
   var $controller;
   var $q;
@@ -39,6 +40,12 @@ describe('branchCommitSelectorDirective'.bold.underline.blue, function () {
           terminal: true,
           link: angular.noop
         };
+      });
+      $provide.factory('fetchCommitData', function ($q) {
+        fetchCommitDataStub = {
+          activeCommit: sinon.stub().returns($q.when(true))
+        }
+        return fetchCommitDataStub;
       });
       $provide.factory('github', function ($q) {
         ctx.github = {

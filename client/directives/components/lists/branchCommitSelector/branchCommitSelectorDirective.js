@@ -32,7 +32,10 @@ function branchCommitSelector(
         if (branch) {
           $scope.fetchingCommits = true;
           var acv = $scope.BCSC.data.acv;
-          return $q.all({branchOrPRCommits: github.branchOrPRCommits(acv), activeCommit: fetchCommitData.activeCommit(acv)})
+          return $q.all({
+            branchOrPRCommits: github.branchOrPRCommits(acv),
+            activeCommit: fetchCommitData.activeCommit(acv)
+          })
             .then(function(commitPromises) {
               $scope.BCSC.data.commit = commitPromises.activeCommit;
               return $scope.BCSC.onCommitFetch(commitPromises.branchOrPRCommits);
