@@ -424,10 +424,10 @@ function EventTracking(
    *   - mixpanel
    * @return this
    */
-  ETS.visitedContainersPage = function () {
+  ETS.visitedContainersPage = function (isPersonalAccount) {
     var eventName = 'Visited containers page';
 
-    ETS._mixpanel('track', eventName);
+    ETS._mixpanel('track', eventName, {isPersonalAccount: isPersonalAccount});
     return ETS;
   };
 
@@ -627,6 +627,30 @@ function EventTracking(
    */
   ETS.spunUpInfrastructureForOrg = function () {
     var eventName = 'Spun up infrastructure for Org';
+    ETS._mixpanel('track', eventName);
+    return ETS;
+  };
+
+  /**
+   * Opened auth primer (1)
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.openedFirstAuthPrimer = function () {
+    var eventName = 'Opened First Auth Primer';
+    ETS._mixpanel('track', eventName);
+    return ETS;
+  };
+
+  /**
+   * Opened auth primer (2)
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.openedSecondAuthPrimer = function () {
+    var eventName = 'Opened Second Auth Primer';
     ETS._mixpanel('track', eventName);
     return ETS;
   };

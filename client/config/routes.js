@@ -334,8 +334,12 @@ module.exports = [
         return fetchInstancesByPod()
           .catch(goToStateOnError($q, $state, $timeout, 'orgSelect', 'Unauthorized'));
       },
-      booted: function (eventTracking) {
-        eventTracking.visitedContainersPage();
+      booted: function (
+        currentOrg,
+        eventTracking,
+        populateCurrentOrgService
+      ) {
+        eventTracking.visitedContainersPage(currentOrg.isPersonalAccount());
       }
     }
   }, {

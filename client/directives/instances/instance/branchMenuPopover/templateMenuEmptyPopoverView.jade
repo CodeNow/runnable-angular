@@ -6,8 +6,14 @@
   )
   p.p.text-center To add your own repositories and services, try Runnable with a GitHub team.
   button.btn.btn-sm.gray.margin-top-xs(
+    ng-if = "!$root.featureFlags.demoPersistentAddTeam"
     ui-sref = "orgSelect"
     ui-sref-opts = "{reload: true}"
+  ) Switch to a Team
+  button.btn.btn-sm.gray.margin-top-xs(
+    internal-modal-helper = "gitHubScopeView"
+    ng-click = "NCC.openedFirstAuthPrimer()"
+    ng-if = "$root.featureFlags.demoPersistentAddTeam"
   ) Switch to a Team
 
 .grid-block.align-center.vertical.padding-md.empty(

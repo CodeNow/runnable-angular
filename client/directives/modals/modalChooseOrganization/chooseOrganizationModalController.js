@@ -56,15 +56,16 @@ function ChooseOrganizationModalController(
 
   COMC.grantAccess = function (isDemo) {
     var loadingString = 'grantAccess';
-    if (isDemo) {
-      loadingString = 'grantAccessDemo';
-    }
-
     var connectionUrl = '/githubAuth';
 
     if (isDemo) {
+      loadingString = 'grantAccessDemo';
       connectionUrl = connectionUrl + '?isDemo=true';
     }
+
+    // tracking with mixpanel
+    eventTracking.openedSecondAuthPrimer();
+
     var customWindow = customWindowService(connectionUrl, {
       width: 1020, // match github minimum width
       height: 660
