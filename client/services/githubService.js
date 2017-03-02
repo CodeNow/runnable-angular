@@ -33,21 +33,6 @@ function github(
       });
   }
   return {
-    branchOrPRCommits: function (acv) {
-      var pullRequest = acv.attrs.pullRequest;
-      var repo = acv.attrs.lowerRepo;
-      var githubUrl;
-      if (pullRequest) {
-        githubUrl = '/repos/' + repo + '/pulls/' + pullRequest + '/commits?per_page=100';
-      } else {
-        githubUrl = '/repos/' + repo + '/commits?sha=' + acv.attrs.branch + '&per_page=100';
-      }
-      var ghRequest = {
-        method: 'get',
-        url: githubAPIUrl + githubUrl
-      };
-      return makeGhRequest(ghRequest);
-    },
     forkRepo: function (repoOwner, repoName, targetOrg, isPersonalAccount) {
       var ghRequest = {
         method: 'post',

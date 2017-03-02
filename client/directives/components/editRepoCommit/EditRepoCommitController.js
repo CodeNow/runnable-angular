@@ -16,8 +16,7 @@ function EditRepoCommitController(
   errs,
   loading,
   ModalService,
-  updateInstanceWithNewAcvData,
-  github
+  updateInstanceWithNewAcvData
 ) {
     var ERCC = this;
     ERCC.isLatestCommitDeployed = true;
@@ -30,14 +29,15 @@ function EditRepoCommitController(
 
     $scope.$watch('ERCC.acv', function (newAcv, oldAcv) {
       if (newAcv) {
+        var branch = ERCC.acv.githubRepo.newBranch(ERCC.acv.attrs.branch, {warn: false});
         $q.all({
           activeCommit: fetchCommitData.activeCommit(ERCC.acv),
-          branchCommits: github.branchOrPRCommits(ERCC.acv)
+          branchCommits: promisify(branch.commits, 'fetch')()
         })
           .then(function(commits) {
             ERCC.activeCommit = commits.activeCommit;
-            ERCC.latestBranchCommit = keypather.get(commits, 'branchCommits[0]');
-            ERCC.isLatestCommitDeployed = ERCC.activeCommit.attrs.sha === ERCC.latestBranchCommit.sha;
+            ERCC.latestBranchCommit = keypather.get(commits, 'branchCommits.models[0]');
+            ERCC.isLatestCommitDeployed = ERCC.activeCommit.attrs.sha === ERCC.latestBranchCommit.attrs.sha;
           });
       }
     });
@@ -107,12 +107,13 @@ function EditRepoCommitController(
     };
 
     ERCC.updateInstance = function() {
+      var branch = ERCC.acv.githubRepo.newBranch(ERCC.acv.attrs.branch, {warn: false});
       loading('updatingInstance', true);
-      $q.when(github.branchOrPRCommits(ERCC.acv))
+      promisify(branch.commits, 'fetch')()
         .then(function(commits) {
-          ERCC.latestBranchCommit = commits[0];
+          ERCC.latestBranchCommit = keypather.get(commits, 'models[0]');
           repoObject.commit = ERCC.latestBranchCommit;
-          if (ERCC.activeCommit.attrs.sha !== ERCC.latestBranchCommit.sha) {
+          if (ERCC.activeCommit.attrs.sha !== ERCC.latestBranchCommit.attrs.sha) {
             return updateInstanceWithNewAcvData(ERCC.instance, ERCC.acv, repoObject)
               .then(function(instance) {
                 loading('updatingInstance', false);

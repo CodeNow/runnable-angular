@@ -40,12 +40,6 @@ describe('branchCommitSelectorDirective'.bold.underline.blue, function () {
           link: angular.noop
         };
       });
-      $provide.factory('github', function ($q) {
-        ctx.github = {
-          branchOrPRCommits: sinon.stub().returns($q.when(ctx.commits))
-        };
-        return ctx.github;
-      });
     });
 
     angular.mock.inject(function (
@@ -87,7 +81,7 @@ describe('branchCommitSelectorDirective'.bold.underline.blue, function () {
       //Should fetch once the branch is set
       $scope.$digest();
       expect($elScope.BCSC.data.branch, 'data.branch').to.equal(ctx.branch);
-      sinon.assert.called(ctx.github.branchOrPRCommits);
+      sinon.assert.called(ctx.branch.commits.fetch);
       expect($elScope.fetchingCommits, 'fetchingCommits').to.be.false;
       $rootScope.$destroy();
     });

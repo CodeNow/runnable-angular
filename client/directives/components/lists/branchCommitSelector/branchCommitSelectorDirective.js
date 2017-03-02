@@ -11,8 +11,7 @@ require('app')
  */
 function branchCommitSelector(
   errs,
-  promisify,
-  github
+  promisify
 ) {
   return {
     restrict: 'A',
@@ -29,8 +28,7 @@ function branchCommitSelector(
       $scope.$watch('BCSC.data.branch', function (branch) {
         if (branch) {
           $scope.fetchingCommits = true;
-          var acv = $scope.BCSC.data.acv;
-          return github.branchOrPRCommits(acv)
+          return promisify(branch.commits, 'fetch')()
             .then($scope.BCSC.onCommitFetch)
             .catch(errs.handler)
             .finally(function () {
