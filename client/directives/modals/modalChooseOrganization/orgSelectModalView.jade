@@ -1,4 +1,4 @@
-.modal-header(
+header.modal-header(
   ng-if = "!$root.featureFlags.demoOrgSelectUpdate"
 )
   h1.modal-heading Welcome Aboard!
@@ -12,32 +12,33 @@
     ng-class = "{'deprecated': !$root.featureFlags.demoOrgSelectUpdate}"
     ng-if = "!COMC.personalAccountOnly || $root.featureFlags.demoOrgSelectUpdate"
   ) Select a team to start running its code.
+  header.grid-block.align-center.text-gray.small.teams-header(
+    ng-if = "$root.featureFlags.demoOrgSelectUpdate"
+  )
+    .spinner-wrapper.spinner-gray.spinner-sm.hidden-xxxs(
+      ng-if = "$root.isLoading.grantAccess"
+      ng-include = "'spinner'"
+    )
+    | {{ $root.isLoading.grantAccess ? "Listening for teams…" : "Your GitHub Teams" }}
+    button.btn.btn-xs.gray(
+      ng-click = "COMC.grantAccess()"
+    ) Add a Team
+      svg.iconnables.icons-link-external
+        use(
+          xlink:href = "#icons-link-external-alt"
+        )
   ol.grid-block.vertical.list(
     ng-if = "!COMC.personalAccountOnly"
     ng-init = "data.loading = false"
   )
-    .grid-block.align-center.text-gray.small.teams-bar(
-      ng-if = "$root.featureFlags.demoOrgSelectUpdate"
-    )
-      .spinner-wrapper.spinner-gray.spinner-sm.hidden-xxxs(
-        ng-if = "$root.isLoading.grantAccess"
-        ng-include = "'spinner'"
-      )
-      | {{ $root.isLoading.grantAccess ? "Listening for teams…" : "Your GitHub Teams" }}
-      button.btn.btn-xs.gray(
-        ng-click = "COMC.grantAccess()"
-      ) Add a Team
-        svg.iconnables.icons-link-external
-          use(
-            xlink:href = "#icons-link-external-alt"
-          )
-    .grid-block.align-center.justify-center.text-gray.text-center.small.teams-empty-state(
+    li.grid-block.align-center.justify-center.text-gray.text-center.small.teams-empty-state(
       ng-if = "COMC.personalAccountOnly || $root.featureFlags.demoNoOrgs"
     ) Runnable is made for teams, but it looks&#32;
       br.hidden-xxxs
       | like you haven’t added any yet.
     li.grid-block.align-center.list-item.btn.white(
       data-event-name = "Org Selected"
+      ng-class = "{'deprecated': !$root.featureFlags.demoOrgSelectUpdate}"
       ng-click = "COMC.actions.selectAccount(org.oauthName())"
       ng-if = "!$root.featureFlags.demoNoOrgs"
       ng-repeat = "org in COMC.allAccounts.models | orderBy:'attrs.login'"
