@@ -40,12 +40,6 @@ describe('branchCommitSelectorDirective'.bold.underline.blue, function () {
           link: angular.noop
         };
       });
-      $provide.factory('github', function ($q) {
-        ctx.github = {
-          branchOrPRCommits: sinon.stub().returns($q.when(ctx.commits))
-        };
-        return ctx.github;
-      });
     });
 
     angular.mock.inject(function (
