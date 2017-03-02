@@ -10,12 +10,9 @@ var $controller,
     $q,
     promisify,
     mockOrg,
-    mockBranch,
-    mockBranches,
     currentOrg;
 var isRunnabotPartOfOrgStub;
 var fetchRepoBranchesStub;
-var fetchGitHubRepoBranchesStub;
 var ahaGuideStub;
 var featureFlags = {
   flags: {}
@@ -105,21 +102,6 @@ describe('ControllerInstances'.bold.underline.blue, function () {
         }
       }
     };
-    mockBranch = {
-      name: 'mockBranch',
-      commit: {
-        sha: '6e0c5e3778b83f128f6f14c311d5728392053581',
-        url: 'https://api.github.com/repos/cflynn07/bitcoin/commits/6e0c5e3778b83f128f6f14c311d5728392053581'
-      }
-    };
-    var mockBranch2 = {
-      name: 'AnotherCoolmockBranch',
-      commit: {
-        sha: '6e0c5e3778b83f128f6f14c311d5728392053777',
-        url: 'https://api.github.com/repos/cflynn07/bitcoin/commits/6e0c5e3778b83f128f6f14c311d5728392053777'
-      }
-    };
-    mockBranches = [mockBranch];
     angular.mock.module('app', function ($provide) {
       $provide.factory('fetchInstancesByPod', mockFetch.fetch());
       $provide.factory('fetchInstances', function ($q) {
@@ -137,10 +119,6 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       });
       $provide.factory('featureFlags', function () {
         return featureFlags;
-      });
-      $provide.factory('fetchGitHubRepoBranches', function ($q) {
-        fetchGitHubRepoBranchesStub = sinon.stub().returns($q.when([ mockBranch ]));
-        return fetchGitHubRepoBranchesStub;
       });
       $provide.value('currentOrg', mockOrg);
       $provide.value('favico', {
@@ -330,6 +308,7 @@ describe('ControllerInstances'.bold.underline.blue, function () {
     var childInstance3;
     var masterInstance;
     var masterInstance2;
+    var mockBranch;
 
     beforeEach(function() {
       childInstance = {
@@ -359,13 +338,6 @@ describe('ControllerInstances'.bold.underline.blue, function () {
           name: 'MyFirstNodeAPI',
           lowerName: 'myfirstnodeapi'
         },
-        contextVersion: {
-          getMainAppCodeVersion: sinon.stub().returns({
-            attrs: {
-              repo: 'myOrg/main'
-            }
-          })
-        },
         children: {
           models: [ childInstance, childInstance2 ]
         }
@@ -383,6 +355,15 @@ describe('ControllerInstances'.bold.underline.blue, function () {
         fork: sinon.stub(),
         update: sinon.stub()
       };
+      mockBranch = {
+        attrs: {
+          name: 'mockBranch',
+          commit: {
+            sha: '6e0c5e3778b83f128f6f14c311d5728392053581',
+            url: 'https://api.github.com/repos/cflynn07/bitcoin/commits/6e0c5e3778b83f128f6f14c311d5728392053581'
+          }
+        }
+      };
     });
 
     it('should fetch branches for an instance when popInstanceOpen is called', function () {
@@ -390,18 +371,23 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       mockOrg.github.fetchRepo.returns($q.when(true));
       CIS.popInstanceOpen(masterInstance);
       $rootScope.$digest();
-      sinon.assert.calledOnce(fetchGitHubRepoBranchesStub);
-      expect(CIS.instanceBranches).to.deep.equal(mockBranches);
-      expect(CIS.totalInstanceBranches).to.equal(mockBranches.length);
+      sinon.assert.calledOnce(mockOrg.github.fetchRepo);
+      sinon.assert.calledOnce(fetchRepoBranchesStub);
+      expect(CIS.instanceBranches).to.deep.equal(apiMocks.branches.bitcoinRepoBranches);
+      expect(CIS.totalInstanceBranches).to.equal(apiMocks.branches.bitcoinRepoBranches.length);
     });
 
     it('should not return branches that were already launched', function () {
       setup('myOrg');
-      mockBranches[0].name = 'henry\'s branch';
+      apiMocks.branches.bitcoinRepoBranches[0].attrs = {
+        name: 'henry\'s branch'
+      };
 
-      CIS.instanceBranches = CIS.getUnbuiltBranches(masterInstance, mockBranches);
+      CIS.instanceBranches = CIS.getUnbuiltBranches(masterInstance, {
+        models: apiMocks.branches.bitcoinRepoBranches
+      });
       $rootScope.$digest();
-      expect(CIS.instanceBranches.length).to.equal(mockBranches.length - 1);
+      expect(CIS.instanceBranches.length).to.equal(apiMocks.branches.bitcoinRepoBranches.length - 1);
     });
 
     it('should build a new instance', function () {
@@ -415,7 +401,7 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       CIS.forkBranchFromInstance(mockBranch, closePopoverStub);
       $rootScope.$digest();
       sinon.assert.calledOnce(masterInstance2.fork);
-      sinon.assert.calledWithExactly(masterInstance2.fork, mockBranch.name, mockBranch.commit.sha);
+      sinon.assert.calledWithExactly(masterInstance2.fork, mockBranch.attrs.name, mockBranch.attrs.commit.sha);
       sinon.assert.calledOnce(closePopoverStub);
       sinon.assert.calledWithExactly(ctx.fakeGo, 'base.instances.instance', {
         instanceName: childInstance3.attrs.name

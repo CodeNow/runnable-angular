@@ -18,7 +18,6 @@ function ControllerInstances(
   demoRepos,
   errs,
   eventTracking,
-  fetchGitHubRepoBranches,
   fetchInstances,
   fetchInstancesByPod,
   fetchRepoBranches,
@@ -269,7 +268,7 @@ function ControllerInstances(
     var branchName;
     var searchQuery = CIS.branchQuery.toLowerCase();
     return CIS.instanceBranches.filter(function (branch) {
-      branchName = branch.name.toLowerCase();
+      branchName = branch.attrs.name.toLowerCase();
       return branchName.includes(searchQuery);
     });
   };
@@ -301,8 +300,8 @@ function ControllerInstances(
     }, {});
     var instanceBranchName = instance.getBranchName();
     childInstances[instanceBranchName] = instanceBranchName;
-    var unbuiltBranches = branches.filter(function (branch) {
-      branchName = keypather.get(branch, 'name');
+    var unbuiltBranches = branches.models.filter(function (branch) {
+      branchName = keypather.get(branch, 'attrs.name');
       return !childInstances[branchName];
     });
     return unbuiltBranches;
@@ -312,13 +311,9 @@ function ControllerInstances(
     CIS.instanceBranches = null;
     CIS.poppedInstance = instance;
     loading('fetchingBranches', true);
-    var acv = instance.contextVersion.getMainAppCodeVersion();
-    var fullReponame = acv.attrs.repo.split('/');
-    var orgName = fullReponame[0];
-    var repoName = fullReponame[1];
-    return fetchGitHubRepoBranches(orgName, repoName)
+    return CIS.getAllBranches(instance)
       .then(function (branches) {
-        CIS.totalInstanceBranches = branches.length;
+        CIS.totalInstanceBranches = branches.models.length;
         CIS.instanceBranches = CIS.getUnbuiltBranches(instance, branches);
         loading('fetchingBranches', false);
       });
@@ -332,8 +327,8 @@ function ControllerInstances(
   };
 
   this.forkBranchFromInstance = function (branch, closePopover) {
-    var sha = branch.commit.sha;
-    var branchName = branch.name;
+    var sha = branch.attrs.commit.sha;
+    var branchName = branch.attrs.name;
     loading(branchName, true);
     loading('buildingForkedBranch', true);
     promisify(CIS.poppedInstance, 'fork')(branchName, sha)
