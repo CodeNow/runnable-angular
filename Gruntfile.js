@@ -622,6 +622,17 @@ module.exports = function(grunt) {
     'jade:compile',
     's3:build'
   ]);
+  grunt.registerTask('deploy:prod-local', [
+    'copy',
+    'sass:dev',
+    'autoprefixer',
+    'jade2js',
+    'autoBundleDependencies',
+    'generateConfigs:production',
+    'browserify:once',
+    'uglify:app',
+    'jade:compile'
+  ]);
   grunt.registerTask('deploy:staging', [
     'copy',
     'sass:dev',
