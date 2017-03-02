@@ -10,7 +10,9 @@ require('app')
  *  latestCommit,
  */
 function branchCommitSelector(
+  $q,
   errs,
+  fetchCommitData,
   promisify,
   github
 ) {
@@ -30,8 +32,11 @@ function branchCommitSelector(
         if (branch) {
           $scope.fetchingCommits = true;
           var acv = $scope.BCSC.data.acv;
-          return github.branchOrPRCommits(acv)
-            .then($scope.BCSC.onCommitFetch)
+          return $q.all({branchOrPRCommits: github.branchOrPRCommits(acv), activeCommit: fetchCommitData.activeCommit(acv)})
+            .then(function(commitPromises) {
+              $scope.BCSC.data.commit = commitPromises.activeCommit;
+              return $scope.BCSC.onCommitFetch(commitPromises.branchOrPRCommits);
+            })
             .catch(errs.handler)
             .finally(function () {
               $scope.fetchingCommits = false;
