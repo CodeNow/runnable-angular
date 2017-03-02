@@ -63,7 +63,7 @@ ul.list.list-servers
     ng-include = "'spinner'"
   )
   li.list-item(
-    ng-attr-title = "{{commit.commit.message}}"
+    ng-attr-title = "{{commit.attrs.commit.message}}"
     ng-disabled = "BCSC.isAutoDeployOn() || BCSC.isLastestCommit()"
     ng-class = "{\
       'active': BCSC.data.commit === commit,\
@@ -71,10 +71,10 @@ ul.list.list-servers
     }"
     ng-click = "BCSC.selectCommit(commit, $index === 0)"
     ng-if = "!fetchingCommits"
-    ng-repeat = "commit in BCSC.data.commits | orderBy: '-commit.committer.date'"
-  ) {{commit.commit.message}}
+    ng-repeat = "commit in BCSC.data.branch.commits.models | orderBy: '-attrs.commit.committer.date'"
+  ) {{commit.attrs.commit.message}}
     .row.row-author.clearfix(
-      ng-attr-title = "{{commit.author.login}} authored {{commit.commit.committer.date | timeFrom}}"
+      ng-attr-title = "{{commit.attrs.author.login}} authored {{commit.attrs.commit.committer.date | timeFrom}}"
     )
       //- if invite flows...
       .btn-user.text-overflow(
@@ -88,19 +88,19 @@ ul.list.list-servers
       )
       span.small(
         ng-if = "$root.featureFlags.inviteFlows"
-      ) —{{commit.commit.committer.date | timeFrom}}
+      ) —{{commit.attrs.commit.committer.date | timeFrom}}
 
       //- else
       span.small(
         ng-if = "!$root.featureFlags.inviteFlows"
-      ) {{commit.author.login}}—{{commit.commit.committer.date | timeFrom}}
+      ) {{commit.attrs.author.login}}—{{commit.attrs.commit.committer.date | timeFrom}}
 
       a.small.link.monospace(
         ng-click = "$event.stopPropagation()"
-        ng-href = "{{commit.html_url}}"
+        ng-href = "{{commit.attrs.html_url}}"
         target = "_blank"
         title = "View on GitHub"
-      ) {{::commit.sha | limitTo:7}}
+      ) {{::commit.attrs.sha | limitTo:7}}
     svg.iconnables.icons-fat-check(
       ng-if = "!BCSC.isLatestCommit()"
     )

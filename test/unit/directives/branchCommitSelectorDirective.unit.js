@@ -87,7 +87,7 @@ describe('branchCommitSelectorDirective'.bold.underline.blue, function () {
       //Should fetch once the branch is set
       $scope.$digest();
       expect($elScope.BCSC.data.branch, 'data.branch').to.equal(ctx.branch);
-      sinon.assert.called(ctx.github.branchOrPRCommits);
+      sinon.assert.called(ctx.branch.commits.fetch);
       expect($elScope.fetchingCommits, 'fetchingCommits').to.be.false;
       $rootScope.$destroy();
     });
