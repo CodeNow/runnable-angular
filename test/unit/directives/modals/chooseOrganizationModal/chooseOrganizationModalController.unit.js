@@ -130,7 +130,8 @@ describe('ChooseOrganizationModalController', function () {
         eventTrackingStub = {
           updateCurrentPersonProfile: sinon.stub(),
           spunUpInfrastructure: sinon.stub(),
-          spunUpInfrastructureForOrg: sinon.stub()
+          spunUpInfrastructureForOrg: sinon.stub(),
+          openedSecondAuthPrimer: sinon.stub()
         };
         return eventTrackingStub;
       });
