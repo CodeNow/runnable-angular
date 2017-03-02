@@ -74,6 +74,7 @@ function serverCreateService (
         }
 
         state.containerFiles = [mainRepoContainerFile];
+
         return updateDockerfileFromState(state, false, true);
       })
       .then(function () {
