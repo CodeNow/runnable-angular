@@ -65,7 +65,7 @@
           )
             li.list-item.popover-list-item(
               ng-click = "goToPanel('featureFlags')"
-// TODO: PUT THIS BACK IN
+              ng-if = "$root.canEditFeatureFlags()"
             ) Feature Flags
               svg.iconnables.icons-arrow-forward.anchor-right
                 use(
