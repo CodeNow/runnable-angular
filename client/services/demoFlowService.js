@@ -14,6 +14,7 @@ function demoFlowService(
   featureFlags,
   github,
   keypather,
+  ModalService,
   patchOrgMetadata,
   promisify,
   setUiState
@@ -76,6 +77,18 @@ function demoFlowService(
     // listen to pr link clicking
     $rootScope.$on('demo::prLinkClicked', function () {
       setItem('clickedPrLink', true);
+      // placeholder
+      ModalService.showModal({
+        controller: 'ChooseOrganizationModalController',
+        controllerAs: 'COMC',
+        templateUrl: 'chooseOrganizationModalView',
+        inputs: {
+          grantedOrgs: { models: []},
+          user: {},
+          whitelistedOrgs: []
+        }
+      });
+
     });
     // listen for the url open event if the user hasn't done it yet
     if (featureFlags.flags.demoAutoAddBranch && !$localStorage.hasSeenUrlCallout) {
