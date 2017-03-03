@@ -354,7 +354,7 @@ function demoRepos(
               createNewCluster(repoModel.attrs.full_name, 'master', stack.dockerComposePath, stack.repoName)
             ];
             return $q.all(promises);
-          })
+          });
       }
     })
       .then(function () {
