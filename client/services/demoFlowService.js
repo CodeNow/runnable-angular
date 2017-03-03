@@ -82,18 +82,7 @@ function demoFlowService(
     if (featureFlags.flags.demoAutoAddBranch && !$localStorage.hasSeenUrlCallout) {
       var unregisterContainerUrlClickListener = $rootScope.$on('clickedOpenContainerUrl', function (event, instance) {
         unregisterContainerUrlClickListener();
-        forkNewInstance(instance)
-          .then(function () {
-            if (currentOrg.isPersonalAccount()) {
-              submitDemoPR(instance)
-                .catch(function (err) {
-                  if (keypather.get(err, 'errors[0].message').match(/(pull request.*exists)/)) {
-                    return instance;
-                  }
-                  errs.handler(err);
-                });
-              }
-          });
+        forkNewInstance(instance);
       });
     }
 

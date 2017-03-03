@@ -62,7 +62,7 @@ function DemoAddBranchController(
     })
     .then(function (branchInstance) {
       demoFlowService.hasAddedBranch(true);
-      if (demoFlowService.shouldAddPR()) {
+      if (demoFlowService.shouldAddPR() && !currentOrg.isPersonalAccount()) {
         return demoFlowService.submitDemoPR(branchInstance)
           .then(function () {
             return branchInstance;

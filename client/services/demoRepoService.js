@@ -338,25 +338,25 @@ function demoRepos(
       });
   }
 
-  function createDemoAppForNonPersonalAccounts (stackKey) {
-    var stack = stacks[stackKey];
-    return fetchOwnerRepo(stack.repoOwner, stack.repoName)
-     .then(function (repoModel) {
-        var promises = [
-          createNewCluster(repoModel.attrs.full_name, 'master', stack.dockerComposePath, stack.repoName)
-        ];
-        return $q.all(promises);
-      });
-  }
-
   function createDemoApp (stackKey) {
-    return $q.when()
-      .then(function () {
-        if (currentOrg.isPersonalAccount()) {
-          return createDemoAppForPersonalAccounts(stackKey);
-        }
-        return createDemoAppForNonPersonalAccounts(stackKey);
-      })
+    var stack = stacks[stackKey];
+
+    return $q.when().then(function() {
+      if (currentOrg.isPersonalAccount()) {
+        return createDemoAppForPersonalAccounts(stackKey);
+      } else {
+        return _findNewRepo(stack)
+          .catch(function forkRepo() {
+            return forkGithubRepo(stackKey)
+              .then(_findNewRepoOnRepeat.bind(this, stack));
+          }).then(function (repoModel) {
+            var promises = [
+              createNewCluster(repoModel.attrs.full_name, 'master', stack.dockerComposePath, stack.repoName)
+            ];
+            return $q.all(promises);
+          })
+      }
+    })
       .then(function () {
         return hasDemoBuiltPromise;
       })
