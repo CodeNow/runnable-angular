@@ -214,6 +214,9 @@ function openItemsFactory(
     this.models.splice(0, this.models.length);
     this.activeHistory.reset();
     this.add(models);
+    if (models.length === 3 && !this.hasOpen('ContainerFileModel')) {
+      this.addLogs();
+    }
   };
 
   OpenItems.prototype.addTerminal = function (data) {
