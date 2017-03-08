@@ -94,10 +94,19 @@ animated-panel-container.modal-servers
         )
         span {{NCC.getSetupMethodText()}}
 
+  animated-panel(
+    default = "{{NCC.disableBackButton}}"
+    name = "nameContainer"
+    ng-if = "(NCC.state.repo || NCC.state.templateSource) && $root.featureFlags.composeNewService"
+  )
+    .view-new-service(
+      ng-include = "'configureNewServiceView'"
+    )
+
   animated-panel.grid-block.vertical.modals-rename(
     default = "{{NCC.disableBackButton}}"
     name = "nameContainer"
-    ng-if = "NCC.state.repo || NCC.state.templateSource"
+    ng-if = "(NCC.state.repo || NCC.state.templateSource) && !$root.featureFlags.composeNewService"
   )
     header.modal-header
       svg.iconnables.icons-arrow-backward(

@@ -1,0 +1,89 @@
+section.grid-block.vertical.modal-body
+
+  svg.iconnables.icons-close(
+    ng-click = "NCC.close()"
+  )
+    use(
+      xlink:href = "#icons-close"
+    )
+
+  form.grid-block.vertical.modal-form(
+    name = "NCC.nameForm"
+  )
+    .label-tabs.grid-block
+      label.grid-block.align-center.btn.btn-radio(
+        ng-class = "{'active': state.tab === 'dockerfile'}"
+        ng-click = "state.tab = 'dockerfile'"
+      )
+        svg.grid-block.shrink.btn.btn-xs.btn-icon.btn-add.iconnables.icons-check
+          use(
+            xlink:href = "#icons-check"
+          )
+        .grid-block.vertical.text-left
+          p.p.weight-strong Use a Dockerfile
+          small.small Set up from scratch or from a Dockerfile.
+
+      label.grid-block.align-center.btn.btn-radio(
+        ng-class = "{'active': state.tab === 'compose'}"
+        ng-click = "state.tab = 'compose'"
+      )
+        svg.grid-block.shrink.btn.btn-xs.btn-icon.btn-add.iconnables.icons-check
+          use(
+            xlink:href = "#icons-check"
+          )
+        .grid-block.vertical.text-left
+          p.p.weight-strong Use a Compose File
+          small.small Set up from a Compose file in your repo.
+
+      //- .input-col
+        div(
+          ng-attr-data-length = "{{19 - NCC.nameForm.instanceName.$viewValue.length}}"
+          ng-class = "{\
+            'ng-invalid': NCC.nameForm.$error.maxlength,\
+            'validate-length': NCC.nameForm.$error.maxlength,\
+            'validate-sm': NCC.nameForm.$error.maxlength\
+          }"
+        )
+          input.input.input-sm.input-validate(
+            autocomplete = "off"
+            name = "instanceName"
+            ng-class = "{'in': $root.isLoading.newContainerSingleRepo}"
+            ng-disabled = "$root.isLoading.newContainerSingleRepo"
+            ng-maxlength = "19"
+            ng-model = "NCC.state.instanceName"
+            ng-pattern = "/^[a-zA-Z0-9-]*$/"
+            spellcheck = "false"
+            unique-validator = "NCC.state.namesForAllInstances"
+            placeholder = "{{NCC.instanceToForkName}}"
+            no-double-dash-validator
+          )
+
+        ul.list.list-bulleted.list-validation
+          li.list-item(
+            ng-class = "{'ng-invalid': NCC.nameForm.$error.unique}"
+          ) Choose a unique name for your service
+          li.list-item(
+            ng-class = "{'ng-invalid': NCC.nameForm.$error.pattern || NCC.nameForm.$error.noDoubleDash}"
+          ) Use letters, numbers, and single hyphens (-)
+          li.list-item(
+            ng-class = "{'ng-invalid': NCC.nameForm.$error.maxlength}"
+          ) Use 19 characters or less
+
+footer.modal-footer.clearfix
+  button.btn.btn-md.gray.btn-cancel.float-left(
+    ng-click = "NCC.close()"
+  ) Cancel
+  button.btn.btn-md.green.float-right(
+    ng-disabled = "!NCC.state.instanceName.length || NCC.nameForm.$invalid || $root.isLoading.newContainerSingleRepo"
+    ng-click = "NCC.saveName()"
+  )
+    .spinner-wrapper.spinner-white.spinner-sm.float-left(
+      ng-if = "$root.isLoading.newContainerSingleRepo"
+      ng-include = "'spinner'"
+    )
+    span(
+      ng-if = "NCC.state.repo"
+    ) Next Step: Setup
+    span(
+      ng-if = "NCC.state.templateSource"
+    ) Add Service

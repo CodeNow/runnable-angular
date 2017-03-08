@@ -1,0 +1,35 @@
+.view-new-service {
+
+  .modal-form {
+    padding-top: $md;
+  }
+
+  .label-tabs {
+
+    .input {
+      opacity: 0;
+      position: absolute;
+    }
+
+    .btn-radio {
+      border-radius: $input-border-radius-lg;
+      flex: 1 1 50%;
+      white-space: normal;
+
+      + .btn-radio {
+        margin-left: $xxs;
+      }
+
+      &.active .btn-add {
+        background: rgba($purple-light,.1);
+        border-color: $purple-light;
+        color: $purple-light;
+      }
+    }
+
+    .btn-add {
+      border-radius: 50%;
+      margin-right: $xs;
+    }
+  }
+}
