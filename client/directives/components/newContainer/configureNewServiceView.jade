@@ -10,7 +10,9 @@ section.grid-block.vertical.modal-body
   form.grid-block.vertical.modal-form(
     name = "NCC.nameForm"
   )
-    .label-tabs.grid-block
+    .label-tabs.grid-block(
+      ng-init = "state.tab = 'dockerfile'"
+    )
       label.grid-block.align-center.btn.btn-radio(
         ng-class = "{'active': state.tab === 'dockerfile'}"
         ng-click = "state.tab = 'dockerfile'"
@@ -35,39 +37,49 @@ section.grid-block.vertical.modal-body
           p.p.weight-strong Use a Compose File
           small.small Set up from a Compose file in your repo.
 
-      //- .input-col
-        div(
-          ng-attr-data-length = "{{19 - NCC.nameForm.instanceName.$viewValue.length}}"
-          ng-class = "{\
-            'ng-invalid': NCC.nameForm.$error.maxlength,\
-            'validate-length': NCC.nameForm.$error.maxlength,\
-            'validate-sm': NCC.nameForm.$error.maxlength\
-          }"
+    label.label
+      .small Name
+      .input-spinner
+        input.input.input-md.input-validate(
+          autocomplete = "off"
+          maxlength = "19"
+          name = "instanceName"
+          no-double-dash-validator
+          ng-model = "NCC.state.instanceName"
+          ng-pattern = "/^[a-zA-Z0-9-]*$/"
+          ng-placeholder = "{{NCC.state.instanceName}}"
+          required
+          spellcheck = "false"
+          unique-validator = "NCC.state.namesForAllInstances"
         )
-          input.input.input-sm.input-validate(
-            autocomplete = "off"
-            name = "instanceName"
-            ng-class = "{'in': $root.isLoading.newContainerSingleRepo}"
-            ng-disabled = "$root.isLoading.newContainerSingleRepo"
-            ng-maxlength = "19"
-            ng-model = "NCC.state.instanceName"
-            ng-pattern = "/^[a-zA-Z0-9-]*$/"
-            spellcheck = "false"
-            unique-validator = "NCC.state.namesForAllInstances"
-            placeholder = "{{NCC.instanceToForkName}}"
-            no-double-dash-validator
+        svg.iconnables.icons-check(
+          ng-if = "NCC.nameForm.$valid"
+        )
+          use(
+            xlink:href = "#icons-check"
           )
+        svg.iconnables.icons-close(
+            ng-if = "NCC.nameForm.$invalid"
+          )
+            use(
+              xlink:href = "#icons-close"
+            )
+      ul.small.list-validation(
+        ng-if = "NCC.nameForm.$invalid"
+      )
+        li.list-item(
+          ng-class = "{'ng-invalid': NCC.nameForm.$error.unique}"
+        ) Choose a unique name.
+        li.list-item(
+          ng-class = "{'ng-invalid': NCC.nameForm.$error.pattern || NCC.nameForm.$error.noDoubleDash}"
+        ) Stick to letters, numbers, and non-consecutive hyphens.
+        li.list-item(
+          ng-class = "{'ng-invalid': NCC.nameForm.$error.maxlength}"
+        ) Keep it at 19 characters or less.
 
-        ul.list.list-bulleted.list-validation
-          li.list-item(
-            ng-class = "{'ng-invalid': NCC.nameForm.$error.unique}"
-          ) Choose a unique name for your service
-          li.list-item(
-            ng-class = "{'ng-invalid': NCC.nameForm.$error.pattern || NCC.nameForm.$error.noDoubleDash}"
-          ) Use letters, numbers, and single hyphens (-)
-          li.list-item(
-            ng-class = "{'ng-invalid': NCC.nameForm.$error.maxlength}"
-          ) Use 19 characters or less
+      small.small(
+        ng-if = "NCC.nameForm.$valid"
+      ) That’s a great name.
 
 footer.modal-footer.clearfix
   button.btn.btn-md.gray.btn-cancel.float-left(

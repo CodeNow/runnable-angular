@@ -5,6 +5,7 @@
   }
 
   .label-tabs {
+    margin-bottom: $md;
 
     .input {
       opacity: 0;
@@ -14,6 +15,9 @@
     .btn-radio {
       border-radius: $input-border-radius-lg;
       flex: 1 1 50%;
+      height: auto;
+      padding-bottom: $xs;
+      padding-top: $xs;
       white-space: normal;
 
       + .btn-radio {
@@ -30,6 +34,21 @@
     .btn-add {
       border-radius: 50%;
       margin-right: $xs;
+    }
+  }
+
+  .label {
+
+    > .small {
+      padding-left: 8px; // match input padding
+
+      &:first-child {
+        margin-bottom: 6px;
+      }
+
+      &:last-child {
+        margin-top: 6px;
+      }
     }
   }
 }

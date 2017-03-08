@@ -256,16 +256,36 @@ input[type="radio"] {
 .input-spinner {
   position: relative;
 
-  > .input ~ .spinner-wrapper {
-    right: -24px;
-    top: 14px;
+  > .input {
+    padding-right: 36px;
+
+    ~ .icons-close,
+    ~ .icons-check {
+      right: 12px;
+      top: 10px;
+    }
+
+    ~ .spinner-wrapper {
+      right: 12px;
+      top: 14px;
+    }
   }
 
   > .input-sm ~ .spinner-wrapper {
     top: 6px;
   }
 
+  > .icons-close,
+  > .icons-check,
   > .spinner-wrapper {
     position: absolute;
+  }
+
+  > .icons-check {
+    color: $green;
+  }
+
+  > .icons-close {
+    color: $red;
   }
 }
