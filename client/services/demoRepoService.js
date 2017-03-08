@@ -233,33 +233,33 @@ function demoRepos(
 
   function createInstance (containerName, build, activeAccount, opts) {
     return fetchUser()
-    .then(function (user) {
-      var instanceOptions = {
-        name: containerName,
-        owner: {
-          username: activeAccount.oauthName()
-        }
-      };
-      return user.newInstance(instanceOptions, {warn: false});
-    })
-    .then(function (instance) {
-      opts = angular.extend({
-        masterPod: true,
-        name: containerName,
-        env: [],
-        ipWhitelist: {
-          enabled: false
-        },
-        isTesting: false,
-        shouldNotAutofork: false
-      }, opts);
-      return createNewInstance(
-        activeAccount,
-        build,
-        opts,
-        instance
-      );
-    });
+      .then(function (user) {
+        var instanceOptions = {
+          name: containerName,
+          owner: {
+            username: activeAccount.oauthName()
+          }
+        };
+        return user.newInstance(instanceOptions, {warn: false});
+      })
+      .then(function (instance) {
+        opts = angular.extend({
+          masterPod: true,
+          name: containerName,
+          env: [],
+          ipWhitelist: {
+            enabled: false
+          },
+          isTesting: false,
+          shouldNotAutofork: false
+        }, opts);
+        return createNewInstance(
+          activeAccount,
+          build,
+          opts,
+          instance
+        );
+      });
   }
 
   function fetchContextVersionForStack (stack) {
@@ -339,24 +339,14 @@ function demoRepos(
   }
 
   function createDemoApp (stackKey) {
-    var stack = stacks[stackKey];
-
-    return $q.when().then(function() {
-      if (currentOrg.isPersonalAccount()) {
-        return createDemoAppForPersonalAccounts(stackKey);
-      } else {
-        return _findNewRepo(stack)
-          .catch(function forkRepo() {
-            return forkGithubRepo(stackKey)
-              .then(_findNewRepoOnRepeat.bind(this, stack));
-          }).then(function (repoModel) {
-            var promises = [
-              createNewCluster(repoModel.attrs.full_name, 'master', stack.dockerComposePath, stack.repoName)
-            ];
-            return $q.all(promises);
-          });
-      }
-    })
+    return $q.when()
+      .then(function() {
+        if (currentOrg.isPersonalAccount()) {
+          return createDemoAppForPersonalAccounts(stackKey);
+        } else {
+          return createDemoAppForOrgs(stackKey);
+        }
+      })
       .then(function () {
         return hasDemoBuiltPromise;
       })
@@ -366,6 +356,20 @@ function demoRepos(
       })
       .catch(errs.handler);
   }
+
+  function createDemoAppForOrgs(stackKey) {
+    var stack = stacks[stackKey];
+
+    return _findNewRepo(stack)
+      .catch(function forkRepo() {
+        return forkGithubRepo(stackKey)
+          .then(_findNewRepoOnRepeat.bind(this, stack));
+      })
+      .then(function (repoModel) {
+        return createNewCluster(repoModel.attrs.full_name, 'master', stack.dockerComposePath, stack.repoName);
+      });
+  }
+
   return {
     _findNewRepo: _findNewRepo, // for testing
     _findNewRepoOnRepeat: _findNewRepoOnRepeat, // for testing
