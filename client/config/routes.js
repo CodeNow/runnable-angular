@@ -43,11 +43,11 @@ module.exports = [
     controller: 'IndexController',
     controllerAs: 'COS',
     resolve: {
-      user: function ($state, fetchUser, keypather) {
-        return fetchUser()
-          .then(function (user) {
-            var prevLocation = keypather.get(user, 'attrs.userOptions.uiState.previousLocation.org');
-            var prevInstance = keypather.get(user, 'attrs.userOptions.uiState.previousLocation.instance');
+      user: function ($q, $state, fetchUser, fetchGrantedGithubOrgs, keypather) {
+        return $q.all({ user: fetchUser(), grantedOrgs: fetchGrantedGithubOrgs() })
+          .then(function (userAndGrantedOrgs) {
+            var prevLocation = keypather.get(userAndGrantedOrgs, 'user.attrs.userOptions.uiState.previousLocation.org');
+            var prevInstance = keypather.get(userAndGrantedOrgs, 'user.attrs.userOptions.uiState.previousLocation.instance');
             if (prevLocation) {
               if (prevInstance) {
                 $state.go('base.instances.instance', {
@@ -59,10 +59,14 @@ module.exports = [
                   userName: prevLocation
                 });
               }
+            } else if (!keypather.get(userAndGrantedOrgs, 'grantedOrgs.models.length')) {
+              $state.go('base.instances', {
+                  userName: keypather.get(userAndGrantedOrgs, 'user.attrs.accounts.github.username')
+                });
             } else {
               $state.go('orgSelect');
             }
-            return user;
+            return userAndGrantedOrgs.user;
           });
       }
     }
