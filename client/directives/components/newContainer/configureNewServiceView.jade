@@ -35,57 +35,18 @@ section.grid-block.vertical.modal-body
           p.p.weight-strong Use a Compose File
           small.small Set up from a Compose file in your repo.
 
+    //- form for naming the environment
     form.grid-block.vertical(
       name = "NCC.nameForm"
+      ng-include = "'nameNewServiceView'"
     )
-      label.label
-        .padding-xxs.small Name
-        .input-spinner
-          input.input.input-md.input-validate(
-            autocomplete = "off"
-            maxlength = "19"
-            name = "instanceName"
-            no-double-dash-validator
-            ng-model = "NCC.state.instanceName"
-            ng-pattern = "/^[a-zA-Z0-9-]*$/"
-            ng-placeholder = "{{NCC.state.instanceName}}"
-            required
-            spellcheck = "false"
-            unique-validator = "NCC.state.namesForAllInstances"
-          )
-          svg.iconnables.icons-check(
-            ng-if = "NCC.nameForm.$valid"
-          )
-            use(
-              xlink:href = "#icons-check"
-            )
-          svg.iconnables.icons-close(
-              ng-if = "NCC.nameForm.$invalid"
-            )
-              use(
-                xlink:href = "#icons-close"
-              )
-        ul.margin-left-xxs.small.list-validation(
-          ng-if = "NCC.nameForm.$invalid"
-        )
-          li.list-item(
-            ng-class = "{'ng-invalid': NCC.nameForm.$error.unique}"
-          ) Choose a unique name.
-          li.list-item(
-            ng-class = "{'ng-invalid': NCC.nameForm.$error.pattern || NCC.nameForm.$error.noDoubleDash}"
-          ) Stick to letters, numbers, and non-consecutive hyphens.
-          li.list-item(
-            ng-class = "{'ng-invalid': NCC.nameForm.$error.maxlength}"
-          ) Keep it at 19 characters or less.
 
-        small.padding-xxs.small(
-          ng-if = "NCC.nameForm.$valid"
-        ) That’s a great name.
-
+    //- form for dockerfile setup method
     .grid-block.vertical.label.views-dockerfile-setup(
       branch-name = "NCC.state.repo.attrs.default_branch"
       mirror-dockerfile
       name = "'newContainer'"
+      ng-if = "state.tab === 'dockerfile'"
       repo = "NCC.state.repo"
       state = "NCC.state"
     )
