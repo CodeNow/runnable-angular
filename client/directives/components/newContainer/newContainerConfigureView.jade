@@ -51,7 +51,7 @@ animated-panel-container.modal-servers
       ng-include = "'templateSelectSectionView'"
     )
 
-  animated-panel.grid-block.vertical.modal-mirror-dockerfile(
+  animated-panel.grid-block.vertical(
     ng-if = "NCC.state.repo"
     name = "dockerfileMirroring"
   )
@@ -72,7 +72,7 @@ animated-panel-container.modal-servers
           xlink:href = "#icons-close"
         )
 
-    .grid-block.vertical.modal-body(
+    .grid-block.vertical.modal-body.views-dockerfile-setup(
       branch-name = "NCC.state.repo.attrs.default_branch"
       mirror-dockerfile
       name = "'newContainer'"

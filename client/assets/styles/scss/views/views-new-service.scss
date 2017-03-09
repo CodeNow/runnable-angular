@@ -36,19 +36,4 @@
       margin-right: $xs;
     }
   }
-
-  .label {
-
-    > .small {
-      padding-left: 8px; // match input padding
-
-      &:first-child {
-        margin-bottom: 6px;
-      }
-
-      &:last-child {
-        margin-top: 6px;
-      }
-    }
-  }
 }

@@ -1,41 +1,50 @@
-svg.iconnables.icons-close(
-  ng-click = "closeDockerFileInput()"
-)
-  use(
-    xlink:href = "#icons-close"
-  )
-
-label.clearfix(
-  for = "add-dockerfile-input"
-)
-  .label-col {{ fileType }} Path
-form.label-row(
+form.padding-top-xs.padding-bottom-xs(
   name = "dockerfilePathForm"
 )
-  input.input.input-sm.input-validate(
-    autocomplete = "off"
-    branch-name = "branchName"
-    dockerfile-exists-validator
-    full-repo = "fullRepo"
-    id = "add-dockerfile-input"
-    ng-model = "newDockerfile"
-    ng-model-options = "{ debounce: { 'default': 100, 'blur': 0 } }"
-    value = ""
-    required
-    spellcheck = "false"
-  )
-  button.grid-block.align-center.btn.btn-sm.white.float-right(
-    ng-disabled = "!newDockerfile && (dockerfilePathForm.$pending || dockerfilePathForm.$invalid)"
-    ng-click = "addDockerFile(newDockerfile, fileType)"
-  )
-    span Add {{ fileType }}
-    .spinner-wrapper.spinner-sm.spinner-gray.in(
-      ng-if = "dockerfilePathForm.$pending"
-      ng-include = "'spinner'"
-    )
+  label.label
+    .padding-xxs.small {{ fileType }} Path
 
-.invalid-message(
-  ng-if = "dockerfilePathForm.$invalid && !dockerfilePathForm.$pristine"
-) We couldn’t find a {{ fileName }} at that path.
+    .input-spinner
+      input.input.input-md.input-validate(
+        autocomplete = "off"
+        branch-name = "branchName"
+        dockerfile-exists-validator
+        full-repo = "fullRepo"
+        id = "add-dockerfile-input"
+        ng-change = "addDockerFile(newDockerfile, fileType)"
+        ng-disabled = "state.dockerFileAdded"
+        ng-model = "newDockerfile"
+        ng-model-options = "{ debounce: { 'default': 100, 'blur': 0 } }"
+        placeholder = "Dockerfile"
+        required
+        spellcheck = "false"
+      )
+      .spinner-wrapper.spinner-sm.spinner-gray.in(
+        ng-if = "dockerfilePathForm.$pending"
+        ng-include = "'spinner'"
+      )
+      svg.iconnables.icons-check(
+        ng-if = "dockerfilePathForm.$valid"
+      )
+        use(
+          xlink:href = "#icons-check"
+        )
+      svg.iconnables.icons-close(
+          ng-if = "!dockerfilePathForm.$pristine && dockerfilePathForm.$invalid"
+        )
+          use(
+            xlink:href = "#icons-close"
+          )
 
-small.grid-block.padding-xxs.small Specify the relative path to your {{ fileType }} in your repository (e.g. if your {{ fileName }} is in a root folder named “config”, your path would be “config/{{ fileName }}).
+    a.grid-block.padding-xxs.small(
+      ng-disabled = "$root.isLoading[MDC.name + 'SingleRepo']"
+      ng-href = "{{ dockerfile.html_url }}"
+      ng-if = "dockerfile.html_url"
+      target = "_blank"
+    ) That’s a good lookin’ {{ fileType }}.
+
+    .invalid-message(
+      ng-if = "dockerfilePathForm.$invalid && !dockerfilePathForm.$pristine"
+    ) We couldn’t find a {{ fileName }} at that path.
+
+    small.grid-block.padding-xxs.small Use the relative path to your repo’s {{ fileType }} (e.g. A {{ fileName }} at the root level of your code, would have the path “{{ fileName }}”). Paths are case sensitive!
