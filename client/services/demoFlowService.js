@@ -12,6 +12,7 @@ function demoFlowService(
   defaultContainerUrl,
   errs,
   featureFlags,
+  fetchGitHubRepoBranch,
   github,
   keypather,
   patchOrgMetadata,
@@ -81,18 +82,7 @@ function demoFlowService(
     if (featureFlags.flags.demoAutoAddBranch && !$localStorage.hasSeenUrlCallout) {
       var unregisterContainerUrlClickListener = $rootScope.$on('clickedOpenContainerUrl', function (event, instance) {
         unregisterContainerUrlClickListener();
-        forkNewInstance(instance)
-          .then(function () {
-            if (currentOrg.isPersonalAccount()) {
-              submitDemoPR(instance)
-                .catch(function (err) {
-                  if (keypather.get(err, 'errors[0].message').match(/(pull request.*exists)/)) {
-                    return instance;
-                  }
-                  errs.handler(err);
-                });
-              }
-          });
+        forkNewInstance(instance);
       });
     }
 
@@ -133,14 +123,15 @@ function demoFlowService(
   }
 
   function forkNewInstance (instance) {
+    var acv = instance.contextVersion.getMainAppCodeVersion();
+    var fullReponame = acv.attrs.repo.split('/');
+    var orgName = fullReponame[0];
+    var repoName = fullReponame[1];
     addBranchListener();
-    return promisify(currentOrg.github, 'fetchRepo')(instance.getRepoName())
-      .then(function (repo) {
-        return promisify(repo, 'fetchBranch')('dark-theme');
-      })
+    return fetchGitHubRepoBranch(orgName, repoName, 'dark-theme')
       .then(function (branch) {
-        var sha = branch.attrs.commit.sha;
-        var branchName = branch.attrs.name;
+        var sha = branch.commit.sha;
+        var branchName = branch.name;
         return promisify(instance, 'fork')(branchName, sha);
       });
   }
