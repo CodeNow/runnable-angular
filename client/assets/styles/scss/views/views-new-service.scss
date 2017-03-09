@@ -7,6 +7,13 @@
   .label-tabs {
     margin-bottom: $md;
 
+    @include media(xs) {
+      flex-direction: column;
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 330px;
+    }
+
     .btn-radio {
       border-radius: $input-border-radius-lg;
       flex: 1 1 50%;
@@ -23,6 +30,11 @@
 
       + .btn-radio {
         margin-left: $xxs;
+
+        @include media(xs) {
+          margin-left: 0;
+          margin-top: $xxs;
+        }
       }
     }
 
