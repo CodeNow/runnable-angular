@@ -36,12 +36,12 @@ section.grid-block.vertical.modal-body
           small.small Set up from a Compose file in your repo.
 
     //- form for naming the environment
-    form.grid-block.vertical(
+    form.grid-block.vertical.label(
       name = "NCC.nameForm"
       ng-include = "'nameNewServiceView'"
     )
 
-    //- form for dockerfile setup method
+    //- form for dockerfile setup
     .grid-block.vertical.label.views-dockerfile-setup(
       branch-name = "NCC.state.repo.attrs.default_branch"
       mirror-dockerfile
@@ -49,6 +49,12 @@ section.grid-block.vertical.modal-body
       ng-if = "state.tab === 'dockerfile'"
       repo = "NCC.state.repo"
       state = "NCC.state"
+    )
+
+    //- form for compose setup
+    .grid-block.vertical.label.views-compose-setup(
+      ng-if = "state.tab === 'compose'"
+      ng-include = "'configureComposeView'"
     )
 
 footer.modal-footer.clearfix

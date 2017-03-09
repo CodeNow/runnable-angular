@@ -1,0 +1,33 @@
+.padding-xxs.small Compose File Path
+.input-spinner
+  //-
+    If there’s an error parsing:
+     - Show the error in our error modal.
+     - Clear this input field.
+  input.input.input-md.input-validate(
+    autocomplete = "off"
+    placeholder = "compose{{type === 'test' ? '-test' : ''}}.yml"
+    required
+    spellcheck = "false"
+  )
+  .spinner-wrapper.spinner-sm.spinner-gray.in(
+    ng-if = "loading"
+    ng-include = "'spinner'"
+  )
+  svg.iconnables.icons-check(
+    ng-if = "valid"
+  )
+    use(
+      xlink:href = "#icons-check"
+    )
+  svg.iconnables.icons-close(
+      ng-if = "invalid"
+    )
+      use(
+        xlink:href = "#icons-close"
+      )
+a.grid-block.padding-xxs.small(
+  ng-href = ""
+  ng-if = "valid"
+  target = "_blank"
+) That’s a good lookin’ Compose file.

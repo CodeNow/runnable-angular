@@ -36,4 +36,14 @@
       margin-right: $xs;
     }
   }
+
+  // for the nested compose test file
+  .well > .label {
+    margin-bottom: 0;
+    padding: $sm;
+
+    + .label {
+      margin-top: 0;
+    }
+  }
 }
