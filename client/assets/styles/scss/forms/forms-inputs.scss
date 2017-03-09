@@ -168,6 +168,12 @@ input[type="radio"] {
 .label .small {
   color: $gray;
   display: block;
+
+  // if used as label
+  &.label-sm {
+    color: $gray-dark;
+    font-weight: $weight-bold;
+  }
 }
 
 // label.label-checkbox
