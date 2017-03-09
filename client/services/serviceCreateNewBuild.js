@@ -13,7 +13,7 @@ function createNewBuildByContextVersion(
     return fetchUser()
       .then(function (user) {
         return promisify(user, 'createBuild')({
-          contextVersions: [version.id()],
+          contextVersion: version.id(),
           owner: {
             github: activeAccount.oauthId()
           }

@@ -12,7 +12,6 @@ require('app')
   .factory('fetchWhitelists', fetchWhitelists)
   .factory('fetchGithubOrgId', fetchGithubOrgId)
   .factory('fetchGitHubRepoBranch', fetchGitHubRepoBranch)
-  .factory('fetchGitHubRepoBranches', fetchGitHubRepoBranches)
   .factory('fetchOrgRegisteredMembers', fetchOrgRegisteredMembers)
   .factory('fetchOrgMembers', fetchOrgMembers)
   .factory('fetchGrantedGithubOrgs', fetchGrantedGithubOrgs)
@@ -837,27 +836,10 @@ function fetchGitHubRepoBranch(
   configAPIHost
 ) {
   return function (orgName, repoName, branchName) {
+    var urlEnd = branchName ? '/' + branchName : '';
     return $http({
       method: 'get',
-      url: configAPIHost + '/github/repos/' + orgName + '/' + repoName + '/branches/' + branchName,
-      headers: {
-        Accept: 'application/vnd.github.ironman-preview+json'
-      }
-    })
-    .then(function (res) {
-      return res.data;
-    });
-  };
-}
-
-function fetchGitHubRepoBranches(
-  $http,
-  configAPIHost
-) {
-  return function (orgName, repoName) {
-    return $http({
-      method: 'get',
-      url: configAPIHost + '/github/repos/' + orgName + '/' + repoName + '/branches',
+      url: configAPIHost + '/github/repos/' + orgName + '/' + repoName + '/branches' + urlEnd,
       headers: {
         Accept: 'application/vnd.github.ironman-preview+json'
       }

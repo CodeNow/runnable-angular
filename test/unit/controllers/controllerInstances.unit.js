@@ -15,7 +15,7 @@ var $controller,
     currentOrg;
 var isRunnabotPartOfOrgStub;
 var fetchRepoBranchesStub;
-var fetchGitHubRepoBranchesStub;
+var fetchGitHubRepoBranchStub;
 var ahaGuideStub;
 var featureFlags = {
   flags: {}
@@ -138,9 +138,9 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       $provide.factory('featureFlags', function () {
         return featureFlags;
       });
-      $provide.factory('fetchGitHubRepoBranches', function ($q) {
-        fetchGitHubRepoBranchesStub = sinon.stub().returns($q.when([ mockBranch ]));
-        return fetchGitHubRepoBranchesStub;
+      $provide.factory('fetchGitHubRepoBranch', function ($q) {
+        fetchGitHubRepoBranchStub = sinon.stub().returns($q.when([ mockBranch ]));
+        return fetchGitHubRepoBranchStub;
       });
       $provide.value('currentOrg', mockOrg);
       $provide.value('favico', {
@@ -390,7 +390,7 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       mockOrg.github.fetchRepo.returns($q.when(true));
       CIS.popInstanceOpen(masterInstance);
       $rootScope.$digest();
-      sinon.assert.calledOnce(fetchGitHubRepoBranchesStub);
+      sinon.assert.calledOnce(fetchGitHubRepoBranchStub);
       expect(CIS.instanceBranches).to.deep.equal(mockBranches);
       expect(CIS.totalInstanceBranches).to.equal(mockBranches.length);
     });

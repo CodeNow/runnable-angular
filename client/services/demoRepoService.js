@@ -279,19 +279,27 @@ function demoRepos(
         return promisify(context, 'fetchVersions')({ qs: { sort: '-created' }});
       })
       .then(function (versions) {
-        return fetchGitHubRepoBranch(stack.repoOwner, stack.repoName, stack.branchName)
-          .then(function (branch) {
-            var version = versions.find(function (version) {
-              var branchName = keypather.get(version, 'getMainAppCodeVersion().attrs.branch');
-              var commit = keypather.get(version, 'getMainAppCodeVersion().attrs.commit');
-              var buildFailed = keypather.get(version, 'attrs.build.failed');
-              return branchName === stack.branchName && !buildFailed && commit === branch.commit.sha;
-            });
-            if (!version) {
-              return $q.reject(new Error('No context version found for ' + stackName));
-            }
-            return version;
-          });
+        return validateVersionHasBranch(stack, versions);
+      });
+  }
+
+  function validateVersionHasBranch(stack, versions) {
+    return fetchGitHubRepoBranch(stack.repoOwner, stack.repoName, stack.branchName)
+      .then(function (branch) {
+        var version = versions.find(function (version) {
+          var mainAppCodeVersion = keypather.get(version, 'getMainAppCodeVersion()');
+          if (!mainAppCodeVersion) {
+            return;
+          }
+          var branchName = mainAppCodeVersion.attrs.branch;
+          var commit = mainAppCodeVersion.attrs.commit;
+          var buildFailed = keypather.get(version, 'attrs.build.failed');
+          return branchName === stack.branchName && !buildFailed && commit === branch.commit.sha;
+        });
+        if (!version) {
+          return $q.reject(new Error('No context version found for ' + stack.repoName));
+        }
+        return version;
       });
   }
 

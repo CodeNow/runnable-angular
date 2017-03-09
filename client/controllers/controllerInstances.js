@@ -8,6 +8,7 @@ require('app')
 function ControllerInstances(
   $filter,
   $localStorage,
+  $q,
   $rootScope,
   $scope,
   $state,
@@ -18,7 +19,7 @@ function ControllerInstances(
   demoRepos,
   errs,
   eventTracking,
-  fetchGitHubRepoBranches,
+  fetchGitHubRepoBranch,
   fetchInstances,
   fetchInstancesByPod,
   fetchRepoBranches,
@@ -313,10 +314,13 @@ function ControllerInstances(
     CIS.poppedInstance = instance;
     loading('fetchingBranches', true);
     var acv = instance.contextVersion.getMainAppCodeVersion();
+    if (!acv) {
+      return $q.reject(new Error('acv is required'));
+    }
     var fullReponame = acv.attrs.repo.split('/');
     var orgName = fullReponame[0];
     var repoName = fullReponame[1];
-    return fetchGitHubRepoBranches(orgName, repoName)
+    return fetchGitHubRepoBranch(orgName, repoName)
       .then(function (branches) {
         CIS.totalInstanceBranches = branches.length;
         CIS.instanceBranches = CIS.getUnbuiltBranches(instance, branches);
