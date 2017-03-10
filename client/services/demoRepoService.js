@@ -125,8 +125,6 @@ function demoRepos(
   currentOrg,
   demoFlowService,
   errs,
-  fetchContextVersion,
-  fetchGitHubRepoBranch,
   fetchInstancesByPod,
   fetchNonRepoInstances,
   fetchOwnerRepo,
@@ -136,7 +134,6 @@ function demoRepos(
   invitePersonalRunnabot,
   keypather,
   promisify,
-  serverCreateService,
   watchOncePromise
 ) {
 
@@ -279,7 +276,8 @@ function demoRepos(
         return promisify(context, 'fetchVersions')({ qs: { sort: '-created' }});
       })
       .then(function (versions) {
-        if (!versions.models[0]) {
+        console.log('versions:',versions, versions.models);
+        if (!versions.models.length) {
           return $q.reject(new Error('No context version found in models for ' + stack.repoName));
         }
         return versions.models[0];

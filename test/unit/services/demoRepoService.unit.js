@@ -19,7 +19,6 @@ var mockRepoModel;
 var fetchUserStub;
 var createNewInstanceStub;
 var promisifyStub;
-var fetchGitHubRepoBranchStub;
 var invitePersonalRunnabotStub;
 var createNewBuildByContextVersionStub;
 var fetchStackDataStub;
@@ -48,16 +47,15 @@ describe('demoRepos', function () {
         commit: commit
       }
     };
-    versions = [
-      {
-        getMainAppCodeVersion: sinon.stub().returns(acv),
-        attrs: {
-          build: {
-            failed: false
-          }
+    versions = {
+      getMainAppCodeVersion: sinon.stub().returns(acv),
+      attrs: {
+        build: {
+          failed: false
         }
-      }
-    ];
+      },
+      models: [{test:'data'}]
+    };
     contexts = [
       { attrs: { name: 'node-starter' }, fetchVersions: sinon.stub().returns(versions) },
       { attrs: { name: 'rails-starter' } },
@@ -121,10 +119,6 @@ describe('demoRepos', function () {
           };
         });
         return promisifyStub;
-      });
-      $provide.factory('fetchGitHubRepoBranch', function ($q) {
-        fetchGitHubRepoBranchStub = sinon.stub().returns($q.when(branchMock));
-        return fetchGitHubRepoBranchStub;
       });
       $provide.factory('createNewBuildByContextVersion', function ($q) {
         createNewBuildByContextVersionStub = sinon.stub().returns($q.when(buildMock));
@@ -354,24 +348,6 @@ describe('demoRepos', function () {
       $rootScope.$digest();
       sinon.assert.calledOnce(contexts[0].fetchVersions);
       sinon.assert.calledWith(contexts[0].fetchVersions, { qs: { sort: '-created' } });
-    });
-
-    it('fetch the github repo branches', function () {
-      demoRepos.fetchContextVersionForStack(stack);
-      $rootScope.$digest();
-      sinon.assert.calledOnce(fetchGitHubRepoBranchStub);
-      sinon.assert.calledWith(fetchGitHubRepoBranchStub, stack.repoOwner, stack.repoName, stack.branchName);
-    });
-
-    it('should throw an error if no context versions are found', function () {
-      var error = null;
-      versions[0].attrs.build.failed = true;
-      contexts[0].fetchVersions.returns(versions);
-      demoRepos.fetchContextVersionForStack(stack)
-        .catch(function (err) { error = err; });
-      $rootScope.$digest();
-      expect(error).to.not.equal(null);
-      expect(error.message).to.match(/no.*context.*version.*found/i);
     });
   });
 });
