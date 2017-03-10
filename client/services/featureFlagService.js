@@ -14,6 +14,7 @@ function featureFlags(
     autoIsolationSetup: false,
     backup: false,
     cardStatus: false,
+    composeNav: false,
     connections: false,
     contingencyPlan: false,
     demoAutoAddBranch: true,

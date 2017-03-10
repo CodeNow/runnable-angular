@@ -49,9 +49,85 @@
       ng-include = "'popoverDemoAddTeamView'"
     )
 
+    .section(
+      ng-if = "$root.featureFlags.composeNav"
+    )
+      .section-header Services
+      .branch-wrapper.active
+        .branch-header api/master
+        .cluster
+          .cluster-header STAGING
+          .container
+            .icons-status.green
+            | api
+          .container
+            .icons-status.green
+            | web
+          .container
+            .icons-status.green
+            | mongo
+        .cluster
+          .cluster-header TESTING
+          .container
+            .icons-status.green
+            | api
+          .container
+            .icons-status.green
+            | web
+          .container
+            .icons-status.green
+            | mongo
+      .branch-wrapper.active
+        .cluster
+          .container
+            .icons-status.green
+            | api
+          .container
+            .icons-status.green
+            | web
+          .container
+            .icons-status.green
+            | mongo
+    .section(
+      ng-if = "$root.featureFlags.composeNav"
+    )
+      .section-header api
+      .branch-wrapper.active
+        .branch-header branch-name
+        .cluster
+          .cluster-header STAGING
+          .container
+            .icons-status.green
+            | api
+          .container.active
+            .icons-status.green
+            | web
+          .container
+            .icons-status.green
+            | mongo
+        .cluster
+          .cluster-header TESTING
+          .container
+            .icons-status.green
+            | api
+          .container
+            .icons-status.green
+            | web
+          .container
+            .icons-status.green
+            | mongo
+      .branch-wrapper
+        .branch-header branch-name
+      .branch-wrapper
+        .branch-header branch-name
+      .branch-wrapper
+        .branch-header branch-name
+      .branch-wrapper
+        .branch-header branch-name
+
     //- master cluster
     .grid-block.shrink.vertical.list-clusters.master-cluster.js-animate(
-      ng-if = "(!CIS.shouldShowDemoSelector() || $root.featureFlags.demoPersonalOnly) && (!CIS.searchBranches || CIS.getFilteredInstanceList().length)"
+      ng-if = "(!CIS.shouldShowDemoSelector() || $root.featureFlags.demoPersonalOnly) && (!CIS.searchBranches || CIS.getFilteredInstanceList().length) && !$root.featureFlags.composeNav"
     )
       .grid-block.shrink.align-center.list-item-cluster.list-clusters-heading(
         ng-include = "'servicesHeadingView'"
@@ -120,7 +196,9 @@
             ng-repeat = "masterInstance in CIS.getFilteredTestingMasters() | instanceHasRepo:false | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
           )
 //- wraps 'add branch' guide and branch clusters
-.grid-block.vertical.noscroll.relative
+.grid-block.vertical.noscroll.relative(
+  ng-if = "!$root.featureFlags.composeNav"
+)
 
   //- 'add branch' guide — show until a branch has been added
   .grid-block.vertical.popover.in.popover-demo.demo-transition.js-animate(
