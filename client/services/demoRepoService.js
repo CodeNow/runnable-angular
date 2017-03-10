@@ -279,6 +279,9 @@ function demoRepos(
         return promisify(context, 'fetchVersions')({ qs: { sort: '-created' }});
       })
       .then(function (versions) {
+        if (!versions.models[0]) {
+          return $q.reject(new Error('No context version found in models for ' + stack.repoName));
+        }
         return versions.models[0];
       });
   }
