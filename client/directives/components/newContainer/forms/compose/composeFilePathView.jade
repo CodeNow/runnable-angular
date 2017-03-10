@@ -1,5 +1,7 @@
 .padding-xxs.small.label-sm Compose File Path
-.input-spinner
+.input-spinner(
+  ng-init = "pristine = true"
+)
   //-
     If there’s an error parsing:
      - Show the error in our error modal.
@@ -21,11 +23,16 @@
       xlink:href = "#icons-check"
     )
   svg.iconnables.icons-close(
-      ng-if = "invalid"
+    ng-if = "invalid"
+  )
+    use(
+      xlink:href = "#icons-close"
     )
-      use(
-        xlink:href = "#icons-close"
-      )
+
+small.grid-block.padding-xxs.small(
+  ng-if = "(invalid || pristine) && type !== 'test'"
+) Use the relative path to your repo’s Compose file (e.g. If your file at the root level of your code, you would type “compose.yml”). Paths are case sensitive!
+
 a.grid-block.padding-xxs.small(
   ng-href = ""
   ng-if = "valid"

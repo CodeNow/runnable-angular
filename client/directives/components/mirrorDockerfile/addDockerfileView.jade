@@ -2,7 +2,7 @@ form.padding-top-xs.padding-bottom-xs(
   name = "dockerfilePathForm"
 )
   label.label
-    .padding-xxs.small {{ fileType }} Path
+    .padding-xxs.small.label-sm {{ fileType }} Path
 
     .input-spinner
       input.input.input-md.input-validate(
@@ -11,7 +11,6 @@ form.padding-top-xs.padding-bottom-xs(
         dockerfile-exists-validator
         full-repo = "fullRepo"
         id = "add-dockerfile-input"
-        ng-change = "addDockerFile(newDockerfile, fileType)"
         ng-disabled = "state.dockerFileAdded"
         ng-model = "newDockerfile"
         ng-model-options = "{ debounce: { 'default': 100, 'blur': 0 } }"
@@ -47,4 +46,6 @@ form.padding-top-xs.padding-bottom-xs(
       ng-if = "dockerfilePathForm.$invalid && !dockerfilePathForm.$pristine"
     ) We couldn’t find a {{ fileName }} at that path.
 
-    small.grid-block.padding-xxs.small Use the relative path to your repo’s {{ fileType }} (e.g. A {{ fileName }} at the root level of your code, would have the path “{{ fileName }}”). Paths are case sensitive!
+    small.grid-block.padding-xxs.small(
+      ng-if = "!dockerfile.html_url"
+    ) Use the relative path to your repo’s {{ fileType }} (e.g. A {{ fileName }} at the root level of your code, would have the path “{{ fileName }}”). Paths are case sensitive!
