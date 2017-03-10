@@ -35,7 +35,7 @@ form.padding-top-xs.padding-bottom-xs(
             xlink:href = "#icons-close"
           )
 
-    a.grid-block.padding-xxs.small(
+    a.grid-block.padding-xxs.small.link(
       ng-disabled = "$root.isLoading[MDC.name + 'SingleRepo']"
       ng-href = "{{ dockerfile.html_url }}"
       ng-if = "dockerfile.html_url"
