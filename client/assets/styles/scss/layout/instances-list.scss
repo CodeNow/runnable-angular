@@ -20,6 +20,10 @@
   .label-search {
     border-bottom: 1px solid $gray-lighter;
     padding: 16px 10px;
+
+    + .section {
+      border-top: 0;
+    }
   }
 
   // empty state
@@ -32,9 +36,8 @@
     padding: 15px 24px 24px;
   }
 
-  .section + .section {
+  .section {
     border-top: $input-border solid $gray-lighter;
-    margin-top: $sm;
   }
 
   .section-header {
