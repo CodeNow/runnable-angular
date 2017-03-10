@@ -8,7 +8,7 @@
   height: 100vh;
   min-width: $instance-list-width;
   overflow-y: auto;
-  padding: 0 12px 45px;
+  padding: 0 $xs $lg;
   position: relative;
   width: $instance-list-width;
 
@@ -33,7 +33,7 @@
     border-radius: $input-border-radius-lg;
     font-size: 21px;
     margin-top: 3px;
-    padding: 15px 24px 24px;
+    padding: $sm 24px 24px;
   }
 
   .section {
@@ -43,7 +43,7 @@
   .section-header {
     align-items: center;
     display: flex;
-    padding: 15px 0 15px 19px;
+    padding: $sm 0 $sm (18px + $input-border);
 
     // "add a service" and "add a branch" buttons
     .btn-xxs {
@@ -57,9 +57,9 @@
       }
 
       .icons-arrow-forward {
-        height: 12px;
+        height: $xs;
         margin-right: -3px;
-        width: 12px;
+        width: $xs;
       }
     }
   }
@@ -100,10 +100,10 @@
     border-top: $input-border solid rgba($gray-lighter,.5);
     color: rgba($gray,.5);
     font-size: 11px;
+    font-weight: $weight-bold;
     letter-spacing: .075em;
     margin-top: $xxs;
     padding: $xs $xxs 6px;
-    font-weight: $weight-bold;
   }
 
   .container {
