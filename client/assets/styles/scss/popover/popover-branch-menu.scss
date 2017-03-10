@@ -31,8 +31,6 @@
     }
 
     &:active:not(.disabled),
-    &:active:not(.disabled) .iconnables,
-    &.active .iconnables,
     &.active {
       background: $white;
       border-color: currentColor;
@@ -68,14 +66,9 @@
     padding-bottom: 21px;
   }
 
-  // auto-deploy error
-  .well-popover .iconnables {
-    height: 18px;
-    width: 18px;
-  }
-
-  .well {
-    margin-bottom: 15px;
+  .well + .well,
+  .well + .input {
+    margin-top: 15px;
   }
 
   .popover-list-item {

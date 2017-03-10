@@ -1,0 +1,10 @@
+.strong Always update to latest commit
+.small.text-overflow on new builds of&#32;
+  strong.strong {{BCSC.data.getDisplayName() || BCSC.data.instance.getDisplayName()}}
+input.toggle-input(
+  ng-disabled = "$root.featureFlags.webhooks"
+  ng-model = "BCSC.isLatestCommit"
+  ng-model-options = "{getterSetter: true}"
+  type = "checkbox"
+)
+.toggle-group.toggle-sm

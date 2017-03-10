@@ -1,0 +1,71 @@
+.list-commits {
+  display: flex;
+  flex-direction: column;
+
+  // for branch select
+  > .label {
+    display: table;
+    margin: 0 auto 12px;
+
+    .spinner-wrapper {
+      align-items: center;
+      color: $gray-light;
+      height: 100%;
+      padding-left: 6px;
+    }
+  }
+
+  // auto-deploy error
+  .well-popover .iconnables {
+    height: 18px;
+    width: 18px;
+  }
+
+  // list of commits
+  .list {
+
+    .list-item {
+      border: 1px solid transparent;
+      border-radius: $input-border-radius;
+      cursor: pointer;
+      height: $input-lg;
+      padding: 0 15px;
+
+      &:hover:not(.disabled) {
+        background: $gray-lighterest;
+        border-color: $gray-lighter;
+      }
+
+      &:active:not(.disabled),
+      &.active {
+        background: $white;
+        border-color: currentColor;
+        color: $green;
+      }
+
+      // loading state
+      &.disabled {
+        cursor: not-allowed;
+
+        &:not(.active) {
+          opacity: .5;
+        }
+      }
+
+      + .list-item {
+        margin-top: $xxs;
+      }
+    }
+
+    .btn-add {
+      border-radius: 50%;
+      padding: 0;
+      width: 24px;
+    }
+
+    .small {
+      color: currentColor;
+      opacity: .75;
+    }
+  }
+}
