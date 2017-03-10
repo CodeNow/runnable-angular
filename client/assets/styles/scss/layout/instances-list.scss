@@ -69,20 +69,17 @@
     border-radius: 6px;
     padding: $xxs;
 
-    &.active {
-      background: $white;
-      border-color: $gray-lighter;
-    }
-
-    &:not(.active):hover {
+    &:hover:not(.active) {
       background-color: $white;
       border-color: $gray-lighter;
-      border-radius: 6px;
       cursor: pointer;
     }
 
-    &.active,
-    &:not(.active):hover {
+    &:active:not(.active),
+    &.active {
+      background: $white;
+      border-color: $gray-lighter;
+
       .branch-header {
         color: $gray-dark;
       }
@@ -115,6 +112,13 @@
     height: 27px;
     padding: 0 $xxs;
 
+    &:hover:not(.active) {
+      background-color: $gray-lighterest;
+      color: $gray-dark;
+      cursor: pointer;
+    }
+
+    &:active:not(.active),
     &.active {
       background-color: lighten($purple-lightest,3);
       color: $purple-light;
@@ -123,12 +127,6 @@
     + .container {
       margin-top: 1px;
     }
-  }
-
-  .container:not(.active):hover {
-    background-color: $gray-lighterest;
-    color: $gray-dark;
-    cursor: pointer;
   }
 
   .icons-status {
