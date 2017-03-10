@@ -276,7 +276,6 @@ function demoRepos(
         return promisify(context, 'fetchVersions')({ qs: { sort: '-created' }});
       })
       .then(function (versions) {
-        console.log('versions:',versions, versions.models);
         if (!versions.models.length) {
           return $q.reject(new Error('No context version found in models for ' + stack.repoName));
         }

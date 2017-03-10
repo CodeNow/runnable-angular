@@ -354,5 +354,15 @@ describe('demoRepos', function () {
       sinon.assert.calledOnce(contexts[0].fetchVersions);
       sinon.assert.calledWith(contexts[0].fetchVersions, { qs: { sort: '-created' } });
     });
+
+    it('should throw an error if no context versions are found', function () {
+      var error = null;
+      keypather.set(versions.models[0], 'attrs.build.failed', true)
+      demoRepos.fetchContextVersionForStack(stack)
+      .catch(function (err) { error = err; });
+      $rootScope.$digest();
+      expect(error).to.not.equal(null);
+      expect(error.message).to.match(/no.*context.*version.*found/i);
+      });
   });
 });
