@@ -1,10 +1,16 @@
 li.cluster-header STAGING
-li.container
-  .icons-status.green
-  | api
-li.container
-  .icons-status.green
-  | web
-li.container
-  .icons-status.green
-  | mongo
+li.grid-block.container(
+  title = "api"
+)
+  .grid-block.shrink.icons-status.green
+  span.text-overflow api
+li.grid-block.container(
+  title = "web"
+)
+  .grid-block.shrink.icons-status.green
+  span.text-overflow web
+li.grid-block.container(
+  title = "mongo"
+)
+  .grid-block.shrink.icons-status.green
+  span.text-overflow mongo
