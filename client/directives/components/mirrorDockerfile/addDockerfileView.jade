@@ -11,6 +11,7 @@ form.padding-top-xs.padding-bottom-xs(
         dockerfile-exists-validator = "{{ fileType }}"
         full-repo = "fullRepo"
         id = "add-dockerfile-input"
+        ng-change = "dockerfile = null"
         ng-disabled = "state.dockerFileAdded"
         ng-model = "newDockerfile"
         ng-model-options = "{ debounce: { 'default': 100, 'blur': 0 } }"
