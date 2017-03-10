@@ -49,32 +49,14 @@
       ng-include = "'popoverDemoAddTeamView'"
     )
 
-    .section(
+    section.section(
       ng-if = "$root.featureFlags.composeNav"
+      ng-include = "'servicesSectionView'"
     )
-      .section-header Services
-      .branch-wrapper.active(
-        ng-include = "'branchView'"
-      )
-      .branch-wrapper.active
-        ul.cluster(
-          ng-include = "'nonRepoClusterView'"
-        )
-    .section(
+    section.section(
       ng-if = "$root.featureFlags.composeNav"
+      ng-include = "'branchSectionView'"
     )
-      .section-header api
-      .branch-wrapper.active(
-        ng-include = "'branchView'"
-      )
-      .branch-wrapper
-        .branch-header branch-name
-      .branch-wrapper
-        .branch-header branch-name
-      .branch-wrapper
-        .branch-header branch-name
-      .branch-wrapper
-        .branch-header branch-name
 
     //- master cluster
     .grid-block.shrink.vertical.list-clusters.master-cluster.js-animate(

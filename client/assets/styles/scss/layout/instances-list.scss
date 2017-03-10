@@ -38,7 +38,27 @@
   }
 
   .section-header {
-    padding: 15px 19px;
+    align-items: center;
+    display: flex;
+    padding: 15px 0 15px 19px;
+
+    // "add a service" and "add a branch" buttons
+    .btn-xxs {
+      color: lighten($gray,15);
+      font-weight: $weight-normal;
+      height: 20px;
+      margin-left: auto;
+
+      &:hover:not(:active) {
+        color: $gray;
+      }
+
+      .icons-arrow-forward {
+        height: 12px;
+        margin-right: -3px;
+        width: 12px;
+      }
+    }
   }
 
   .branch-wrapper {
