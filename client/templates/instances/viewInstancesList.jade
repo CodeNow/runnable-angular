@@ -53,69 +53,20 @@
       ng-if = "$root.featureFlags.composeNav"
     )
       .section-header Services
+      .branch-wrapper.active(
+        ng-include = "'branchView'"
+      )
       .branch-wrapper.active
-        .branch-header api/master
-        .cluster
-          .cluster-header STAGING
-          .container
-            .icons-status.green
-            | api
-          .container
-            .icons-status.green
-            | web
-          .container
-            .icons-status.green
-            | mongo
-        .cluster
-          .cluster-header TESTING
-          .container
-            .icons-status.green
-            | api
-          .container
-            .icons-status.green
-            | web
-          .container
-            .icons-status.green
-            | mongo
-      .branch-wrapper.active
-        .cluster
-          .container
-            .icons-status.green
-            | api
-          .container
-            .icons-status.green
-            | web
-          .container
-            .icons-status.green
-            | mongo
+        ul.cluster(
+          ng-include = "'nonRepoClusterView'"
+        )
     .section(
       ng-if = "$root.featureFlags.composeNav"
     )
       .section-header api
-      .branch-wrapper.active
-        .branch-header branch-name
-        .cluster
-          .cluster-header STAGING
-          .container
-            .icons-status.green
-            | api
-          .container.active
-            .icons-status.green
-            | web
-          .container
-            .icons-status.green
-            | mongo
-        .cluster
-          .cluster-header TESTING
-          .container
-            .icons-status.green
-            | api
-          .container
-            .icons-status.green
-            | web
-          .container
-            .icons-status.green
-            | mongo
+      .branch-wrapper.active(
+        ng-include = "'branchView'"
+      )
       .branch-wrapper
         .branch-header branch-name
       .branch-wrapper
