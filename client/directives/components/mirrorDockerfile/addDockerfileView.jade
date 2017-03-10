@@ -8,7 +8,7 @@ form.padding-top-xs.padding-bottom-xs(
       input.input.input-md.input-validate(
         autocomplete = "off"
         branch-name = "branchName"
-        dockerfile-exists-validator
+        dockerfile-exists-validator = "{{ fileType }}"
         full-repo = "fullRepo"
         id = "add-dockerfile-input"
         ng-disabled = "state.dockerFileAdded"

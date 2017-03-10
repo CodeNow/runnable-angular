@@ -45,6 +45,9 @@ function addDockerfile(
             return $timeout(angular.noop);
           });
       };
+      $scope.$on('dockerfileExistsValidator::valid', function ($event, path, fileType) {
+        return $scope.addDockerFile(path, fileType);
+      });
     }
   };
 }
