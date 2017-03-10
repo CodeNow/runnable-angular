@@ -280,8 +280,25 @@ function demoRepos(
         if (!versions.models.length) {
           return $q.reject(new Error('No context version found in models for ' + stack.repoName));
         }
-        return versions.models[0];
+        return validateDemoVersion(versions, stackName);
+        // return versions.models[0];
       });
+  }
+
+  function validateDemoVersion(versions, stackName) {
+    var version = versions.find(function (version) {
+      var mainAppCodeVersion = keypather.get(version, 'getMainAppCodeVersion()');
+      if (!mainAppCodeVersion) {
+        return;
+      }
+      var branchName = mainAppCodeVersion.attrs.branch;
+      var buildFailed = keypather.get(version, 'attrs.build.failed');
+      return branchName === 'master' && !buildFailed;
+    });
+    if (!version) {
+      return $q.reject(new Error('No context version found for ' + stackName));
+    }
+    return version;
   }
 
   function createDemoAppForPersonalAccounts (stackKey) {
