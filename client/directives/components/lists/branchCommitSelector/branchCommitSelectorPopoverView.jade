@@ -1,0 +1,69 @@
+.popover.menu.right.popover-branch-menu(
+  ng-class = "{'in': active}"
+  ng-style = "popoverStyle.getStyle()"
+)
+  .arrow.white(
+    ng-style = "popoverStyle.getArrowStyle()"
+  )
+  .popover-content
+    .padding-xxs
+      //- if behind and auto-deploy is on
+      .grid-block.shrink.align-center.padding-xs.well.well-popover.orange(
+        ng-if = "$root.featureFlags.autoDeployError"
+      )
+        svg.grid-block.shrink.margin-right-xs.iconnables
+          use(
+            xlink:href = "#icons-alert-alt"
+          )
+        .grid-block.small There was an issue deploying your latest commit.
+        button.grid-block.shrink.margin-left-sm.btn.btn-xs.orange Redeploy
+
+      label.grid-block.shrink.align-center.padding-xxs.well.gray
+        .grid-block.small Automatically rebuild when new commits are pushed.
+        .grid-block.shrink.margin-left-sm.toggle-wrapper
+          input.toggle-input(
+            type = "checkbox"
+          )
+          .toggle-group.toggle-sm
+
+    //- ul.list.popover-list(
+    //-   ng-if = "CIS.instanceBranches.length"
+    //- )
+    //-   li.grid-block.align-center.list-item.popover-list-item(
+    //-     ng-class = "{\
+    //-       'disabled': $root.isLoading['buildingForkedBranch'] && !$root.isLoading[branch.name],\
+    //-       'active': $root.isLoading['buildingForkedBranch'] && $root.isLoading[branch.name]\
+    //-     }"
+    //-     ng-repeat = "branch in CIS.getFilteredBranches()"
+    //-     ng-click = "CIS.forkBranchFromInstance(branch, POC.closePopover);"
+    //-   )
+    //-     svg.grid-content.shrink.iconnables.icons-branch
+    //-       use(
+    //-         xlink:href = "#icons-branch-alt"
+    //-       )
+    //-     .grid-content.text-overflow(
+    //-       title = "{{ branch.name }}"
+    //-     ) {{ branch.name }}
+    //-     button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add(
+    //-       ng-if = "!$root.isLoading[branch.name]"
+    //-     ) Add
+    //-     .grid-content.shrink.spinner-wrapper.spinner-sm.spinner-green(
+    //-       ng-if = "$root.isLoading[branch.name]"
+    //-       ng-include = "'spinner'"
+    //-     )
+
+    //- .text-center.text-gray.small.padding-lg(
+    //-   ng-if = "CIS.instanceBranches && !CIS.instanceBranches.length && CIS.totalInstanceBranches"
+    //- ) There are no branches to add.
+
+    //- .text-center.text-gray.small.padding-lg(
+    //-   ng-if = "CIS.instanceBranches && !CIS.instanceBranches.length && !CIS.totalInstanceBranches"
+    //- ) The repository has no branches.
+
+    //- .text-center.text-gray.small.padding-lg(
+    //-   ng-if = "CIS.instanceBranches && CIS.instanceBranches.length && CIS.totalInstanceBranches && !CIS.getFilteredBranches().length"
+    //- ) No branches match this filter.
+    //- //- loading commits
+    //- .spinner-wrapper.spinner-sm.spinner-gray.spinner-center.in(
+    //-   ng-include = "'spinner'"
+    //- )

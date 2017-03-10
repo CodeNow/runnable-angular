@@ -1,6 +1,13 @@
 //- wraps 'select demo' guide and everything that should transition in with the master cluster
 .grid-block.vertical.noscroll.relative
 
+  button.btn.btn-md.white.margin-top-md(
+    ng-if = "$root.featureFlags.composeCommitHistory"
+    pop-over
+    pop-over-options = "{\"verticallyCentered\":true,\"left\":275,\"pinToViewPort\":true}"
+    pop-over-template = "branchCommitSelectorPopoverView"
+  ) View Commit History
+
   //- 'select demo' guide
   .grid-block.popover.in.margin-top-xs.popover-demo.demo-transition.js-animate(
     ng-if = "CIS.shouldShowDemoSelector() && !$root.featureFlags.demoPersonalOnly"

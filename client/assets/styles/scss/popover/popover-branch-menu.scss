@@ -3,6 +3,12 @@
   max-width: 360px;
   width: 100%;
 
+  // auto-deploy error
+  .well-popover .iconnables {
+    height: 18px;
+    width: 18px;
+  }
+
   .popover-content.popover-content {
     max-height: 375px;
     min-height: 105px;
