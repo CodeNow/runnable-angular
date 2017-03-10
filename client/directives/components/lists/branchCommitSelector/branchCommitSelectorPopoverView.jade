@@ -1,34 +1,41 @@
-.popover.menu.right.popover-branch-menu(
+.popover.right.popover-branch-menu(
   ng-class = "{'in': active}"
   ng-style = "popoverStyle.getStyle()"
 )
   .arrow.white(
     ng-style = "popoverStyle.getArrowStyle()"
   )
-  .popover-content
-    .padding-xxs
-      //- if behind and auto-deploy is on
-      .grid-block.shrink.align-center.padding-xs.well.well-popover.orange(
-        ng-if = "$root.featureFlags.autoDeployError"
+  .padding-xs.popover-content
+    //- if behind and auto-deploy is on
+    .grid-block.shrink.align-center.padding-xs.well.well-popover.orange(
+      ng-if = "$root.featureFlags.autoDeployError"
+    )
+      svg.grid-block.shrink.margin-right-xs.iconnables
+        use(
+          xlink:href = "#icons-alert-alt"
+        )
+      .grid-block.small There was an issue deploying your latest commit.
+      button.grid-block.shrink.margin-left-sm.btn.btn-xs.orange Redeploy
+
+    label.grid-block.shrink.align-center.padding-xxs.well.gray
+      .grid-block.small Automatically rebuild when new commits are pushed.
+      .grid-block.shrink.margin-left-sm.toggle-wrapper
+        input.toggle-input(
+          type = "checkbox"
+        )
+        .toggle-group.toggle-sm
+
+    ul.list.popover-list
+      //- stubbing out load behavior
+      li.padding-md.grid-block.align-center.justify-center(
+        ng-click = "loaded = true"
+        ng-if = "!loaded"
+        ng-init = "loaded = null"
       )
-        svg.grid-block.shrink.margin-right-xs.iconnables
-          use(
-            xlink:href = "#icons-alert-alt"
-          )
-        .grid-block.small There was an issue deploying your latest commit.
-        button.grid-block.shrink.margin-left-sm.btn.btn-xs.orange Redeploy
+        .spinner-wrapper.spinner-sm.spinner-gray.in(
+          ng-include = "'spinner'"
+        )
 
-      label.grid-block.shrink.align-center.padding-xxs.well.gray
-        .grid-block.small Automatically rebuild when new commits are pushed.
-        .grid-block.shrink.margin-left-sm.toggle-wrapper
-          input.toggle-input(
-            type = "checkbox"
-          )
-          .toggle-group.toggle-sm
-
-    //- ul.list.popover-list(
-    //-   ng-if = "CIS.instanceBranches.length"
-    //- )
     //-   li.grid-block.align-center.list-item.popover-list-item(
     //-     ng-class = "{\
     //-       'disabled': $root.isLoading['buildingForkedBranch'] && !$root.isLoading[branch.name],\

@@ -79,13 +79,18 @@
 .list-item {
   position: relative;
 
-  &:active:not(.disabled) .btn-add {
+  &:active:not(.disabled) .btn-add,
+  &.active .btn-add {
     @extend %green;
     color: $white;
 
     .iconnables {
       color: $white;
     }
+  }
+
+  &.active.disabled .btn-add {
+    pointer-events: none;
   }
 
   // header

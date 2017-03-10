@@ -3,20 +3,27 @@
   max-width: 360px;
   width: 100%;
 
-  // auto-deploy error
-  .well-popover .iconnables {
-    height: 18px;
-    width: 18px;
-  }
-
   .popover-content.popover-content {
     max-height: 375px;
     min-height: 105px;
     overflow-y: auto;
+
+    &:not(.padding-xs) {
+      padding: 0;
+    }
+
+    &.padding-xs {
+      padding: $xs;
+    }
+  }
+
+  .input-search + .list {
+    padding-top: $xs;
   }
 
   .list-item {
     border: 1px solid transparent;
+    border-radius: $input-border-radius;
 
     &:hover:not(.disabled) {
       background: $gray-lighterest;
@@ -24,6 +31,8 @@
     }
 
     &:active:not(.disabled),
+    &:active:not(.disabled) .iconnables,
+    &.active .iconnables,
     &.active {
       background: $white;
       border-color: currentColor;
@@ -59,6 +68,12 @@
     padding-bottom: 21px;
   }
 
+  // auto-deploy error
+  .well-popover .iconnables {
+    height: 18px;
+    width: 18px;
+  }
+
   .well {
     margin-bottom: 15px;
   }
@@ -67,9 +82,10 @@
     padding-right: 9px;
 
     .iconnables.icons-branch {
-      color: $gray-light;
       height: 18px;
       margin-right: 0;
+      margin-top: 0;
+      opacity: .5;
     }
   }
 
@@ -92,7 +108,7 @@
   .popover-header {
     display: flex;
     height: auto;
-    padding: 15px;
+    padding: $xs;
   }
 
   .btn-radio {
@@ -106,7 +122,7 @@
     text-align: left;
 
     + .btn-radio {
-      margin-left: 12px;
+      margin-left: $xs;
     }
 
     .small {
