@@ -281,7 +281,6 @@ function demoRepos(
           return $q.reject(new Error('No context version found in models for ' + stack.repoName));
         }
         return validateDemoVersion(versions, stackName);
-        // return versions.models[0];
       });
   }
 

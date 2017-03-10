@@ -48,13 +48,18 @@ describe('demoRepos', function () {
       }
     };
     versions = {
-      getMainAppCodeVersion: sinon.stub().returns(acv),
-      attrs: {
-        build: {
-          failed: false
-        }
+      find: function(fn) {
+        return this.models.find(fn);
       },
-      models: [{test:'data'}]
+      models: [{
+        test:'data',
+        getMainAppCodeVersion: sinon.stub().returns(acv),
+        attrs: {
+          build: {
+            failed: false
+          }
+        }
+      }]
     };
     contexts = [
       { attrs: { name: 'node-starter' }, fetchVersions: sinon.stub().returns(versions) },
