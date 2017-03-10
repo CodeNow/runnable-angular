@@ -69,6 +69,7 @@ function MirrorDockerfileController(
             return dockerfile.path === newDockerfilePath;
           });
           delete MDC.state.dockerComposeFile;
+          return MDC.state.dockerfile;
         });
     }
     // If given no input, return promise
@@ -90,6 +91,7 @@ function MirrorDockerfileController(
           return dockerfile.path === newDockerComposeFilePath;
         });
         delete MDC.state.dockerfile;
+        return MDC.state.dockerComposeFile;
       });
   };
 }

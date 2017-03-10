@@ -4,6 +4,7 @@ require('app')
   .directive('addDockerfile', addDockerfile);
 
 function addDockerfile(
+  $q,
   $timeout
 ) {
   return {
@@ -30,18 +31,15 @@ function addDockerfile(
         $scope.viewState.showAddDockerfile = false;
       };
       $scope.addDockerFile = function (path, fileType) {
-        if (fileType === 'Docker Compose') {
-          return MDC.addDockerComposeFileFromPath(path)
-            .then(function () {
-              $scope.viewState.showAddDockerComposeFile = false;
-              // I'm sorry this is here, because it's terrible.  This is so the panel length will update
-              // and fix it's height.  I'm pretty sure it's some issue with animated-panel
-              return $timeout(angular.noop);
-            });
-        }
-        return MDC.addDockerfileFromPath(path)
+        return $q.when()
           .then(function () {
-            $scope.viewState.showAddDockerfile = false;
+            if (fileType === 'Docker Compose') {
+              return MDC.addDockerComposeFileFromPath(path);
+            }
+            return MDC.addDockerfileFromPath(path);
+          })
+          .then(function (file) {
+            $scope.dockerfile = file;
             return $timeout(angular.noop);
           });
       };
