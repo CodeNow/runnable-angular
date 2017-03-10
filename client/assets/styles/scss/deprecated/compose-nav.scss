@@ -89,6 +89,16 @@
   .testing-container {
     margin-left: 18px;
   }
+
+  .btn-gear {
+    margin-right: 0;
+    position: relative;
+    top: -1px;
+  }
+
+  .master-cluster .btn-gear {
+    display: block;
+  }
 }
 
 //- end deprecated file
