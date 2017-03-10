@@ -359,10 +359,10 @@ describe('demoRepos', function () {
       var error = null;
       keypather.set(versions.models[0], 'attrs.build.failed', true)
       demoRepos.fetchContextVersionForStack(stack)
-      .catch(function (err) { error = err; });
+        .catch(function (err) { error = err; });
       $rootScope.$digest();
       expect(error).to.not.equal(null);
       expect(error.message).to.match(/no.*context.*version.*found/i);
-      });
+    });
   });
 });
