@@ -51,6 +51,8 @@
     align-items: stretch;
     height: auto;
     overflow: visible;
+    padding-bottom: $xs;
+    padding-top: $xs;
     position: relative;
 
     &::after,

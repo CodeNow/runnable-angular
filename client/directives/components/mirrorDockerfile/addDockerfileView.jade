@@ -1,21 +1,25 @@
-form.padding-top-xs.padding-bottom-xs(
+form(
   name = "dockerfilePathForm"
 )
   label.label
-    .padding-xxs.small.label-sm {{ fileType }} Path
+    .padding-xxs.small.label-sm {{formLabel}}
 
     .input-spinner
+      //-
+        If there’s an error parsing a Compose file:
+         - Show the error in our error modal.
+         - Clear this input field.
       input.input.input-md.input-validate(
         autocomplete = "off"
         branch-name = "branchName"
-        dockerfile-exists-validator = "{{ fileType }}"
+        dockerfile-exists-validator = "{{fileType}}"
         full-repo = "fullRepo"
         id = "add-dockerfile-input"
         ng-change = "dockerfile = null"
         ng-disabled = "state.dockerFileAdded"
         ng-model = "newDockerfile"
         ng-model-options = "{ debounce: { 'default': 100, 'blur': 0 } }"
-        placeholder = "Dockerfile"
+        placeholder = "{{fileName}}"
         required
         spellcheck = "false"
       )
@@ -41,12 +45,12 @@ form.padding-top-xs.padding-bottom-xs(
       ng-href = "{{ dockerfile.html_url }}"
       ng-if = "dockerfile.html_url"
       target = "_blank"
-    ) That’s a good lookin’ {{ fileType }}.
+    ) That’s a good lookin’ {{fileLabel}}.
 
     .invalid-message(
       ng-if = "dockerfilePathForm.$invalid && !dockerfilePathForm.$pristine"
-    ) We couldn’t find a {{ fileName }} at that path.
+    ) We couldn’t find a file at that path.
 
     small.grid-block.padding-xxs.small(
       ng-if = "!dockerfile.html_url"
-    ) Use the relative path to your repo’s {{ fileType }} (e.g. A {{ fileName }} at the root level of your code would have the path “{{ fileName }}”). Paths are case sensitive!
+    ) Use the relative path to your repo (e.g. A {{fileName}} at the root level of your code would have the path “{{fileName}}”). Paths are case sensitive!
