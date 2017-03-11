@@ -73,7 +73,6 @@
     padding: $xxs;
 
     &:hover:not(.active) {
-      background-color: $white;
       border-color: $gray-lighter;
       cursor: pointer;
     }
@@ -82,7 +81,11 @@
     &.active {
       background: $white;
       border-color: $gray-lighter;
+    }
 
+    &:hover:not(.active),
+    &:active:not(.active),
+    &.active {
       .nav-card-header {
         color: $gray-dark;
       }
