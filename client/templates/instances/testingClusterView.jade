@@ -1,10 +1,16 @@
-.cluster-header TESTING
-.container
-  .icons-status.green
-  | api
-.container
-  .icons-status.green
-  | web
-.container
-  .icons-status.green
-  | mongo
+li.nav-environment-header Testing
+li.grid-block.container(
+  title = "api"
+)
+  .grid-block.shrink.icons-status.green
+  span.text-overflow api
+li.grid-block.container(
+  title = "web"
+)
+  .grid-block.shrink.icons-status.green
+  span.text-overflow web
+li.grid-block.container(
+  title = "mongo"
+)
+  .grid-block.shrink.icons-status.green
+  span.text-overflow mongo

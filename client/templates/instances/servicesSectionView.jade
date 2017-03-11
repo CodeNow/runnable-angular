@@ -1,4 +1,4 @@
-.section-header Services
+h2.section-header Services
   .grid-block.align-center.shrink.btn.btn-xxs.white(
     ng-class = "{'active': addService}"
     ng-click = "CIS.shouldShowServicesCTA() && $emit('demo::end')"
@@ -11,10 +11,9 @@
       use(
         xlink:href = "#icons-arrow-down"
       )
-.branch-wrapper.active(
-  ng-include = "'branchView'"
+section.nav-card.active(
+  ng-include = "'navCardView'"
 )
-.branch-wrapper.active
-  ul.cluster(
-    ng-include = "'nonComposeClusterView'"
-  )
+section.nav-card.active(
+  ng-include = "'nonComposeCardView'"
+)

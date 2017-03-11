@@ -1,4 +1,4 @@
-.section-header(
+h2.section-header(
   title = "api"
 )
   span.text-overflow.padding-right-xxs api
@@ -15,15 +15,15 @@
       use(
         xlink:href = "#icons-arrow-down"
       )
-.branch-wrapper.active(
-  ng-include = "'branchView'"
+section.nav-card.active(
+  ng-include = "'navCardView'"
 )
 //- for mockup only
-.branch-wrapper
-  .branch-header branch-name
-.branch-wrapper
-  .branch-header branch-name
-.branch-wrapper
-  .branch-header branch-name
-.branch-wrapper
-  .branch-header branch-name
+section.nav-card
+  h3.nav-card-header branch-name
+section.nav-card
+  h3.nav-card-header branch-name
+section.nav-card
+  h3.nav-card-header branch-name
+section.nav-card
+  h3.nav-card-header branch-name

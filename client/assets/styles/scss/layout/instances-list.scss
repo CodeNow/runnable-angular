@@ -43,6 +43,9 @@
   .section-header {
     align-items: center;
     display: flex;
+    font-size: inherit; // reset
+    font-weight: $weight-normal; // reset
+    line-height: inherit; // reset
     padding: $sm 0 $sm (18px + $input-border);
 
     // "add a service" and "add a branch" buttons
@@ -64,7 +67,7 @@
     }
   }
 
-  .branch-wrapper {
+  .nav-card {
     border: $input-border solid transparent;
     border-radius: 6px;
     padding: $xxs;
@@ -80,30 +83,31 @@
       background: $white;
       border-color: $gray-lighter;
 
-      .branch-header {
+      .nav-card-header {
         color: $gray-dark;
       }
     }
 
-    + .branch-wrapper {
+    + .nav-card {
       margin-top: 6px;
     }
   }
 
-  .branch-header {
+  .nav-card-header {
     align-items: center;
     display: flex;
+    font-size: inherit; // reset
+    font-weight: $weight-normal; // reset
+    line-height: inherit; // reset
     padding: 0 $xxs;
   }
 
-  .cluster-header {
-    border-top: $input-border solid rgba($gray-lighter,.5);
-    color: rgba($gray,.5);
-    font-size: 11px;
-    font-weight: $weight-bold;
-    letter-spacing: .05em;
+  .nav-environment-header {
+    border-top: $input-border solid rgba($gray-lighter,.6);
+    color: rgba($gray,.6);
+    font-size: 13px;
     margin-top: $xxs;
-    padding: $xs $xxs 6px;
+    padding: $xxs $xxs 6px;
   }
 
   .container {
