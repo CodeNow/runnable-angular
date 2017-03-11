@@ -14,7 +14,7 @@
       && (\
         BCSC.isAutoDeployOn()\
         && !BCSC.isLatestCommitDeployed\
-        || $root.featureFlags.composeCommitHistory\
+        || $root.featureFlags.composeHistory\
       )\
     )\
   "
@@ -30,7 +30,7 @@ label.label(
   ng-if = "\
     !fetchingCommits\
     && (\
-      !$root.featureFlags.composeCommitHistory\
+      !$root.featureFlags.composeHistory\
       && !BCSC.hideBranchSelector\
     )\
   "
@@ -44,7 +44,7 @@ label.grid-block.shrink.align-center.padding-xxs.well.gray(
   ng-if = "\
     !fetchingCommits\
     && (\
-      !$root.featureFlags.composeCommitHistory\
+      !$root.featureFlags.composeHistory\
       && !BCSC.data.acv\
       || BCSC.data.acv.attrs.additionalRepo\
     )\
@@ -56,7 +56,7 @@ label.grid-block.shrink.align-center.padding-xxs.well.gray(
   ng-if = "\
     !fetchingCommits\
     && (\
-      $root.featureFlags.composeCommitHistory\
+      $root.featureFlags.composeHistory\
       || (\
         BCSC.data.acv\
         && !BCSC.data.acv.attrs.additionalRepo\
