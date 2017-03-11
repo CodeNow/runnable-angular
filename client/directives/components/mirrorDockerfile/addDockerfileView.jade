@@ -8,9 +8,10 @@ form.padding-top-xs.padding-bottom-xs(
       input.input.input-md.input-validate(
         autocomplete = "off"
         branch-name = "branchName"
-        dockerfile-exists-validator
+        dockerfile-exists-validator = "{{ fileType }}"
         full-repo = "fullRepo"
         id = "add-dockerfile-input"
+        ng-change = "dockerfile = null"
         ng-disabled = "state.dockerFileAdded"
         ng-model = "newDockerfile"
         ng-model-options = "{ debounce: { 'default': 100, 'blur': 0 } }"
@@ -35,7 +36,7 @@ form.padding-top-xs.padding-bottom-xs(
             xlink:href = "#icons-close"
           )
 
-    a.grid-block.padding-xxs.small(
+    a.grid-block.padding-xxs.small.link(
       ng-disabled = "$root.isLoading[MDC.name + 'SingleRepo']"
       ng-href = "{{ dockerfile.html_url }}"
       ng-if = "dockerfile.html_url"
@@ -48,4 +49,4 @@ form.padding-top-xs.padding-bottom-xs(
 
     small.grid-block.padding-xxs.small(
       ng-if = "!dockerfile.html_url"
-    ) Use the relative path to your repo’s {{ fileType }} (e.g. A {{ fileName }} at the root level of your code, would have the path “{{ fileName }}”). Paths are case sensitive!
+    ) Use the relative path to your repo’s {{ fileType }} (e.g. A {{ fileName }} at the root level of your code would have the path “{{ fileName }}”). Paths are case sensitive!

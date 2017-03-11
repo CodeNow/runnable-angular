@@ -7,7 +7,7 @@
     height: $input-lg;
     line-height: 1;
     overflow: hidden;
-    padding: 0 15px;
+    padding: 0 $sm;
 
     // change cursor if selected
     &.disabled,
@@ -22,15 +22,6 @@
     // anchor
     > .iconnables {
       width: 18px;
-
-      + .grid-content {
-        min-height: 18px;
-        overflow: hidden;
-
-        @include media(xxs) {
-          padding: 0 9px;
-        }
-      }
     }
 
     .icons-link {
@@ -57,7 +48,7 @@
 
   // add custom dockerfile
   .list-item-path {
-    align-items: flex-start;
+    align-items: stretch;
     height: auto;
     overflow: visible;
     position: relative;

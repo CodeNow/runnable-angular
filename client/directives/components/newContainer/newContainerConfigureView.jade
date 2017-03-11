@@ -51,48 +51,55 @@ animated-panel-container.modal-servers
       ng-include = "'templateSelectSectionView'"
     )
 
-  animated-panel.grid-block.vertical(
+  animated-panel.grid-block(
     ng-if = "NCC.state.repo"
     name = "dockerfileMirroring"
   )
-    header.modal-header
-      svg.iconnables.icons-arrow-backward(
-        ng-click = "!$root.isLoading.newContainerSingleRepo && goToPanel('nameContainer', 'back')"
-      )
-        use(
-          xlink:href = "#icons-arrow-down"
-        )
-      h1.modal-heading(
-        ng-if = "!NCC.ahaGuide.isAddingFirstRepo()"
-      ) Setup Method
-      svg.iconnables.icons-close(
-        ng-click = "NCC.close()"
-      )
-        use(
-          xlink:href = "#icons-close"
-        )
-
-    .grid-block.vertical.modal-body.views-dockerfile-setup(
-      branch-name = "NCC.state.repo.attrs.default_branch"
-      mirror-dockerfile
-      name = "'newContainer'"
-      repo = "NCC.state.repo"
-      state = "NCC.state"
+    .grid-block.vertical(
+      ng-form = "dockerfileMirrorForm"
     )
-
-    .modal-footer.clearfix
-      button.btn.btn-md.gray.btn-cancel.float-left(
-        ng-click = "NCC.close()"
-      ) Cancel
-      button.btn.btn-md.green.float-right(
-        ng-disabled = "$root.isLoading.newContainerSingleRepo || NCC.state.configurationMethod === null"
-        ng-click = "NCC.saveDockerfileMirroring()"
-      )
-        .spinner-wrapper.spinner-white.spinner-sm.in(
-          ng-include = "'spinner'"
-          ng-if = "$root.isLoading.newContainerSingleRepo"
+      header.modal-header
+        svg.iconnables.icons-arrow-backward(
+          ng-click = "!$root.isLoading.newContainerSingleRepo && goToPanel('nameContainer', 'back')"
         )
-        span {{NCC.getSetupMethodText()}}
+          use(
+            xlink:href = "#icons-arrow-down"
+          )
+        h1.modal-heading(
+          ng-if = "!NCC.ahaGuide.isAddingFirstRepo()"
+        ) Setup Method
+        svg.iconnables.icons-close(
+          ng-click = "NCC.close()"
+        )
+          use(
+            xlink:href = "#icons-close"
+          )
+
+      .grid-block.vertical.modal-body.views-dockerfile-setup(
+        branch-name = "NCC.state.repo.attrs.default_branch"
+        mirror-dockerfile
+        name = "'newContainer'"
+        repo = "NCC.state.repo"
+        state = "NCC.state"
+      )
+
+      .modal-footer.clearfix
+        button.btn.btn-md.gray.btn-cancel.float-left(
+          ng-click = "NCC.close()"
+        ) Cancel
+        button.btn.btn-md.green.float-right(
+          ng-disabled = "\
+            $root.isLoading.newContainerSingleRepo \
+             || dockerfileMirrorForm.$pristine \
+             || !dockerfileMirrorForm.$valid \
+           "
+          ng-click = "NCC.saveDockerfileMirroring()"
+        )
+          .spinner-wrapper.spinner-white.spinner-sm.in(
+            ng-include = "'spinner'"
+            ng-if = "$root.isLoading.newContainerSingleRepo"
+          )
+          span {{NCC.getSetupMethodText()}}
 
   animated-panel(
     default = "{{NCC.disableBackButton}}"

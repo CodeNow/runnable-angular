@@ -15,6 +15,7 @@
       name = "dockerfile"
       ng-disabled = "$root.isLoading[MDC.name + 'SingleRepo']"
       ng-model = "MDC.state.configurationMethod"
+      ng-click = "MDC.resetDockerfilePaths()"
       type = "radio"
       value = "new"
     )
@@ -37,6 +38,7 @@
     //- if there is only one, [check] by default
     input.checkbox(
       ng-disabled = "$root.isLoading[MDC.name + 'SingleRepo']"
+      ng-click = "MDC.resetDockerfilePaths()"
       ng-model = 'MDC.state.configurationMethod'
       type = "radio"
       value = "blankDockerfile"
