@@ -49,20 +49,15 @@
     padding: $sm 0 $sm (18px + $input-border);
 
     // "add a service" and "add a branch" buttons
-    .btn-xxs {
-      color: lighten($gray,15);
+    .btn-xs {
+      color: $gray;
       font-weight: $weight-normal;
-      height: 20px;
       margin-left: auto;
-
-      &:hover:not(:active) {
-        color: $gray;
-      }
+      padding-right: 1px;
 
       .icons-arrow-forward {
-        height: $xs;
-        margin-right: -3px;
-        width: $xs;
+        height: $sm;
+        width: $sm;
       }
     }
   }
