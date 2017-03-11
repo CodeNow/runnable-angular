@@ -2,6 +2,12 @@ h3.nav-card-header(
   title = "branch-name"
 )
   span.text-overflow branch-name
+  //- only show for default branches
+  button.btn-gear
+    svg.iconnables
+      use(
+        xlink:href = "#icons-gear"
+      )
 ul(
   ng-include = "'stagingClusterView'"
 )

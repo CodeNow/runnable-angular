@@ -169,19 +169,12 @@
 .btn-gear {
   border: 0;
   color: $gray-light;
-  display: none;
   height: 24px;
   margin-left: auto;
   margin-right: -6px;
   overflow: hidden;
   padding: 4px;
   width: 24px;
-
-  :hover > &,
-  :active > &,
-  .active > & {
-    display: block;
-  }
 
   &:hover {
     color: $gray;
