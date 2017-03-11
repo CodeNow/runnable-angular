@@ -64,7 +64,7 @@
 
   .nav-card {
     border: $input-border solid transparent;
-    border-radius: 6px;
+    border-radius: $input-border-radius-lg;
     padding: $xxs;
 
     &:hover:not(.active) {
