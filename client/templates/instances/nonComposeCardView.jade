@@ -4,7 +4,15 @@ ul
   )
     .icons-status.green
     .span.text-overflow.padding-right-xxs runnable.com
-    button.btn-gear
+    button.grid-block.shrink.btn-gear(
+      ng-class = "{'active': INC.popoverShown}"
+      ng-if = "!INC.currentOrg.isPersonalAccount() && !INC.isInDemoFlow()"
+      pop-over
+      pop-over-active = "INC.popoverShown"
+      pop-over-controller = "INC"
+      pop-over-options = "{\"verticallyCentered\":true,\"left\":26}"
+      pop-over-template = "instanceNavigationPopoverView"
+    )
       svg.iconnables
         use(
           xlink:href = "#icons-gear"
@@ -14,7 +22,15 @@ ul
   )
     .icons-status.green
     .span.text-overflow.padding-right-xxs runnable-angular
-    button.btn-gear
+    button.grid-block.shrink.btn-gear(
+      ng-class = "{'active': INC.popoverShown}"
+      ng-if = "!INC.currentOrg.isPersonalAccount() && !INC.isInDemoFlow()"
+      pop-over
+      pop-over-active = "INC.popoverShown"
+      pop-over-controller = "INC"
+      pop-over-options = "{\"verticallyCentered\":true,\"left\":26}"
+      pop-over-template = "instanceNavigationPopoverView"
+    )
       svg.iconnables
         use(
           xlink:href = "#icons-gear"

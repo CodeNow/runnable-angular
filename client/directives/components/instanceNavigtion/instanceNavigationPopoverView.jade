@@ -5,7 +5,7 @@
   .arrow.white
   .popover-content
     ul.list.popover-list(
-      ng-if = "INC.instance.attrs.masterPod"
+      ng-if = "INC.instance.attrs.masterPod || $root.featureFlags.composeNav"
     )
       li.list-item.popover-list-item.multi-line(
         ng-click = "INC.setupAutoIsolation()"
@@ -16,6 +16,13 @@
           xlink:href = "#icons-gear"
           )
         | Setup Auto Isolation
+      //- Show for repos that use Compose
+      //- li.list-item.popover-list-item.multi-line
+        svg.iconnables.icons-gear
+          use(
+            xlink:href = "#icons-gear"
+          )
+        | Edit Compose Settings
       li.list-item.popover-list-item.multi-line(
         ng-click = "INC.editInstance($event)"
       )
@@ -24,7 +31,9 @@
             xlink:href = "#icons-gear"
           )
         | Configure Service
-        .small Affects all non-isolated {{ INC.instance.attrs.name }} containers.
+        .small(
+          ng-if = "!$root.featureFlags.composeNav"
+        ) Affects all non-isolated {{ INC.instance.attrs.name }} containers.
       li.divider
       li.list-item.popover-list-item(
         ng-click = "INC.deleteContainer()"
@@ -36,7 +45,7 @@
         | Delete Service
 
     ul.list.popover-list(
-      ng-if = "!INC.instance.attrs.masterPod"
+      ng-if = "!INC.instance.attrs.masterPod && !$root.featureFlags.composeNav"
     )
       .well.gray.padding-xs(
         ng-if = "!INC.instance.attrs.isolated"
