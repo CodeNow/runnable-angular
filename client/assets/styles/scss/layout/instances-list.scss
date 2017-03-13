@@ -51,7 +51,6 @@
     // "add a service" and "add a branch" buttons
     .btn-xs {
       color: $gray;
-      font-weight: $weight-normal;
       margin-left: auto;
       padding-right: 1px;
 
@@ -80,13 +79,14 @@
 
     &:active:not(.active),
     &.active {
+
       .nav-card-header {
         color: $gray-dark;
       }
     }
 
     + .nav-card {
-      margin-top: 6px;
+      margin-top: $xxs;
     }
   }
 
@@ -100,8 +100,8 @@
   }
 
   .nav-environment-header {
-    border-top: $input-border solid rgba($gray-lighter,.6);
-    color: rgba($gray,.6);
+    border-top: $input-border solid $gray-lightest;
+    color: $gray-light;
     font-size: 13px;
     margin-top: $xxs;
     padding: $xxs ($xxs + $input-border) 6px;
