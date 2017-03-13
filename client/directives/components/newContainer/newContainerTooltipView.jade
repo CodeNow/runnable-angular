@@ -127,13 +127,12 @@ div(
       type = "search"
     )
 
-    .text-center.text-gray.small.padding-lg(
-      ng-if = "!$root.isLoading.newContainerRepos && NCC.githubRepos.models.length && !noTemplateResults.length"
-    ) No services match this filter.
-
     ul.list.popover-list(
       ng-if = "!$root.isLoading.newContainerTemplates"
     )
+      li.text-center.text-gray.small.padding-lg(
+        ng-if = "!noTemplateResults.length"
+      ) No services match this filter.
       li.grid-block.align-center.list-item.popover-list-item.multi-line(
         ng-class = "{'active': $root.isLoading.newContainerTemplates}"
         ng-click = "NCC.setTemplate(dependency, NCC.openModalAtPanel)"
