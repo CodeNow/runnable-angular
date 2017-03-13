@@ -1,6 +1,7 @@
 //- instance list
 .grid-block.shrink.list-instances(
   ng-class = "{\
+    'deprecated': !$root.featureFlags.composeNav,\
     'in': !CIS.$storage.instanceListIsClosed,\
     'noscroll': CA.shouldShowTeamCTA()\
   }"

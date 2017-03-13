@@ -14,11 +14,11 @@ function featureFlags(
     autoIsolationSetup: false,
     backup: false,
     cardStatus: false,
+    composeNav: false,
     composeNewService: false,
     composeHistory: false,
     connections: false,
     contingencyPlan: false,
-    demoAutoAddBranch: true,
     demoPersonalOnly: false, // no more demos for orgs
     demoOrgSelectUpdate: false, // updated org select for reduced github auth flow
     demoNoOrgs: false, // simulates no orgs in the org select upate

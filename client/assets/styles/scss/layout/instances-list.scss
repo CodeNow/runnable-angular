@@ -8,7 +8,7 @@
   height: 100vh;
   min-width: $instance-list-width;
   overflow-y: auto;
-  padding: 0 12px 45px;
+  padding: 0 $xs $lg;
   position: relative;
   width: $instance-list-width;
 
@@ -20,6 +20,10 @@
   .label-search {
     border-bottom: 1px solid $gray-lighter;
     padding: 16px 10px;
+
+    + .section {
+      border-top: 0;
+    }
   }
 
   // empty state
@@ -29,39 +33,107 @@
     border-radius: $input-border-radius-lg;
     font-size: 21px;
     margin-top: 3px;
-    padding: 15px 24px 24px;
+    padding: $sm 24px 24px;
   }
 
-  .a-sref {
-    border-radius: $input-border-radius;
-    cursor: pointer;
-    height: 27px;
-    margin-bottom: 2px;
-    padding: 0 6px 0 9px;
+  .section {
+    border-top: $input-border solid $gray-lighter;
+  }
 
-    &:hover {
-      background: rgba($black,.05);
+  .section-header {
+    align-items: center;
+    display: flex;
+    font-size: inherit; // reset
+    font-weight: $weight-normal; // reset
+    line-height: inherit; // reset
+    padding: $sm 0 $sm (18px + $input-border);
+
+    // "add a service" and "add a branch" buttons
+    .btn-xs {
+      color: $gray;
+      font-weight: $weight-normal;
+      margin-left: auto;
+      padding-right: 1px;
+
+      .icons-arrow-forward {
+        height: $sm;
+        width: $sm;
+      }
+    }
+  }
+
+  .nav-card {
+    border: $input-border solid transparent;
+    border-radius: $input-border-radius-lg;
+    padding: $xxs;
+
+    &:hover:not(.active) {
+      border-color: $gray-lighter;
+      cursor: pointer;
     }
 
+    &:active:not(.active),
     &.active {
-      background: $purple-lightest;
-      color: $purple-light;
-      cursor: default;
+      background: $white;
+      border-color: $gray-lighter;
     }
 
-    .text-overflow {
-      display: inline-block;
-      padding-right: 6px;
+    &:hover:not(.active),
+    &:active:not(.active),
+    &.active {
+      .nav-card-header {
+        color: $gray-dark;
+      }
     }
 
-    .icons-status {
-      margin-right: 9px;
+    + .nav-card {
+      margin-top: 6px;
     }
   }
 
-  // extra indentation for isolated friends
-  .friend-wrapper .a-sref {
-    padding-left: 27px;
+  .nav-card-header {
+    align-items: center;
+    display: flex;
+    font-size: inherit; // reset
+    font-weight: $weight-normal; // reset
+    line-height: inherit; // reset
+    padding: 0 $xxs;
+  }
+
+  .nav-environment-header {
+    border-top: $input-border solid rgba($gray-lighter,.6);
+    color: rgba($gray,.6);
+    font-size: 13px;
+    margin-top: $xxs;
+    padding: $xxs $xxs 6px;
+  }
+
+  .container {
+    align-items: center;
+    border-radius: $input-border-radius;
+    display: flex;
+    height: 27px;
+    padding: 0 $xxs;
+
+    &:hover:not(.active) {
+      background-color: $gray-lighterest;
+      color: $gray-dark;
+      cursor: pointer;
+    }
+
+    &:active:not(.active),
+    &.active {
+      background-color: lighten($purple-lightest,3);
+      color: $purple-light;
+    }
+
+    + .container {
+      margin-top: 1px;
+    }
+  }
+
+  .icons-status {
+    margin-right: $xxs;
   }
 }
 
@@ -92,78 +164,15 @@
   }
 }
 
-// wraps the master cluster and each repository section
-.list-clusters {
-  padding: 15px 0;
-
-  + .list-clusters {
-    border-top: 1px solid $gray-lighter;
-  }
-}
-
-.list-clusters-heading {
-  height: 27px;
-  margin: 4px 0;
-  padding: 0 4px 0 31px;
-
-  // repo name
-  .text-overflow {
-    padding-right: 9px;
-  }
-
-  // 'add…' buttons
-  .btn-xxs {
-    color: lighten($gray,15);
-    font-weight: $weight-normal;
-    height: 20px;
-    top: 1px;
-
-    &:hover {
-      color: $gray;
-    }
-
-    .icons-arrow-forward {
-      height: 12px;
-      margin-right: -3px;
-      width: 12px;
-    }
-  }
-}
-
-// target only direct children because of nesting in markup
-.list-item-cluster > .list-containers {
-  border: 1px solid transparent;
-  border-radius: $input-border-radius-lg;
-  padding: 3px 3px 1px;
-  position: relative;
-
-  &.open {
-    background: $white;
-    border-color: $gray-lighter;
-  }
-}
-
-.testing-container {
-  margin-left: 18px;
-}
-
 .btn-gear {
   border: 0;
   color: $gray-light;
-  display: none;
   height: 24px;
+  margin-left: auto;
+  margin-right: -6px;
   overflow: hidden;
   padding: 4px;
-  position: relative;
-  top: -1px;
   width: 24px;
-
-  :hover > &,
-  :active > &,
-  .active > &,
-  .master-cluster & {
-    display: block;
-  }
 
   &:hover {
     color: $gray;

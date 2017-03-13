@@ -1,0 +1,29 @@
+h2.section-header(
+  title = "api"
+)
+  span.text-overflow.padding-right-xxs api
+  .grid-block.align-center.shrink.btn.btn-xs.white(
+    data-event-name = "Clicked Add Branch button"
+    ng-click = "CIS.popInstanceOpen(masterInstance)"
+    pop-over
+    pop-over-controller = "CIS"
+    pop-over-data = "'branchSelect'"
+    pop-over-options = "{\"verticallyCentered\":true,\"left\":107,\"pinToViewPort\":true}"
+    pop-over-template = "branchMenuPopoverView"
+  ) Add a Branch
+    svg.iconnables.icons-arrow-forward
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
+section.nav-card.active(
+  ng-include = "'navCardView'"
+)
+//- for mockup only
+section.nav-card
+  h3.nav-card-header branch-name
+section.nav-card
+  h3.nav-card-header branch-name
+section.nav-card
+  h3.nav-card-header branch-name
+section.nav-card
+  h3.nav-card-header branch-name
