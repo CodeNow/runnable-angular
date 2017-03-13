@@ -1,4 +1,16 @@
-li.nav-environment-header Staging
+li.grid-block.align-center.justify-justified.nav-environment-header
+  .grid-block.text-overflow Staging
+  button.grid-block.shrink.btn-gear(
+    ng-class = "{'active': popoverShown}"
+    ng-if = "$root.featureFlags.composeHistory"
+    pop-over
+    pop-over-options = "{\"verticallyCentered\":true,\"left\":26,\"pinToViewPort\":true}"
+    pop-over-template = "branchTestSelectorPopoverView"
+  )
+    svg.iconnables
+      use(
+        xlink:href = "#icons-history"
+      )
 li.grid-block.container(
   title = "api"
 )
