@@ -33,6 +33,7 @@ function NewContainerController(
       panel: 'containerSelection',
       closed: false,
       tabName: 'repos',
+      dockerFileTab: 'dockerfile',
       dockerfile: null,
       configurationMethod: null,
       namesForAllInstances: [],
