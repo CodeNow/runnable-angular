@@ -15,7 +15,7 @@ function featureFlags(
     backup: false,
     cardStatus: false,
     composeNav: false,
-    composeNewService: false
+    composeNewService: false,
     connections: false,
     contingencyPlan: false,
     demoPersonalOnly: false, // no more demos for orgs
