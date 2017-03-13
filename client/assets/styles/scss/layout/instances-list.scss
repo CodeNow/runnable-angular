@@ -166,14 +166,20 @@
 }
 
 .btn-gear {
-  border: 0;
+  align-items: center;
+  border-radius: $input-border-radius;
   color: $gray-light;
   height: 24px;
+  line-height: 1;
   margin-left: auto;
   margin-right: -6px;
   overflow: hidden;
   padding: 4px;
-  width: 24px;
+
+  &:not(.gray) {
+    border: 0;
+    width: 24px;
+  }
 
   &:hover {
     color: $gray;
@@ -182,11 +188,10 @@
   &:active,
   &.active {
     color: $purple-light;
-    display: block;
   }
 
   .iconnables {
     height: 100%;
-    width: 100%;
+    width: 16px;
   }
 }
