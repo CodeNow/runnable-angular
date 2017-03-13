@@ -83,7 +83,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
       var fetchUserPromise = fetchUser();
       $rootScope.$digest();
       expect(fetchUserPromise, 'Returned err').to.eventually.rejectedWith(err);
-      expect(windowMock.location).to.equal('https://runnable.io');
+      expect(windowMock.location).to.equal('https://runnable.com');
     });
   });
 

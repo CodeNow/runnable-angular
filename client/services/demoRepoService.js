@@ -125,8 +125,6 @@ function demoRepos(
   currentOrg,
   demoFlowService,
   errs,
-  fetchContextVersion,
-  fetchGitHubRepoBranch,
   fetchInstancesByPod,
   fetchNonRepoInstances,
   fetchOwnerRepo,
@@ -136,7 +134,6 @@ function demoRepos(
   invitePersonalRunnabot,
   keypather,
   promisify,
-  serverCreateService,
   watchOncePromise
 ) {
 
@@ -279,28 +276,27 @@ function demoRepos(
         return promisify(context, 'fetchVersions')({ qs: { sort: '-created' }});
       })
       .then(function (versions) {
-        return validateVersionHasBranch(stack, versions);
+        if (!versions.models.length) {
+          return $q.reject(new Error('No context version found in models for ' + stack.repoName));
+        }
+        return validateDemoVersion(versions, stackName);
       });
   }
 
-  function validateVersionHasBranch(stack, versions) {
-    return fetchGitHubRepoBranch(stack.repoOwner, stack.repoName, stack.branchName)
-      .then(function (branch) {
-        var version = versions.find(function (version) {
-          var mainAppCodeVersion = keypather.get(version, 'getMainAppCodeVersion()');
-          if (!mainAppCodeVersion) {
-            return;
-          }
-          var branchName = mainAppCodeVersion.attrs.branch;
-          var commit = mainAppCodeVersion.attrs.commit;
-          var buildFailed = keypather.get(version, 'attrs.build.failed');
-          return branchName === stack.branchName && !buildFailed && commit === branch.commit.sha;
-        });
-        if (!version) {
-          return $q.reject(new Error('No context version found for ' + stack.repoName));
-        }
-        return version;
-      });
+  function validateDemoVersion(versions, stackName) {
+    var version = versions.find(function (version) {
+      var mainAppCodeVersion = keypather.get(version, 'getMainAppCodeVersion()');
+      if (!mainAppCodeVersion) {
+        return;
+      }
+      var branchName = mainAppCodeVersion.attrs.branch;
+      var buildFailed = keypather.get(version, 'attrs.build.failed');
+      return branchName === 'master' && !buildFailed;
+    });
+    if (!version) {
+      return $q.reject(new Error('No context version found for ' + stackName));
+    }
+    return version;
   }
 
   function createDemoAppForPersonalAccounts (stackKey) {
