@@ -68,17 +68,16 @@
     padding: $xxs;
 
     &:hover:not(.active) {
-      border-color: $gray-lighter;
       cursor: pointer;
     }
 
+    &.active,
     &:active:not(.active),
-    &.active {
-      background: $white;
+    &:hover:not(.active) {
+      background-color: $white;
       border-color: $gray-lighter;
     }
 
-    &:hover:not(.active),
     &:active:not(.active),
     &.active {
       .nav-card-header {
@@ -97,7 +96,7 @@
     font-size: inherit; // reset
     font-weight: $weight-normal; // reset
     line-height: inherit; // reset
-    padding: 0 $xxs;
+    padding: 0 ($xxs + $input-border);
   }
 
   .nav-environment-header {
@@ -105,11 +104,12 @@
     color: rgba($gray,.6);
     font-size: 13px;
     margin-top: $xxs;
-    padding: $xxs $xxs 6px;
+    padding: $xxs ($xxs + $input-border) 6px;
   }
 
   .container {
     align-items: center;
+    border: $input-border solid transparent;
     border-radius: $input-border-radius;
     display: flex;
     height: 27px;
@@ -117,13 +117,14 @@
 
     &:hover:not(.active) {
       background-color: $gray-lighterest;
-      color: $gray-dark;
+      border-color: rgba($gray-lighter,.6);
       cursor: pointer;
     }
 
     &:active:not(.active),
     &.active {
-      background-color: lighten($purple-lightest,3);
+      background-color: lighten($purple-lightest,4);
+      border-color: rgba($purple-light,.1);
       color: $purple-light;
     }
 
