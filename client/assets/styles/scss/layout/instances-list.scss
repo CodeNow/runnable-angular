@@ -101,8 +101,8 @@
   }
 
   .nav-environment-header {
-    border-top: $input-border solid rgba($gray-lighter,.6);
-    color: rgba($gray,.6);
+    border-top: $input-border solid $gray-lightest;
+    color: $gray-light;
     font-size: 13px;
     margin-top: $xxs;
     padding: $xxs ($xxs + $input-border) 6px;
