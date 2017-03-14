@@ -232,10 +232,11 @@ function NewContainerController(
     var dockerfilePath;
     loading('newContainerSingleRepo', true);
 
-    if (configurationMethod === 'dockerfile') {
-      dockerfilePath = keypather.get(dockerfile, 'path');
-    } else {
+    if (configurationMethod === 'blankDockerfile' || configurationMethod === 'new') {
       dockerfilePath = '';
+    } else {
+      configurationMethod = 'dockerfile';
+      dockerfilePath = keypather.get(dockerfile, 'path');
     }
 
     return createNewBuildAndFetchBranch(currentOrg.github, repo, dockerfilePath, configurationMethod)
