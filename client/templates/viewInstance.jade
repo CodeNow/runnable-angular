@@ -46,11 +46,13 @@
 
     .instance-body
       //- sidebar with repositories and urls
-      section.sidebar.instance-sidebar.load
+      section.sidebar.instance-sidebar.load(
+        ng-class = "{'deprecated': !$root.featureFlags.composeInstance}"
+      )
 
         section.sidebar-section.repository-section(
           instance = "dataInstance.data.instance"
-          ng-if = "dataInstance.data.instance.contextVersion.getMainAppCodeVersion()"
+          ng-if = "!$root.featureFlags.composeInstance && $root.featureFlags.composeNav && dataInstance.data.instance.contextVersion.getMainAppCodeVersion()"
           repo-list
         )
 
