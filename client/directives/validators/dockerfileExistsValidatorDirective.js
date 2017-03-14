@@ -29,7 +29,7 @@ function dockerfileExistsValidator(
             if (!dockerfile) {
               return $q.reject('file doesn’t exist');
             }
-            $scope.$emit('dockerfileExistsValidator::valid', modelValue, attrs.dockerfileExistsValidator);
+            $scope.$emit('dockerfileExistsValidator::valid', modelValue, attrs.dockerfileExistsValidator, dockerfile);
           });
       };
     }

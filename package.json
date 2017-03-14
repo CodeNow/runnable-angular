@@ -98,6 +98,7 @@
     "grunt-timer": "0.6.0",
     "jade": "1.11.0",
     "js-base64": "^2.1.9",
+    "js-yaml": "^3.8.2",
     "jsTag": "git://github.com/Runnable/jsTag.git#v0.3.9",
     "json-hash": "1.1.0",
     "keypather": "1.10.1",

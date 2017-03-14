@@ -5,7 +5,8 @@ require('app')
 
 function addDockerfile(
   $q,
-  $timeout
+  $timeout,
+  parseDockerComposeFile
 ) {
   return {
     restrict: 'A',
@@ -51,7 +52,9 @@ function addDockerfile(
             return $timeout(angular.noop);
           });
       };
-      $scope.$on('dockerfileExistsValidator::valid', function ($event, path, fileType) {
+      $scope.$on('dockerfileExistsValidator::valid', function ($event, path, fileType, dockerfile) {
+        var dockerfileContent = parseDockerComposeFile(dockerfile.content);
+        $scope.dockerComposeServices = Object.keys(dockerfileContent.services);
         return $scope.addDockerFile(path, fileType);
       });
     }
