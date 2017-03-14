@@ -2,33 +2,9 @@
 
 require('app')
   .factory('createNewBuild', createNewBuild)
-  .factory('createNewBuildByContextVersion', createNewBuildByContextVersion)
   .factory('createNewBuildAndFetchBranch', createNewBuildAndFetchBranch);
 
-function createNewBuildByContextVersion(
-  fetchUser,
-  promisify
-) {
-  return function (activeAccount, version) {
-    return fetchUser()
-      .then(function (user) {
-        return promisify(user, 'createBuild')({
-          contextVersion: version.id(),
-          owner: {
-            github: activeAccount.oauthId()
-          }
-        });
-      })
-      .then(function (build) {
-        // This is needed for part of GS
-        build.contextVersion = version;
-        return build;
-      });
-  };
-}
-
 function createNewBuild(
-  createNewBuildByContextVersion,
   fetchUser,
   promisify,
   $q,
@@ -66,15 +42,28 @@ function createNewBuild(
         });
     }
 
-        return fetchUser()
+    function createBuild(version) {
+      return promisify(thisUser, 'createBuild')({
+        contextVersions: [version.id()],
+        owner: {
+          github: activeAccount.oauthId()
+        }
+      })
+        .then(function (build) {
+          // This is needed for part of GS
+          build.contextVersion = version;
+          return build;
+        });
+    }
+
+    return fetchUser()
       .then(function (user) {
         thisUser = user;
         return createContext(user);
       })
       .then(createVersion)
-      .then(function (version) {
-        return createNewBuildByContextVersion(activeAccount, version);
-      });
+      .then(createBuild);
+
   };
 }
 

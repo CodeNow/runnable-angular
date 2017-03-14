@@ -36,11 +36,7 @@ describe('NewContainerController'.bold.underline.blue, function () {
       handler: sinon.spy()
     };
     mockCurrentOrg = {
-      poppa: {
-        attrs: {
-          id: 1
-        }
-      },
+      poppa: {},
       github: {
         oauthName: sinon.stub().returns('myOauthName')
       }
