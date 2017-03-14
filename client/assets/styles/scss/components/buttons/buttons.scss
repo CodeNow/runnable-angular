@@ -348,21 +348,22 @@
   color: $purple-light;
 
   &.btn {
-    background: $purple-light;
-    border-color: $purple;
-    color: $white;
+    background: lighten($purple-dark,9%);
+    border-color: $purple-darkest;
+    color: $purple-lighter;
 
     &:not([disabled]) {
 
       &:hover,
       &.hover {
-        background: lighten($purple-light,10%);
+        background: $purple;
       }
 
       &:active,
       &.active,
       &.active:hover {
-        background: $purple;
+        background: $purple-light;
+        transition: none;
       }
     }
   }

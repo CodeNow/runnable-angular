@@ -9,7 +9,7 @@
   ng-controller = "FilePopoverController as FPC"
   ng-if = "editExplorer && rootDir && !instance.isMigrating()"
 )
-  button.btn.btn-xs.gray(
+  button.grid-block.btn.btn-xs.btn-icon.purple(
     ng-class = "{'active': filePopover.data.show}"
     ng-disabled = "readOnly"
     pop-over

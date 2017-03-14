@@ -1,0 +1,78 @@
+.instance-sidebar.deprecated {
+
+  // empty states for sections
+  .well {
+    color: $gray-light;
+  }
+
+  .btn-repository {
+    display: block;
+    font-size: 15px;
+    font-weight: $weight-normal;
+    min-height: 118px;
+    padding: $xxs;
+    text-align: left;
+
+    &.grid-block {
+      display: flex; // overwrite default .btn
+    }
+
+    &:hover .row-commit::after,
+    &:active .row-commit::after {
+      background: linear-gradient(to right, rgba($white,0), $white);
+    }
+
+    &:active,
+    &.active {
+
+      .row-author {
+        color: rgba($purple-light,.5);
+      }
+
+      .btn-auto-deploy:not(.btn-permissions) {
+        border: 1px solid rgba($purple-light,.25);
+        color: rgba($purple-light,.5);
+      }
+    }
+
+    &.error {
+      border-bottom: 0;
+      border-radius: $input-border-radius $input-border-radius 0 0;
+    }
+
+    // icon for commmit/branch
+    .row {
+      min-height: 24px;
+      padding-left: 27px;
+      position: relative;
+
+      .iconnables {
+        left: 7px;
+        opacity: .5;
+        position: absolute;
+        width: 12px;
+      }
+    }
+
+    .row-commit {
+      max-height: 42px; // 2 rows
+      overflow: hidden;
+      white-space: normal;
+
+      &::after {
+        background: linear-gradient(to right, rgba($gray-lighterest,0), $gray-lighterest);
+        bottom: 0;
+        content: '';
+        display: block;
+        height: 21px;
+        position: absolute;
+        right: 0;
+        width: 30px;
+      }
+    }
+
+    .row-author {
+      color: $gray-light;
+    }
+  }
+}

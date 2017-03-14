@@ -416,7 +416,7 @@
     background-color: rgba($ace-bg,.6);
 
     .ace_gutter {
-      background-color: rgba($ace-bg,.6);
+      background-color: transparent;
       color: lighten(#5e4d6e,30%);
     }
 
@@ -433,7 +433,7 @@
   }
 
   .ace_gutter {
-    background: darken($ace-bg,3%);
+    background-color: transparent;
     color: lighten(#5e4d6e,12%);
   }
 

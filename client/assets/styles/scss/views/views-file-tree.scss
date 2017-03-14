@@ -1,7 +1,6 @@
 // folders and files
 .file-tree {
   font-size: 13px;
-  margin: 0 6px;
   user-select: none;
   white-space: nowrap;
 
@@ -22,34 +21,16 @@
       @include depth($i);
     }
 
-    // states
-    &.not-toggleable {
-
-      // hide arrow
-      &::after {
-        opacity: 0;
-      }
-
-      > a {
-        background: transparent !important;
-        border-color: transparent !important;
-        color: $gray-darker !important;
-        cursor: default;
-      }
-    }
-
     &.context-click a {
-      border-color: rgba($purple-light,.3);
+      background: lighten($purple-dark,3%);
+      border-color: $purple-darker;
     }
 
     &.active a,
     &.active a:hover {
-      background: rgba($purple-light,.1);
-      border-color: rgba($purple-light,.3);
-      color: $purple-light;
+      background: lighten($purple-dark,9%);
+      border-color: $purple-darkest;
       cursor: default;
-
-      font-weight: $weight-bold;
     }
 
     // if still loading repository
@@ -66,20 +47,19 @@
       margin-bottom: 2px;
       max-height: 28px;
       overflow: hidden;
-      padding-left: 15px;
+      padding-left: $sm;
       text-overflow: ellipsis;
       white-space: nowrap;
 
       &:hover {
-        background: $white;
-        border-color: $gray-lighter;
+        background: lighten($purple-dark,3%);
+        border-color: $purple-darker;
       }
 
       &:active,
       &.active {
-        background: rgba($purple-light,.15);
-        border-color: rgba($purple-light,.15);
-        color: $purple-light;
+        background: lighten($purple-dark,9%);
+        border-color: $purple-darkest;
         transition: none;
       }
     }
@@ -102,12 +82,12 @@
 
       &::after {
         @extend %arrow-right;
-        border-left-color: rgba($black,.2) !important;
+        border-left-color: rgba($white,.2);
         content: '';
         display: block;
         pointer-events: none;
         position: absolute;
-        top: 10px;
+        top: 9px;
         transform-origin: 3px 4px;
         transition: transform .15s;
       }
@@ -146,9 +126,11 @@
 
   // spinners
   .spinner-wrapper {
+    // scss-lint:disable ImportantRule
     background: none !important;
     display: inline-block;
     position: relative !important; // override default position
+    // scss-lint:enable ImportantRule
     right: 10px;
     top: 2px;
   }

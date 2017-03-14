@@ -1,12 +1,7 @@
 // instance body
 .instance-body {
-  display: flex;
-  flex: 1 1 auto;
   overflow: hidden;
-
-  .server-sidebar {
-    flex: 0 0 auto;
-  }
+  position: relative;
 
   .views {
     flex: 1 1 auto;
