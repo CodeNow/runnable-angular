@@ -20,41 +20,6 @@
   .input-search + .list {
     padding-top: $xs;
   }
-
-  .list-item {
-    border: 1px solid transparent;
-    border-radius: $input-border-radius;
-
-    &:hover:not(.disabled) {
-      background: $gray-lighterest;
-      border-color: $gray-lighter;
-    }
-
-    &:active:not(.disabled),
-    &.active {
-      background: $white;
-      border-color: currentColor;
-      color: $green;
-    }
-
-    // loading state
-    &.disabled {
-      cursor: not-allowed;
-
-      &:not(.active) {
-        opacity: .5;
-      }
-    }
-
-    .spinner-wrapper {
-      padding: 4px;
-    }
-  }
-
-  .btn-add {
-    padding: 0 6px;
-    width: auto;
-  }
 }
 
 .popover-branch-menu {
@@ -72,7 +37,7 @@
   }
 
   .popover-list-item {
-    padding-right: $xxs;
+    padding: 0 $xxs;
 
     .iconnables.icons-branch {
       height: 18px;
@@ -125,8 +90,7 @@
   }
 
   .list-item .iconnables.icons-repository {
-    margin-left: 3px;
-    margin-right: 18px;
+    margin-right: $sm;
     width: 18px;
   }
 

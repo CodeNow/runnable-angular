@@ -32,21 +32,6 @@
   }
 }
 
-// .list-item-link {
-.list-item-link {
-  cursor: pointer;
-
-  &:hover {
-    background: rgba($blue,.1);
-    border-color: rgba($blue,.2);
-  }
-
-  &:active {
-    background: rgba($blue,.15);
-    border-color: rgba($blue,.3);
-  }
-}
-
 // li.list-details
 .list-details {
   margin: 0 6px;
@@ -211,42 +196,6 @@
   }
 }
 
-// nested
-.list-nested {
-  cursor: default;
-  margin: 0 -15px;
-  padding: 0 15px;
-
-  .list-item {
-    font-size: 15px;
-    height: 36px;
-    line-height: 36px;
-
-    &.small {
-      border-top: 1px solid rgba($purple-light,.2);
-      font-size: 13px;
-      margin-top: 6px;
-      padding-top: 3px;
-    }
-
-    // anchor
-    > .iconnables {
-      background: $purple-lightest;
-      border: 1px solid rgba($purple-light,.6);
-      border-radius: 50%;
-      margin-right: 9px;
-      padding: 1px;
-      top: 6px;
-    }
-  }
-
-  // toggle
-  .btn-check {
-    right: 0;
-    top: 6px;
-  }
-}
-
 // bulleted lists
 .list-bulleted .list-item {
   padding-left: 15px;
@@ -273,5 +222,78 @@
     margin: 0 3px 0 5px;
     top: 2px;
     width: 12px;
+  }
+}
+
+// bordered-list item states
+.list-actions {
+  display: flex;
+  flex-direction: column;
+
+  .list-item {
+    border: $input-border solid transparent;
+    border-radius: $input-border-radius;
+    cursor: pointer;
+    height: $input-lg;
+    padding: 0 $sm;
+
+    &:hover:not(.disabled) {
+      background: $gray-lighterest;
+      border-color: $gray-lighter;
+    }
+
+    &:active:not(.disabled),
+    &.active {
+      background: $white;
+      border-color: currentColor;
+      color: $green;
+
+      > .iconnables {
+        color: currentColor;
+      }
+    }
+
+    // loading state
+    &.disabled {
+      cursor: not-allowed;
+
+      &:not(.active) {
+        opacity: .5;
+      }
+    }
+
+    + .list-item {
+      margin-top: $xxs;
+    }
+
+    // add icon
+    .btn-icon {
+      border-radius: 50%;
+      padding: 0;
+      width: $input-xs;
+    }
+
+    // add button
+    .btn-add:not(.btn-icon) {
+      padding: 0 6px;
+      width: auto;
+    }
+
+    .small {
+      color: currentColor;
+      opacity: .75;
+    }
+
+    // test status
+    .icons-status {
+      height: 12px;
+      margin-right: 6px;
+      width: 12px;
+    }
+
+    // spinner
+    .spinner-wrapper {
+      padding: 4px;
+    }
   }
 }

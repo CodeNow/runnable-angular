@@ -131,7 +131,7 @@
           ng-if = "CIS.instanceBranches && CIS.instanceBranches.length && CIS.totalInstanceBranches && !CIS.getFilteredBranches().length"
         ) No branches match this filter.
 
-        ul.list.popover-list(
+        ul.list.list-actions(
           ng-if = "!$root.isLoading.fetchingBranches && CIS.instanceBranches.length"
         )
           li.grid-block.align-center.list-item.popover-list-item(
@@ -149,7 +149,7 @@
             .grid-content.text-overflow(
               title = "{{ branch.name }}"
             ) {{ branch.name }}
-            button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add(
+            button.grid-content.shrink.btn.btn-xs.btn-add(
               ng-if = "!$root.isLoading[branch.name]"
             ) Add
             .grid-content.shrink.spinner-wrapper.spinner-sm.spinner-green(

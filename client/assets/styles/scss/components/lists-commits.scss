@@ -1,6 +1,4 @@
 .list-commits {
-  display: flex;
-  flex-direction: column;
 
   // for branch select
   > .label {
@@ -19,53 +17,5 @@
   .well-popover .iconnables {
     height: 18px;
     width: 18px;
-  }
-
-  // list of commits
-  .list {
-
-    .list-item {
-      border: $input-border solid transparent;
-      border-radius: $input-border-radius;
-      cursor: pointer;
-      height: $input-lg;
-      padding: 0 $sm;
-
-      &:hover:not(.disabled) {
-        background: $gray-lighterest;
-        border-color: $gray-lighter;
-      }
-
-      &:active:not(.disabled),
-      &.active {
-        background: $white;
-        border-color: currentColor;
-        color: $green;
-      }
-
-      // loading state
-      &.disabled {
-        cursor: not-allowed;
-
-        &:not(.active) {
-          opacity: .5;
-        }
-      }
-
-      + .list-item {
-        margin-top: $xxs;
-      }
-    }
-
-    .btn-add {
-      border-radius: 50%;
-      padding: 0;
-      width: $input-xs;
-    }
-
-    .small {
-      color: currentColor;
-      opacity: .75;
-    }
   }
 }

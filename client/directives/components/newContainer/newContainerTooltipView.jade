@@ -54,7 +54,7 @@ div(
       ng-if = "!$root.isLoading.newContainerRepos && NCC.githubRepos.models.length === 0"
     ) There are no repositories to add.
 
-    ul.list.popover-list(
+    ul.list.list-actions(
       ng-if = "!$root.isLoading.newContainerRepos"
     )
       li.text-center.text-gray.small.padding-lg(
@@ -97,7 +97,7 @@ div(
             ng-if = "!$root.featureFlags.inviteFlows"
           ) Updated {{repo.attrs.pushed_at | timeFrom}}
 
-        button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add(
+        button.grid-content.shrink.btn.btn-xs.btn-add(
           ng-if = "!repo.loading"
         ) Select
         .grid-content.shrink.spinner-wrapper.spinner-sm.spinner-green(
@@ -127,7 +127,7 @@ div(
       type = "search"
     )
 
-    ul.list.popover-list(
+    ul.list.list-actions(
       ng-if = "!$root.isLoading.newContainerTemplates"
     )
       li.text-center.text-gray.small.padding-lg(
@@ -149,7 +149,7 @@ div(
           width = "24"
         )
         .grid-content {{dependency.attrs.name}}
-        button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add(
+        button.grid-content.shrink.btn.btn-xs.btn-add(
           ng-if = "!$root.isLoading.newContainerTemplates"
         ) Select
         .grid-content.shrink.spinner-wrapper.spinner-sm.spinner-green(
