@@ -1,0 +1,12 @@
+.popover.right.popover-branch-menu(
+  ng-class = "{'in': active}"
+  ng-style = "popoverStyle.getStyle()"
+)
+  .arrow.white(
+    ng-style = "popoverStyle.getArrowStyle()"
+  )
+
+  section.padding-xs.popover-content.list-actions.list-commits(
+    branch-commit-selector
+    ng-init = "fromPopover = true"
+  )
