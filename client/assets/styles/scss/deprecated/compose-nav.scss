@@ -56,13 +56,12 @@
 
     // 'add…' buttons
     .btn-xxs {
-      color: lighten($gray,15);
-      font-weight: $weight-normal;
+      color: currentColor;
       height: 20px;
-      top: 1px;
 
-      &:hover {
-        color: $gray;
+      &:active,
+      &.active {
+        color: $purple-light;
       }
 
       .icons-arrow-forward {
