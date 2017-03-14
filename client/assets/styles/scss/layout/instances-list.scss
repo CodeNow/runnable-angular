@@ -169,7 +169,7 @@
   align-items: center;
   border-radius: $input-border-radius;
   color: $gray-light;
-  height: 24px;
+  height: $input-xs;
   line-height: 1;
   margin-left: auto;
   margin-right: -6px;
@@ -178,7 +178,7 @@
 
   &:not(.gray) {
     border: 0;
-    width: 24px;
+    width: $input-xs;
   }
 
   &:hover {

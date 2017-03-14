@@ -5,7 +5,7 @@
   // for branch select
   > .label {
     display: table;
-    margin: 0 auto 12px;
+    margin: 0 auto $xs;
 
     .spinner-wrapper {
       align-items: center;
@@ -25,7 +25,7 @@
   .list {
 
     .list-item {
-      border: 1px solid transparent;
+      border: $input-border solid transparent;
       border-radius: $input-border-radius;
       cursor: pointer;
       height: $input-lg;
@@ -60,7 +60,7 @@
     .btn-add {
       border-radius: 50%;
       padding: 0;
-      width: 24px;
+      width: $input-xs;
     }
 
     .small {

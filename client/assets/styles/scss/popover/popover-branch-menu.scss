@@ -68,11 +68,11 @@
 
   .well + .well,
   .well + .input {
-    margin-top: 15px;
+    margin-top: $sm;
   }
 
   .popover-list-item {
-    padding-right: 9px;
+    padding-right: $xxs;
 
     .iconnables.icons-branch {
       height: 18px;
