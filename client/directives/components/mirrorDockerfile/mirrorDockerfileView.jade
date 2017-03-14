@@ -138,11 +138,11 @@
 
 //- input for environment file path
 .grid-block.vertical.label.views-dockerfile-setup(
-  ng-if = "$root.featureFlags.composeNewService && !MDC.fromTool && MDC.state.dockerFileTab === 'compose'"
   add-dockerfile
   branch-name = "MDC.branchName"
   file-type = "Docker Compose"
   full-repo = "MDC.getFullRepo()"
+  ng-if = "$root.featureFlags.composeNewService && !MDC.fromTool && MDC.state.dockerFileTab === 'compose'"
   view-state = "viewState"
 )
 
