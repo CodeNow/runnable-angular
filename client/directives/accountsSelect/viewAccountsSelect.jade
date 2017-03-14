@@ -1,6 +1,6 @@
 //- show highest priority badge
 //- if on a trial: show number of days left in trial as badge
-.grid-block(
+.grid-block.noscroll(
   ng-attr-data-badge-count = "{{getBadgeCount()}}"
   ng-class = "getClasses()"
   ng-show = "data.activeAccount"
