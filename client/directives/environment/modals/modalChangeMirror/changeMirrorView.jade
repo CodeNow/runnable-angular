@@ -1,5 +1,5 @@
 .popover-overlay
-  .popover.popover-fixed.in.modal-mirror-dockerfile(
+  .popover.popover-fixed.in(
     ng-class = "{'in': active}"
   )
     .popover-header Choose Dockerfile
@@ -10,7 +10,7 @@
           xlink:href = "#icons-close"
         )
 
-    .grid-block.vertical.modal-body(
+    .grid-block.vertical.modal-body.views-dockerfile-setup(
       branch-name = "MC.branchName"
       from-tool = "true"
       mirror-dockerfile
@@ -18,6 +18,7 @@
       repo = "MC.state.repo"
       state = "MC.state"
     )
+
     footer.modal-footer.clearfix
       button.btn.btn-md.white.float-left(
         ng-click = "MC.cancel()"
@@ -25,8 +26,4 @@
       button.btn.btn-md.green.float-right(
         ng-click = "MC.confirm(MC.state.dockerfile)"
         ng-disabled = "!MC.state.dockerfile"
-      )
-        //- .spinner-wrapper.spinner-white.spinner-sm.in(
-        //-   ng-include = "'spinner'"
-        //- )
-        span Start Mirroring
+      ) Start Mirroring

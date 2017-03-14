@@ -1,0 +1,77 @@
+section.grid-block.vertical.modal-body
+
+  svg.iconnables.icons-close(
+    ng-click = "NCC.close()"
+  )
+    use(
+      xlink:href = "#icons-close"
+    )
+
+  .grid-block.vertical.modal-form.no-border
+    .label-tabs.grid-block(
+      ng-init = "state.tab = 'dockerfile'"
+    )
+      label.grid-block.align-center.btn.btn-radio(
+        ng-class = "{'active': state.tab === 'dockerfile'}"
+        ng-click = "state.tab = 'dockerfile'"
+      )
+        svg.grid-block.shrink.btn.btn-xs.btn-icon.btn-add.iconnables.icons-check
+          use(
+            xlink:href = "#icons-check"
+          )
+        .grid-block.vertical.text-left
+          p.p.weight-strong Use a Dockerfile
+          small.small Set up from scratch or from a Dockerfile.
+
+      label.grid-block.align-center.btn.btn-radio(
+        ng-class = "{'active': state.tab === 'compose'}"
+        ng-click = "state.tab = 'compose'"
+      )
+        svg.grid-block.shrink.btn.btn-xs.btn-icon.btn-add.iconnables.icons-check
+          use(
+            xlink:href = "#icons-check"
+          )
+        .grid-block.vertical.text-left
+          p.p.weight-strong Use a Compose File
+          small.small Set up from a Compose file in your repo.
+
+    //- form for naming the environment
+    form.grid-block.vertical.label(
+      name = "NCC.nameForm"
+      ng-include = "'nameNewServiceView'"
+    )
+
+    //- form for dockerfile setup
+    .grid-block.vertical.label.views-dockerfile-setup(
+      branch-name = "NCC.state.repo.attrs.default_branch"
+      mirror-dockerfile
+      name = "'newContainer'"
+      ng-if = "state.tab === 'dockerfile'"
+      repo = "NCC.state.repo"
+      state = "NCC.state"
+    )
+
+    //- form for compose setup
+    .grid-block.vertical.label.views-compose-setup(
+      ng-if = "state.tab === 'compose'"
+      ng-include = "'configureComposeView'"
+    )
+
+footer.modal-footer.clearfix
+  button.btn.btn-md.gray.btn-cancel.float-left(
+    ng-click = "NCC.close()"
+  ) Cancel
+  button.btn.btn-md.green.float-right(
+    ng-disabled = "!NCC.state.instanceName.length || NCC.nameForm.$invalid || $root.isLoading.newContainerSingleRepo"
+    ng-click = "NCC.saveName()"
+  )
+    .spinner-wrapper.spinner-white.spinner-sm.float-left(
+      ng-if = "$root.isLoading.newContainerSingleRepo"
+      ng-include = "'spinner'"
+    )
+    span(
+      ng-if = "NCC.state.repo"
+    ) Next Step: Setup
+    span(
+      ng-if = "NCC.state.templateSource"
+    ) Add Service
