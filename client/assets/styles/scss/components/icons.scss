@@ -187,6 +187,11 @@
   &.failed::before {
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAAAElBMVEUAAADyUFjyUFjyUFjyUFjyUFj0mAoEAAAABXRSTlMAQFBggL2GmLsAAABbSURBVHjanZFJCgAgDANNl/9/WRFKSiUXPXUyaLWur2WBjihEZjpzP2i3iixTeUbtoPEL6OCj7MhiGObDMH8McxrmWuijdHN9Xf1APRI9RD12exti/GWhrZ+1AXpUA9EIzIHXAAAAAElFTkSuQmCC);
   }
+
+  &.complete {
+    background: transparent;
+    border: 1px solid $gray-light;
+  }
 }
 
 .icons-gear {

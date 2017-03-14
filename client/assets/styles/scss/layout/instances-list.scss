@@ -136,6 +136,14 @@
   .icons-status {
     margin-right: $xxs;
   }
+
+  .failed,
+  .passed {
+    height: 11px;
+    margin-left: -1px;
+    margin-right: $xxs - 1px;
+    width: 11px;
+  }
 }
 
 .demo-transition {
