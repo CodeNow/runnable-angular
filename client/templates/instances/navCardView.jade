@@ -2,7 +2,9 @@ h3.nav-card-header(
   title = "branch-name"
 )
   //- bubble up test agent status for repos with test compose files
-  status-icon.grid-block.shrink.passed
+  status-icon.grid-block.shrink.passed(
+    ng-if = "$root.featureFlags.composeTestStatus"
+  )
   span.text-overflow.padding-right-xxs branch-name
   //- only show for default branches
   button.grid-block.shrink.btn-gear(
@@ -22,5 +24,6 @@ ul(
   ng-include = "'stagingEnvironmentView'"
 )
 ul(
+  ng-if = "$root.featureFlags.composeTestStatus"
   ng-include = "'testingEnvironmentView'"
 )
