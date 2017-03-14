@@ -1,0 +1,105 @@
+//- ************************
+//- deprecated file, delete with $root.featureFlags.composeNav
+
+.list-instances.deprecated {
+
+  .a-sref {
+    border-radius: $input-border-radius;
+    cursor: pointer;
+    height: 27px;
+    margin-bottom: 2px;
+    padding: 0 6px 0 9px;
+
+    &:hover {
+      background: rgba($black,.05);
+    }
+
+    &.active {
+      background: $purple-lightest;
+      color: $purple-light;
+      cursor: default;
+    }
+
+    .text-overflow {
+      display: inline-block;
+      padding-right: 6px;
+    }
+
+    .icons-status {
+      margin-right: 9px;
+    }
+  }
+
+  // extra indentation for isolated friends
+  .friend-wrapper .a-sref {
+    padding-left: 27px;
+  }
+
+  // wraps the master cluster and each repository section
+  .list-clusters {
+    padding: 15px 0;
+
+    + .list-clusters {
+      border-top: 1px solid $gray-lighter;
+    }
+  }
+
+  .list-clusters-heading {
+    height: 27px;
+    margin: 4px 0;
+    padding: 0 4px 0 31px;
+
+    // repo name
+    .text-overflow {
+      padding-right: 9px;
+    }
+
+    // 'add…' buttons
+    .btn-xxs {
+      color: lighten($gray,15);
+      font-weight: $weight-normal;
+      height: 20px;
+      top: 1px;
+
+      &:hover {
+        color: $gray;
+      }
+
+      .icons-arrow-forward {
+        height: 12px;
+        margin-right: -3px;
+        width: 12px;
+      }
+    }
+  }
+
+  // target only direct children because of nesting in markup
+  .list-item-cluster > .list-containers {
+    border: 1px solid transparent;
+    border-radius: $input-border-radius-lg;
+    padding: 3px 3px 1px;
+    position: relative;
+
+    &.open {
+      background: $white;
+      border-color: $gray-lighter;
+    }
+  }
+
+  .testing-container {
+    margin-left: 18px;
+  }
+
+  .btn-gear {
+    margin-right: 0;
+    position: relative;
+    top: -1px;
+  }
+
+  .master-cluster .btn-gear {
+    display: block;
+  }
+}
+
+//- end deprecated file
+//- ************************

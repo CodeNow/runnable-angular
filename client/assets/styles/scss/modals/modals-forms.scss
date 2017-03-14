@@ -106,27 +106,30 @@
   // ******
 
   // label (row)
-  .label {
+  &:not(.no-border) {
 
-    // sibling labels
-    + .label {
-      border-top: 1px solid $gray-lighter;
-      margin-top: 21px;
-      padding-top: 21px;
+    .label {
 
-      @include media(xs) {
-        margin-top: 15px;
+      // sibling labels
+      + .label {
+        border-top: 1px solid $gray-lighter;
+        margin-top: 21px;
+        padding-top: 21px;
+
+        @include media(xs) {
+          margin-top: 15px;
+        }
       }
-    }
 
-    // child labels (for verify modal)
-    > .label {
-      margin-bottom: 6px;
-    }
+      // child labels (for verify modal)
+      > .label {
+        margin-bottom: 6px;
+      }
 
-    // for rows (full-width) with only small text
-    > .small:only-child {
-      margin: 6px 9px;
+      // for rows (full-width) with only small text
+      > .small:only-child {
+        margin: 6px 9px;
+      }
     }
   }
 

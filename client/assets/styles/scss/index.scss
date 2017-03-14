@@ -111,7 +111,9 @@
 
 // views
 @import "views/views";
+@import "views/views-dockerfile-setup";
 @import "views/views-file-tree";
+@import "views/views-new-service";
 @import "views/views-panel";
 @import "views/views-prompt";
 @import "views/views-tabs";
@@ -141,7 +143,6 @@
 @import "modals/modals-invite";
 @import "modals/modals-invite-admin";
 @import "modals/modals-isolation";
-@import "modals/modals-mirror-dockerfile";
 @import "modals/modals-org-select";
 @import "modals/modals-rename";
 @import "modals/modals-repository-details";
@@ -207,6 +208,7 @@
 
 //deprecated
 @import "deprecated/card-status";
+@import "deprecated/compose-nav";
 @import "deprecated/connections";
 @import "deprecated/deleted-commit";
 @import "deprecated/demo-org-select";
