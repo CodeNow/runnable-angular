@@ -1,4 +1,4 @@
-.grid-block.vertical.well.gray
+.grid-block.vertical.well.gray.ignore-margin
   label.grid-block.align-center.justify-justified.label
     .padding-left-xxs.small.label-sm Compose File for Testing
     .toggle-wrapper
@@ -8,10 +8,14 @@
       )
       .toggle-group.toggle-sm
 
-  label.label(
+  .grid-block.vertical.label.views-dockerfile-setup(
+    add-dockerfile
+    branch-name = "MDC.branchName"
+    file-type = "Docker Compose Test"
+    full-repo = "MDC.getFullRepo()"
     ng-if = "testEnabled"
-    ng-include = "'composeFilePathView'"
     onload = "type = 'test'"
+    view-state = "viewState"
   )
 
   label.grid-block.vertical.label(

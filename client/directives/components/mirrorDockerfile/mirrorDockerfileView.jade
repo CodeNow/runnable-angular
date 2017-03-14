@@ -1,9 +1,10 @@
-.grid-content.shrink.list.list-bordered
+.grid-content.shrink.list.list-bordered(
+  ng-if = "!MDC.fromTool && MDC.state.dockerFileTab === 'dockerfile'"
+)
   //- add .disabled class to the not selected item if loading
   label.grid-block.list-item(
     ng-disabled = "$root.isLoading[MDC.name + 'SingleRepo']"
     ng-class = "{'active': MDC.state.configurationMethod === 'new'}"
-    ng-if = "!MDC.fromTool"
   )
     svg.grid-content.shrink.iconnables.icons-dockerfile
       use(
@@ -28,7 +29,7 @@
   label.grid-block.list-item(
     ng-class = "{'active': MDC.state.dockerfile === 'blank'}"
     ng-disabled = "$root.isLoading[MDC.name + 'SingleRepo']"
-    ng-if = "!MDC.fromTool"
+    ng-if = "!MDC.fromTool && MDC.state.dockerFileTab === 'dockerfile'"
   )
     svg.grid-content.shrink.iconnables.icons-dockerfile
       use(
@@ -134,3 +135,19 @@
     ng-if = "MDC.state.configurationMethod === 'dockerComposeFile'"
     view-state = "viewState"
   )
+
+//- input for environment file path
+.grid-block.vertical.label.views-dockerfile-setup(
+  add-dockerfile
+  branch-name = "MDC.branchName"
+  file-type = "Docker Compose"
+  full-repo = "MDC.getFullRepo()"
+  ng-if = "$root.featureFlags.composeNewService && !MDC.fromTool && MDC.state.dockerFileTab === 'compose'"
+  view-state = "viewState"
+)
+
+//- input and settings for testing
+.grid-block.vertical.label(
+  ng-if = "$root.featureFlags.composeNewService && !MDC.fromTool && MDC.state.dockerFileTab === 'compose'"
+  ng-include = "'composeTestView'"
+)

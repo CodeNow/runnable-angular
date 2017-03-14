@@ -19,9 +19,17 @@ function addDockerfile(
     },
     link: function ($scope, elem, attrs, MDC) {
       if ($scope.fileType === 'Docker Compose') {
-        $scope.fileName = 'docker-compose.yml';
-      } else {
+        $scope.fileName = 'compose.yml';
+        $scope.fileLabel = 'Compose file';
+        $scope.formLabel = 'Compose File Path';
+      } else if ($scope.fileType === 'Docker Compose Test') {
+        $scope.fileName = 'compose-test.yml';
+        $scope.fileLabel = 'Compose file';
+        $scope.formLabel = 'Compose File Path';
+      } else if ($scope.fileType === 'Dockerfile') {
         $scope.fileName = 'Dockerfile';
+        $scope.fileLabel = 'Dockerfile';
+        $scope.formLabel = 'Dockerfile Path';
       }
       $scope.closeDockerFileInput = function () {
         if ($scope.fileType === 'Docker Compose') {
