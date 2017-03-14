@@ -56,13 +56,12 @@
 
     // 'add…' buttons
     .btn-xxs {
-      color: lighten($gray,15);
-      font-weight: $weight-normal;
+      color: currentColor;
       height: 20px;
-      top: 1px;
 
-      &:hover {
-        color: $gray;
+      &:active,
+      &.active {
+        color: $purple-light;
       }
 
       .icons-arrow-forward {
@@ -90,13 +89,13 @@
     margin-left: 18px;
   }
 
-  .btn-gear {
+  .btn-container-menu {
     margin-right: 0;
     position: relative;
     top: -1px;
   }
 
-  .master-cluster .btn-gear {
+  .master-cluster .btn-container-menu {
     display: block;
   }
 }

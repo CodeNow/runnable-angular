@@ -7,40 +7,18 @@
     max-height: 375px;
     min-height: 105px;
     overflow-y: auto;
-  }
 
-  .list-item {
-    border: 1px solid transparent;
-
-    &:hover:not(.disabled) {
-      background: $gray-lighterest;
-      border-color: $gray-lighter;
+    &:not(.padding-xs) {
+      padding: 0;
     }
 
-    &:active:not(.disabled),
-    &.active {
-      background: $white;
-      border-color: currentColor;
-      color: $green;
-    }
-
-    // loading state
-    &.disabled {
-      cursor: not-allowed;
-
-      &:not(.active) {
-        opacity: .5;
-      }
-    }
-
-    .spinner-wrapper {
-      padding: 4px;
+    &.padding-xs {
+      padding: $xs;
     }
   }
 
-  .btn-add {
-    padding: 0 6px;
-    width: auto;
+  .input-search + .list {
+    padding-top: $xs;
   }
 }
 
@@ -53,17 +31,19 @@
     padding-bottom: 21px;
   }
 
-  .well {
-    margin-bottom: 15px;
+  .well + .well,
+  .well + .input {
+    margin-top: $sm;
   }
 
   .popover-list-item {
-    padding-right: 9px;
+    padding: 0 $xxs;
 
     .iconnables.icons-branch {
-      color: $gray-light;
       height: 18px;
       margin-right: 0;
+      margin-top: 0;
+      opacity: .5;
     }
   }
 
@@ -86,7 +66,7 @@
   .popover-header {
     display: flex;
     height: auto;
-    padding: 15px;
+    padding: $xs;
   }
 
   .btn-radio {
@@ -100,7 +80,7 @@
     text-align: left;
 
     + .btn-radio {
-      margin-left: 12px;
+      margin-left: $xs;
     }
 
     .small {
@@ -110,8 +90,7 @@
   }
 
   .list-item .iconnables.icons-repository {
-    margin-left: 3px;
-    margin-right: 18px;
+    margin-right: $sm;
     width: 18px;
   }
 

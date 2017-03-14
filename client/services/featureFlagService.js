@@ -17,6 +17,7 @@ function featureFlags(
     composeInstance: false,
     composeNav: false,
     composeNewService: false,
+    composeHistory: false,
     connections: false,
     contingencyPlan: false,
     demoPersonalOnly: false, // no more demos for orgs

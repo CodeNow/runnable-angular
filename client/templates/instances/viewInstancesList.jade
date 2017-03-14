@@ -63,7 +63,7 @@
         ng-include = "'servicesHeadingView'"
       )
 
-      .grid-block.vertical.padding-sm.popover.bottom.in.popover-demo.service-cta(
+      .grid-block.vertical.padding-sm.popover.bottom.in.popover-demo.service-cta.margin-bottom-xs(
         add-service-cta
         ng-if = "CIS.shouldShowServicesCTA() && !$root.featureFlags.demoPersonalOnly"
       )
@@ -152,11 +152,13 @@
       ) {{masterInstance.getName()}}
       .grid-block.align-center.shrink.btn.btn-xxs.white(
         data-event-name = "Clicked Add Branch button"
+        ng-class = "{'active': state.active}"
         ng-click = "CIS.popInstanceOpen(masterInstance)"
         pop-over
+        pop-over-active = "state.active"
         pop-over-controller = "CIS"
         pop-over-data = "'branchSelect'"
-        pop-over-options = "{\"verticallyCentered\":true,\"left\":87,\"pinToViewPort\":true}"
+        pop-over-options = "{\"verticallyCentered\":true,\"left\":90,\"pinToViewPort\":true}"
         pop-over-template = "branchMenuPopoverView"
       ) Add Branch
         //- '+' button for adding branches and configuring clusters
