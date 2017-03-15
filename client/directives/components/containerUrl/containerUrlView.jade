@@ -28,7 +28,7 @@ button.btn.btn-xs.white(
 
 a.btn.btn-xs.white(
   ng-click = "\
-    !!instance.contextVersion.getMainAppCodeVersion()?$emit('demo::dismissUrlCallout', instance.id()):angular.noop();\
+    !instance.contextVersion.getMainAppCodeVersion() || $emit('demo::dismissUrlCallout', instance.id());\
     openedContainerUrl(instance);\
   "
   ng-href = "{{getContainerUrl(instance)}}"
