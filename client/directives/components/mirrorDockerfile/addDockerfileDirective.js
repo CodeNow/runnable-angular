@@ -39,22 +39,15 @@ function addDockerfile(
         }
         $scope.viewState.showAddDockerfile = false;
       };
-      $scope.addDockerFile = function (path, fileType) {
-        return $q.when()
-          .then(function () {
-            if (fileType === 'Docker Compose') {
-              return MDC.addDockerComposeFileFromPath(path);
-            }
-            return MDC.addDockerfileFromPath(path);
-          })
-          .then(function (file) {
-            $scope.dockerfile = file;
-            return $timeout(angular.noop);
-          });
-      };
       $scope.$on('dockerfileExistsValidator::valid', function ($event, path, fileType, dockerfile) {
+        if (fileType === 'Dockerfile') {
+          MDC.state.dockerComposeFile = null;
+          MDC.state.dockerfile = dockerfile;
+          return;
+        }
         var dockerfileContent = parseDockerComposeFile(dockerfile.content);
         $scope.dockerComposeServices = Object.keys(dockerfileContent.services);
+        MDC.state.dockerfile = null;
         MDC.state.dockerComposeFile = dockerfile;
       });
     }
