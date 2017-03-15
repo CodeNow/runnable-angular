@@ -45,7 +45,7 @@
     )
 
     .grid-block.instance-body
-      button.grid-block.shrink.btn.btn-sm.btn-icon.purple(
+      button.grid-block.align-center.shrink.btn.btn-sm.purple(
         ng-class = "{'active': filePopover.data.show}"
         ng-click = "$root.featureFlags.hideExplorer = !$root.featureFlags.hideExplorer"
       )
@@ -53,6 +53,7 @@
           use(
             xlink:href = "#icons-folder"
           )
+        | Files
 
       //- sidebar with repositories and urls
       section.grid-block.vertical.sidebar.instance-sidebar(
