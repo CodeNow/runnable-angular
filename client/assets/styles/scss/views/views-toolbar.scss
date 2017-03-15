@@ -7,13 +7,14 @@
   font-weight: $weight-normal;
   margin: 0 $xs;
   overflow: visible;
-  padding: $xs 0 0;
+  padding: $xs 0 0 ($input-sm + 6px); // explorer toggle + tab padding
   position: relative;
 }
 
 // toolbar tabs
 .btn-add-tab {
   flex: 0 0 $input-xs;
+  margin-left: 6px;
   padding: 2px;
   top: 6px;
 

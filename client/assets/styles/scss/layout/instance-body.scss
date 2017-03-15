@@ -3,6 +3,15 @@
   overflow: hidden;
   position: relative;
 
+  // explorer toggle
+  > .btn {
+    left: $xs;
+    padding: 6px;
+    position: absolute;
+    top: $xs;
+    z-index: $z-views-sidebar-toggle;
+  }
+
   .views {
     flex: 1 1 auto;
   }

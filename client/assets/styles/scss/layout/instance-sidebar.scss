@@ -7,11 +7,18 @@
   flex: 0 0 $instance-list-width;
   top: 0;
   z-index: $z-views-sidebar;
+
+  // for tab spacing when sidebar is present
+  + .views .views-tabs {
+    padding-left: 0;
+  }
 }
 
 .sidebar-section-heading {
   border-bottom: 1px solid $purple-darkest;
-  padding: $xs;
+  flex: 0 0 61px; // match tab
+  margin: 0 $xs;
+  padding: $xs 0;
 
   > .btn-sm {
     width: $input-sm;

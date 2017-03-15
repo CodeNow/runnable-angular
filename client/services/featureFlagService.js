@@ -31,6 +31,7 @@ function featureFlags(
     emptyFolder: false, // shows empty folder markup
     fullScreen: false, // toggles full screen
     fullScreenToggle: false, // toggles the button that toggles full screen
+    hideExplorer: false,
     hostnameNotifications: false,
     hostnameTool: false,
     gitHubScope: false,

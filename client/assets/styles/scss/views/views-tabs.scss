@@ -2,10 +2,9 @@
 .tabs {
   align-items: center;
   display: flex;
-  margin-left: -$xs;
   overflow-x: auto;
   overflow-y: hidden;
-  padding: 0 $xs $xs;
+  padding: 0 0 $xs;
   white-space: nowrap;
 
   &::after {
