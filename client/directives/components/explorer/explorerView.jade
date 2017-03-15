@@ -5,24 +5,11 @@ header.grid-block.align-center.justify-right.sidebar-section-heading(
 )
 
 //- on configure modal
-header.grid-block.shrink.sidebar-actions(
+header.grid-block.align-center.justify-right.sidebar-section-heading(
   ng-controller = "FilePopoverController as FPC"
   ng-if = "editExplorer && rootDir && !instance.isMigrating()"
+  ng-include = "'explorerSectionHeading'"
 )
-  button.grid-block.btn.btn-xs.btn-icon.purple(
-    ng-class = "{'active': filePopover.data.show}"
-    ng-disabled = "readOnly"
-    pop-over
-    pop-over-actions = "FPC.actions"
-    pop-over-data = "filePopover.data"
-    pop-over-options = "{\"top\":35,\"centered\":true}"
-    pop-over-template = "viewFileTreePopoverFileExplorerMenu"
-    pop-over-active = "filePopover.data.show"
-  )
-    svg.iconnables.icons-add
-      use(
-        xlink:href = "#icons-add"
-      )
 
 .grid-block.shrink.text-center.padding-md(
   ng-if = "!debugContainer && !editExplorer && !fileModel.running() || instance.isMigrating()"
