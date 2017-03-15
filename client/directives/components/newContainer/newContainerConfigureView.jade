@@ -51,53 +51,69 @@ animated-panel-container.modal-servers
       ng-include = "'templateSelectSectionView'"
     )
 
-  animated-panel.grid-block.vertical.modal-mirror-dockerfile(
+  animated-panel.grid-block(
     ng-if = "NCC.state.repo"
     name = "dockerfileMirroring"
   )
-    header.modal-header
-      svg.iconnables.icons-arrow-backward(
-        ng-click = "!$root.isLoading.newContainerSingleRepo && goToPanel('nameContainer', 'back')"
-      )
-        use(
-          xlink:href = "#icons-arrow-down"
-        )
-      h1.modal-heading(
-        ng-if = "!NCC.ahaGuide.isAddingFirstRepo()"
-      ) Setup Method
-      svg.iconnables.icons-close(
-        ng-click = "NCC.close()"
-      )
-        use(
-          xlink:href = "#icons-close"
-        )
-
-    .grid-block.vertical.modal-body(
-      branch-name = "NCC.state.repo.attrs.default_branch"
-      mirror-dockerfile
-      name = "'newContainer'"
-      repo = "NCC.state.repo"
-      state = "NCC.state"
+    .grid-block.vertical(
+      ng-form = "dockerfileMirrorForm"
     )
-
-    .modal-footer.clearfix
-      button.btn.btn-md.gray.btn-cancel.float-left(
-        ng-click = "NCC.close()"
-      ) Cancel
-      button.btn.btn-md.green.float-right(
-        ng-disabled = "$root.isLoading.newContainerSingleRepo || NCC.state.configurationMethod === null"
-        ng-click = "NCC.saveDockerfileMirroring()"
-      )
-        .spinner-wrapper.spinner-white.spinner-sm.in(
-          ng-include = "'spinner'"
-          ng-if = "$root.isLoading.newContainerSingleRepo"
+      header.modal-header
+        svg.iconnables.icons-arrow-backward(
+          ng-click = "!$root.isLoading.newContainerSingleRepo && goToPanel('nameContainer', 'back')"
         )
-        span {{NCC.getSetupMethodText()}}
+          use(
+            xlink:href = "#icons-arrow-down"
+          )
+        h1.modal-heading(
+          ng-if = "!NCC.ahaGuide.isAddingFirstRepo()"
+        ) Setup Method
+        svg.iconnables.icons-close(
+          ng-click = "NCC.close()"
+        )
+          use(
+            xlink:href = "#icons-close"
+          )
+
+      .grid-block.vertical.modal-body.views-dockerfile-setup(
+        branch-name = "NCC.state.repo.attrs.default_branch"
+        mirror-dockerfile
+        name = "'newContainer'"
+        repo = "NCC.state.repo"
+        state = "NCC.state"
+      )
+
+      .modal-footer.clearfix
+        button.btn.btn-md.gray.btn-cancel.float-left(
+          ng-click = "NCC.close()"
+        ) Cancel
+        button.btn.btn-md.green.float-right(
+          ng-disabled = "\
+            $root.isLoading.newContainerSingleRepo \
+             || dockerfileMirrorForm.$pristine \
+             || !dockerfileMirrorForm.$valid \
+           "
+          ng-click = "NCC.saveDockerfileMirroring()"
+        )
+          .spinner-wrapper.spinner-white.spinner-sm.in(
+            ng-include = "'spinner'"
+            ng-if = "$root.isLoading.newContainerSingleRepo"
+          )
+          span {{NCC.getSetupMethodText()}}
+
+  animated-panel(
+    default = "{{NCC.disableBackButton}}"
+    name = "nameContainer"
+    ng-if = "(NCC.state.repo || NCC.state.templateSource) && $root.featureFlags.composeNewService"
+  )
+    .view-new-service(
+      ng-include = "'configureNewServiceView'"
+    )
 
   animated-panel.grid-block.vertical.modals-rename(
     default = "{{NCC.disableBackButton}}"
     name = "nameContainer"
-    ng-if = "NCC.state.repo || NCC.state.templateSource"
+    ng-if = "(NCC.state.repo || NCC.state.templateSource) && !$root.featureFlags.composeNewService"
   )
     header.modal-header
       svg.iconnables.icons-arrow-backward(
@@ -162,15 +178,18 @@ animated-panel-container.modal-servers
       ) Cancel
       button.btn.btn-md.green.float-right(
         ng-disabled = "!NCC.state.instanceName.length || NCC.nameForm.$invalid || $root.isLoading.newContainerSingleRepo"
-        ng-click = "NCC.saveName()"
+        ng-click = "$root.featureFlags.composeNewService ? NCC.saveDockerfileMirroring() : NCC.saveName()"
       )
         .spinner-wrapper.spinner-white.spinner-sm.float-left(
           ng-if = "$root.isLoading.newContainerSingleRepo"
           ng-include = "'spinner'"
         )
         span(
-          ng-if = "NCC.state.repo"
+          ng-if = "!$root.featureFlags.composeNewService && NCC.state.repo"
         ) Next Step: Setup
+        span(
+          ng-if = "$root.featureFlags.composeNewService && NCC.state.repo"
+        ) Next Step: Configuration
         span(
           ng-if = "NCC.state.templateSource"
         ) Add Service

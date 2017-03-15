@@ -17,7 +17,7 @@ a.grid-block.align-center.a-sref(
     ) {{INC.instance.getName()}}/
     //- branch name or service name
     | {{getNavigationName()}}
-  button.grid-block.shrink.btn-gear(
+  button.grid-block.shrink.btn-container-menu(
     ng-class = "{'active': INC.popoverShown}"
     ng-if = "!INC.currentOrg.isPersonalAccount() && !INC.isInDemoFlow()"
     pop-over

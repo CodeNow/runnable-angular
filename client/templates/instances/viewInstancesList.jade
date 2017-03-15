@@ -26,12 +26,12 @@
         )
 
   //- wraps everything that should transition in with the master cluster
-  .demo-transition.js-animate
+  .demo-transition.js-animate(
+    ng-if = "!CIS.shouldShowDemoSelector() || $root.featureFlags.demoPersonalOnly"
+  )
 
     //- search
-    label.grid-block.shrink.vertical.label-search(
-      ng-if = "!CIS.shouldShowDemoSelector() || $root.featureFlags.demoPersonalOnly"
-    )
+    label.grid-block.shrink.vertical.label-search
       input.input.input-xs.input-search(
         ng-model = "CIS.searchBranches"
         placeholder = "Filter by name"
@@ -49,15 +49,21 @@
       ng-include = "'popoverDemoAddTeamView'"
     )
 
-    //- master cluster
+    //- master branch clusters and non-repo containers (post-compose)
+    section.section(
+      ng-if = "$root.featureFlags.composeNav"
+      ng-include = "'servicesSectionView'"
+    )
+
+    //- master cluster (pre-compose)
     .grid-block.shrink.vertical.list-clusters.master-cluster.js-animate(
-      ng-if = "(!CIS.shouldShowDemoSelector() || $root.featureFlags.demoPersonalOnly) && (!CIS.searchBranches || CIS.getFilteredInstanceList().length)"
+      ng-if = "(!CIS.searchBranches || CIS.getFilteredInstanceList().length) && !$root.featureFlags.composeNav"
     )
       .grid-block.shrink.align-center.list-item-cluster.list-clusters-heading(
         ng-include = "'servicesHeadingView'"
       )
 
-      .grid-block.vertical.padding-sm.popover.bottom.in.popover-demo.service-cta(
+      .grid-block.vertical.padding-sm.popover.bottom.in.popover-demo.service-cta.margin-bottom-xs(
         add-service-cta
         ng-if = "CIS.shouldShowServicesCTA() && !$root.featureFlags.demoPersonalOnly"
       )
@@ -119,71 +125,69 @@
             instance-navigation
             ng-repeat = "masterInstance in CIS.getFilteredTestingMasters() | instanceHasRepo:false | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
           )
-//- wraps 'add branch' guide and branch clusters
-.grid-block.vertical.noscroll.relative
 
-  //- 'add branch' guide — show until a branch has been added
-  .grid-block.vertical.popover.in.popover-demo.demo-transition.js-animate(
-    demo-add-branch
-    instance = "CIS.getDemoInstance()"
-    ng-if = "CIS.showDemoAddBranchView() && !$root.featureFlags.demoAutoAddBranch"
-    user-name = "CIS.userName"
+//- wraps all branch clusters
+.grid-block.vertical.noscroll.relative.demo-transition.js-animate(
+  ng-if = "!CIS.isInDemoFlow() || CIS.shouldShowBranchView() || $root.featureFlags.demoPersonalOnly"
+)
+
+  //- branch clusters (post-compose)
+  section.section.margin-top-sm(
+    ng-if = "$root.featureFlags.composeNav"
+    ng-include = "'branchSectionView'"
   )
 
-  //- wraps all branch clusters — hide until a branch has been added
-  .demo-transition.js-animate(
-    ng-if = "!CIS.isInDemoFlow() || CIS.shouldShowBranchView() || $root.featureFlags.demoPersonalOnly"
+  //- branch clusters (pre-compose)
+  .grid-block.vertical.shrink.list-clusters.js-animate(
+    ng-if = "(!masterInstance.attrs.isTesting || (masterInstance.attrs.isTesting && !masterInstance.attrs.testingParentId)) && !$root.featureFlags.composeNav"
+    ng-repeat = "masterInstance in CIS.instancesByPod | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
+    ng-show = "CIS.shouldShowParent(masterInstance)"
   )
 
-    //- branch clusters
-    .grid-block.vertical.shrink.list-clusters.js-animate(
-      ng-if = "!masterInstance.attrs.isTesting || (masterInstance.attrs.isTesting && !masterInstance.attrs.testingParentId)"
-      ng-repeat = "masterInstance in CIS.instancesByPod | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
-      ng-show = "CIS.shouldShowParent(masterInstance)"
+    //- cluster list heading
+    .grid-block.align-center.list-item-cluster.list-clusters-heading
+      //- repository name
+      span.grid-content.text-overflow(
+        title = "{{masterInstance.getName()}}"
+      ) {{masterInstance.getName()}}
+      .grid-block.align-center.shrink.btn.btn-xxs.white(
+        data-event-name = "Clicked Add Branch button"
+        ng-class = "{'active': state.active}"
+        ng-click = "CIS.popInstanceOpen(masterInstance)"
+        pop-over
+        pop-over-active = "state.active"
+        pop-over-controller = "CIS"
+        pop-over-data = "'branchSelect'"
+        pop-over-options = "{\"verticallyCentered\":true,\"left\":90,\"pinToViewPort\":true}"
+        pop-over-template = "branchMenuPopoverView"
+      ) Add Branch
+        //- '+' button for adding branches and configuring clusters
+        svg.iconnables.icons-arrow-forward
+          use(
+            xlink:href = "#icons-arrow-down"
+          )
+
+    //- wraps auto-isolated clusters
+    .list-item-cluster(
+      active-account = "CIS.activeAccount"
+      instance = "childInstance"
+      instance-navigation
+      master-instance = "masterInstance"
+      ng-class = "childInstance.attrs.isTesting && !childInstance.attrs.masterPod ? 'testing-container' : ''"
+      ng-repeat = "childInstance in CIS.getSortedMasterInstanceChildren(masterInstance) track by childInstance.attrs.name"
+      ng-show = "CIS.shouldShowChild(childInstance)"
     )
 
-      //- cluster list heading
-      .grid-block.align-center.list-item-cluster.list-clusters-heading
-        //- repository name
-        span.grid-content.text-overflow(
-          title = "{{masterInstance.getName()}}"
-        ) {{masterInstance.getName()}}
-        .grid-block.align-center.shrink.btn.btn-xxs.white(
-          data-event-name = "Clicked Add Branch button"
-          ng-click = "CIS.popInstanceOpen(masterInstance)"
-          pop-over
-          pop-over-controller = "CIS"
-          pop-over-data = "'branchSelect'"
-          pop-over-options = "{\"verticallyCentered\":true,\"left\":87,\"pinToViewPort\":true}"
-          pop-over-template = "branchMenuPopoverView"
-        ) Add Branch
-          //- '+' button for adding branches and configuring clusters
-          svg.iconnables.icons-arrow-forward
-            use(
-              xlink:href = "#icons-arrow-down"
-            )
+    //- nav list filter
+    .btn.btn-xxs.btn-more-containers(
+      ng-if = "$root.featureFlags.navListFilter"
+      pop-over
+      pop-over-options = "{\"top\":-33,\"left\":215}"
+      pop-over-template = "viewMoreContainersPopover"
+    ) 8 more…
 
-      //- wraps auto-isolated clusters
-      .list-item-cluster(
-        active-account = "CIS.activeAccount"
-        instance = "childInstance"
-        instance-navigation
-        master-instance = "masterInstance"
-        ng-class = "childInstance.attrs.isTesting && !childInstance.attrs.masterPod ? 'testing-container' : ''"
-        ng-repeat = "childInstance in CIS.getSortedMasterInstanceChildren(masterInstance) track by childInstance.attrs.name"
-        ng-show = "CIS.shouldShowChild(childInstance)"
-      )
-
-      //- nav list filter
-      .btn.btn-xxs.btn-more-containers(
-        ng-if = "$root.featureFlags.navListFilter"
-        pop-over
-        pop-over-options = "{\"top\":-33,\"left\":215}"
-        pop-over-template = "viewMoreContainersPopover"
-      ) 8 more…
-
-      //- show only on demo repos
-      .grid-block.vertical.padding-sm.popover.bottom.in.popover-demo.branch-step(
-        ng-if = "$root.featureFlags.demoAutoAddBranch && CIS.shouldShowAddBranchCTA(masterInstance) && !$root.featureFlags.demoPersonalOnly"
-        ng-include = "'popoverDemoBranchContainerView'"
-      )
+    //- show only on demo repos
+    .grid-block.vertical.padding-sm.popover.bottom.in.popover-demo.branch-step(
+      ng-if = "CIS.shouldShowAddBranchCTA(masterInstance) && !$root.featureFlags.demoPersonalOnly"
+      ng-include = "'popoverDemoBranchContainerView'"
+    )

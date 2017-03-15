@@ -1,0 +1,36 @@
+li.grid-block.align-center.justify-justified.nav-environment-header Testing
+  //-
+    - add .gray and 7 character commit hash when set to previous commit
+    - the popover position needs to be adjusted when set to previous commit
+  button.grid-block.shrink.btn.btn-container-menu(
+    ng-class = "{\
+      'active': popoverShown,\
+      'gray': previousCommit\
+    }"
+    ng-if = "$root.featureFlags.composeHistory"
+    pop-over
+    pop-over-options = "{\"verticallyCentered\":true,\"left\":26,\"pinToViewPort\":true}"
+    pop-over-template = "branchTestSelectorPopoverView"
+  )
+    svg.iconnables
+      use(
+        xlink:href = "#icons-history"
+      )
+    span.span(
+      ng-if = "previousCommit"
+    ) 7c53d87
+li.grid-block.container(
+  title = "api"
+)
+  .grid-block.shrink.icons-status.green
+  span.text-overflow api
+li.grid-block.container(
+  title = "web"
+)
+  .grid-block.shrink.icons-status.green
+  span.text-overflow web
+li.grid-block.container(
+  title = "mongo"
+)
+  .grid-block.shrink.icons-status.green
+  span.text-overflow mongo

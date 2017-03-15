@@ -1,0 +1,90 @@
+.views-dockerfile-setup {
+
+  .list-item {
+    align-items: center;
+    color: $gray-dark;
+    cursor: pointer;
+    height: $input-lg;
+    line-height: 1;
+    overflow: hidden;
+    padding: 0 $sm;
+
+    // change cursor if selected
+    &.disabled,
+    &.active {
+      cursor: default;
+    }
+
+    &.expand {
+      height: auto;
+    }
+
+    // anchor
+    > .iconnables {
+      width: 18px;
+    }
+
+    .icons-link {
+      width: 15px;
+    }
+
+    // hidden input
+    .checkbox {
+      position: absolute;
+      visibility: hidden;
+
+      &:checked ~ .btn-icon {
+        @extend %green;
+        color: $white;
+      }
+    }
+
+    // check button
+    .btn-icon {
+      border-radius: 50%;
+      pointer-events: none; // let the label parent select
+    }
+  }
+
+  // add custom dockerfile
+  .list-item-path {
+    align-items: stretch;
+    height: auto;
+    overflow: visible;
+    padding-bottom: $xs;
+    padding-top: $xs;
+    position: relative;
+
+    &::after,
+    &::before {
+      content: '';
+      height: 0;
+      position: absolute;
+      right: 18px;
+      width: 0;
+    }
+
+    &::after {
+      border-bottom: 9px solid $white;
+      border-left: 9px solid transparent;
+      border-right: 9px solid transparent;
+      top: -9px;
+    }
+
+    &::before {
+      border-bottom: 10px solid $gray-lighter;
+      border-left: 10px solid transparent;
+      border-right: 10px solid transparent;
+      right: 17px;
+      top: -10px;
+    }
+
+    .label {
+      margin-bottom: 0;
+    }
+
+    .small:last-child {
+      line-height: 1.2;
+    }
+  }
+}

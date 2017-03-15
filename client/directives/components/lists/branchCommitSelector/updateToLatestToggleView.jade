@@ -1,0 +1,14 @@
+.grid-block.small Update to latest commit on new builds of {{BCSC.data.getDisplayName() || BCSC.data.instance.getDisplayName()}}
+  button.btn.btn-xs.btn-permissions(
+    internal-modal-helper = "inviteAdminModalView"
+    ng-if = "$root.featureFlags.webhooks"
+    ng-include = "'permissionsButtonView'"
+  )
+.grid-block.shrink.margin-left-sm.toggle-wrapper
+  input.toggle-input(
+    ng-disabled = "$root.featureFlags.webhooks"
+    ng-model = "BCSC.isLatestCommit"
+    ng-model-options = "{getterSetter: true}"
+    type = "checkbox"
+  )
+  .toggle-group.toggle-sm
