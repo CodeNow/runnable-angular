@@ -1,0 +1,13 @@
+//- input for environment file path
+.grid-block.vertical.label.views-dockerfile-setup(
+  add-dockerfile
+  branch-name = "MDC.branchName"
+  file-type = "Docker Compose"
+  full-repo = "MDC.getFullRepo()"
+  view-state = "viewState"
+)
+
+//- input and settings for testing
+.grid-block.vertical.label(
+  ng-include = "'composeTestView'"
+)

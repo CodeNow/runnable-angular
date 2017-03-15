@@ -4,6 +4,7 @@ require('app')
   .directive('addDockerfile', addDockerfile);
 
 function addDockerfile(
+  $q,
   $timeout
 ) {
   return {
@@ -18,9 +19,17 @@ function addDockerfile(
     },
     link: function ($scope, elem, attrs, MDC) {
       if ($scope.fileType === 'Docker Compose') {
-        $scope.fileName = 'docker-compose.yml';
-      } else {
+        $scope.fileName = 'compose.yml';
+        $scope.fileLabel = 'Compose file';
+        $scope.formLabel = 'Compose File Path';
+      } else if ($scope.fileType === 'Docker Compose Test') {
+        $scope.fileName = 'compose-test.yml';
+        $scope.fileLabel = 'Compose file';
+        $scope.formLabel = 'Compose File Path';
+      } else if ($scope.fileType === 'Dockerfile') {
         $scope.fileName = 'Dockerfile';
+        $scope.fileLabel = 'Dockerfile';
+        $scope.formLabel = 'Dockerfile Path';
       }
       $scope.closeDockerFileInput = function () {
         if ($scope.fileType === 'Docker Compose') {
@@ -30,21 +39,21 @@ function addDockerfile(
         $scope.viewState.showAddDockerfile = false;
       };
       $scope.addDockerFile = function (path, fileType) {
-        if (fileType === 'Docker Compose') {
-          return MDC.addDockerComposeFileFromPath(path)
-            .then(function () {
-              $scope.viewState.showAddDockerComposeFile = false;
-              // I'm sorry this is here, because it's terrible.  This is so the panel length will update
-              // and fix it's height.  I'm pretty sure it's some issue with animated-panel
-              return $timeout(angular.noop);
-            });
-        }
-        return MDC.addDockerfileFromPath(path)
+        return $q.when()
           .then(function () {
-            $scope.viewState.showAddDockerfile = false;
+            if (fileType === 'Docker Compose') {
+              return MDC.addDockerComposeFileFromPath(path);
+            }
+            return MDC.addDockerfileFromPath(path);
+          })
+          .then(function (file) {
+            $scope.dockerfile = file;
             return $timeout(angular.noop);
           });
       };
+      $scope.$on('dockerfileExistsValidator::valid', function ($event, path, fileType) {
+        return $scope.addDockerFile(path, fileType);
+      });
     }
   };
 }

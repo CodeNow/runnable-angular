@@ -1,0 +1,53 @@
+.grid-block.vertical.well.gray.ignore-margin
+  label.grid-block.align-center.justify-justified.label
+    .padding-left-xxs.small.label-sm Compose File for Testing
+    .toggle-wrapper
+      input.toggle-input(
+        ng-model = "testEnabled"
+        type = "checkbox"
+      )
+      .toggle-group.toggle-sm
+
+  .grid-block.vertical.label.views-dockerfile-setup(
+    add-dockerfile
+    branch-name = "MDC.branchName"
+    file-type = "Docker Compose Test"
+    full-repo = "MDC.getFullRepo()"
+    ng-if = "testEnabled"
+    onload = "type = 'test'"
+    view-state = "viewState"
+  )
+
+  label.grid-block.vertical.label(
+    ng-if = "testEnabled"
+  )
+    .padding-xxs.small.label-sm Test Container
+
+    //-
+      No file state:
+      - [disabled]
+      - [required]
+      - Copy: "Select a Container"
+
+      Loading state:
+      - [disabled]
+      - [required]
+      - Show spinner
+
+      Has file & loaded:
+      - [required]
+      - Copy: "Select a Container"
+    fancy-select.btn-md.white(
+      disabled
+      ng-disabled = "loadingFile || noFile"
+      ng-init = "noFile = true"
+      ng-required = "true"
+      spinner-flag = "loadingFile"
+    )
+      fancy-option
+
+    small.padding-xxs.small This is how we know which container’s status to attach to your GitHub commits and pull requests.&#32;
+      a.link(
+        href = "//runnable.com/docs/integrations/notifications/github-pull-request-notifications"
+        target = "_blank"
+      ) Learn More

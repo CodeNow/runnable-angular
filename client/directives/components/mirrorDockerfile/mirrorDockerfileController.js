@@ -19,6 +19,8 @@ function MirrorDockerfileController(
   MDC.resetDockerfilePaths = function () {
     MDC.newDockerfilePaths = [];
     MDC.newDockerComposeFilePaths = [];
+    delete MDC.state.dockerfile;
+    delete MDC.state.dockerComposeFile;
   };
 
   var oauthName = keypather.get($rootScope, 'dataApp.data.activeAccount.oauthName()');
@@ -66,6 +68,8 @@ function MirrorDockerfileController(
           MDC.state.dockerfile = dockerfiles.find(function (dockerfile) {
             return dockerfile.path === newDockerfilePath;
           });
+          delete MDC.state.dockerComposeFile;
+          return MDC.state.dockerfile;
         });
     }
     // If given no input, return promise
@@ -86,6 +90,8 @@ function MirrorDockerfileController(
         MDC.state.dockerComposeFile = dockerComposeFiles.find(function (dockerfile) {
           return dockerfile.path === newDockerComposeFilePath;
         });
+        delete MDC.state.dockerfile;
+        return MDC.state.dockerComposeFile;
       });
   };
 }
