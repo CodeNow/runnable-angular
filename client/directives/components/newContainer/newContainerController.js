@@ -198,7 +198,7 @@ function NewContainerController(
         NCC.state.dockerComposeFile.path,
         NCC.state.instanceName,
         NCC.state.isTesting,
-        NCC.state.testReporter
+        [ 'web' ]
       )
         .then(function () {
           $state.go('base.instances');

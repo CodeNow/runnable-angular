@@ -7,14 +7,14 @@ function createNewCluster(
   $http,
   configAPIHost
 ) {
-  return function (repo, branch, filePath, name, isTesting, testReporter) {
+  return function (repo, branch, filePath, name, isTesting, testReporters) {
     var data = {
       repo: repo,
       branch: branch,
       filePath: filePath,
       name: name,
       isTesting: isTesting,
-      testReporter: testReporter
+      testReporters: testReporters
     };
     return $http({
       method: 'post',
