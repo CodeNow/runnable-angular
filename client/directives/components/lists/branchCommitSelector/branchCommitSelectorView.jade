@@ -1,15 +1,26 @@
-//- if behind and auto-deploy is on
-.grid-block.shrink.align-center.padding-xs.well.well-popover.orange(
-  ng-if = "$root.featureFlags.autoDeployError && BCSC.isAutoDeployOn() && !BCSC.isLatestCommitDeployed"
+//- hide everything except the spinner when loading
+.padding-md.grid-block.align-center.justify-center(
+  ng-if = "fetchingCommits"
 )
-  svg.grid-content.shrink.iconnables
-    use(
-      xlink:href = "#icons-alert-alt"
-    )
-  .grid-content.small Error deploying the latest commit.
-  button.grid-content.shrink.btn.btn-xs.orange(
-    ng-click = "BCSC.deployLatestCommit()"
-  ) Deploy Now
+  .spinner-wrapper.spinner-gray.spinner-sm(
+    ng-include = "'spinner'"
+  )
+
+//- if commit is behind while auto-deploy is on
+.grid-block.shrink.align-center.padding-xs.well.well-popover.orange(
+  ng-if = "\
+    !fetchingCommits\
+    && (\
+      $root.featureFlags.autoDeployError\
+      && (\
+        BCSC.isAutoDeployOn()\
+        && !BCSC.isLatestCommitDeployed\
+        || $root.featureFlags.composeHistory\
+      )\
+    )\
+  "
+  ng-include = "'redeployCommitView'"
+)
 
 //- show this element for…
   - additional repositories
@@ -17,93 +28,74 @@
 label.label(
   branch-selector
   loading-promises-target = "editServerModal"
-  ng-if = "!BCSC.hideBranchSelector"
+  ng-if = "\
+    !fetchingCommits\
+    && (\
+      !$root.featureFlags.composeHistory\
+      && !BCSC.hideBranchSelector\
+    )\
+  "
   state = "BCSC.data"
 )
 
 //- this element should appear in:
-    * the setup popover for adding a repo to Container Files
-    * the edit modal (in the Containers view) for modifying an additional repo on a specific Container
-label.toggle-wrapper(
-  ng-if = "!BCSC.data.acv || BCSC.data.acv.attrs.additionalRepo"
+  - the setup popover for adding a repo to Container Files
+  - the edit modal (in the Containers view) for modifying an additional repo on a specific Container
+label.margin-bottom-sm.grid-block.shrink.align-center.padding-xxs.well.gray(
+  ng-if = "\
+    !fetchingCommits\
+    && (\
+      !$root.featureFlags.composeHistory\
+      && !BCSC.data.acv\
+      || BCSC.data.acv.attrs.additionalRepo\
+    )\
+  "
+  ng-include = "'updateToLatestToggleView'"
 )
-  .strong Always update to latest commit
-  .small.text-overflow on new builds of&#32;
-    strong.strong {{BCSC.data.getDisplayName() || BCSC.data.instance.getDisplayName()}}
-  input.toggle-input(
-    ng-disabled = "$root.featureFlags.webhooks"
-    ng-model = "BCSC.isLatestCommit"
-    ng-model-options = "{getterSetter: true}"
-    type = "checkbox"
-  )
-  .toggle-group.toggle-sm
 
-label.toggle-wrapper(
-  ng-if = "BCSC.data.acv && !BCSC.data.acv.attrs.additionalRepo"
+//- auto deploy toggle
+label.grid-block.shrink.align-center.padding-xxs.well.gray(
+  ng-if = "\
+    !fetchingCommits\
+    && (\
+      $root.featureFlags.composeHistory\
+      || (\
+        BCSC.data.acv\
+        && !BCSC.data.acv.attrs.additionalRepo\
+      )\
+    )\
+  "
+  ng-include = "'autoDeployToggleView'"
 )
-  .strong Auto-Deploy
-  .small Rebuild when new commits are pushed to GitHub.
-  button.btn.btn-xs.btn-permissions(
-    internal-modal-helper = "inviteAdminModalView"
-    ng-if = "$root.featureFlags.webhooks"
-    ng-include = "'permissionsButtonView'"
-  )
-  input.toggle-input(
-    ng-change = "BCSC.eventTracking.autoDeployToggled(BCSC.isAutoDeployOn())"
-    ng-disabled = "$root.featureFlags.webhooks"
-    ng-model = "BCSC.autoDeploy"
-    ng-model-options = "{getterSetter: true}"
-    type = "checkbox"
-  )
-  .toggle-group.toggle-sm
 
-ul.list.list-servers
-  li.spinner-wrapper.spinner-backdrop.spinner-gray.spinner-md.in(
-    ng-if = "fetchingCommits"
-    ng-include = "'spinner'"
-  )
-  li.list-item(
-    ng-attr-title = "{{commit.attrs.commit.message}}"
-    ng-disabled = "BCSC.isAutoDeployOn() || BCSC.isLastestCommit()"
+//- list of commits
+ul.list.margin-top-sm(
+  ng-if = "\
+    !fetchingCommits\
+    && BCSC.data.branch.commits.models\
+  "
+)
+  li.grid-block.align-center.list-item(
     ng-class = "{\
       'active': BCSC.data.commit === commit,\
       'disabled': BCSC.isAutoDeployOn() || BCSC.isLastestCommit()\
     }"
     ng-click = "BCSC.selectCommit(commit, $index === 0)"
-    ng-if = "!fetchingCommits"
     ng-repeat = "commit in BCSC.data.branch.commits.models | orderBy: '-attrs.commit.committer.date'"
-  ) {{commit.attrs.commit.message}}
-    .row.row-author.clearfix(
-      ng-attr-title = "{{commit.attrs.author.login}} authored {{commit.attrs.commit.committer.date | timeFrom}}"
-    )
-      //- if invite flows...
-      .btn-user.text-overflow(
-        ng-class = "{'active': state.active}"
-        ng-if = "$root.featureFlags.inviteFlows"
-        ng-include = "'userButtonView'"
-        pop-over
-        pop-over-active = "state.active"
-        pop-over-options = "{\"left\":-24,\"top\":26}"
-        pop-over-template = "userPopoverView"
-      )
-      span.small(
-        ng-if = "$root.featureFlags.inviteFlows"
-      ) —{{commit.attrs.commit.committer.date | timeFrom}}
+  )
+    .grid-block.vertical
+      p.p.text-overflow(
+        ng-attr-title = "{{commit.attrs.commit.message}}"
+      ) {{commit.attrs.commit.message}}
+      small.small.text-gray {{commit.attrs.author.login}} committed {{commit.attrs.commit.committer.date | timeFrom}}
+    button.grid-block.shrink.margin-left-sm.btn.btn-xs.btn-icon.btn-add
+      svg.iconnables.icons-check
+        use(
+          xlink:href = "#icons-check"
+        )
 
-      //- else
-      span.small(
-        ng-if = "!$root.featureFlags.inviteFlows"
-      ) {{commit.attrs.author.login}}—{{commit.attrs.commit.committer.date | timeFrom}}
-
-      a.small.link.monospace(
-        ng-click = "$event.stopPropagation()"
-        ng-href = "{{commit.attrs.html_url}}"
-        target = "_blank"
-        title = "View on GitHub"
-      ) {{::commit.attrs.sha | limitTo:7}}
-    svg.iconnables.icons-fat-check(
-      ng-if = "!BCSC.isLatestCommit()"
-    )
-      use(
-        xlink:href = "#icons-fat-check"
-      )
+//- stub out dummy commit data
+ul.list.margin-top-sm(
+  ng-if = "$root.featureFlags.composeHistory && !BCSC.data.branch.commits.models"
+)
+  <li class="grid-block align-center list-item ng-scope active disabled" disabled="disabled"> <div class="grid-block vertical" title="Nathan219 authored 2 days ago"> <p class="p text-overflow ng-binding" title="11.27.1">11.27.1</p><small class="small text-gray ng-binding">Nathan219 committed 2 days ago</small> </div><button class="grid-block shrink margin-left-sm btn btn-xs btn-icon btn-add"> <svg class="iconnables icons-check"> <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icons-check"></use> </svg> </button><li class="grid-block align-center list-item ng-scope disabled" disabled="disabled"> <div class="grid-block vertical" title="Nathan219 authored 2 days ago"> <p class="p text-overflow ng-binding" title="11.27.1">11.27.1</p><small class="small text-gray ng-binding">Nathan219 committed 2 days ago</small> </div><button class="grid-block shrink margin-left-sm btn btn-xs btn-icon btn-add"> <svg class="iconnables icons-check"> <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icons-check"></use> </svg> </button><li class="grid-block align-center list-item ng-scope disabled" disabled="disabled"> <div class="grid-block vertical" title="Nathan219 authored 2 days ago"> <p class="p text-overflow ng-binding" title="11.27.1">11.27.1</p><small class="small text-gray ng-binding">Nathan219 committed 2 days ago</small> </div><button class="grid-block shrink margin-left-sm btn btn-xs btn-icon btn-add"> <svg class="iconnables icons-check"> <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icons-check"></use> </svg> </button><li class="grid-block align-center list-item ng-scope disabled" disabled="disabled"> <div class="grid-block vertical" title="Nathan219 authored 2 days ago"> <p class="p text-overflow ng-binding" title="11.27.1">11.27.1</p><small class="small text-gray ng-binding">Nathan219 committed 2 days ago</small> </div><button class="grid-block shrink margin-left-sm btn btn-xs btn-icon btn-add"> <svg class="iconnables icons-check"> <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icons-check"></use> </svg> </button>

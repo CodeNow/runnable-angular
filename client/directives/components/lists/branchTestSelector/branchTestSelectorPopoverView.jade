@@ -1,0 +1,96 @@
+.popover.right.popover-branch-menu(
+  ng-class = "{'in': active}"
+  ng-style = "popoverStyle.getStyle()"
+)
+  .arrow.white(
+    ng-style = "popoverStyle.getArrowStyle()"
+  )
+
+  section.padding-xs.popover-content.list-tests(
+    ng-init = "{state.loading = true}"
+  )
+    .padding-md.grid-block.align-center.justify-center(
+      ng-click = "state.loading = false"
+      ng-if = "state.loading"
+    )
+      .spinner-wrapper.spinner-gray.spinner-sm(
+        ng-include = "'spinner'"
+      )
+
+    //- if commit is behind while auto-deploy is on
+    header.grid-block.vertical.shrink.align-start.header(
+      ng-include = "'testSelectorHeaderView'"
+      ng-if = "!state.loading"
+    )
+
+    ul.list.list-actions.margin-top-sm(
+      ng-if = "!state.loading"
+    )
+      //- States for <li>:
+        - If currently selected: .active, .disabled
+        - If loading any selection: .disabled
+      li.grid-block.align-center.list-item
+        .grid-block.vertical
+          p.p.text-overflow(
+            title = "separate template for name form"
+          ) separate template for name form
+          .grid-block.align-center
+            .icons-status.passed
+            small.small.text-gray 2b1153c
+        button.grid-block.shrink.margin-left-sm.btn.btn-xs.btn-icon.btn-add
+          svg.iconnables.icons-check
+            use(
+              xlink:href = "#icons-check"
+            )
+      li.grid-block.align-center.list-item
+        .grid-block.vertical
+          p.p.text-overflow(
+            title = "separate template for name form"
+          ) separate template for name form
+          .grid-block.align-center
+            .icons-status.failed
+            small.small.text-gray 2b1153c
+        button.grid-block.shrink.margin-left-sm.btn.btn-xs.btn-icon.btn-add
+          svg.iconnables.icons-check
+            use(
+              xlink:href = "#icons-check"
+            )
+      li.grid-block.align-center.list-item.active.disabled
+        .grid-block.vertical
+          p.p.text-overflow(
+            title = "separate template for name form"
+          ) separate template for name form
+          .grid-block.align-center
+            .icons-status.passed
+            small.small.text-gray 2b1153c
+        button.grid-block.shrink.margin-left-sm.btn.btn-xs.btn-icon.btn-add
+          svg.iconnables.icons-check
+            use(
+              xlink:href = "#icons-check"
+            )
+      li.grid-block.align-center.list-item
+        .grid-block.vertical
+          p.p.text-overflow(
+            title = "separate template for name form"
+          ) separate template for name form
+          .grid-block.align-center
+            .icons-status.passed
+            small.small.text-gray 2b1153c
+        button.grid-block.shrink.margin-left-sm.btn.btn-xs.btn-icon.btn-add
+          svg.iconnables.icons-check
+            use(
+              xlink:href = "#icons-check"
+            )
+      li.grid-block.align-center.list-item
+        .grid-block.vertical
+          p.p.text-overflow(
+            title = "separate template for name form"
+          ) separate template for name form
+          .grid-block.align-center
+            .icons-status.passed
+            small.small.text-gray 2b1153c
+        button.grid-block.shrink.margin-left-sm.btn.btn-xs.btn-icon.btn-add
+          svg.iconnables.icons-check
+            use(
+              xlink:href = "#icons-check"
+            )

@@ -1,0 +1,21 @@
+.list-commits {
+
+  // for branch select
+  > .label {
+    display: table;
+    margin: 0 auto $xs;
+
+    .spinner-wrapper {
+      align-items: center;
+      color: $gray-light;
+      height: 100%;
+      padding-left: 6px;
+    }
+  }
+
+  // auto-deploy error
+  .well-popover .iconnables {
+    height: 18px;
+    width: 18px;
+  }
+}
