@@ -55,7 +55,7 @@ function addDockerfile(
       $scope.$on('dockerfileExistsValidator::valid', function ($event, path, fileType, dockerfile) {
         var dockerfileContent = parseDockerComposeFile(dockerfile.content);
         $scope.dockerComposeServices = Object.keys(dockerfileContent.services);
-        return $scope.addDockerFile(path, fileType);
+        MDC.state.dockerComposeFile = dockerfile;
       });
     }
   };

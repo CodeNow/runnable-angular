@@ -196,7 +196,9 @@ function NewContainerController(
         NCC.state.repo.attrs.full_name,
         NCC.state.repo.attrs.default_branch,
         NCC.state.dockerComposeFile.path,
-        NCC.state.instanceName
+        NCC.state.instanceName,
+        NCC.state.isTesting,
+        NCC.state.testReporter
       )
         .then(function () {
           $state.go('base.instances');

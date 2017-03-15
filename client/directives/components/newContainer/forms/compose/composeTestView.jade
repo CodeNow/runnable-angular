@@ -3,7 +3,7 @@
     .padding-left-xxs.small.label-sm Compose File for Testing
     .toggle-wrapper
       input.toggle-input(
-        ng-model = "testEnabled"
+        ng-model = "MDC.state.isTesting"
         type = "checkbox"
       )
       .toggle-group.toggle-sm
@@ -13,13 +13,13 @@
     branch-name = "MDC.branchName"
     file-type = "Docker Compose Test"
     full-repo = "MDC.getFullRepo()"
-    ng-if = "testEnabled"
+    ng-if = "MDC.state.isTesting"
     onload = "type = 'test'"
     view-state = "viewState"
   )
 
   label.grid-block.vertical.label(
-    ng-if = "testEnabled"
+    ng-if = "MDC.state.isTesting"
   )
     .padding-xxs.small.label-sm Test Container
 

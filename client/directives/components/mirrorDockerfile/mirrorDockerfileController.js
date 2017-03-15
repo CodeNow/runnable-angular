@@ -77,22 +77,23 @@ function MirrorDockerfileController(
   };
 
   MDC.addDockerComposeFileFromPath = function (newDockerComposeFilePath) {
-    if (!newDockerComposeFilePath) {
-      // If given no input, return promise
-      return $q.when(true);
-    }
-    newDockerComposeFilePath = newDockerComposeFilePath.replace(/^\/*/, '/');
-    if (!MDC.newDockerComposeFilePaths.includes(newDockerComposeFilePath)) {
-      MDC.newDockerComposeFilePaths.push(newDockerComposeFilePath);
-    }
-    return MDC.fetchRepoDockerComposeFiles()
-      .then(function (dockerComposeFiles) {
-        MDC.state.dockerComposeFile = dockerComposeFiles.find(function (dockerfile) {
-          return dockerfile.path === newDockerComposeFilePath;
-        });
-        delete MDC.state.dockerfile;
-        return MDC.state.dockerComposeFile;
-      });
+    console.log('called addDockerComposeFileFromPath')
+    // if (!newDockerComposeFilePath) {
+    //   // If given no input, return promise
+    //   return $q.when(true);
+    // }
+    // newDockerComposeFilePath = newDockerComposeFilePath.replace(/^\/*/, '/');
+    // if (!MDC.newDockerComposeFilePaths.includes(newDockerComposeFilePath)) {
+    //   MDC.newDockerComposeFilePaths.push(newDockerComposeFilePath);
+    // }
+    // return MDC.fetchRepoDockerComposeFiles()
+    //   .then(function (dockerComposeFiles) {
+    //     MDC.state.dockerComposeFile = dockerComposeFiles.find(function (dockerfile) {
+    //       return dockerfile.path === newDockerComposeFilePath;
+    //     });
+    //     delete MDC.state.dockerfile;
+    //     return MDC.state.dockerComposeFile;
+    //   });
   };
 }
 

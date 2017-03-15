@@ -7,14 +7,15 @@ function createNewCluster(
   $http,
   configAPIHost
 ) {
-  return function (repo, branch, filePath, name) {
+  return function (repo, branch, filePath, name, isTesting, testReporter) {
     var data = {
       repo: repo,
       branch: branch,
       filePath: filePath,
-      name: name
+      name: name,
+      isTesting: isTesting,
+      testReporter: testReporter
     };
-
     return $http({
       method: 'post',
       url: configAPIHost + '/docker-compose-cluster',

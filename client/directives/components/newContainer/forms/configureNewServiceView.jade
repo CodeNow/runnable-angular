@@ -55,7 +55,7 @@ footer.modal-footer.clearfix
   ) Cancel
   button.btn.btn-md.green.float-right(
     ng-disabled = "!NCC.state.instanceName.length || NCC.nameForm.$invalid || $root.isLoading.newContainerSingleRepo"
-    ng-click = "$root.featureFlags.composeNewService ? NCC.saveDockerfileMirroring() : NCC.saveName()"
+    ng-click = "NCC.saveDockerfileMirroring()"
   )
     .spinner-wrapper.spinner-white.spinner-sm.float-left(
       ng-if = "$root.isLoading.newContainerSingleRepo"
