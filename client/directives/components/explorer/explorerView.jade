@@ -24,9 +24,9 @@ header.grid-block.shrink.sidebar-actions(
         xlink:href = "#icons-add"
       )
 
-.grid-block.shrink.well.text-center.padding-sm(
+.grid-block.shrink.text-center.padding-md(
   ng-if = "!debugContainer && !editExplorer && !fileModel.running() || instance.isMigrating()"
-) Your files are not available when the container isn’t running.
+) Files aren’t available when the container isn’t running.
 
 .grid-block.vertical.padding-xs(
   ng-if = "rootDir && (debugContainer || editExplorer || fileModel.running()) && !instance.isMigrating()"
