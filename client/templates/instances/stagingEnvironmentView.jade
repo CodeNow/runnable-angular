@@ -19,18 +19,18 @@ li.grid-block.align-center.justify-justified.noscroll.nav-environment-header Sta
     span.span(
       ng-if = "previousCommit"
     ) 7c53d87
-li.grid-block.container(
-  title = "api"
-)
+li.grid-block.container
   status-icon.grid-block.shrink.green
-  span.text-overflow api
-li.grid-block.container(
-  title = "web"
-)
+  span.text-overflow(
+    title = "api"
+  ) api
+li.grid-block.container
   status-icon.grid-block.shrink.green
-  span.text-overflow web
-li.grid-block.container(
-  title = "mongo"
-)
+  span.text-overflow(
+    title = "web"
+  ) web
+li.grid-block.container
   status-icon.grid-block.shrink.green
-  span.text-overflow mongo
+  span.text-overflow(
+    title = "mongo"
+  ) mongo
