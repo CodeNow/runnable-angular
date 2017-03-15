@@ -9,6 +9,10 @@
   z-index: $z-views-sidebar;
 
   // for tab spacing when sidebar is present
+  &.ng-hide + .views .views-tabs {
+    padding-left: (89px + 6px); // explorer toggle + tab padding
+  }
+
   + .views .views-tabs {
     padding-left: 0;
   }
