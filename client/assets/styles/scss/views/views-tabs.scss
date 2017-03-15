@@ -1,18 +1,10 @@
 // ul.tabs
 .tabs {
-  align-items: center;
   display: flex;
   overflow-x: auto;
   overflow-y: hidden;
-  padding: 0 0 $xs;
+  padding-bottom: $xs;
   white-space: nowrap;
-
-  &::after {
-    content: '';
-    display: block;
-    flex: 0 0 $xs;
-    height: $input-sm;
-  }
 }
 
 // li.tab-wrapper
