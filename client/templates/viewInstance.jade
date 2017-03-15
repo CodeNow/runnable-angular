@@ -46,17 +46,17 @@
 
     .grid-block.instance-body
       //- sidebar with repositories and urls
-      section.sidebar.instance-sidebar.load(
+      section.grid-block.vertical.sidebar.instance-sidebar.load(
         ng-class = "{'deprecated': !$root.featureFlags.composeInstance}"
       )
 
-        section.sidebar-section.repository-section(
+        section.grid-block.vertical.sidebar-section.repository-section(
           instance = "dataInstance.data.instance"
           ng-if = "!$root.featureFlags.composeInstance && $root.featureFlags.composeNav && dataInstance.data.instance.contextVersion.getMainAppCodeVersion()"
           repo-list
         )
 
-        section.sidebar-section.explorer-section(
+        section.grid-block.vertical.sidebar-section.explorer-section(
           edit-explorer = "false"
           explorer
           explorer-title = "File Explorer"

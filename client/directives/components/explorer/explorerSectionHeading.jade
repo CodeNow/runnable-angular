@@ -1,4 +1,12 @@
-button.grid-block.btn.btn-xs.btn-icon.purple(
+button.grid-block.shrink.btn.btn-sm.btn-icon.purple(
+  ng-class = "{'active': filePopover.data.show}"
+)
+  svg.iconnables
+    use(
+      xlink:href = "#icons-folder"
+    )
+
+button.grid-block.shrink.btn.btn-xs.btn-icon.purple(
   ng-class = "{'active': filePopover.data.show}"
   ng-show = "fileModel.running() || debugContainer"
   pop-over
