@@ -48,6 +48,7 @@
       button.grid-block.align-center.shrink.btn.btn-sm.purple(
         ng-class = "{'active': filePopover.data.show}"
         ng-click = "$root.featureFlags.hideExplorer = !$root.featureFlags.hideExplorer"
+        ng-if = "$root.featureFlags.composeInstance"
       )
         svg.iconnables
           use(
@@ -62,9 +63,9 @@
         ng-hide = "$root.featureFlags.hideExplorer"
       )
 
-        section.grid-block.vertical.sidebar-section.repository-section(
+        section.grid-block.shrink.vertical.sidebar-section.repository-section(
           instance = "dataInstance.data.instance"
-          ng-if = "!$root.featureFlags.composeInstance && $root.featureFlags.composeNav && dataInstance.data.instance.contextVersion.getMainAppCodeVersion()"
+          ng-if = "!$root.featureFlags.composeInstance && dataInstance.data.instance.contextVersion.getMainAppCodeVersion()"
           repo-list
         )
 
