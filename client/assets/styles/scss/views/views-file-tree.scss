@@ -139,10 +139,11 @@
 // renaming files & folders
 .tree-input,
 .tree-input:focus {
-  background: $white;
-  border: 1px solid rgba($black,.15);
-  border-radius: 2px;
+  background: rgba($white,.5);
+  border: $input-border solid $purple-darkest;
+  border-radius: $input-border-radius;
   box-shadow: none;
+  color: $purple-dark;
   cursor: text;
   display: inline-block;
   height: 20px;
