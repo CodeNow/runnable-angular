@@ -57,6 +57,7 @@
     dns-configuration
     instance = "instance"
     ng-class = "{'deprecated': !$root.featureFlags.connections}"
+    ng-if = "!$root.featureFlags.composeInstance"
   )
 
   label.input-group.input-group-sm.gray(

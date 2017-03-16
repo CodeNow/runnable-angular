@@ -11,7 +11,7 @@
   font-size: 19px;
   font-weight: $weight-normal;
   line-height: $input-lg;
-  padding: 0 12px; // for text-overflow
+  padding: 0 $xs; // for text-overflow
   position: relative;
   text-align: center;
   width: 100%;
@@ -96,9 +96,18 @@
 .instance-header-properties {
   align-items: top;
   display: flex;
-  padding: 0 12px 12px;
+  padding: 0 $xs $xs;
   position: relative;
   width: 100%;
+
+  > * {
+
+    + .btn-group,
+    + .btn,
+    + .input-group {
+      margin-left: 6px;
+    }
+  }
 
   // status, dns mappings, save
   > .btn,
@@ -122,12 +131,8 @@
   }
 
   // save
-  > .btn-group {
-    margin-left: 6px;
-
-    .icons-arrow-down {
-      margin: 0;
-    }
+  > .btn-group .icons-arrow-down {
+    margin: 0;
   }
 
   // url popover
@@ -181,11 +186,6 @@
     opacity: .5;
     width: 15px;
   }
-}
-
-// connections button
-.btn-connections {
-  margin: 0 6px;
 }
 
 .list-instances {
