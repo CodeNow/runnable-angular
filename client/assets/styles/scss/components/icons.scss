@@ -180,17 +180,17 @@
     }
   }
 
+  &.complete {
+    background-color: transparent;
+    border: 1px solid $gray-light;
+  }
+
   &.passed::before {
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAAAJ1BMVEUAAAA8y1o8y1o8y1o8y1o8y1o8y1o8y1o8y1o8y1o8y1o8y1o8y1rOT9yqAAAADHRSTlMAECAwQGCPr7/P3+9mRpalAAAAUUlEQVR4AbXJQQ6AMBBC0amK2sr9z2vckBRnlmVF3o/Fa0DunTwL51M4r8J7q32/OzKP7yHxGFSZPECVyVV+ruKuMtxV3FXcVcxVzLXtiFV7AaM9BeHkJY25AAAAAElFTkSuQmCC);
   }
 
   &.failed::before {
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAMAAADXqc3KAAAAElBMVEUAAADyUFjyUFjyUFjyUFjyUFj0mAoEAAAABXRSTlMAQFBggL2GmLsAAABbSURBVHjanZFJCgAgDANNl/9/WRFKSiUXPXUyaLWur2WBjihEZjpzP2i3iixTeUbtoPEL6OCj7MhiGObDMH8McxrmWuijdHN9Xf1APRI9RD12exti/GWhrZ+1AXpUA9EIzIHXAAAAAElFTkSuQmCC);
-  }
-
-  &.complete {
-    background-color: transparent;
-    border: 1px solid $gray-light;
   }
 }
 
