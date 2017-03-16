@@ -104,9 +104,9 @@
     border-top: $input-border solid $gray-lightest;
     color: $gray-light;
     font-size: 13px;
-    height: 34px; // so buttons don't increase the height
+    height: 34px;
     margin-top: $xxs;
-    padding: $xxs ($xxs + $input-border) 6px;
+    padding: 6px ($xxs + $input-border) 3px;
   }
 
   .container {
