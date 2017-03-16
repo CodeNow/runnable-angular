@@ -1,10 +1,11 @@
 .grid-content.shrink.list.list-bordered(
-  ng-if = "!MDC.fromTool && MDC.state.dockerFileTab === 'dockerfile'"
+  ng-if = "MDC.fromTool || MDC.state.dockerFileTab === 'dockerfile'"
 )
   //- add .disabled class to the not selected item if loading
   label.grid-block.list-item(
     ng-disabled = "$root.isLoading[MDC.name + 'SingleRepo']"
     ng-class = "{'active': MDC.state.configurationMethod === 'new'}"
+    ng-if = "!MDC.fromTool"
   )
     svg.grid-content.shrink.iconnables.icons-dockerfile
       use(
