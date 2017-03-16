@@ -95,7 +95,7 @@
     display: flex;
     font-size: inherit; // reset
     font-weight: $weight-normal; // reset
-    height: 21px; // so buttons don't increase the height
+    height: $input-xs;
     line-height: inherit; // reset
     padding: 0 ($xxs + $input-border);
   }
