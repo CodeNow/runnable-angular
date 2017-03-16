@@ -45,7 +45,7 @@
     )
 
     .grid-block.instance-body
-      button.grid-block.align-center.shrink.btn.btn-sm(
+      button.grid-block.shrink.btn.btn-sm(
         ng-class = "{'active': !$root.featureFlags.hideExplorer}"
         ng-click = "$root.featureFlags.hideExplorer = !$root.featureFlags.hideExplorer"
         ng-if = "$root.featureFlags.composeInstance"
