@@ -1,6 +1,7 @@
 // instance header: status, dns mappings, container url, save (deprecated)
 .instance-header {
   background: $white;
+  border-left: 1px solid $gray-lighter;
   flex: 0 0 auto;
   position: relative;
 }
@@ -191,8 +192,8 @@
   max-width: calc(100vw - #{$layout-navigation-width + 133});
 
   &.in + .instance-wrapper .instance-header-title .text-overflow {
-    display: block;
     direction: rtl;
+    display: block;
     max-width: calc(100vw - #{$layout-navigation-width + $instance-list-width + 133});
   }
 }

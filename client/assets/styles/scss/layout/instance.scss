@@ -5,6 +5,7 @@
   position: relative;
 
   > .spinner-wrapper {
+    border-left: 1px solid $gray-lighter;
 
     .modal-open & {
       z-index: $z-modal-backdrop - 1;
