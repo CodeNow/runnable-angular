@@ -20,10 +20,10 @@ h3.nav-card-header(
       use(
         xlink:href = "#icons-gear"
       )
-ul.environment(
+ul.nav-container-list(
   ng-include = "'stagingEnvironmentView'"
 )
-ul.environment(
+ul.nav-container-list(
   ng-if = "$root.featureFlags.composeNav"
   ng-include = "'testingEnvironmentView'"
 )

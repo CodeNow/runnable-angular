@@ -49,7 +49,7 @@
     ng-if = "EC.shouldShowExplanationUi()"
   )
 
-  header.grid-block.align-center.instance-environment-header(
+  header.grid-block.align-center.environment-header(
     ng-include = "'viewEnvironmentHeader'"
     ng-init = "state.helpButton = {active: false}"
     ng-if = "!EC.isInGuide() || EC.showCreateTemplate"
