@@ -1,51 +1,48 @@
 // instance header: status, dns mappings, container url, save (deprecated)
 .instance-header {
-  background: $white;
-  border-left: 1px solid $gray-lighter;
+  background: $purple-dark;
+  border-bottom: 1px solid $purple-darkest;
+  color: $white;
   flex: 0 0 auto;
-  position: relative;
-}
+  padding: $xs;
 
-.instance-header-title {
-  color: $gray-dark;
-  font-size: 19px;
-  font-weight: $weight-normal;
-  line-height: $input-lg;
-  padding: 0 $xs; // for text-overflow
-  position: relative;
-  text-align: center;
-  width: 100%;
+  // toggle sidebar
+  .btn-icon-md {
+    margin-right: $xs;
+    opacity: .4;
+    padding: 0;
 
-  .header-btn-group {
-    align-items: center;
-    height: $input-lg;
-    overflow: hidden; // fix scroll bar appearing in firefox
+    &:hover,
+    &:active {
+      opacity: .5;
+    }
 
-    .btn {
-      color: $gray-light;
-      opacity: .75;
-      padding: 0 6px;
-
-      &:hover,
-      &:active {
-        opacity: 1;
-      }
-
-      &.active {
-        color: $purple-light;
-      }
+    &.active {
+      opacity: .6;
     }
 
     .iconnables {
       height: 100%;
-      width: 18px;
+      width: 24px;
     }
+  }
+}
+
+.instance-header-name {
+
+  .small {
+    opacity: .5;
+  }
+
+  .p {
+    font-size: 19px;
+    font-weight: $weight-bold;
   }
 
   // pr badge
-  .green {
-    margin-left: 9px;
-    padding: 0 3px 0 0;
+  .btn {
+    margin-left: $xxs;
+    padding-left: 0;
 
     > .iconnables {
       height: 100%;
@@ -62,43 +59,40 @@
   }
 
   // for debug view
-  .btn-status {
-    left: 12px;
-    position: absolute;
-    top: 15px;
+  // .btn-status {
+  //   left: 12px;
+  //   position: absolute;
+  //   top: 15px;
 
-    .icons-status {
-      top: 6px;
-    }
-  }
+  //   .icons-status {
+  //     top: 6px;
+  //   }
+  // }
 
   // debug text
-  .strong .small {
-    color: $gray-light;
-    left: 6px;
-    line-height: 1;
-    position: relative;
-    top: -3px;
-  }
+  // .strong .small {
+  //   color: $gray-light;
+  //   left: 6px;
+  //   line-height: 1;
+  //   position: relative;
+  //   top: -3px;
+  // }
 
   // save button in debug
-  .btn-save-wrapper {
-    position: absolute;
-    right: 12px;
-    top: 9px;
+  // .btn-save-wrapper {
+  //   position: absolute;
+  //   right: 12px;
+  //   top: 9px;
 
-    + .btn-badge {
-      right: 90px;
-    }
-  }
+  //   + .btn-badge {
+  //     right: 90px;
+  //   }
+  // }
 }
 
-.instance-header-properties {
-  align-items: top;
-  display: flex;
-  padding: 0 $xs $xs;
+.instance-header-actions {
+  flex: 0 0 690px;
   position: relative;
-  width: 100%;
 
   > * {
 

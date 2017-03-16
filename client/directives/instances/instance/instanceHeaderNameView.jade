@@ -1,0 +1,17 @@
+small.small.text-overflow(
+  ng-if = "instance.getBranchName()"
+  title = "{{instance.getMasterPodName()}} / {{instance.getBranchName()}}"
+) {{instance.getMasterPodName()}} / {{instance.getBranchName()}}
+h1.grid-block.align-center.p.text-overflow container-name
+  .grid-block.shrink(
+    ng-if = "!!pr"
+    ng-include = "'instanceHeaderPRLinkView'"
+  )
+
+  //- span(
+  //-   ng-if = "$root.featureFlags.internalDebugging"
+  //-   style = "bottom: 12px;font-size: 13px;position: relative;top: -5px;"
+  //- ) {{instance.containers.models[0].attrs.dockerHost}} |&#32;
+  //-   span(
+  //-     ng-repeat = "(key, value) in instance.containers.models[0].attrs.ports"
+  //-   ) {{key}}:{{value[0].HostPort}} |&#32;

@@ -21,6 +21,21 @@
     }
   }
 
+  &.purple {
+    background: $ace-bg;
+    border-color: $purple-darkest;
+
+    .label {
+      border-color: $purple-darkest;
+      color: $purple-lighter;
+    }
+
+    .btn,
+    .input {
+      color: $purple-lighter;
+    }
+  }
+
   &.white {
     background: $white;
 

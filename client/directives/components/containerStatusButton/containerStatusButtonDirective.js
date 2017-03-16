@@ -53,7 +53,7 @@ function containerStatusButton(
 
         var classes = [];
         if (['running', 'stopped', 'building', 'starting', 'stopping', 'unknown'].includes(status)){
-          classes.push('gray');
+          classes.push('purple');
         } else if (['crashed', 'buildFailed', 'neverStarted'].includes(status)) {
           classes.push('red');
         }

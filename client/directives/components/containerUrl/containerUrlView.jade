@@ -1,4 +1,4 @@
-.label.gray URL
+.label URL
 
 input.input.input-sm(
   readonly
@@ -6,7 +6,7 @@ input.input.input-sm(
   value = "{{getContainerUrl(instance)}}"
 )
 
-button.btn.btn-xs.white(
+button.btn.btn-xs.purple(
   clipboard
   ng-click = "$event.preventDefault()"
   ng-mouseleave = "showToolTip = false"
@@ -26,7 +26,7 @@ button.btn.btn-xs.white(
   tooltip-options = "{\"class\":\"bottom no-arrow\",\"right\":0,\"top\":27}"
 ) Copy
 
-a.btn.btn-xs.white(
+a.btn.btn-xs.purple(
   ng-click = "\
     !instance.contextVersion.getMainAppCodeVersion() || $emit('demo::dismissUrlCallout', instance.id());\
     openedContainerUrl(instance);\
