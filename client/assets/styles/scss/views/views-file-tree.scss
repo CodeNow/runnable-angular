@@ -26,6 +26,11 @@
       border-color: $purple-darker;
     }
 
+    // hide arrow
+    &.not-toggleable::after {
+      opacity: 0;
+    }
+
     &.active a,
     &.active a:hover {
       background: lighten($purple-dark,9%);
