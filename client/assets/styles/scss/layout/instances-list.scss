@@ -64,6 +64,8 @@
   .nav-card {
     border: $input-border solid transparent;
     border-radius: $input-border-radius-lg;
+    display: flex;
+    flex-direction: column;
     padding: $xxs;
 
     &:hover:not(.active) {
@@ -90,7 +92,8 @@
     }
   }
 
-  .nav-card-header {
+  .nav-card-header,
+  .nav-environment-header {
     align-items: center;
     display: flex;
     font-size: inherit; // reset
@@ -100,13 +103,19 @@
     padding: 0 ($xxs + $input-border);
   }
 
+  .nav-card-header,
+  .environment {
+
+    +.environment {
+      border-top: $input-border solid $gray-lightest;
+      margin-top: $xxs;
+    }
+  }
+
   .nav-environment-header {
-    border-top: $input-border solid $gray-lightest;
     color: $gray-light;
     font-size: 13px;
-    height: 34px;
-    margin-top: $xxs;
-    padding: 6px ($xxs + $input-border) 3px;
+    margin: 6px 0;
   }
 
   .container {
