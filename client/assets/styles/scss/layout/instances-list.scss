@@ -18,12 +18,7 @@
 
   // search
   .label-search {
-    border-bottom: 1px solid $gray-lighter;
     padding: 16px 10px;
-
-    + .nav-section {
-      border-top: 0;
-    }
   }
 
   // empty state
