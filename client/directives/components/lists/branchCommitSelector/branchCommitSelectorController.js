@@ -23,9 +23,8 @@ function BranchCommitSelectorController(
   };
 
   /**
-   * This function lies, if setToLatestCommit isn't set it actually tells you if the useLatest flag is set, not if
-   * the latest commit is selected. If setTolatestCommit is truthy then it sets the build to use the latest and returns
-   * nothing.
+   * Tells you if the useLatest flag is set.
+   * if setTolatestCommit is truthy it sets the build to use the latest commit and sets useLatest to true.
    *
    * @param setToLatestCommit: Force the selection to the latest commit
    */
