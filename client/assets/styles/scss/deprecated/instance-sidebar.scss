@@ -33,6 +33,11 @@
       border-radius: $input-border-radius-lg $input-border-radius-lg 0 0;
     }
 
+    // loading state
+    .spinner-wrapper {
+      opacity: .5;
+    }
+
     // icon for commmit/branch
     .row {
       min-height: 24px;
