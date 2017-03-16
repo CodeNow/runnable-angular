@@ -1,0 +1,49 @@
+h2.grid-block.align-center.justify-justified.nav-section-header(
+  title = "api"
+)
+  span.text-overflow.padding-right-xxs api
+  .grid-block.align-center.shrink.btn.btn-xs.white(
+    data-event-name = "Clicked Add Branch button"
+    ng-click = "CIS.popInstanceOpen(masterInstance)"
+    pop-over
+    pop-over-controller = "CIS"
+    pop-over-data = "'branchSelect'"
+    pop-over-options = "{\"verticallyCentered\":true,\"left\":109,\"pinToViewPort\":true}"
+    pop-over-template = "branchMenuPopoverView"
+  ) Add a Branch
+    svg.iconnables.icons-arrow-forward
+      use(
+        xlink:href = "#icons-arrow-down"
+      )
+section.nav-card.active(
+  ng-include = "'navCardView'"
+)
+
+//- for mockup only
+section.nav-card
+  h3.nav-card-header
+    status-icon.grid-block.shrink.passed
+    span.text-overflow.padding-right-xxs branch-name
+    button.grid-block.shrink.btn-container-menu
+      svg.iconnables
+        use(
+          xlink:href = "#icons-gear"
+        )
+section.nav-card
+  h3.nav-card-header
+    status-icon.grid-block.shrink.passed
+    span.text-overflow.padding-right-xxs branch-name
+    button.grid-block.shrink.btn-container-menu
+      svg.iconnables
+        use(
+          xlink:href = "#icons-gear"
+        )
+section.nav-card
+  h3.nav-card-header
+    status-icon.grid-block.shrink.passed
+    span.text-overflow.padding-right-xxs branch-name
+    button.grid-block.shrink.btn-container-menu
+      svg.iconnables
+        use(
+          xlink:href = "#icons-gear"
+        )

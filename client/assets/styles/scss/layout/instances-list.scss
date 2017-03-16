@@ -71,15 +71,15 @@
   border-radius: $input-border-radius-lg;
   display: flex;
   flex-direction: column;
-  padding: $xxs;
+  padding: 6px $xxs;
 
   &:hover:not(.active) {
     cursor: pointer;
   }
 
-  &.active,
+  &:hover:not(.active),
   &:active:not(.active),
-  &:hover:not(.active) {
+  &.active {
     background-color: $white;
     border-color: $gray-lighter;
   }
@@ -92,8 +92,24 @@
     }
   }
 
-  + .nav-card {
-    margin-top: $xxs;
+  &.active {
+    padding-bottom: $xxs;
+    padding-top: $xxs;
+
+    + .nav-card {
+      margin-top: $xxs;
+    }
+  }
+
+  &:not(.active) + .nav-card {
+
+    &:not(.active) {
+      margin-top: 1px;
+    }
+
+    &.active {
+      margin-top: $xxs;
+    }
   }
 }
 
