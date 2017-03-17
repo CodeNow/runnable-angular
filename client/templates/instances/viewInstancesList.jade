@@ -131,12 +131,13 @@
   ng-if = "!CIS.isInDemoFlow() || CIS.shouldShowBranchView() || $root.featureFlags.demoPersonalOnly"
 )
 
-  //- branch clusters (post-compose)
+  //- compose repos
   section.nav-section.margin-top-sm(
     ng-if = "$root.featureFlags.composeNav"
     ng-include = "'repoSectionView'"
   )
 
+  //- non-compose repos
   section.nav-section.margin-top-sm(
     ng-if = "$root.featureFlags.composeNav"
     ng-include = "'nonComposeRepoSectionView'"
