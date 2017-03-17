@@ -8,9 +8,10 @@
     border: $input-border solid transparent;
     color: $white;
     left: $xs;
+    padding: 0 $xs;
     position: absolute;
     top: $xs;
-    width: 89px;
+    width: 82px;
     z-index: $z-views-sidebar-toggle;
 
     &:hover {
