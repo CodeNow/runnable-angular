@@ -16,6 +16,11 @@
   + .views .views-tabs {
     padding-left: 0;
   }
+
+  // error states
+  .error {
+    opacity: .5;
+  }
 }
 
 .sidebar-section-heading {
