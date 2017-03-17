@@ -5,6 +5,9 @@ small.small.text-overflow(
 
 h1.grid-block.align-center.p.text-overflow container-name
 
+  //- should show either PR link OR commit status
+    - prioritize commit status over PR link
+
   //- pr link
   .grid-block.shrink(
     ng-if = "!!pr"
