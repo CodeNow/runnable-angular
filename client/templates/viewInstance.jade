@@ -44,17 +44,34 @@
       open-items = "dataInstance.data.openItems"
     )
 
-    .instance-body
-      //- sidebar with repositories and urls
-      section.sidebar.instance-sidebar.load
+    .grid-block.instance-body
+      button.grid-block.shrink.btn.btn-sm(
+        ng-class = "{'active': !$root.featureFlags.hideExplorer}"
+        ng-click = "$root.featureFlags.hideExplorer = !$root.featureFlags.hideExplorer"
+        ng-if = "$root.featureFlags.composeInstance"
+      )
+        svg.iconnables
+          use(
+            xlink:href = "#icons-folder"
+          )
+        span Files
 
-        section.sidebar-section.repository-section(
+      //-
+        - [ng-hide] is preferred for better performance on toggle
+        - if running: show by default
+        - if not running: hide by default
+      section.grid-block.vertical.sidebar.instance-sidebar(
+        ng-class = "{'deprecated': !$root.featureFlags.composeInstance}"
+        ng-hide = "$root.featureFlags.hideExplorer"
+      )
+
+        section.grid-block.shrink.vertical.sidebar-section.repository-section(
           instance = "dataInstance.data.instance"
-          ng-if = "dataInstance.data.instance.contextVersion.getMainAppCodeVersion()"
+          ng-if = "!$root.featureFlags.composeInstance && dataInstance.data.instance.contextVersion.getMainAppCodeVersion()"
           repo-list
         )
 
-        section.sidebar-section.explorer-section(
+        section.grid-block.vertical.sidebar-section.explorer-section(
           edit-explorer = "false"
           explorer
           explorer-title = "File Explorer"
