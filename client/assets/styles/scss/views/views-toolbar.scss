@@ -5,29 +5,18 @@
   display: flex;
   flex: 0 0 auto;
   font-weight: $weight-normal;
-  margin: 0 12px;
+  margin: 0 $xs;
   overflow: visible;
-  padding: 12px 0;
+  padding-top: $xs;
   position: relative;
 }
 
 // toolbar tabs
 .btn-add-tab {
-  background: $purple-dark;
-  border: 1px solid $purple-darkest;
-  color: $purple-lighter;
   flex: 0 0 $input-xs;
+  margin-left: 6px;
   padding: 2px;
   top: 6px;
-
-  &:hover:not([disabled]) {
-    background: lighten($purple-dark,6%);
-  }
-
-  &:active:not([disabled]),
-  &.active {
-    background: lighten($purple-dark,9%);
-  }
 
   .iconnables {
     height: 100%;

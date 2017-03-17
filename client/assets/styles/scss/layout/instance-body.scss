@@ -1,11 +1,36 @@
 // instance body
 .instance-body {
-  display: flex;
-  flex: 1 1 auto;
   overflow: hidden;
+  position: relative;
 
-  .server-sidebar {
-    flex: 0 0 auto;
+  // explorer toggle
+  > .btn {
+    border: $input-border solid transparent;
+    color: $white;
+    left: $xs;
+    padding: 0 $xs;
+    position: absolute;
+    top: $xs;
+    width: 82px;
+    z-index: $z-views-sidebar-toggle;
+
+    &:hover {
+      background: $purple-dark;
+      border-color: $purple-darkest;
+    }
+
+    &:active,
+    &.active {
+      background: lighten($purple-dark,9%);
+      border-color: $purple-darkest;
+    }
+
+    .iconnables {
+      height: 15px;
+      margin-right: 6px;
+      top: 11px;
+      width: 15px;
+    }
   }
 
   .views {

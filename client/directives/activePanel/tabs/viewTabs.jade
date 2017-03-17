@@ -32,7 +32,7 @@ ul.tabs
 
 //- add tab popover
 //- apply [disabled] attribute when server is not running
-button.btn.btn-xs.btn-add-tab(
+button.btn.btn-xs.btn-add-tab.purple(
   ng-if = "popoverAddTab && !instance.attrs.isTesting"
   ng-class = "{'active': popoverAddTab.data.show}"
   ng-disabled = "!instance.containers.models[0].running() && !debugContainer || instance.isMigrating()"
