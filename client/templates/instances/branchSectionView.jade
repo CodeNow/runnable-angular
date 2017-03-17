@@ -1,5 +1,5 @@
 h2.grid-block.align-center.justify-justified.nav-section-header(
-  title = "node-starter"
+  title = "node-app"
 )
   span.text-overflow.padding-right-xxs node-app
   .grid-block.align-center.shrink.btn.btn-xs.white(
@@ -15,14 +15,17 @@ h2.grid-block.align-center.justify-justified.nav-section-header(
       use(
         xlink:href = "#icons-arrow-down"
       )
-section.nav-card.active
+
+a#dark-theme.nav-card(
+  href = "#dark-theme"
+  ng-class = "{'active': !$root.featureFlags.showPurpleBranch}"
+  ng-click = "$root.featureFlags.showPurpleBranch = false"
+)
   h3.nav-card-header(
-    title = "branch-name"
+    title = "dark-name"
   )
     //- bubble up test agent status for repos with test compose files
-    status-icon.grid-block.shrink.passed(
-      ng-if = "$root.featureFlags.composeNav"
-    )
+    status-icon.grid-block.shrink.passed
     span.text-overflow.padding-right-xxs dark-theme
     //- only show for default branches
     button.grid-block.shrink.btn-container-menu(
@@ -39,18 +42,27 @@ section.nav-card.active
           xlink:href = "#icons-gear"
         )
   ul.nav-container-list(
+    ng-if = "!$root.featureFlags.showPurpleBranch"
     ng-include = "'stagingEnvironmentView'"
   )
   ul.nav-container-list(
-    ng-if = "$root.featureFlags.composeNav"
+    ng-if = "!$root.featureFlags.showPurpleBranch"
     ng-include = "'testingEnvironmentView'"
   )
 
 //- for mockup only
-section.nav-card
-  h3.nav-card-header
+a#purple-theme.nav-card(
+  href = "#purple-theme"
+  ng-class = "{'active': $root.featureFlags.showPurpleBranch}"
+  ng-click = "$root.featureFlags.showPurpleBranch = true"
+)
+  h3.nav-card-header(
+    title = "purple-theme"
+  )
+    //- bubble up test agent status for repos with test compose files
     status-icon.grid-block.shrink.passed
     span.text-overflow.padding-right-xxs purple-theme
+    //- only show for default branches
     button.grid-block.shrink.btn-container-menu(
       ng-class = "{'active': INC.popoverShown}"
       ng-if = "!INC.currentOrg.isPersonalAccount() && !INC.isInDemoFlow()"
@@ -64,3 +76,11 @@ section.nav-card
         use(
           xlink:href = "#icons-gear"
         )
+  ul.nav-container-list(
+    ng-if = "$root.featureFlags.showPurpleBranch"
+    ng-include = "'stagingEnvironmentView'"
+  )
+  ul.nav-container-list(
+    ng-if = "$root.featureFlags.showPurpleBranch"
+    ng-include = "'testingEnvironmentView'"
+  )

@@ -53,6 +53,7 @@ function featureFlags(
     showPrevTestSelected: false,
     showNonComposeServices: false,
     showComposeBranches: false,
+    showPurpleBranch: false,
     teamManagement: false,
     teamManagementAdvanced: false, // changes text from org to team in account menu
     testingFeature: false,
