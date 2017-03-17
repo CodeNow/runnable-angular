@@ -7,22 +7,38 @@
   padding: $xs;
 
   // toggle sidebar
-  .btn-icon-md {
-    margin-right: $xs;
-    opacity: .4;
+  > .btn {
+    left: -($xs + $input-xs); // collapse button + margin
     padding: 0;
+    position: absolute;
+    top: 19px; // same padding as input-search
+    width: $input-xs;
 
-    &:hover,
-    &:active {
-      opacity: .5;
-    }
+    &.active:not([disabled]) {
+      background: transparent;
+      border-color: currentColor;
+      color: rgba($white,.3);
+      left: $xs;
 
-    &.active {
-      opacity: .6;
+      &:hover,
+      &:active {
+        background: transparent;
+        border-color: currentColor;
+        color: rgba($white,.5);
+      }
+
+      + .instance-header-name {
+        padding-left: 36px;
+      }
+
+      .iconnables {
+        transform: rotate(-90deg);
+      }
     }
 
     .iconnables {
       height: 100%;
+      transition: none;
       width: 24px;
     }
   }
@@ -30,6 +46,7 @@
 
 .instance-header-name {
   flex: 0 0 264px;
+  padding-left: $xs;
   padding-right: 6px;
 
   .small {

@@ -1,10 +1,10 @@
-button.grid-block.shrink.btn.btn-md.btn-icon-md(
-  ng-class = "{'active': !$storage.instanceListIsClosed}"
+button.grid-block.shrink.btn.btn-xs.btn-icon-xs.gray(
+  ng-class = "{'active': $storage.instanceListIsClosed}"
   ng-click = "$storage.instanceListIsClosed = !$storage.instanceListIsClosed"
   ng-if = "!currentOrg.isPersonalAccount()"
   pop-over
   pop-over-hover-trigger
-  pop-over-options = "{\"top\":45,\"centered\":true}"
+  pop-over-options = "{\"top\":36,\"centered\":true}"
   pop-over-template = "sidebarTooltip"
   pop-over-trigger = "hover"
 )
@@ -14,7 +14,6 @@ button.grid-block.shrink.btn.btn-md.btn-icon-md(
     )
 
 .grid-block.vertical.instance-header-name(
-  ng-class = "{'padding-left-xs': currentOrg.isPersonalAccount()}"
   ng-include = "'instanceHeaderNameView'"
 )
 

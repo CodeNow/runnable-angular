@@ -17,7 +17,11 @@
 
   // search
   .label-search {
-    padding: 16px 10px;
+    padding: 19px 0; // match height of instance header
+  }
+
+  .input-search {
+    margin-right: $xs + $input-xs; // collapse button + margin
   }
 
   // empty state
