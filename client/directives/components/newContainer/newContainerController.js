@@ -192,20 +192,34 @@ function NewContainerController(
 
   NCC.saveDockerfileMirroring = function () {
     if (NCC.state.configurationMethod === 'dockerComposeFile') {
-      return createNewCluster(
-        NCC.state.repo.attrs.full_name,
-        NCC.state.repo.attrs.default_branch,
-        NCC.state.dockerComposeFile.path,
-        NCC.state.instanceName,
-        NCC.state.isTesting,
-        [ 'web' ]
-      )
+      var clusterPromises = [];
+      if (NCC.state.dockerComposeFile) {
+        clusterPromises.push(createNewCluster(
+          NCC.state.repo.attrs.full_name,
+          NCC.state.repo.attrs.default_branch,
+          NCC.state.dockerComposeFile.path,
+          NCC.state.instanceName)
+        )
+      }
+      if (NCC.state.dockerComposeTestFile) {
+        var instanceName = NCC.state.instanceName + '-test';
+        clusterPromises.push(createNewCluster(
+          NCC.state.repo.attrs.full_name,
+          NCC.state.repo.attrs.default_branch,
+          NCC.state.dockerComposeTestFile.path,
+          instanceName,
+          NCC.state.isTesting,
+          [ NCC.state.testReporter.name ]
+        ))
+      }
+      return $q.all(clusterPromises)
         .then(function () {
           $state.go('base.instances');
           NCC.close();
         })
         .catch(errs.handler);
     }
+
     return NCC.createBuildAndGoToNewRepoModal(NCC.state.instanceName, NCC.state.repo, NCC.state.dockerfile, NCC.state.configurationMethod);
   };
 
@@ -316,5 +330,12 @@ function NewContainerController(
         }
       }
     });
+  };
+
+  NCC.canCreateBuild = function () {
+    return NCC.state.instanceName.length && !keypather.get(NCC, 'nameForm.$invalid') && !$rootScope.isLoading.newContainerSingleRepo &&
+            ((NCC.state.configurationMethod === 'new' || NCC.state.configurationMethod === 'blankDockerfile') ||
+            (NCC.state.configurationMethod === 'dockerfile' && NCC.state.dockerfile) ||
+            (NCC.state.configurationMethod === 'dockerComposeFile' && (NCC.state.testReporter || NCC.state.dockerComposeFile)));
   };
 }

@@ -39,12 +39,15 @@
       - Copy: "Select a Container"
     fancy-select.btn-md.white(
       disabled
-      ng-disabled = "loadingFile || noFile"
-      ng-init = "noFile = true"
+      ng-disabled = "loadingFile || !MDC.dockerComposeTestServices.length"
       ng-required = "true"
       spinner-flag = "loadingFile"
+      value = "MDC.state.testReporter"
     )
-      fancy-option
+      fancy-option(
+        ng-repeat = "service in $parent.MDC.dockerComposeTestServices"
+        value = "service"
+      ) {{ $parent.service.name }}
 
     small.padding-xxs.small This is how we know which container’s status to attach to your GitHub commits and pull requests.&#32;
       a.link(
