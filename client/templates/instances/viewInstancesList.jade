@@ -131,13 +131,13 @@
   ng-if = "!CIS.isInDemoFlow() || CIS.shouldShowBranchView() || $root.featureFlags.demoPersonalOnly"
 )
 
-  //- compose repos
+  //- branch environments (post-compose)
   section.nav-section.margin-top-sm(
     ng-if = "$root.featureFlags.composeNav"
     ng-include = "'repoSectionView'"
   )
 
-  //- branch clusters (pre-compose)
+  //- branch environments (pre-compose)
   .grid-block.vertical.shrink.list-clusters.js-animate(
     ng-if = "(!masterInstance.attrs.isTesting || (masterInstance.attrs.isTesting && !masterInstance.attrs.testingParentId)) && !$root.featureFlags.composeNav"
     ng-repeat = "masterInstance in CIS.instancesByPod | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
