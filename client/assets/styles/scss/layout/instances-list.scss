@@ -84,10 +84,6 @@
     border-color: $gray-lighter;
   }
 
-  &:active:not(.active) .non-compose-container {
-    color: $gray-dark;
-  }
-
   &:active,
   &.active {
 
@@ -136,13 +132,13 @@
   height: 27px;
   padding: 0 $xxs;
 
-  &:hover:not(.active):not(.non-compose-container) {
+  &:hover:not(.active) {
     background-color: $gray-lighterest;
     border-color: rgba($gray-lighter,.6);
     cursor: pointer;
   }
 
-  &:active:not(.active):not(.non-compose-container),
+  &:active:not(.active),
   &.active {
     background-color: lighten($purple-lightest,4);
     border-color: rgba($purple-light,.1);

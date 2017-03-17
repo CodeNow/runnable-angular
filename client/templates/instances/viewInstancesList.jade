@@ -137,12 +137,6 @@
     ng-include = "'repoSectionView'"
   )
 
-  //- non-compose repos
-  section.nav-section.margin-top-sm(
-    ng-if = "$root.featureFlags.composeNav"
-    ng-include = "'nonComposeRepoSectionView'"
-  )
-
   //- branch clusters (pre-compose)
   .grid-block.vertical.shrink.list-clusters.js-animate(
     ng-if = "(!masterInstance.attrs.isTesting || (masterInstance.attrs.isTesting && !masterInstance.attrs.testingParentId)) && !$root.featureFlags.composeNav"
