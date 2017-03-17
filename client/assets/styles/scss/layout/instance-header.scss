@@ -44,12 +44,23 @@
     margin-left: $xxs;
     padding-left: 0;
 
+    &.orange:hover,
+    &.orange:active {
+      background: $orange-light;
+      border-color: $orange;
+    }
+
     > .iconnables {
       height: 100%;
     }
 
     > .icons-pull-request {
       width: 18px;
+    }
+
+    > .icons-history {
+      margin: 0 2px;
+      width: 15px;
     }
 
     > .icons-link-external {
