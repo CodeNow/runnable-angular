@@ -1,9 +1,9 @@
-h3.nav-card-header(
-  title = "branch-name"
-)
+h3.nav-card-header
   //- bubble up test agent status for repos with test compose files
   status-icon.grid-block.shrink.passed
-  span.text-overflow.padding-right-xxs branch-name
+  span.text-overflow.padding-right-xxs(
+    title = "branch-name"
+  ) branch-name
   button.grid-block.shrink.btn-container-menu(
     ng-class = "{'active': INC.popoverShown}"
     ng-if = "!INC.currentOrg.isPersonalAccount() && !INC.isInDemoFlow()"
@@ -17,10 +17,12 @@ h3.nav-card-header(
       use(
         xlink:href = "#icons-gear"
       )
+//- staging environment
 ul.nav-container-list(
   ng-include = "'stagingEnvironmentView'"
   ng-if = "active"
 )
+//- testing environment
 ul.nav-container-list(
   ng-include = "'testingEnvironmentView'"
   ng-if = "active"
