@@ -11,9 +11,16 @@ h2.grid-block.align-center.justify-justified.nav-section-header Services
       use(
         xlink:href = "#icons-arrow-down"
       )
+.grid-block.vertical.shrink.well.empty.text-center(
+  ng-if = "!$root.featureFlags.showAddedService"
+) 👆
+  br
+  .small First, use the button above to create your first service.
 section.nav-card.active(
+  ng-if = "$root.featureFlags.showAddedService"
   ng-include = "'navCardView'"
 )
 section.nav-card.active(
+  ng-if = "$root.featureFlags.showAddedService && $root.featureFlags.showNonComposeServices"
   ng-include = "'nonComposeCardView'"
 )

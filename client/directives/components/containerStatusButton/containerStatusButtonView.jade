@@ -4,15 +4,26 @@ button.btn.btn-md.btn-status(
 )
   status-icon.float-left(
     instance = "CSBC.instance"
-    ng-if = "!isChanging()"
+    ng-if = "!isChanging() && !$root.featureFlags.showPrevTestSelected"
   )
+
+  .icons-status.active.green.float-left.passed(
+    ng-if = "$root.featureFlags.showPrevTestSelected"
+  )
+
   //- if stopping, starting, restarting
   .spinner-wrapper.spinner-gray.spinner-sm.float-left.in(
     ng-if = "isChanging()"
     ng-include = "'spinner'"
   )
 
-  span.float-left {{getStatusText()}}
+  span.float-left(
+    ng-if = "!$root.featureFlags.showPrevTestSelected"
+  ) {{getStatusText()}}
+
+  span.float-left(
+    ng-if = "$root.featureFlags.showPrevTestSelected"
+  ) Passed
 
   svg.iconnables.icons-arrow-down(
     pop-over

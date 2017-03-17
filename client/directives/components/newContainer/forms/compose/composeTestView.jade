@@ -20,6 +20,7 @@
 
   label.grid-block.vertical.label(
     ng-if = "testEnabled"
+    style = "margin-top: -21px;"
   )
     .padding-xxs.small.label-sm Test Container
 
@@ -37,14 +38,13 @@
       Has file & loaded:
       - [required]
       - Copy: "Select a Container"
-    fancy-select.btn-md.white(
-      disabled
-      ng-disabled = "loadingFile || noFile"
-      ng-init = "noFile = true"
-      ng-required = "true"
-      spinner-flag = "loadingFile"
-    )
-      fancy-option
+    select.btn-md.white
+      option(
+        disabled
+        selected
+      ) Select a Container
+      option web
+      option mongo
 
     small.padding-xxs.small This is how we know which container’s status to attach to your GitHub commits and pull requests.&#32;
       a.link(

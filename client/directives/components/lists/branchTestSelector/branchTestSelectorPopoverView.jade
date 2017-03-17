@@ -42,20 +42,23 @@
             use(
               xlink:href = "#icons-check"
             )
-      li.grid-block.align-center.list-item
+      li.grid-block.align-center.list-item(
+        ng-class = "{'active disabled': $root.featureFlags.showPrevTestSelected}"
+        ng-click = "$root.featureFlags.showPrevTestSelected = true"
+      )
         .grid-block.vertical
           p.p.text-overflow(
             title = "separate template for name form"
           ) separate template for name form
           .grid-block.align-center
             .icons-status.failed
-            small.small.text-gray 2b1153c
+            small.small.text-gray 7c53d87
         button.grid-block.shrink.margin-left-sm.btn.btn-xs.btn-icon.btn-add
           svg.iconnables.icons-check
             use(
               xlink:href = "#icons-check"
             )
-      li.grid-block.align-center.list-item.active.disabled
+      li.grid-block.align-center.list-item
         .grid-block.vertical
           p.p.text-overflow(
             title = "separate template for name form"

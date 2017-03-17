@@ -133,7 +133,7 @@
 
   //- branch clusters (post-compose)
   section.nav-section.margin-top-sm(
-    ng-if = "$root.featureFlags.composeNav"
+    ng-if = "$root.featureFlags.composeNav && $root.featureFlags.showComposeBranches"
     ng-include = "'branchSectionView'"
   )
 

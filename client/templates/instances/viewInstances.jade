@@ -23,6 +23,7 @@
   ui-view
 )
   .grid-block.vertical.instance
+  ng-if = "!$root.featureFlags.showAddedService"
     .grid-block.justify-center.align-center
       img(
         height = "40"

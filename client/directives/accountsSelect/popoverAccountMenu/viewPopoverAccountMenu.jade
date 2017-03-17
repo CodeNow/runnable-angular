@@ -1,17 +1,16 @@
 .popover.menu.popover-account-menu.right(
   ng-class = "{'in': active}"
-  style = "left: 68px; transform-origin: 0 0; top: 18px"
+  style = "left: auto; right: 12px; transform-origin: 0 0; top: 12px"
 )
-  .arrow.js-animate(
-    ng-class = "{\
-      'gray': !data.showIntegrations || (data.showIntegrations && data.currentPanelName !== 'accountMenu'),\
-      'white': data.showIntegrations && data.currentPanelName === 'accountMenu'\
-    }"
-    style = "top: 20px"
-  )
+  //- .arrow.js-animate(
+  //-   ng-class = "{\
+  //-     'gray': !data.showIntegrations || (data.showIntegrations && data.currentPanelName !== 'accountMenu'),\
+  //-     'white': data.showIntegrations && data.currentPanelName === 'accountMenu'\
+  //-   }"
+  //-   style = "top: 20px"
+  //- )
   animated-panel-container.popover-views
     animated-panel(
-      default = "true"
       name = "accountMenu"
     )
       .grid-block.popover-view.fade(
@@ -91,6 +90,7 @@
               ) Sign Out
 
     animated-panel(
+      default = "true"
       name = "featureFlags"
     )
       .grid-block.vertical.popover-view.fade(

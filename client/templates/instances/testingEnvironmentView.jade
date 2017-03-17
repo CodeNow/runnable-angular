@@ -5,11 +5,11 @@ li.noscroll.nav-environment-header Testing
   button.grid-block.shrink.btn.btn-container-menu(
     ng-class = "{\
       'active': popoverShown,\
-      'gray': previousCommit\
+      'gray': $root.featureFlags.showPrevTestSelected\
     }"
     ng-if = "$root.featureFlags.composeHistory"
     pop-over
-    pop-over-options = "{\"verticallyCentered\":true,\"left\":26,\"pinToViewPort\":true}"
+    pop-over-options = "{\"verticallyCentered\":true,\"right\":-372,\"pinToViewPort\":true}"
     pop-over-template = "branchTestSelectorPopoverView"
   )
     svg.iconnables
@@ -17,17 +17,14 @@ li.noscroll.nav-environment-header Testing
         xlink:href = "#icons-history"
       )
     span.span(
-      ng-if = "previousCommit"
+      ng-if = "$root.featureFlags.showPrevTestSelected"
     ) 7c53d87
-li.grid-block.nav-container
-  status-icon.grid-block.shrink.complete
-  span.text-overflow(
-    title = "api"
-  ) api
-li.grid-block.nav-container
+li.grid-block.nav-container(
+  ng-class = "{'active': $root.featureFlags.showPrevTestSelected}"
+)
   status-icon.grid-block.shrink.passed
   span.text-overflow(
-    title = "web"
+    title = "api"
   ) web
 li.grid-block.nav-container
   status-icon.grid-block.shrink.complete
