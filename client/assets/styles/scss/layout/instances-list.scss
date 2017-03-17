@@ -71,7 +71,7 @@
   border-radius: $input-border-radius-lg;
   display: flex;
   flex-direction: column;
-  padding: $xxs;
+  padding: 6px $xxs;
 
   &:hover:not(.active) {
     cursor: pointer;
@@ -90,6 +90,10 @@
     .nav-card-header {
       color: $gray-dark;
     }
+  }
+
+  &.active {
+    padding: $xxs;
   }
 
   &:not(.active) + .nav-card.active,
