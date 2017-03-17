@@ -241,48 +241,30 @@
 
 // build files
 .ace-build-files {
-  background: $white;
   border-radius: $input-border-radius;
 
   // override sidebar
   .sidebar {
-    border: 1px solid $gray-lighter;
-    border-radius: 2px 0 0 2px;
-    border-right-width: 1px;
-    color: $gray-dark;
-    margin: -2px 0 -2px -2px;
-    width: 210px;
+    background: $purple-dark;
+    border: 0;
+    border-radius: $input-border-radius 0 0 $input-border-radius;
+    border-right: 1px solid $purple-darkest;
+    box-shadow: 3px 0 3px rgba($black,.06);
   }
 
-  .sidebar-actions {
-    background: $gray-lightest;
-    border-bottom: 1px solid $gray-lighter;
+  .sidebar-section-heading {
     flex: 0 0 auto;
+    margin: 0;
     padding: 6px;
-
-    .btn-xs {
-      float: right;
-      padding: 0;
-    }
-
-    .iconnables {
-      height: 100%;
-    }
-  }
-
-  .file-tree {
-    margin: 3px;
-    overflow-y: auto;
   }
 
   // scss-lint:disable SelectorFormat
   .ace_editor {
-    border-bottom-right-radius: 3px;
-    margin: -1px -1px -1px 0;
+  // scss-lint:enable SelectorFormat
+    border-bottom-right-radius: $input-border-radius;
 
     &.readonly {
       opacity: .6;
     }
   }
-  // scss-lint:enable SelectorFormat
 }

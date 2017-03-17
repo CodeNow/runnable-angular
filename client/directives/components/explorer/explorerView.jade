@@ -1,37 +1,24 @@
 //- on container sidebar
-.grid-block.justify-right.sidebar-section-heading(
+header.grid-block.align-center.justify-right.sidebar-section-heading(
   ng-if = "!editExplorer || debugContainer"
   ng-include = "'explorerSectionHeading'"
 )
 
 //- on configure modal
-.sidebar-actions(
+header.grid-block.align-center.justify-right.sidebar-section-heading(
   ng-controller = "FilePopoverController as FPC"
   ng-if = "editExplorer && rootDir && !instance.isMigrating()"
+  ng-include = "'explorerSectionHeading'"
 )
-  button.btn.btn-xs.gray(
-    ng-class = "{'active': filePopover.data.show}"
-    ng-disabled = "readOnly"
-    pop-over
-    pop-over-actions = "FPC.actions"
-    pop-over-data = "filePopover.data"
-    pop-over-options = "{\"top\":35,\"centered\":true}"
-    pop-over-template = "viewFileTreePopoverFileExplorerMenu"
-    pop-over-active = "filePopover.data.show"
-  )
-    svg.iconnables.icons-add
-      use(
-        xlink:href = "#icons-add"
-      )
 
-.sidebar-section-content
-  .well.text-center.padding-sm(
-    ng-if = "!debugContainer && !editExplorer && !fileModel.running() || instance.isMigrating()"
-  ) Your files are not available when the container isn’t running.
+.grid-block.shrink.text-center.padding-md(
+  ng-if = "!debugContainer && !editExplorer && !fileModel.running() || instance.isMigrating()"
+) Files aren’t available when the container isn’t running.
 
-  ul.file-tree(
-    ng-if = "rootDir && (debugContainer || editExplorer || fileModel.running()) && !instance.isMigrating()"
-  )
+.grid-block.vertical.padding-xs(
+  ng-if = "rootDir && (debugContainer || editExplorer || fileModel.running()) && !instance.isMigrating()"
+)
+  ul.file-tree
     //- this is the root dir; there can be only one.
     li(
       dir = "rootDir"

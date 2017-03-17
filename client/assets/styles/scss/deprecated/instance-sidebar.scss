@@ -1,0 +1,68 @@
+.instance-sidebar.deprecated {
+
+  // explorer
+  .sidebar-section-heading {
+    border: 0;
+    flex: 0 1 auto;
+    margin: 0;
+    overflow: visible;
+    padding: 0;
+    position: relative;
+
+    .btn {
+      position: absolute;
+      right: $xs;
+      top: $xs;
+      z-index: $z-views-sidebar-toggle;
+    }
+  }
+
+  // repo button
+  .btn-repository {
+    border-radius: $input-border-radius-lg;
+    color: $white;
+    display: block;
+    font-weight: $weight-normal;
+    margin: $xs $xs 0;
+    min-height: 118px;
+    padding: $xs;
+    text-align: left;
+
+    &.error {
+      border-bottom: 0;
+      border-radius: $input-border-radius-lg $input-border-radius-lg 0 0;
+    }
+
+    // loading state
+    .spinner-wrapper {
+      opacity: .5;
+    }
+
+    // icon for commmit/branch
+    .row {
+      min-height: 24px;
+      padding-left: $md;
+      position: relative;
+
+      .iconnables {
+        color: rgba($white, .5);
+        left: 7px;
+        opacity: .5;
+        position: absolute;
+        width: 12px;
+      }
+    }
+
+    .row-commit {
+      max-height: 42px; // 2 rows
+      overflow: hidden;
+      white-space: normal;
+    }
+
+    .btn-auto-deploy {
+      border-color: rgba($white,.5);
+      color: currentColor;
+      opacity: .5;
+    }
+  }
+}

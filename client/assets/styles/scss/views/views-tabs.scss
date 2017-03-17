@@ -1,47 +1,35 @@
 // ul.tabs
 .tabs {
-  align-items: center;
   display: flex;
-  margin-left: -12px;
   overflow-x: auto;
   overflow-y: hidden;
-  padding: 0 12px;
+  padding-bottom: $xs;
   white-space: nowrap;
-
-  &::after {
-    content: '';
-    display: block;
-    flex: 0 0 12px;
-    height: $input-sm;
-  }
 }
 
 // li.tab-wrapper
 .tab-wrapper {
   align-items: center;
-  border: 1px solid transparent;
+  border: $input-border solid transparent;
   border-radius: $input-border-radius;
-  color: rgba($white,.75);
+  color: $white;
   cursor: pointer;
   display: flex;
   flex: 0 0 auto;
-  font-size: 15px;
   height: $input-sm;
   max-width: 300px;
-  padding: 0 12px;
+  padding: 0 $xs;
   text-align: center;
 
   &:hover {
     background: $purple-dark;
     border-color: $purple-darkest;
-    color: $white;
   }
 
   &:active,
   &.active {
     background: lighten($purple-dark,9%);
     border-color: $purple-darkest;
-    color: $white;
     cursor: default;
   }
 
