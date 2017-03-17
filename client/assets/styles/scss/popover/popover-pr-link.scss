@@ -1,14 +1,12 @@
 .popover-pr-link {
-  // a bunch of these are only for overriding the button style (its parent)
+  // a few of these are only for overriding the button style (its parent)
   color: $gray-dark;
-  font-size: 15px;
-  font-weight: $weight-normal;
-  left: -150px;
+  left: 42px;
   line-height: 1.4;
   max-width: calc(100vw - 24px);
   right: auto;
   text-align: left;
-  top: 35px;
+  top: 63px;
   white-space: normal;
   width: 390px;
 
@@ -37,5 +35,9 @@
     padding: 39px $md $md;
     position: relative;
     z-index: 0;
+  }
+
+  .small {
+    opacity: 1;
   }
 }
