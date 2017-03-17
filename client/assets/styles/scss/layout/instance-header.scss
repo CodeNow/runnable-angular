@@ -92,7 +92,6 @@
 
 .instance-header-actions {
   flex: 0 0 690px;
-  position: relative;
 
   > * {
 
@@ -131,10 +130,11 @@
 
   // url popover
   > .popover {
+    color: $gray-dark;
     left: auto;
     max-width: none;
     right: 12px;
-    top: 41px;
+    top: 56px;
     width: 390px;
 
     @media (max-width: 894px) {

@@ -24,28 +24,7 @@ div(
   save-open-items-button
 )
 
-//- properties of container
-
-  .popover.bottom.in.popover-url.below-modals(
-    ng-if = "showUrlCallout() && !$root.featureFlags.demoPersonalOnly"
-    ng-include = "'containerUrlPopoverView'"
-  )
-
-  .popover.bottom.popover-aha.popover-aha-url.in(
-    ng-if = "$root.featureFlags.ahaBranchUrlStep"
-  )
-    .arrow.white(
-      style = "left: auto; right: 59px;"
-    )
-    .popover-content
-      .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide
-        .grid-block.shrink.aha-meter.js-animate.aha-meter-100
-          svg.iconnables
-            use(
-              xlink:href = "#icons-check"
-            )
-        .grid-block.vertical.aha-text
-          p.p.small.text-gray-light Step 3: Add a Branch
-          p.p Nice work! Now you can see the web output of your branch by visiting its URL.
-    .grid-block.justify-right.popover-footer
-      button.grid-block.shrink.btn.btn-sm.green Got It
+.popover.bottom.in.popover-url.below-modals(
+  ng-if = "showUrlCallout() && !$root.featureFlags.demoPersonalOnly"
+  ng-include = "'containerUrlPopoverView'"
+)
