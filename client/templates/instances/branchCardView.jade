@@ -19,7 +19,9 @@ h3.nav-card-header(
       )
 ul.nav-container-list(
   ng-include = "'stagingEnvironmentView'"
+  ng-if = "active"
 )
 ul.nav-container-list(
   ng-include = "'testingEnvironmentView'"
+  ng-if = "active"
 )
