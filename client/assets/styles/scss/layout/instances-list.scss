@@ -71,20 +71,24 @@
   border-radius: $input-border-radius-lg;
   display: flex;
   flex-direction: column;
-  padding: 6px $xxs;
+  padding: $xxs;
 
   &:hover:not(.active) {
     cursor: pointer;
   }
 
   &:hover:not(.active),
-  &:active:not(.active),
+  &:active,
   &.active {
     background-color: $white;
     border-color: $gray-lighter;
   }
 
-  &:active:not(.active),
+  &:active:not(.active) .non-compose-container {
+    color: $gray-dark;
+  }
+
+  &:active,
   &.active {
 
     .nav-card-header {
@@ -92,24 +96,9 @@
     }
   }
 
-  &.active {
-    padding-bottom: $xxs;
-    padding-top: $xxs;
-
-    + .nav-card {
-      margin-top: $xxs;
-    }
-  }
-
-  &:not(.active) + .nav-card {
-
-    &:not(.active) {
-      margin-top: 1px;
-    }
-
-    &.active {
-      margin-top: $xxs;
-    }
+  &:not(.active) + .nav-card.active,
+  &.active + .nav-card {
+    margin-top: $xxs;
   }
 }
 
@@ -147,13 +136,13 @@
   height: 27px;
   padding: 0 $xxs;
 
-  &:hover:not(.active) {
+  &:hover:not(.active):not(.non-compose-container) {
     background-color: $gray-lighterest;
     border-color: rgba($gray-lighter,.6);
     cursor: pointer;
   }
 
-  &:active:not(.active),
+  &:active:not(.active):not(.non-compose-container),
   &.active {
     background-color: lighten($purple-lightest,4);
     border-color: rgba($purple-light,.1);
