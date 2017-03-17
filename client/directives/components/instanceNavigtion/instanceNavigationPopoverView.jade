@@ -4,8 +4,55 @@
 )
   .arrow.white
   .popover-content
+
+    //- for compose
     ul.list.popover-list(
-      ng-if = "INC.instance.attrs.masterPod || $root.featureFlags.composeNav"
+      ng-if = "$root.featureFlags.composeNav"
+    )
+      //- show on the default branch for compose repos
+      li.list-item.popover-list-item.multi-line
+        svg.iconnables.icons-gear
+          use(
+            xlink:href = "#icons-gear"
+          )
+        | Edit Compose Settings
+
+      //- show for non-compose repos and non-repo containers
+      //- li.list-item.popover-list-item.multi-line(
+      //-   ng-click = "INC.editInstance($event)"
+      //- )
+        svg.iconnables.icons-gear
+          use(
+            xlink:href = "#icons-gear"
+          )
+        | Configure Service
+
+      //- hide for branches of compose repos
+      li.divider
+
+      //- hide for branches of compose repos
+      li.list-item.popover-list-item.multi-line(
+        internal-modal-helper = "confirmDeleteServerView"
+      )
+        svg.iconnables.icons-gear
+          use(
+            xlink:href = "#icons-delete"
+          )
+        | Delete Service
+
+      //- show for branches of compose repos
+      //- li.list-item.popover-list-item.multi-line(
+      //-   internal-modal-helper = "confirmBranchRemoveView"
+      //- )
+        svg.iconnables.icons-gear
+          use(
+            xlink:href = "#icons-delete"
+          )
+        | Remove Branch
+
+    //- for auto-isolation
+    ul.list.popover-list(
+      ng-if = "INC.instance.attrs.masterPod && !$root.featureFlags.composeNav"
     )
       li.list-item.popover-list-item.multi-line(
         ng-click = "INC.setupAutoIsolation()"
@@ -16,14 +63,6 @@
           xlink:href = "#icons-gear"
           )
         | Setup Auto Isolation
-      //- Show for repos that use Compose
-      //- li.list-item.popover-list-item.multi-line
-        svg.iconnables.icons-gear
-          use(
-            xlink:href = "#icons-gear"
-          )
-        | Edit Compose Settings
-      //- Hide for repos that use Compose
       li.list-item.popover-list-item.multi-line(
         ng-click = "INC.editInstance($event)"
       )
@@ -32,9 +71,7 @@
             xlink:href = "#icons-gear"
           )
         | Configure Service
-        .small(
-          ng-if = "!$root.featureFlags.composeNav"
-        ) Affects all non-isolated {{ INC.instance.attrs.name }} containers.
+        .small Affects all non-isolated {{ INC.instance.attrs.name }} containers.
       li.divider
       li.list-item.popover-list-item(
         ng-click = "INC.deleteContainer()"
@@ -45,6 +82,7 @@
           )
         | Delete Service
 
+    //- for manual isolation
     ul.list.popover-list(
       ng-if = "!INC.instance.attrs.masterPod && !$root.featureFlags.composeNav"
     )
