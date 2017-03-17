@@ -1,0 +1,16 @@
+span.text-overflow.padding-right-xxs(
+  title = "api"
+) api
+.grid-block.align-center.shrink.btn.btn-xs.white(
+  data-event-name = "Clicked Add Branch button"
+  ng-click = "CIS.popInstanceOpen(masterInstance)"
+  pop-over
+  pop-over-controller = "CIS"
+  pop-over-data = "'branchSelect'"
+  pop-over-options = "{\"verticallyCentered\":true,\"left\":109,\"pinToViewPort\":true}"
+  pop-over-template = "branchMenuPopoverView"
+) Add a Branch
+  svg.iconnables.icons-arrow-forward
+    use(
+      xlink:href = "#icons-arrow-down"
+    )
