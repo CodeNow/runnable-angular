@@ -8,10 +8,10 @@ h1.grid-block.align-center.p.text-overflow container-name
     ng-include = "'instanceHeaderPRLinkView'"
   )
 
-  //- span(
-  //-   ng-if = "$root.featureFlags.internalDebugging"
-  //-   style = "bottom: 12px;font-size: 13px;position: relative;top: -5px;"
-  //- ) {{instance.containers.models[0].attrs.dockerHost}} |&#32;
-  //-   span(
-  //-     ng-repeat = "(key, value) in instance.containers.models[0].attrs.ports"
-  //-   ) {{key}}:{{value[0].HostPort}} |&#32;
+  div(
+    ng-if = "$root.featureFlags.internalDebugging"
+    style = "background:white;border-radius:6px;color:#000;font-size:13px;padding:12px;position:absolute;right:12px;top:12px;z-index:99999999;"
+  ) {{instance.containers.models[0].attrs.dockerHost}} |&#32;
+    span(
+      ng-repeat = "(key, value) in instance.containers.models[0].attrs.ports"
+    ) {{key}}:{{value[0].HostPort}} |&#32;
