@@ -3,19 +3,19 @@ small.small.text-overflow(
   title = "{{instance.getMasterPodName()}} / {{instance.getBranchName()}}"
 ) {{instance.getMasterPodName()}} / {{instance.getBranchName()}}
 
-h1.grid-block.align-center.p.text-overflow container-name
+h1.p.text-overflow container-name
 
   //- should show either PR link OR commit status
     - prioritize commit status over PR link
 
   //- pr link
-  .grid-block.shrink(
+  .btn-state(
     ng-if = "!!pr"
     ng-include = "'instanceHeaderPRLinkView'"
   )
 
   //- commit status
-  .grid-block.shrink(
+  .btn-state(
     ng-if = ""
     ng-include = "'instanceHeaderPreviousCommitView'"
   )
