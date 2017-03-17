@@ -1,9 +1,12 @@
 small.small.text-overflow(
-  ng-if = "instance.getBranchName()"
+  ng-if = "$root.featureFlags.composeInstance && instance.getBranchName()"
   title = "{{instance.getMasterPodName()}} / {{instance.getBranchName()}}"
 ) {{instance.getMasterPodName()}} / {{instance.getBranchName()}}
 
-h1.p.text-overflow container-name
+h1.p.text-overflow(
+  ng-class = "{'deprecated': !$root.featureFlags.composeInstance}"
+)
+  {{$root.featureFlags.composeInstance ? 'container-name' : instance.getMasterPodName() + ' / ' + instance.getBranchName()}}
 
   //- should show either PR link OR commit status
     - prioritize commit status over PR link
