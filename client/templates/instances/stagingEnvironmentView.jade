@@ -1,4 +1,4 @@
-li.grid-block.align-center.justify-justified.nav-environment-header Staging
+li.noscroll.nav-environment-header Staging
   //-
     - add .gray and 7 character commit hash when set to previous commit
     - the popover position needs to be adjusted when set to previous commit
@@ -19,18 +19,18 @@ li.grid-block.align-center.justify-justified.nav-environment-header Staging
     span.span(
       ng-if = "previousCommit"
     ) 7c53d87
-li.grid-block.container(
-  title = "api"
-)
-  .grid-block.shrink.icons-status.green
-  span.text-overflow api
-li.grid-block.container(
-  title = "web"
-)
-  .grid-block.shrink.icons-status.green
-  span.text-overflow web
-li.grid-block.container(
-  title = "mongo"
-)
-  .grid-block.shrink.icons-status.green
-  span.text-overflow mongo
+li.grid-block.nav-container
+  status-icon.grid-block.shrink.green
+  span.text-overflow(
+    title = "api"
+  ) api
+li.grid-block.nav-container
+  status-icon.grid-block.shrink.green
+  span.text-overflow(
+    title = "web"
+  ) web
+li.grid-block.nav-container
+  status-icon.grid-block.shrink.green
+  span.text-overflow(
+    title = "mongo"
+  ) mongo

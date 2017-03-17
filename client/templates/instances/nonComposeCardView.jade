@@ -1,9 +1,9 @@
 ul
-  li.container(
-    title = "runnable.com"
-  )
-    .icons-status.green
-    .span.text-overflow.padding-right-xxs runnable.com
+  li.nav-container
+    status-icon.grid-block.shrink.green
+    .span.text-overflow.padding-right-xxs(
+      title = "runnable.com"
+    ) runnable.com
     button.grid-block.shrink.btn-container-menu(
       ng-class = "{'active': INC.popoverShown}"
       ng-if = "!INC.currentOrg.isPersonalAccount() && !INC.isInDemoFlow()"
@@ -17,11 +17,11 @@ ul
         use(
           xlink:href = "#icons-gear"
         )
-  li.container(
-    title = "runnable-angular"
-  )
-    .icons-status.green
-    .span.text-overflow.padding-right-xxs runnable-angular
+  li.nav-container
+    status-icon.grid-block.shrink.green
+    .span.text-overflow.padding-right-xxs(
+      title = "runnable-angular"
+    ) runnable-angular
     button.grid-block.shrink.btn-container-menu(
       ng-class = "{'active': INC.popoverShown}"
       ng-if = "!INC.currentOrg.isPersonalAccount() && !INC.isInDemoFlow()"

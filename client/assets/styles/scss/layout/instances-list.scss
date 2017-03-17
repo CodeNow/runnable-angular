@@ -17,12 +17,7 @@
 
   // search
   .label-search {
-    border-bottom: 1px solid $gray-lighter;
     padding: 16px 10px;
-
-    + .section {
-      border-top: 0;
-    }
   }
 
   // empty state
@@ -35,105 +30,121 @@
     padding: $sm 24px 24px;
   }
 
-  .section {
-    border-top: $input-border solid $gray-lighter;
-  }
-
-  .section-header {
-    align-items: center;
-    display: flex;
-    font-size: inherit; // reset
-    font-weight: $weight-normal; // reset
-    line-height: inherit; // reset
-    padding: $sm 0 $sm (18px + $input-border);
-
-    // "add a service" and "add a branch" buttons
-    .btn-xs {
-      color: $gray;
-      margin-left: auto;
-      padding-right: 1px;
-
-      .icons-arrow-forward {
-        height: $sm;
-        width: $sm;
-      }
-    }
-  }
-
-  .nav-card {
-    border: $input-border solid transparent;
-    border-radius: $input-border-radius-lg;
-    padding: $xxs;
-
-    &:hover:not(.active) {
-      cursor: pointer;
-    }
-
-    &.active,
-    &:active:not(.active),
-    &:hover:not(.active) {
-      background-color: $white;
-      border-color: $gray-lighter;
-    }
-
-    &:active:not(.active),
-    &.active {
-
-      .nav-card-header {
-        color: $gray-dark;
-      }
-    }
-
-    + .nav-card {
-      margin-top: $xxs;
-    }
-  }
-
-  .nav-card-header {
-    align-items: center;
-    display: flex;
-    font-size: inherit; // reset
-    font-weight: $weight-normal; // reset
-    line-height: inherit; // reset
-    padding: 0 ($xxs + $input-border);
-  }
-
-  .nav-environment-header {
-    border-top: $input-border solid $gray-lightest;
-    color: $gray-light;
-    font-size: 13px;
-    margin-top: $xxs;
-    padding: $xxs ($xxs + $input-border) 6px;
-  }
-
-  .container {
-    align-items: center;
-    border: $input-border solid transparent;
-    border-radius: $input-border-radius;
-    display: flex;
-    height: 27px;
-    padding: 0 $xxs;
-
-    &:hover:not(.active) {
-      background-color: $gray-lighterest;
-      border-color: rgba($gray-lighter,.6);
-      cursor: pointer;
-    }
-
-    &:active:not(.active),
-    &.active {
-      background-color: lighten($purple-lightest,4);
-      border-color: rgba($purple-light,.1);
-      color: $purple-light;
-    }
-
-    + .container {
-      margin-top: 1px;
-    }
-  }
-
   .icons-status {
     margin-right: $xxs;
+  }
+
+  .failed,
+  .passed {
+    height: 11px;
+    margin-left: -1px;
+    margin-right: $xxs - 1px; // normal .icons-status margin, -1px to accomodate larger size
+    width: 11px;
+  }
+}
+
+.nav-section {
+  border-top: $input-border solid $gray-lighter;
+}
+
+.nav-section-header {
+  font-size: inherit; // reset
+  font-weight: $weight-normal; // reset
+  line-height: inherit; // reset
+  padding: $sm 0 $sm (18px + $input-border);
+
+  // "add a service" and "add a branch" buttons
+  .btn-xs {
+    color: $gray;
+    padding-right: 1px;
+
+    .icons-arrow-forward {
+      height: $sm;
+      width: $sm;
+    }
+  }
+}
+
+.nav-card {
+  border: $input-border solid transparent;
+  border-radius: $input-border-radius-lg;
+  display: flex;
+  flex-direction: column;
+  padding: $xxs;
+
+  &:hover:not(.active) {
+    cursor: pointer;
+  }
+
+  &.active,
+  &:active:not(.active),
+  &:hover:not(.active) {
+    background-color: $white;
+    border-color: $gray-lighter;
+  }
+
+  &:active:not(.active),
+  &.active {
+
+    .nav-card-header {
+      color: $gray-dark;
+    }
+  }
+
+  + .nav-card {
+    margin-top: $xxs;
+  }
+}
+
+.nav-card-header,
+.nav-environment-header {
+  align-items: center;
+  display: flex;
+  font-size: inherit; // reset
+  font-weight: $weight-normal; // reset
+  height: $input-xs;
+  line-height: inherit; // reset
+  padding: 0 ($xxs + $input-border);
+}
+
+.nav-card-header,
+.nav-container-list {
+
+  + .nav-container-list {
+    border-top: $input-border solid $gray-lightest;
+    margin-top: $xxs;
+  }
+}
+
+.nav-environment-header {
+  color: $gray-light;
+  font-size: 13px;
+  margin: 6px 0;
+}
+
+.nav-container {
+  align-items: center;
+  border: $input-border solid transparent;
+  border-radius: $input-border-radius;
+  display: flex;
+  height: 27px;
+  padding: 0 $xxs;
+
+  &:hover:not(.active) {
+    background-color: $gray-lighterest;
+    border-color: rgba($gray-lighter,.6);
+    cursor: pointer;
+  }
+
+  &:active:not(.active),
+  &.active {
+    background-color: lighten($purple-lightest,4);
+    border-color: rgba($purple-light,.1);
+    color: $purple-light;
+  }
+
+  + .nav-container {
+    margin-top: 1px;
   }
 }
 

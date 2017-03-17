@@ -176,6 +176,8 @@ animated-panel-container.modal-servers
       button.btn.btn-md.gray.btn-cancel.float-left(
         ng-click = "NCC.close()"
       ) Cancel
+      //- for all the possible states of this button, see the Compose documentation:
+          https://docs.google.com/a/runnable.com/drawings/d/1fkNfOm5iktUFxyCGxfluKEGRnClYkNUN-AlrXEDSkpY/edit
       button.btn.btn-md.green.float-right(
         ng-disabled = "!NCC.state.instanceName.length || NCC.nameForm.$invalid || $root.isLoading.newContainerSingleRepo"
         ng-click = "$root.featureFlags.composeNewService ? NCC.saveDockerfileMirroring() : NCC.saveName()"
