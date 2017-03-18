@@ -1,33 +1,34 @@
-small.small.text-overflow(
+small.grid-block.noscroll.text-overflow(
   ng-if = "$root.featureFlags.composeInstance && instance.getBranchName()"
   title = "{{instance.getMasterPodName()}} / {{instance.getBranchName()}}"
-) {{instance.getMasterPodName()}} / {{instance.getBranchName()}}
+)
+  .grid-block.small.text-overflow {{instance.getMasterPodName()}} / {{instance.getBranchName()}}
+
+  //- should show either PR link OR commit status
+    - prioritize commit status over PR link
+
+  //- pr link
+  .grid-block.shrink.btn-state(
+    ng-if = "!!pr"
+    ng-include = "'instanceHeaderPRLinkView'"
+  )
+
+  //- commit status
+  //- ng-if = ""
+  .grid-block.shrink.btn-state(
+    ng-include = "'instanceHeaderPreviousCommitView'"
+  )
 
 h1.p.text-overflow(
   ng-class = "{'deprecated': !$root.featureFlags.composeInstance}"
 )
   {{$root.featureFlags.composeInstance ? 'container-name' : instance.getMasterPodName() + ' / ' + instance.getBranchName()}}
 
-  //- should show either PR link OR commit status
-    - prioritize commit status over PR link
-
-  //- pr link
-  .btn-state(
-    ng-if = "!!pr"
-    ng-include = "'instanceHeaderPRLinkView'"
-  )
-
-  //- commit status
-  .btn-state(
-    ng-if = ""
-    ng-include = "'instanceHeaderPreviousCommitView'"
-  )
-
-  //- for debugging
-  div(
-    ng-if = "$root.featureFlags.internalDebugging"
-    style = "background:white;border-radius:6px;color:#000;font-size:13px;padding:12px;position:absolute;right:12px;top:12px;z-index:99999999;"
-  ) {{instance.containers.models[0].attrs.dockerHost}} |&#32;
-    span(
-      ng-repeat = "(key, value) in instance.containers.models[0].attrs.ports"
-    ) {{key}}:{{value[0].HostPort}} |&#32;
+//- for debugging
+div(
+  ng-if = "$root.featureFlags.internalDebugging"
+  style = "background:white;border-radius:6px;color:#000;font-size:13px;padding:12px;position:absolute;right:12px;top:12px;z-index:99999999;"
+) {{instance.containers.models[0].attrs.dockerHost}} |&#32;
+  span(
+    ng-repeat = "(key, value) in instance.containers.models[0].attrs.ports"
+  ) {{key}}:{{value[0].HostPort}} |&#32;

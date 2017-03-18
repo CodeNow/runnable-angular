@@ -13,6 +13,14 @@
 
   &.in {
     display: block;
+
+    + .instance-wrapper {
+      max-width: calc(100vw - #{$layout-navigation-width + $instance-list-width});
+    }
+  }
+
+  + .instance-wrapper {
+    max-width: calc(100vw - #{$layout-navigation-width});
   }
 
   // search

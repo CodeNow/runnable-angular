@@ -45,11 +45,14 @@
 }
 
 .instance-header-name {
-  flex: 0 0 264px;
+  flex: 1 0 auto;
+  max-width: 300px;
   padding-left: $xs;
   padding-right: 6px;
 
   .small {
+    display: inline-block;
+    flex: 0 1 auto;
     opacity: .5;
   }
 
@@ -59,20 +62,17 @@
   }
 
   // pr badge
-  .btn-state {
-    display: inline-block;
-    position: relative;
-    top: 1px;
-  }
-
   .btn {
-    margin-left: $xxs;
+    background: transparent;
+    border: $input-border solid currentColor;
+    color: rgba($white,.5);
+    margin-left: 6px;
+    margin-right: 1px;
     padding-left: 0;
 
-    &.orange:hover,
-    &.orange:active {
-      background: $orange-light;
-      border-color: $orange;
+    &:hover,
+    &:active {
+      color: rgba($white,.75);
     }
 
     > .iconnables {
@@ -86,11 +86,6 @@
     > .icons-history {
       margin: 0 2px;
       width: 15px;
-    }
-
-    > .icons-link-external {
-      margin-left: 3px;
-      width: 9px;
     }
   }
 
@@ -127,6 +122,7 @@
 }
 
 .instance-header-actions {
+  flex: 0 1 726px;
 
   > * {
 
