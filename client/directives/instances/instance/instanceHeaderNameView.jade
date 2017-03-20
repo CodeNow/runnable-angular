@@ -19,9 +19,8 @@ small.grid-block.noscroll.text-overflow(
     ng-include = "'instanceHeaderPreviousCommitView'"
   )
 
-h1.p.text-overflow {{$root.featureFlags.composeInstance ? 'container-name' : ''}}
-  | {{!$root.featureFlags.composeInstance && instance.getMasterPodName() ? instance.getMasterPodName() : ''}}
-  | {{!$root.featureFlags.composeInstance && instance.getBranchName() ? ' / ' + instance.getBranchName() : ''}}
+//- don't put these on separate lines (that creates an extra space)
+h1.p.text-overflow {{$root.featureFlags.composeInstance ? 'container-name' : ''}}{{!$root.featureFlags.composeInstance && instance.getMasterPodName() ? instance.getMasterPodName() : ''}}{{!$root.featureFlags.composeInstance && instance.getBranchName() ? ' / ' + instance.getBranchName() : ''}}
 
 //- for debugging
 div(
