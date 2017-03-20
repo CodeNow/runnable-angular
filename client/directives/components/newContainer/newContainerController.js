@@ -22,6 +22,7 @@ function NewContainerController(
   fetchOwnerRepos,
   fetchRepoDockerfiles,
   getNewForkName,
+  handleSocketEvent,
   keypather,
   loading,
   ModalService
@@ -192,32 +193,36 @@ function NewContainerController(
 
   NCC.saveDockerfileMirroring = function () {
     if (NCC.state.configurationMethod === 'dockerComposeFile') {
-      var clusterPromises = [];
       if (NCC.state.dockerComposeFile) {
-        clusterPromises.push(createNewCluster(
+        return createNewCluster(
           NCC.state.repo.attrs.full_name,
           NCC.state.repo.attrs.default_branch,
           NCC.state.dockerComposeFile.path,
-          NCC.state.instanceName)
+          NCC.state.instanceName,
+          currentOrg.github.attrs.id
         )
-      }
-      if (NCC.state.dockerComposeTestFile) {
-        var instanceName = NCC.state.instanceName + '-test';
-        clusterPromises.push(createNewCluster(
-          NCC.state.repo.attrs.full_name,
-          NCC.state.repo.attrs.default_branch,
-          NCC.state.dockerComposeTestFile.path,
-          instanceName,
-          true,
-          [ NCC.state.testReporter.name ]
-        ))
-      }
-      return $q.all(clusterPromises)
-        .then(function () {
-          $state.go('base.instances');
-          NCC.close();
+        .then(function(res) {
+          return handleSocketEvent('compose-cluster-created');
         })
-        .catch(errs.handler);
+        .then(function(promiseResolved) {
+          if (NCC.state.dockerComposeTestFile) {
+            var instanceName = NCC.state.instanceName + '-test';
+            createNewCluster(
+              NCC.state.repo.attrs.full_name,
+              NCC.state.repo.attrs.default_branch,
+              NCC.state.dockerComposeTestFile.path,
+              instanceName,
+              currentOrg.github.attrs.id,
+              true,
+              [ NCC.state.testReporter.name ],
+              promiseResolved.inputClusterConfigId
+            )
+          }
+        })
+        .catch(function(promiseRejected) {
+          errs.handler({ message: 'Error creating cluster!'});
+        })
+      }
     }
 
     return NCC.createBuildAndGoToNewRepoModal(NCC.state.instanceName, NCC.state.repo, NCC.state.dockerfile, NCC.state.configurationMethod);
