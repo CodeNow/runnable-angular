@@ -5,6 +5,11 @@
   color: $white;
   flex: 0 0 auto;
   padding: $xs;
+
+  // override border on dark bg
+  .btn.red {
+    border-color: $purple-darkest;
+  }
 }
 
 .instance-header-name {
@@ -12,7 +17,7 @@
   height: $input-sm;
   max-width: 300px;
   padding-left: $xs;
-  padding-right: 6px;
+  padding-right: $xxs;
 
   .small {
     display: inline-block;
