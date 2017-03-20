@@ -146,15 +146,15 @@ describe('containerStatusButtonDirective'.bold.underline.blue, function () {
 
   describe('getClassForInstance', function () {
     var classesMap = {
-      starting: ['gray'],
-      stopping: ['gray'],
-      building: ['gray'],
-      stopped: ['gray'],
+      starting: ['purple'],
+      stopping: ['purple'],
+      building: ['purple'],
+      stopped: ['purple'],
       crashed: ['red'],
-      running: ['gray'],
+      running: ['purple'],
       buildFailed: ['red'],
       neverStarted: ['red'],
-      unknown: ['gray']
+      unknown: ['purple']
     };
     it('update the button text correctly', function () {
       mockInstance.status = sinon.stub();
