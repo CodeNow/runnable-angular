@@ -40,7 +40,7 @@
         type = "search"
       )
 
-    p.grid-block.shrink.p.align-center.text-gray-light.padding-sm(
+    p.grid-block.shrink.p.align-center.text-gray-light.padding-sm.nav-section(
       ng-if = "!CIS.filterMatchedAnything()"
     ) No containers match this filter.
 
@@ -50,7 +50,7 @@
     )
 
     //- master branch clusters and non-repo containers (post-compose)
-    section.section(
+    section.nav-section(
       ng-if = "$root.featureFlags.composeNav"
       ng-include = "'servicesSectionView'"
     )
@@ -132,7 +132,7 @@
 )
 
   //- branch clusters (post-compose)
-  section.section.margin-top-sm(
+  section.nav-section.margin-top-sm(
     ng-if = "$root.featureFlags.composeNav"
     ng-include = "'branchSectionView'"
   )

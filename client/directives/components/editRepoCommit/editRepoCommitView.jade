@@ -1,5 +1,5 @@
 //- repository
-.btn.gray.btn-repository.clearfix(
+.btn.purple.btn-repository(
   data-event-name = "Clicked: Commit Tray"
   ng-class = "{\
     'error': $root.featureFlags.autoDeployError && ERCC.isLatestCommitDeployed && ERCC.instance.locked,\
@@ -7,7 +7,7 @@
   }"
   ng-click = "ERCC.actions.openRepoDetailsModal()"
 )
-  .spinner-wrapper.spinner-sm.spinner-gray.in(
+  .spinner-wrapper.spinner-sm.spinner-white.spinner-center(
     ng-if = "!ERCC.activeCommit.attrs.commit.message"
     ng-include = "'spinner'"
   )

@@ -53,7 +53,7 @@
   &.filetypes {
     height: 18px;
     top: 4px;
-    width: 18px;
+    width: 15px;
   }
 
   // flip
@@ -178,6 +178,11 @@
       position: absolute;
       width: 100%;
     }
+  }
+
+  &.complete {
+    background-color: transparent;
+    border: 1px solid $gray-light;
   }
 
   &.passed::before {

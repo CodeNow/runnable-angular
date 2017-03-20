@@ -46,6 +46,14 @@
     }
   }
 
+  .label {
+    margin-bottom: 0;
+
+    + .label {
+      margin-top: 21px;
+    }
+  }
+
   // add custom dockerfile
   .list-item-path {
     align-items: stretch;
@@ -77,10 +85,6 @@
       border-right: 10px solid transparent;
       right: 17px;
       top: -10px;
-    }
-
-    .label {
-      margin-bottom: 0;
     }
 
     .small:last-child {

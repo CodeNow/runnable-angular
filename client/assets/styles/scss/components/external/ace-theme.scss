@@ -4,9 +4,10 @@
   position: relative;
 
   // read only button
-  > .btn-xs {
+  > .btn-sm {
     cursor: default;
     font-family: $sans-serif; // use default font stack
+    font-size: 16px;
     position: absolute;
     right: 6px;
     top: 6px;
@@ -16,14 +17,14 @@
     // light theme
     .ace-runnable-light & {
       background: rgba($gray,.75);
-      border: 1px solid rgba($black,.15);
+      border: $input-border solid rgba($black,.15);
       color: $white;
     }
 
     // dark theme
     .ace-runnable-dark & {
       background: rgba($purple-darker,.75);
-      border: 1px solid rgba($white,.15);
+      border: $input-border solid rgba($white,.3);
     }
 
     &:hover,
@@ -416,7 +417,7 @@
     background-color: rgba($ace-bg,.6);
 
     .ace_gutter {
-      background-color: rgba($ace-bg,.6);
+      background-color: transparent;
       color: lighten(#5e4d6e,30%);
     }
 
@@ -433,7 +434,7 @@
   }
 
   .ace_gutter {
-    background: darken($ace-bg,3%);
+    background-color: transparent;
     color: lighten(#5e4d6e,12%);
   }
 
