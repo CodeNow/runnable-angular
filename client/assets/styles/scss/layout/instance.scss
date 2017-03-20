@@ -1,6 +1,7 @@
 // instance wrapper
 .instance-wrapper {
   height: 100vh;
+  max-width: calc(100vw - #{$layout-navigation-width + $instance-list-width});
   overflow: hidden;
   position: relative;
 
