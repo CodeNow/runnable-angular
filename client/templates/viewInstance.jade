@@ -7,7 +7,7 @@
 .grid-block.noscroll.vertical.instance(
   ng-if = "!isLoading.main"
 )
-  .grid-block.justify-center.align-center(
+  .grid-block.justify-center.align-center.instance-empty(
     ng-if = "!dataInstance.data.instance || dataInstance.data.instance.destroyed"
   )
     img(
