@@ -26,7 +26,7 @@ button.btn.btn-xs.purple(
   tooltip-options = "{\"class\":\"bottom no-arrow\",\"right\":0,\"top\":27}"
 ) Copy
 
-a.btn.btn-xs.purple(
+a.grid-block.btn.btn-xs.purple(
   ng-click = "\
     !instance.contextVersion.getMainAppCodeVersion() || $emit('demo::dismissUrlCallout', instance.id());\
     openedContainerUrl(instance);\
@@ -34,9 +34,8 @@ a.btn.btn-xs.purple(
   ng-href = "{{getContainerUrl(instance)}}"
   target = "_blank"
   title = "Open in a new tab"
-)
-  | Open
-  svg.iconnables.icons-link-external.float-right
+) Open
+  svg.iconnables.icons-link-external
     use(
       xlink:href = "#icons-link-external-alt"
     )
