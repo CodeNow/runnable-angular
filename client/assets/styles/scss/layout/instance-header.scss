@@ -7,7 +7,9 @@
   padding: $xs;
 
   // override border on dark bg
-  .btn.red {
+  .btn.red,
+  .btn.orange,
+  .btn.green {
     border-color: $purple-darkest;
   }
 }
