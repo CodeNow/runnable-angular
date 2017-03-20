@@ -1,8 +1,7 @@
 //- instance list
-.grid-block.shrink.list-instances(
+.grid-block.shrink.vertical.list-instances(
   ng-class = "{\
     'deprecated': !$root.featureFlags.composeNav,\
-    'in': !CIS.$storage.instanceListIsClosed,\
     'noscroll': CA.shouldShowTeamCTA()\
   }"
   ng-if = "CIS.instancesByPod"
@@ -11,8 +10,7 @@
   scroll-to = "a.a-sref.active"
 )
 
-.grid-block.shrink.list-instances(
-  ng-class = "{'in': !CIS.$storage.instanceListIsClosed}"
+.grid-block.shrink.vertical.list-instances(
   ng-if = "!CIS.instancesByPod"
 )
   .spinner-wrapper.spinner-md.spinner-gray.spinner-center.in(

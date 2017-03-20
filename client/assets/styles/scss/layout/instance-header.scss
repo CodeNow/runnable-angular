@@ -5,43 +5,6 @@
   color: $white;
   flex: 0 0 auto;
   padding: $xs;
-
-  // toggle sidebar
-  > .btn {
-    left: -($xs + $input-xs); // collapse button + margin
-    padding: 0;
-    position: absolute;
-    top: 19px; // same padding as input-search
-    width: $input-xs;
-
-    &.active:not([disabled]) {
-      background: transparent;
-      border-color: currentColor;
-      color: rgba($white,.3);
-      left: $xs;
-
-      &:hover,
-      &:active {
-        background: transparent;
-        border-color: currentColor;
-        color: rgba($white,.5);
-      }
-
-      + .instance-header-name {
-        padding-left: 36px;
-      }
-
-      .iconnables {
-        transform: rotate(-90deg);
-      }
-    }
-
-    .iconnables {
-      height: 100%;
-      transition: none;
-      width: 24px;
-    }
-  }
 }
 
 .instance-header-name {
@@ -64,14 +27,16 @@
   // pr badge
   .btn {
     background: transparent;
-    border: $input-border solid currentColor;
+    border: $input-border solid rgba($white,.25);
     color: rgba($white,.5);
+    font-size: 11px;
     margin-left: 6px;
     margin-right: 1px;
     padding-left: 0;
 
     &:hover,
     &:active {
+      border-color: rgba($white,.5);
       color: rgba($white,.75);
     }
 
@@ -85,6 +50,7 @@
 
     > .icons-history {
       margin: 0 2px;
+      padding: 2px 0;
       width: 15px;
     }
   }

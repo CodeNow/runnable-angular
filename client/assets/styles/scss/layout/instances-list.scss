@@ -2,7 +2,6 @@
 .list-instances {
   background: $gray-lighterest;
   color: $gray;
-  display: none;
   font-size: 15px;
   height: 100vh;
   min-width: $instance-list-width;
@@ -11,25 +10,9 @@
   position: relative;
   width: $instance-list-width;
 
-  &.in {
-    display: block;
-
-    + .instance-wrapper {
-      max-width: calc(100vw - #{$layout-navigation-width + $instance-list-width});
-    }
-  }
-
-  + .instance-wrapper {
-    max-width: calc(100vw - #{$layout-navigation-width});
-  }
-
   // search
   .label-search {
     padding: 19px 0; // match height of instance header
-  }
-
-  .input-search {
-    margin-right: $xs + $input-xs; // collapse button + margin
   }
 
   // empty state

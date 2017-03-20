@@ -1,5 +1,5 @@
 //- wraps 'select demo' guide and everything that should transition in with the master cluster
-.grid-block.vertical.noscroll.relative
+.grid-block.shrink.vertical.noscroll.relative
 
   //- 'select demo' guide
   .grid-block.popover.in.margin-top-xs.popover-demo.demo-transition.js-animate(
@@ -127,7 +127,7 @@
           )
 
 //- wraps all branch clusters
-.grid-block.vertical.noscroll.relative.demo-transition.js-animate(
+.grid-block.vertical.shrink.noscroll.relative.demo-transition.js-animate(
   ng-if = "!CIS.isInDemoFlow() || CIS.shouldShowBranchView() || $root.featureFlags.demoPersonalOnly"
 )
 
