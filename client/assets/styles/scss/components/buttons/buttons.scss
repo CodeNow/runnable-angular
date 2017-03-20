@@ -350,7 +350,7 @@
   &.btn {
     background: lighten($purple-dark,9%);
     border-color: $purple-darkest;
-    color: $purple-lighter;
+    color: $white;
 
     &:not([disabled]) {
 
@@ -365,6 +365,10 @@
         background: $purple-light;
         transition: none;
       }
+    }
+
+    .spinner-white {
+      opacity: .5;
     }
   }
 

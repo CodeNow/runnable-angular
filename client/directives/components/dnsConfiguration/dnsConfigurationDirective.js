@@ -26,7 +26,7 @@ function dnsConfiguration() {
       });
 
       $scope.getWorstStatusClass = function () {
-        var worstStatus = 'gray';
+        var worstStatus = 'purple';
         if (!$scope.DCC.filteredDependencies || !$scope.DCC.nonRepoDependencies) {
           return worstStatus;
         }

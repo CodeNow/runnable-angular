@@ -1,5 +1,5 @@
 //- wraps 'select demo' guide and everything that should transition in with the master cluster
-.grid-block.vertical.noscroll.relative
+.grid-block.shrink.vertical.noscroll.relative
 
   //- 'select demo' guide
   .grid-block.popover.in.margin-top-xs.popover-demo.demo-transition.js-animate(
@@ -31,7 +31,7 @@
   )
 
     //- search
-    label.grid-block.shrink.vertical.label-search
+    label.grid-block.shrink.label-search
       input.input.input-xs.input-search(
         ng-model = "CIS.searchBranches"
         placeholder = "Filter by name"
@@ -127,7 +127,7 @@
           )
 
 //- wraps all branch clusters
-.grid-block.vertical.noscroll.relative.demo-transition.js-animate(
+.grid-block.vertical.shrink.noscroll.relative.demo-transition.js-animate(
   ng-if = "!CIS.isInDemoFlow() || CIS.shouldShowBranchView() || $root.featureFlags.demoPersonalOnly"
 )
 

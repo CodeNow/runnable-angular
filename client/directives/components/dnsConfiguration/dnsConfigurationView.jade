@@ -1,4 +1,4 @@
-button.js-btn-wrapper(
+button.grid-block.js-btn-wrapper(
   ng-click = "DCC.lastModifiedDNS = null;"
   pop-over
   pop-over-controller = "DCC"
@@ -6,10 +6,9 @@ button.js-btn-wrapper(
   pop-over-template = "dnsConfigurationPopoverView"
 )
   //- change text to 'Connection' if there is only one
-  span.float-left.
-    {{$root.isLoaded.dns ? DCC.getNumberOfConnections() : ''}}&#32;
-    {{DCC.getNumberOfConnections() === 1 ? 'Connection' : 'Connections'}}
-  svg.iconnables.icons-arrow-down.float-right
+  | {{$root.isLoaded.dns ? DCC.getNumberOfConnections() : ''}}&#32;
+  | {{DCC.getNumberOfConnections() === 1 ? 'Connection' : 'Connections'}}
+  svg.iconnables.icons-arrow-down
     use(
       xlink:href = "#icons-arrow-down"
     )
