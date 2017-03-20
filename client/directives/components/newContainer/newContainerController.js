@@ -208,7 +208,7 @@ function NewContainerController(
           NCC.state.repo.attrs.default_branch,
           NCC.state.dockerComposeTestFile.path,
           instanceName,
-          NCC.state.isTesting,
+          true,
           [ NCC.state.testReporter.name ]
         ))
       }
