@@ -26,7 +26,7 @@ button.btn.btn-xs.purple(
   tooltip-options = "{\"class\":\"bottom no-arrow\",\"right\":0,\"top\":27}"
 ) Copy
 
-a.grid-block.btn.btn-xs.purple(
+a.grid-block.noscroll.btn.btn-xs.purple(
   ng-click = "\
     !instance.contextVersion.getMainAppCodeVersion() || $emit('demo::dismissUrlCallout', instance.id());\
     openedContainerUrl(instance);\
