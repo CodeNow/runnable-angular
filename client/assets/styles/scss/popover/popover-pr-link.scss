@@ -1,22 +1,26 @@
 .popover-pr-link {
   // a few of these are only for overriding the button style (its parent)
   color: $gray-dark;
-  left: 42px;
+  left: 24px;
   line-height: 1.4;
   max-width: calc(100vw - 24px);
   right: auto;
   text-align: left;
-  top: 63px;
+  top: 66px;
   white-space: normal;
   width: 390px;
 
-  @include media(md) {
+  @include media(sm) {
     left: auto;
     position: fixed;
     right: 12px;
     top: 50px;
+  }
 
-    .arrow {
+  &.bottom .arrow {
+    left: 24px;
+
+    @include media(sm) {
       display: none;
     }
   }
@@ -35,9 +39,16 @@
     padding: 39px $md $md;
     position: relative;
     z-index: 0;
+
+    .small {
+      opacity: 1;
+    }
   }
 
-  .small {
-    opacity: 1;
+  .icons-link-external {
+    float: right;
+    height: 100%;
+    margin-left: 6px;
+    width: 13px;
   }
 }

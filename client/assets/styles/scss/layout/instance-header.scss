@@ -18,18 +18,21 @@
     display: inline-block;
     flex: 0 1 auto;
     opacity: .5;
+
+    + .btn-xxs {
+      margin-left: 3px;
+    }
   }
 
   .p {
-    font-size: 19px;
+    font-size: 16px;
     font-weight: $weight-bold;
   }
 
   // pr badge
-  .btn {
+  .btn-xxs {
     background: transparent;
     color: rgba($white,.5);
-    margin-left: 3px;
     margin-right: 1px;
     padding-left: 0;
     top: 2px;

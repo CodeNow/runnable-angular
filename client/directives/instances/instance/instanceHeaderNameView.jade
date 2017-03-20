@@ -1,28 +1,27 @@
 small.grid-block.noscroll.text-overflow(
-  ng-if = "$root.featureFlags.composeInstance && instance.getBranchName()"
-  title = "{{instance.getMasterPodName()}} / {{instance.getBranchName()}}"
+  ng-if = "$root.featureFlags.composeInstance || !!pr || commitHistory"
+  ng-init = "commitHistory = null"
+  title = "{{instance.getMasterPodName()}}{{instance.getBranchName() ? ' / instance.getBranchName()' : ''}}"
 )
-  .grid-block.small.text-overflow {{instance.getMasterPodName()}} / {{instance.getBranchName()}}
+  //- hide this element if compose
+  .grid-block.small.text-overflow(
+    ng-if = "$root.featureFlags.composeInstance"
+  ) {{instance.getMasterPodName()}} / {{instance.getBranchName()}}
 
   //- should show either PR link OR commit status
     - prioritize commit status over PR link
-
-  //- pr link
   .grid-block.shrink(
-    ng-if = "!!pr"
+    ng-if = "!!pr && !commitHistory"
     ng-include = "'instanceHeaderPRLinkView'"
   )
-
-  //- commit status
   .grid-block.shrink(
-    ng-if = ""
+    ng-if = "commitHistory"
     ng-include = "'instanceHeaderPreviousCommitView'"
   )
 
-h1.p.text-overflow(
-  ng-class = "{'deprecated': !$root.featureFlags.composeInstance}"
-)
-  {{$root.featureFlags.composeInstance ? 'container-name' : instance.getMasterPodName() + ' / ' + instance.getBranchName()}}
+h1.p.text-overflow {{$root.featureFlags.composeInstance ? 'container-name' : ''}}
+  | {{!$root.featureFlags.composeInstance && instance.getMasterPodName() ? instance.getMasterPodName() : ''}}
+  | {{!$root.featureFlags.composeInstance && instance.getBranchName() ? ' / ' + instance.getBranchName() : ''}}
 
 //- for debugging
 div(
