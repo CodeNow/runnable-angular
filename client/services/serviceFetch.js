@@ -200,7 +200,7 @@ function fetchInstances(
     if (resetCache || !fetchCache[fetchKey]) {
       fetchCache[fetchKey] = fetchUser()
         .then(function (user) {
-          return user.newInstances(fakeInstances, {qs: {}})
+          return user.newInstances(fakeInstances, {qs: {}});
           // var pFetch = promisify(user, 'fetchInstances');
           // return pFetch(opts);
         })

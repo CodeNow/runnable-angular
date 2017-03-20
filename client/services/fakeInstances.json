@@ -1826,7 +1826,13 @@
         }
       }
     ],
-    "id": "58c9c13cb6f46e100071c5b1"
+    "id": "58c9c13cb6f46e100071c5b1",
+    "inputClusterConfig": {
+      "clusterName": "compose-test-repo",
+      "_id": "composeTestId1",
+      "isTesting": true,
+      "parentInputClusterConfig": "composeId2"
+    }
   },
   {
     "_id": "58cb2e9388d0591200914039",
@@ -3415,7 +3421,12 @@
         }
       }
     ],
-    "id": "58cb3af4eaebaf1100130600"
+    "id": "58cb3af4eaebaf1100130600",
+    "inputClusterConfig": {
+      "clusterName": "compose-remote-repo",
+      "_id": "composeId2",
+      "isTesting": false
+    }
   },
   {
     "_id": "58c9c0dc7d58f4100047e148",
@@ -4135,7 +4146,13 @@
         }
       }
     ],
-    "id": "58c9c13cb6f46e100071c5b5"
+    "id": "58c9c13cb6f46e100071c5b5",
+    "inputClusterConfig": {
+      "clusterName": "compose-test-repo",
+      "_id": "composeTestId1",
+      "isTesting": true,
+      "parentInputClusterConfig": "composeId2"
+    }
   },
   {
     "_id": "58c9c13cb6f46e100071c5b3",
@@ -4492,7 +4509,13 @@
         }
       }
     ],
-    "id": "58c9c13cb6f46e100071c5b3"
+    "id": "58c9c13cb6f46e100071c5b3",
+    "inputClusterConfig": {
+      "clusterName": "compose-test-repo",
+      "_id": "composeTestId1",
+      "isTesting": true,
+      "parentInputClusterConfig": "composeId2"
+    }
   },
   {
     "_id": "58c9c0db7d58f4100047e136",
@@ -5608,6 +5631,12 @@
         }
       }
     ],
-    "id": "58c9c13cb6f46e100071c5b2"
+    "id": "58c9c13cb6f46e100071c5b2",
+    "inputClusterConfig": {
+      "clusterName": "compose-test-repo",
+      "_id": "composeTestId1",
+      "isTesting": true,
+      "parentInputClusterConfig": "composeId2"
+    }
   }
 ]
