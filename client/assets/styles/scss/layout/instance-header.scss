@@ -54,37 +54,6 @@
       }
     }
   }
-
-  // for debug view
-  // .btn-status {
-  //   left: 12px;
-  //   position: absolute;
-  //   top: 15px;
-
-  //   .icons-status {
-  //     top: 6px;
-  //   }
-  // }
-
-  // debug text
-  // .strong .small {
-  //   color: $gray-light;
-  //   left: 6px;
-  //   line-height: 1;
-  //   position: relative;
-  //   top: -3px;
-  // }
-
-  // save button in debug
-  // .btn-save-wrapper {
-  //   position: absolute;
-  //   right: 12px;
-  //   top: 9px;
-
-  //   + .btn-badge {
-  //     right: 90px;
-  //   }
-  // }
 }
 
 .instance-header-actions {
@@ -176,15 +145,5 @@
     margin-left: 6px;
     opacity: .5;
     width: 15px;
-  }
-}
-
-.list-instances {
-  max-width: calc(100vw - #{$layout-navigation-width + 133});
-
-  &.in + .instance-wrapper .instance-header-title .text-overflow {
-    direction: rtl;
-    display: block;
-    max-width: calc(100vw - #{$layout-navigation-width + $instance-list-width + 133});
   }
 }
