@@ -8,14 +8,14 @@ small.grid-block.noscroll.text-overflow(
     - prioritize commit status over PR link
 
   //- pr link
-  .grid-block.shrink.btn-state(
+  .grid-block.shrink(
     ng-if = "!!pr"
     ng-include = "'instanceHeaderPRLinkView'"
   )
 
   //- commit status
-  //- ng-if = ""
-  .grid-block.shrink.btn-state(
+  .grid-block.shrink(
+    ng-if = ""
     ng-include = "'instanceHeaderPreviousCommitView'"
   )
 
