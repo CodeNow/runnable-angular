@@ -1,7 +1,7 @@
 small.grid-block.noscroll.text-overflow(
   ng-if = "$root.featureFlags.composeInstance || !!pr || commitHistory"
   ng-init = "commitHistory = null"
-  title = "{{instance.getMasterPodName()}}{{instance.getBranchName() ? ' / instance.getBranchName()' : ''}}"
+  title = "{{instance.getMasterPodName()}}{{instance.getBranchName() ? ' / ' + instance.getBranchName() : ''}}"
 )
   //- hide this element if compose
   .grid-block.small.text-overflow(
