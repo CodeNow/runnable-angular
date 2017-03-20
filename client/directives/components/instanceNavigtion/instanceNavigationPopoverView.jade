@@ -9,18 +9,8 @@
     ul.list.popover-list(
       ng-if = "$root.featureFlags.composeNav"
     )
-      //- show on the default branch for compose repos
-      li.list-item.popover-list-item.multi-line
-        svg.iconnables.icons-gear
-          use(
-            xlink:href = "#icons-gear"
-          )
-        | Edit Compose Settings
 
-      //- hide for branches of compose repos
-      li.divider
-
-      //- hide for branches of compose repos
+      //- show for default branches of compose repos
       li.list-item.popover-list-item.multi-line(
         internal-modal-helper = "confirmDeleteServerView"
       )
@@ -30,7 +20,7 @@
           )
         | Delete Service
 
-      //- show for branches of compose repos
+      //- show for non-default branches of compose repos
       //- li.list-item.popover-list-item.multi-line(
       //-   internal-modal-helper = "confirmBranchRemoveView"
       //- )
@@ -72,7 +62,7 @@
           )
         | Delete Service
 
-    //- for branches of non-compose repos
+    //- for non-default branches of non-compose repos
     ul.list.popover-list(
       ng-if = "!INC.instance.attrs.masterPod && !$root.featureFlags.composeNav"
     )
