@@ -52,6 +52,7 @@ function featureFlags(
     teamManagement: false,
     teamManagementAdvanced: false, // changes text from org to team in account menu
     testingFeature: false,
+    testMenu: false,
     themeToggle: false, // toggles the button that toggles theme
     trial: false, // sets account to trial mode
     undoDelete: false, // undo delete configuration

@@ -4,17 +4,16 @@
 )
   .arrow.white
   .popover-content
-    //- hide list if build failed
     ul.popover-list
       li.popover-list-item(
-        ng-if = "!CSBC.instance.isMigrating() && !CSBC.isTesting() && ['stopped', 'crashed'].includes(CSBC.instance.status())"
+        ng-if = "!$root.featureFlags.testMenu && !CSBC.instance.isMigrating() && !CSBC.isTesting() && ['stopped', 'crashed'].includes(CSBC.instance.status())"
         ng-click = "actions.startInstance()"
       )
         .icons-status.green
         | Start
 
       li.popover-list-item(
-        ng-if = "!CSBC.instance.isMigrating() && !CSBC.isTesting() && ['running'].includes(CSBC.instance.status())"
+        ng-if = "!$root.featureFlags.testMenu && !CSBC.instance.isMigrating() && !CSBC.isTesting() && ['running'].includes(CSBC.instance.status())"
         ng-click = "actions.restartInstance()"
       )
         .icons-status.green
@@ -28,7 +27,7 @@
         | (I) Redeploy
 
       li.popover-list-item(
-        ng-if = "!CSBC.instance.isMigrating() && !CSBC.isTesting() && ['running'].includes(CSBC.instance.status())"
+        ng-if = "!$root.featureFlags.testMenu && !CSBC.instance.isMigrating() && !CSBC.isTesting() && ['running'].includes(CSBC.instance.status())"
         ng-click = "actions.stopInstance()"
       )
         .icons-status
@@ -37,6 +36,13 @@
       li.divider(
         ng-if = "!CSBC.instance.isMigrating() && !CSBC.isTesting() && ['running', 'stopped', 'crashed'].includes(CSBC.instance.status())"
       )
+
+      li.popover-list-item.multi-line(
+        ng-if = "$root.featureFlags.testMenu"
+      )
+        .icons-status.orange
+        | Redeploy
+        .small Redeploy your container from the previous build.
 
       //- rebuild without cache when no new service exists for this container
       li.popover-list-item.multi-line(
@@ -47,17 +53,18 @@
         "
       )
         .icons-status.orange
-        | {{CSBC.isTesting() ? 'Rerun Test' : 'Rebuild'}}
-        .small {{CSBC.isTesting() ? 'Will rerun tests without cache.' : 'Will rebuild without cache.'}}
+        | {{CSBC.isTesting() ? 'Rebuild Test' : 'Rebuild'}}
+        .small {{CSBC.isTesting() ? 'Will rebuild tests without cache.' : 'Will rebuild without cache.'}}
 
       //- rebuild without cache when no new service exists for this container
       li.popover-list-item.multi-line(
         ng-click = "actions.updateConfigToMatchMaster()"
-        ng-if = "$root.featureFlags.allowIsolatedUpdate && CSBC.instance.attrs.isolated && !CSBC.doesMatchMasterPod()"
+        ng-if = "!$root.featureFlags.testMenu && $root.featureFlags.allowIsolatedUpdate && CSBC.instance.attrs.isolated && !CSBC.doesMatchMasterPod()"
       )
         .icons-status.orange
         | Update and Rebuild
         .small Will update and rebuild without cache.
+
     .well.well-popover.orange.text-center.padding-xxs.small(
       ng-if = "(!CSBC.instance.attrs.isolated || $root.featureFlags.allowIsolatedUpdate) && !CSBC.doesMatchMasterPod()"
     ) This container’s configuration has changed. Rebuild to update.
