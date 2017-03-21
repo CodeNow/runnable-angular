@@ -16,12 +16,12 @@ h3.nav-card-header
         xlink:href = "#icons-gear"
       )
 //- staging environment
-ul.nav-container-list(
+.nav-container-list(
   ng-include = "'stagingEnvironmentView'"
   ng-if = "active"
 )
 //- testing environment
-ul.nav-container-list(
+.nav-container-list(
   ng-include = "'testingEnvironmentView'"
   ng-if = "active"
 )
