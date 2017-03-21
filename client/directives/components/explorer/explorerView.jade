@@ -11,7 +11,7 @@ header.grid-block.align-center.justify-right.sidebar-section-heading(
   ng-include = "'explorerSectionHeading'"
 )
 
-.grid-block.shrink.text-center.padding-md(
+.grid-block.shrink.text-center.padding-md.error(
   ng-if = "!debugContainer && !editExplorer && !fileModel.running() || instance.isMigrating()"
 ) Files aren’t available when the container isn’t running.
 
