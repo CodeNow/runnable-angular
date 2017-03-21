@@ -333,9 +333,10 @@ function NewContainerController(
   };
 
   NCC.canCreateBuild = function () {
-    return NCC.state.instanceName.length && !keypather.get(NCC, 'nameForm.$invalid') && !$rootScope.isLoading.newContainerSingleRepo &&
+    return  NCC.state.instanceName.length && !keypather.get(NCC, 'nameForm.$invalid') &&
+            !$rootScope.isLoading.newContainerSingleRepo && (!$scope.$root.featureFlags.composeNewService ||
             ((NCC.state.configurationMethod === 'new' || NCC.state.configurationMethod === 'blankDockerfile') ||
             (NCC.state.configurationMethod === 'dockerfile' && NCC.state.dockerfile) ||
-            (NCC.state.configurationMethod === 'dockerComposeFile' && (NCC.state.testReporter || NCC.state.dockerComposeFile)));
+            (NCC.state.configurationMethod === 'dockerComposeFile' && (NCC.state.testReporter || NCC.state.dockerComposeFile))));
   };
 }
