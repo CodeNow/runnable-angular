@@ -10,7 +10,7 @@ li.noscroll.nav-environment-header Testing
     ng-if = "$root.featureFlags.composeHistory"
     pop-over
     pop-over-options = "{\"verticallyCentered\":true,\"left\":26,\"pinToViewPort\":true}"
-    pop-over-template = "branchTestSelectorPopoverView"
+    pop-over-template = "branchCommitSelectorPopoverView"
   )
     svg.iconnables
       use(
@@ -19,18 +19,9 @@ li.noscroll.nav-environment-header Testing
     span.span(
       ng-if = "previousCommit"
     ) 7c53d87
-li.grid-block.nav-container
-  status-icon.grid-block.shrink.complete
-  span.text-overflow(
-    title = "api"
-  ) api
-li.grid-block.nav-container
-  status-icon.grid-block.shrink.passed
-  span.text-overflow(
-    title = "web"
-  ) web
-li.grid-block.nav-container
-  status-icon.grid-block.shrink.complete
-  span.text-overflow(
-    title = "mongo"
-  ) mongo
+
+li.nav-container(
+  instance = "testingInstance"
+  instance-navigation
+  ng-repeat = "testingInstance in composeInstance.compose.testing | orderBy: ['attrs.name'] track by testingInstance.attrs.name"
+)

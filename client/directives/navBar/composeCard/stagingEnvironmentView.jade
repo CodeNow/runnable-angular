@@ -1,4 +1,4 @@
-li.noscroll.nav-environment-header Staging
+header.noscroll.nav-environment-header Staging
   //-
     - add .gray and 7 character commit hash when set to previous commit
     - the popover position needs to be adjusted when set to previous commit
@@ -19,18 +19,18 @@ li.noscroll.nav-environment-header Staging
     span.span(
       ng-if = "previousCommit"
     ) 7c53d87
-li.grid-block.nav-container
-  status-icon.grid-block.shrink.green
-  span.text-overflow(
-    title = "api"
-  ) api
-li.grid-block.nav-container
-  status-icon.grid-block.shrink.green
-  span.text-overflow(
-    title = "web"
-  ) web
-li.grid-block.nav-container
-  status-icon.grid-block.shrink.green
-  span.text-overflow(
-    title = "mongo"
-  ) mongo
+
+ol.nav-container-list
+  li.li(
+    active-account = "activeAccount"
+    instance = "composeInstance"
+    instance-navigation
+    ng-if = "composeInstance"
+  )
+
+  li.li(
+    active-account = "activeAccount"
+    instance = "stagingInstance"
+    instance-navigation
+    ng-repeat = "stagingInstance in composeInstance.compose.children | orderBy: ['attrs.name'] track by stagingInstance.attrs.name"
+  )

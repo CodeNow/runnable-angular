@@ -1,0 +1,32 @@
+h3.nav-card-header(
+  ng-attr-title = "{{composeInstance.getBranchName()}}"
+)
+  //- bubble up test agent status for repos with test compose files
+  status-icon.grid-block.shrink.passed(
+    ng-if = "$root.featureFlags.composeNav"
+  )
+
+  span.text-overflow {{composeInstance.getBranchName()}}
+
+  //- only show for default branches
+  button.grid-block.shrink.btn-container-menu(
+    ng-class = "{'active': INC.popoverShown}"
+    ng-if = "!INC.currentOrg.isPersonalAccount() && !INC.isInDemoFlow()"
+    pop-over
+    pop-over-active = "INC.popoverShown"
+    pop-over-controller = "INC"
+    pop-over-options = "{\"verticallyCentered\":true,\"left\":26}"
+    pop-over-template = "instanceNavigationPopoverView"
+  )
+    svg.iconnables
+      use(
+        xlink:href = "#icons-gear"
+      )
+
+ul.nav-container-list(
+  ng-include = "'stagingEnvironmentView'"
+)
+ul.nav-container-list(
+  ng-if = "$root.featureFlags.composeNav"
+  ng-include = "'testingEnvironmentView'"
+)

@@ -119,9 +119,8 @@ function ControllerInstances(
       var instancesByPod = promiseResults[0];
       var instancesByCompose = promiseResults[1];
       var allInstances = promiseResults[2];
-      instancesByPod.models = instancesByPod.models.filter(function (instance) {
-        return !keypather.get(instance, 'attrs.inputClusterConfig._id');
-      });
+
+      console.log('Instances by compose: ', instancesByCompose);
 
       // Fire-and-forget. Used for event-tracking
       listenForFirstNewBranches();
@@ -217,6 +216,14 @@ function ControllerInstances(
       });
     }
   };
+
+
+  this.getNonComposeMasters = function () {
+    return this.instancesByPod.filter(function (instance) {
+      return !keypather.get(instance, 'attrs.inputClusterConfig._id');
+    });
+  }
+
 
   this.filterMatchedAnything = function () {
     if (!CIS.searchBranches) {

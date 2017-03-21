@@ -13,7 +13,6 @@ function instanceNavigation(
     bindToController: true,
     scope: {
       instance: '=',
-      activeAccount: '=',
       masterInstance: '=?'
     },
     link: function ($scope) {

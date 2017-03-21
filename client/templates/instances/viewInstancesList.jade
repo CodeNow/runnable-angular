@@ -135,6 +135,7 @@
   section.nav-section.margin-top-sm(
     ng-if = "$root.featureFlags.composeNav"
     ng-include = "'branchSectionView'"
+    ng-repeat = "masterInstance in CIS.instancesByCompose | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
   )
 
   //- branch clusters (pre-compose)

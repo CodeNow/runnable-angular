@@ -11,8 +11,11 @@ h2.grid-block.align-center.justify-justified.nav-section-header Services
       use(
         xlink:href = "#icons-arrow-down"
       )
+
 section.nav-card.active(
-  ng-include = "'navCardView'"
+  compose-card
+  compose-instance = "masterInstance"
+  ng-repeat = "masterInstance in CIS.instancesByCompose | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
 )
 section.nav-card.active(
   ng-include = "'nonComposeCardView'"
