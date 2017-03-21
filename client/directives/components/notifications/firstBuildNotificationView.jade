@@ -8,7 +8,7 @@
   .grid-block.vertical.noscroll
     p.p.weight-strong Hang tight, we’re building your app.
     .small You’ll be able to access your container’s URL once it’s ready. This should only take a minute.
-    .grid-block.align-center.small.text-gray.padding-top-xxs(
+    .grid-block.noscroll.align-center.small.text-gray.padding-top-xxs(
       ng-if = "$root.featureFlags.demoUrlPolling && $root.isLoading.demoUrlPolling"
     )
       .spinner-wrapper.spinner-sm.spinner-gray.margin-right-xxs(

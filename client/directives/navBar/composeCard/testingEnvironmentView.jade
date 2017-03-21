@@ -1,4 +1,4 @@
-li.noscroll.nav-environment-header Testing
+header.noscroll.nav-environment-header Staging
   //-
     - add .gray and 7 character commit hash when set to previous commit
     - the popover position needs to be adjusted when set to previous commit
@@ -19,9 +19,9 @@ li.noscroll.nav-environment-header Testing
     span.span(
       ng-if = "previousCommit"
     ) 7c53d87
-
-li.nav-container(
-  instance = "testingInstance"
-  instance-navigation
-  ng-repeat = "testingInstance in composeInstance.compose.testing | orderBy: ['attrs.name'] track by testingInstance.attrs.name"
-)
+ol.nav-container-list
+  li.li(
+    instance = "testingInstance"
+    instance-navigation
+    ng-repeat = "testingInstance in composeInstance.compose.testing | orderBy: ['attrs.name'] track by testingInstance.attrs.name"
+  )

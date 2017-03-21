@@ -5,32 +5,12 @@
   .arrow.white
   .popover-content
 
-    //- for compose
+    //- for compose repos and branches
     ul.list.popover-list(
       ng-if = "$root.featureFlags.composeNav"
     )
-      //- show on the default branch for compose repos
-      li.list-item.popover-list-item.multi-line
-        svg.iconnables.icons-gear
-          use(
-            xlink:href = "#icons-gear"
-          )
-        | Edit Compose Settings
 
-      //- show for non-compose repos and non-repo containers
-      //- li.list-item.popover-list-item.multi-line(
-      //-   ng-click = "INC.editInstance($event)"
-      //- )
-        svg.iconnables.icons-gear
-          use(
-            xlink:href = "#icons-gear"
-          )
-        | Configure Service
-
-      //- hide for branches of compose repos
-      li.divider
-
-      //- hide for branches of compose repos
+      //- show for default branches of compose repos
       li.list-item.popover-list-item.multi-line(
         internal-modal-helper = "confirmDeleteServerView"
       )
@@ -38,9 +18,9 @@
           use(
             xlink:href = "#icons-delete"
           )
-        | Delete Service
+        | Delete Services
 
-      //- show for branches of compose repos
+      //- show for non-default branches of compose repos
       //- li.list-item.popover-list-item.multi-line(
       //-   internal-modal-helper = "confirmBranchRemoveView"
       //- )
@@ -50,7 +30,7 @@
           )
         | Remove Branch
 
-    //- for auto-isolation
+    //- for non-repo containers and default branches of non-compose repos
     ul.list.popover-list(
       ng-if = "INC.instance.attrs.masterPod && !$root.featureFlags.composeNav"
     )
@@ -82,7 +62,7 @@
           )
         | Delete Service
 
-    //- for manual isolation
+    //- for non-default branches of non-compose repos
     ul.list.popover-list(
       ng-if = "!INC.instance.attrs.masterPod && !$root.featureFlags.composeNav"
     )

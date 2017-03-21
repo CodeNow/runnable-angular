@@ -1,7 +1,7 @@
-h2.grid-block.align-center.justify-justified.nav-section-header(
-  ng-attr-title = "{{masterInstance.attrs.name}}"
-)
-  span.text-overflow.padding-right-xxs {{masterInstance.attrs.name}}
+h2.grid-block.align-center.justify-justified.nav-section-header
+  span.text-overflow.padding-right-xxs(
+    title = "{{masterInstance.attrs.name}}"
+  ) {{masterInstance.attrs.name}}
   .grid-block.align-center.shrink.btn.btn-xs.white(
     data-event-name = "Clicked Add Branch button"
     ng-click = "CIS.popInstanceOpen(masterInstance)"
@@ -16,8 +16,8 @@ h2.grid-block.align-center.justify-justified.nav-section-header(
         xlink:href = "#icons-arrow-down"
       )
 
-section.nav-card.active(
-  ng-repeat = "composeChild in masterInstance.compose.children | orderBy: ['attrs.name'] track by composeChild.getBranchName()"
-  compose-card
-  compose-instance = "composeChild"
+section.nav-card(
+  ng-class = "{'active': active}"
+  ng-include = "'branchCardView'"
+  ng-repeat = "active in [true, false, false] track by $index"
 )

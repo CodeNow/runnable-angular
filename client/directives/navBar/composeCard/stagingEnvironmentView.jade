@@ -1,4 +1,4 @@
-header.noscroll.nav-environment-header Staging
+header.noscroll.nav-environment-header Testing
   //-
     - add .gray and 7 character commit hash when set to previous commit
     - the popover position needs to be adjusted when set to previous commit
@@ -10,7 +10,7 @@ header.noscroll.nav-environment-header Staging
     ng-if = "$root.featureFlags.composeHistory"
     pop-over
     pop-over-options = "{\"verticallyCentered\":true,\"left\":26,\"pinToViewPort\":true}"
-    pop-over-template = "branchCommitSelectorPopoverView"
+    pop-over-template = "branchTestSelectorPopoverView"
   )
     svg.iconnables
       use(
@@ -19,7 +19,6 @@ header.noscroll.nav-environment-header Staging
     span.span(
       ng-if = "previousCommit"
     ) 7c53d87
-
 ol.nav-container-list
   li.li(
     active-account = "activeAccount"

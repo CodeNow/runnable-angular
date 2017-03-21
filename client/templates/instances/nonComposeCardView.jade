@@ -1,5 +1,5 @@
-ul
-  li.nav-container(
+ol.nav-container-list
+  li.li(
     active-account = "CIS.activeAccount"
     instance = "masterInstance"
     instance-navigation
@@ -7,7 +7,7 @@ ul
     ng-if = "!masterInstance.attrs.isTesting"
     ng-repeat = "masterInstance in CIS.getNonComposeMasters() | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
   )
-  li.nav-container(
+  li.li(
     active-account = "CIS.activeAccount"
     instance = "masterInstance"
     instance-navigation

@@ -1,12 +1,18 @@
 .modal-backdrop.in
   .modal-dialog.modal-sm.modal-alert
-    header.modal-body
-      p.p.strong Are you sure you want to delete this service?
-      p.p All containers that belong to this service will be deleted. This cannot be undone.
+    //- show when deleting a Compose repo
+    //- header.modal-body(
+    //-   ng-include = "'deleteServicesBody'"
+    //- )
+    //- show when deleting a non-Compose repo or a non-repo service
+    header.modal-body(
+      ng-include = "'deleteServiceBody'"
+    )
     footer.modal-footer.clearfix
       button.btn.btn-sm.gray.float-left(
         ng-click = "CMC.actions.cancel()"
       ) Cancel
+      //- button should say "Delete Services" when deleting a Compose repo
       button.btn.btn-sm.red.float-right(
         ng-click = "CMC.actions.confirm()"
-      ) Delete Service
+      ) Delete {{ true ? 'Service' : 'Services' }}

@@ -1,5 +1,5 @@
 //- wraps 'select demo' guide and everything that should transition in with the master cluster
-.grid-block.vertical.noscroll.relative
+.grid-block.shrink.vertical.noscroll.relative
 
   //- 'select demo' guide
   .grid-block.popover.in.margin-top-xs.popover-demo.demo-transition.js-animate(
@@ -31,7 +31,7 @@
   )
 
     //- search
-    label.grid-block.shrink.vertical.label-search
+    label.grid-block.shrink.label-search
       input.input.input-xs.input-search(
         ng-model = "CIS.searchBranches"
         placeholder = "Filter by name"
@@ -95,12 +95,6 @@
             ng-repeat = "masterInstance in CIS.getFilteredInstanceList() | instanceHasRepo:false | orderBy: ['attrs.name'] as nonRepoInstances track by masterInstance.attrs.name"
           )
 
-      .grid-block.vertical.shrink.well.empty.text-center(
-        ng-if = "(!CIS.shouldShowDemoSelector() || $root.featureFlags.demoPersonalOnly) && !CIS.getFilteredInstanceList().length && !CIS.searchBranches"
-      ) 👆
-        br
-        .small First, use the button above to create your first service.
-
       .grid-block.shrink.align-center.list-item-cluster.list-clusters-heading(
         ng-if = "CIS.getFilteredTestingMasters().length"
       )
@@ -126,19 +120,27 @@
             ng-repeat = "masterInstance in CIS.getFilteredTestingMasters() | instanceHasRepo:false | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
           )
 
+    //- empty state
+    .grid-block.vertical.shrink.well.empty.text-center(
+      ng-if = "(!CIS.shouldShowDemoSelector() || $root.featureFlags.demoPersonalOnly) && !CIS.getFilteredInstanceList().length && !CIS.searchBranches"
+    ) 👆
+      br
+      .small First, use the button above to create your first service.
+
 //- wraps all branch clusters
-.grid-block.vertical.noscroll.relative.demo-transition.js-animate(
+.grid-block.vertical.shrink.noscroll.relative.demo-transition.js-animate(
   ng-if = "!CIS.isInDemoFlow() || CIS.shouldShowBranchView() || $root.featureFlags.demoPersonalOnly"
 )
 
-  //- branch clusters (post-compose)
+  //- branch environments (post-compose)
   section.nav-section.margin-top-sm(
     ng-if = "$root.featureFlags.composeNav"
     ng-include = "'branchSectionView'"
     ng-repeat = "masterInstance in CIS.instancesByCompose | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
+    ng-include = "'repoSectionView'"
   )
 
-  //- branch clusters (pre-compose)
+  //- branch environments (pre-compose)
   .grid-block.vertical.shrink.list-clusters.js-animate(
     ng-if = "(!masterInstance.attrs.isTesting || (masterInstance.attrs.isTesting && !masterInstance.attrs.testingParentId)) && !$root.featureFlags.composeNav"
     ng-repeat = "masterInstance in CIS.instancesByPod | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
