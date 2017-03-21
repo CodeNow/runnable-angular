@@ -181,18 +181,22 @@
   overflow: hidden;
   padding: 4px;
 
-  &:not(.gray) {
+  &:not(.orange) {
     border: 0;
     width: $input-xs;
+
+    &:hover {
+      color: $gray;
+    }
+
+    &:active,
+    &.active {
+      color: $purple-light;
+    }
   }
 
-  &:hover {
-    color: $gray;
-  }
-
-  &:active,
-  &.active {
-    color: $purple-light;
+  &.orange {
+    color: $white;
   }
 
   .iconnables {
