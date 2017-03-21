@@ -58,6 +58,10 @@ function BranchCommitSelectorController(
   BCSC.autoDeploy = function (isAutoDeployOn) {
     if (angular.isDefined(isAutoDeployOn)) {
       BCSC.data.locked = !isAutoDeployOn;
+
+      if (isAutoDeployOn) {
+        BCSC.isLatestCommit(true);
+      }
     }
     return BCSC.isAutoDeployOn();
   };

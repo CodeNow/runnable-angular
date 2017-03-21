@@ -89,3 +89,15 @@
     ng-if = "$root.isLoading.updatingInstance"
     ng-include = "'spinner'"
   )
+
+button.grid-block.shrink.btn.btn-container-menu(
+  ng-class = "{\
+        'active': popoverShown,\
+        'gray': previousCommit\
+      }"
+  ng-if = "$root.featureFlags.composeHistory"
+  pop-over
+
+  pop-over-template = "branchCommitSelectorPopoverView"
+  pop-over-data = "ERCC.branchCommitSelectorPopoverData"
+) H
