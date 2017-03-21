@@ -1,4 +1,44 @@
 .grid-block.vertical.list-containers.text-overflow(
+  ng-if = "!$root.featureFlags.composeNav"
   ng-class = "{'open': INC.shouldExpand}"
   ng-include = "'instanceNavigationInternalsView'"
 )
+
+a.grid-block.align-center.a-sref(
+  ng-if = "$root.featureFlags.composeNav"
+  ui-sref = "\
+      base.instances.instance({userName: INC.activeAccount.oauthName(),\
+      instanceName: INC.instance.attrs.name})\
+    "
+  ui-sref-active = "active"
+)
+  status-icon.grid-block.shrink(
+    instance = "INC.instance"
+  )
+  .span.text-overflow.padding-right-xxs(
+    title = "{{getNavigationName()}}"
+  )
+    //- show repo names for repo containers in the master cluster
+    span(
+      ng-if = "INC.instance.attrs.masterPod && INC.instance.getBranchName()"
+    ) {{INC.instance.getName()}}/
+    //- branch name or service name
+    | {{getNavigationName()}}
+  button.grid-block.shrink.btn-container-menu(
+    ng-class = "{'active': INC.popoverShown}"
+    ng-if = "!INC.currentOrg.isPersonalAccount() && !INC.isInDemoFlow()"
+    pop-over
+    pop-over-active = "INC.popoverShown"
+    pop-over-controller = "INC"
+    pop-over-options = "{\"verticallyCentered\":true,\"left\":28}"
+    pop-over-template = "instanceNavigationPopoverView"
+  )
+    svg.iconnables
+      use(
+        ng-if = "!INC.instance.attrs.isIsolationGroupMaster"
+        xlink:href = "#icons-gear"
+      )
+      use(
+        ng-if = "INC.instance.attrs.isIsolationGroupMaster || INC.instance.attrs.isolated"
+        xlink:href = "#icons-gear-modified"
+      )
