@@ -24,6 +24,7 @@ require('app')
   .factory('fetchInstances', fetchInstances)
   .factory('fetchInstance', fetchInstance)
   .factory('fetchInstancesByPod', fetchInstancesByPod)
+  .factory('fetchInstancesByCompose', fetchInstancesByCompose)
   .factory('fetchNonRepoInstances', fetchNonRepoInstances)
   .factory('fetchBuild', fetchBuild)
   .factory('fetchRepoBranches', fetchRepoBranches)
@@ -184,8 +185,7 @@ function fetchInstances(
   $state,
   exists,
   fetchUser,
-  keypather,
-  promisify
+  keypather
 ) {
   return function (opts, resetCache) {
     if (!opts) {
@@ -228,7 +228,12 @@ function fetchInstance(
   return function (instanceId) {
     return fetchUser()
       .then(function (user) {
-        return promisify(user, 'fetchInstance')(instanceId);
+        return promisify(user, 'fetchInstances')();
+      })
+      .then(function (instances) {
+        return instances.find(function (instance) {
+          return instance.id() === instanceId;
+        });
       });
   };
 }
@@ -315,6 +320,65 @@ function fetchInstancesByPod(
     }
 
     return fetchByPodCache[username];
+  };
+}
+
+function fetchInstancesByCompose(
+  $q,
+  $state,
+  fetchInstances,
+  keypather
+) {
+  return function (username) {
+    username = username || $state.params.userName;
+    if (!username) {
+      return $q.when([]);
+    }
+    return fetchInstances({
+      githubUsername: username
+    })
+      .then(function (allInstances) {
+        var instancesByComposeId = {};
+        var composeMasters = {};
+        var testingComposeMasters = {};
+
+        allInstances.forEach(function (instance) {
+          var clusterConfigId = keypather.get(instance, 'attrs.inputClusterConfig._id');
+          // If this isn't in a cluster, we don't actually care anymore.
+          if (!clusterConfigId) {
+            return;
+          }
+          if (instance.attrs.masterPod && keypather.get(instance, 'attrs.inputClusterConfig.masterInstanceId') === instance.id()) {
+            var parentInputClusterConfigId = keypather.get(instance, 'attrs.inputClusterConfig.parentInputClusterConfigId');
+            if (parentInputClusterConfigId) {
+              testingComposeMasters[parentInputClusterConfigId] = testingComposeMasters[parentInputClusterConfigId] || [];
+              testingComposeMasters[parentInputClusterConfigId].push(instance);
+            } else {
+              composeMasters[clusterConfigId] = instance;
+            }
+          } else {
+            instancesByComposeId[clusterConfigId] = instancesByComposeId[clusterConfigId] || [];
+            instancesByComposeId[clusterConfigId].push(instance);
+          }
+        });
+
+        var instancesByCompose = Object.keys(composeMasters).map(function (composeId) {
+          var instance = composeMasters[composeId];
+          instance.compose = {};
+          instance.compose.testing = testingComposeMasters[composeId];
+          if (instance.compose.testing) {
+            instance.compose.testing.map(function (testingInstance) {
+              testingInstance.compose = {};
+              testingInstance.compose.children = instancesByComposeId[testingInstance.attrs.inputClusterConfig._id];
+              return testingInstance;
+            });
+          }
+          instance.compose.children = instancesByComposeId[composeId];
+          return instance;
+        });
+
+        return instancesByCompose;
+      });
   };
 }
 

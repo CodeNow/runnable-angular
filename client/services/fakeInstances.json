@@ -416,7 +416,8 @@
       "clusterName": "compose-test-repo",
       "_id": "composeTestId1",
       "isTesting": true,
-      "parentInputClusterConfig": "composeId2"
+      "parentInputClusterConfigId": "composeId2",
+      "masterInstanceId": "58c9c13cb6f46e100071c5b4"
     }
   },
   {
@@ -1831,7 +1832,7 @@
       "clusterName": "compose-test-repo",
       "_id": "composeTestId1",
       "isTesting": true,
-      "parentInputClusterConfig": "composeId2"
+      "parentInputClusterConfigId": "composeId2"
     }
   },
   {
@@ -3425,7 +3426,8 @@
     "inputClusterConfig": {
       "clusterName": "compose-remote-repo",
       "_id": "composeId2",
-      "isTesting": false
+      "isTesting": false,
+      "masterInstanceId": "58cb3af4eaebaf1100130600"
     }
   },
   {
@@ -4151,7 +4153,7 @@
       "clusterName": "compose-test-repo",
       "_id": "composeTestId1",
       "isTesting": true,
-      "parentInputClusterConfig": "composeId2"
+      "parentInputClusterConfigId": "composeId2"
     }
   },
   {
@@ -4514,7 +4516,7 @@
       "clusterName": "compose-test-repo",
       "_id": "composeTestId1",
       "isTesting": true,
-      "parentInputClusterConfig": "composeId2"
+      "parentInputClusterConfigId": "composeId2"
     }
   },
   {
@@ -5274,7 +5276,12 @@
         }
       }
     ],
-    "id": "58cb396af51e5f110058b042"
+    "id": "58cb396af51e5f110058b042",
+    "inputClusterConfig": {
+      "clusterName": "compose-remote-repo",
+      "_id": "composeId2",
+      "isTesting": false
+    }
   },
   {
     "_id": "58c9c13cb6f46e100071c5b2",
@@ -5364,7 +5371,7 @@
     "shortHash": "17o4kz",
     "dependencies": [],
     "autoForked": false,
-    "masterPod": true,
+    "masterPod": false,
     "disableAutoDeletion": false,
     "hasAddedBranches": false,
     "env": [],
@@ -5636,7 +5643,7 @@
       "clusterName": "compose-test-repo",
       "_id": "composeTestId1",
       "isTesting": true,
-      "parentInputClusterConfig": "composeId2"
+      "parentInputClusterConfigId": "composeId2"
     }
   }
 ]

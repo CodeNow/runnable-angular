@@ -22,6 +22,7 @@ function ControllerInstances(
   fetchGitHubRepoBranch,
   fetchInstances,
   fetchInstancesByPod,
+  fetchInstancesByCompose,
   fetchRepoBranches,
   keypather,
   loading,
@@ -109,16 +110,28 @@ function ControllerInstances(
     }
   }
 
-  fetchInstancesByPod()
-    .then(function (instancesByPod) {
+  $q.all([
+    fetchInstancesByPod(),
+    fetchInstancesByCompose(),
+    fetchInstances()
+  ])
+    .then(function (promiseResults) {
+      var instancesByPod = promiseResults[0];
+      var instancesByCompose = promiseResults[1];
+      var allInstances = promiseResults[2];
+      instancesByPod.models = instancesByPod.models.filter(function (instance) {
+        return !keypather.get(instance, 'attrs.inputClusterConfig._id');
+      });
+
       // Fire-and-forget. Used for event-tracking
       listenForFirstNewBranches();
 
-      // If the state has already changed don'  t continue with old data. Let the new one execute.
+      // If the state has already changed don't continue with old data. Let the new one execute.
       if (CIS.userName !== $state.params.userName) {
         return;
       }
       CIS.instancesByPod = instancesByPod;
+      CIS.instancesByCompose = instancesByCompose;
       CIS.activeAccount = activeAccount;
 
       setLastOrg(CIS.userName);
@@ -127,32 +140,27 @@ function ControllerInstances(
         // If we're on a blank instances page, but the Demo selector is gone, we need to switch to an instance!
         return watchOncePromise($scope, function () {
           // Wait for any instances to exist
-          return keypather.get(instancesByPod, 'models.length');
+          return allInstances.models.length;
         }, true)
           .then(function () {
             if (demoRepos.shouldShowDemoSelector()) {
               return;
             }
-            var instances = instancesByPod;
             var lastViewedInstance = keypather.get(user, 'attrs.userOptions.uiState.previousLocation.instance');
 
             var targetInstance = null;
             if (lastViewedInstance) {
-              targetInstance = instances.find(function (instance) {
-                var instanceMatch = isInstanceMatch(instance, lastViewedInstance);
-                if (instanceMatch) {
-                  return instanceMatch;
-                }
-                if (instance.children) {
-                  return instance.children.find(function (childInstance) {
-                    return isInstanceMatch(childInstance, lastViewedInstance);
-                  });
-                }
+              targetInstance = allInstances.find(function (instance) {
+                return isInstanceMatch(instance, lastViewedInstance);
               });
             }
 
             if (!targetInstance) {
-              targetInstance = $filter('orderBy')(instances.models, 'attrs.name')[0];
+              if (CIS.instancesByCompose.models.length) {
+                targetInstance = $filter('orderBy')(instancesByCompose.models, 'attrs.name')[0];
+              } else {
+                targetInstance = $filter('orderBy')(instancesByPod.models, 'attrs.name')[0];
+              }
             }
             var instanceName = keypather.get(targetInstance, 'attrs.name');
             return CIS.checkAndLoadInstance(instanceName);

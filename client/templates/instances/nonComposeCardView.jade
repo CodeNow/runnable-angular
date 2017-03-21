@@ -2,36 +2,35 @@ ul
   li.nav-container
     status-icon.grid-block.shrink.green
     .span.text-overflow.padding-right-xxs(
-      title = "runnable.com"
-    ) runnable.com
+    title = "runnable.com"
+    ) FAKED
     button.grid-block.shrink.btn-container-menu(
-      ng-class = "{'active': INC.popoverShown}"
-      ng-if = "!INC.currentOrg.isPersonalAccount() && !INC.isInDemoFlow()"
-      pop-over
-      pop-over-active = "INC.popoverShown"
-      pop-over-controller = "INC"
-      pop-over-options = "{\"verticallyCentered\":true,\"left\":26}"
-      pop-over-template = "instanceNavigationPopoverView"
+    ng-class = "{'active': INC.popoverShown}"
+    ng-if = "!INC.currentOrg.isPersonalAccount() && !INC.isInDemoFlow()"
+    pop-over
+    pop-over-active = "INC.popoverShown"
+    pop-over-controller = "INC"
+    pop-over-options = "{\"verticallyCentered\":true,\"left\":26}"
+    pop-over-template = "instanceNavigationPopoverView"
     )
       svg.iconnables
         use(
-          xlink:href = "#icons-gear"
+        xlink:href = "#icons-gear"
         )
-  li.nav-container
-    status-icon.grid-block.shrink.green
-    .span.text-overflow.padding-right-xxs(
-      title = "runnable-angular"
-    ) runnable-angular
-    button.grid-block.shrink.btn-container-menu(
-      ng-class = "{'active': INC.popoverShown}"
-      ng-if = "!INC.currentOrg.isPersonalAccount() && !INC.isInDemoFlow()"
-      pop-over
-      pop-over-active = "INC.popoverShown"
-      pop-over-controller = "INC"
-      pop-over-options = "{\"verticallyCentered\":true,\"left\":26}"
-      pop-over-template = "instanceNavigationPopoverView"
-    )
-      svg.iconnables
-        use(
-          xlink:href = "#icons-gear"
-        )
+
+  li.nav-container(
+    active-account = "CIS.activeAccount"
+    instance = "masterInstance"
+    instance-navigation
+    master-instance = "masterInstance"
+    ng-if = "!masterInstance.attrs.isTesting"
+    ng-repeat = "masterInstance in CIS.getFilteredInstanceList() | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
+  )
+  li.nav-container(
+    active-account = "CIS.activeAccount"
+    instance = "masterInstance"
+    instance-navigation
+    master-instance = "masterInstance"
+    ng-if = "!masterInstance.attrs.isTesting"
+    ng-repeat = "masterInstance in CIS.getFilteredInstanceList() | instanceHasRepo:false | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
+  )
