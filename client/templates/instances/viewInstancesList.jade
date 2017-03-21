@@ -95,12 +95,6 @@
             ng-repeat = "masterInstance in CIS.getFilteredInstanceList() | instanceHasRepo:false | orderBy: ['attrs.name'] as nonRepoInstances track by masterInstance.attrs.name"
           )
 
-      .grid-block.vertical.shrink.well.empty.text-center(
-        ng-if = "(!CIS.shouldShowDemoSelector() || $root.featureFlags.demoPersonalOnly) && !CIS.getFilteredInstanceList().length && !CIS.searchBranches"
-      ) 👆
-        br
-        .small First, use the button above to create your first service.
-
       .grid-block.shrink.align-center.list-item-cluster.list-clusters-heading(
         ng-if = "CIS.getFilteredTestingMasters().length"
       )
@@ -126,18 +120,25 @@
             ng-repeat = "masterInstance in CIS.getFilteredTestingMasters() | instanceHasRepo:false | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
           )
 
+    //- empty state
+    .grid-block.vertical.shrink.well.empty.text-center(
+      ng-if = "(!CIS.shouldShowDemoSelector() || $root.featureFlags.demoPersonalOnly) && !CIS.getFilteredInstanceList().length && !CIS.searchBranches"
+    ) 👆
+      br
+      .small First, use the button above to create your first service.
+
 //- wraps all branch clusters
 .grid-block.vertical.shrink.noscroll.relative.demo-transition.js-animate(
   ng-if = "!CIS.isInDemoFlow() || CIS.shouldShowBranchView() || $root.featureFlags.demoPersonalOnly"
 )
 
-  //- branch clusters (post-compose)
+  //- branch environments (post-compose)
   section.nav-section.margin-top-sm(
     ng-if = "$root.featureFlags.composeNav"
-    ng-include = "'branchSectionView'"
+    ng-include = "'repoSectionView'"
   )
 
-  //- branch clusters (pre-compose)
+  //- branch environments (pre-compose)
   .grid-block.vertical.shrink.list-clusters.js-animate(
     ng-if = "(!masterInstance.attrs.isTesting || (masterInstance.attrs.isTesting && !masterInstance.attrs.testingParentId)) && !$root.featureFlags.composeNav"
     ng-repeat = "masterInstance in CIS.instancesByPod | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
