@@ -1,37 +1,39 @@
-.nav-container-list
-  a.nav-container
-    status-icon.grid-block.shrink.green
-    .span.text-overflow.padding-right-xxs(
-      title = "runnable.com"
-    ) runnable.com
-    button.grid-block.shrink.btn-container-menu(
-      ng-class = "{'active': INC.popoverShown}"
-      ng-if = "!INC.currentOrg.isPersonalAccount() && !INC.isInDemoFlow()"
-      pop-over
-      pop-over-active = "INC.popoverShown"
-      pop-over-controller = "INC"
-      pop-over-options = "{\"verticallyCentered\":true,\"left\":26}"
-      pop-over-template = "instanceNavigationPopoverView"
-    )
-      svg.iconnables
-        use(
-          xlink:href = "#icons-gear"
-        )
-  a.nav-container
-    status-icon.grid-block.shrink.green
-    .span.text-overflow.padding-right-xxs(
-      title = "runnable-angular"
-    ) runnable-angular
-    button.grid-block.shrink.btn-container-menu(
-      ng-class = "{'active': INC.popoverShown}"
-      ng-if = "!INC.currentOrg.isPersonalAccount() && !INC.isInDemoFlow()"
-      pop-over
-      pop-over-active = "INC.popoverShown"
-      pop-over-controller = "INC"
-      pop-over-options = "{\"verticallyCentered\":true,\"left\":26}"
-      pop-over-template = "instanceNavigationPopoverView"
-    )
-      svg.iconnables
-        use(
-          xlink:href = "#icons-gear"
-        )
+ol.nav-container-list
+  li.li
+    a.nav-container
+      status-icon.grid-block.shrink.green
+      .span.text-overflow.padding-right-xxs(
+        title = "runnable.com"
+      ) runnable.com
+      button.grid-block.shrink.btn-container-menu(
+        ng-class = "{'active': INC.popoverShown}"
+        ng-if = "!INC.currentOrg.isPersonalAccount() && !INC.isInDemoFlow()"
+        pop-over
+        pop-over-active = "INC.popoverShown"
+        pop-over-controller = "INC"
+        pop-over-options = "{\"verticallyCentered\":true,\"left\":26}"
+        pop-over-template = "instanceNavigationPopoverView"
+      )
+        svg.iconnables
+          use(
+            xlink:href = "#icons-gear"
+          )
+  li.li
+    a.nav-container
+      status-icon.grid-block.shrink.green
+      .span.text-overflow.padding-right-xxs(
+        title = "runnable-angular"
+      ) runnable-angular
+      button.grid-block.shrink.btn-container-menu(
+        ng-class = "{'active': INC.popoverShown}"
+        ng-if = "!INC.currentOrg.isPersonalAccount() && !INC.isInDemoFlow()"
+        pop-over
+        pop-over-active = "INC.popoverShown"
+        pop-over-controller = "INC"
+        pop-over-options = "{\"verticallyCentered\":true,\"left\":26}"
+        pop-over-template = "instanceNavigationPopoverView"
+      )
+        svg.iconnables
+          use(
+            xlink:href = "#icons-gear"
+          )
