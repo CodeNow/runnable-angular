@@ -5,7 +5,8 @@ require('app').directive('dockerfileExistsValidator', dockerfileExistsValidator)
 function dockerfileExistsValidator(
   $q,
   doesDockerfileExist,
-  fetchRepoDockerfile
+  fetchRepoDockerfile,
+  keypather
 ) {
   return {
     require: 'ngModel',
@@ -26,7 +27,7 @@ function dockerfileExistsValidator(
         return fetchRepoDockerfile($scope.fullRepo, $scope.branchName, modelValue)
           .then(doesDockerfileExist)
           .then(function (dockerfile) {
-            if (!dockerfile) {
+            if (!keypather.get(dockerfile, 'content')) {
               return $q.reject('file doesn’t exist');
             }
             $scope.$emit('dockerfileExistsValidator::valid', modelValue, attrs.dockerfileExistsValidator);
