@@ -16,7 +16,7 @@ function featureFlags(
     cardStatus: false,
     composeInstance: false,
     composeNav: false,
-    composeNewService: true,
+    composeNewService: false,
     composeHistory: false,
     connections: false,
     contingencyPlan: false,
