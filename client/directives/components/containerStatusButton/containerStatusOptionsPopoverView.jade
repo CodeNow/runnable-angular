@@ -37,12 +37,13 @@
         ng-if = "!CSBC.instance.isMigrating() && !CSBC.isTesting() && ['running', 'stopped', 'crashed'].includes(CSBC.instance.status())"
       )
 
+      //- Use plural containers and images when running with compose
       li.popover-list-item.multi-line(
         ng-if = "$root.featureFlags.testMenu"
       )
         .icons-status.orange
         | Redeploy
-        .small Deploy test containers from your previously built image.
+        .small Deploy test container{{$root.featureFlags.composeInstance ? 's' : ''}} from your previously built image{{$root.featureFlags.composeInstance ? 's' : ''}}.
 
       //- rebuild without cache when no new service exists for this container
       li.popover-list-item.multi-line(
@@ -54,7 +55,7 @@
       )
         .icons-status.orange
         | {{CSBC.isTesting() ? 'Rebuild Test' : 'Rebuild'}}
-        .small Deploy {{CSBC.isTesting() ? 'test ' : ''}}containers from rebuilt images (without cache).
+        .small Deploy {{CSBC.isTesting() ? 'test ' : ''}}container{{$root.featureFlags.composeInstance ? 's' : ''}} from rebuilt image{{$root.featureFlags.composeInstance ? 's' : ''}} (without cache).
 
       //- rebuild without cache when no new service exists for this container
       li.popover-list-item.multi-line(
@@ -63,7 +64,7 @@
       )
         .icons-status.orange
         | Update and Rebuild
-        .small Pull your latest config, then deploy containers from rebuilt images (without cache).
+        .small Pull your latest config, then deploy container{{$root.featureFlags.composeInstance ? 's' : ''}} from rebuilt image{{$root.featureFlags.composeInstance ? 's' : ''}} (without cache).
 
     .well.well-popover.orange.text-center.padding-xxs.small(
       ng-if = "(!CSBC.instance.attrs.isolated || $root.featureFlags.allowIsolatedUpdate) && !CSBC.doesMatchMasterPod()"
