@@ -42,7 +42,7 @@
       )
         .icons-status.orange
         | Redeploy
-        .small Redeploy your container from the previous build.
+        .small Deploy test containers from your previously built image.
 
       //- rebuild without cache when no new service exists for this container
       li.popover-list-item.multi-line(
@@ -54,7 +54,7 @@
       )
         .icons-status.orange
         | {{CSBC.isTesting() ? 'Rebuild Test' : 'Rebuild'}}
-        .small {{CSBC.isTesting() ? 'Will rebuild tests without cache.' : 'Will rebuild without cache.'}}
+        .small Deploy {{CSBC.isTesting() ? 'test ' : ''}}containers from rebuilt images (without cache).
 
       //- rebuild without cache when no new service exists for this container
       li.popover-list-item.multi-line(
@@ -63,7 +63,7 @@
       )
         .icons-status.orange
         | Update and Rebuild
-        .small Will update and rebuild without cache.
+        .small Pull your latest config, then deploy containers from rebuilt images (without cache).
 
     .well.well-popover.orange.text-center.padding-xxs.small(
       ng-if = "(!CSBC.instance.attrs.isolated || $root.featureFlags.allowIsolatedUpdate) && !CSBC.doesMatchMasterPod()"
