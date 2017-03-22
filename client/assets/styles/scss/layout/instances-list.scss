@@ -107,9 +107,9 @@
 }
 
 .nav-card-header,
-.nav-container-list {
+.nav-card-section {
 
-  + .nav-container-list {
+  + .nav-card-section {
     border-top: $input-border solid $gray-lightest;
     margin-top: $xxs;
   }
@@ -119,6 +119,10 @@
   color: $gray-light;
   font-size: 13px;
   margin: 6px 0;
+}
+
+.nav-container-list .li + .li {
+  margin-top: 1px;
 }
 
 .nav-container {
@@ -140,10 +144,6 @@
     background-color: lighten($purple-lightest,4);
     border-color: rgba($purple-light,.1);
     color: $purple-light;
-  }
-
-  + .nav-container {
-    margin-top: 1px;
   }
 }
 
@@ -180,7 +180,7 @@
   color: $gray-light;
   height: $input-xs;
   line-height: 1;
-  margin-left: auto;
+  margin-left: $xxs;
   margin-right: -6px;
   overflow: hidden;
   padding: 4px;

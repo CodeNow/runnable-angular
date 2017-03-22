@@ -1,5 +1,5 @@
 h3.nav-card-header
-  span.text-overflow.padding-right-xxs(
+  span.grid-block.text-overflow(
     title = "branch-name"
   ) branch-name
   button.grid-block.shrink.btn-container-menu(
@@ -16,12 +16,12 @@ h3.nav-card-header
         xlink:href = "#icons-gear"
       )
 //- staging environment
-.nav-container-list(
+section.nav-card-section(
   ng-include = "'stagingEnvironmentView'"
   ng-if = "active"
 )
 //- testing environment
-.nav-container-list(
+section.nav-card-section(
   ng-include = "'testingEnvironmentView'"
   ng-if = "active"
 )
