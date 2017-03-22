@@ -16,7 +16,7 @@ function handleSocketEvent(
         return;
       }
       deferred.resolve(data.data);
-    })
+    });
     return deferred.promise;
-  }
+  };
 }

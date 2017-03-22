@@ -38,7 +38,8 @@ function NewContainerController(
       dockerfile: null,
       configurationMethod: null,
       namesForAllInstances: [],
-      opts: {}
+      opts: {},
+      types: {}
     },
     ahaGuide: ahaGuide
   });
@@ -193,36 +194,14 @@ function NewContainerController(
 
   NCC.saveDockerfileMirroring = function () {
     if (NCC.state.configurationMethod === 'dockerComposeFile') {
-      if (NCC.state.dockerComposeFile) {
-        return createNewCluster(
-          NCC.state.repo.attrs.full_name,
-          NCC.state.repo.attrs.default_branch,
-          NCC.state.dockerComposeFile.path,
-          NCC.state.instanceName,
-          currentOrg.github.attrs.id
-        )
-        .then(function(res) {
-          return handleSocketEvent('compose-cluster-created');
-        })
-        .then(function(promiseResolved) {
-          if (NCC.state.dockerComposeTestFile) {
-            var instanceName = NCC.state.instanceName + '-test';
-            createNewCluster(
-              NCC.state.repo.attrs.full_name,
-              NCC.state.repo.attrs.default_branch,
-              NCC.state.dockerComposeTestFile.path,
-              instanceName,
-              currentOrg.github.attrs.id,
-              true,
-              [ NCC.state.testReporter.name ],
-              promiseResolved.parentInputClusterConfigId
-            )
-          }
+      return NCC.createComposeCluster()
+        .then(function () {
+          NCC.close();
+          return $state.go('base.instances');
         })
         .catch(function(promiseRejected) {
           errs.handler({ message: 'Error creating cluster!'});
-        })
-      }
+        });
     }
 
     return NCC.createBuildAndGoToNewRepoModal(NCC.state.instanceName, NCC.state.repo, NCC.state.dockerfile, NCC.state.configurationMethod);
@@ -337,11 +316,53 @@ function NewContainerController(
     });
   };
 
+  NCC.createComposeCluster = function () {
+    if (NCC.state.dockerComposeFile && NCC.state.types.stage) {
+      return createNewCluster(
+        NCC.state.repo.attrs.full_name,
+        NCC.state.repo.attrs.default_branch,
+        NCC.state.dockerComposeFile.path,
+        NCC.state.instanceName,
+        currentOrg.github.attrs.id
+      )
+      .then(function(res) {
+        return handleSocketEvent('compose-cluster-created');
+      })
+      .then(function(promiseResolved) {
+        if (NCC.state.dockerComposeTestFile && promiseResolved.clusterName === NCC.state.instanceName) {
+          var instanceName = NCC.state.instanceName + '-test';
+          return createNewCluster(
+            NCC.state.repo.attrs.full_name,
+            NCC.state.repo.attrs.default_branch,
+            NCC.state.dockerComposeTestFile.path,
+            instanceName,
+            currentOrg.github.attrs.id,
+            true,
+            [ NCC.state.testReporter.name ],
+            promiseResolved.parentInputClusterConfigId
+          );
+        }
+        return;
+      });
+    } else {
+      return createNewCluster(
+        NCC.state.repo.attrs.full_name,
+        NCC.state.repo.attrs.default_branch,
+        NCC.state.dockerComposeTestFile.path,
+        NCC.state.instanceName,
+        currentOrg.github.attrs.id,
+        true,
+        [ NCC.state.testReporter.name ]
+      );
+    }
+  };
+
   NCC.canCreateBuild = function () {
     return  NCC.state.instanceName.length && !keypather.get(NCC, 'nameForm.$invalid') &&
             !$rootScope.isLoading.newContainerSingleRepo && (!$scope.$root.featureFlags.composeNewService ||
             ((NCC.state.configurationMethod === 'new' || NCC.state.configurationMethod === 'blankDockerfile') ||
             (NCC.state.configurationMethod === 'dockerfile' && NCC.state.dockerfile) ||
-            (NCC.state.configurationMethod === 'dockerComposeFile' && (NCC.state.testReporter || NCC.state.dockerComposeFile))));
+            (NCC.state.configurationMethod === 'dockerComposeFile' && (NCC.state.testReporter ||
+            (NCC.state.dockerComposeFile && keypather.get(NCC, 'state.types.stage'))))));
   };
 }
