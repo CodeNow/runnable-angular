@@ -72,7 +72,6 @@ ul.list.margin-top-sm(
   li.grid-block.align-center.list-item(
     ng-class = "{\
       'active': BCSC.data.commit === commit,\
-      'disabled': BCSC.isAutoDeployOn() || BCSC.isLastestCommit()\
     }"
     ng-click = "BCSC.selectCommit(commit, $index === 0)"
     ng-repeat = "commit in BCSC.data.branch.commits.models | orderBy: '-attrs.commit.committer.date'"

@@ -34,6 +34,10 @@ function BranchCommitListController(
     BCLC.updateInstance();
   });
 
+  $scope.$on('autodeploy::set', function (evt, autdodeploy) {
+    BCLC.updateLock();
+  });
+
   BCLC.hasCommitBeenUpdated = function () {
     var newCommitSha = keypather.get(BCLC, 'data.commit.attrs.sha');
     var oldCommitSha = keypather.get(BCLC, 'appCodeVersion.attrs.commit');
@@ -48,20 +52,23 @@ function BranchCommitListController(
     return $q.when()
       .then(function () {
         loading('main', true);
-        if (!BCLC.hasLockedBeenUpdated()) {
-          return;
-        }
-        return promisify(BCLC.instance, 'update')({
-          locked: BCLC.data.locked
-        });
-      })
-      .then(function () {
         if (BCLC.hasCommitBeenUpdated()) {
           return updateInstanceWithNewAcvData(BCLC.instance, BCLC.appCodeVersion, BCLC.data);
         }
+
+        return;
       })
       .finally(function () {
         loading('main', false);
+      });
+  };
+
+  BCLC.updateLock = function() {
+    return $q.when()
+      .then(function () {
+        return promisify(BCLC.instance, 'update')({
+          locked: BCLC.data.locked
+        });
       });
   };
 }
