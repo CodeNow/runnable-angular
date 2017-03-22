@@ -64,7 +64,7 @@
       )
         .icons-status.orange
         | Update and Rebuild
-        .small Pull your latest config, then deploy container{{$root.featureFlags.composeInstance ? 's' : ''}} from rebuilt image{{$root.featureFlags.composeInstance ? 's' : ''}} (without cache).
+        .small Pull your latest config, then deploy container from rebuilt image (without cache).
 
     .well.well-popover.orange.text-center.padding-xxs.small(
       ng-if = "(!CSBC.instance.attrs.isolated || $root.featureFlags.allowIsolatedUpdate) && !CSBC.doesMatchMasterPod()"
