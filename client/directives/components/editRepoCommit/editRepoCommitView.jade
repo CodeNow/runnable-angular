@@ -100,4 +100,11 @@ button.grid-block.shrink.btn.btn-container-menu(
 
   pop-over-template = "branchCommitSelectorPopoverView"
   pop-over-data = "ERCC.branchCommitSelectorPopoverData"
-) H
+)
+  svg.iconnables
+    use(
+    xlink:href = "#icons-history"
+    )
+  span.span(
+  ng-if = "previousCommit"
+  ) 7c53d87
