@@ -215,7 +215,7 @@ function NewContainerController(
               currentOrg.github.attrs.id,
               true,
               [ NCC.state.testReporter.name ],
-              promiseResolved.inputClusterConfigId
+              promiseResolved.parentInputClusterConfigId
             )
           }
         })

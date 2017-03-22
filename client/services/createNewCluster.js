@@ -7,7 +7,7 @@ function createNewCluster(
   $http,
   configAPIHost
 ) {
-  return function (repo, branch, filePath, name, githubId, isTesting, testReporters, inputClusterConfigId) {
+  return function (repo, branch, filePath, name, githubId, isTesting, testReporters, parentInputClusterConfigId) {
     var data = {
       repo: repo,
       branch: branch,
@@ -16,7 +16,7 @@ function createNewCluster(
       githubId: githubId,
       isTesting: isTesting,
       testReporters: testReporters,
-      inputClusterConfigId: inputClusterConfigId
+      parentInputClusterConfigId: parentInputClusterConfigId
     };
     return $http({
       method: 'post',
