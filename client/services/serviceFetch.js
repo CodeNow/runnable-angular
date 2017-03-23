@@ -336,6 +336,12 @@ function fetchInstancesByCompose(
         var composeMasters = {};
         var testingComposeMasters = {};
 
+        /*
+         * TODO: Review this logic for potential bugs:
+         *   * Case where there is only a testing cluster
+         *   * Case where there is a changed cluster on the branch (it'll have a new id)
+         */
+
         allInstances.forEach(function (instance) {
           var clusterConfigId = keypather.get(instance, 'attrs.inputClusterConfig._id');
           // If this isn't in a cluster, we don't actually care anymore.

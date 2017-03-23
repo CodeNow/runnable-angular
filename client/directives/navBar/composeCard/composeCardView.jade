@@ -1,12 +1,12 @@
 h3.nav-card-header(
-  ng-attr-title = "{{composeInstance.getBranchName()}}"
+  ng-attr-title = "{{composeInstance.getDisplayName()}}"
 )
   //- bubble up test agent status for repos with test compose files
   status-icon.grid-block.shrink.passed(
     ng-if = "$root.featureFlags.composeNav"
   )
 
-  span.text-overflow {{composeInstance.getBranchName()}}
+  span.text-overflow {{composeInstance.getDisplayName()}}
 
   //- only show for default branches
   button.grid-block.shrink.btn-container-menu(
@@ -25,8 +25,10 @@ h3.nav-card-header(
 
 ul.nav-container-list(
   ng-include = "'stagingEnvironmentView'"
+  ng-if = "composeInstance.compose.children.length"
 )
+
 ul.nav-container-list(
-  ng-if = "$root.featureFlags.composeNav"
+  ng-if = "composeInstance.compose.testing.length"
   ng-include = "'testingEnvironmentView'"
 )
