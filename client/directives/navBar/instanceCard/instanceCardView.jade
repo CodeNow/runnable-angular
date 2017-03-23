@@ -13,27 +13,20 @@ h3.nav-card-header(
 
   span.text-overflow {{instance.getDisplayName()}}
 
-  //- only show for default branches
-  button.grid-block.shrink.btn-container-menu(
-    ng-class = "{'active': INC.popoverShown}"
-    ng-if = "!INC.currentOrg.isPersonalAccount() && !INC.isInDemoFlow()"
-    pop-over
-    pop-over-active = "INC.popoverShown"
-    pop-over-controller = "INC"
-    pop-over-options = "{\"verticallyCentered\":true,\"left\":26}"
-    pop-over-template = "instanceNavigationPopoverView"
-  )
-    svg.iconnables
-      use(
-        xlink:href = "#icons-gear"
-      )
+header.noscroll.nav-environment-header(
+  ng-if = "isActive"
+)
+  span.grid-block {{instance.attrs.isTesting ? 'Testing' : 'Staging'}}
 
-//ul.nav-container-list(
-//  ng-include = "'stagingEnvironmentView'"
-//  ng-if = "composeCluster.staging.length"
-//)
-//
-//ul.nav-container-list(
-//  ng-if = "composeCluster.testing.length"
-//  ng-include = "'testingEnvironmentView'"
-//)
+ul.nav-container-list(
+  ng-if = "isActive"
+)
+  li.li(
+    instance = "instance"
+    instance-navigation
+  )
+  li.li(
+    instance = "childInstance"
+    instance-navigation
+    ng-repeat = "childInstance in instance.isolation.instances.models | orderBy: ['attrs.name'] track by childInstance.attrs.name"
+  )

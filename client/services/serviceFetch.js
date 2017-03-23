@@ -332,7 +332,6 @@ function fetchInstancesByCompose(
       githubUsername: username
     })
       .then(function (allInstances) {
-        var instancesByComposeId = {};
         var composeMasters = {};
 
         /*
