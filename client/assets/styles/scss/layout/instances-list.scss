@@ -45,7 +45,7 @@
   font-size: inherit; // reset
   font-weight: $weight-normal; // reset
   line-height: inherit; // reset
-  padding: $sm 0 $sm (18px + $input-border);
+  padding: $sm 0 $sm ($xxs * 2 + $input-border);
 
   // "add a service" and "add a branch" buttons
   .btn-xs {
@@ -60,33 +60,23 @@
 }
 
 .nav-card {
-  border: $input-border solid transparent;
-  border-radius: $input-border-radius-lg;
   display: flex;
   flex-direction: column;
-  padding: 6px $xxs;
 
-  &:hover:not(.active) {
-    cursor: pointer;
-  }
-
-  &:hover:not(.active),
-  &:active,
   &.active {
     background-color: $white;
-    border-color: $gray-lighter;
-  }
-
-  &:active,
-  &.active {
+    border: $input-border solid $gray-lighter;
+    border-radius: $input-border-radius-lg;
+    padding: $xxs;
 
     .nav-card-header {
+      border: 0;
+      border-radius: 0;
       color: $gray-dark;
+      cursor: auto;
+      height: $input-xs;
+      padding: 0 ($xxs + $input-border);
     }
-  }
-
-  &.active {
-    padding: $xxs;
   }
 
   &:not(.active) + .nav-card.active,
@@ -95,14 +85,31 @@
   }
 }
 
-.nav-card-header,
+.nav-card-header {
+  align-items: center;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  padding: 6px ($xxs * 2);
+
+  &:hover:not(.active) {
+    background-color: $white;
+    border-color: $gray-lighter;
+  }
+
+  &:active:not(.active) {
+    color: $gray-dark;
+  }
+}
+
 .nav-environment-header {
   align-items: center;
+  color: $gray-light;
   display: flex;
-  font-size: inherit; // reset
-  font-weight: $weight-normal; // reset
+  font-size: 13px;
   height: $input-xs;
-  line-height: inherit; // reset
+  margin: 6px 0;
   padding: 0 ($xxs + $input-border);
 }
 
@@ -113,12 +120,6 @@
     border-top: $input-border solid $gray-lightest;
     margin-top: $xxs;
   }
-}
-
-.nav-environment-header {
-  color: $gray-light;
-  font-size: 13px;
-  margin: 6px 0;
 }
 
 .nav-container-list .li + .li {
