@@ -5,13 +5,6 @@
   color: $white;
   flex: 0 0 auto;
   padding: $xs;
-
-  // override border on dark bg
-  .btn.red,
-  .btn.orange,
-  .btn.green {
-    border-color: $purple-darkest;
-  }
 }
 
 .instance-header-name {
@@ -79,6 +72,13 @@
   > .btn,
   > .btn-group {
     flex: 0 0 auto;
+  }
+
+  // override border on dark bg
+  .btn.red,
+  .btn.orange,
+  .btn.green {
+    border-color: $purple-darkest;
   }
 
   // container url
