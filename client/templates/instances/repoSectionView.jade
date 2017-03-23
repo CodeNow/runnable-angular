@@ -1,7 +1,7 @@
-h2.grid-block.align-center.justify-justified.nav-section-header(
-  title = "api"
-)
-  span.text-overflow.padding-right-xxs api
+h2.grid-block.align-center.justify-justified.nav-section-header
+  span.text-overflow.padding-right-xxs(
+    title = "api"
+  ) api
   .grid-block.align-center.shrink.btn.btn-xs.white(
     data-event-name = "Clicked Add Branch button"
     ng-click = "CIS.popInstanceOpen(masterInstance)"
@@ -15,15 +15,9 @@ h2.grid-block.align-center.justify-justified.nav-section-header(
       use(
         xlink:href = "#icons-arrow-down"
       )
-section.nav-card.active(
-  ng-include = "'navCardView'"
+
+section.nav-card(
+  ng-class = "{'active': active}"
+  ng-include = "'branchCardView'"
+  ng-repeat = "active in [true, false, false] track by $index"
 )
-//- for mockup only
-section.nav-card
-  h3.nav-card-header branch-name
-section.nav-card
-  h3.nav-card-header branch-name
-section.nav-card
-  h3.nav-card-header branch-name
-section.nav-card
-  h3.nav-card-header branch-name

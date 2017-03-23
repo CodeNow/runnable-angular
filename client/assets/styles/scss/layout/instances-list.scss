@@ -21,7 +21,6 @@
     border-color: $gray-lighter;
     border-radius: $input-border-radius-lg;
     font-size: 21px;
-    margin-top: 3px;
     padding: $sm 24px 24px;
   }
 
@@ -65,20 +64,20 @@
   border-radius: $input-border-radius-lg;
   display: flex;
   flex-direction: column;
-  padding: $xxs;
+  padding: 6px $xxs;
 
   &:hover:not(.active) {
     cursor: pointer;
   }
 
-  &.active,
-  &:active:not(.active),
-  &:hover:not(.active) {
+  &:hover:not(.active),
+  &:active,
+  &.active {
     background-color: $white;
     border-color: $gray-lighter;
   }
 
-  &:active:not(.active),
+  &:active,
   &.active {
 
     .nav-card-header {
@@ -86,7 +85,12 @@
     }
   }
 
-  + .nav-card {
+  &.active {
+    padding: $xxs;
+  }
+
+  &:not(.active) + .nav-card.active,
+  &.active + .nav-card {
     margin-top: $xxs;
   }
 }
@@ -181,18 +185,22 @@
   overflow: hidden;
   padding: 4px;
 
-  &:not(.gray) {
+  &:not(.orange) {
     border: 0;
     width: $input-xs;
+
+    &:hover {
+      color: $gray;
+    }
+
+    &:active,
+    &.active {
+      color: $purple-light;
+    }
   }
 
-  &:hover {
-    color: $gray;
-  }
-
-  &:active,
-  &.active {
-    color: $purple-light;
+  &.orange {
+    color: $white;
   }
 
   .iconnables {
