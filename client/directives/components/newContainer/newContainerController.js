@@ -199,7 +199,7 @@ function NewContainerController(
           NCC.state.repo.attrs.default_branch,
           NCC.state.dockerComposeFile.path,
           NCC.state.instanceName)
-        )
+        );
       }
       if (NCC.state.dockerComposeTestFile) {
         var instanceName = NCC.state.instanceName + '-test';
@@ -210,7 +210,7 @@ function NewContainerController(
           instanceName,
           true,
           [ NCC.state.testReporter.name ]
-        ))
+        ));
       }
       return $q.all(clusterPromises)
         .then(function () {
