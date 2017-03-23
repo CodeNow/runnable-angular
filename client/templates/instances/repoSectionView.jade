@@ -21,5 +21,6 @@ section.nav-card(
   ng-class = "{'active': active}"
   compose-card
   compose-cluster = "composeCluster"
+  is-child = "true"
   ng-repeat = "composeCluster in masterComposeCluster.children | orderBy: ['master.attrs.name'] track by composeCluster.master.attrs.name"
 )

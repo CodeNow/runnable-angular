@@ -1129,7 +1129,6 @@ function fetchInvoices(
 
 function fetchContextVersion (
   fetchUser,
-  keypather,
   promisify
 ) {
   return function (contextId, contextVersionId) {
