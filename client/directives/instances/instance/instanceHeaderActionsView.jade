@@ -1,0 +1,30 @@
+.btn-sm(
+  container-status-button
+  instance = "instance"
+)
+
+//- dns button
+label.btn.btn-sm.btn-connections(
+  dns-configuration
+  instance = "instance"
+  ng-class = "{'deprecated': !$root.featureFlags.connections}"
+  ng-if = "!$root.featureFlags.composeInstance"
+)
+
+label.input-group.input-group-sm.purple(
+  container-url
+  instance = "instance"
+  ng-if = "instance.attrs.name"
+)
+
+div(
+  instance = "instance"
+  ng-if = "!$root.featureFlags.saveToolbar && instance.containers.models[0].running() && !openItems.isClean()"
+  open-items = "openItems"
+  save-open-items-button
+)
+
+.popover.bottom.in.popover-url.below-modals(
+  ng-if = "showUrlCallout() && !$root.featureFlags.demoPersonalOnly"
+  ng-include = "'containerUrlPopoverView'"
+)

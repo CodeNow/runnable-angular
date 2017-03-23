@@ -4,15 +4,16 @@ h2.grid-block.align-center.justify-justified.nav-section-header Services
     ng-click = "CIS.shouldShowServicesCTA() && $emit('demo::end')"
     pop-over
     pop-over-active = "addService"
-    pop-over-options = "{\"top\":-30,\"left\":112}"
+    pop-over-options = "{\"top\":-30,\"left\":111}"
     pop-over-template = "templateMenuPopoverView"
-  ) Add a Service
+  ) Add Services
     svg.iconnables.icons-arrow-forward
       use(
         xlink:href = "#icons-arrow-down"
       )
 section.nav-card.active(
-  ng-include = "'navCardView'"
+  ng-include = "'branchCardView'"
+  ng-init = "active = true"
 )
 section.nav-card.active(
   ng-include = "'nonComposeCardView'"

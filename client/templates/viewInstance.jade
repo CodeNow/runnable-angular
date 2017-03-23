@@ -4,10 +4,10 @@
   ng-include = "'spinner'"
 )
 
-.grid-block.vertical.instance(
+.grid-block.noscroll.vertical.instance(
   ng-if = "!isLoading.main"
 )
-  .grid-block.justify-center.align-center(
+  .grid-block.justify-center.align-center.instance-empty(
     ng-if = "!dataInstance.data.instance || dataInstance.data.instance.destroyed"
   )
     img(
@@ -15,7 +15,7 @@
       src = "/build/images/runnabear-head-empty.png"
       width = "40"
     )
-  .grid-block.vertical(
+  .grid-block.noscroll.vertical(
     ng-if = "dataInstance.data.instance && !dataInstance.data.instance.destroyed"
   )
     //- show if server build is being swapped out
@@ -37,7 +37,7 @@
       ng-include = "'viewNotifications'"
     )
 
-    header.instance-header(
+    header.grid-block.noscroll.justify-justified.align-center.instance-header(
       demo-flow-flags = "dataInstance.data.demoFlowFlags"
       instance = "dataInstance.data.instance"
       instance-header

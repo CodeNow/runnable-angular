@@ -137,7 +137,7 @@ describe('DNSConfigurationDirective'.bold.underline.blue, function() {
       DnsController.filteredDependencies = [];
       DnsController.nonRepoDependencies = [];
       $scope.$digest();
-      expect(element[0].className).to.contain('gray');
+      expect(element[0].className).to.contain('purple');
     });
     it('should be set to orange when there is a starting container', function () {
       DnsController.filteredDependencies = [];

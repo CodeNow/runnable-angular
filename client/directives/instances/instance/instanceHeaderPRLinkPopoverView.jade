@@ -8,13 +8,15 @@
   img.grid-block.shrink.img(
     src = "/build/images/runnabot-preview.svg"
   )
-  .grid-block.vertical.shrink.p
+  .grid-block.vertical.align-start.shrink.p
     strong.weight-strong Meet your pull request bot.
-    .small Runnabot posts links to your containers directly on the pull request page.&#32;
-      a.link(
-        href = ""
-        ng-click = "$emit('demo::prLinkClicked'); openedPRUrl()"
-        ng-href = "{{pr.html_url}}"
-        target = "_blank"
-      ) Open your PR page
-      | &#32;to check it out.
+    .small Runnabot posts links to your containers directly on the pull request page. Check it out:
+    a.btn.btn-sm.green.margin-top-xs(
+      ng-click = "$emit('demo::prLinkClicked'); openedPRUrl()"
+      ng-href = "{{pr.html_url}}"
+      target = "_blank"
+    ) Open PR
+      svg.iconnables.icons-link-external
+        use(
+          xlink:href = "#icons-link-external-alt"
+        )
