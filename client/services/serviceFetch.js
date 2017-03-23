@@ -359,6 +359,7 @@ function fetchInstancesByCompose(
               masterClusterConfigId = composeParent;
             }
 
+            // If this belongs at the top level for a compose master
             if (instance.attrs.masterPod) {
               composeMasters[masterClusterConfigId] = composeMasters[masterClusterConfigId] || {};
               if (instance.attrs.isTesting) {
@@ -369,6 +370,7 @@ function fetchInstancesByCompose(
                 composeMasters[masterClusterConfigId].staging.push(instance);
               }
             } else {
+              // This is a branched compose. We should now group by isolation.
               composeMasters[masterClusterConfigId] = composeMasters[masterClusterConfigId] || {};
               console.log(instance.attrs.inputClusterConfig, instance.attrs)
               if (instance.attrs.isTesting) {

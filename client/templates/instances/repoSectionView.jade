@@ -2,9 +2,10 @@ h2.grid-block.align-center.justify-justified.nav-section-header
   span.text-overflow.padding-right-xxs(
     title = "{{masterComposeCluster.master.attrs.inputClusterConfig.clusterName}}"
   ) {{masterComposeCluster.master.attrs.inputClusterConfig.clusterName}}
+
   .grid-block.align-center.shrink.btn.btn-xs.white(
     data-event-name = "Clicked Add Branch button"
-    ng-click = "CIS.popInstanceOpen(masterInstance)"
+    ng-click = "CIS.popInstanceOpen(masterComposeCluster.master)"
     pop-over
     pop-over-controller = "CIS"
     pop-over-data = "'branchSelect'"
