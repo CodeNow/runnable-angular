@@ -10,7 +10,7 @@ function composeCard(
     restrict: 'A',
     templateUrl: 'composeCardView',
     scope: {
-      composeInstance: '='
+      composeCluster: '='
     },
     link: function ($scope) {
       $scope.activeAccount = currentOrg.github.attrs.login;

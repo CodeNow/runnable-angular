@@ -25,5 +25,5 @@ ol.nav-container-list
   li.li(
     instance = "testingInstance"
     instance-navigation
-    ng-repeat = "testingInstance in composeInstance.compose.testing | orderBy: ['attrs.name'] track by testingInstance.attrs.name"
+    ng-repeat = "testingInstance in composeCluster.testing | orderBy: ['attrs.name'] track by testingInstance.attrs.name"
   )

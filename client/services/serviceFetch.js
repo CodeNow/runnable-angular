@@ -334,7 +334,6 @@ function fetchInstancesByCompose(
       .then(function (allInstances) {
         var instancesByComposeId = {};
         var composeMasters = {};
-        var testingComposeMasters = {};
 
         /*
          * TODO: Review this logic for potential bugs:
@@ -344,37 +343,51 @@ function fetchInstancesByCompose(
 
         allInstances.forEach(function (instance) {
           var clusterConfigId = keypather.get(instance, 'attrs.inputClusterConfig._id');
-          // If this isn't in a cluster, we don't actually care anymore.
+          // If this isn't in a cluster, we don't actually care since it'll use the old instancesByPod navigation
           if (!clusterConfigId) {
             return;
           }
-          if (instance.attrs.masterPod && keypather.get(instance, 'attrs.inputClusterConfig.masterInstanceId') === instance.id()) {
-            var parentInputClusterConfigId = keypather.get(instance, 'attrs.inputClusterConfig.parentInputClusterConfigId');
-            if (parentInputClusterConfigId) {
-              testingComposeMasters[parentInputClusterConfigId] = testingComposeMasters[parentInputClusterConfigId] || [];
-              testingComposeMasters[parentInputClusterConfigId].push(instance);
-            } else {
-              composeMasters[clusterConfigId] = instance;
-            }
+
+          var isComposeMaster = keypather.get(instance, 'attrs.inputClusterConfig.masterInstanceId') === instance.id();
+          var composeParent = keypather.get(instance, 'attrs.inputClusterConfig.parentInputClusterConfigId');
+          if (instance.attrs.masterPod && isComposeMaster && !composeParent) {
+            composeMasters[clusterConfigId] = composeMasters[clusterConfigId] || {};
+            composeMasters[clusterConfigId].master = instance;
           } else {
-            instancesByComposeId[clusterConfigId] = instancesByComposeId[clusterConfigId] || [];
-            instancesByComposeId[clusterConfigId].push(instance);
+            var masterClusterConfigId = clusterConfigId;
+            if (composeParent) {
+              masterClusterConfigId = composeParent;
+            }
+
+            if (instance.attrs.masterPod) {
+              composeMasters[masterClusterConfigId] = composeMasters[masterClusterConfigId] || {};
+              if (instance.attrs.isTesting) {
+                composeMasters[masterClusterConfigId].testing = composeMasters[masterClusterConfigId].testing || [];
+                composeMasters[masterClusterConfigId].testing.push(instance);
+              } else {
+                composeMasters[masterClusterConfigId].staging = composeMasters[masterClusterConfigId].staging || [];
+                composeMasters[masterClusterConfigId].staging.push(instance);
+              }
+            } else {
+              composeMasters[masterClusterConfigId] = composeMasters[masterClusterConfigId] || {};
+              console.log(instance.attrs.inputClusterConfig, instance.attrs)
+              if (instance.attrs.isTesting) {
+                composeMasters[masterClusterConfigId].testing = composeMasters[masterClusterConfigId].testing || {};
+                console.log(instance);
+                // composeMasters[masterClusterConfigId].testing[clusterConfigId]
+              }
+            }
+            //
+            //
+            //
+            // instancesByComposeId[clusterConfigId] = instancesByComposeId[clusterConfigId] || [];
+            // instancesByComposeId[clusterConfigId].push(instance);
           }
         });
+        console.log(composeMasters)
 
         var instancesByCompose = Object.keys(composeMasters).map(function (composeId) {
-          var instance = composeMasters[composeId];
-          instance.compose = {};
-          instance.compose.testing = testingComposeMasters[composeId];
-          if (instance.compose.testing) {
-            instance.compose.testing.map(function (testingInstance) {
-              testingInstance.compose = {};
-              testingInstance.compose.children = instancesByComposeId[testingInstance.attrs.inputClusterConfig._id];
-              return testingInstance;
-            });
-          }
-          instance.compose.children = instancesByComposeId[composeId];
-          return instance;
+          return composeMasters[composeId];
         });
 
         return instancesByCompose;

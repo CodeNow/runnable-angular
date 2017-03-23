@@ -24,14 +24,14 @@ header.noscroll.nav-environment-header
 ol.nav-container-list
   li.li(
     active-account = "activeAccount"
-    instance = "composeInstance"
+    instance = "composeCluster.master"
     instance-navigation
-    ng-if = "composeInstance"
+    ng-if = "composeCluster.master"
   )
 
   li.li(
     active-account = "activeAccount"
     instance = "stagingInstance"
     instance-navigation
-    ng-repeat = "stagingInstance in composeInstance.compose.children | orderBy: ['attrs.name'] track by stagingInstance.attrs.name"
+    ng-repeat = "stagingInstance in composeCluster.staging | orderBy: ['attrs.name'] track by stagingInstance.attrs.name"
   )

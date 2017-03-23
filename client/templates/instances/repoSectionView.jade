@@ -1,7 +1,7 @@
 h2.grid-block.align-center.justify-justified.nav-section-header
   span.text-overflow.padding-right-xxs(
-    title = "{{masterInstance.attrs.name}}"
-  ) {{masterInstance.attrs.name}}
+    title = "{{masterComposeCluster.master.attrs.inputClusterConfig.clusterName}}"
+  ) {{masterComposeCluster.master.attrs.inputClusterConfig.clusterName}}
   .grid-block.align-center.shrink.btn.btn-xs.white(
     data-event-name = "Clicked Add Branch button"
     ng-click = "CIS.popInstanceOpen(masterInstance)"
@@ -19,6 +19,6 @@ h2.grid-block.align-center.justify-justified.nav-section-header
 section.nav-card(
   ng-class = "{'active': active}"
   compose-card
-  compose-instance = "composeChild"
-  ng-repeat = "composeChild in masterInstance.compose.children | orderBy: ['attrs.name'] track by composeChild.attrs.name"
+  compose-cluster = "composeCluster"
+  ng-repeat = "composeCluster in masterComposeCluster.children | orderBy: ['attrs.name'] track by composeCluster.attrs.name"
 )

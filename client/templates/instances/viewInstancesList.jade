@@ -136,7 +136,7 @@
   section.nav-section.margin-top-sm(
     ng-if = "$root.featureFlags.composeNav"
     ng-include = "'repoSectionView'"
-    ng-repeat = "masterInstance in CIS.instancesByCompose | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
+    ng-repeat = "masterComposeCluster in CIS.instancesByCompose | orderBy: ['master.attrs.inputClusterConfig.clusterName'] track by masterComposeCluster.master.attrs.inputClusterConfig.clusterName"
   )
 
   //- branch environments (pre-compose)

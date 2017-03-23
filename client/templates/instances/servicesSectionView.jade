@@ -14,8 +14,8 @@ h2.grid-block.align-center.justify-justified.nav-section-header Services
 
 section.nav-card.active(
   compose-card
-  compose-instance = "masterInstance"
-  ng-repeat = "masterInstance in CIS.instancesByCompose | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
+  compose-cluster = "composeCluster"
+  ng-repeat = "composeCluster in CIS.instancesByCompose | orderBy: ['attrs.name'] track by composeCluster.master.attrs.name"
 )
 section.nav-card.active(
   ng-include = "'nonComposeCardView'"
