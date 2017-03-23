@@ -6,6 +6,10 @@ h3.nav-card-header(
     "
   ui-sref-active = "active"
 )
+    status-icon.grid-block.shrink(
+      ng-if = "composeCluster.master.attrs.isTesting || composeCluster.testing.length"
+      instance = "composeCluster.master.attrs.isTesting ? composeCluster.master : composeCluster.testing[0]"
+    )
     span.text-overflow {{getCardName()}}
 
   //- only show for default branches

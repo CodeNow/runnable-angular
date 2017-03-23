@@ -6,11 +6,6 @@ h3.nav-card-header(
   "
   ui-sref-active = "active"
 )
-  //- bubble up test agent status for repos with test compose files
-  status-icon.grid-block.shrink.passed(
-    ng-if = "$root.featureFlags.composeNav"
-  )
-
   span.text-overflow {{instance.getDisplayName()}}
 
 header.noscroll.nav-environment-header(
