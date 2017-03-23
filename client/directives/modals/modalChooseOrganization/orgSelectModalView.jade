@@ -58,7 +58,7 @@ header.modal-header(
     ng-class = "{'deprecated': !$root.featureFlags.demoOrgSelectUpdate}"
     ng-if = "!COMC.personalAccountOnly && !$root.featureFlags.demoOrgSelectUpdate"
   ) Don’t see your team?
-  p.p.text-gray(
+  p.p.text-gray.text-center(
     ng-class = "{'deprecated': !$root.featureFlags.demoOrgSelectUpdate}"
     ng-if = "COMC.personalAccountOnly && !$root.featureFlags.demoOrgSelectUpdate"
   ) Runnable is made for teams.
