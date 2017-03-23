@@ -372,23 +372,31 @@ function fetchInstancesByCompose(
             } else {
               // This is a branched compose. We should now group by isolation.
               composeMasters[masterClusterConfigId] = composeMasters[masterClusterConfigId] || {};
-              console.log(instance.attrs.inputClusterConfig, instance.attrs)
-              if (instance.attrs.isTesting) {
-                composeMasters[masterClusterConfigId].testing = composeMasters[masterClusterConfigId].testing || {};
-                console.log(instance);
-                // composeMasters[masterClusterConfigId].testing[clusterConfigId]
+              composeMasters[masterClusterConfigId].children = composeMasters[masterClusterConfigId].children || {};
+              var isolationId = instance.attrs.isolated;
+              composeMasters[masterClusterConfigId].children[isolationId] = composeMasters[masterClusterConfigId].children[isolationId] || {};
+
+              if (instance.attrs.isIsolationGroupMaster) {
+                composeMasters[masterClusterConfigId].children[isolationId].master = instance;
+              } else {
+                if (instance.attrs.isTesting) {
+                  composeMasters[masterClusterConfigId].children[isolationId].testing = composeMasters[masterClusterConfigId].children[isolationId].testing || [];
+                  composeMasters[masterClusterConfigId].children[isolationId].testing.push(instance);
+                } else {
+                  composeMasters[masterClusterConfigId].children[isolationId].staging = composeMasters[masterClusterConfigId].children[isolationId].staging || [];
+                  composeMasters[masterClusterConfigId].children[isolationId].staging.push(instance);
+                }
               }
             }
-            //
-            //
-            //
-            // instancesByComposeId[clusterConfigId] = instancesByComposeId[clusterConfigId] || [];
-            // instancesByComposeId[clusterConfigId].push(instance);
           }
         });
-        console.log(composeMasters)
-
         var instancesByCompose = Object.keys(composeMasters).map(function (composeId) {
+          if (composeMasters[composeId].children) {
+            composeMasters[composeId].children = Object.keys(composeMasters[composeId].children).map(function (isolationId) {
+              return composeMasters[composeId].children[isolationId];
+            });
+          }
+
           return composeMasters[composeId];
         });
 

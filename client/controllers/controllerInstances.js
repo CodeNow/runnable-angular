@@ -217,12 +217,11 @@ function ControllerInstances(
     }
   };
 
-
   this.getNonComposeMasters = function () {
     return this.instancesByPod.filter(function (instance) {
       return !keypather.get(instance, 'attrs.inputClusterConfig._id');
     });
-  }
+  };
 
 
   this.filterMatchedAnything = function () {

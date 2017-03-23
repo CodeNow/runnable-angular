@@ -139,6 +139,12 @@
     ng-repeat = "masterComposeCluster in CIS.instancesByCompose | orderBy: ['master.attrs.inputClusterConfig.clusterName'] track by masterComposeCluster.master.attrs.inputClusterConfig.clusterName"
   )
 
+  section.nav-section.margin-top-sm(
+    ng-if = "$root.featureFlags.composeNav"
+    ng-include = "'nonComposeRepoSectionView'"
+    ng-repeat = "masterInstance in CIS.getNonComposeMasters() | orderBy: ['masterInstance.attrs.name'] track by masterInstance.attrs.name"
+  )
+
   //- branch environments (pre-compose)
   .grid-block.vertical.shrink.list-clusters.js-animate(
     ng-if = "(!masterInstance.attrs.isTesting || (masterInstance.attrs.isTesting && !masterInstance.attrs.testingParentId)) && !$root.featureFlags.composeNav"
