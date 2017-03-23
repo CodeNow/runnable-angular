@@ -1,8 +1,8 @@
 h3.nav-card-header
   span.grid-block(
-    ng-attr-title = "{{composeCluster.master.attrs.inputClusterConfig.clusterName}}"
+    ng-attr-title = "{{getCardName()}}"
   )
-    span.text-overflow {{composeCluster.master.attrs.inputClusterConfig.clusterName}}
+    span.text-overflow {{getCardName()}}
 
   //- only show for default branches
   button.grid-block.shrink.btn-container-menu(

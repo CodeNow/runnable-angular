@@ -10,10 +10,17 @@ function composeCard(
     restrict: 'A',
     templateUrl: 'composeCardView',
     scope: {
-      composeCluster: '='
+      composeCluster: '=',
+      isChild: '=?'
     },
     link: function ($scope) {
       $scope.activeAccount = currentOrg.github.attrs.login;
+      $scope.getCardName = function () {
+        if ($scope.isChild) {
+          return $scope.composeCluster.master.getBranchName();
+        }
+        return $scope.composeCluster.master.attrs.inputClusterConfig.clusterName;
+      };
     }
   };
 }
