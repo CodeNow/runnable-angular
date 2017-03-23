@@ -4,7 +4,8 @@ require('app')
   .directive('composeCard', composeCard);
 
 function composeCard(
-  currentOrg
+  currentOrg,
+  $state
 ) {
   return {
     restrict: 'A',
@@ -15,12 +16,18 @@ function composeCard(
     },
     link: function ($scope) {
       $scope.activeAccount = currentOrg.github.attrs.login;
+
       $scope.getCardName = function () {
         if ($scope.isChild) {
           return $scope.composeCluster.master.getBranchName();
         }
         return $scope.composeCluster.master.attrs.inputClusterConfig.clusterName;
       };
+
+      $scope.isActive = !$scope.isChild && $state.is('base.instances.instance', {
+        userName: $scope.activeAccount,
+        instanceName: $scope.composeCluster.master.attrs.name
+      });
     }
   };
 }

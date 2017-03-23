@@ -4,7 +4,8 @@ require('app')
   .directive('instanceCard', instanceCard);
 
 function instanceCard(
-  currentOrg
+  currentOrg,
+  $state
 ) {
   return {
     restrict: 'A',
@@ -14,6 +15,11 @@ function instanceCard(
     },
     link: function ($scope) {
       $scope.activeAccount = currentOrg.github.attrs.login;
+
+      $scope.isActive = $state.is('base.instances.instance', {
+        userName: $scope.activeAccount,
+        instanceName: $scope.instance.attrs.name
+      });
     }
   };
 }

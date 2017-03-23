@@ -1,5 +1,13 @@
 h3.nav-card-header(
+  active-account = "activeAccount"
+  instance = "composeCluster.master"
+  instance-navigation
+  ng-if = "!isActive"
+)
+
+h3.nav-card-header(
   ng-attr-title = "{{getCardName()}}"
+  ng-if = "isActive"
 )
   //- bubble up test agent status for repos with test compose files
   status-icon.grid-block.shrink.passed(
@@ -26,9 +34,11 @@ h3.nav-card-header(
 ul.nav-container-list(
   ng-include = "'stagingEnvironmentView'"
   ng-if = "composeCluster.staging.length"
+  ng-if = "isActive"
 )
 
 ul.nav-container-list(
   ng-if = "composeCluster.testing.length"
   ng-include = "'testingEnvironmentView'"
+  ng-if = "isActive"
 )
