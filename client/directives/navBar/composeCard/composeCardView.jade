@@ -1,5 +1,10 @@
 h3.nav-card-header(
   ng-attr-title = "{{getCardName()}}"
+  ui-sref = "\
+      base.instances.instance({userName: composeCluster.master.attrs.owner.username,\
+      instanceName: composeCluster.master.attrs.name})\
+    "
+  ui-sref-active = "active"
 )
     span.text-overflow {{getCardName()}}
 
@@ -17,13 +22,14 @@ h3.nav-card-header(
       use(
         xlink:href = "#icons-gear"
       )
+
 //- staging environment
 section.nav-card-section(
   ng-include = "'stagingEnvironmentView'"
-  ng-if = "composeCluster.staging.length"
+  ng-if = "isActive && (composeCluster.staging.length || !composeCluster.master.attrs.isTesting)"
 )
 //- testing environment
 section.nav-card-section(
-  ng-if = "composeCluster.testing.length"
+  ng-if = "isActive && (composeCluster.testing.length || composeCluster.master.attrs.isTesting)"
   ng-include = "'testingEnvironmentView'"
 )

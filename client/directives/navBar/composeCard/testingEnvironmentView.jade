@@ -23,7 +23,14 @@ header.noscroll.nav-environment-header
 
 ul.nav-container-list
   li.li(
+    active-account = "activeAccount"
+    instance = "composeCluster.master"
+    instance-navigation
+    ng-if = "composeCluster.master.attrs.isTesting"
+  )
+
+  li.li(
     instance = "testingInstance"
     instance-navigation
-    ng-repeat = "testingInstance in composeCluster.testing | orderBy: ['attrs.name'] track by testingInstance.attrs.name"
+    ng-repeat = "testingInstance in getTestingInstances() | orderBy: ['attrs.name'] track by testingInstance.attrs.name"
   )
