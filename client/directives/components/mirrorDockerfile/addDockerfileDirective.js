@@ -6,8 +6,6 @@ require('app')
 function addDockerfile(
   $q,
   $timeout,
-  doesDockerfileExist,
-  fetchRepoDockerfile,
   parseDockerComposeFile
 ) {
   return {
@@ -18,14 +16,14 @@ function addDockerfile(
       branchName: '=',
       fullRepo: '=',
       viewState: '=',
-      fileType: '@'
+      fileType: '@',
     },
     link: function ($scope, elem, attrs, MDC) {
       if ($scope.fileType === 'Docker Compose') {
         $scope.fileName = 'docker-compose.yml';
         $scope.fileLabel = 'Compose file';
         $scope.formLabel = 'Compose File Path';
-        loadDefaultDockerfile($scope.fullRepo, $scope.branchName, '/docker-compose.yml');
+        MDC.loadDefaultDockerfile($scope.fullRepo, $scope.branchName, '/docker-compose.yml', $scope.fileType);
       } else if ($scope.fileType === 'Docker Compose Test') {
         $scope.fileName = 'compose-test.yml';
         $scope.fileLabel = 'Compose file';
@@ -34,24 +32,7 @@ function addDockerfile(
         $scope.fileName = 'Dockerfile';
         $scope.fileLabel = 'Dockerfile';
         $scope.formLabel = 'Dockerfile Path';
-        loadDefaultDockerfile($scope.fullRepo, $scope.branchName, '/Dockerfile');
-      }
-
-      function loadDefaultDockerfile (repo, branchName, filePath) {
-        return fetchRepoDockerfile(repo, branchName, filePath)
-          .then(doesDockerfileExist)
-          .then(function (dockerfile) {
-            if (!dockerfile) {
-              return $q.reject('file doesn’t exist');
-            }
-            if ($scope.fileType === 'Dockerfile') {
-              MDC.state.dockerComposeFile = null;
-              MDC.state.dockerfile = dockerfile;
-            } else if ($scope.fileType === 'Docker Compose') {
-              MDC.state.dockerComposeFile = dockerfile;
-              MDC.state.dockerfile = null;
-            }
-          });
+        MDC.loadDefaultDockerfile($scope.fullRepo, $scope.branchName, '/Dockerfile', $scope.fileType);
       }
 
       $scope.closeDockerFileInput = function () {
@@ -62,6 +43,8 @@ function addDockerfile(
         $scope.viewState.showAddDockerfile = false;
       };
       $scope.$on('dockerfileExistsValidator::valid', function ($event, path, fileType, dockerfile) {
+        $scope.dockerfile = dockerfile;
+        console.log($scope);
         if (fileType === 'Dockerfile') {
           MDC.state.dockerComposeFile = null;
           MDC.state.dockerfile = dockerfile;
