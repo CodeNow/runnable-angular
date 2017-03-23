@@ -340,7 +340,7 @@ function NewContainerController(
             NCC.state.dockerComposeTestFile.path,
             instanceName,
             currentOrg.github.attrs.id,
-            true,
+            !!NCC.state.dockerComposeTestFile,
             [ NCC.state.testReporter.name ],
             promiseResolved.parentInputClusterConfigId
           );
@@ -354,7 +354,7 @@ function NewContainerController(
         NCC.state.dockerComposeTestFile.path,
         NCC.state.instanceName,
         currentOrg.github.attrs.id,
-        true,
+        !!NCC.state.dockerComposeTestFile,
         [ NCC.state.testReporter.name ]
       );
     }

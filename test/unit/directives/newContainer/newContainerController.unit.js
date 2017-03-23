@@ -6,6 +6,7 @@ describe('NewContainerController'.bold.underline.blue, function () {
   var NCC;
 
   // Imported Values
+  var $rootScope;
   var $controller;
   var $q;
   var keypather;
@@ -21,6 +22,8 @@ describe('NewContainerController'.bold.underline.blue, function () {
   var fetchOwnerRepoStub;
   var fetchInstancesStub;
   var fetchRepoDockerfilesStub;
+  var handleSocketEventStub;
+  var createNewClusterStub;
 
   // Mocked Values
   var instanceName = 'instanceName';
@@ -30,6 +33,9 @@ describe('NewContainerController'.bold.underline.blue, function () {
   var repoBuildAndBranch;
   var mockSourceInstance;
   var mockCurrentOrg;
+  var featureFlagsMock = {
+    composeNewService: false
+  };
 
   function initState () {
     errsStub = {
@@ -42,7 +48,10 @@ describe('NewContainerController'.bold.underline.blue, function () {
         }
       },
       github: {
-        oauthName: sinon.stub().returns('myOauthName')
+        oauthName: sinon.stub().returns('myOauthName'),
+        attrs: {
+          id: 999
+        }
       }
     };
 
@@ -69,6 +78,14 @@ describe('NewContainerController'.bold.underline.blue, function () {
       });
       $provide.factory('demoFlowService', function () {
         return {};
+      });
+      $provide.factory('createNewCluster', function () {
+        createNewClusterStub = sinon.stub().returns($q.when({}));
+        return createNewClusterStub;
+      });
+      $provide.factory('handleSocketEvent', function ($q) {
+        handleSocketEventStub = sinon.stub().returns($q.when({ clusterName: 'henry\'s instance' }));
+        return handleSocketEventStub;
       });
       $provide.factory('createNonRepoInstance', function ($q) {
         createNonRepoInstanceStub = sinon.stub().returns($q.when(true));
@@ -115,15 +132,16 @@ describe('NewContainerController'.bold.underline.blue, function () {
 
     angular.mock.inject(function (
       _$controller_,
-      $rootScope,
+      _$rootScope_,
       _keypather_,
       _$q_
     ) {
       $controller = _$controller_;
       $q = _$q_;
       keypather = _keypather_;
-
+      $rootScope = _$rootScope_;
       $scope = $rootScope.$new();
+      $rootScope.featureFlags = featureFlagsMock;
       NCC = $controller(
         'NewContainerController',
         {
@@ -466,4 +484,126 @@ describe('NewContainerController'.bold.underline.blue, function () {
     });
 
   });
+
+  describe('docker compose single cluster creation', function () {
+    beforeEach(function () {
+      NCC.state.dockerComposeFile = {
+        path: '/path'
+      };
+      NCC.state.dockerComposeTestFile = null;
+      NCC.state.repo = {
+        attrs: {
+          full_name: 'repo1',
+          default_branch: 'master'
+        }
+      };
+      NCC.state.instanceName = 'henry\'s instance';
+    });
+
+    it('should create one cluster', function () {
+      NCC.createComposeCluster();
+      sinon.assert.calledOnce(createNewClusterStub);
+      sinon.assert.calledWithExactly(createNewClusterStub, 
+        NCC.state.repo.attrs.full_name,
+        NCC.state.repo.attrs.default_branch,
+        NCC.state.dockerComposeFile.path,
+        NCC.state.instanceName,
+        mockCurrentOrg.github.attrs.id
+      );
+    });
+  });
+
+  describe('docker compose test cluster creation', function () {
+    beforeEach(function () {
+      featureFlagsMock.composeNewService = true;
+      NCC.state.dockerComposeFile = null;
+      NCC.state.dockerComposeTestFile = {
+        path: '/path'
+      };
+      NCC.state.repo = {
+        attrs: {
+          full_name: 'repo1',
+          default_branch: 'master'
+        }
+      };
+      NCC.state.instanceName = 'henry\'s instance';
+      NCC.state.types.test = true;
+      NCC.state.testReporter = {
+        name: 'test reporter'
+      };
+    });
+
+    it('should create one test cluster', function () {
+      NCC.createComposeCluster();
+      sinon.assert.calledOnce(createNewClusterStub);
+      sinon.assert.calledWithExactly(createNewClusterStub, 
+        NCC.state.repo.attrs.full_name,
+        NCC.state.repo.attrs.default_branch,
+        NCC.state.dockerComposeTestFile.path,
+        NCC.state.instanceName,
+        mockCurrentOrg.github.attrs.id,
+        !!NCC.state.dockerComposeTestFile,
+        [ NCC.state.testReporter.name ]
+      );
+    });
+  });
+
+  describe('docker compose multiple cluster creation', function () {
+    beforeEach(function () {
+      NCC.state.dockerComposeFile = {
+        path: '/path'
+      };
+      NCC.state.dockerComposeTestFile = {
+        path: '/path'
+      };
+      NCC.state.repo = {
+        attrs: {
+          full_name: 'repo1',
+          default_branch: 'master'
+        }
+      };
+      NCC.state.instanceName = 'henry\'s instance';
+      NCC.state.types.test = true;
+      NCC.state.types.stage = true;
+      NCC.state.testReporter = {
+        name: 'test reporter'
+      };
+    });
+
+    it('should create two test clusters', function () {
+      NCC.createComposeCluster();
+      $scope.$digest();
+      sinon.assert.calledTwice(createNewClusterStub);
+    });
+  });
+
+  describe('returning the correct text for buttons', function () {
+    it('should return setup if config method is \'new\'', function () {
+      NCC.state.configurationMethod = 'new';
+      var text = NCC.getNextStepText();
+      expect(text).to.equal('Next Step: Setup');
+    });
+    it('should return setup if config method is \'blankDockerfile\'', function () {
+      NCC.state.configurationMethod = 'blankDockerfile';
+      var text = NCC.getNextStepText();
+      expect(text).to.equal('Next Step: Setup');
+    });
+    it('should return Create Environments if config method is \'dockerComposeFile\'', function () {
+      NCC.state.configurationMethod = 'dockerComposeFile';
+      NCC.state.types.test = true;
+      var text = NCC.getNextStepText();
+      expect(text).to.equal('Create Environments');
+    });
+    it('should return Create Environment if config method is \'dockerComposeFile\' and no test', function () {
+      NCC.state.configurationMethod = 'dockerComposeFile';
+      NCC.state.types.test = false;
+      var text = NCC.getNextStepText();
+      expect(text).to.equal('Create Environment');
+    });
+    it('should return Create Environment by default or for a dockerfile', function () {
+      NCC.state.configurationMethod = 'dockerfile';
+      var text = NCC.getNextStepText();
+      expect(text).to.equal('Create Environment');
+    });
+  })
 });
