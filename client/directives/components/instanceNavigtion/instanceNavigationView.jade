@@ -15,15 +15,11 @@ a.grid-block.nav-container(
   status-icon.grid-block.shrink(
     instance = "INC.instance"
   )
-  .span.text-overflow.padding-right-xxs(
+  span.grid-block(
     title = "{{getNavigationName()}}"
   )
-    //- show repo names for repo containers in the master cluster
-    span(
-      ng-if = "INC.instance.attrs.masterPod && INC.instance.getBranchName()"
-    ) {{INC.instance.getName()}}/
-    //- branch name or service name
-    | {{getNavigationName()}}
+    //- repo names for repo containers in the master cluster / branch name or service name
+    .text-overflow {{ INC.instance.attrs.masterPod && INC.instance.getBranchName() ? INC.instance.getName() + '/' : '' }}{{getNavigationName()}}
   button.grid-block.shrink.btn-container-menu(
     ng-class = "{'active': INC.popoverShown}"
     ng-if = "!INC.currentOrg.isPersonalAccount() && !INC.isInDemoFlow()"

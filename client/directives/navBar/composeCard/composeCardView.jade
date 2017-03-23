@@ -1,12 +1,8 @@
-h3.nav-card-header(
-  ng-attr-title = "{{composeInstance.getBranchName()}}"
-)
-  //- bubble up test agent status for repos with test compose files
-  status-icon.grid-block.shrink.passed(
-    ng-if = "$root.featureFlags.composeNav"
+h3.nav-card-header
+  span.grid-block(
+    ng-attr-title = "{{composeInstance.getBranchName()}}"
   )
-
-  span.text-overflow {{composeInstance.getBranchName()}}
+    .text-overflow {{composeInstance.getBranchName()}}
 
   //- only show for default branches
   button.grid-block.shrink.btn-container-menu(
