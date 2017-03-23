@@ -72,6 +72,7 @@ ul.list.margin-top-sm(
   li.grid-block.align-center.list-item(
     ng-class = "{\
       'active': BCSC.data.commit === commit,\
+      'disabled': BCSC.data.commit === commit\
     }"
     ng-click = "BCSC.selectCommit(commit, $index === 0)"
     ng-repeat = "commit in BCSC.data.branch.commits.models | orderBy: '-attrs.commit.committer.date'"
@@ -80,7 +81,9 @@ ul.list.margin-top-sm(
       p.p.text-overflow(
         ng-attr-title = "{{commit.attrs.commit.message}}"
       ) {{commit.attrs.commit.message}}
-      small.small.text-gray {{commit.attrs.author.login}} committed {{commit.attrs.commit.committer.date | timeFrom}}
+      small.small.text-gray.text-overflow(
+        ng-attr-title = "{{commit.attrs.author.login}} committed {{commit.attrs.commit.committer.date | timeFrom}}"
+      ) {{commit.attrs.author.login}} committed {{commit.attrs.commit.committer.date | timeFrom}}
     button.grid-block.shrink.margin-left-sm.btn.btn-xs.btn-icon.btn-add
       svg.iconnables.icons-check
         use(
