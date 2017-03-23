@@ -36,8 +36,6 @@ function NewContainerController(
       tabName: 'repos',
       dockerFileTab: 'dockerfile',
       dockerfile: null,
-      dockerComposeFile: null,
-      dockerComposeTestFile: null,
       configurationMethod: null,
       namesForAllInstances: [],
       opts: {},
@@ -362,12 +360,22 @@ function NewContainerController(
     }
   };
 
+  NCC.getNextStepText = function () {
+    if (NCC.state.configurationMethod === 'blankDockerfile' || NCC.state.configurationMethod === 'new') {
+      return 'Next Step: Setup';
+    }
+    if (NCC.state.configurationMethod === 'dockerComposeFile' && NCC.state.types.test) {
+      return 'Create Environments';
+    }
+    return 'Create Environment';
+  }
+
   NCC.canCreateBuild = function () {
     return  NCC.state.instanceName.length && !keypather.get(NCC, 'nameForm.$invalid') &&
             !$rootScope.isLoading.newContainerSingleRepo && (!$rootScope.featureFlags.composeNewService ||
             ((NCC.state.configurationMethod === 'new' || NCC.state.configurationMethod === 'blankDockerfile') ||
             (NCC.state.configurationMethod === 'dockerfile' && NCC.state.dockerfile) ||
             (NCC.state.configurationMethod === 'dockerComposeFile' && (NCC.state.testReporter ||
-            (NCC.state.dockerComposeFile && keypather.get(NCC, 'state.types.stage'))))));
+            (NCC.state.dockerComposeFile && keypather.get(NCC, 'state.types.stage') && !NCC.state.types.test)))));
   };
 }
