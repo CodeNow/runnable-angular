@@ -5,6 +5,8 @@ describe.only('BranchCommitListController'.bold.underline.blue, function () {
   var $rootScope;
   var $controller;
   var $q;
+  var keypather;
+
   var controller;
 
   var fetchCommitDataStub;
@@ -38,7 +40,7 @@ describe.only('BranchCommitListController'.bold.underline.blue, function () {
       },
       isolation: null
     };
-    newCommit = { attrs: { sha: 2 } };
+    newCommit = { attrs: { sha: '1' } };
 
   }
   function initState() {
@@ -68,15 +70,15 @@ describe.only('BranchCommitListController'.bold.underline.blue, function () {
       $compile,
       _$controller_,
       _$rootScope_,
-      _$q_
+      _$q_,
+      _keypather_
     ) {
       $controller = _$controller_;
       $rootScope = _$rootScope_;
       $q = _$q_;
+      keypather = _keypather_;
 
       $scope = $rootScope.$new();
-      $scope.appCodeVersion = appCodeVersion;
-      $scope.instance = instance;
 
       controller = $controller('BranchCommitListController', {
         $scope: $scope
@@ -105,36 +107,18 @@ describe.only('BranchCommitListController'.bold.underline.blue, function () {
       initState();
     });
 
-    describe('`locked`', function () {
-      it('should not set the `locked` property it hasnt changed', function () {
-        controller.data.locked = true;
-        controller.instance.attrs.locked = true;
-        controller.updateInstance();
-        $scope.$digest();
-        sinon.assert.notCalled(controller.instance.update);
-      });
+    it('should not update it hasnt changed', function () {
+      newCommit.attrs.sha = '1';
+      controller.updateInstance();
+      $scope.$digest();
+      sinon.assert.notCalled(updateInstanceWithNewAcvDataStub);
+    });
 
-      it('should set the `locked` property to true it has changed', function () {
-        controller.data.locked = true;
-        controller.instance.attrs.locked = false;
-        controller.updateInstance();
-        $scope.$digest();
-        sinon.assert.calledOnce(controller.instance.update);
-        sinon.assert.calledWithExactly(controller.instance.update, {
-          locked: true
-        });
-      });
-
-      it('should set the `locked` property to false it has changed', function () {
-        controller.data.locked = false;
-        controller.instance.attrs.locked = true;
-        controller.updateInstance();
-        $scope.$digest();
-        sinon.assert.calledOnce(controller.instance.update);
-        sinon.assert.calledWithExactly(controller.instance.update, {
-          locked: false
-        });
-      });
+    it('should update it has changed', function () {
+      newCommit.attrs.sha = '2';
+      controller.updateInstance();
+      $scope.$digest();
+      sinon.assert.calledOnce(updateInstanceWithNewAcvDataStub);
     });
   });
 });
