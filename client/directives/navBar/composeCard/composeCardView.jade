@@ -4,7 +4,12 @@ h3.nav-card-header(
   instance-navigation
   ng-if = "!isActive"
 )
-  span.text-overflow {{getCardName()}}
+
+h3.nav-card-header(
+  ng-attr-title = "{{getCardName()}}"
+  ng-if = "isActive"
+)
+    span.text-overflow {{getCardName()}}
 
   //- only show for default branches
   button.grid-block.shrink.btn-container-menu(
