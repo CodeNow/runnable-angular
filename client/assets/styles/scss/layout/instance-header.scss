@@ -75,9 +75,9 @@
   }
 
   // override border on dark bg
-  .btn.red,
-  .btn.orange,
-  .btn.green {
+  > .btn.red,
+  > .btn.orange,
+  > .btn.green {
     border-color: $purple-darkest;
   }
 
