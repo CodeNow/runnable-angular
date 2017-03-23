@@ -24,10 +24,12 @@ function composeCard(
         return $scope.composeCluster.master.attrs.inputClusterConfig.clusterName;
       };
 
-      $scope.isActive = !$scope.isChild && $state.is('base.instances.instance', {
-        userName: $scope.activeAccount,
-        instanceName: $scope.composeCluster.master.attrs.name
-      });
+      $scope.isActive = function () {
+        return !$scope.isChild && $state.is('base.instances.instance', {
+          userName: $scope.activeAccount,
+          instanceName: $scope.composeCluster.master.attrs.name
+        });
+      };
     }
   };
 }

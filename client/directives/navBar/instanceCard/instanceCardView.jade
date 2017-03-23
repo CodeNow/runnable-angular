@@ -1,13 +1,10 @@
 h3.nav-card-header(
-  active-account = "activeAccount"
-  instance = "composeCluster.master"
-  instance-navigation
-  ng-if = "!isActive"
-)
-
-h3.nav-card-header(
   ng-attr-title = "{{instance.getDisplayName()}}"
-  ng-if = "isActive"
+  ui-sref = "\
+    base.instances.instance({userName: instance.attrs.owner.username,\
+    instanceName: instance.attrs.name})\
+  "
+  ui-sref-active = "active"
 )
   //- bubble up test agent status for repos with test compose files
   status-icon.grid-block.shrink.passed(

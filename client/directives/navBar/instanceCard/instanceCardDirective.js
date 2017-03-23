@@ -16,10 +16,16 @@ function instanceCard(
     link: function ($scope) {
       $scope.activeAccount = currentOrg.github.attrs.login;
 
-      $scope.isActive = $state.is('base.instances.instance', {
-        userName: $scope.activeAccount,
-        instanceName: $scope.instance.attrs.name
-      });
+      $scope.isActive = function () {
+        var active = $state.is('base.instances.instance', {
+          userName: $scope.activeAccount,
+          instanceName: $scope.instance.attrs.name
+        });
+        if (active) {
+          console.log('ACTIVE!');
+        }
+        return active;
+      };
     }
   };
 }
