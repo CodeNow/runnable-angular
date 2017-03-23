@@ -23,7 +23,11 @@ function composeCard(
         if ($scope.isChild) {
           return $scope.composeCluster.master.getBranchName();
         }
-        return $scope.composeCluster.master.attrs.inputClusterConfig.clusterName + '/' + $scope.composeCluster.master.getBranchName();
+        var preamble = keypather.get($scope, 'composeCluster.master.attrs.inputClusterConfig.clusterName');
+        if (preamble) {
+          preamble = preamble + '/';
+        }
+        return preamble + $scope.composeCluster.master.getBranchName();
       };
 
       $scope.isActive = false;
