@@ -1,8 +1,8 @@
 h3.nav-card-header
   span.grid-block(
-    ng-attr-title = "{{composeInstance.getBranchName()}}"
+    ng-attr-title = "{{composeCluster.master.attrs.inputClusterConfig.clusterName}}"
   )
-    .text-overflow {{composeInstance.getBranchName()}}
+    span.text-overflow {{composeCluster.master.attrs.inputClusterConfig.clusterName}}
 
   //- only show for default branches
   button.grid-block.shrink.btn-container-menu(
@@ -21,8 +21,10 @@ h3.nav-card-header
 //- staging environment
 section.nav-card-section(
   ng-include = "'stagingEnvironmentView'"
+  ng-if = "composeCluster.staging.length"
 )
 //- testing environment
 section.nav-card-section(
+  ng-if = "composeCluster.testing.length"
   ng-include = "'testingEnvironmentView'"
 )
