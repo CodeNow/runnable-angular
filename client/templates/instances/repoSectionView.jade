@@ -18,6 +18,7 @@ h2.grid-block.align-center.justify-justified.nav-section-header
 
 section.nav-card(
   ng-class = "{'active': active}"
-  ng-include = "'branchCardView'"
-  ng-repeat = "active in [true, false, false] track by $index"
+  compose-card
+  compose-instance = "composeChild"
+  ng-repeat = "composeChild in masterInstance.compose.children | orderBy: ['attrs.name'] track by composeChild.attrs.name"
 )

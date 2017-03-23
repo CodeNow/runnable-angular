@@ -155,7 +155,7 @@ function ControllerInstances(
             }
 
             if (!targetInstance) {
-              if (CIS.instancesByCompose.models.length) {
+              if (keypather.get(CIS, 'instancesByCompose.models.length')) {
                 targetInstance = $filter('orderBy')(instancesByCompose.models, 'attrs.name')[0];
               } else {
                 targetInstance = $filter('orderBy')(instancesByPod.models, 'attrs.name')[0];

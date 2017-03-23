@@ -2,7 +2,6 @@
 var jsonHash = require('json-hash');
 var apiConfig = require('../config/api');
 var GithubOrgCollection = require('@runnable/api-client/lib/collections/github-orgs.js');
-var fakeInstances = require('./fakeInstances.json');
 
 require('app')
   // User + Orgs
@@ -185,7 +184,8 @@ function fetchInstances(
   $state,
   exists,
   fetchUser,
-  keypather
+  keypather,
+  promisify
 ) {
   return function (opts, resetCache) {
     if (!opts) {
@@ -200,9 +200,8 @@ function fetchInstances(
     if (resetCache || !fetchCache[fetchKey]) {
       fetchCache[fetchKey] = fetchUser()
         .then(function (user) {
-          return user.newInstances(fakeInstances, {qs: {}});
-          // var pFetch = promisify(user, 'fetchInstances');
-          // return pFetch(opts);
+          var pFetch = promisify(user, 'fetchInstances');
+          return pFetch(opts);
         })
         .then(function (results) {
           var instance = results;
@@ -228,12 +227,7 @@ function fetchInstance(
   return function (instanceId) {
     return fetchUser()
       .then(function (user) {
-        return promisify(user, 'fetchInstances')();
-      })
-      .then(function (instances) {
-        return instances.find(function (instance) {
-          return instance.id() === instanceId;
-        });
+        return promisify(user, 'fetchInstance')(instanceId);
       });
   };
 }
