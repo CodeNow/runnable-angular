@@ -3,6 +3,7 @@
 require('app').directive('instanceNavigation', instanceNavigation);
 
 function instanceNavigation(
+  $rootScope,
   $state,
   keypather,
   getInstanceServiceName
@@ -23,7 +24,7 @@ function instanceNavigation(
       $scope.getNavigationName = function () {
         var instance = $scope.INC.instance;
         // This is a cluster!
-        if (keypather.get(instance, 'attrs.inputClusterConfig._id')) {
+        if (keypather.get(instance, 'attrs.inputClusterConfig._id') && $rootScope.featureFlags.composeNav) {
           return getInstanceServiceName(instance);
         }
 
