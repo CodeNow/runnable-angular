@@ -833,21 +833,33 @@ function fetchGitHubAdminsByRepo(
 
 function fetchGitHubRepoBranch(
   $http,
+  $q,
   configAPIHost
 ) {
   return function (orgName, repoName, branchName) {
-    var urlEnd = branchName ? '/' + branchName : '';
-    return $http({
-      method: 'get',
-      url: configAPIHost + '/github/repos/' + orgName + '/' + repoName + '/branches' + urlEnd,
-      headers: {
-        Accept: 'application/vnd.github.ironman-preview+json'
-      }
-    })
-    .then(function (res) {
-      return res.data;
-    });
-  };
+    var deferred = $q.defer();
+    getBranches(1, []);
+    return deferred.promise;
+
+    function getBranches (page, branches) {
+      var urlEnd = branchName ? '/' + branchName : '';
+      var page = page || 1;
+      var params = !urlEnd ? '?page=' + page + '&per_page=100' : '';
+      return $http({
+        method: 'get',
+        url: configAPIHost + '/github/repos/' + orgName + '/' + repoName + '/branches' + urlEnd + params,
+        headers: {
+          Accept: 'application/vnd.github.ironman-preview+json'
+        }
+      })
+      .then(function (res) {
+        if (res.data.length === 100) {
+          return getBranches(page + 1, branches.concat(res.data));
+        }
+        return deferred.resolve(branches.concat(res.data));
+      });
+    };
+  }
 }
 
 /**
