@@ -41,6 +41,7 @@ require('app')
   .factory('fetchOwnerRepos', fetchOwnerRepos)
   .factory('fetchOwnerRepo', fetchOwnerRepo)
   .factory('fetchPullRequest', fetchPullRequest)
+  .factory('fetchCommitsForInstance', fetchCommitsForInstance)
   // Settings
   .factory('verifySlackAPITokenAndFetchMembers', verifySlackAPITokenAndFetchMembers)
   .factory('fetchSettings', fetchSettings)
@@ -924,6 +925,17 @@ function fetchPullRequest(
       return keypather.get(pullRequests, 'data[0]');
     });
   };
+}
+
+function fetchCommitsForInstance(
+  keypather,
+  promisify
+) {
+  return function (instance) {
+    var acv = keypather.get(instance, 'contextVersion.appCodeVersions.models[0]');
+    var branch = acv.githubRepo.newBranch(acv.attrs.branch, {warn: false})
+    return promisify(branch.commits, 'fetch')()
+  }
 }
 
 function fetchDebugContainer(

@@ -13,6 +13,7 @@ function instanceHeader(
   currentOrg,
   demoFlowService,
   eventTracking,
+  fetchCommitsForInstance,
   fetchPullRequest,
   keypather
 ) {
@@ -29,6 +30,14 @@ function instanceHeader(
       $scope.currentOrg = currentOrg;
       $scope.openedPRUrl = eventTracking.openedPRUrl;
       $scope.userName = $stateParams.userName;
+      $scope.commit = keypather.get($scope, 'instance.contextVersion.appCodeVersions.models[0].attrs.commit');
+      fetchCommitsForInstance($scope.instance)
+        .then(function(commits) {
+          if ($scope.commit !== keypather.get(commits, 'models[0].attrs.sha')) {
+            $scope.showCommitHash = true;
+          }
+        })
+
       $scope.$watch('instance', function (newValue) {
         if (!newValue) {
           return;

@@ -11,11 +11,11 @@ small.grid-block.noscroll.text-overflow(
   //- should show either PR link OR commit status
     - prioritize commit status over PR link
   .grid-block.shrink.noscroll(
-    ng-if = "!!pr && !commitHistory"
+    ng-if = "!!pr && !showCommitHash"
     ng-include = "'instanceHeaderPRLinkView'"
   )
   .grid-block.shrink.noscroll(
-    ng-if = "commitHistory"
+    ng-if = "showCommitHash"
     ng-include = "'instanceHeaderPreviousCommitView'"
   )
 
