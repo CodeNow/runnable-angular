@@ -12,7 +12,12 @@
 
   // search
   .label-search {
-    padding: 19px 0; // match height of instance header
+    height: 60px; // match instance header
+  }
+
+  // search empty state
+  .search-empty {
+    height: 61px; // match tab bar height
   }
 
   // empty state
@@ -44,8 +49,9 @@
 .nav-section-header {
   font-size: inherit; // reset
   font-weight: $weight-normal; // reset
+  height: 60px; // match tab bar height
   line-height: inherit; // reset
-  padding: $sm 0 $sm (18px + $input-border);
+  padding-left: (18px + $input-border);
 
   // "add a service" and "add a branch" buttons
   .btn-xs {
