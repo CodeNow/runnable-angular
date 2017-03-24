@@ -32,8 +32,7 @@ function instanceNavigation(
         var preamble = '';
         if ($scope.INC.instance.attrs.isTesting && !$scope.INC.instance.attrs.masterPod) {
           preamble = $scope.INC.instance.getMasterPodName() + '/';
-        }
-        if ($scope.INC.instance.attrs.masterPod && branchName) {
+        } else if ($scope.INC.instance.attrs.masterPod && branchName) {
           preamble = $scope.INC.instance.attrs.name + '/';
         }
 
