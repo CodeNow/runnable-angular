@@ -7,12 +7,11 @@ function instanceCard(
   $rootScope,
   $state,
   currentOrg,
-  getPathShortHash,
-  keypather
+  getPathShortHash
 ) {
   return {
     restrict: 'A',
-    templateUrl: 'instanceCardView',
+    templateUrl: 'viewInstanceCard',
     scope: {
       instance: '='
     },

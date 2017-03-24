@@ -12,7 +12,7 @@ function composeCard(
 ) {
   return {
     restrict: 'A',
-    templateUrl: 'composeCardView',
+    templateUrl: 'viewComposeCard',
     scope: {
       composeCluster: '=',
       isChild: '=?'

@@ -23,11 +23,11 @@ a.nav-card-header(
         )
 //- staging environment
 section.nav-card-section(
-  ng-include = "'stagingEnvironmentView'"
+  ng-include = "'viewStagingEnvironment'"
   ng-if = "isActive && (composeCluster.staging.length || !composeCluster.master.attrs.isTesting)"
 )
 //- testing environment
 section.nav-card-section(
   ng-if = "isActive && (composeCluster.testing.length || composeCluster.master.attrs.isTesting)"
-  ng-include = "'testingEnvironmentView'"
+  ng-include = "'viewTestingEnvironment'"
 )
