@@ -368,7 +368,7 @@ function NewContainerController(
       return 'Create Environments';
     }
     return 'Create Environment';
-  }
+  };
 
   NCC.canCreateBuild = function () {
     return  NCC.state.instanceName.length && !keypather.get(NCC, 'nameForm.$invalid') &&
