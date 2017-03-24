@@ -331,8 +331,8 @@ function NewContainerController(
         }
         return handleSocketEvent('compose-cluster-created');
       })
-      .then(function(promiseResolved) {
-        if (NCC.state.dockerComposeTestFile && promiseResolved.clusterName === NCC.state.instanceName) {
+      .then(function(parentCluster) {
+        if (NCC.state.dockerComposeTestFile && parentCluster.clusterName === NCC.state.instanceName) {
           var instanceName = NCC.state.instanceName + '-test';
           return createNewCluster(
             NCC.state.repo.attrs.full_name,
@@ -342,7 +342,7 @@ function NewContainerController(
             currentOrg.github.attrs.id,
             !!NCC.state.dockerComposeTestFile,
             [ NCC.state.testReporter.name ],
-            promiseResolved.parentInputClusterConfigId
+            parentCluster.parentInputClusterConfigId
           );
         }
         return;
