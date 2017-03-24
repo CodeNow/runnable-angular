@@ -843,7 +843,7 @@ function fetchGitHubRepoBranch(
 
     function getBranches (page, branches) {
       var urlEnd = branchName ? '/' + branchName : '';
-      var page = page || 1;
+      page = page || 1;
       var params = !urlEnd ? '?page=' + page + '&per_page=100' : '';
       return $http({
         method: 'get',
@@ -858,8 +858,8 @@ function fetchGitHubRepoBranch(
         }
         return deferred.resolve(branches.concat(res.data));
       });
-    };
-  }
+    }
+  };
 }
 
 /**
