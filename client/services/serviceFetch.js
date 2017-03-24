@@ -837,9 +837,7 @@ function fetchGitHubRepoBranch(
   configAPIHost
 ) {
   return function (orgName, repoName, branchName) {
-    var deferred = $q.defer();
-    getBranches(1, []);
-    return deferred.promise;
+    return getBranches(1, []);
 
     function getBranches (page, branches) {
       var urlEnd = branchName ? '/' + branchName : '';
@@ -856,7 +854,7 @@ function fetchGitHubRepoBranch(
         if (res.data.length === 100) {
           return getBranches(page + 1, branches.concat(res.data));
         }
-        return deferred.resolve(branches.concat(res.data));
+        return branches.concat(res.data);
       });
     }
   };
