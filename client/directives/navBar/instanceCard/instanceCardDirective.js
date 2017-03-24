@@ -4,8 +4,10 @@ require('app')
   .directive('instanceCard', instanceCard);
 
 function instanceCard(
+  $rootScope,
+  $state,
   currentOrg,
-  $state
+  keypather
 ) {
   return {
     restrict: 'A',
@@ -16,16 +18,31 @@ function instanceCard(
     link: function ($scope) {
       $scope.activeAccount = currentOrg.github.attrs.login;
 
-      $scope.isActive = function () {
-        var active = $state.is('base.instances.instance', {
+      $scope.isActive = false;
+      function checkIfActive() {
+        var isCurrentBaseInstance = $state.is('base.instances.instance', {
           userName: $scope.activeAccount,
           instanceName: $scope.instance.attrs.name
         });
-        if (active) {
-          console.log('ACTIVE!');
+
+        if (isCurrentBaseInstance) {
+          $scope.isActive = true;
+          return;
         }
-        return active;
-      };
+
+        // Determine if the instance name matches our shorthash?
+        if (keypather.get($state, 'params.instanceName.split(\'--\')[0]') === $scope.instance.attrs.shortHash) {
+          $scope.isActive = true;
+          return;
+        }
+
+        $scope.isActive = false;
+      }
+
+      $rootScope.$on('$stateChangeSuccess', function () {
+        checkIfActive();
+      });
+      checkIfActive();
     }
   };
 }

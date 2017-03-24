@@ -19,7 +19,7 @@ a.grid-block.nav-container(
     title = "{{getNavigationName()}}"
   )
     //- repo names for repo containers in the master cluster / branch name or service name
-    span.text-overflow {{ INC.instance.attrs.masterPod && INC.instance.getBranchName() ? INC.instance.getName() + '/' : '' }}{{getNavigationName()}}
+    span.text-overflow {{getNavigationName()}}
   //- show history button for branches of non-compose repos (including the default branch)
   //- button.grid-block.shrink.btn.btn-container-menu(
   //-   ng-class = "{\

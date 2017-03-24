@@ -413,4 +413,21 @@ function ControllerInstances(
       templateUrl: 'newContainerModalView'
     });
   };
+
+  this.isCardActive = function (instance) {
+    var isCurrentBaseInstance = $state.is('base.instances.instance', {
+      userName: currentOrg.github.attrs.login,
+      instanceName: instance.attrs.name
+    });
+
+    if (isCurrentBaseInstance) {
+      return true;
+    }
+
+    // Determine if the instance name matches our shorthash?
+    if (keypather.get($state, 'params.instanceName.split(\'--\')[0]') === instance.attrs.shortHash) {
+      return true;
+    }
+    return false;
+  };
 }

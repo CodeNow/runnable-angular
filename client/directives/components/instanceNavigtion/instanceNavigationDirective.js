@@ -3,7 +3,10 @@
 require('app').directive('instanceNavigation', instanceNavigation);
 
 function instanceNavigation(
-  $state
+  $rootScope,
+  $state,
+  keypather,
+  getInstanceServiceName
 ) {
   return {
     restrict: 'A',
@@ -20,8 +23,12 @@ function instanceNavigation(
 
       $scope.getNavigationName = function () {
         var instance = $scope.INC.instance;
-        var branchName = instance.getBranchName();
+        // This is a cluster!
+        if (keypather.get(instance, 'attrs.inputClusterConfig._id') && $rootScope.featureFlags.composeNav) {
+          return getInstanceServiceName(instance);
+        }
 
+        var branchName = instance.getBranchName();
         var preamble = '';
         if ($scope.INC.instance.attrs.isTesting && !$scope.INC.instance.attrs.masterPod) {
           preamble = $scope.INC.instance.getMasterPodName() + '/';
