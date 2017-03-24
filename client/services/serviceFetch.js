@@ -414,7 +414,15 @@ function fetchInstancesByCompose(
             instancesByCompose.length = 0;
             // 2. fill the first array with items from the second
             [].push.apply(instancesByCompose, newInstancesByCompose);
-
+            instancesByCompose.sort(function (a, b) {
+              if (a.attrs.name < b.attrs.name) {
+                return -1;
+              } else if (a.attrs.name > b.attrs.name) {
+                return 1;
+              } else {
+                return 0;
+              }
+            });
           }
 
           allInstances.refreshOnDisconnect = true;
