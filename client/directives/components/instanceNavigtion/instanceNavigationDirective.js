@@ -33,6 +33,9 @@ function instanceNavigation(
         if ($scope.INC.instance.attrs.isTesting && !$scope.INC.instance.attrs.masterPod) {
           preamble = $scope.INC.instance.getMasterPodName() + '/';
         }
+        if ($scope.INC.instance.attrs.masterPod && branchName) {
+          preamble = $scope.INC.instance.attrs.name + '/';
+        }
 
         if (instance.attrs.isolated && !instance.attrs.isIsolationGroupMaster) {
           // If it's isolated and not the master we should first try to show the repo and branch name
