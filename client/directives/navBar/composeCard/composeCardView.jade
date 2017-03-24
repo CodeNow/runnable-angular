@@ -1,4 +1,4 @@
-h3.nav-card-header(
+a.nav-card-header(
   ng-attr-title = "{{getCardName()}}"
   ui-sref = "\
       base.instances.instance({userName: composeCluster.master.attrs.owner.username,\
@@ -6,27 +6,21 @@ h3.nav-card-header(
     "
   ui-sref-active = "active"
 )
-    status-icon.grid-block.shrink(
-      ng-if = "composeCluster.master.attrs.isTesting || composeCluster.testing.length"
-      instance = "composeCluster.master.attrs.isTesting ? composeCluster.master : composeCluster.testing[0]"
+    span.grid-block.text-overflow {{getCardName()}}
+    //- only show for default branches
+    button.grid-block.shrink.btn-container-menu(
+      ng-class = "{'active': INC.popoverShown}"
+      ng-if = "!INC.currentOrg.isPersonalAccount() && !INC.isInDemoFlow()"
+      pop-over
+      pop-over-active = "INC.popoverShown"
+      pop-over-controller = "INC"
+      pop-over-options = "{\"verticallyCentered\":true,\"left\":26}"
+      pop-over-template = "instanceNavigationPopoverView"
     )
-    span.text-overflow {{getCardName()}}
-
-  //- only show for default branches
-  button.grid-block.shrink.btn-container-menu(
-    ng-class = "{'active': INC.popoverShown}"
-    ng-if = "!INC.currentOrg.isPersonalAccount() && !INC.isInDemoFlow()"
-    pop-over
-    pop-over-active = "INC.popoverShown"
-    pop-over-controller = "INC"
-    pop-over-options = "{\"verticallyCentered\":true,\"left\":26}"
-    pop-over-template = "instanceNavigationPopoverView"
-  )
-    svg.iconnables
-      use(
-        xlink:href = "#icons-gear"
-      )
-
+      svg.iconnables
+        use(
+          xlink:href = "#icons-gear"
+        )
 //- staging environment
 section.nav-card-section(
   ng-include = "'stagingEnvironmentView'"
