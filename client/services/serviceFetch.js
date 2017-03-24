@@ -321,91 +321,95 @@ function fetchInstancesByCompose(
   $q,
   $state,
   fetchInstances,
-  keypather
+  keypather,
+  memoize
 ) {
   return function (username) {
     username = username || $state.params.userName;
     if (!username) {
       return $q.when([]);
     }
-    return fetchInstances({
-      githubUsername: username
-    })
-      .then(function (allInstances) {
-        var composeMasters = {};
 
-        allInstances.forEach(function (instance) {
-          var clusterConfigId = keypather.get(instance, 'attrs.inputClusterConfig._id');
-          // If this isn't in a cluster, we don't actually care since it'll use the old instancesByPod navigation
-          if (!clusterConfigId) {
-            return;
-          }
+    return memoize(function (username) {
+      return fetchInstances({
+        githubUsername: username
+      })
+        .then(function (allInstances) {
+          var composeMasters = {};
 
-          var isComposeMaster = keypather.get(instance, 'attrs.inputClusterConfig.masterInstanceId') === instance.id();
-          var composeParent = keypather.get(instance, 'attrs.inputClusterConfig.parentInputClusterConfigId');
-          if (instance.attrs.masterPod && isComposeMaster && !composeParent) {
-            composeMasters[clusterConfigId] = composeMasters[clusterConfigId] || {};
-            composeMasters[clusterConfigId].master = instance;
-            return;
-          }
-
-          var masterClusterConfigId = clusterConfigId;
-          if (composeParent) {
-            masterClusterConfigId = composeParent;
-          }
-
-          // If this belongs at the top level for a compose master
-          if (instance.attrs.masterPod) {
-            composeMasters[masterClusterConfigId] = composeMasters[masterClusterConfigId] || {};
-            if (instance.attrs.isTesting) {
-              composeMasters[masterClusterConfigId].testing = composeMasters[masterClusterConfigId].testing || [];
-              composeMasters[masterClusterConfigId].testing.push(instance);
+          allInstances.forEach(function (instance) {
+            var clusterConfigId = keypather.get(instance, 'attrs.inputClusterConfig._id');
+            // If this isn't in a cluster, we don't actually care since it'll use the old instancesByPod navigation
+            if (!clusterConfigId) {
               return;
             }
-            composeMasters[masterClusterConfigId].staging = composeMasters[masterClusterConfigId].staging || [];
-            composeMasters[masterClusterConfigId].staging.push(instance);
-            return;
-          }
 
-          // This is a branched compose. We should now group by isolation.
-          composeMasters[masterClusterConfigId] = composeMasters[masterClusterConfigId] || {};
-          composeMasters[masterClusterConfigId].children = composeMasters[masterClusterConfigId].children || {};
-          var isolationId = instance.attrs.isolated;
+            var isComposeMaster = keypather.get(instance, 'attrs.inputClusterConfig.masterInstanceId') === instance.id();
+            var composeParent = keypather.get(instance, 'attrs.inputClusterConfig.parentInputClusterConfigId');
+            if (instance.attrs.masterPod && isComposeMaster && !composeParent) {
+              composeMasters[clusterConfigId] = composeMasters[clusterConfigId] || {};
+              composeMasters[clusterConfigId].master = instance;
+              return;
+            }
 
-          if (!isolationId) {
-            // They aren't isolated, so loney, so so lonely.
-            composeMasters[masterClusterConfigId].children[instance.attrs.id] = {
-              master: instance
-            };
-            return;
-          }
-          composeMasters[masterClusterConfigId].children[isolationId] = composeMasters[masterClusterConfigId].children[isolationId] || {};
-          if (instance.attrs.isIsolationGroupMaster) {
-            composeMasters[masterClusterConfigId].children[isolationId].master = instance;
-            return;
-          }
+            var masterClusterConfigId = clusterConfigId;
+            if (composeParent) {
+              masterClusterConfigId = composeParent;
+            }
 
-          if (instance.attrs.isTesting) {
-            composeMasters[ masterClusterConfigId ].children[ isolationId ].testing = composeMasters[ masterClusterConfigId ].children[ isolationId ].testing || [];
-            composeMasters[ masterClusterConfigId ].children[ isolationId ].testing.push(instance);
+            // If this belongs at the top level for a compose master
+            if (instance.attrs.masterPod) {
+              composeMasters[masterClusterConfigId] = composeMasters[masterClusterConfigId] || {};
+              if (instance.attrs.isTesting) {
+                composeMasters[masterClusterConfigId].testing = composeMasters[masterClusterConfigId].testing || [];
+                composeMasters[masterClusterConfigId].testing.push(instance);
+                return;
+              }
+              composeMasters[masterClusterConfigId].staging = composeMasters[masterClusterConfigId].staging || [];
+              composeMasters[masterClusterConfigId].staging.push(instance);
+              return;
+            }
+
+            // This is a branched compose. We should now group by isolation.
+            composeMasters[masterClusterConfigId] = composeMasters[masterClusterConfigId] || {};
+            composeMasters[masterClusterConfigId].children = composeMasters[masterClusterConfigId].children || {};
+            var isolationId = instance.attrs.isolated;
+
+            if (!isolationId) {
+              // They aren't isolated, so loney, so so lonely.
+              composeMasters[masterClusterConfigId].children[instance.attrs.id] = {
+                master: instance
+              };
+              return;
+            }
+            composeMasters[masterClusterConfigId].children[isolationId] = composeMasters[masterClusterConfigId].children[isolationId] || {};
+            if (instance.attrs.isIsolationGroupMaster) {
+              composeMasters[masterClusterConfigId].children[isolationId].master = instance;
+              return;
+            }
+
+            if (instance.attrs.isTesting) {
+              composeMasters[ masterClusterConfigId ].children[ isolationId ].testing = composeMasters[ masterClusterConfigId ].children[ isolationId ].testing || [];
+              composeMasters[ masterClusterConfigId ].children[ isolationId ].testing.push(instance);
+              return;
+            }
+            composeMasters[masterClusterConfigId].children[isolationId].staging = composeMasters[masterClusterConfigId].children[isolationId].staging || [];
+            composeMasters[masterClusterConfigId].children[isolationId].staging.push(instance);
             return;
-          }
-          composeMasters[masterClusterConfigId].children[isolationId].staging = composeMasters[masterClusterConfigId].children[isolationId].staging || [];
-          composeMasters[masterClusterConfigId].children[isolationId].staging.push(instance);
-          return;
+          });
+          var instancesByCompose = Object.keys(composeMasters).map(function (composeId) {
+            if (composeMasters[composeId].children) {
+              composeMasters[composeId].children = Object.keys(composeMasters[composeId].children).map(function (isolationId) {
+                return composeMasters[composeId].children[isolationId];
+              });
+            }
+
+            return composeMasters[composeId];
+          });
+
+          return instancesByCompose;
         });
-        var instancesByCompose = Object.keys(composeMasters).map(function (composeId) {
-          if (composeMasters[composeId].children) {
-            composeMasters[composeId].children = Object.keys(composeMasters[composeId].children).map(function (isolationId) {
-              return composeMasters[composeId].children[isolationId];
-            });
-          }
-
-          return composeMasters[composeId];
-        });
-
-        return instancesByCompose;
-      });
+    })(username);
   };
 }
 
