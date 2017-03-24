@@ -95,7 +95,7 @@
 
         //- branch options
         label.grid-block.shrink.align-center.padding-xxs.well.gray(
-          ng-if = "!$root.isLoading.fetchingBranches && CIS.instanceBranches.length"
+          ng-if = "!$root.isLoading.fetchingBranches"
         )
           .grid-block.small Automatically add branches as they’re updated on GitHub.
             button.btn.btn-xs.btn-permissions(
