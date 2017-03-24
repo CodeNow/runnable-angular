@@ -1,0 +1,40 @@
+//- hide everything except the spinner when loading
+.padding-md.grid-block.align-center.justify-center(
+ng-if = "fetchingCommits"
+)
+  .spinner-wrapper.spinner-gray.spinner-sm(
+  ng-include = "'spinner'"
+  )
+
+header.grid-block.vertical.shrink.align-start.header(
+  ng-include = "'testSelectorHeaderView'"
+)
+
+//- list of commits
+ul.list.margin-top-sm(
+  ng-if = "\
+    !fetchingCommits\
+    && BTSC.data.branch.commits.models\
+  "
+)
+  li.grid-block.align-center.list-item(
+    ng-class = "{\
+      'active': BTSC.data.commit === commit\
+    }"
+    ng-click = "BTSC.selectCommit(commit, $index === 0)"
+    ng-repeat = "commit in BTSC.data.branch.commits.models | orderBy: '-attrs.commit.committer.date'"
+  )
+    .grid-block.vertical
+      p.p.text-overflow(
+        ng-attr-title = "{{commit.attrs.commit.message}}"
+      ) {{commit.attrs.commit.message}}
+      .grid-block.align-center
+        .icons-status(
+          ng-class = "{'passed' : commit.attrs.test === 1}"
+        )
+        small.small.text-gray {{commit.attrs.sha | limitTo : 6}}
+    button.grid-block.shrink.margin-left-sm.btn.btn-xs.btn-icon.btn-add
+      svg.iconnables.icons-check
+        use(
+          xlink:href = "#icons-check"
+        )

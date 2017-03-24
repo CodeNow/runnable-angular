@@ -125,4 +125,9 @@ function EditRepoCommitController(
           }
         });
     };
+
+    ERCC.branchTestSelectorPopoverData = {
+      instance: ERCC.instance,
+      appCodeVersion: ERCC.acv
+    };
   }
