@@ -5,9 +5,8 @@ require('app')
 
 function instanceCard(
   $rootScope,
-  $state,
   currentOrg,
-  getPathShortHash
+  isInstanceActive
 ) {
   return {
     restrict: 'A',
@@ -20,28 +19,11 @@ function instanceCard(
 
       $scope.isActive = false;
       function checkIfActive() {
-        var isCurrentBaseInstance = $state.is('base.instances.instance', {
-          userName: $scope.activeAccount,
-          instanceName: $scope.instance.attrs.name
-        });
-
-        if (isCurrentBaseInstance) {
-          $scope.isActive = true;
-          return;
-        }
-
-        // Determine if the instance name matches our shorthash?
-        if (getPathShortHash() === $scope.instance.attrs.shortHash) {
-          $scope.isActive = true;
-          return;
-        }
-
-        $scope.isActive = false;
+        $scope.isActive = isInstanceActive($scope.instance);
       }
 
-      $rootScope.$on('$stateChangeSuccess', function () {
-        checkIfActive();
-      });
+      var stopListening = $rootScope.$on('$stateChangeSuccess', checkIfActive);
+      $scope.$on('$destroy', stopListening);
       checkIfActive();
     }
   };

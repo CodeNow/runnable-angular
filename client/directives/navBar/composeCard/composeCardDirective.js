@@ -5,10 +5,9 @@ require('app')
 
 function composeCard(
   $rootScope,
-  $state,
   currentOrg,
-  getPathShortHash,
-  keypather
+  keypather,
+  isInstanceActive
 ) {
   return {
     restrict: 'A',
@@ -37,28 +36,13 @@ function composeCard(
           $scope.isActive = true;
           return;
         }
-        var isCurrentBaseInstance = $state.is('base.instances.instance', {
-          userName: $scope.activeAccount,
-          instanceName: $scope.composeCluster.master.attrs.name
-        });
-
-        if (isCurrentBaseInstance) {
-          $scope.isActive = true;
-          return;
-        }
-
-        // Determine if the instance name matches our shorthash?
-        if (getPathShortHash() === $scope.composeCluster.master.attrs.shortHash) {
-          $scope.isActive = true;
-          return;
-        }
-
-        $scope.isActive = false;
+        $scope.isActive = isInstanceActive($scope.composeCluster.master);
       }
 
-      $rootScope.$on('$stateChangeSuccess', function () {
+      var stopListening = $rootScope.$on('$stateChangeSuccess', function () {
         checkIfActive();
       });
+      $scope.$on('$destroy', stopListening);
       checkIfActive();
 
       $scope.getStagingInstances = function () {

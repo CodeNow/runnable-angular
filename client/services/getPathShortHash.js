@@ -5,6 +5,6 @@ require('app')
 
 function getPathShortHash ($state, keypather) {
   return function () {
-    return keypather.get($state, 'params.instanceName.split(\'--\')[0]')
-  }
+    return keypather.get($state, 'params.instanceName.split(\'--\')[0]');
+  };
 }

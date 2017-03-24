@@ -21,15 +21,15 @@ function ControllerInstances(
   eventTracking,
   fetchGitHubRepoBranch,
   fetchInstances,
-  fetchInstancesByPod,
   fetchInstancesByCompose,
+  fetchInstancesByPod,
   fetchRepoBranches,
+  isInstanceActive,
   keypather,
   loading,
   ModalService,
   promisify,
   setLastOrg,
-  getPathShortHash,
   user,
   watchOncePromise
 ) {
@@ -413,20 +413,5 @@ function ControllerInstances(
     });
   };
 
-  this.isCardActive = function (instance) {
-    var isCurrentBaseInstance = $state.is('base.instances.instance', {
-      userName: currentOrg.github.attrs.login,
-      instanceName: instance.attrs.name
-    });
-
-    if (isCurrentBaseInstance) {
-      return true;
-    }
-
-    // Determine if the instance name matches our shorthash?
-    if (getPathShortHash() === instance.attrs.shortHash) {
-      return true;
-    }
-    return false;
-  };
+  this.isCardActive = isInstanceActive;
 }
