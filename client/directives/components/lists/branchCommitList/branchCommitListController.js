@@ -2,10 +2,6 @@
 
 require('app')
   .controller('BranchCommitListController', BranchCommitListController);
-/**
- * controller BranchCommitListController
- * @ngInject
- */
 function BranchCommitListController(
   $q,
   $scope,
