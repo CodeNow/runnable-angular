@@ -261,7 +261,7 @@ function fetchInstancesByPod(
             });
             function sortAllInstances(allInstances) {
               var instanceMapping = {};
-              allInstances.forEach(function (instance) {
+              allInstances.models.forEach(function (instance) {
                 var parentId = instance.attrs.parent;
                 if (instance.attrs.masterPod) {
                   parentId = instance.attrs.shortHash;
@@ -339,7 +339,7 @@ function fetchInstancesByCompose(
           var instancesByCompose = [];
 
           function populateInstancesByCompose () {
-            allInstances.forEach(function (instance) {
+            allInstances.models.forEach(function (instance) {
               var clusterConfigId = keypather.get(instance, 'attrs.inputClusterConfig._id');
               // If this isn't in a cluster, we don't actually care since it'll use the old instancesByPod navigation
               if (!clusterConfigId) {

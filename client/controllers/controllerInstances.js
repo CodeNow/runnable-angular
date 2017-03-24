@@ -120,8 +120,6 @@ function ControllerInstances(
       var instancesByCompose = promiseResults[1];
       var allInstances = promiseResults[2];
 
-      console.log('Instances by compose: ', instancesByCompose);
-
       // Fire-and-forget. Used for event-tracking
       listenForFirstNewBranches();
 

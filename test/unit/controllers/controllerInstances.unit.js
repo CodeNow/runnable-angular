@@ -211,31 +211,6 @@ describe('ControllerInstances'.bold.underline.blue, function () {
     $rootScope.$digest();
   }
   describe('No local storage options'.blue, function () {
-    it('should navigate to the first (alphabetical) instance for user', function () {
-      setup('SomeKittens');
-      $rootScope.$digest();
-      var userInstance = runnable.newInstance(apiMocks.instances.running, {noStore: true});
-      userInstance.attrs.createdBy.username = 'SomeKittens';
-      var many = runnable.newInstances(
-        [userInstance, apiMocks.instances.stopped],
-        {noStore: true}
-      );
-      many.forEach(function (instance) {
-        instance.children = {
-          models: [],
-          fetch: sinon.stub().callsArg(1)
-        };
-      });
-      sinon.stub($state, 'includes')
-        .withArgs('instances').returns(true)
-        .withArgs('instance').returns(false);
-      mockFetch.triggerPromise(many);
-      $rootScope.$digest();
-      sinon.assert.calledWith(ctx.fakeGo, 'base.instances.instance', {
-        instanceName: 'spaaace'
-      });
-    });
-
     it('should not navigate when the state changes before the instances return ', function () {
       setup('SomeKittens');
       $rootScope.$digest();
