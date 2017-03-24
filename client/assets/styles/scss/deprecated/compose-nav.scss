@@ -36,7 +36,7 @@
   }
 
   // wraps the master cluster and each repository section
-  .list-clusters {
+  *:not(.popover) + .list-clusters {
     border-top: 1px solid $gray-lighter;
     padding: 15px 0;
   }
