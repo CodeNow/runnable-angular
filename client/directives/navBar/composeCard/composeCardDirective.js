@@ -7,6 +7,7 @@ function composeCard(
   $rootScope,
   $state,
   currentOrg,
+  getPathShortHash,
   keypather
 ) {
   return {
@@ -47,7 +48,7 @@ function composeCard(
         }
 
         // Determine if the instance name matches our shorthash?
-        if (keypather.get($state, 'params.instanceName.split(\'--\')[0]') === $scope.composeCluster.master.attrs.shortHash) {
+        if (getPathShortHash() === $scope.composeCluster.master.attrs.shortHash) {
           $scope.isActive = true;
           return;
         }

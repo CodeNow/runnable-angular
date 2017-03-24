@@ -7,6 +7,7 @@ function instanceCard(
   $rootScope,
   $state,
   currentOrg,
+  getPathShortHash,
   keypather
 ) {
   return {
@@ -31,7 +32,7 @@ function instanceCard(
         }
 
         // Determine if the instance name matches our shorthash?
-        if (keypather.get($state, 'params.instanceName.split(\'--\')[0]') === $scope.instance.attrs.shortHash) {
+        if (getPathShortHash() === $scope.instance.attrs.shortHash) {
           $scope.isActive = true;
           return;
         }
