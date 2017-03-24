@@ -11,7 +11,6 @@ require('app')
   .factory('fetchWhitelistedOrgs', fetchWhitelistedOrgs)
   .factory('fetchWhitelists', fetchWhitelists)
   .factory('fetchGithubOrgId', fetchGithubOrgId)
-  .factory('fetchGitHubRepoBranch', fetchGitHubRepoBranch)
   .factory('fetchOrgRegisteredMembers', fetchOrgRegisteredMembers)
   .factory('fetchOrgMembers', fetchOrgMembers)
   .factory('fetchGrantedGithubOrgs', fetchGrantedGithubOrgs)
@@ -23,11 +22,9 @@ require('app')
   .factory('fetchInstances', fetchInstances)
   .factory('fetchInstance', fetchInstance)
   .factory('fetchInstancesByPod', fetchInstancesByPod)
-  .factory('fetchNonRepoInstances', fetchNonRepoInstances)
   .factory('fetchBuild', fetchBuild)
   .factory('fetchRepoBranches', fetchRepoBranches)
   .factory('fetchContexts', fetchContexts)
-  .factory('fetchContextVersion', fetchContextVersion)
   .factory('fetchDebugContainer', fetchDebugContainer)
   .factory('fetchStackData', fetchStackData)
   // Github API
@@ -313,19 +310,6 @@ function fetchInstancesByPod(
     }
 
     return fetchByPodCache[username];
-  };
-}
-
-function fetchNonRepoInstances(
-  fetchInstances
-) {
-  return function () {
-    return fetchInstances({ githubUsername: 'HelloRunnable' })
-      .then(function (templates) {
-        return templates.filter(function (templateInstance) {
-          return !(/^TEMPLATE\-/).test(templateInstance.attrs.name);
-        });
-      });
   };
 }
 
@@ -831,25 +815,6 @@ function fetchGitHubAdminsByRepo(
   };
 }
 
-function fetchGitHubRepoBranch(
-  $http,
-  configAPIHost
-) {
-  return function (orgName, repoName, branchName) {
-    var urlEnd = branchName ? '/' + branchName : '';
-    return $http({
-      method: 'get',
-      url: configAPIHost + '/github/repos/' + orgName + '/' + repoName + '/branches' + urlEnd,
-      headers: {
-        Accept: 'application/vnd.github.ironman-preview+json'
-      }
-    })
-    .then(function (res) {
-      return res.data;
-    });
-  };
-}
-
 /**
  * Given an org name and a repo name, fetch all teams with admin permissions.  These teams can then
  * be queried to fetch users with admin permissions.
@@ -1036,22 +1001,6 @@ function fetchInvoices(
   }, function () {
     return currentOrg.poppa.id();
   });
-}
-
-function fetchContextVersion (
-  fetchUser,
-  keypather,
-  promisify
-) {
-  return function (contextId, contextVersionId) {
-    return fetchUser()
-      .then(function (user) {
-        return promisify(user, 'fetchContext')(contextId);
-      })
-      .then(function (context) {
-        return promisify(context, 'fetchVersion')(contextVersionId);
-      });
-  };
 }
 
 function fetchPaymentMethod(

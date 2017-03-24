@@ -4,7 +4,6 @@ require('app').directive('buildLogs', buildLogs);
 function buildLogs(
   $timeout,
   debounce,
-  featureFlags,
   moment,
   $interval,
   keypather
@@ -188,8 +187,7 @@ function buildLogs(
           $scope.timerExpired &&
           $scope.BLC.buildLogs.length === 0 &&
           !$scope.BLC.buildLogsRunning &&
-          $scope.BLC.buildStatus === 'failed' &&
-          featureFlags.flags.internalDebugging !== true
+          $scope.BLC.buildStatus === 'failed'
         );
       };
 

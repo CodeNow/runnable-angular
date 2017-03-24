@@ -137,7 +137,7 @@
           li.grid-block.align-center.list-item.popover-list-item(
             ng-class = "{\
               'disabled': $root.isLoading['buildingForkedBranch'],\
-              'active': $root.isLoading['buildingForkedBranch'] && $root.isLoading[branch.name]\
+              'active': $root.isLoading['buildingForkedBranch'] && $root.isLoading[branch.attrs.name]\
             }"
             ng-repeat = "branch in CIS.getFilteredBranches()"
             ng-click = "CIS.forkBranchFromInstance(branch, POC.closePopover);"
@@ -147,12 +147,12 @@
                 xlink:href = "#icons-branch-alt"
               )
             .grid-content.text-overflow(
-              title = "{{ branch.name }}"
-            ) {{ branch.name }}
+              title = "{{ branch.attrs.name }}"
+            ) {{ branch.attrs.name }}
             button.grid-content.shrink.btn.btn-xs.btn-add(
-              ng-if = "!$root.isLoading[branch.name]"
+              ng-if = "!$root.isLoading[branch.attrs.name]"
             ) Add
             .grid-content.shrink.spinner-wrapper.spinner-sm.spinner-green(
-              ng-if = "$root.isLoading[branch.name]"
+              ng-if = "$root.isLoading[branch.attrs.name]"
               ng-include = "'spinner'"
             )

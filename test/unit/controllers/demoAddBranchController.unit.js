@@ -102,8 +102,7 @@ describe('DemoAddBranchController'.bold.underline.blue, function () {
                 }
               })
             }))
-          },
-          isPersonalAccount: sinon.stub().returns(false)
+          }
         }
         return currentOrgMock;
       });
@@ -156,7 +155,7 @@ describe('DemoAddBranchController'.bold.underline.blue, function () {
       sinon.assert.called(demoFlowServiceMock.submitDemoPR);
       sinon.assert.notCalled(demoFlowServiceMock.endDemoFlow);
       sinon.assert.called($stateMock.go);
-      sinon.assert.calledWithExactly($stateMock.go,
+      sinon.assert.calledWithExactly($stateMock.go, 
         'base.instances.instance',
         {
           instanceName: 'way back'
