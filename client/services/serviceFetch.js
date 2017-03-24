@@ -391,8 +391,8 @@ function fetchInstancesByCompose(
               }
 
               if (instance.attrs.isTesting) {
-                composeMasters[ masterClusterConfigId ].children[ isolationId ].testing = composeMasters[ masterClusterConfigId ].children[ isolationId ].testing || [];
-                composeMasters[ masterClusterConfigId ].children[ isolationId ].testing.push(instance);
+                composeMasters[masterClusterConfigId].children[isolationId].testing = composeMasters[masterClusterConfigId].children[isolationId].testing || [];
+                composeMasters[masterClusterConfigId].children[isolationId].testing.push(instance);
                 return;
               }
               composeMasters[masterClusterConfigId].children[isolationId].staging = composeMasters[masterClusterConfigId].children[isolationId].staging || [];
