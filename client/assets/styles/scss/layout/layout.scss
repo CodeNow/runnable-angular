@@ -1,8 +1,8 @@
 // layout navigation
 .layout-navigation {
   backface-visibility: hidden; // http://benfrain.com/improving-css-performance-fixed-position-elements/
-  background: $purple-light;
-  border-right: 1px solid $purple-dark;
+  background: $gray-lighterest;
+  border-right: 1px solid $gray-lighter;
   height: 100vh;
   padding: 18px 0;
   position: fixed;
@@ -12,7 +12,7 @@
 
   // if feature flags are on
   &.feature-flag-on {
-    background-image: repeating-linear-gradient(36deg, darken($purple-light,2.5%), darken($purple-light,2.5%) 18px, transparent 18px, transparent 36px);
+    background-image: repeating-linear-gradient(36deg, rgba($gray-lightest,.4), rgba($gray-lightest,.4) 18px, transparent 18px, transparent 36px);
   }
 
   + .layout-main {
@@ -47,7 +47,7 @@
   .a {
     border: $input-border solid transparent;
     border-radius: $input-border-radius-lg;
-    color: $purple-logo;
+    color: $gray;
     cursor: pointer;
     display: block;
     flex: 0 0 auto;
@@ -60,14 +60,15 @@
     width: 75px;
 
     &:hover {
-      background: rgba($purple,.5);
-      border-color: rgba($purple-dark,.3);
+      background-color: $gray-lightest;
+      border-color: rgba($gray-lighter,.6);
     }
 
     &:active,
     &.active {
-      background: $purple;
-      border-color: rgba($purple-dark,.6);
+      background-color: lighten($purple-lightest,4);
+      border-color: rgba($purple-light,.1);
+      color: $purple-light;
     }
 
     &.active {
@@ -89,24 +90,24 @@
   }
 
   .btn-add-team {
-    background-color: darken(saturate($purple-light,6),5);
-    border: $input-border solid rgba($black,.1);
+    background-color: $gray-lightest;
+    border: $input-border solid rgba($gray-lighter,.6);
     border-radius: $input-border-radius;
+    color: $gray;
     cursor: pointer;
     height: 42px;
     margin-top: 18px;
     width: 42px;
 
-    &:hover {
-      background-color: darken(saturate($purple-light,8),10);
-    }
-
+    &:hover,
     &:active {
-      background-color: darken(saturate($purple-light,10),15);
+      background-color: lighten($purple-lightest,4);
+      border-color: rgba($purple-light,.1);
+      color: $purple-light;
     }
 
     .icons-add {
-      color: $purple-logo;
+      color: currentColor;
     }
   }
 
