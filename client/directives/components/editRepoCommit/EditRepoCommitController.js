@@ -125,11 +125,4 @@ function EditRepoCommitController(
         }
       });
   };
-
-  //TODO: Remove this when we fix the left nav button, also for purposes of search including the ff this is tied too.
-  // $root.featureFlags.composeHistory
-  ERCC.branchCommitSelectorPopoverData = {
-    instance: ERCC.instance,
-    acv: ERCC.acv
-  };
 }
