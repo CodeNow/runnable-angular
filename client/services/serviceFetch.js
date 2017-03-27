@@ -415,8 +415,8 @@ function fetchInstancesByCompose(
             // 2. fill the first array with items from the second
             [].push.apply(instancesByCompose, newInstancesByCompose);
             instancesByCompose.sort(function (a, b) {
-              var compare1 = a.master.attrs.name;
-              var compare2 = b.master.attrs.name;
+              var compare1 = keypather.get(a, 'master.attrs.name');
+              var compare2 = keypather.get(b, 'master.attrs.name');
               if (compare1 < compare2) {
                 return -1;
               } else if (compare1 > compare2) {
