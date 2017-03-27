@@ -44,12 +44,12 @@
 
 .nav-section {
   border-top: $input-border solid $gray-lighter;
-  padding: 18px 0; // match tab bar height
 }
 
 .nav-section-header {
   font-size: inherit; // reset
   font-weight: $weight-normal; // reset
+  height: 60px; // match tab bar height
   line-height: inherit; // reset
   padding-left: (18px + $input-border);
 
@@ -62,10 +62,6 @@
       height: $sm;
       width: $sm;
     }
-  }
-
-  + .nav-card {
-    margin-top: 18px;
   }
 }
 
@@ -92,6 +88,10 @@
   &:not(.active) + .nav-card.active,
   &.active + .nav-card {
     margin-top: $xxs;
+  }
+
+  &:last-child {
+    margin-bottom: 18px;
   }
 }
 
