@@ -7,7 +7,6 @@ require('app')
  * @ngInject
  */
 function composeFilePath(
-  
 ) {
   return {
     restrict: 'A',
@@ -16,7 +15,7 @@ function composeFilePath(
       pathEnabled: '=?',
       type: '@',
       branchName: '=',
-      fullRepo: '=',
+      fullRepo: '='
     }
   };
 }
