@@ -17,6 +17,6 @@ section.nav-card.active(
   compose-cluster = "composeCluster"
   ng-repeat = "composeCluster in CIS.instancesByCompose | orderBy: ['attrs.name'] track by composeCluster.master.attrs.name"
 )
-section.nav-card.active(
+section.nav-card.active.margin-bottom-sm(
   ng-include = "'nonComposeCardView'"
 )
