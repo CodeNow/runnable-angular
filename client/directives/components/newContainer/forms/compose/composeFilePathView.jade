@@ -1,9 +1,9 @@
 .grid-block.vertical.well.gray.ignore-margin
   label.grid-block.align-center.justify-justified.label
-    .padding-left-xxs.small.label-sm Compose File for Testing
+    .padding-left-xxs.small.label-sm {{type === 'stage' ? 'Compose for Staging' : 'Compose for Testing'}}
     .toggle-wrapper
       input.toggle-input(
-        ng-model = "testEnabled"
+        ng-model = "pathEnabled"
         type = "checkbox"
       )
       .toggle-group.toggle-sm
@@ -11,15 +11,15 @@
   .grid-block.vertical.label.views-dockerfile-setup(
     add-dockerfile
     branch-name = "MDC.branchName"
-    file-type = "Docker Compose Test"
+    file-type = "{{type === 'stage' ? 'Docker Compose' : 'Docker Compose Test'}}"
     full-repo = "MDC.getFullRepo()"
-    ng-if = "testEnabled"
-    onload = "type = 'test'"
+    ng-if = "pathEnabled"
+    onload = "type = type"
     view-state = "viewState"
   )
 
   label.grid-block.vertical.label(
-    ng-if = "testEnabled"
+    ng-if = "pathEnabled && type === 'test'"
   )
     .padding-xxs.small.label-sm Test Container
 
@@ -46,7 +46,7 @@
     )
       fancy-option
 
-    small.padding-xxs.small This is how we know which container’s status to attach to your GitHub commits and pull requests.&#32;
+    small.padding-xxs.small This is how we know which container’s status to report to your GitHub commits and pull requests.&#32;
       a.link(
         href = "//runnable.com/docs/integrations/notifications/github-pull-request-notifications"
         target = "_blank"
