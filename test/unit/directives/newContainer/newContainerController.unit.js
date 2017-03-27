@@ -124,6 +124,9 @@ describe('NewContainerController'.bold.underline.blue, function () {
       keypather = _keypather_;
 
       $scope = $rootScope.$new();
+      $rootScope.featureFlags = {
+        composeNewService: true
+      };
       NCC = $controller(
         'NewContainerController',
         {
