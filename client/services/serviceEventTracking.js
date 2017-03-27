@@ -715,6 +715,21 @@ function EventTracking(
     return ETS;
   };
 
+  /**
+   * An auto-deploy toggle event
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.filePathChanged = function (filepath) {
+    var eventName = 'Changed Dockerfile/Compose Path';
+
+    ETS._mixpanel('track', eventName, {
+      filepath: filepath
+    });
+    return ETS;
+  };
+
   ETS.updateCurrentPersonProfile = function (currentStep, orgNameInOrgSelect) {
     return $q.all([
       fetchUserUnCached(),
