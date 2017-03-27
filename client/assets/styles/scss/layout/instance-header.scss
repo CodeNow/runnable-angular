@@ -4,13 +4,14 @@
   border-bottom: 1px solid $purple-darkest;
   color: $white;
   flex: 0 0 auto;
+  min-width: 768px;
   padding: $xs;
 }
 
 .instance-header-name {
   flex: 1 0 auto;
   height: $input-sm;
-  max-width: 300px;
+  min-width: 300px;
   padding-left: $xs;
   padding-right: $xxs;
 
@@ -57,7 +58,7 @@
 }
 
 .instance-header-actions {
-  flex: 0 1 726px;
+  flex: 1 1 auto;
 
   > * {
 
