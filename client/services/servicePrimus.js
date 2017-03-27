@@ -27,8 +27,8 @@ RunnablePrimus.prototype.createLogStream = function (container) {
   return logStream;
 };
 
-RunnablePrimus.prototype.createBuildStreamFromContainerId = function (contextVersionId, containerId) {
-  var uniqueId = makeUniqueId(contextVersionId);
+RunnablePrimus.prototype.createBuildStreamFromContainerId = function (containerId) {
+  var uniqueId = makeUniqueId(containerId);
   var buildStream = this.substream(uniqueId);
   var self = this;
 
@@ -38,7 +38,6 @@ RunnablePrimus.prototype.createBuildStreamFromContainerId = function (contextVer
       id: 1,
       event: 'build-stream',
       data: {
-        id: contextVersionId,
         containerId: containerId,
         streamId: uniqueId
       }
@@ -49,9 +48,8 @@ RunnablePrimus.prototype.createBuildStreamFromContainerId = function (contextVer
 
 RunnablePrimus.prototype.createBuildStream = function (build) {
   var containerId = keypather.get(build, 'contextVersions.models[0].attrs.build.dockerContainer');
-  var contextVersionId = keypather.get(build, 'contextVersions.models[0].id()');
   if (containerId) {
-    return this.createBuildStreamFromContainerId(contextVersionId, containerId);
+    return this.createBuildStreamFromContainerId(containerId);
   }
 };
 
