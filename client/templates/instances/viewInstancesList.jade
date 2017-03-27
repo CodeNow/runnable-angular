@@ -31,7 +31,7 @@
   )
 
     //- search
-    label.grid-block.shrink.label-search
+    label.grid-block.align-center.shrink.label-search
       input.input.input-xs.input-search(
         ng-model = "CIS.searchBranches"
         placeholder = "Filter by name"
@@ -40,7 +40,7 @@
         type = "search"
       )
 
-    p.grid-block.shrink.p.align-center.text-gray-light.padding-sm.nav-section(
+    p.grid-block.shrink.p.align-center.text-gray-light.padding-sm.nav-section.search-empty(
       ng-if = "!CIS.filterMatchedAnything()"
     ) No containers match this filter.
 

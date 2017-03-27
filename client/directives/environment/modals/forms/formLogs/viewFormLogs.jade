@@ -64,7 +64,7 @@ pre.pre.log-wrapper(
     ng-style = "($root.featureFlags.themeToggle || $root.featureFlags.fullScreenToggle) && {'padding-right': '42px'}"
   )
   //- cmd logs page
-  .term-js.term-log(
+  .grid-block.vertical.term-js.term-log(
     controller = "BoxLogController"
     instance = "SMC.instance"
     log-term
@@ -72,7 +72,7 @@ pre.pre.log-wrapper(
     ng-show = "SMC.page === 'run'"
   )
   //- terminal
-  .term-js(
+  .grid-block.vertical.term-js(
     controller = "TermController"
     debug-container = "debugContainer"
     instance = "SMC.instance"

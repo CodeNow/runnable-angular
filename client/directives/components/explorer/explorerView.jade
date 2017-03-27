@@ -16,6 +16,7 @@ header.grid-block.align-center.justify-right.sidebar-section-heading(
 ) Files aren’t available when the container isn’t running.
 
 .grid-block.vertical.padding-xs(
+  ng-class = "{'noscroll': !$root.featureFlags.composeInstance && (!editExplorer || debugContainer)}"
   ng-if = "rootDir && (debugContainer || editExplorer || fileModel.running()) && !instance.isMigrating()"
 )
   ul.file-tree
