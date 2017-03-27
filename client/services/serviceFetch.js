@@ -432,7 +432,6 @@ function fetchInstancesByCompose(
           allInstances.on('add', populateInstancesByCompose);
           allInstances.on('remove', populateInstancesByCompose);
           populateInstancesByCompose();
-          console.log(instancesByCompose)
           return instancesByCompose;
         });
     })(username);
