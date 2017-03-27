@@ -415,9 +415,11 @@ function fetchInstancesByCompose(
             // 2. fill the first array with items from the second
             [].push.apply(instancesByCompose, newInstancesByCompose);
             instancesByCompose.sort(function (a, b) {
-              if (a.attrs.name < b.attrs.name) {
+              var compare1 = a.master.attrs.name;
+              var compare2 = b.master.attrs.name;
+              if (compare1 < compare2) {
                 return -1;
-              } else if (a.attrs.name > b.attrs.name) {
+              } else if (compare1 > compare2) {
                 return 1;
               } else {
                 return 0;
@@ -430,6 +432,7 @@ function fetchInstancesByCompose(
           allInstances.on('add', populateInstancesByCompose);
           allInstances.on('remove', populateInstancesByCompose);
           populateInstancesByCompose();
+          console.log(instancesByCompose)
           return instancesByCompose;
         });
     })(username);
