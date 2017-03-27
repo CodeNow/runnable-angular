@@ -61,11 +61,8 @@ footer.modal-footer.clearfix
       ng-include = "'spinner'"
     )
     span(
-      ng-if = "!$root.featureFlags.composeNewService && NCC.state.repo"
-    ) Next Step: Setup
-    span(
       ng-if = "$root.featureFlags.composeNewService && NCC.state.repo"
-    ) Next Step: Configuration
+    ) {{ NCC.getNextStepText() }}
     span(
       ng-if = "NCC.state.templateSource"
     ) Add Service

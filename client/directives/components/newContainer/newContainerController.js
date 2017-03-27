@@ -332,6 +332,16 @@ function NewContainerController(
     });
   };
 
+  NCC.getNextStepText = function () {
+    if (NCC.state.configurationMethod === 'blankDockerfile' || NCC.state.configurationMethod === 'new') {
+      return 'Next Step: Setup';
+    }
+    if (NCC.state.configurationMethod === 'dockerComposeFile' && NCC.state.types.test) {
+      return 'Create Environments';
+    }
+      return 'Create Environment';
+  };
+
   NCC.canCreateBuild = function () {
     return  NCC.state.instanceName.length && !keypather.get(NCC, 'nameForm.$invalid') &&
             !$rootScope.isLoading.newContainerSingleRepo && (!$scope.$root.featureFlags.composeNewService ||

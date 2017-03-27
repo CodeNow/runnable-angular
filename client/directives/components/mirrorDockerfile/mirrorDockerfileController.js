@@ -8,6 +8,8 @@ function MirrorDockerfileController(
   $rootScope,
   $timeout,
   errs,
+  doesDockerfileExist,
+  fetchRepoDockerfile,
   fetchRepoDockerfiles,
   keypather
 ) {
@@ -54,6 +56,23 @@ function MirrorDockerfileController(
         return dockerfiles;
       })
       .catch(errs.handler);
+  };
+
+  MDC.loadDefaultDockerfile = function  (repo, branchName, filePath, fileType) {
+    return fetchRepoDockerfile(repo, branchName, filePath)
+      .then(doesDockerfileExist)
+      .then(function (dockerfile) {
+        if (!dockerfile) {
+          return $q.reject('file doesn’t exist');
+        }
+        if (fileType === 'Dockerfile') {
+          MDC.state.dockerComposeFile = null;
+          MDC.state.dockerfile = dockerfile;
+        } else if (fileType === 'Docker Compose') {
+          MDC.state.dockerComposeFile = dockerfile;
+          MDC.state.dockerfile = null;
+        }
+      });
   };
 }
 
