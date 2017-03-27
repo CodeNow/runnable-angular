@@ -8,21 +8,9 @@ section.grid-block.vertical.modal-body
     )
 
   .grid-block.vertical.modal-form.no-border
-    .label-tabs.grid-block(
-    )
+    .label-tabs.grid-block
       label.grid-block.align-center.btn.btn-radio(
-        ng-class = "{'active': NCC.state.dockerFileTab === 'dockerfile'}"
-        ng-click = "NCC.state.dockerFileTab = 'dockerfile'; NCC.state.configurationMethod = 'dockerfile'"
-      )
-        svg.grid-block.shrink.btn.btn-xs.btn-icon.btn-add.iconnables.icons-check
-          use(
-            xlink:href = "#icons-check"
-          )
-        .grid-block.vertical.text-left
-          p.p.weight-strong Use a Dockerfile
-          small.small Set up from scratch or from a Dockerfile.
-
-      label.grid-block.align-center.btn.btn-radio(
+        data-event-name = "Selected Compose Setup"
         ng-class = "{'active': NCC.state.dockerFileTab === 'compose'}"
         ng-click = "NCC.state.dockerFileTab = 'compose'; NCC.state.configurationMethod = 'dockerComposeFile'"
       )
@@ -33,6 +21,19 @@ section.grid-block.vertical.modal-body
         .grid-block.vertical.text-left
           p.p.weight-strong Use a Compose File
           small.small Set up from a Compose file in your repo.
+
+      label.grid-block.align-center.btn.btn-radio(
+        data-event-name = "Selected Dockerfile Setup"
+        ng-class = "{'active': NCC.state.dockerFileTab === 'dockerfile'}"
+        ng-click = "NCC.state.dockerFileTab = 'dockerfile'; NCC.state.configurationMethod = 'dockerfile'"
+      )
+        svg.grid-block.shrink.btn.btn-xs.btn-icon.btn-add.iconnables.icons-check
+          use(
+            xlink:href = "#icons-check"
+          )
+        .grid-block.vertical.text-left
+          p.p.weight-strong No Compose File
+          small.small Set up from scratch or from a Dockerfile.
 
     //- form for naming the environment
     form.grid-block.vertical.label(

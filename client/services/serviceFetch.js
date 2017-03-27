@@ -11,7 +11,7 @@ require('app')
   .factory('fetchWhitelistedOrgs', fetchWhitelistedOrgs)
   .factory('fetchWhitelists', fetchWhitelists)
   .factory('fetchGithubOrgId', fetchGithubOrgId)
-  .factory('fetchGitHubRepoBranch', fetchGitHubRepoBranch)
+  .factory('fetchGitHubRepoBranches', fetchGitHubRepoBranches)
   .factory('fetchOrgRegisteredMembers', fetchOrgRegisteredMembers)
   .factory('fetchOrgMembers', fetchOrgMembers)
   .factory('fetchGrantedGithubOrgs', fetchGrantedGithubOrgs)
@@ -953,21 +953,20 @@ function fetchGitHubAdminsByRepo(
   };
 }
 
-function fetchGitHubRepoBranch(
+function fetchGitHubRepoBranches(
   $http,
-  $q,
   configAPIHost
 ) {
-    function getBranches (page, branches, orgName, repoName, branchName) {
-      var urlEnd = branchName ? '/' + branchName : '';
-      var params = !urlEnd ? '?page=' + page + '&per_page=100' : '';
-      return $http({
-        method: 'get',
-        url: configAPIHost + '/github/repos/' + orgName + '/' + repoName + '/branches' + urlEnd + params,
-        headers: {
-          Accept: 'application/vnd.github.ironman-preview+json'
-        }
-      })
+  function getBranches (page, branches, orgName, repoName, branchName) {
+    var urlEnd = branchName ? '/' + branchName : '';
+    var params = !urlEnd ? '?page=' + page + '&per_page=100' : '';
+    return $http({
+      method: 'get',
+      url: configAPIHost + '/github/repos/' + orgName + '/' + repoName + '/branches' + urlEnd + params,
+      headers: {
+        Accept: 'application/vnd.github.ironman-preview+json'
+      }
+    })
       .then(function (res) {
         var totalBranches = branches.concat(res.data);
         if (res.data.length === 100) {
@@ -975,7 +974,7 @@ function fetchGitHubRepoBranch(
         }
         return totalBranches;
       });
-    }
+  }
 
   return function (orgName, repoName, branchName) {
     return getBranches(1, [], orgName, repoName, branchName);

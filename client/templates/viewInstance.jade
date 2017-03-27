@@ -46,6 +46,7 @@
 
     .grid-block.instance-body
       button.grid-block.shrink.btn.btn-sm(
+        data-event-name = "Toggled File Explorer"
         ng-class = "{'active': !$root.featureFlags.hideExplorer}"
         ng-click = "$root.featureFlags.hideExplorer = !$root.featureFlags.hideExplorer"
         ng-if = "$root.featureFlags.composeInstance"
