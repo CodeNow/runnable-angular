@@ -107,6 +107,10 @@
   &:active:not(.active) {
     color: $gray-dark;
   }
+
+  &.active {
+    pointer-events: none;
+  }
 }
 
 .nav-environment-header {
@@ -191,6 +195,7 @@
   margin-right: -6px;
   overflow: hidden;
   padding: 4px;
+  pointer-events: auto;
 
   &:not(.orange) {
     border: 0;
