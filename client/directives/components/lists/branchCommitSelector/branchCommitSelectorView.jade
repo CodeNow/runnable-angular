@@ -76,6 +76,7 @@ ul.list.margin-top-sm(
   "
 )
   li.grid-block.align-center.list-item(
+    data-event-name = "Changed Commit"
     ng-class = "{\
       'active': BCSC.data.commit === commit,\
       'disabled': BCSC.isAutoDeployOn() || BCSC.isLastestCommit()\

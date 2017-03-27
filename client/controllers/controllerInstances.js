@@ -19,7 +19,7 @@ function ControllerInstances(
   demoRepos,
   errs,
   eventTracking,
-  fetchGitHubRepoBranch,
+  fetchGitHubRepoBranches,
   fetchInstances,
   fetchInstancesByPod,
   fetchRepoBranches,
@@ -320,7 +320,7 @@ function ControllerInstances(
     var fullReponame = acv.attrs.repo.split('/');
     var orgName = fullReponame[0];
     var repoName = fullReponame[1];
-    return fetchGitHubRepoBranch(orgName, repoName)
+    return fetchGitHubRepoBranches(orgName, repoName)
       .then(function (branches) {
         CIS.totalInstanceBranches = branches.length;
         CIS.instanceBranches = CIS.getUnbuiltBranches(instance, branches);

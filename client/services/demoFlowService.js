@@ -12,7 +12,7 @@ function demoFlowService(
   defaultContainerUrl,
   errs,
   featureFlags,
-  fetchGitHubRepoBranch,
+  fetchGitHubRepoBranches,
   github,
   keypather,
   patchOrgMetadata,
@@ -128,10 +128,10 @@ function demoFlowService(
     var orgName = fullReponame[0];
     var repoName = fullReponame[1];
     addBranchListener();
-    return fetchGitHubRepoBranch(orgName, repoName, 'dark-theme')
-      .then(function (branch) {
-        var sha = branch.commit.sha;
-        var branchName = branch.name;
+    return fetchGitHubRepoBranches(orgName, repoName, 'dark-theme')
+      .then(function (branches) {
+        var sha = branches[0].commit.sha;
+        var branchName = branches[0].name;
         return promisify(instance, 'fork')(branchName, sha);
       });
   }
