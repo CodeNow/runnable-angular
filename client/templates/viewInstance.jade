@@ -1,10 +1,10 @@
 //- spinner if instance is loading
-.spinner-wrapper.spinner-md.spinner-gray.spinner-backdrop.in(
+.spinner-wrapper.spinner-md.spinner-purple.spinner-backdrop.in(
   ng-if = "isLoading.main"
   ng-include = "'spinner'"
 )
 
-.grid-block.noscroll.vertical.instance(
+.grid-block.vertical.instance(
   ng-if = "!isLoading.main"
 )
   .grid-block.justify-center.align-center.instance-empty(
@@ -15,7 +15,7 @@
       src = "/build/images/runnabear-head-empty.png"
       width = "40"
     )
-  .grid-block.noscroll.vertical(
+  .grid-block.vertical(
     ng-if = "dataInstance.data.instance && !dataInstance.data.instance.destroyed"
   )
     //- show if server build is being swapped out
@@ -77,6 +77,7 @@
           explorer-title = "File Explorer"
           file-model = "dataInstance.data.instance.containers.models[0]"
           instance = "dataInstance.data.instance"
+          ng-class = "{'noscroll': !$root.featureFlags.composeInstance}"
           open-items = "dataInstance.data.openItems"
           root-dir = "dataInstance.data.instance.containers.models[0].rootDir"
         )
