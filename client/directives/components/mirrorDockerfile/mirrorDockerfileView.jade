@@ -140,18 +140,19 @@
 //- input and settings for staging
 .grid-block.vertical.label(
   ng-if = "$root.featureFlags.composeNewService && !MDC.fromTool && MDC.state.dockerFileTab === 'compose'"
-  ng-include = "'composeFilePathView'"
-  onload = "\
-    pathEnabled = true;\
-    type = 'stage';\
-    MDC.state.types.stage = true;\
-    MDC.state.configurationMethod = 'dockerComposeFile';\
-  "
+  compose-file-path
+  path-enabled = "true"
+  type = "stage"
+  branch-name = "MDC.branchName"
+  full-repo = "MDC.getFullRepo()"
 )
 
 //- input and settings for testing
 .grid-block.vertical.label(
   ng-if = "$root.featureFlags.composeNewService && !MDC.fromTool && MDC.state.dockerFileTab === 'compose'"
-  ng-include = "'composeFilePathView'"
-  onload = "type = 'test'"
+  compose-file-path
+  path-enabled = "false"
+  type = "test"
+  branch-name = "MDC.branchName"
+  full-repo = "MDC.getFullRepo()"
 )
