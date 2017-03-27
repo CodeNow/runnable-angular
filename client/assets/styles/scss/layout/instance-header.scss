@@ -1,108 +1,84 @@
 // instance header: status, dns mappings, container url, save (deprecated)
 .instance-header {
-  background: $white;
+  background: $purple-dark;
+  border-bottom: 1px solid $purple-darkest;
+  color: $white;
   flex: 0 0 auto;
-  position: relative;
+  padding: $xs;
 }
 
-.instance-header-title {
-  color: $gray-dark;
-  font-size: 19px;
-  font-weight: $weight-normal;
-  line-height: $input-lg;
-  padding: 0 12px; // for text-overflow
-  position: relative;
-  text-align: center;
-  width: 100%;
+.instance-header-name {
+  flex: 1 0 auto;
+  height: $input-sm;
+  max-width: 300px;
+  padding-left: $xs;
+  padding-right: $xxs;
 
-  .header-btn-group {
-    align-items: center;
-    height: $input-lg;
-    overflow: hidden; // fix scroll bar appearing in firefox
+  .small {
+    display: inline-block;
+    flex: 0 1 auto;
+    opacity: .5;
 
-    .btn {
-      color: $gray-light;
-      opacity: .75;
-      padding: 0 6px;
-
-      &:hover,
-      &:active {
-        opacity: 1;
-      }
-
-      &.active {
-        color: $purple-light;
-      }
+    + .btn-xxs {
+      margin-left: 3px;
     }
+  }
 
-    .iconnables {
-      height: 100%;
-      width: 18px;
-    }
+  .p {
+    font-size: 16px;
+    font-weight: $weight-bold;
   }
 
   // pr badge
-  .green {
-    margin-left: 9px;
-    padding: 0 3px 0 0;
+  .btn-xxs {
+    background: transparent;
+    color: rgba($white,.5);
+    margin-right: 1px;
+    padding-left: 0;
+    top: 2px;
+
+    &:hover,
+    &:active {
+      border-color: rgba($white,.5);
+      color: rgba($white,.75);
+    }
 
     > .iconnables {
-      height: 100%;
-    }
+      height: 14px;
+      margin-right: 2px;
+      width: 14px;
 
-    > .icons-pull-request {
-      width: 18px;
-    }
-
-    > .icons-link-external {
-      margin-left: 3px;
-      width: 9px;
-    }
-  }
-
-  // for debug view
-  .btn-status {
-    left: 12px;
-    position: absolute;
-    top: 15px;
-
-    .icons-status {
-      top: 6px;
-    }
-  }
-
-  // debug text
-  .strong .small {
-    color: $gray-light;
-    left: 6px;
-    line-height: 1;
-    position: relative;
-    top: -3px;
-  }
-
-  // save button in debug
-  .btn-save-wrapper {
-    position: absolute;
-    right: 12px;
-    top: 9px;
-
-    + .btn-badge {
-      right: 90px;
+      &.icons-pull-request {
+        height: 15px;
+        width: 15px;
+      }
     }
   }
 }
 
-.instance-header-properties {
-  align-items: top;
-  display: flex;
-  padding: 0 12px 12px;
-  position: relative;
-  width: 100%;
+.instance-header-actions {
+  flex: 0 1 726px;
+
+  > * {
+
+    + .btn-group,
+    + .btn,
+    + .input-group {
+      margin-left: 6px;
+    }
+  }
 
   // status, dns mappings, save
   > .btn,
   > .btn-group {
     flex: 0 0 auto;
+  }
+
+  // override border on dark bg
+  > .btn.red,
+  > .btn.orange,
+  > .btn.green {
+    border-color: $purple-darkest;
   }
 
   // container url
@@ -121,20 +97,17 @@
   }
 
   // save
-  > .btn-group {
-    margin-left: 6px;
-
-    .icons-arrow-down {
-      margin: 0;
-    }
+  > .btn-group .icons-arrow-down {
+    margin: 0;
   }
 
   // url popover
   > .popover {
+    color: $gray-dark;
     left: auto;
     max-width: none;
     right: 12px;
-    top: 41px;
+    top: 56px;
     width: 390px;
 
     @media (max-width: 894px) {
@@ -179,20 +152,5 @@
     margin-left: 6px;
     opacity: .5;
     width: 15px;
-  }
-}
-
-// connections button
-.btn-connections {
-  margin: 0 6px;
-}
-
-.list-instances {
-  max-width: calc(100vw - #{$layout-navigation-width + 133});
-
-  &.in + .instance-wrapper .instance-header-title .text-overflow {
-    display: block;
-    direction: rtl;
-    max-width: calc(100vw - #{$layout-navigation-width + $instance-list-width + 133});
   }
 }

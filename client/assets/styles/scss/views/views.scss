@@ -1,6 +1,5 @@
 // section.views
 .views {
-  background: $ace-bg;
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
@@ -19,7 +18,7 @@
 
   // for debug
   &.full-height {
-    height: calc(100vh - 55px);
+    height: calc(100vh - 61px);
 
     &.deprecated {
       height: calc(100vh - 72px);

@@ -36,12 +36,12 @@
   }
 
   // wraps the master cluster and each repository section
-  .list-clusters {
-    padding: 15px 0;
+  *:not(.popover) + .list-clusters {
+    border-top: 1px solid $gray-lighter;
+  }
 
-    + .list-clusters {
-      border-top: 1px solid $gray-lighter;
-    }
+  .list-clusters {
+    padding: $sm 0;
   }
 
   .list-clusters-heading {

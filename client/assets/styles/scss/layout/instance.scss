@@ -1,13 +1,20 @@
 // instance wrapper
 .instance-wrapper {
+  background: $ace-bg;
   height: 100vh;
+  max-width: calc(100vw - #{$layout-navigation-width + $instance-list-width});
   overflow: hidden;
   position: relative;
 
   > .spinner-wrapper {
+    background: $ace-bg;
 
     .modal-open & {
       z-index: $z-modal-backdrop - 1;
     }
   }
+}
+
+.instance-empty {
+  background: $ace-bg;
 }
