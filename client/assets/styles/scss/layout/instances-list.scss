@@ -42,7 +42,8 @@
   }
 }
 
-.nav-section {
+.nav-section:first-child,
+*:not(.popover-demo) + .nav-section {
   border-top: $input-border solid $gray-lighter;
 }
 
