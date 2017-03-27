@@ -89,21 +89,9 @@
     ng-if = "$root.isLoading.updatingInstance"
     ng-include = "'spinner'"
   )
-button.grid-block.shrink.btn.btn-container-menu(
-ng-class = "{\
-      'active': popoverShown,\
-      'orange': previousCommit\
-    }"
-ng-if = "$root.featureFlags.composeHistory"
-pop-over
-pop-over-options = "{\"verticallyCentered\":true,\"left\":26,\"pinToViewPort\":true}"
-pop-over-template = "branchTestSelectorPopoverView"
-pop-over-data = "ERCC.branchTestSelectorPopoverData"
+
+span(
+  branch-test-popover-button
+  instance = "ERCC.instance"
+  app-code-version = "ERCC.acv"
 )
-  svg.iconnables
-    use(
-    xlink:href = "#icons-history"
-    )
-  span.span(
-  ng-if = "previousCommit"
-  ) 7c53d87

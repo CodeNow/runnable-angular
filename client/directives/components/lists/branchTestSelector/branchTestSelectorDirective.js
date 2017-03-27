@@ -3,12 +3,6 @@
 require('app')
   .directive('branchTestSelector', branchTestSelector);
 
-/*
- * This directive requires the following values to be on data:
- *  branch,
- *  commit,
- *  latestCommit,
- */
 function branchTestSelector(
   errs,
   promisify
@@ -20,11 +14,13 @@ function branchTestSelector(
     controllerAs: 'BTSC',
     bindToController: true,
     scope: {
-      data: '=', //Probably a containerFile,
+      branch: '=',
+      commit: '=',
+      instanceName: '=',
       hideBranchSelector: '='
     },
     link: function ($scope, element, attrs) {
-      $scope.$watch('BCSC.data.branch', function (branch) {
+      $scope.$watch('BCSC.branch', function (branch) {
         if (branch) {
           $scope.fetchingCommits = true;
           return promisify(branch.commits, 'fetch')()

@@ -14,17 +14,19 @@ header.grid-block.vertical.shrink.align-start.header(
 ul.list.margin-top-sm(
   ng-if = "\
     !fetchingCommits\
-    && BTSC.data.branch.commits.models\
+    && BTSC.branch.commits.models\
   "
 )
   li.grid-block.align-center.list-item(
     ng-class = "{\
-      'active': BTSC.data.commit === commit\
+      'active': BTSC.commit === commit\
     }"
     ng-click = "BTSC.selectCommit(commit, $index === 0)"
-    ng-repeat = "commit in BTSC.data.branch.commits.models | orderBy: '-attrs.commit.committer.date'"
+    ng-repeat = "commit in BTSC.branch.commits.models | orderBy: '-attrs.commit.committer.date'"
   )
-    .grid-block.vertical
+    a.grid-block.vertical(
+      ui-sref = "base.instances.instance-test-sha({instanceName: BTSC.instanceName, sha: commit.attrs.sha})"
+    )
       p.p.text-overflow(
         ng-attr-title = "{{commit.attrs.commit.message}}"
       ) {{commit.attrs.commit.message}}
