@@ -833,7 +833,6 @@ function fetchGitHubAdminsByRepo(
 
 function fetchGitHubRepoBranches(
   $http,
-  $q,
   configAPIHost
 ) {
   function getBranches (page, branches, orgName, repoName, branchName) {
@@ -846,13 +845,13 @@ function fetchGitHubRepoBranches(
         Accept: 'application/vnd.github.ironman-preview+json'
       }
     })
-    .then(function (res) {
-      var totalBranches = branches.concat(res.data);
-      if (res.data.length === 100) {
-        return getBranches(page + 1, totalBranches, orgName, repoName, branchName);
-      }
-      return totalBranches;
-    });
+      .then(function (res) {
+        var totalBranches = branches.concat(res.data);
+        if (res.data.length === 100) {
+          return getBranches(page + 1, totalBranches, orgName, repoName, branchName);
+        }
+        return totalBranches;
+      });
   }
 
   return function (orgName, repoName, branchName) {
