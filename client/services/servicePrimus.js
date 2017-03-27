@@ -2,6 +2,7 @@
 
 var PrimusClient = require('primus-client');
 var util = require('util');
+var keypather = require('keypather')();
 // FIXME: should be injected
 var uuid = require('node-uuid');
 
@@ -26,7 +27,7 @@ RunnablePrimus.prototype.createLogStream = function (container) {
   return logStream;
 };
 
-RunnablePrimus.prototype.createBuildStreamFromContextVersionId = function (contextVersionId) {
+RunnablePrimus.prototype.createBuildStreamFromContainerId = function (contextVersionId, containerId) {
   var uniqueId = makeUniqueId(contextVersionId);
   var buildStream = this.substream(uniqueId);
   var self = this;
@@ -38,6 +39,7 @@ RunnablePrimus.prototype.createBuildStreamFromContextVersionId = function (conte
       event: 'build-stream',
       data: {
         id: contextVersionId,
+        containerId: containerId,
         streamId: uniqueId
       }
     });
@@ -46,8 +48,10 @@ RunnablePrimus.prototype.createBuildStreamFromContextVersionId = function (conte
 };
 
 RunnablePrimus.prototype.createBuildStream = function (build) {
-  if (build && build.contextVersions && build.contextVersions.models && build.contextVersions.models[0]) {
-    return this.createBuildStreamFromContextVersionId(build.contextVersions.models[0].id());
+  var containerId = keypather.get(build, 'contextVersions.models[0].attrs.build.dockerContainer');
+  var contextVersionId = keypather.get(build, 'contextVersions.models[0].id()');
+  if (containerId) {
+    return this.createBuildStreamFromContainerId(contextVersionId, containerId);
   }
 };
 

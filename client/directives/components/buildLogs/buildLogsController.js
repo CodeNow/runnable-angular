@@ -83,7 +83,9 @@ function BuildLogsController(
         }
       );
     } else if (BLC.debugContainer) {
-      stream = primus.createBuildStreamFromContextVersionId(BLC.debugContainer.attrs.contextVersion);
+      var contextVersionId = BLC.debugContainer.attrs.contextVersion._id;
+      var containerId = BLC.debugContainer.attrs.contextVersion.dockerContainer;
+      stream = primus.createBuildStreamFromContainerId(contextVersionId, containerId);
       connectListenersToStream(stream);
     }
   }
