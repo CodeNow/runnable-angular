@@ -59,6 +59,24 @@ function ComposeCardController(
       })
       .catch(errs.handler);
   };
+
+  CCC.deleteBranch = function () {
+    $rootScope.$broadcast('close-popovers');
+    return ModalService.showModal({
+      controller: 'ConfirmationModalController',
+      controllerAs: 'CMC',
+      templateUrl: 'confirmBranchRemoveView'
+    })
+      .then(function (modal) {
+        return modal.close.then(function (confirmed) {
+          if (confirmed) {
+            return promisify(CCC.composeCluster.master, 'destroy')();
+          }
+          return confirmed;
+        });
+      })
+      .catch(errs.handler);
+  };
 }
 
 
