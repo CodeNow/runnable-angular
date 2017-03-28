@@ -386,18 +386,19 @@ function fetchInstancesByCompose(
                 return;
               }
               composeMasterConfig.children[isolationId] = composeMasterConfig.children[isolationId] || {};
+              var composeMasterConfigIsolationChild = composeMasterConfig.children[isolationId];
               if (instance.attrs.isIsolationGroupMaster) {
-                composeMasterConfig.children[isolationId].master = instance;
+                composeMasterConfigIsolationChild.master = instance;
                 return;
               }
 
               if (instance.attrs.isTesting) {
-                composeMasterConfig.children[isolationId].testing = composeMasterConfig.children[isolationId].testing || [];
-                composeMasterConfig.children[isolationId].testing.push(instance);
+                composeMasterConfigIsolationChild.testing = composeMasterConfigIsolationChild.testing || [];
+                composeMasterConfigIsolationChild.testing.push(instance);
                 return;
               }
-              composeMasterConfig.children[isolationId].staging = composeMasterConfig.children[isolationId].staging || [];
-              composeMasterConfig.children[isolationId].staging.push(instance);
+              composeMasterConfigIsolationChild.staging = composeMasterConfigIsolationChild.staging || [];
+              composeMasterConfigIsolationChild.staging.push(instance);
               return;
             });
             var newInstancesByCompose = Object.keys(composeMasters).map(function (composeId) {
