@@ -359,44 +359,45 @@ function fetchInstancesByCompose(
                 masterClusterConfigId = composeParent;
               }
 
+              composeMasters[masterClusterConfigId] = composeMasters[masterClusterConfigId] || {};
+              var composeMasterConfig = composeMasters[masterClusterConfigId];
+
               // If this belongs at the top level for a compose master
               if (instance.attrs.masterPod) {
-                composeMasters[masterClusterConfigId] = composeMasters[masterClusterConfigId] || {};
                 if (instance.attrs.isTesting) {
-                  composeMasters[masterClusterConfigId].testing = composeMasters[masterClusterConfigId].testing || [];
-                  composeMasters[masterClusterConfigId].testing.push(instance);
+                  composeMasterConfig.testing = composeMasterConfig.testing || [];
+                  composeMasterConfig.testing.push(instance);
                   return;
                 }
-                composeMasters[masterClusterConfigId].staging = composeMasters[masterClusterConfigId].staging || [];
-                composeMasters[masterClusterConfigId].staging.push(instance);
+                composeMasterConfig.staging = composeMasterConfig.staging || [];
+                composeMasterConfig.staging.push(instance);
                 return;
               }
 
               // This is a branched compose. We should now group by isolation.
-              composeMasters[masterClusterConfigId] = composeMasters[masterClusterConfigId] || {};
-              composeMasters[masterClusterConfigId].children = composeMasters[masterClusterConfigId].children || {};
+              composeMasterConfig.children = composeMasterConfig.children || {};
               var isolationId = instance.attrs.isolated;
 
               if (!isolationId) {
                 // They aren't isolated, so loney, so so lonely.
-                composeMasters[masterClusterConfigId].children[instance.attrs.id] = {
+                composeMasterConfig.children[instance.attrs.id] = {
                   master: instance
                 };
                 return;
               }
-              composeMasters[masterClusterConfigId].children[isolationId] = composeMasters[masterClusterConfigId].children[isolationId] || {};
+              composeMasterConfig.children[isolationId] = composeMasterConfig.children[isolationId] || {};
               if (instance.attrs.isIsolationGroupMaster) {
-                composeMasters[masterClusterConfigId].children[isolationId].master = instance;
+                composeMasterConfig.children[isolationId].master = instance;
                 return;
               }
 
               if (instance.attrs.isTesting) {
-                composeMasters[masterClusterConfigId].children[isolationId].testing = composeMasters[masterClusterConfigId].children[isolationId].testing || [];
-                composeMasters[masterClusterConfigId].children[isolationId].testing.push(instance);
+                composeMasterConfig.children[isolationId].testing = composeMasterConfig.children[isolationId].testing || [];
+                composeMasterConfig.children[isolationId].testing.push(instance);
                 return;
               }
-              composeMasters[masterClusterConfigId].children[isolationId].staging = composeMasters[masterClusterConfigId].children[isolationId].staging || [];
-              composeMasters[masterClusterConfigId].children[isolationId].staging.push(instance);
+              composeMasterConfig.children[isolationId].staging = composeMasterConfig.children[isolationId].staging || [];
+              composeMasterConfig.children[isolationId].staging.push(instance);
               return;
             });
             var newInstancesByCompose = Object.keys(composeMasters).map(function (composeId) {
