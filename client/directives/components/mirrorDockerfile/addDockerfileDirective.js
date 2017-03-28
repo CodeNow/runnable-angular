@@ -15,8 +15,7 @@ function addDockerfile(
       branchName: '=',
       fullRepo: '=',
       viewState: '=',
-      fileType: '@',
-      state: '='
+      fileType: '@'
     },
     link: function ($scope, elem, attrs, MDC) {
       if ($scope.fileType === 'Docker Compose') {
@@ -42,8 +41,6 @@ function addDockerfile(
         }
         $scope.viewState.showAddDockerfile = false;
       };
-      
-
     }
   };
 }
