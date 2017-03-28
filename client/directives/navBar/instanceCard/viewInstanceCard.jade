@@ -6,7 +6,8 @@ a.nav-card-header(
   "
   ui-sref-active = "active"
 )
-  span.text-overflow {{instance.getDisplayName()}}
+  span.grid-block
+    span.text-overflow {{instance.getDisplayName()}}
 
 header.noscroll.nav-environment-header(
   ng-if = "isActive"
