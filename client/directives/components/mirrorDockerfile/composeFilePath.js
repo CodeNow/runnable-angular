@@ -30,6 +30,8 @@ function composeFilePath(
         if (!isEnabled) {
           if ($scope.type === 'test') {
             MDC.state.dockerComposeTestFile = null;
+            MDC.state.testReporter = null;
+
           }
           if ($scope.type === 'stage') {
             MDC.state.dockerComposeFile = null;
@@ -37,7 +39,7 @@ function composeFilePath(
         } else {
           MDC.state.configurationMethod = 'dockerComposeFile';
         }
-      })
+      });
 
       $scope.$on('dockerfileExistsValidator::valid', function ($event, path, fileType, dockerfile) {
         $scope.dockerfile = dockerfile;
