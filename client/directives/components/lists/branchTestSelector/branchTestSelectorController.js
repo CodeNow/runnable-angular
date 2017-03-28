@@ -30,4 +30,8 @@ function BranchTestSelectorController(
     BTSC.selectCommit(firstCommit);
     $state.go('base.instances.instance-test-sha', {instanceName: BTSC.instanceName, sha: firstCommit.attrs.sha});
   };
+
+  BTSC.isLatestCommit = function() {
+    return BTSC.commit === keypather.get(BTSC.branch, 'commits.models[0]');
+  }
 }

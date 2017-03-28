@@ -21,12 +21,12 @@ ul.list.margin-top-sm(
     ng-class = "{\
       'active': BTSC.commit === commit\
     }"
-    ng-click = "BTSC.selectCommit(commit, $index === 0)"
     ng-if = "commit.test === 'passed' || commit.test === 'failed'"
     ng-repeat = "commit in BTSC.branch.commits.models | orderBy: '-attrs.commit.committer.date'"
   )
     a.grid-block.vertical(
       ui-sref = "base.instances.instance-test-sha({instanceName: BTSC.instanceName, sha: commit.attrs.sha})"
+      ng-click = "BTSC.selectCommit(commit, $index === 0)"
     )
       p.p.text-overflow(
         ng-attr-title = "{{commit.attrs.commit.message}}"

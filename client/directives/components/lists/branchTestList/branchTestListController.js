@@ -28,11 +28,11 @@ function BranchTestListController(
         testHash[test.commitSha] = test;
       });
 
-      BTLC.branch.commits.models.forEach(function(com) {
-        com.test = getTestState(testHash[com.attrs.sha]);
+      BTLC.branch.commits.models.forEach(function(commit) {
+        commit.test = getTestState(testHash[commit.attrs.sha]);
 
-        if (BTLC.appCodeVersion.attrs.commit === com.attrs.sha) {
-          BTLC.commit = com;
+        if (BTLC.appCodeVersion.attrs.commit === commit.attrs.sha) {
+          BTLC.commit = commit;
         }
       });
 
