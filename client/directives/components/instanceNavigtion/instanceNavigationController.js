@@ -14,6 +14,7 @@ function InstanceNavigationController(
   fetchInstancesByPod,
   keypather,
   ModalService,
+  getPathShortHash,
   promisify
 ) {
   var INC = this;
@@ -23,7 +24,7 @@ function InstanceNavigationController(
   function processContainers() {
     if (!INC.instance.attrs.isolated ||
         !INC.instance.attrs.isIsolationGroupMaster ||
-        keypather.get($state, 'params.instanceName.split(\'--\')[0]') !== INC.instance.attrs.shortHash &&
+      getPathShortHash() !== INC.instance.attrs.shortHash &&
         $state.params.instanceName !== INC.instance.attrs.name) {
       INC.shouldExpand = $state.params.instanceName === INC.instance.attrs.name && INC.instance.attrs.isIsolationGroupMaster !== false;
       return;

@@ -42,7 +42,8 @@
   }
 }
 
-.nav-section {
+.nav-section:first-child,
+*:not(.popover) + .nav-section {
   border-top: $input-border solid $gray-lighter;
 }
 
@@ -66,65 +67,75 @@
 }
 
 .nav-card {
-  border: $input-border solid transparent;
-  border-radius: $input-border-radius-lg;
   display: flex;
   flex-direction: column;
-  padding: 6px $xxs;
 
-  &:hover:not(.active) {
-    cursor: pointer;
-  }
-
-  &:hover:not(.active),
-  &:active,
   &.active {
     background-color: $white;
-    border-color: $gray-lighter;
-  }
-
-  &:active,
-  &.active {
+    border: $input-border solid $gray-lighter;
+    border-radius: $input-border-radius-lg;
+    padding: $xxs;
 
     .nav-card-header {
+      border: 0;
+      border-radius: 0;
       color: $gray-dark;
+      cursor: auto;
+      height: $input-xs;
+      padding: 0 $xxs;
+      pointer-events: none;
     }
-  }
-
-  &.active {
-    padding: $xxs;
   }
 
   &:not(.active) + .nav-card.active,
   &.active + .nav-card {
     margin-top: $xxs;
   }
+
+  &:last-child {
+    margin-bottom: 18px;
+  }
 }
 
-.nav-card-header,
+.nav-card-header {
+  align-items: center;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  padding: 6px ($xxs * 2);
+
+  &:hover:not(.active) {
+    background-color: $white;
+    border-color: $gray-lighter;
+  }
+
+  &:active:not(.active) {
+    color: $gray-dark;
+  }
+}
+
 .nav-environment-header {
   align-items: center;
+  color: $gray-light;
   display: flex;
-  font-size: inherit; // reset
-  font-weight: $weight-normal; // reset
+  font-size: 13px;
   height: $input-xs;
-  line-height: inherit; // reset
+  margin: 6px 0;
   padding: 0 ($xxs + $input-border);
 }
 
 .nav-card-header,
-.nav-container-list {
+.nav-card-section {
 
-  + .nav-container-list {
+  + .nav-card-section {
     border-top: $input-border solid $gray-lightest;
     margin-top: $xxs;
   }
 }
 
-.nav-environment-header {
-  color: $gray-light;
-  font-size: 13px;
-  margin: 6px 0;
+.nav-container-list .li + .li {
+  margin-top: 1px;
 }
 
 .nav-container {
@@ -146,10 +157,6 @@
     background-color: lighten($purple-lightest,4);
     border-color: rgba($purple-light,.1);
     color: $purple-light;
-  }
-
-  + .nav-container {
-    margin-top: 1px;
   }
 }
 
@@ -186,10 +193,11 @@
   color: $gray-light;
   height: $input-xs;
   line-height: 1;
-  margin-left: auto;
+  margin-left: $xxs;
   margin-right: -6px;
   overflow: hidden;
   padding: 4px;
+  pointer-events: auto;
 
   &:not(.orange) {
     border: 0;
@@ -203,6 +211,10 @@
     &.active {
       color: $purple-light;
     }
+  }
+
+  + .btn-container-menu {
+    margin-left: 6px;
   }
 
   &.orange {

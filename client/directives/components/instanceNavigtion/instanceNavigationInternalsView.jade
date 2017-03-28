@@ -1,6 +1,6 @@
 a.grid-block.align-center.a-sref(
   ui-sref = "\
-    base.instances.instance({userName: INC.activeAccount.oauthName(),\
+    base.instances.instance({userName: INC.instance.attrs.owner.username,\
     instanceName: INC.instance.attrs.name})\
   "
   ui-sref-active = "active"
