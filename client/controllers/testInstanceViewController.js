@@ -14,6 +14,15 @@ function TestInstanceViewController(
   var TIVC = this;
   TIVC.testInstanceData = testInstanceData;
 
+  var exitCodes = {
+    0: 'stopped',
+    1: 'crashed'
+  }
+
+  testInstanceData.status = function () {
+    return exitCodes[this.containerHistory.application.exitCode] || 'crashed';
+  }
+
   var branch = fetchCommitData.activeBranch(keypather.get(TIVC, 'testInstanceData.build.contextVersions.models[0].appCodeVersions.models[0]'));
 
   fetchCommitData.branchCommits(branch)

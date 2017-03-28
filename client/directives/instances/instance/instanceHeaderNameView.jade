@@ -4,9 +4,14 @@ small.grid-block.noscroll.text-overflow(
   title = "{{instance.getMasterPodName()}}{{instance.getBranchName() ? ' / ' + instance.getBranchName() : ''}}"
 )
   //- hide this element if compose
+  //- remove getRepoName to replace with clusterName when instance is
   .grid-block.small.text-overflow(
-    ng-if = "$root.featureFlags.composeInstance"
-  ) {{instance.getMasterPodName()}} / {{instance.getBranchName()}}
+    ng-if = "$root.featureFlags.composeInstance && !instance.attrs.inputClusterConfig"
+  ) {{instance.getRepoName()}} / {{instance.getBranchName()}}
+
+  .grid-block.small.text-overflow(
+    ng-if = "$root.featureFlags.composeInstance && instance.attrs.inputClusterConfig"
+  ) {{instance.attrs.inputClusterConfig.clusterName}} / {{instance.getBranchName()}}
 
   //- should show either PR link OR commit status
     - prioritize commit status over PR link
@@ -20,7 +25,7 @@ small.grid-block.noscroll.text-overflow(
   )
 
 //- don't put these on separate lines (that creates an extra space)
-h1.p.text-overflow {{$root.featureFlags.composeInstance ? 'container-name' : ''}}{{!$root.featureFlags.composeInstance && instance.getMasterPodName() ? instance.getMasterPodName() : ''}}{{!$root.featureFlags.composeInstance && instance.getBranchName() ? ' / ' + instance.getBranchName() : ''}}
+h1.p.text-overflow {{$root.featureFlags.composeInstance ? instance.getName() : ''}}{{!$root.featureFlags.composeInstance && instance.getMasterPodName() ? instance.getMasterPodName() : ''}}{{!$root.featureFlags.composeInstance && instance.getBranchName() ? ' / ' + instance.getBranchName() : ''}}
 
 //- for debugging
 div(
