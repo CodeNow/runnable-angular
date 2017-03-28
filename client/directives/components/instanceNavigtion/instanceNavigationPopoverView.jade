@@ -7,7 +7,7 @@
 
     //- for compose repos and branches
     ul.list.popover-list(
-      ng-if = "$root.featureFlags.composeNav"
+      ng-if = "INC.instance.attrs.inputClusterConfig._id"
     )
 
       //- show for default branches of compose repos
@@ -32,7 +32,7 @@
 
     //- for non-repo containers and default branches of non-compose repos
     ul.list.popover-list(
-      ng-if = "INC.instance.attrs.masterPod && !$root.featureFlags.composeNav"
+      ng-if = "INC.instance.attrs.masterPod && !INC.instance.attrs.inputClusterConfig._id"
     )
       li.list-item.popover-list-item.multi-line(
         ng-click = "INC.setupAutoIsolation()"
@@ -64,7 +64,7 @@
 
     //- for non-default branches of non-compose repos
     ul.list.popover-list(
-      ng-if = "!INC.instance.attrs.masterPod && !$root.featureFlags.composeNav"
+      ng-if = "!INC.instance.attrs.masterPod && !INC.instance.attrs.inputClusterConfig._id"
     )
       .well.gray.padding-xs(
         ng-if = "!INC.instance.attrs.isolated"
