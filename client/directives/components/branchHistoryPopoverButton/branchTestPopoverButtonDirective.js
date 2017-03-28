@@ -11,7 +11,6 @@ function branchTestPopoverButton() {
     controllerAs: 'BTPBC',
     bindToController: true,
     scope: {
-      appCodeVersion: '=',
       instance: '='
     }
   };

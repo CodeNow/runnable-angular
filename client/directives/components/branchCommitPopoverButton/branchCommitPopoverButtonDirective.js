@@ -20,7 +20,6 @@ function branchCommitPopoverButton(
     controllerAs: 'BCPBC',
     bindToController: true,
     scope: {
-      appCodeVersion: '=',
       instance: '='
     }
   };

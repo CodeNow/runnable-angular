@@ -12,6 +12,7 @@ function BranchCommitListController(
   updateInstanceWithNewAcvData
 ) {
   var BCLC = this;
+  BCLC.appCodeVersion = BCLC.instance.contextVersion.getMainAppCodeVersion();
 
   BCLC.data = {
     repo: BCLC.appCodeVersion.githubRepo,

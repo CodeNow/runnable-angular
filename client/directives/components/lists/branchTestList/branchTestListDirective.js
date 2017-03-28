@@ -20,7 +20,6 @@ function branchTestList(
     controllerAs: 'BTLC',
     bindToController: true,
     scope: {
-      appCodeVersion: '=',
       instance: '='
     }
   };

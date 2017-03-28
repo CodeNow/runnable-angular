@@ -1,15 +1,15 @@
 button.grid-block.shrink.btn.btn-container-menu(
-ng-class = "{\
+  ng-class = "{\
     'active': popoverShown,\
     'gray': previousCommit\
   }"
-ng-if = "$root.featureFlags.composeHistory"
-pop-over
-pop-over-template = "branchTestSelectorPopoverView"
-pop-over-data = "BTPBC.popoverData"
+  ng-if = "$root.featureFlags.composeHistory"
+  pop-over
+  pop-over-template = "branchTestSelectorPopoverView"
+  pop-over-data = "BTPBC.popoverData"
 )
   svg.iconnables
     use(
-    xlink:href = "#icons-history"
+      xlink:href = "#icons-history"
     )
   span.span {{BTPBC.sha}}

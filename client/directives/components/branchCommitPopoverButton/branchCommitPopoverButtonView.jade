@@ -6,10 +6,10 @@ button.grid-block.shrink.btn.btn-container-menu(
   ng-if = "$root.featureFlags.composeHistory"
   pop-over
   pop-over-template = "branchCommitSelectorPopoverView"
-  pop-over-data = "BCPBC.data"
+  pop-over-data = "BCPBC.popoverData"
 )
   svg.iconnables
     use(
-    xlink:href = "#icons-history"
+      xlink:href = "#icons-history"
     )
   span.span {{BCPBC.sha}}

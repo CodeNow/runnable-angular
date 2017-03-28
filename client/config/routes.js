@@ -370,9 +370,9 @@ module.exports = [
     }
   }, {
     state: 'base.instances.instance-test',
-    abstract: false,
+    abstract: true,
     url: '^/:userName/:instanceName/test',
-    template: 'test'
+    template: 'This page was returned in error'
   }, {
     state: 'base.instances.instance-test-sha',
     abstract: false,

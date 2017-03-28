@@ -20,7 +20,6 @@ function branchCommitList(
     controllerAs: 'BCLC',
     bindToController: true,
     scope: {
-      appCodeVersion: '=',
       instance: '='
     }
   };

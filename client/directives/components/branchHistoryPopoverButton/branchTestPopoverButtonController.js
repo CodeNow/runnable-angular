@@ -6,13 +6,11 @@ function BranchTestPopoverButtonController(
   fetchCommitData,
   $state
 ) {
-
   var BTPBC = this;
+  BTPBC.appCodeVersion = BTPBC.instance.contextVersion.getMainAppCodeVersion();
   BTPBC.branch = fetchCommitData.activeBranch(BTPBC.appCodeVersion);
-
   BTPBC.popoverData = {
     branch: BTPBC.branch,
-    appCodeVersion: BTPBC.appCodeVersion,
     instance: BTPBC.instance
   };
 

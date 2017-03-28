@@ -3,23 +3,19 @@
 require('app')
   .controller('BranchCommitPopoverButtonController', BranchCommitPopoverButtonController);
 function BranchCommitPopoverButtonController(
-  fetchCommitData,
   keypather
 ) {
-
   var BCPBC = this;
+  BCPBC.appCodeVersion = BCPBC.instance.contextVersion.getMainAppCodeVersion();
 
-  BCPBC.data = {
-    instance: BCPBC.instance,
-    appCodeVersion: BCPBC.appCodeVersion,
-    branch: fetchCommitData.activeBranch(BCPBC.appCodeVersion)
+  BCPBC.popoverData = {
+    instance: BCPBC.instance
   };
 
-  var latestBranchCommitSha = keypather.get(BCPBC.data.branch, 'commits.models[0].attrs.sha');
+  var latestBranchCommitSha = keypather.get(BCPBC.branch, 'commits.models[0].attrs.sha');
   if (latestBranchCommitSha && (keypather.get(BCPBC.appCodeVersion, 'attrs.commit') !== latestBranchCommitSha)) {
     BCPBC.sha = latestBranchCommitSha.substring(0,6);
   } else {
     BCPBC.sha = '';
   }
-
 }

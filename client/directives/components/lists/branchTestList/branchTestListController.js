@@ -12,6 +12,8 @@ function BranchTestListController(
   keypather
 ) {
   var BTLC = this;
+  BTLC.appCodeVersion = BTLC.instance.contextVersion.getMainAppCodeVersion();
+
   var TEST_STATES = {
     PASSED: 1,
     FAILED: 2,
