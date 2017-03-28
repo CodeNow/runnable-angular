@@ -231,10 +231,75 @@ function ControllerInstances(
       return true;
     }
 
+    if ($rootScope.featureFlags.composeNav) {
+      if (CIS.isShowingComposeService() || CIS.isShowingNonComposeMaster()) {
+        return true;
+      }
+      var showInstanceByCompose = CIS.instancesByCompose.some(function (composeMaster) {
+        return CIS.shouldShowComposeClusterChildren(composeMaster);
+      });
+      if (showInstanceByCompose) {
+        return true;
+      }
+      return CIS.getNonComposeMasters().some(function (masterInstance) {
+        return CIS.shouldShowRepoChildren(masterInstance);
+      });
+    }
+
     return CIS.instancesByPod.models.some(function (masterPod) {
       return CIS.filterMasterInstance(masterPod) || CIS.shouldShowParent(masterPod);
     });
   };
+
+  CIS.shouldShowBasic = function (item, pathToName) {
+    if (!CIS.searchBranches) {
+      return true;
+    }
+    return (keypather.get(item, pathToName) || '').toLowerCase().includes(CIS.searchBranches.toLowerCase());
+  };
+
+  CIS.isShowingNonComposeMaster = function () {
+    if (!CIS.searchBranches) {
+      return true;
+    }
+    return CIS.getNonComposeMasters().some(function (instance) {
+      return CIS.shouldShowBasic(instance, 'attrs.name');
+    });
+  };
+
+  CIS.isShowingComposeService = function () {
+    if (!CIS.searchBranches) {
+      return true;
+    }
+    return CIS.instancesByCompose.some(function (instance) {
+      return CIS.shouldShowBasic(instance, 'master.attrs.name');
+    });
+  };
+
+  CIS.shouldShowComposeClusterChildren = function (composeCluster) {
+    if (!CIS.searchBranches) {
+      return true;
+    }
+    if (!composeCluster.children) {
+      return false;
+    }
+    return composeCluster.children.some(function (childrenCompose) {
+      return CIS.shouldShowBasic(childrenCompose, 'master.getBranchName()');
+    });
+  };
+
+  CIS.shouldShowRepoChildren = function (masterInstance) {
+    if (!CIS.searchBranches) {
+      return true;
+    }
+    if (!masterInstance.children.models) {
+      return false;
+    }
+    return masterInstance.children.models.some(function (childInstance) {
+      return CIS.shouldShowBasic(childInstance, 'getBranchName()');
+    });
+  };
+
 
   this.filterMasterInstance = function (masterPod) {
     if (!CIS.searchBranches) {
