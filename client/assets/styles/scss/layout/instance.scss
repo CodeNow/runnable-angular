@@ -13,6 +13,10 @@
       z-index: $z-modal-backdrop - 1;
     }
   }
+
+  .instance > .grid-block {
+    overflow-x: auto;
+  }
 }
 
 .instance-empty {
