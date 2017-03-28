@@ -81,13 +81,17 @@
       color: $gray-dark;
       cursor: auto;
       height: $input-xs;
-      padding: 0 ($xxs + $input-border);
+      padding: 0 $xxs;
     }
   }
 
   &:not(.active) + .nav-card.active,
   &.active + .nav-card {
     margin-top: $xxs;
+  }
+
+  &:last-child {
+    margin-bottom: 18px;
   }
 }
 
@@ -106,6 +110,10 @@
 
   &:active:not(.active) {
     color: $gray-dark;
+  }
+
+  &.active {
+    pointer-events: none;
   }
 }
 
@@ -191,6 +199,7 @@
   margin-right: -6px;
   overflow: hidden;
   padding: 4px;
+  pointer-events: auto;
 
   &:not(.orange) {
     border: 0;
