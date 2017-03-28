@@ -95,6 +95,12 @@
   }
 }
 
+// empty state
+.spinner-wrapper {
+  margin-top: $xxs;
+  padding: $xxs;
+}
+
 .nav-card-header {
   align-items: center;
   border: 1px solid transparent;

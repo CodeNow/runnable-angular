@@ -21,6 +21,11 @@ a.nav-card-header(
         use(
           xlink:href = "#icons-gear"
         )
+//- empty state
+//- section.nav-card-section
+  .spinner-wrapper.spinner-sm.spinner-gray(
+    ng-include = "'spinner'"
+  )
 //- staging environment
 section.nav-card-section(
   ng-include = "'viewStagingEnvironment'"
