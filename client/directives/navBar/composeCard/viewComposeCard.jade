@@ -10,12 +10,12 @@ a.nav-card-header(
   //- only show for default branches
   button.grid-block.shrink.btn-container-menu(
     ng-class = "{'active': INC.popoverShown}"
-    ng-if = "!INC.currentOrg.isPersonalAccount() && !INC.isInDemoFlow()"
+    ng-if = "!INC.currentOrg.isPersonalAccount() && !INC.isInDemoFlow() && !isChild"
     pop-over
     pop-over-active = "INC.popoverShown"
-    pop-over-controller = "INC"
+    pop-over-controller = "CCC"
     pop-over-options = "{\"verticallyCentered\":true,\"left\":26}"
-    pop-over-template = "instanceNavigationPopoverView"
+    pop-over-template = "viewComposeCardServicePopover"
   )
     svg.iconnables
       use(
@@ -24,10 +24,10 @@ a.nav-card-header(
 //- staging environment
 section.nav-card-section(
   ng-include = "'viewStagingEnvironment'"
-  ng-if = "isActive && (composeCluster.staging.length || !composeCluster.master.attrs.isTesting)"
+  ng-if = "isActive && (CCC.composeCluster.staging.length || !CCC.composeCluster.master.attrs.isTesting)"
 )
 //- testing environment
 section.nav-card-section(
-  ng-if = "isActive && (composeCluster.testing.length || composeCluster.master.attrs.isTesting)"
+  ng-if = "isActive && (CCC.composeCluster.testing.length || CCC.composeCluster.master.attrs.isTesting)"
   ng-include = "'viewTestingEnvironment'"
 )
