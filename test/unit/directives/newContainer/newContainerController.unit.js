@@ -34,7 +34,7 @@ describe('NewContainerController'.bold.underline.blue, function () {
   var mockSourceInstance;
   var mockCurrentOrg;
   var featureFlagsMock = {
-    composeNewService: false
+    composeNewService: false,
   };
 
   function initState () {
