@@ -11,6 +11,9 @@ function getInstanceServiceName(
       return '';
     }
     var name = instance.attrs.name;
+    if (name.indexOf('--') > 0) {
+      name = name.split('--')[1];
+    }
     if (!instance.attrs.isMaster) {
       name = name.replace(instance.getBranchName() + '-', '');
     }
