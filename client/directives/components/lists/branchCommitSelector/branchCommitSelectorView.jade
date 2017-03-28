@@ -15,7 +15,6 @@
       && (\
         BCSC.isAutoDeployOn()\
         && !BCSC.isLatestCommitDeployed\
-        || $root.featureFlags.composeHistory\
       )\
     )\
   "
@@ -31,8 +30,7 @@ label.label(
   ng-if = "\
     !fetchingCommits\
     && (\
-      !$root.featureFlags.composeHistory\
-      && !BCSC.hideBranchSelector\
+      !BCSC.hideBranchSelector\
     )\
   "
   state = "BCSC.data"
@@ -45,8 +43,7 @@ label.margin-bottom-sm.grid-block.shrink.align-center.padding-xxs.well.gray(
   ng-if = "\
     !fetchingCommits\
     && (\
-      !$root.featureFlags.composeHistory\
-      && !BCSC.data.acv\
+      !BCSC.data.acv\
       || BCSC.data.acv.attrs.additionalRepo\
     )\
   "
@@ -58,11 +55,8 @@ label.grid-block.shrink.align-center.padding-xxs.well.gray(
   ng-if = "\
     !fetchingCommits\
     && (\
-      $root.featureFlags.composeHistory\
-      || (\
-        BCSC.data.acv\
-        && !BCSC.data.acv.attrs.additionalRepo\
-      )\
+      BCSC.data.acv\
+      && !BCSC.data.acv.attrs.additionalRepo\
     )\
   "
   ng-include = "'autoDeployToggleView'"
@@ -78,7 +72,7 @@ ul.list.margin-top-sm(
   li.grid-block.align-center.list-item(
     ng-class = "{\
       'active': BCSC.data.commit === commit,\
-      'disabled': BCSC.isAutoDeployOn() || BCSC.isLastestCommit()\
+      'disabled': BCSC.data.commit === commit\
     }"
     ng-click = "BCSC.selectCommit(commit, $index === 0)"
     ng-repeat = "commit in BCSC.data.branch.commits.models | orderBy: '-attrs.commit.committer.date'"
@@ -87,15 +81,11 @@ ul.list.margin-top-sm(
       p.p.text-overflow(
         ng-attr-title = "{{commit.attrs.commit.message}}"
       ) {{commit.attrs.commit.message}}
-      small.small.text-gray {{commit.attrs.author.login}} committed {{commit.attrs.commit.committer.date | timeFrom}}
+      small.small.text-gray.text-overflow(
+        ng-attr-title = "{{commit.attrs.author.login}} committed {{commit.attrs.commit.committer.date | timeFrom}}"
+      ) {{commit.attrs.author.login}} committed {{commit.attrs.commit.committer.date | timeFrom}}
     button.grid-block.shrink.margin-left-sm.btn.btn-xs.btn-icon.btn-add
       svg.iconnables.icons-check
         use(
           xlink:href = "#icons-check"
         )
-
-//- stub out dummy commit data
-ul.list.margin-top-sm(
-  ng-if = "$root.featureFlags.composeHistory && !BCSC.data.branch.commits.models"
-)
-  <li class="grid-block align-center list-item ng-scope active disabled" disabled="disabled"> <div class="grid-block vertical" title="Nathan219 authored 2 days ago"> <p class="p text-overflow ng-binding" title="11.27.1">11.27.1</p><small class="small text-gray ng-binding">Nathan219 committed 2 days ago</small> </div><button class="grid-block shrink margin-left-sm btn btn-xs btn-icon btn-add"> <svg class="iconnables icons-check"> <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icons-check"></use> </svg> </button><li class="grid-block align-center list-item ng-scope disabled" disabled="disabled"> <div class="grid-block vertical" title="Nathan219 authored 2 days ago"> <p class="p text-overflow ng-binding" title="11.27.1">11.27.1</p><small class="small text-gray ng-binding">Nathan219 committed 2 days ago</small> </div><button class="grid-block shrink margin-left-sm btn btn-xs btn-icon btn-add"> <svg class="iconnables icons-check"> <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icons-check"></use> </svg> </button><li class="grid-block align-center list-item ng-scope disabled" disabled="disabled"> <div class="grid-block vertical" title="Nathan219 authored 2 days ago"> <p class="p text-overflow ng-binding" title="11.27.1">11.27.1</p><small class="small text-gray ng-binding">Nathan219 committed 2 days ago</small> </div><button class="grid-block shrink margin-left-sm btn btn-xs btn-icon btn-add"> <svg class="iconnables icons-check"> <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icons-check"></use> </svg> </button><li class="grid-block align-center list-item ng-scope disabled" disabled="disabled"> <div class="grid-block vertical" title="Nathan219 authored 2 days ago"> <p class="p text-overflow ng-binding" title="11.27.1">11.27.1</p><small class="small text-gray ng-binding">Nathan219 committed 2 days ago</small> </div><button class="grid-block shrink margin-left-sm btn btn-xs btn-icon btn-add"> <svg class="iconnables icons-check"> <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icons-check"></use> </svg> </button>

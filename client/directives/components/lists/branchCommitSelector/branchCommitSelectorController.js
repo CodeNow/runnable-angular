@@ -36,7 +36,6 @@ function BranchCommitSelectorController(
 
   BCSC.selectCommit = function (commit, isLatestCommit) {
     eventTracking.selectCommit(isLatestCommit);
-    if (BCSC.isAutoDeployOn() || BCSC.isLatestCommit()) { return; }
     BCSC.data.commit = commit;
     $scope.$emit('commit::selected', commit);
   };
@@ -57,6 +56,7 @@ function BranchCommitSelectorController(
 
   BCSC.autoDeploy = function (isAutoDeployOn) {
     if (angular.isDefined(isAutoDeployOn)) {
+      $scope.$emit('autodeploy::set', isAutoDeployOn);
       BCSC.data.locked = !isAutoDeployOn;
     }
     return BCSC.isAutoDeployOn();
