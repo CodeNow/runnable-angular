@@ -368,6 +368,40 @@ module.exports = [
           .catch(goToStateOnError($q, $state, $timeout, 'orgSelect', 'Unauthorized'));
       }
     }
-  }
+  }, {
+    state: 'base.instances.instance-test',
+    abstract: true,
+    url: '^/:userName/:instanceName/test',
+  }, {
+    state: 'base.instances.instance-test-sha',
+    abstract: false,
+    url: '^/:userName/:instanceName/test/:sha',
+    controller: 'TestInstanceViewController',
+    controllerAs: 'TIVC',
+    templateUrl: 'viewTestInstance',
+    resolve: {
+      testInstanceData: function (
+        $stateParams,
+        $state,
+        fetchInstancesByPod,
+        fetchInstanceTestHistory
+        ) {
+          return fetchInstancesByPod()
+            .then(function(instances) {
+              var selectedInstance = instances.models.find(function(instance) {
+                return instance.getName() === $stateParams.instanceName;
+              });
+              return fetchInstanceTestHistory(selectedInstance.id())
+                .then(function(history) {
+                  var containerHistory = history.find(function(containerHistory) {
+                    return containerHistory.commitSha === $stateParams.sha;
+                  });
+                  selectedInstance.containerHistory = containerHistory;
+                  return selectedInstance;
+                });
+            });
+      }
+    }
+  } // http://local.runnable-gamma.com:3000/SandboxDemo/node-starter-test-web/test/cfa7683bea0616cd5fc50ba1ea9aea4ed7dfdce7
 ];
 Object.freeze(module.exports);

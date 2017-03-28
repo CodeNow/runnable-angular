@@ -11,7 +11,7 @@ require('app')
   .factory('fetchWhitelistedOrgs', fetchWhitelistedOrgs)
   .factory('fetchWhitelists', fetchWhitelists)
   .factory('fetchGithubOrgId', fetchGithubOrgId)
-  .factory('fetchGitHubRepoBranches', fetchGitHubRepoBranches)
+  .factory('fetchGitHubRepoBranch', fetchGitHubRepoBranch)
   .factory('fetchOrgRegisteredMembers', fetchOrgRegisteredMembers)
   .factory('fetchOrgMembers', fetchOrgMembers)
   .factory('fetchGrantedGithubOrgs', fetchGrantedGithubOrgs)
@@ -23,7 +23,7 @@ require('app')
   .factory('fetchInstances', fetchInstances)
   .factory('fetchInstance', fetchInstance)
   .factory('fetchInstancesByPod', fetchInstancesByPod)
-  .factory('fetchInstancesByCompose', fetchInstancesByCompose)
+  .factory('fetchInstanceTestHistory', fetchInstanceTestHistory)
   .factory('fetchNonRepoInstances', fetchNonRepoInstances)
   .factory('fetchBuild', fetchBuild)
   .factory('fetchRepoBranches', fetchRepoBranches)
@@ -261,7 +261,7 @@ function fetchInstancesByPod(
             });
             function sortAllInstances(allInstances) {
               var instanceMapping = {};
-              allInstances.models.forEach(function (instance) {
+              allInstances.forEach(function (instance) {
                 var parentId = instance.attrs.parent;
                 if (instance.attrs.masterPod) {
                   parentId = instance.attrs.shortHash;
@@ -314,131 +314,6 @@ function fetchInstancesByPod(
     }
 
     return fetchByPodCache[username];
-  };
-}
-
-function fetchInstancesByCompose(
-  $q,
-  $state,
-  fetchInstances,
-  keypather,
-  memoize,
-  modelStore
-) {
-  return function (username) {
-    username = username || $state.params.userName;
-    if (!username) {
-      return $q.when([]);
-    }
-
-    return memoize(function (username) {
-      return fetchInstances({
-        githubUsername: username
-      })
-        .then(function (allInstances) {
-          var instancesByCompose = [];
-
-          function populateInstancesByCompose () {
-            var composeMasters = {};
-            allInstances.models.forEach(function (instance) {
-              var clusterConfigId = keypather.get(instance, 'attrs.inputClusterConfig._id');
-              // If this isn't in a cluster, we don't actually care since it'll use the old instancesByPod navigation
-              if (!clusterConfigId) {
-                return;
-              }
-
-              var isComposeMaster = keypather.get(instance, 'attrs.inputClusterConfig.masterInstanceId') === instance.id();
-              var composeParent = keypather.get(instance, 'attrs.inputClusterConfig.parentInputClusterConfigId');
-              if (instance.attrs.masterPod && isComposeMaster && !composeParent) {
-                composeMasters[clusterConfigId] = composeMasters[clusterConfigId] || {};
-                composeMasters[clusterConfigId].master = instance;
-                return;
-              }
-
-              var masterClusterConfigId = clusterConfigId;
-              if (composeParent) {
-                masterClusterConfigId = composeParent;
-              }
-
-              composeMasters[masterClusterConfigId] = composeMasters[masterClusterConfigId] || {};
-              var composeMasterConfig = composeMasters[masterClusterConfigId];
-
-              // If this belongs at the top level for a compose master
-              if (instance.attrs.masterPod) {
-                if (instance.attrs.isTesting) {
-                  composeMasterConfig.testing = composeMasterConfig.testing || [];
-                  composeMasterConfig.testing.push(instance);
-                  return;
-                }
-                composeMasterConfig.staging = composeMasterConfig.staging || [];
-                composeMasterConfig.staging.push(instance);
-                return;
-              }
-
-              // This is a branched compose. We should now group by isolation.
-              composeMasterConfig.children = composeMasterConfig.children || {};
-              var isolationId = instance.attrs.isolated;
-
-              if (!isolationId) {
-                // They aren't isolated, so loney, so so lonely.
-                composeMasterConfig.children[instance.attrs.id] = {
-                  master: instance
-                };
-                return;
-              }
-              composeMasterConfig.children[isolationId] = composeMasterConfig.children[isolationId] || {};
-              var composeMasterConfigIsolationChild = composeMasterConfig.children[isolationId];
-              if (instance.attrs.isIsolationGroupMaster) {
-                composeMasterConfigIsolationChild.master = instance;
-                return;
-              }
-
-              if (instance.attrs.isTesting) {
-                composeMasterConfigIsolationChild.testing = composeMasterConfigIsolationChild.testing || [];
-                composeMasterConfigIsolationChild.testing.push(instance);
-                return;
-              }
-              composeMasterConfigIsolationChild.staging = composeMasterConfigIsolationChild.staging || [];
-              composeMasterConfigIsolationChild.staging.push(instance);
-              return;
-            });
-            var newInstancesByCompose = Object.keys(composeMasters).map(function (composeId) {
-              if (composeMasters[composeId].children) {
-                composeMasters[composeId].children = Object.keys(composeMasters[composeId].children).map(function (isolationId) {
-                  return composeMasters[composeId].children[isolationId];
-                });
-              }
-              return composeMasters[composeId];
-            });
-
-            // We need to keep the original instancesByCompose reference so angular will update the array in later digests
-            // http://stackoverflow.com/questions/23486687/short-way-to-replace-content-of-an-array
-            // 1. reset the array while keeping its reference
-            instancesByCompose.length = 0;
-            // 2. fill the first array with items from the second
-            [].push.apply(instancesByCompose, newInstancesByCompose);
-            instancesByCompose.sort(function (a, b) {
-              var compare1 = keypather.get(a, 'master.attrs.name');
-              var compare2 = keypather.get(b, 'master.attrs.name');
-              if (compare1 < compare2) {
-                return -1;
-              } else if (compare1 > compare2) {
-                return 1;
-              } else {
-                return 0;
-              }
-            });
-          }
-
-          allInstances.on('add', populateInstancesByCompose);
-          allInstances.on('reconnection', populateInstancesByCompose);
-          allInstances.on('remove', populateInstancesByCompose);
-          allInstances.refreshOnDisconnect = true;
-          modelStore.on('model:update:socket', populateInstancesByCompose);
-          populateInstancesByCompose();
-          return instancesByCompose;
-        });
-    })(username);
   };
 }
 
@@ -957,31 +832,22 @@ function fetchGitHubAdminsByRepo(
   };
 }
 
-function fetchGitHubRepoBranches(
+function fetchGitHubRepoBranch(
   $http,
   configAPIHost
 ) {
-  function getBranches (page, branches, orgName, repoName, branchName) {
+  return function (orgName, repoName, branchName) {
     var urlEnd = branchName ? '/' + branchName : '';
-    var params = !urlEnd ? '?page=' + page + '&per_page=100' : '';
     return $http({
       method: 'get',
-      url: configAPIHost + '/github/repos/' + orgName + '/' + repoName + '/branches' + urlEnd + params,
+      url: configAPIHost + '/github/repos/' + orgName + '/' + repoName + '/branches' + urlEnd,
       headers: {
         Accept: 'application/vnd.github.ironman-preview+json'
       }
     })
-      .then(function (res) {
-        var totalBranches = branches.concat(res.data);
-        if (res.data.length === 100) {
-          return getBranches(page + 1, totalBranches, orgName, repoName, branchName);
-        }
-        return totalBranches;
-      });
-  }
-
-  return function (orgName, repoName, branchName) {
-    return getBranches(1, [], orgName, repoName, branchName);
+    .then(function (res) {
+      return res.data;
+    });
   };
 }
 
@@ -1175,6 +1041,7 @@ function fetchInvoices(
 
 function fetchContextVersion (
   fetchUser,
+  keypather,
   promisify
 ) {
   return function (contextId, contextVersionId) {
@@ -1209,4 +1076,19 @@ function fetchPaymentMethod(
   }, function () {
     return currentOrg.poppa.id();
   });
+}
+
+function fetchInstanceTestHistory(
+  $http,
+  configAPIHost
+) {
+  return function (instanceId) {
+    return $http({
+      method: 'get',
+      url: configAPIHost + '/instances/' + instanceId + '/history'
+    })
+      .then(function (pullRequests) {
+        return pullRequests.data;
+      });
+  };
 }
