@@ -12,14 +12,13 @@ function BranchTestListController(
   keypather
 ) {
   var BTLC = this;
-  BTLC.appCodeVersion = BTLC.instance.contextVersion.getMainAppCodeVersion();
-
   var TEST_STATES = {
     PASSED: 1,
     FAILED: 2,
     UNKNOWN: 3
   };
 
+  BTLC.appCodeVersion = BTLC.instance.contextVersion.getMainAppCodeVersion();
   BTLC.branch = fetchCommitData.activeBranch(BTLC.appCodeVersion);
 
   fetchInstanceTestHistory(BTLC.instance.attrs.id)
@@ -30,7 +29,7 @@ function BranchTestListController(
       });
 
       BTLC.branch.commits.models.forEach(function(com) {
-        com.attrs.test = getTestState(testHash[com.attrs.sha], com);
+        com.test = getTestState(testHash[com.attrs.sha]);
 
         if (BTLC.appCodeVersion.attrs.commit === com.attrs.sha) {
           BTLC.commit = com;
@@ -40,7 +39,7 @@ function BranchTestListController(
       return;
     });
 
-  function getTestState(test, com) {
+  function getTestState(test) {
     if (test && keypather.get(test, 'build.stop').valueOf() !== new Date(0).valueOf()) {
       if (keypather.get(test, 'build.failed') || keypather.get(test, 'application.exitCode') > 0) {
         return TEST_STATES.FAILED;
