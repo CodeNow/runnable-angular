@@ -159,42 +159,6 @@ describe('branchCommitSelectorController'.bold.underline.blue, function () {
         stopListeningToCommitSelected();
       });
 
-      it('should not set the commit when isLatestCommit is true', function () {
-        var initialCommit = {
-          foo: 'bar'
-        };
-        branchCommitSelectorController.data = {
-          commit: initialCommit
-        };
-        $scope.$digest();
-        branchCommitSelectorController.isLatestCommit.returns(true);
-        var fakeCommit = {
-          asdasd: 'asdasd'
-        };
-        branchCommitSelectorController.selectCommit(fakeCommit);
-        $scope.$digest();
-        expect(branchCommitSelectorController.data.commit, 'data.commit').to.equal(initialCommit);
-        sinon.assert.notCalled(commitSelectedSpy);
-      });
-
-      it('should not set the commit when isAutoDeployOn is true', function () {
-        var initialCommit = {
-          foo: 'bar'
-        };
-        branchCommitSelectorController.data = {
-          commit: initialCommit
-        };
-        $scope.$digest();
-        branchCommitSelectorController.isAutoDeployOn.returns(true);
-        var fakeCommit = {
-          asdasd: 'asdasd'
-        };
-        branchCommitSelectorController.selectCommit(fakeCommit);
-        $scope.$digest();
-        expect(branchCommitSelectorController.data.commit, 'data.commit').to.equal(initialCommit);
-        sinon.assert.notCalled(commitSelectedSpy);
-      });
-
       it('should set the commit', function () {
         var initialCommit = {
           foo: 'bar'

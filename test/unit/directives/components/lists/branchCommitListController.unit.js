@@ -42,7 +42,7 @@ describe('BranchCommitListController'.bold.underline.blue, function () {
     };
     newCommit = { attrs: { sha: '1' } };
 
-  }
+  };
   function initState() {
     angular.mock.module('app');
     angular.mock.module(function ($provide) {
@@ -87,7 +87,7 @@ describe('BranchCommitListController'.bold.underline.blue, function () {
         instance: instance
       });
     });
-  }
+  };
   beforeEach(function () {
     initialize();
   });
