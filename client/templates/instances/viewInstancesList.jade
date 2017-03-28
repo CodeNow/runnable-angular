@@ -142,7 +142,7 @@
   section.nav-section(
     ng-if = "$root.featureFlags.composeNav"
     ng-include = "'nonComposeRepoSectionView'"
-    ng-repeat = "masterInstance in CIS.getNonComposeMasters() | instanceHasRepo:true | orderBy: ['masterInstance.attrs.name'] track by masterInstance.attrs.name"
+    ng-repeat = "masterInstance in CIS.getNonComposeMasters() | instanceHasRepo:true | orderBy: ['getDisplayName().toLowerCase()'] track by masterInstance.attrs.name"
   )
 
   //- branch environments (pre-compose)
