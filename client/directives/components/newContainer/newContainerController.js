@@ -364,10 +364,10 @@ function NewContainerController(
     if (NCC.state.configurationMethod === 'blankDockerfile' || NCC.state.configurationMethod === 'new') {
       return 'Next Step: Setup';
     }
-    if (NCC.state.configurationMethod === 'dockerComposeFile' && NCC.state.types.test) {
+    if (NCC.state.configurationMethod === 'dockerComposeFile' && NCC.state.dockerComposeFile && NCC.state.dockerComposeTestFile) {
       return 'Create Environments';
     }
-    return 'Create Environment';
+      return 'Create Environment';
   };
 
   NCC.canCreateBuild = function () {

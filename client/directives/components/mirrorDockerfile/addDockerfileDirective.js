@@ -5,8 +5,7 @@ require('app')
 
 function addDockerfile(
   $q,
-  $timeout,
-  parseDockerComposeFile
+  $timeout
 ) {
   return {
     restrict: 'A',
@@ -16,7 +15,8 @@ function addDockerfile(
       branchName: '=',
       fullRepo: '=',
       viewState: '=',
-      fileType: '@'
+      fileType: '@',
+      state: '='
     },
     link: function ($scope, elem, attrs, MDC) {
       if ($scope.fileType === 'Docker Compose') {
@@ -42,24 +42,7 @@ function addDockerfile(
         }
         $scope.viewState.showAddDockerfile = false;
       };
-      $scope.$on('dockerfileExistsValidator::valid', function ($event, path, fileType, dockerfile) {
-        $scope.dockerfile = dockerfile;
-        if (fileType === 'Dockerfile') {
-          MDC.state.dockerComposeFile = null;
-          MDC.state.dockerfile = dockerfile;
-          return;
-        }
-        if (fileType === 'Docker Compose Test') {
-          var dockerfileContent = parseDockerComposeFile(dockerfile.content);
-          MDC.dockerComposeTestServices = Object.keys(dockerfileContent.services).map(function (serviceName) {
-            return { name: serviceName };
-          });
 
-          MDC.state.dockerComposeTestFile = dockerfile;
-          return;
-        }
-        MDC.state.dockerComposeFile = dockerfile;
-      });
     }
   };
 }
