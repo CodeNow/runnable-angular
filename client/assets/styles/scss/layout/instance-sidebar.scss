@@ -10,7 +10,7 @@
 
   // for tab spacing when sidebar is present
   &.ng-hide + .views .views-tabs {
-    margin-left: (82px + $xs + 6px); // explorer toggle + instance padding + tab padding
+    padding-left: (82px + 6px); // explorer toggle + tab padding
   }
 
   // error states
