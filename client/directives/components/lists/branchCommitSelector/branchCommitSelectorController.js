@@ -22,6 +22,12 @@ function BranchCommitSelectorController(
     }
   };
 
+  /**
+   * Tells you if the useLatest flag is set.
+   * if setTolatestCommit is truthy it sets the build to use the latest commit and sets useLatest to true.
+   *
+   * @param setToLatestCommit: Force the selection to the latest commit
+   */
   BCSC.isLatestCommit = function (setToLatestCommit) {
     if (arguments.length) {
       BCSC.data.commit = keypather.get(BCSC.data.branch, 'commits.models[0]');
@@ -58,6 +64,10 @@ function BranchCommitSelectorController(
   BCSC.autoDeploy = function (isAutoDeployOn) {
     if (angular.isDefined(isAutoDeployOn)) {
       BCSC.data.locked = !isAutoDeployOn;
+
+      if (isAutoDeployOn) {
+        BCSC.isLatestCommit(true);
+      }
     }
     return BCSC.isAutoDeployOn();
   };
