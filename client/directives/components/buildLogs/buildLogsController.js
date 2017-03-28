@@ -7,11 +7,13 @@ function BuildLogsController(
   $rootScope,
   $timeout,
   errs,
+  keypather,
   launchDebugContainer,
   loading,
   updateInstanceWithNewBuild,
   primus,
   promisify,
+  fetchRepoDockerfile,
   streamingLog
 ) {
   var BLC = this;
@@ -27,9 +29,19 @@ function BuildLogsController(
       BLC.failReason = buildError.message || 'failed';
       BLC.showDebug = true;
       BLC.buildLogsRunning = false;
-      BLC.showNoDockerfileError = (BLC.instance.hasDockerfileMirroring() && BLC.instance.mirroredDockerfile === null);
       if (status === 'neverStarted') {
         BLC.showErrorPanel = true;
+      }
+      var repoAndBranchName = BLC.instance.getRepoAndBranchName().split('/');
+      var repoName = repoAndBranchName[0];
+      var branchName = repoAndBranchName[1];
+      var dockerfilePath = keypather.get(BLC, 'instance.mirroredDockerfile.attrs.path');
+      var dockerfileName = keypather.get(BLC, 'instance.mirroredDockerfile.attrs.name');
+      if (dockerfilePath && dockerfileName) {
+        fetchRepoDockerfile(repoName, branchName, dockerfilePath + dockerfileName)
+          .then(function (dockerfile) {
+            BLC.showNoDockerfileError = (BLC.instance.hasDockerfileMirroring() && dockerfile.message === 'Not Found');
+          });
       }
     } else if (status === 'building') {
       BLC.buildStatus = 'running';
