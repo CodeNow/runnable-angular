@@ -83,6 +83,7 @@
       cursor: auto;
       height: $input-xs;
       padding: 0 $xxs;
+      pointer-events: none;
     }
   }
 
@@ -111,10 +112,6 @@
 
   &:active:not(.active) {
     color: $gray-dark;
-  }
-
-  &.active {
-    pointer-events: none;
   }
 }
 
