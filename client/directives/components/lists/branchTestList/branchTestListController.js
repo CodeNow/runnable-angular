@@ -8,10 +8,11 @@ require('app')
  */
 function BranchTestListController(
   fetchCommitData,
-  fetchInstanceTestHistory
+  fetchInstanceTestHistory,
+  keypather
 ) {
   var BTLC = this;
-  const TEST_STATES = {
+  var TEST_STATES = {
     PASSED: 1,
     FAILED: 2,
     UNKNOWN: 3
@@ -21,15 +22,13 @@ function BranchTestListController(
 
   fetchInstanceTestHistory(BTLC.instance.attrs.id)
     .then(function(tests) {
-      BTLC.branch.commits.models.forEach(function(com) {
-        var index = tests.findIndex(function(test) {
-          return com.attrs.sha === test.commitSha;
-        });
+      var testHash = {};
+      tests.forEach(function(test) {
+        testHash[test.commitSha] = test;
+      });
 
-        if (index >= 0) {
-          addTestResults(tests[index], com);
-          tests.splice(index, 1);
-        }
+      BTLC.branch.commits.models.forEach(function(com) {
+        com.attrs.test = getTestState(testHash[com.attrs.sha], com);
 
         if (BTLC.appCodeVersion.attrs.commit === com.attrs.sha) {
           BTLC.commit = com;
@@ -39,17 +38,15 @@ function BranchTestListController(
       return;
     });
 
-  function addTestResults(test, com) {
-    if (test.build.stop !== new Date(0) && !test.build.failed) {
-      if (test.application.exitCode > 0) {
-        com.attrs.test = TEST_STATES.FAILED;
-      } else if (test.application.exitCode === 0 && test.application.stop !== new Date(0)) {
-        com.attrs.test = TEST_STATES.PASSED;
+  function getTestState(test, com) {
+    if (test && keypather.get(test, 'build.stop').valueOf() !== new Date(0).valueOf()) {
+      if (keypather.get(test, 'build.failed') || keypather.get(test, 'application.exitCode') > 0) {
+        return TEST_STATES.FAILED;
+      } else if (keypather.get(test,'application.exitCode') === 0 && keypather.get(test,'application.stop').valueOf() !== new Date(0).valueOf()) {
+        return TEST_STATES.PASSED;
       }
     }
 
-    if (!com.attrs.test) {
-      com.attrs.test = TEST_STATES.UNKNOWN;
-    }
+    return TEST_STATES.UNKNOWN;
   }
 }

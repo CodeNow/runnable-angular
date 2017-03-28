@@ -14,7 +14,7 @@ function BranchTestPopoverButtonController(
     branch: BTPBC.branch,
     appCodeVersion: BTPBC.appCodeVersion,
     instance: BTPBC.instance
-  }
+  };
 
   BTPBC.sha = $state.params.sha;
 }
