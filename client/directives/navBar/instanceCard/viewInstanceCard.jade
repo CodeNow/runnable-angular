@@ -9,20 +9,21 @@ a.nav-card-header(
   span.grid-block
     span.text-overflow {{instance.getDisplayName()}}
 
-header.noscroll.nav-environment-header(
+section.nav-card-section(
   ng-if = "isActive"
 )
-  span.grid-block {{instance.attrs.isTesting ? 'Testing' : 'Staging'}}
+  header.noscroll.nav-environment-header
+    span.grid-block {{instance.attrs.isTesting ? 'Testing' : 'Staging'}}
 
-ul.nav-container-list(
-  ng-if = "isActive"
-)
-  li.li(
-    instance = "instance"
-    instance-navigation
+  ul.nav-container-list(
+    ng-if = "isActive"
   )
-  li.li(
-    instance = "childInstance"
-    instance-navigation
-    ng-repeat = "childInstance in instance.isolation.instances.models | orderBy: ['attrs.name'] track by childInstance.attrs.name"
-  )
+    li.li(
+      instance = "instance"
+      instance-navigation
+    )
+    li.li(
+      instance = "childInstance"
+      instance-navigation
+      ng-repeat = "childInstance in instance.isolation.instances.models | orderBy: ['attrs.name'] track by childInstance.attrs.name"
+    )
