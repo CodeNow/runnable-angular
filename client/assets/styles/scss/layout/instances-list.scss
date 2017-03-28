@@ -42,7 +42,8 @@
   }
 }
 
-.nav-section {
+.nav-section:first-child,
+*:not(.popover) + .nav-section {
   border-top: $input-border solid $gray-lighter;
 }
 
@@ -81,13 +82,18 @@
       color: $gray-dark;
       cursor: auto;
       height: $input-xs;
-      padding: 0 ($xxs + $input-border);
+      padding: 0 $xxs;
+      pointer-events: none;
     }
   }
 
   &:not(.active) + .nav-card.active,
   &.active + .nav-card {
     margin-top: $xxs;
+  }
+
+  &:last-child {
+    margin-bottom: 18px;
   }
 }
 
@@ -191,6 +197,7 @@
   margin-right: -6px;
   overflow: hidden;
   padding: 4px;
+  pointer-events: auto;
 
   &:not(.orange) {
     border: 0;

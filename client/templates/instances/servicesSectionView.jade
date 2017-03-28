@@ -12,6 +12,11 @@ h2.grid-block.align-center.justify-justified.nav-section-header Services
         xlink:href = "#icons-arrow-down"
       )
 
+.grid-block.align-center.padding-sm.popover.top.in.popover-demo(
+  ng-if = "CIS.showInstanceRunningPopover() && !$root.featureFlags.demoPersonalOnly"
+  ng-include = "'popoverDemoUrlHiddenView'"
+)
+
 section.nav-card.active(
   compose-card
   compose-cluster = "composeCluster"
@@ -21,4 +26,5 @@ section.nav-card.active(
 section.nav-card.active(
   ng-include = "'nonComposeCardView'"
   ng-show = "CIS.isShowingNonComposeMaster()"
+  ng-if = "CIS.getNonComposeMasters().length"
 )

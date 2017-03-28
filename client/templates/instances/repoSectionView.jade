@@ -22,6 +22,11 @@ section.nav-card(
   compose-card
   compose-cluster = "composeCluster"
   is-child = "true"
-  ng-repeat = "composeCluster in masterComposeCluster.children | orderBy: ['master.attrs.name'] track by composeCluster.master.attrs.name"
+  ng-repeat = "composeCluster in masterComposeCluster.children | orderBy: ['master.attrs.name'] track by composeCluster.master.attrs._id"
   ng-show = "CIS.shouldShowBasic(composeCluster, 'master.getBranchName()')"
 )
+
+//- show after the URL has been visited
+//- .grid-block.vertical.padding-sm.popover.bottom.in.popover-demo.branch-step(
+//-   ng-include = "'popoverDemoBranchContainerView'"
+//- )

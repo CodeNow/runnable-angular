@@ -32,5 +32,5 @@ ul.nav-container-list
   li.li(
     instance = "testingInstance"
     instance-navigation
-    ng-repeat = "testingInstance in getTestingInstances() | orderBy: ['attrs.name'] track by testingInstance.attrs.name"
+    ng-repeat = "testingInstance in getTestingInstances() | orderBy: ['attrs.name'] track by testingInstance.attrs._id"
   )

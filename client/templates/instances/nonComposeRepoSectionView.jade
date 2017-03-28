@@ -21,6 +21,6 @@ section.nav-card(
   ng-class = "{'active': CIS.isCardActive(instance)}"
   instance-card
   instance = "instance"
-  ng-repeat = "instance in masterInstance.children.models | orderBy: ['instance.attrs.name'] track by instance.attrs.name"
+  ng-repeat = "instance in masterInstance.children.models | orderBy: ['getDisplayName().toLowerCase()'] track by instance.attrs._id"
   ng-show = "CIS.shouldShowBasic(instance, 'getBranchName()')"
 )
