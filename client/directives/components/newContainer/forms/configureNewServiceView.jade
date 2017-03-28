@@ -55,19 +55,16 @@ footer.modal-footer.clearfix
     ng-click = "NCC.close()"
   ) Cancel
   button.btn.btn-md.green.float-right(
-    ng-disabled = "!NCC.state.instanceName.length || NCC.nameForm.$invalid || $root.isLoading.newContainerSingleRepo"
-    ng-click = "$root.featureFlags.composeNewService ? NCC.saveDockerfileMirroring() : NCC.saveName()"
+    ng-disabled = "!NCC.canCreateBuild()"
+    ng-click = "NCC.saveDockerfileMirroring()"
   )
     .spinner-wrapper.spinner-white.spinner-sm.float-left(
       ng-if = "$root.isLoading.newContainerSingleRepo"
       ng-include = "'spinner'"
     )
     span(
-      ng-if = "!$root.featureFlags.composeNewService && NCC.state.repo"
-    ) Next Step: Setup
-    span(
       ng-if = "$root.featureFlags.composeNewService && NCC.state.repo"
-    ) Next Step: Configuration
+    ) {{ NCC.getNextStepText() }}
     span(
       ng-if = "NCC.state.templateSource"
     ) Add Service

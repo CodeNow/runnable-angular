@@ -137,18 +137,22 @@
     view-state = "viewState"
   )
 
-//- input for environment file path
-.grid-block.vertical.label.views-dockerfile-setup(
-  add-dockerfile
-  branch-name = "MDC.branchName"
-  file-type = "Docker Compose"
-  full-repo = "MDC.getFullRepo()"
+//- input and settings for staging
+.grid-block.vertical.label(
   ng-if = "$root.featureFlags.composeNewService && !MDC.fromTool && MDC.state.dockerFileTab === 'compose'"
-  view-state = "viewState"
+  compose-file-path
+  path-enabled = "true"
+  type = "stage"
+  branch-name = "MDC.branchName"
+  full-repo = "MDC.getFullRepo()"
 )
 
 //- input and settings for testing
 .grid-block.vertical.label(
   ng-if = "$root.featureFlags.composeNewService && !MDC.fromTool && MDC.state.dockerFileTab === 'compose'"
-  ng-include = "'composeTestView'"
+  compose-file-path
+  path-enabled = "false"
+  type = "test"
+  branch-name = "MDC.branchName"
+  full-repo = "MDC.getFullRepo()"
 )

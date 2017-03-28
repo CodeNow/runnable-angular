@@ -19,18 +19,23 @@ function addDockerfile(
     },
     link: function ($scope, elem, attrs, MDC) {
       if ($scope.fileType === 'Docker Compose') {
-        $scope.fileName = 'compose.yml';
+        $scope.fileName = 'docker-compose.yml';
         $scope.fileLabel = 'Compose file';
         $scope.formLabel = 'Compose File Path';
+        MDC.state.types.stage = true;
+        MDC.loadDefaultDockerfile($scope.fullRepo, $scope.branchName, '/docker-compose.yml', $scope.fileType);
       } else if ($scope.fileType === 'Docker Compose Test') {
         $scope.fileName = 'compose-test.yml';
         $scope.fileLabel = 'Compose file';
         $scope.formLabel = 'Compose File Path';
+        MDC.state.types.test = true;
       } else if ($scope.fileType === 'Dockerfile') {
         $scope.fileName = 'Dockerfile';
         $scope.fileLabel = 'Dockerfile';
         $scope.formLabel = 'Dockerfile Path';
+        MDC.loadDefaultDockerfile($scope.fullRepo, $scope.branchName, '/Dockerfile', $scope.fileType);
       }
+
       $scope.closeDockerFileInput = function () {
         if ($scope.fileType === 'Docker Compose') {
           $scope.viewState.showAddDockerComposeFile = false;
@@ -38,22 +43,6 @@ function addDockerfile(
         }
         $scope.viewState.showAddDockerfile = false;
       };
-      $scope.addDockerFile = function (path, fileType) {
-        return $q.when()
-          .then(function () {
-            if (fileType === 'Docker Compose') {
-              return MDC.addDockerComposeFileFromPath(path);
-            }
-            return MDC.addDockerfileFromPath(path);
-          })
-          .then(function (file) {
-            $scope.dockerfile = file;
-            return $timeout(angular.noop);
-          });
-      };
-      $scope.$on('dockerfileExistsValidator::valid', function ($event, path, fileType) {
-        return $scope.addDockerFile(path, fileType);
-      });
     }
   };
 }
