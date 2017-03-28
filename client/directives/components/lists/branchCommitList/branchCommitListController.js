@@ -41,10 +41,6 @@ function BranchCommitListController(
     return newCommitSha && newCommitSha !== oldCommitSha;
   };
 
-  BCLC.hasLockedBeenUpdated = function () {
-    return BCLC.data.locked !== BCLC.instance.attrs.locked;
-  };
-
   BCLC.updateInstance = function () {
     return $q.when()
       .then(function () {
