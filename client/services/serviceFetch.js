@@ -322,7 +322,8 @@ function fetchInstancesByCompose(
   $state,
   fetchInstances,
   keypather,
-  memoize
+  memoize,
+  modelStore
 ) {
   return function (username) {
     username = username || $state.params.userName;
@@ -335,10 +336,10 @@ function fetchInstancesByCompose(
         githubUsername: username
       })
         .then(function (allInstances) {
-          var composeMasters = {};
           var instancesByCompose = [];
 
           function populateInstancesByCompose () {
+            var composeMasters = {};
             allInstances.models.forEach(function (instance) {
               var clusterConfigId = keypather.get(instance, 'attrs.inputClusterConfig._id');
               // If this isn't in a cluster, we don't actually care since it'll use the old instancesByPod navigation
@@ -429,10 +430,11 @@ function fetchInstancesByCompose(
             });
           }
 
-          allInstances.refreshOnDisconnect = true;
-          allInstances.on('reconnection', populateInstancesByCompose);
           allInstances.on('add', populateInstancesByCompose);
+          allInstances.on('reconnection', populateInstancesByCompose);
           allInstances.on('remove', populateInstancesByCompose);
+          allInstances.refreshOnDisconnect = true;
+          modelStore.on('model:update:socket', populateInstancesByCompose);
           populateInstancesByCompose();
           return instancesByCompose;
         });

@@ -22,7 +22,7 @@ section.nav-card(
   compose-card
   compose-cluster = "composeCluster"
   is-child = "true"
-  ng-repeat = "composeCluster in masterComposeCluster.children | orderBy: ['master.attrs.name'] track by composeCluster.master.attrs.name"
+  ng-repeat = "composeCluster in masterComposeCluster.children | orderBy: ['master.attrs.name'] track by composeCluster.master.attrs._id"
 )
 
 //- show after the URL has been visited
