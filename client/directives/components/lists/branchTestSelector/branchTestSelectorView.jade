@@ -22,7 +22,7 @@ ul.list.margin-top-sm(
       'active': BTSC.commit === commit\
     }"
     ng-click = "BTSC.selectCommit(commit, $index === 0)"
-    ng-if = "commit.test === 1 || commit.test === 2"
+    ng-if = "commit.test === 'passed' || commit.test === 'failed'"
     ng-repeat = "commit in BTSC.branch.commits.models | orderBy: '-attrs.commit.committer.date'"
   )
     a.grid-block.vertical(
@@ -33,7 +33,7 @@ ul.list.margin-top-sm(
       ) {{commit.attrs.commit.message}}
       .grid-block.align-center
         .icons-status(
-          ng-class = "{'passed' : commit.test === 1, 'failed' : commit.test === 2}"
+          ng-class = "commit.test"
         )
         small.small.text-gray {{commit.attrs.sha | limitTo : 6}}
     button.grid-block.shrink.margin-left-sm.btn.btn-xs.btn-icon.btn-add

@@ -13,9 +13,9 @@ function BranchTestListController(
 ) {
   var BTLC = this;
   var TEST_STATES = {
-    PASSED: 1,
-    FAILED: 2,
-    UNKNOWN: 3
+    PASSED: 'passed',
+    FAILED: 'failed',
+    UNKNOWN: ''
   };
 
   BTLC.appCodeVersion = BTLC.instance.contextVersion.getMainAppCodeVersion();
