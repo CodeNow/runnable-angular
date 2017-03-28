@@ -4,32 +4,6 @@
 )
   .arrow.white
   .popover-content
-
-    //- for compose repos and branches
-    ul.list.popover-list(
-      ng-if = "INC.instance.attrs.inputClusterConfig._id"
-    )
-
-      //- show for default branches of compose repos
-      li.list-item.popover-list-item.multi-line(
-        internal-modal-helper = "confirmDeleteServerView"
-      )
-        svg.iconnables.icons-gear
-          use(
-            xlink:href = "#icons-delete"
-          )
-        | Delete Services
-
-      //- show for non-default branches of compose repos
-      //- li.list-item.popover-list-item.multi-line(
-      //-   internal-modal-helper = "confirmBranchRemoveView"
-      //- )
-        svg.iconnables.icons-gear
-          use(
-            xlink:href = "#icons-delete"
-          )
-        | Remove Branch
-
     //- for non-repo containers and default branches of non-compose repos
     ul.list.popover-list(
       ng-if = "INC.instance.attrs.masterPod && !INC.instance.attrs.inputClusterConfig._id"
