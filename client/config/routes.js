@@ -368,6 +368,16 @@ module.exports = [
           .catch(goToStateOnError($q, $state, $timeout, 'orgSelect', 'Unauthorized'));
       }
     }
+  }, {
+    state: 'base.instances.instance-test',
+    abstract: false,
+    url: '^/:userName/:instanceName/test',
+    template: 'test'
+  }, {
+    state: 'base.instances.instance-test-sha',
+    abstract: false,
+    url: '^/:userName/:instanceName/test/:sha',
+    template: 'test sha'
   }
 ];
 Object.freeze(module.exports);
