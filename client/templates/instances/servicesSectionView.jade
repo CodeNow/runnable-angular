@@ -11,10 +11,18 @@ h2.grid-block.align-center.justify-justified.nav-section-header Services
       use(
         xlink:href = "#icons-arrow-down"
       )
+
+.grid-block.align-center.padding-sm.popover.top.in.popover-demo(
+  ng-if = "CIS.showInstanceRunningPopover() && !$root.featureFlags.demoPersonalOnly"
+  ng-include = "'popoverDemoUrlHiddenView'"
+)
+
 section.nav-card.active(
-  ng-include = "'branchCardView'"
-  ng-init = "active = true"
+  compose-card
+  compose-cluster = "composeCluster"
+  ng-repeat = "composeCluster in CIS.instancesByCompose | orderBy: ['attrs.name'] track by composeCluster.master.attrs.name"
 )
 section.nav-card.active(
   ng-include = "'nonComposeCardView'"
+  ng-if = "CIS.getNonComposeMasters().length"
 )

@@ -371,11 +371,16 @@ function NewContainerController(
   };
 
   NCC.canCreateBuild = function () {
-    return  NCC.state.instanceName.length && !keypather.get(NCC, 'nameForm.$invalid') &&
-            !$rootScope.isLoading.newContainerSingleRepo && (!$rootScope.featureFlags.composeNewService ||
-            ((NCC.state.configurationMethod === 'new' || NCC.state.configurationMethod === 'blankDockerfile') ||
+    return  keypather.get(NCC, 'state.instanceName.length') && !keypather.get(NCC, 'nameForm.$invalid') &&
+            !$rootScope.isLoading.newContainerSingleRepo && (!$scope.$root.featureFlags.composeNewService ||
+            NCC.validateDockerComposeBuild());
+  };
+
+  NCC.validateDockerComposeBuild = function () {
+    return ((NCC.state.configurationMethod === 'new' || NCC.state.configurationMethod === 'blankDockerfile') ||
             (NCC.state.configurationMethod === 'dockerfile' && NCC.state.dockerfile) ||
-            (NCC.state.configurationMethod === 'dockerComposeFile' && (NCC.state.testReporter ||
-            (NCC.state.dockerComposeFile && keypather.get(NCC, 'state.types.stage') && !NCC.state.types.test)))));
+            (NCC.state.configurationMethod === 'dockerComposeFile' &&
+            ((NCC.state.types.test ? NCC.state.dockerComposeTestFile && NCC.state.testReporter : NCC.state.types.stage) &&
+            (NCC.state.types.stage ? NCC.state.dockerComposeFile : NCC.state.types.test))));
   };
 }

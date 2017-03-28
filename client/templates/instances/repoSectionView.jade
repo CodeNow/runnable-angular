@@ -1,10 +1,11 @@
 h2.grid-block.align-center.justify-justified.nav-section-header
   span.text-overflow.padding-right-xxs(
-    title = "api"
-  ) api
+    title = "{{masterComposeCluster.master.attrs.inputClusterConfig.clusterName}}"
+  ) {{masterComposeCluster.master.attrs.inputClusterConfig.clusterName}}
+
   .grid-block.align-center.shrink.btn.btn-xs.white(
     data-event-name = "Clicked Add Branch button"
-    ng-click = "CIS.popInstanceOpen(masterInstance)"
+    ng-click = "CIS.popInstanceOpen(masterComposeCluster.master)"
     pop-over
     pop-over-controller = "CIS"
     pop-over-data = "'branchSelect'"
@@ -17,7 +18,14 @@ h2.grid-block.align-center.justify-justified.nav-section-header
       )
 
 section.nav-card(
-  ng-class = "{'active': active}"
-  ng-include = "'branchCardView'"
-  ng-repeat = "active in [true, false, false] track by $index"
+  ng-class = "{'active': CIS.isCardActive(composeCluster.master)}"
+  compose-card
+  compose-cluster = "composeCluster"
+  is-child = "true"
+  ng-repeat = "composeCluster in masterComposeCluster.children | orderBy: ['master.attrs.name'] track by composeCluster.master.attrs._id"
 )
+
+//- show after the URL has been visited
+//- .grid-block.vertical.padding-sm.popover.bottom.in.popover-demo.branch-step(
+//-   ng-include = "'popoverDemoBranchContainerView'"
+//- )

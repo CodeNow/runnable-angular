@@ -30,32 +30,43 @@ function composeFilePath(
         if (!isEnabled) {
           if ($scope.type === 'test') {
             MDC.state.dockerComposeTestFile = null;
+            $scope.dockerComposeTestServices = null;
+            MDC.state.testReporter = null;
+            MDC.state.types.test = false;
+
           }
           if ($scope.type === 'stage') {
             MDC.state.dockerComposeFile = null;
+            MDC.state.types.stage = false;
           }
         } else {
           MDC.state.configurationMethod = 'dockerComposeFile';
         }
-      })
+      });
 
-      $scope.$on('dockerfileExistsValidator::valid', function ($event, path, fileType, dockerfile) {
+      $scope.$on('dockerfileExistsValidator', function ($event, path, fileType, dockerfile) {
         $scope.dockerfile = dockerfile;
         if (fileType === 'Dockerfile') {
           MDC.state.dockerComposeFile = null;
           MDC.state.dockerfile = dockerfile;
           return;
         }
-        if (fileType === 'Docker Compose Test') {
+        if (dockerfile && fileType === 'Docker Compose Test') {
           var dockerfileContent = parseDockerComposeFile(dockerfile.content);
           $scope.dockerComposeTestServices = Object.keys(dockerfileContent.services).map(function (serviceName) {
             return { name: serviceName };
           });
 
           MDC.state.dockerComposeTestFile = dockerfile;
+          MDC.state.types.test = true;
+          return;
+        } else {
+          $scope.dockerComposeTestServices = null;
+          MDC.state.testReporter = null;
           return;
         }
         MDC.state.dockerComposeFile = dockerfile;
+        MDC.state.types.stage = true;
       });
     }
   };
