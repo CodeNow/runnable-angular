@@ -33,5 +33,5 @@ function BranchTestSelectorController(
 
   BTSC.isLatestCommit = function() {
     return BTSC.commit === keypather.get(BTSC.branch, 'commits.models[0]');
-  }
+  };
 }
