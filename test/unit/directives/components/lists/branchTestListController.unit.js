@@ -175,16 +175,16 @@ describe('BranchTestListController'.bold.underline.blue, function () {
     it('built results correctly', function () {
       $scope.$digest();
       // No test found
-      expect(branch.commits.models[0].attrs.test).to.equal(3);
+      expect(branch.commits.models[0].test).to.equal('');
       // Test found but build exit time of epoch
-      expect(branch.commits.models[1].attrs.test).to.equal(3);
+      expect(branch.commits.models[1].test).to.equal('');
       // Build failed is true
-      expect(branch.commits.models[2].attrs.test).to.equal(2);
+      expect(branch.commits.models[2].test).to.equal('failed');
       // // Build passed but exit code > 0
-      expect(branch.commits.models[3].attrs.test).to.equal(2);
+      expect(branch.commits.models[3].test).to.equal('failed');
       // Application stop is epoch
-      expect(branch.commits.models[4].attrs.test).to.equal(3);
-      expect(branch.commits.models[5].attrs.test).to.equal(1);
+      expect(branch.commits.models[4].test).to.equal('');
+      expect(branch.commits.models[5].test).to.equal('passed');
     });
   });
 });
