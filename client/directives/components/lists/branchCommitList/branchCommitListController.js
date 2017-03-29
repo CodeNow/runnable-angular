@@ -57,8 +57,12 @@ function BranchCommitListController(
   };
 
   BCLC.updateLock = function() {
-    return promisify(BCLC.instance, 'update')({
-      locked: BCLC.data.locked
-    });
+    // Resolves an empty promise and then executes the then, lets us resolve the promisfy effectively.
+    return $q.when()
+      .then(function () {
+        return promisify(BCLC.instance, 'update')({
+          locked: BCLC.data.locked
+        });
+      });
   };
 }
