@@ -9,11 +9,15 @@ require('app')
 function TestInstanceViewController(
   testInstanceData,
   fetchCommitData,
-  keypather
+  keypather,
+  OpenItems
 ) {
   var TIVC = this;
   TIVC.testInstanceData = testInstanceData;
-
+  TIVC.testInstanceData.containers.models[0].attrs.dockerContainer = TIVC.testInstanceData.containerHistory.application.containerId;
+  TIVC.openItems = new OpenItems();
+  TIVC.openItems.removeAllButLogs();
+  TIVC.openItems.models[1].attrs.name = 'Test Logs';
   var branch = fetchCommitData.activeBranch(keypather.get(TIVC, 'testInstanceData.build.contextVersions.models[0].appCodeVersions.models[0]'));
 
   fetchCommitData.branchCommits(branch)
