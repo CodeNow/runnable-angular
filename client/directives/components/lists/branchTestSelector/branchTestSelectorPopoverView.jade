@@ -1,6 +1,6 @@
 .popover.right.popover-branch-menu(
-ng-class = "{'in': active}"
-ng-style = "popoverStyle.getStyle()"
+  ng-class = "{'in': active}"
+  ng-style = "popoverStyle.getStyle()"
 )
   .arrow.white(
   ng-style = "popoverStyle.getArrowStyle()"
@@ -9,7 +9,6 @@ ng-style = "popoverStyle.getStyle()"
   section.padding-xs.popover-content.list-tests.list-actions.list-commits(
     branch-test-list
     instance = "data.instance"
-    ng-init = "fromPopover = true"
   )
     .padding-md.grid-block.align-center.justify-center(
       ng-click = "state.loading = false"

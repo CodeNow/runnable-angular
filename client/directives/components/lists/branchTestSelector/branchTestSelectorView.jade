@@ -1,9 +1,9 @@
 //- hide everything except the spinner when loading
 .padding-md.grid-block.align-center.justify-center(
-ng-if = "fetchingCommits"
+  ng-if = "fetchingCommits"
 )
   .spinner-wrapper.spinner-gray.spinner-sm(
-  ng-include = "'spinner'"
+    ng-include = "'spinner'"
   )
 
 header.grid-block.vertical.shrink.align-start.header(
@@ -13,8 +13,8 @@ header.grid-block.vertical.shrink.align-start.header(
 //- list of commits
 ul.list.margin-top-sm(
   ng-if = "\
-    !fetchingCommits\
-    && BTSC.branch.commits.models\
+    !fetchingCommits &&\
+     BTSC.branch.commits.models\
   "
 )
   li.grid-block.align-center.list-item(

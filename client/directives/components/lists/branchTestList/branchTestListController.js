@@ -21,7 +21,8 @@ function BranchTestListController(
   fetchInstanceTestHistory(BTLC.instance.attrs.id)
     .then(function(tests) {
       return calculateHistoricalTestResult(tests);
-    }).then(function(tests) {
+    })
+    .then(function(tests) {
       var testHash = {};
       tests.forEach(function(test) {
         testHash[test.commitSha] = test;
