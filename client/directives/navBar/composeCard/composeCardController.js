@@ -45,12 +45,9 @@ function ComposeCardController(
       .then(function (confirmed) {
         if (confirmed) {
           var allInstances = [CCC.composeCluster.master];
-          allInstances = allInstances.concat(CCC.composeCluster.staging);
-          allInstances = allInstances.concat(CCC.composeCluster.testing);
+          allInstances = allInstances.concat(CCC.composeCluster.staging || []);
+          allInstances = allInstances.concat(CCC.composeCluster.testing || []);
           var deletePromises = allInstances.map(function (instance) {
-            if (!instance) {
-              return $q.when();
-            }
             return promisify(instance, 'destroy')();
           });
 
