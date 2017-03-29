@@ -15,7 +15,8 @@ function TestInstanceViewController(
 ) {
   var TIVC = this;
   TIVC.testInstanceData = testInstanceData;
-  TIVC.testInstanceData.containers.models[0].attrs.dockerContainer = TIVC.testInstanceData.containerHistory.application.containerId;
+  keypather.set(TIVC, 'testInstanceData.containers.models[0].attrs.dockerContainer', TIVC.testInstanceData.containerHistory.application.containerId);
+  keypather.set(TIVC, 'testInstanceData.build.contextVersions.models[0].attrs.build.dockerContainer', TIVC.testInstanceData.containerHistory.build.containerId);
   TIVC.openItems = new OpenItems();
   TIVC.openItems.removeAllButLogs();
   TIVC.openItems.models[1].attrs.name = 'Test Logs';
@@ -23,7 +24,7 @@ function TestInstanceViewController(
   var branch = fetchCommitData.activeBranch(keypather.get(TIVC, 'testInstanceData.build.contextVersions.models[0].appCodeVersions.models[0]'));
 
   TIVC.deployOldTestCommit = function () {
-    var acv = TIVC.testInstanceData.contextVersion.appCodeVersions.models
+    var acv = TIVC.testInstanceData.contextVersion.appCodeVersions.models;
     return updateInstanceWithNewAcvData(TIVC.testInstanceData, acv, {
       branch: branch,
       commit: {
@@ -31,8 +32,8 @@ function TestInstanceViewController(
           sha: TIVC.testInstanceData.containerHistory.commitSha
         }
       }
-    })
-  }
+    });
+  };
 
   fetchCommitData.branchCommits(branch)
     .then(function(commits) {

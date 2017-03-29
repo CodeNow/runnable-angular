@@ -383,10 +383,10 @@ module.exports = [
       testInstanceData: function (
         $stateParams,
         $state,
-        fetchInstancesByPod,
+        fetchInstances,
         fetchInstanceTestHistory
         ) {
-          return fetchInstancesByPod()
+          return fetchInstances()
             .then(function(instances) {
               var selectedInstance = instances.models.find(function(instance) {
                 return instance.getName() === $stateParams.instanceName;
