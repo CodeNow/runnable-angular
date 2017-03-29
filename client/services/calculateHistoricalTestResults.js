@@ -10,7 +10,7 @@ function calculateHistoricalTestResult(
     var TEST_STATES = {
       PASSED: 'passed',
       FAILED: 'failed',
-      UNKNOWN: ''
+      UNKNOWN: 'unknown'
     };
 
     tests.forEach(function(test) {
@@ -23,9 +23,9 @@ function calculateHistoricalTestResult(
       }
 
       if (!test.testState) {
-        test.testState = TEST_STATES.UNKNOWN
+        test.testState = TEST_STATES.UNKNOWN;
       }
-    })
+    });
 
     return tests;
   };
