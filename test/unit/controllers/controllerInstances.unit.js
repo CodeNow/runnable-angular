@@ -15,7 +15,7 @@ var $controller,
     currentOrg;
 var isRunnabotPartOfOrgStub;
 var fetchRepoBranchesStub;
-var fetchGitHubRepoBranchStub;
+var fetchGitHubRepoBranchesStub;
 var ahaGuideStub;
 var featureFlags = {
   flags: {}
@@ -138,9 +138,9 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       $provide.factory('featureFlags', function () {
         return featureFlags;
       });
-      $provide.factory('fetchGitHubRepoBranch', function ($q) {
-        fetchGitHubRepoBranchStub = sinon.stub().returns($q.when([ mockBranch ]));
-        return fetchGitHubRepoBranchStub;
+      $provide.factory('fetchGitHubRepoBranches', function ($q) {
+        fetchGitHubRepoBranchesStub = sinon.stub().returns($q.when([ mockBranch ]));
+        return fetchGitHubRepoBranchesStub;
       });
       $provide.value('currentOrg', mockOrg);
       $provide.value('favico', {
@@ -211,31 +211,6 @@ describe('ControllerInstances'.bold.underline.blue, function () {
     $rootScope.$digest();
   }
   describe('No local storage options'.blue, function () {
-    it('should navigate to the first (alphabetical) instance for user', function () {
-      setup('SomeKittens');
-      $rootScope.$digest();
-      var userInstance = runnable.newInstance(apiMocks.instances.running, {noStore: true});
-      userInstance.attrs.createdBy.username = 'SomeKittens';
-      var many = runnable.newInstances(
-        [userInstance, apiMocks.instances.stopped],
-        {noStore: true}
-      );
-      many.forEach(function (instance) {
-        instance.children = {
-          models: [],
-          fetch: sinon.stub().callsArg(1)
-        };
-      });
-      sinon.stub($state, 'includes')
-        .withArgs('instances').returns(true)
-        .withArgs('instance').returns(false);
-      mockFetch.triggerPromise(many);
-      $rootScope.$digest();
-      sinon.assert.calledWith(ctx.fakeGo, 'base.instances.instance', {
-        instanceName: 'spaaace'
-      });
-    });
-
     it('should not navigate when the state changes before the instances return ', function () {
       setup('SomeKittens');
       $rootScope.$digest();
@@ -390,7 +365,7 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       mockOrg.github.fetchRepo.returns($q.when(true));
       CIS.popInstanceOpen(masterInstance);
       $rootScope.$digest();
-      sinon.assert.calledOnce(fetchGitHubRepoBranchStub);
+      sinon.assert.calledOnce(fetchGitHubRepoBranchesStub);
       expect(CIS.instanceBranches).to.deep.equal(mockBranches);
       expect(CIS.totalInstanceBranches).to.equal(mockBranches.length);
     });

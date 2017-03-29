@@ -1,14 +1,10 @@
 // toolbar
 .views-tabs {
-  background: $ace-bg;
   border-bottom: 1px solid $purple-darkest;
-  display: flex;
-  flex: 0 0 auto;
+  flex: 0 0 61px;
   font-weight: $weight-normal;
   margin: 0 $xs;
-  overflow: visible;
   padding-top: $xs;
-  position: relative;
 }
 
 // toolbar tabs
@@ -33,9 +29,9 @@
   font-weight: $weight-normal;
   height: $input-md;
   justify-content: flex-end;
-  margin: 12px 12px 0;
+  margin: $xs $xs 0;
   overflow: hidden;
-  padding: 0 12px;
+  padding: 0 $xs;
 
   .modal-dialog & {
     border-radius: $input-border-radius $input-border-radius 0 0;

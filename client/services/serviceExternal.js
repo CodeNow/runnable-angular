@@ -42,6 +42,9 @@ require('app')
   .factory('memoize', function () {
     return require('lodash/memoize');
   })
+  .factory('jsYaml', function () {
+    return require('js-yaml');
+  })
   .factory('cardInfoTypes', function () {
     var types = require('card-info-types');
     // Legacy

@@ -19,10 +19,12 @@ function ControllerInstances(
   demoRepos,
   errs,
   eventTracking,
-  fetchGitHubRepoBranch,
+  fetchGitHubRepoBranches,
   fetchInstances,
+  fetchInstancesByCompose,
   fetchInstancesByPod,
   fetchRepoBranches,
+  isInstanceActive,
   keypather,
   loading,
   ModalService,
@@ -109,16 +111,25 @@ function ControllerInstances(
     }
   }
 
-  fetchInstancesByPod()
-    .then(function (instancesByPod) {
+  $q.all([
+    fetchInstancesByPod(),
+    fetchInstancesByCompose(),
+    fetchInstances()
+  ])
+    .then(function (fetchedInstances) {
+      var instancesByPod = fetchedInstances[0];
+      var instancesByCompose = fetchedInstances[1];
+      var allInstances = fetchedInstances[2];
+
       // Fire-and-forget. Used for event-tracking
       listenForFirstNewBranches();
 
-      // If the state has already changed don'  t continue with old data. Let the new one execute.
+      // If the state has already changed don't continue with old data. Let the new one execute.
       if (CIS.userName !== $state.params.userName) {
         return;
       }
       CIS.instancesByPod = instancesByPod;
+      CIS.instancesByCompose = instancesByCompose;
       CIS.activeAccount = activeAccount;
 
       setLastOrg(CIS.userName);
@@ -127,32 +138,27 @@ function ControllerInstances(
         // If we're on a blank instances page, but the Demo selector is gone, we need to switch to an instance!
         return watchOncePromise($scope, function () {
           // Wait for any instances to exist
-          return keypather.get(instancesByPod, 'models.length');
+          return allInstances.models.length;
         }, true)
           .then(function () {
             if (demoRepos.shouldShowDemoSelector()) {
               return;
             }
-            var instances = instancesByPod;
             var lastViewedInstance = keypather.get(user, 'attrs.userOptions.uiState.previousLocation.instance');
 
             var targetInstance = null;
             if (lastViewedInstance) {
-              targetInstance = instances.find(function (instance) {
-                var instanceMatch = isInstanceMatch(instance, lastViewedInstance);
-                if (instanceMatch) {
-                  return instanceMatch;
-                }
-                if (instance.children) {
-                  return instance.children.find(function (childInstance) {
-                    return isInstanceMatch(childInstance, lastViewedInstance);
-                  });
-                }
+              targetInstance = allInstances.find(function (instance) {
+                return isInstanceMatch(instance, lastViewedInstance);
               });
             }
 
             if (!targetInstance) {
-              targetInstance = $filter('orderBy')(instances.models, 'attrs.name')[0];
+              if (keypather.get(CIS, 'instancesByCompose.length')) {
+                targetInstance = $filter('orderBy')(instancesByCompose, 'attrs.name')[0];
+              } else {
+                targetInstance = $filter('orderBy')(instancesByPod.models, 'attrs.name')[0];
+              }
             }
             var instanceName = keypather.get(targetInstance, 'attrs.name');
             return CIS.checkAndLoadInstance(instanceName);
@@ -209,6 +215,13 @@ function ControllerInstances(
       });
     }
   };
+
+  this.getNonComposeMasters = function () {
+    return this.instancesByPod.filter(function (instance) {
+      return !keypather.get(instance, 'attrs.inputClusterConfig._id');
+    });
+  };
+
 
   this.filterMatchedAnything = function () {
     if (!CIS.searchBranches) {
@@ -320,7 +333,7 @@ function ControllerInstances(
     var fullReponame = acv.attrs.repo.split('/');
     var orgName = fullReponame[0];
     var repoName = fullReponame[1];
-    return fetchGitHubRepoBranch(orgName, repoName)
+    return fetchGitHubRepoBranches(orgName, repoName)
       .then(function (branches) {
         CIS.totalInstanceBranches = branches.length;
         CIS.instanceBranches = CIS.getUnbuiltBranches(instance, branches);
@@ -399,4 +412,6 @@ function ControllerInstances(
       templateUrl: 'newContainerModalView'
     });
   };
+
+  this.isCardActive = isInstanceActive;
 }

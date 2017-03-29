@@ -148,18 +148,10 @@ html(
       modal-open = "dataApp.data.modalOpen"
     )
 
-    .spinner-wrapper.spinner-md.spinner-purple.spinner-backdrop.spinner-fixed.in(
+    .spinner-wrapper.spinner-md.spinner-gray.spinner-backdrop.spinner-fixed(
       ng-if = "!dataApp"
+      ng-include = "'spinner'"
     )
-      svg.spinner(
-        viewbox = '0 0 16 16'
-      )
-        circle.path(
-          cx = '8'
-          cy = '8'
-          r = '7'
-          stroke-linecap = 'round'
-        )
 
     //- page
     .layout-wrapper(

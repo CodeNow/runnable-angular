@@ -16,12 +16,9 @@
 // wrapper
 .term-js {
   cursor: text;
-  display: flex;
-  flex: 1 1 auto;
-  flex-direction: column;
-  margin: 9px 3px 18px;
-  overflow-x: hidden;
-  width: 100%;
+  margin: $xxs $xs 0;
+  overflow: hidden;
+  position: relative;
 
   // disconnect message
   .views-toolbar {
@@ -70,7 +67,12 @@
 
 .terminal {
   @extend %pre;
+  bottom: $md; // spacing for firefox
   flex: 1 1 auto;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
   width: 100%;
 
   > div {

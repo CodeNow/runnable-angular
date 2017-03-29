@@ -1,6 +1,6 @@
 a.grid-block.align-center.a-sref(
   ui-sref = "\
-    base.instances.instance({userName: INC.activeAccount.oauthName(),\
+    base.instances.instance({userName: INC.instance.attrs.owner.username,\
     instanceName: INC.instance.attrs.name})\
   "
   ui-sref-active = "active"
@@ -10,13 +10,7 @@ a.grid-block.align-center.a-sref(
   )
   .grid-block.text-overflow(
     title = "{{getNavigationName()}}"
-  )
-    //- show repo names for repo containers in the master cluster
-    span(
-      ng-if = "INC.instance.attrs.masterPod && INC.instance.getBranchName()"
-    ) {{INC.instance.getName()}}/
-    //- branch name or service name
-    | {{getNavigationName()}}
+  ) {{getNavigationName()}}
   button.grid-block.shrink.btn-container-menu(
     ng-class = "{'active': INC.popoverShown}"
     ng-if = "!INC.currentOrg.isPersonalAccount() && !INC.isInDemoFlow()"

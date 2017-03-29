@@ -31,7 +31,7 @@
   )
 
     //- search
-    label.grid-block.shrink.label-search
+    label.grid-block.align-center.shrink.label-search
       input.input.input-xs.input-search(
         ng-model = "CIS.searchBranches"
         placeholder = "Filter by name"
@@ -40,7 +40,7 @@
         type = "search"
       )
 
-    p.grid-block.shrink.p.align-center.text-gray-light.padding-sm.nav-section(
+    p.grid-block.shrink.p.align-center.text-gray-light.padding-sm.nav-section.search-empty(
       ng-if = "!CIS.filterMatchedAnything()"
     ) No containers match this filter.
 
@@ -84,7 +84,7 @@
             instance-navigation
             master-instance = "masterInstance"
             ng-if = "!masterInstance.attrs.isTesting"
-            ng-repeat = "masterInstance in CIS.getFilteredInstanceList() | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
+            ng-repeat = "masterInstance in CIS.getFilteredInstanceList() | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs._id"
           )
           //- master non-repository containers
           .grid-block(
@@ -92,7 +92,7 @@
             instance = "masterInstance"
             instance-navigation
             ng-if = "!masterInstance.attrs.isTesting"
-            ng-repeat = "masterInstance in CIS.getFilteredInstanceList() | instanceHasRepo:false | orderBy: ['attrs.name'] as nonRepoInstances track by masterInstance.attrs.name"
+            ng-repeat = "masterInstance in CIS.getFilteredInstanceList() | instanceHasRepo:false | orderBy: ['attrs.name'] as nonRepoInstances track by masterInstance.attrs._id"
           )
 
       .grid-block.shrink.align-center.list-item-cluster.list-clusters-heading(
@@ -110,7 +110,7 @@
             instance = "masterInstance"
             instance-navigation
             master-instance = "masterInstance"
-            ng-repeat = "masterInstance in CIS.getFilteredTestingMasters() | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
+            ng-repeat = "masterInstance in CIS.getFilteredTestingMasters() | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs._id"
           )
           //- master non-repository containers
           .grid-block(
@@ -133,15 +133,22 @@
 )
 
   //- branch environments (post-compose)
-  section.nav-section.margin-top-sm(
+  section.nav-section(
     ng-if = "$root.featureFlags.composeNav"
     ng-include = "'repoSectionView'"
+    ng-repeat = "masterComposeCluster in CIS.instancesByCompose | orderBy: ['master.attrs.inputClusterConfig.clusterName'] track by masterComposeCluster.master.attrs.inputClusterConfig.clusterName"
+  )
+
+  section.nav-section(
+    ng-if = "$root.featureFlags.composeNav"
+    ng-include = "'nonComposeRepoSectionView'"
+    ng-repeat = "masterInstance in CIS.getNonComposeMasters() | instanceHasRepo:true | orderBy: ['getDisplayName().toLowerCase()'] track by masterInstance.attrs._id"
   )
 
   //- branch environments (pre-compose)
   .grid-block.vertical.shrink.list-clusters.js-animate(
     ng-if = "(!masterInstance.attrs.isTesting || (masterInstance.attrs.isTesting && !masterInstance.attrs.testingParentId)) && !$root.featureFlags.composeNav"
-    ng-repeat = "masterInstance in CIS.instancesByPod | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
+    ng-repeat = "masterInstance in CIS.instancesByPod | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs._id"
     ng-show = "CIS.shouldShowParent(masterInstance)"
   )
 
@@ -175,7 +182,7 @@
       instance-navigation
       master-instance = "masterInstance"
       ng-class = "childInstance.attrs.isTesting && !childInstance.attrs.masterPod ? 'testing-container' : ''"
-      ng-repeat = "childInstance in CIS.getSortedMasterInstanceChildren(masterInstance) track by childInstance.attrs.name"
+      ng-repeat = "childInstance in CIS.getSortedMasterInstanceChildren(masterInstance) track by childInstance.attrs._id"
       ng-show = "CIS.shouldShowChild(childInstance)"
     )
 

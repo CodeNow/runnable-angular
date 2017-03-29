@@ -7,17 +7,17 @@
   ng-if = "CIS.instancesByPod"
   ng-include = "'viewInstancesList'"
   scroll-offset = "200"
-  scroll-to = "a.a-sref.active"
+  scroll-to = ".nav-container.active"
 )
 
 .grid-block.shrink.vertical.list-instances(
   ng-if = "!CIS.instancesByPod"
 )
-  .spinner-wrapper.spinner-md.spinner-gray.spinner-center.in(
+  .spinner-wrapper.spinner-md.spinner-gray.spinner-center(
     ng-include = "'spinner'"
   )
 
-.grid-block.noscroll.vertical.instance-wrapper(
+.grid-block.vertical.instance-wrapper(
   ui-view
 )
   .grid-block.vertical.instance.instance-empty

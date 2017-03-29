@@ -2,19 +2,6 @@
   ng-class = "{'in': active}"
   ng-style = "popoverStyle.getStyle(CIS.instanceBranches)"
 )
-  .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
-    ng-if = "CIS.instanceBranches.length && CIS.isAddingFirstBranch()"
-    aha-guide
-    step-index = 2
-    sub-step = "selectBranch"
-  )
-  .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
-    ng-if = "CIS.instanceBranches && !CIS.instanceBranches.length && CIS.isAddingFirstBranch()"
-    aha-guide
-    step-index = 2
-    sub-step = "noBranches"
-  )
-
   .arrow.white(
     ng-style = "popoverStyle.getArrowStyle(CIS.instanceBranches)"
   )
@@ -95,7 +82,7 @@
 
         //- branch options
         label.grid-block.shrink.align-center.padding-xxs.well.gray(
-          ng-if = "!$root.isLoading.fetchingBranches && CIS.instanceBranches.length"
+          ng-if = "!$root.isLoading.fetchingBranches"
         )
           .grid-block.small Automatically add branches as they’re updated on GitHub.
             button.btn.btn-xs.btn-permissions(

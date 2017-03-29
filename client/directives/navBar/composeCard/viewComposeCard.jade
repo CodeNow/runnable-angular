@@ -1,0 +1,33 @@
+a.nav-card-header(
+  ng-attr-title = "{{getCardName()}}"
+  ui-sref = "\
+    base.instances.instance({userName: composeCluster.master.attrs.owner.username,\
+    instanceName: composeCluster.master.attrs.name})\
+  "
+)
+  span.grid-block
+    span.text-overflow {{getCardName()}}
+  //- only show for default branches
+  button.grid-block.shrink.btn-container-menu(
+    ng-class = "{'active': INC.popoverShown}"
+    ng-if = "!INC.currentOrg.isPersonalAccount() && !INC.isInDemoFlow()"
+    pop-over
+    pop-over-active = "INC.popoverShown"
+    pop-over-controller = "INC"
+    pop-over-options = "{\"verticallyCentered\":true,\"left\":26}"
+    pop-over-template = "instanceNavigationPopoverView"
+  )
+    svg.iconnables
+      use(
+        xlink:href = "#icons-gear"
+      )
+//- staging environment
+section.nav-card-section(
+  ng-include = "'viewStagingEnvironment'"
+  ng-if = "isActive && (composeCluster.staging.length || !composeCluster.master.attrs.isTesting)"
+)
+//- testing environment
+section.nav-card-section(
+  ng-if = "isActive && (composeCluster.testing.length || composeCluster.master.attrs.isTesting)"
+  ng-include = "'viewTestingEnvironment'"
+)
