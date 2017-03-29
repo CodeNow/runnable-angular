@@ -43,12 +43,6 @@ function getInstanceClasses(
 
     // We really only care about containers that have these states
     if (keypather.get(instance, 'attrs.isTesting') && ['crashed', 'stopped', 'running'].includes(status)) {
-      // This is the test reporter.
-      if (keypather.get(instance, 'attrs.isTestReporter')) {
-        instanceClasses[testReporterStatusMap[status]] = true;
-        return instanceClasses;
-      }
-
       // We are a testing container, but we aren't the reporter. Fetch the reporter from my isolation.
       if (instance.isolation) {
         var testReporter;
