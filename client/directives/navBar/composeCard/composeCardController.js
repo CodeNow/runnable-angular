@@ -40,22 +40,23 @@ function ComposeCardController(
       templateUrl: 'confirmDeleteServerView'
     })
       .then(function (modal) {
-        return modal.close.then(function (confirmed) {
-          if (confirmed) {
-            var allInstances = [CCC.composeCluster.master];
-            allInstances = allInstances.concat(CCC.composeCluster.staging);
-            allInstances = allInstances.concat(CCC.composeCluster.testing);
-            var deletePromises = allInstances.map(function (instance) {
-              if (!instance) {
-                return $q.when();
-              }
-              return promisify(instance, 'destroy')();
-            });
+        return modal.close;
+      })
+      .then(function (confirmed) {
+        if (confirmed) {
+          var allInstances = [CCC.composeCluster.master];
+          allInstances = allInstances.concat(CCC.composeCluster.staging);
+          allInstances = allInstances.concat(CCC.composeCluster.testing);
+          var deletePromises = allInstances.map(function (instance) {
+            if (!instance) {
+              return $q.when();
+            }
+            return promisify(instance, 'destroy')();
+          });
 
-            return $q.all(deletePromises);
-          }
-          return confirmed;
-        });
+          return $q.all(deletePromises);
+        }
+        return confirmed;
       })
       .catch(errs.handler);
   };
@@ -68,16 +69,14 @@ function ComposeCardController(
       templateUrl: 'confirmBranchRemoveView'
     })
       .then(function (modal) {
-        return modal.close.then(function (confirmed) {
-          if (confirmed) {
-            return promisify(CCC.composeCluster.master, 'destroy')();
-          }
-          return confirmed;
-        });
+        return modal.close;
+      })
+      .then(function (confirmed) {
+        if (confirmed) {
+          return promisify(CCC.composeCluster.master, 'destroy')();
+        }
+        return confirmed;
       })
       .catch(errs.handler);
   };
 }
-
-
-
