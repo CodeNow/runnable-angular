@@ -1,0 +1,57 @@
+.grid-block.vertical.well.gray.ignore-margin
+  label.grid-block.align-center.justify-justified.label
+    .padding-left-xxs.small.label-sm {{type === 'stage' ? 'Compose for Staging' : 'Compose for Testing'}}
+    .toggle-wrapper
+      input.toggle-input(
+        ng-model = "pathEnabled"
+        type = "checkbox"
+      )
+      .toggle-group.toggle-sm
+
+  .grid-block.vertical.label.views-dockerfile-setup(
+    add-dockerfile
+    branch-name = "branchName"
+    file-type = "{{type === 'stage' ? 'Docker Compose' : 'Docker Compose Test'}}"
+    full-repo = "fullRepo"
+    ng-if = "pathEnabled"
+    onload = "type = type"
+    view-state = "viewState"
+    dockerfile = "dockerfile"
+  )
+
+  label.grid-block.vertical.label(
+    ng-if = "pathEnabled && type === 'test'"
+  )
+    .padding-xxs.small.label-sm Test Container
+
+    //-
+      No file state:
+      - [disabled]
+      - [required]
+      - Copy: "Select a Container"
+
+      Loading state:
+      - [disabled]
+      - [required]
+      - Show spinner
+
+      Has file & loaded:
+      - [required]
+      - Copy: "Select a Container"
+    fancy-select.btn-md.white(
+      disabled
+      ng-disabled = "loadingFile || !dockerComposeTestServices.length"
+      ng-required = "true"
+      spinner-flag = "loadingFile"
+      value = "dockerComposeState.testReporter"
+    )
+      fancy-option(
+        ng-repeat = "service in $parent.dockerComposeTestServices"
+        value = "service"
+      ) {{ $parent.service.name }}
+
+    small.padding-xxs.small This is how we know which container’s status to report to your GitHub commits and pull requests.&#32;
+      a.link(
+        href = "//runnable.com/docs/integrations/notifications/github-pull-request-notifications"
+        target = "_blank"
+      ) Learn More

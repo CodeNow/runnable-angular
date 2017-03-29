@@ -26,6 +26,11 @@ function cardBuildStatusTitle(
       unknown: 'unknown'
     };
 
+    // We really only care about test containers that have these states
+    if (keypather.get(instance, 'attrs.isTesting') && ['crashed', 'stopped'].includes(status) && !keypather.get(instance, 'attrs.isTestReporter')) {
+      statusMap.crashed = 'Test completed';
+    }
+
     if (keypather.get(instance, 'attrs.isTesting') && keypather.get(instance, 'getRepoName()')) {
       statusMap.stopped = 'Passed';
       statusMap.running = 'Testing for';

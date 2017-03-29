@@ -8,6 +8,8 @@ function MirrorDockerfileController(
   $rootScope,
   $timeout,
   errs,
+  doesDockerfileExist,
+  fetchRepoDockerfile,
   fetchRepoDockerfiles,
   keypather
 ) {
@@ -56,42 +58,20 @@ function MirrorDockerfileController(
       .catch(errs.handler);
   };
 
-  MDC.addDockerfileFromPath = function (newDockerfilePath) {
-    if (newDockerfilePath) {
-      // This replace will make sure every path being added starts with /
-      newDockerfilePath = newDockerfilePath.replace(/^\/*/, '/');
-      if (!MDC.newDockerfilePaths.includes(newDockerfilePath)) {
-        MDC.newDockerfilePaths.push(newDockerfilePath);
-      }
-      return MDC.fetchRepoDockerfiles()
-        .then(function (dockerfiles) {
-          MDC.state.dockerfile = dockerfiles.find(function (dockerfile) {
-            return dockerfile.path === newDockerfilePath;
-          });
-          delete MDC.state.dockerComposeFile;
-          return MDC.state.dockerfile;
-        });
-    }
-    // If given no input, return promise
-    return $q.when(true);
-  };
-
-  MDC.addDockerComposeFileFromPath = function (newDockerComposeFilePath) {
-    if (!newDockerComposeFilePath) {
-      // If given no input, return promise
-      return $q.when(true);
-    }
-    newDockerComposeFilePath = newDockerComposeFilePath.replace(/^\/*/, '/');
-    if (!MDC.newDockerComposeFilePaths.includes(newDockerComposeFilePath)) {
-      MDC.newDockerComposeFilePaths.push(newDockerComposeFilePath);
-    }
-    return MDC.fetchRepoDockerComposeFiles()
-      .then(function (dockerComposeFiles) {
-        MDC.state.dockerComposeFile = dockerComposeFiles.find(function (dockerfile) {
-          return dockerfile.path === newDockerComposeFilePath;
-        });
-        delete MDC.state.dockerfile;
-        return MDC.state.dockerComposeFile;
+  MDC.loadDefaultDockerfile = function  (repo, branchName, filePath, fileType) {
+    return fetchRepoDockerfile(repo, branchName, filePath)
+      .then(doesDockerfileExist)
+      .then(function (dockerfile) {
+        if (!dockerfile) {
+          return $q.reject('file doesn’t exist');
+        }
+        if (fileType === 'Dockerfile') {
+          MDC.state.dockerComposeFile = null;
+          MDC.state.dockerfile = dockerfile;
+        } else if (fileType === 'Docker Compose') {
+          MDC.state.dockerComposeFile = dockerfile;
+          MDC.state.dockerfile = null;
+        }
       });
   };
 }

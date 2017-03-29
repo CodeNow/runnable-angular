@@ -21,6 +21,7 @@ section.nav-card.active(
   compose-card
   compose-cluster = "composeCluster"
   ng-repeat = "composeCluster in CIS.instancesByCompose | orderBy: ['attrs.name'] track by composeCluster.master.attrs.name"
+  ng-if = "!composeCluster.master.destroyed"
   ng-show = "CIS.shouldShowBasic(composeCluster, 'master.attrs.name')"
 )
 section.nav-card.active(
