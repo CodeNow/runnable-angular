@@ -27,7 +27,7 @@ function cardBuildStatusTitle(
     };
 
     // We really only care about test containers that have these states
-    if (keypather.get(instance, 'attrs.isTesting') && ['crashed', 'stopped', 'running'].includes(status) && !keypather.get(instance, 'attrs.isTestReporter')) {
+    if (keypather.get(instance, 'attrs.isTesting') && ['crashed', 'stopped'].includes(status) && !keypather.get(instance, 'attrs.isTestReporter')) {
       statusMap.crashed = 'Test completed';
     }
 
