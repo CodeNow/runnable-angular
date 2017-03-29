@@ -23,6 +23,7 @@ require('app')
   .factory('fetchInstances', fetchInstances)
   .factory('fetchInstance', fetchInstance)
   .factory('fetchInstancesByPod', fetchInstancesByPod)
+  .factory('fetchInstanceTestHistory', fetchInstanceTestHistory)
   .factory('fetchInstancesByCompose', fetchInstancesByCompose)
   .factory('fetchNonRepoInstances', fetchNonRepoInstances)
   .factory('fetchBuild', fetchBuild)
@@ -1209,4 +1210,19 @@ function fetchPaymentMethod(
   }, function () {
     return currentOrg.poppa.id();
   });
+}
+
+function fetchInstanceTestHistory(
+  $http,
+  configAPIHost
+) {
+  return function (instanceId) {
+    return $http({
+      method: 'get',
+      url: configAPIHost + '/instances/' + instanceId + '/history'
+    })
+      .then(function (pullRequests) {
+        return pullRequests.data;
+      });
+  };
 }
