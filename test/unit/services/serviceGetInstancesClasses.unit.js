@@ -57,6 +57,7 @@ describe('serviceGetInstancesClasses'.bold.underline.blue, function () {
   describe('when testing', function () {
     beforeEach(function () {
       instanceMock.attrs.isTesting = true;
+      instanceMock.attrs.isTestReporter = true;
     });
 
     var testMap = {
