@@ -37,7 +37,7 @@ a.grid-block.nav-container(
       )
   button.grid-block.shrink.btn-container-menu(
     ng-class = "{'active': INC.popoverShown}"
-    ng-if = "!INC.currentOrg.isPersonalAccount() && !INC.isInDemoFlow()"
+    ng-if = "!INC.currentOrg.isPersonalAccount() && !INC.isInDemoFlow() && !INC.instance.attrs.inputClusterConfig._id"
     pop-over
     pop-over-active = "INC.popoverShown"
     pop-over-controller = "INC"
