@@ -16,6 +16,15 @@ a.nav-card-header(
     pop-over-controller = "INC"
     pop-over-options = "{\"verticallyCentered\":true,\"left\":26}"
     pop-over-template = "instanceNavigationPopoverView"
+    )
+      svg.iconnables
+        use(
+          xlink:href = "#icons-gear"
+        )
+//- empty state
+//- section.nav-card-section
+  .spinner-wrapper.spinner-sm.spinner-gray.padding-top-xxs.margin-xxs(
+    ng-include = "'spinner'"
   )
     svg.iconnables
       use(
