@@ -50,9 +50,8 @@
 .nav-section-header {
   font-size: inherit; // reset
   font-weight: $weight-normal; // reset
-  height: 60px; // match tab bar height
   line-height: inherit; // reset
-  padding-left: (18px + $input-border);
+  padding: $sm 0 $sm ($xxs * 2);
 
   // "add a service" and "add a branch" buttons
   .btn-xs {
@@ -74,7 +73,7 @@
     background-color: $white;
     border: $input-border solid $gray-lighter;
     border-radius: $input-border-radius-lg;
-    padding: $xxs;
+    padding: ($xxs - $input-border);
 
     .nav-card-header {
       border: 0;
@@ -87,13 +86,17 @@
     }
   }
 
-  &:not(.active) + .nav-card.active,
+  &:not(.active) + .nav-card:not(.active) {
+    margin-top: 6px;
+  }
+
+  + .nav-card.active,
   &.active + .nav-card {
     margin-top: $xxs;
   }
 
   &:last-child {
-    margin-bottom: 18px;
+    margin-bottom: $sm;
   }
 }
 
@@ -103,7 +106,7 @@
   border-radius: 6px;
   cursor: pointer;
   display: flex;
-  padding: 6px ($xxs * 2);
+  padding: ($xxs - $input-border) ($xxs * 2 - $input-border); // match expanded card padding
 
   &:hover:not(.active) {
     background-color: $white;
