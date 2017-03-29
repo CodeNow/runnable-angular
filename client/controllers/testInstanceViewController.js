@@ -10,7 +10,8 @@ function TestInstanceViewController(
   testInstanceData,
   fetchCommitData,
   keypather,
-  OpenItems
+  OpenItems,
+  updateInstanceWithNewAcvData
 ) {
   var TIVC = this;
   TIVC.testInstanceData = testInstanceData;
@@ -18,7 +19,20 @@ function TestInstanceViewController(
   TIVC.openItems = new OpenItems();
   TIVC.openItems.removeAllButLogs();
   TIVC.openItems.models[1].attrs.name = 'Test Logs';
+
   var branch = fetchCommitData.activeBranch(keypather.get(TIVC, 'testInstanceData.build.contextVersions.models[0].appCodeVersions.models[0]'));
+
+  TIVC.deployOldTestCommit = function () {
+    var acv = TIVC.testInstanceData.contextVersion.appCodeVersions.models
+    return updateInstanceWithNewAcvData(TIVC.testInstanceData, acv, {
+      branch: branch,
+      commit: {
+        attrs: {
+          sha: TIVC.testInstanceData.containerHistory.commitSha
+        }
+      }
+    })
+  }
 
   fetchCommitData.branchCommits(branch)
     .then(function(commits) {
@@ -29,4 +43,3 @@ function TestInstanceViewController(
     });
 
 }
-
