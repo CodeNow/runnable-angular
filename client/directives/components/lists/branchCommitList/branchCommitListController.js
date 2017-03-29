@@ -57,11 +57,8 @@ function BranchCommitListController(
   };
 
   BCLC.updateLock = function() {
-    return $q.when()
-      .then(function () {
-        return promisify(BCLC.instance, 'update')({
-          locked: BCLC.data.locked
-        });
-      });
+    return promisify(BCLC.instance, 'update')({
+      locked: BCLC.data.locked
+    });
   };
 }
