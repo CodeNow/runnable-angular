@@ -372,8 +372,8 @@ function NewContainerController(
 
   NCC.canCreateBuild = function () {
     return  keypather.get(NCC, 'state.instanceName.length') && !keypather.get(NCC, 'nameForm.$invalid') &&
-            !$rootScope.isLoading.newContainerSingleRepo && (!$scope.$root.featureFlags.composeNewService ||
-            NCC.validateDockerComposeBuild());
+            !$rootScope.isLoading.newContainerSingleRepo && (NCC.state.templateSource || 
+            !$scope.$root.featureFlags.composeNewService || NCC.validateDockerComposeBuild());
   };
 
   NCC.validateDockerComposeBuild = function () {
