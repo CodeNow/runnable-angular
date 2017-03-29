@@ -18,12 +18,3 @@ ng-style = "popoverStyle.getStyle()"
       .spinner-wrapper.spinner-gray.spinner-sm(
         ng-include = "'spinner'"
       )
-
-    //- if commit is behind while auto-deploy is on
-    header.grid-block.vertical.shrink.align-start.header(
-      ng-include = "'testSelectorHeaderView'"
-      ng-if = "!state.loading"
-    )
-
-    //- empty state if there are no tests
-    .text-center.text-gray.small.padding-lg There are no tests to show.

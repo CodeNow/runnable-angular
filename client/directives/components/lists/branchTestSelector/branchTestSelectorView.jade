@@ -10,6 +10,11 @@ header.grid-block.vertical.shrink.align-start.header(
   ng-include = "'testSelectorHeaderView'"
 )
 
+//- empty state if there are no tests
+.text-center.text-gray.small.padding-lg(
+  ng-if = "BTSC.branch.commits.models.length === 0"
+) There are no tests to show.
+
 //- list of commits
 ul.list.margin-top-sm(
   ng-if = "\
@@ -21,8 +26,7 @@ ul.list.margin-top-sm(
     ng-class = "{\
       'active': BTSC.commit === commit\
     }"
-    ng-if = "commit.test === 'passed' || commit.test === 'failed'"
-    ng-repeat = "commit in BTSC.branch.commits.models | orderBy: '-attrs.commit.committer.date'"
+    ng-repeat = "commit in commits = (BTSC.branch.commits.models | filter: BTSC.hasTest | orderBy: '-attrs.commit.committer.date')"
   )
     a.grid-block.vertical(
       ui-sref = "base.instances.instance-test-sha({instanceName: BTSC.instanceName, sha: commit.attrs.sha})"
