@@ -590,7 +590,8 @@ describe('NewContainerController'.bold.underline.blue, function () {
     });
     it('should return Create Environments if config method is \'dockerComposeFile\'', function () {
       NCC.state.configurationMethod = 'dockerComposeFile';
-      NCC.state.types.test = true;
+      NCC.state.dockerComposeFile = {};
+      NCC.state.dockerComposeTestFile = {};
       var text = NCC.getNextStepText();
       expect(text).to.equal('Create Environments');
     });
