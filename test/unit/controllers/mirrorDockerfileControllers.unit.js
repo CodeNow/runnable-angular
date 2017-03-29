@@ -206,55 +206,7 @@ describe('MirrorDockerfileController'.bold.underline.blue, function () {
     beforeEach(function () {
       sinon.stub(MDC, 'fetchRepoDockerfiles').returns($q.when([dockerfile]));
     });
-    it('should ignore when given null', function () {
-      MDC.newDockerfilePaths = [];
-      MDC.addDockerfileFromPath();
-      $scope.$digest();
-
-      sinon.assert.notCalled(MDC.fetchRepoDockerfiles);
-    });
-    it('should add the new dockerfile to newDockerfilePaths', function () {
-      var newPath = 'asdasdasdd';
-      MDC.newDockerfilePaths = [];
-      MDC.addDockerfileFromPath(newPath);
-      $scope.$digest();
-
-      expect(MDC.newDockerfilePaths).to.deep.equal(['/asdasdasdd']);
-    });
-    it('should fetch the dockerfiles', function () {
-      var newPath = 'asdasdasdd';
-      MDC.newDockerfilePaths = [];
-      MDC.addDockerfileFromPath(newPath);
-      $scope.$digest();
-
-      sinon.assert.calledOnce(MDC.fetchRepoDockerfiles);
-    });
-    it('should not add repeats to the newDockerfilePaths', function () {
-      var newPath = 'asdasdasdd';
-      MDC.newDockerfilePaths = ['/asdasdasdd'];
-      MDC.addDockerfileFromPath(newPath);
-      $scope.$digest();
-
-      expect(MDC.newDockerfilePaths).to.deep.equal(['/asdasdasdd']);
-    });
-    it('should make the new dockerfile the state.dockerfile', function () {
-      var newPath = dockerfile.path;
-      MDC.newDockerfilePaths = [];
-      MDC.addDockerfileFromPath(newPath);
-      $scope.$digest();
-      $scope.$digest();
-
-      sinon.assert.calledOnce(MDC.fetchRepoDockerfiles);
-    });
-    it('should not set the state.dockerfile if the newDockerfilePath isn\'t returned', function () {
-      var newPath = 'dsasdasdsad';
-      MDC.newDockerfilePaths = [];
-      MDC.addDockerfileFromPath(newPath);
-      $scope.$digest();
-      $scope.$digest();
-
-      sinon.assert.calledOnce(MDC.fetchRepoDockerfiles);
-    });
+    
   });
   describe('fetchRepoDockerComposefiles', function () {
     describe('fetching with just repo', function () {
@@ -273,54 +225,6 @@ describe('MirrorDockerfileController'.bold.underline.blue, function () {
     beforeEach(function () {
       sinon.stub(MDC, 'fetchRepoDockerComposeFiles').returns($q.when([dockerfile]));
     });
-    it('should ignore when given null', function () {
-      MDC.newDockerComposeFilePaths = [];
-      MDC.addDockerComposeFileFromPath();
-      $scope.$digest();
-
-      sinon.assert.notCalled(MDC.fetchRepoDockerComposeFiles);
-    });
-    it('should add the new docker compose file to newDockerComposeFilePaths', function () {
-      var newPath = 'asdasdasdd';
-      MDC.newDockerComposeFilePaths = [];
-      MDC.addDockerComposeFileFromPath(newPath);
-      $scope.$digest();
-
-      expect(MDC.newDockerComposeFilePaths).to.deep.equal(['/asdasdasdd']);
-    });
-    it('should fetch the dockerfiles', function () {
-      var newPath = 'asdasdasdd';
-      MDC.newDockerComposeFilePaths = [];
-      MDC.addDockerComposeFileFromPath(newPath);
-      $scope.$digest();
-
-      sinon.assert.calledOnce(MDC.fetchRepoDockerComposeFiles);
-    });
-    it('should not add repeats to the newDockerfilePaths', function () {
-      var newPath = 'asdasdasdd';
-      MDC.newDockerComposeFilePaths = ['/asdasdasdd'];
-      MDC.addDockerComposeFileFromPath(newPath);
-      $scope.$digest();
-
-      expect(MDC.newDockerComposeFilePaths).to.deep.equal(['/asdasdasdd']);
-    });
-    it('should make the new dockerfile the state.dockerfile', function () {
-      var newPath = dockerComposeFile.path;
-      MDC.newDockerComposeFilePaths = [];
-      MDC.addDockerComposeFileFromPath(newPath);
-      $scope.$digest();
-      $scope.$digest();
-
-      sinon.assert.calledOnce(MDC.fetchRepoDockerComposeFiles);
-    });
-    it('should not set the state.dockerComposeFile if the newDockerComposeFilePath isn\'t returned', function () {
-      var newPath = 'dsasdasdsad';
-      MDC.newDockerComposeFilePaths = [];
-      MDC.addDockerComposeFileFromPath(newPath);
-      $scope.$digest();
-      $scope.$digest();
-
-      sinon.assert.calledOnce(MDC.fetchRepoDockerComposeFiles);
-    });
+    
   });
 });

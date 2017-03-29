@@ -116,10 +116,10 @@ function ControllerInstances(
     fetchInstancesByCompose(),
     fetchInstances()
   ])
-    .then(function (promiseResults) {
-      var instancesByPod = promiseResults[0];
-      var instancesByCompose = promiseResults[1];
-      var allInstances = promiseResults[2];
+    .then(function (fetchedInstances) {
+      var instancesByPod = fetchedInstances[0];
+      var instancesByCompose = fetchedInstances[1];
+      var allInstances = fetchedInstances[2];
 
       // Fire-and-forget. Used for event-tracking
       listenForFirstNewBranches();

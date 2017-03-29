@@ -29,10 +29,10 @@ function dockerfileExistsValidator(
           .then(doesDockerfileExist)
           .then(function (dockerfile) {
             eventTracking.filePathChanged(modelValue);
+            $scope.$emit('dockerfileExistsValidator', modelValue, attrs.dockerfileExistsValidator, dockerfile);
             if (!keypather.get(dockerfile, 'content')) {
               return $q.reject('file doesn’t exist');
             }
-            $scope.$emit('dockerfileExistsValidator::valid', modelValue, attrs.dockerfileExistsValidator);
           });
       };
     }
