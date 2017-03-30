@@ -104,6 +104,20 @@ describe('controllerInstance'.bold.underline.blue, function () {
                 }
               }
             };
+          }),
+          activeBranch: sinon.spy(function () {
+            return {
+              allCommits: {
+                models: [{
+                  attrs: {
+                    sha: 'abcabcabc'
+                  }
+                }]
+              }
+            };
+          }),
+          branchCommits: sinon.spy(function () {
+            return {};
           })
         };
       });
