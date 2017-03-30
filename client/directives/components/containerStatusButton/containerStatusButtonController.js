@@ -8,10 +8,12 @@ require('app')
 function ContainerStatusButtonController(
   $rootScope,
   $scope,
+  $state,
   errs,
   keypather,
   loading,
   promisify,
+  updateInstanceWithNewAcvData,
   updateInstanceWithNewBuild
 ) {
   var CSBC = this;
@@ -59,6 +61,9 @@ function ContainerStatusButtonController(
       var instance = CSBC.instance;
       if (keypather.get(CSBC, 'instance.isolation.groupMaster.attrs.isTesting')) {
         instance = keypather.get(CSBC, 'instance.isolation.groupMaster');
+      }
+      if (keypather.get(CSBC, 'instance.containerHistory')) {
+        return CSBC.actions.deployOldCommit();
       }
       promisify(instance.build, 'deepCopy')()
         .then(function (build) {
@@ -118,6 +123,20 @@ function ContainerStatusButtonController(
         .finally(function () {
           loading('main', false);
         });
+    },
+    deployOldCommit: function () {
+      var acv = CSBC.instance.contextVersion.appCodeVersions.models[0];
+      return updateInstanceWithNewAcvData(CSBC.instance, acv, {
+        branch: CSBC.instance.branch,
+        commit: {
+          attrs: {
+            sha: CSBC.instance.containerHistory.commitSha
+          }
+        }
+      })
+      .then(function (instance) {
+        loading('main', false);
+      })
     }
   };
 
