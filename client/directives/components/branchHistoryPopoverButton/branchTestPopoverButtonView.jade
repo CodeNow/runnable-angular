@@ -1,6 +1,6 @@
 button.grid-block.shrink.btn.btn-container-menu(
   ng-class = "{\
-    'active': BTPBC.popoverOpen,\
+    'active': BTPBC.popoverActive,\
     'gray': BTPBC.sha.length > 0\
   }"
   ng-if = "$root.featureFlags.composeHistory"
@@ -8,7 +8,8 @@ button.grid-block.shrink.btn.btn-container-menu(
   pop-over
   pop-over-template = "branchTestSelectorPopoverView"
   pop-over-data = "BTPBC.popoverData"
-  pop-over-options = "{\"verticallyCentered\":true,\"right\":0,\"pinToViewPort\": true}"
+  pop-over-options = "{\"verticallyCentered\":true,\"right\":-372,\"pinToViewPort\": true}"
+  pop-over-active = "BTPBC.popoverActive"
 )
   svg.iconnables
     use(

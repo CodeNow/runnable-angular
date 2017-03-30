@@ -3,13 +3,11 @@
 require('app')
   .controller('BranchCommitPopoverButtonController', BranchCommitPopoverButtonController);
 function BranchCommitPopoverButtonController(
-  $scope,
   fetchCommitData,
   keypather,
   promisify
 ) {
   var BCPBC = this;
-  BCPBC.popoverOpen = false;
 
   function initData() {
     BCPBC.appCodeVersion = BCPBC.instance.contextVersion.getMainAppCodeVersion();
@@ -30,16 +28,9 @@ function BranchCommitPopoverButtonController(
     }
   }
 
-  var unPopoverClosed = $scope.$on('popover-closed', function () {
-    BCPBC.popoverOpen = false;
-  });
-
   initData();
   BCPBC.instance.on('update', initData);
   BCPBC.popoverData = {
     instance: BCPBC.instance
   };
-  $scope.$on('$destroy', function () {
-    unPopoverClosed();
-  });
 }

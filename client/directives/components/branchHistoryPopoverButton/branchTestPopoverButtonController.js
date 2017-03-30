@@ -3,13 +3,11 @@
 require('app')
   .controller('BranchTestPopoverButtonController', BranchTestPopoverButtonController);
 function BranchTestPopoverButtonController(
-  $scope,
   fetchCommitData,
   promisify,
   keypather
 ) {
   var BTPBC = this;
-  BTPBC.popoverOpen = false;
 
   function initData() {
     BTPBC.appCodeVersion = BTPBC.instance.contextVersion.getMainAppCodeVersion();
@@ -36,13 +34,6 @@ function BranchTestPopoverButtonController(
     }
   }
 
-  var unPopoverClosed = $scope.$on('popover-closed', function () {
-    BTPBC.popoverOpen = false;
-  });
-
   initData();
   BTPBC.instance.on('update', initData);
-  $scope.$on('$destroy', function () {
-    unPopoverClosed();
-  });
 }
