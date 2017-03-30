@@ -7,6 +7,7 @@ function BuildLogsController(
   $rootScope,
   $timeout,
   errs,
+  keypather,
   launchDebugContainer,
   loading,
   updateInstanceWithNewBuild,
@@ -71,6 +72,10 @@ function BuildLogsController(
           if (cvContainerId && cvContainerId !== oldCvContainerId) {
             // When the build changes
             setupStream(stream);
+          } else if (BLC.instance.containerHistory) {
+            // this is a test container
+            unWatchDockerContainer();
+            streamPersistedBuildLogs();
           } else if (cvContainerId) {
             // This happens the first time
             stream = primus.createBuildStream(BLC.instance.build);
@@ -127,6 +132,15 @@ function BuildLogsController(
     BLC.buildLogs = streamingBuildLogs.logs;
     BLC.buildLogTiming = streamingBuildLogs.times;
     BLC.getRawLogs = streamingBuildLogs.getRawLogs;
+  }
+  function streamPersistedBuildLogs () {
+    var build = {};
+    keypather.set(build, 'contextVersions.models[0].attrs.build.dockerContainer', BLC.instance.containerHistory.build.containerId);
+    var stream = primus.createBuildStream(build);
+    // first time running
+    BLC.instance.off('update', handleUpdate);
+    connectListenersToStream(stream);
+    handleUpdate();
   }
 
   BLC.getBuildLogs = function () {

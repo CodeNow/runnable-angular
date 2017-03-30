@@ -58,13 +58,13 @@ function ContainerStatusButtonController(
       $rootScope.$broadcast('close-popovers');
       loading('main', true);
       var instance = CSBC.instance;
-      if (keypather.get(CSBC, 'instance.isolation.groupMaster.attrs.isTesting')) {
-        instance = keypather.get(CSBC, 'instance.isolation.groupMaster');
-      }
       if (keypather.get(CSBC, 'instance.containerHistory')) {
         return deployOldCommit();
       }
-      promisify(instance.build, 'deepCopy')()
+      if (keypather.get(CSBC, 'instance.isolation.groupMaster.attrs.isTesting')) {
+        instance = keypather.get(CSBC, 'instance.isolation.groupMaster');
+      }
+      return promisify(instance.build, 'deepCopy')()
         .then(function (build) {
           return updateInstanceWithNewBuild(
             instance,
@@ -72,10 +72,10 @@ function ContainerStatusButtonController(
             true
           );
         })
-        .catch(errs.handler)
-        .finally(function () {
-          loading('main', false);
-        });
+      .catch(errs.handler)
+      .finally(function () {
+        loading('main', false);
+      });
     },
     updateConfigToMatchMaster: function () {
       // This function makes a copy the master's cv and build, then applies them to this instance
@@ -138,8 +138,6 @@ function ContainerStatusButtonController(
     .then(function () {
       loading('main', false);
       $rootScope.$broadcast('instance::updated');
-    })
+    });
   }
-
-
 }
