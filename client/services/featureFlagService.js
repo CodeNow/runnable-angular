@@ -14,6 +14,7 @@ function featureFlags(
     autoIsolationSetup: false,
     backup: false,
     cardStatus: false,
+    composeEditing: false,
     composeInstance: false,
     composeNav: false,
     composeNewService: false,
