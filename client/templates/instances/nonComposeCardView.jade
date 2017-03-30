@@ -6,6 +6,7 @@ ul.nav-container-list
     master-instance = "masterInstance"
     ng-if = "!masterInstance.attrs.isTesting"
     ng-repeat = "masterInstance in CIS.getNonComposeMasters() | instanceHasRepo:true | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
+    ng-show = "CIS.shouldShowBasic(masterInstance, 'attrs.name')"
   )
   li.li(
     active-account = "CIS.activeAccount"
@@ -14,4 +15,5 @@ ul.nav-container-list
     master-instance = "masterInstance"
     ng-if = "!masterInstance.attrs.isTesting"
     ng-repeat = "masterInstance in CIS.getNonComposeMasters() | instanceHasRepo:false | orderBy: ['attrs.name'] track by masterInstance.attrs.name"
+    ng-show = "CIS.shouldShowBasic(masterInstance, 'attrs.name')"
   )
