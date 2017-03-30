@@ -716,7 +716,7 @@ function EventTracking(
   };
 
   /**
-   * An auto-deploy toggle event
+   * An changed path input
    * Reports to:
    *   - mixpanel
    * @return this
@@ -727,6 +727,32 @@ function EventTracking(
     ETS._mixpanel('track', eventName, {
       filepath: filepath
     });
+    return ETS;
+  };
+
+  /**
+   * Toggled path input
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.filePathToggled = function (type,isEnabled) {
+    var eventName = 'Toggled Dockerfile/Compose Path';
+    var toggledTo;
+
+    if (isEnabled) {
+      toggledTo = "To Enabled";
+    }
+    if (!isEnabled) {
+      toggledTo = "To Disabled";
+    }
+
+    ETS._mixpanel('track', eventName, {
+      toggleType: type,
+      isEnabled: toggledTo
+    });
+
+    console.log(type + toggledTo);
     return ETS;
   };
 

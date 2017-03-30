@@ -7,7 +7,8 @@ require('app')
  * @ngInject
  */
 function composeFilePath(
-  parseDockerComposeFile
+  parseDockerComposeFile,
+  eventTracking
 ) {
   return {
     restrict: 'A',
@@ -24,16 +25,22 @@ function composeFilePath(
       $scope.dockerComposeState = MDC.state;
       $scope.dockerfile = {};
 
+      var hasRun = false;
+
       $scope.$watch(function () {
-          return $scope.pathEnabled;
-        }, function (isEnabled) {
+        return $scope.pathEnabled;
+      }, function (isEnabled) {
+        if (!hasRun) {
+          hasRun = true;
+        } else {
+          eventTracking.filePathToggled($scope.type,isEnabled);
+        }
         if (!isEnabled) {
           if ($scope.type === 'test') {
             MDC.state.dockerComposeTestFile = null;
             $scope.dockerComposeTestServices = null;
             MDC.state.testReporter = null;
             MDC.state.types.test = false;
-
           }
           if ($scope.type === 'stage') {
             MDC.state.dockerComposeFile = null;
