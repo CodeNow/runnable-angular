@@ -83,8 +83,8 @@ function ControllerInstance(
 
         // Check that current commit is not already building
         var currentCommit = keypather.get(instance, 'attrs.contextVersion.appCodeVersions[0].commit');
-        if (instance.build.contextVersion) {
-          var branch = fetchCommitData.activeBranch(keypather.get(instance, 'build.contextVersion.getMainAppCodeVersion()'));
+        if (instance.contextVersion && instance.contextVersion.getMainAppCodeVersion()) {
+          var branch = fetchCommitData.activeBranch(instance.contextVersion.getMainAppCodeVersion());
           $q.all({
             currentlyBuildingCommit: getCommitForCurrentlyBuildingBuild(instance),
             allCommits: fetchCommitData.branchCommits(branch)
