@@ -104,7 +104,7 @@ animated-panel-container.modal-servers
   animated-panel(
     default = "{{NCC.disableBackButton}}"
     name = "nameContainer"
-    ng-if = "(NCC.state.repo || NCC.state.templateSource) && $root.featureFlags.composeNewService"
+    ng-if = "NCC.state.repo && $root.featureFlags.composeNewService"
   )
     .view-new-service(
       ng-include = "'configureNewServiceView'"
@@ -113,7 +113,7 @@ animated-panel-container.modal-servers
   animated-panel.grid-block.vertical.modals-rename(
     default = "{{NCC.disableBackButton}}"
     name = "nameContainer"
-    ng-if = "(NCC.state.repo || NCC.state.templateSource) && !$root.featureFlags.composeNewService"
+    ng-if = "NCC.state.templateSource || !$root.featureFlags.composeNewService"
   )
     header.modal-header
       svg.iconnables.icons-arrow-backward(
@@ -180,7 +180,7 @@ animated-panel-container.modal-servers
           https://docs.google.com/a/runnable.com/drawings/d/1fkNfOm5iktUFxyCGxfluKEGRnClYkNUN-AlrXEDSkpY/edit
       button.btn.btn-md.green.float-right(
         ng-disabled = "!NCC.canCreateBuild()"
-        ng-click = "$root.featureFlags.composeNewService ? NCC.saveDockerfileMirroring() : NCC.saveName()"
+        ng-click = "$root.featureFlags.composeNewService && NCC.state.repo ? NCC.saveDockerfileMirroring() : NCC.saveName()"
       )
         .spinner-wrapper.spinner-white.spinner-sm.float-left(
           ng-if = "$root.isLoading.newContainerSingleRepo"
