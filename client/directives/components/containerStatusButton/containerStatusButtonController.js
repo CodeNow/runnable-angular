@@ -137,6 +137,7 @@ function ContainerStatusButtonController(
     })
     .then(function () {
       loading('main', false);
+      $rootScope.$broadcast('instance::updated');
     })
   }
 

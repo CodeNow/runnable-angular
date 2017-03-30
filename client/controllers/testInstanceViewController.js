@@ -7,6 +7,8 @@ require('app')
  * @ngInject
  */
 function TestInstanceViewController(
+  $scope,
+  $state,
   fetchCommitData,
   keypather,
   OpenItems,
@@ -41,4 +43,10 @@ function TestInstanceViewController(
       }
     });
 
+    $scope.$on('instance::updated', function () {
+      return $state.go('base.instances.instance', {
+        instanceName: $state.params.instanceName,
+        userName: $state.params.userName
+      });
+    })
 }
