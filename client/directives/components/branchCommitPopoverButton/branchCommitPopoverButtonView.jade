@@ -1,12 +1,14 @@
 button.grid-block.shrink.btn.btn-container-menu(
   ng-class = "{\
-    'active': popoverShown,\
-    'gray': previousCommit\
+    'active': BCPBC.popoverOpen,\
+    'gray': BCPBC.sha.length > 0\
   }"
+  ng-click = "BCPBC.popoverOpen = true"
   ng-if = "$root.featureFlags.composeHistory"
   pop-over
   pop-over-template = "branchCommitSelectorPopoverView"
   pop-over-data = "BCPBC.popoverData"
+  pop-over-options = "BCPBC.popOverOptions"
 )
   svg.iconnables
     use(

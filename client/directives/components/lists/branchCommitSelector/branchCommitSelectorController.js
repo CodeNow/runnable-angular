@@ -4,6 +4,7 @@ require('app')
   .controller('BranchCommitSelectorController', BranchCommitSelectorController);
 
 function BranchCommitSelectorController(
+  $rootScope,
   $scope,
   eventTracking,
   keypather
@@ -38,6 +39,7 @@ function BranchCommitSelectorController(
     eventTracking.selectCommit(isLatestCommit);
     BCSC.data.commit = commit;
     $scope.$emit('commit::selected', commit);
+    $rootScope.$broadcast('close-popovers');
   };
 
   BCSC.deployLatestCommit = function () {

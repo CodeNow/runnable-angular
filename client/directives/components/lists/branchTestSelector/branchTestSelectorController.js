@@ -5,6 +5,7 @@ require('app')
 
 function BranchTestSelectorController(
   $scope,
+  $rootScope,
   $state,
   keypather
 ) {
@@ -13,6 +14,7 @@ function BranchTestSelectorController(
   BTSC.selectCommit = function (commit) {
     BTSC.commit = commit;
     $scope.$emit('test-commit::selected', commit);
+    $rootScope.$broadcast('close-popovers');
   };
 
   BTSC.setToLatestCommit = function() {
