@@ -8,7 +8,6 @@ require('app')
 function ContainerStatusButtonController(
   $rootScope,
   $scope,
-  $state,
   errs,
   keypather,
   loading,
