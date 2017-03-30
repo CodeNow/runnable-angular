@@ -63,7 +63,7 @@ function ContainerStatusButtonController(
         instance = keypather.get(CSBC, 'instance.isolation.groupMaster');
       }
       if (keypather.get(CSBC, 'instance.containerHistory')) {
-        return CSBC.actions.deployOldCommit();
+        return deployOldCommit();
       }
       promisify(instance.build, 'deepCopy')()
         .then(function (build) {
@@ -123,22 +123,23 @@ function ContainerStatusButtonController(
         .finally(function () {
           loading('main', false);
         });
-    },
-    deployOldCommit: function () {
-      var acv = CSBC.instance.contextVersion.appCodeVersions.models[0];
-      return updateInstanceWithNewAcvData(CSBC.instance, acv, {
-        branch: CSBC.instance.branch,
-        commit: {
-          attrs: {
-            sha: CSBC.instance.containerHistory.commitSha
-          }
-        }
-      })
-      .then(function (instance) {
-        loading('main', false);
-      })
     }
   };
+
+  function deployOldCommit () {
+    var acv = CSBC.instance.contextVersion.appCodeVersions.models[0];
+    return updateInstanceWithNewAcvData(CSBC.instance, acv, {
+      branch: CSBC.instance.branch,
+      commit: {
+        attrs: {
+          sha: CSBC.instance.containerHistory.commitSha
+        }
+      }
+    })
+    .then(function () {
+      loading('main', false);
+    })
+  }
 
 
 }
