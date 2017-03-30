@@ -1,8 +1,8 @@
 a.nav-card-header(
   ng-attr-title = "{{getCardName()}}"
   ui-sref = "\
-    base.instances.instance({userName: composeCluster.master.attrs.owner.username,\
-    instanceName: composeCluster.master.attrs.name})\
+    base.instances.instance({userName: CCC.composeCluster.master.attrs.owner.username,\
+    instanceName: CCC.composeCluster.master.attrs.name})\
   "
 )
   span.grid-block
@@ -13,9 +13,9 @@ a.nav-card-header(
     ng-if = "!INC.currentOrg.isPersonalAccount() && !INC.isInDemoFlow()"
     pop-over
     pop-over-active = "INC.popoverShown"
-    pop-over-controller = "INC"
+    pop-over-controller = "CCC"
     pop-over-options = "{\"verticallyCentered\":true,\"left\":26}"
-    pop-over-template = "instanceNavigationPopoverView"
+    pop-over-template = "viewComposeCardServicePopover"
   )
     svg.iconnables
       use(
@@ -24,10 +24,10 @@ a.nav-card-header(
 //- staging environment
 section.nav-card-section(
   ng-include = "'viewStagingEnvironment'"
-  ng-if = "isActive && (composeCluster.staging.length || !composeCluster.master.attrs.isTesting)"
+  ng-if = "isActive && (CCC.composeCluster.staging.length || !CCC.composeCluster.master.attrs.isTesting)"
 )
 //- testing environment
 section.nav-card-section(
-  ng-if = "isActive && (composeCluster.testing.length || composeCluster.master.attrs.isTesting)"
+  ng-if = "isActive && (CCC.composeCluster.testing.length || CCC.composeCluster.master.attrs.isTesting)"
   ng-include = "'viewTestingEnvironment'"
 )

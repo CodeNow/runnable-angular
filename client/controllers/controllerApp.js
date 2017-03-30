@@ -115,7 +115,7 @@ function ControllerApp(
   orgStream.on('data', function(data) {
     var task = keypather.get(data, 'data.task');
     if (task) {
-      $rootScope.$broadcast(task);
+      $rootScope.$broadcast(task, data);
     }
   });
 

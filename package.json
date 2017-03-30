@@ -1,6 +1,6 @@
 {
   "name": "runnable-angular",
-  "version": "5.17.1",
+  "version": "5.17.6",
   "private": true,
   "description": "Frontend for Runnable.io",
   "scripts": {
@@ -12,9 +12,8 @@
     "test": "./node_modules/.bin/grunt test",
     "coverage": "./node_modules/.bin/grunt test:unit-coverage",
     "staging": "API_URL=https://api-staging-codenow.runnableapp.com USER_CONTENT_DOMAIN=runnable-staging.com ./node_modules/.bin/grunt",
-    "gamma": "API_URL=https://api.runnable-gamma.com USER_CONTENT_DOMAIN=runnable.ninja ./node_modules/.bin/grunt",
-    "epsilon": "API_URL=https://api.runnable-beta.com USER_CONTENT_DOMAIN=runnablecloud.com ./node_modules/.bin/grunt",
-    "delta": "API_URL=https://api.runnable.io USER_CONTENT_DOMAIN=runnableapp.com ./node_modules/.bin/grunt"
+    "gamma": "API_URL=https://api.runnable-gamma.com API_SOCK_URL=https://apisock.runnable-gamma.com/primus USER_CONTENT_DOMAIN=runnable.ninja ./node_modules/.bin/grunt",
+    "delta": "API_URL=https://api.runnable.io API_SOCK_URL=https://apisock.runnable.io/primus USER_CONTENT_DOMAIN=runnableapp.com ./node_modules/.bin/grunt"
   },
   "engines": {
     "node": "~0.10.29",
