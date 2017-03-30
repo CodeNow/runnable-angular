@@ -347,17 +347,17 @@ function NewContainerController(
         }
         return;
       });
-    } else {
-      return createNewCluster(
-        NCC.state.repo.attrs.full_name,
-        NCC.state.repo.attrs.default_branch,
-        NCC.state.dockerComposeTestFile.path,
-        NCC.state.instanceName,
-        currentOrg.github.attrs.id,
-        !!NCC.state.dockerComposeTestFile,
-        [ NCC.state.testReporter.name ]
-      );
     }
+
+    return createNewCluster(
+      NCC.state.repo.attrs.full_name,
+      NCC.state.repo.attrs.default_branch,
+      NCC.state.dockerComposeTestFile.path,
+      NCC.state.instanceName,
+      currentOrg.github.attrs.id,
+      !!NCC.state.dockerComposeTestFile,
+      [ NCC.state.testReporter.name ]
+    );
   };
 
   NCC.getNextStepText = function () {
