@@ -1,4 +1,5 @@
 .modal-settings {
+  max-width: 630px;
   overflow: hidden;
 
   @include media(xs) {

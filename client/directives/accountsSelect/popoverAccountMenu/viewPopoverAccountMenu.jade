@@ -60,6 +60,14 @@
                 width = "24"
               )
               | Slack Integration
+            li.list-item.popover-list-item(
+              ng-click = "actions.openSettingsModal('SSHKeys')"
+            )
+              svg.iconnables
+                use(
+                  xlink:href = "#icons-key"
+                )
+              | SSH Keys
           ul.list.popover-list(
             ng-class = "{'list-secondary': !data.currentOrg.isPersonalAccount()}"
           )

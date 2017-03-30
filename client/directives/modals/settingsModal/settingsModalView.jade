@@ -1,5 +1,5 @@
 .modal-backdrop.in
-  .modal-dialog.modal-md.modal-settings
+  .modal-dialog.modal-settings
     header.grid-block.vertical.align-center.modal-header
       .container-title-wrapper
         .server-status-card-pop-over.no-touching
@@ -59,6 +59,15 @@
             width = "24"
           )
           .btn-text.grid-content Slack Integration
+        button.btn.btn-radio.grid-block.vertical(
+          ng-class = "{'active': SEMC.currentTab === 'SSHKeys'}"
+          ng-click = "SEMC.currentTab = 'SSHKeys'"
+        )
+          svg.iconnables.grid-content
+            use(
+              xlink:href = "#icons-key"
+            )
+          .btn-text.grid-content SSH Keys
 
     section.modal-body.js-animate
 
@@ -78,6 +87,11 @@
 
       slack-integration-form(
         ng-if = "SEMC.currentTab === 'slackIntegration'"
+      )
+
+      div(
+        ng-if = "SEMC.currentTab === 'SSHKeys'"
+        ng-include = "'SSHKeysForm'"
       )
 
     footer.modal-footer.clearfix.js-animate(
