@@ -21,6 +21,11 @@ function TestInstanceViewController(
   TIVC.openItems.removeAllButLogs();
   TIVC.openItems.models[1].attrs.name = 'Test Logs';
 
+  var exitCodes = {
+    0: 'stopped',
+    1: 'crashed'
+  }
+
   var branch = fetchCommitData.activeBranch(keypather.get(TIVC, 'testInstanceData.build.contextVersions.models[0].appCodeVersions.models[0]'));
 
   TIVC.deployOldTestCommit = function () {
@@ -34,6 +39,10 @@ function TestInstanceViewController(
       }
     });
   };
+
+  TIVC.testInstanceData.status = function () {
+    return exitCodes[this.containerHistory.application.exitCode] || 'crashed';
+  }
 
   fetchCommitData.branchCommits(branch)
     .then(function(commits) {
