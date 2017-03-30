@@ -52,6 +52,7 @@
     //- master branch clusters and non-repo containers (post-compose)
     section.nav-section(
       ng-if = "$root.featureFlags.composeNav"
+      ng-show = "CIS.isShowingNonComposeMaster() || CIS.isShowingComposeService()"
       ng-include = "'servicesSectionView'"
     )
 
@@ -137,12 +138,14 @@
     ng-if = "$root.featureFlags.composeNav"
     ng-include = "'repoSectionView'"
     ng-repeat = "masterComposeCluster in CIS.instancesByCompose | orderBy: ['master.attrs.inputClusterConfig.clusterName'] track by masterComposeCluster.master.attrs.inputClusterConfig.clusterName"
+    ng-show = "CIS.shouldShowComposeClusterChildren(masterComposeCluster)"
   )
 
   section.nav-section(
     ng-if = "$root.featureFlags.composeNav"
     ng-include = "'nonComposeRepoSectionView'"
     ng-repeat = "masterInstance in CIS.getNonComposeMasters() | instanceHasRepo:true | orderBy: ['getDisplayName().toLowerCase()'] track by masterInstance.attrs._id"
+    ng-show = "CIS.shouldShowRepoChildren(masterInstance)"
   )
 
   //- branch environments (pre-compose)
