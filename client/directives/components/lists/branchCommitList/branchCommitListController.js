@@ -42,18 +42,13 @@ function BranchCommitListController(
   };
 
   BCLC.updateInstance = function () {
-    return $q.when()
-      .then(function () {
-        loading('main', true);
-        if (BCLC.hasCommitBeenUpdated()) {
-          return updateInstanceWithNewAcvData(BCLC.instance, BCLC.appCodeVersion, BCLC.data);
-        }
-
-        return;
-      })
-      .finally(function () {
-        loading('main', false);
-      });
+    if (BCLC.hasCommitBeenUpdated()) {
+      loading('main', true);
+      return updateInstanceWithNewAcvData(BCLC.instance, BCLC.appCodeVersion, BCLC.data)
+        .finally(function () {
+          loading('main', false);
+        });
+    }
   };
 
   BCLC.updateLock = function() {
