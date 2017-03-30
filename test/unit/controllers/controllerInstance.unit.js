@@ -95,6 +95,9 @@ describe('controllerInstance'.bold.underline.blue, function () {
       });
       $provide.factory('fetchCommitData', function () {
         return {
+          activeBranch: sinon.spy(function () {
+            return {};
+          }),
           activeCommit: sinon.spy(function () {
             return {
               attrs: {
@@ -105,7 +108,7 @@ describe('controllerInstance'.bold.underline.blue, function () {
               }
             };
           }),
-          activeBranch: sinon.spy(function () {
+          branchCommits: sinon.spy(function () {
             return {
               allCommits: {
                 models: [{
@@ -115,9 +118,6 @@ describe('controllerInstance'.bold.underline.blue, function () {
                 }]
               }
             };
-          }),
-          branchCommits: sinon.spy(function () {
-            return {};
           })
         };
       });

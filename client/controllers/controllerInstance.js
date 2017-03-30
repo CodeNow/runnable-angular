@@ -84,7 +84,10 @@ function ControllerInstance(
         // Check that current commit is not already building
         var currentCommit = keypather.get(instance, 'attrs.contextVersion.appCodeVersions[0].commit');
         var branch = fetchCommitData.activeBranch(keypather.get(instance, 'build.contextVersions.models[0].getMainAppCodeVersion()'));
-        $q.all({currentlyBuildingCommit: getCommitForCurrentlyBuildingBuild(instance), allCommits: fetchCommitData.branchCommits(branch)})
+        $q.all({
+          currentlyBuildingCommit: getCommitForCurrentlyBuildingBuild(instance),
+          allCommits: fetchCommitData.branchCommits(branch)
+        })
           .then(function(results) {
             var commit = results.currentlyBuildingCommit;
             var latestCommit = keypather.get(results, 'allCommits.models[0].attrs.sha');
@@ -94,7 +97,7 @@ function ControllerInstance(
             }
             if (currentCommit !== latestCommit) {
               instance.showCommitHash = true;
-              instance.shortCommit = currentCommit.slice(0, 6);
+              instance.attrs.shortCommit = currentCommit.slice(0, 6);
             }
           });
 
