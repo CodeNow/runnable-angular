@@ -19,6 +19,7 @@ function BranchCommitListController(
     acv: BCLC.appCodeVersion,
     branch: fetchCommitData.activeBranch(BCLC.appCodeVersion),
     useLatest: BCLC.appCodeVersion.attrs.useLatest,
+    // locked to that commit
     locked: BCLC.instance.attrs.locked,
     instance: BCLC.instance
   };
@@ -52,12 +53,8 @@ function BranchCommitListController(
   };
 
   BCLC.updateLock = function() {
-    // Resolves an empty promise and then executes the then, lets us resolve the promisfy effectively.
-    return $q.when()
-      .then(function () {
-        return promisify(BCLC.instance, 'update')({
-          locked: BCLC.data.locked
-        });
-      });
+    return promisify(BCLC.instance, 'update')({
+      locked: BCLC.data.locked
+    });
   };
 }
