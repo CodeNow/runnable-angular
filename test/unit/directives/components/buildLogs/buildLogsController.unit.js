@@ -19,6 +19,7 @@ describe('BuildLogsController'.bold.underline.blue, function () {
   var mockDebugContainer;
   var mockErrs;
   var isRunnabotPartOfOrgStub;
+  var mockDockerContainerId;
 
   function setup(useInstance, dontIncludeBuildDockerContainer) {
     mockInstance = {
@@ -38,10 +39,14 @@ describe('BuildLogsController'.bold.underline.blue, function () {
         }
       }
     };
+    mockDockerContainerId = 'am23po4238234n23k423k23l4k23';
     mockDebugContainer = {
       id: sinon.stub().returns('debugContainerId'),
       attrs: {
-        contextVersion: '12345',
+        contextVersion: {
+          _id: '12345',
+          dockerContainer: mockDockerContainerId,
+        },
         layerId: 'Layer ID'
       }
     };
@@ -58,7 +63,7 @@ describe('BuildLogsController'.bold.underline.blue, function () {
         sinon.spy(mockStream, 'on');
         return mockStream;
       }),
-      createBuildStreamFromContextVersionId: sinon.spy(function () {
+      createBuildStreamFromContainerId: sinon.spy(function () {
         mockStream = new EventEmitter();
         sinon.spy(mockStream, 'on');
         return mockStream;
@@ -307,9 +312,9 @@ describe('BuildLogsController'.bold.underline.blue, function () {
       setup();
     });
     describe('setupStream', function () {
-      it('should createBuildStreamFromContextVersionId', function () {
-        sinon.assert.calledOnce(mockPrimus.createBuildStreamFromContextVersionId);
-        sinon.assert.calledWith(mockPrimus.createBuildStreamFromContextVersionId, mockDebugContainer.attrs.contextVersion);
+      it('should createBuildStreamFromContainerId', function () {
+        sinon.assert.calledOnce(mockPrimus.createBuildStreamFromContainerId);
+        sinon.assert.calledWith(mockPrimus.createBuildStreamFromContainerId, mockDockerContainerId);
 
         sinon.assert.calledOnce(mockStreamingLog);
         sinon.assert.calledWith(mockStreamingLog, mockStream);
