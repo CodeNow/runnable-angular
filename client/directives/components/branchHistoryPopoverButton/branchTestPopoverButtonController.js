@@ -9,24 +9,12 @@ function BranchTestPopoverButtonController(
   keypather
 ) {
   var BTPBC = this;
-  initData();
-
   BTPBC.popoverOpen = false;
   BTPBC.popOverOptions = {
     verticallyCentered:true,
     left:26,
     pinToViewPort: true
   };
-
-  BTPBC.instance.on('update', initData);
-
-  var unPopoverClosed = $scope.$on('popover-closed', function () {
-    BTPBC.popoverOpen = false;
-  });
-
-  $scope.$on('$destroy', function () {
-    unPopoverClosed();
-  });
 
   function initData() {
     BTPBC.appCodeVersion = BTPBC.instance.contextVersion.getMainAppCodeVersion();
@@ -55,4 +43,14 @@ function BranchTestPopoverButtonController(
       BTPBC.popOverOptions.left = 26;
     }
   }
+
+  var unPopoverClosed = $scope.$on('popover-closed', function () {
+    BTPBC.popoverOpen = false;
+  });
+
+  initData();
+  BTPBC.instance.on('update', initData);
+  $scope.$on('$destroy', function () {
+    unPopoverClosed();
+  });
 }

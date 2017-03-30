@@ -9,28 +9,12 @@ function BranchCommitPopoverButtonController(
   promisify
 ) {
   var BCPBC = this;
-  initData();
-
   BCPBC.popoverOpen = false;
   BCPBC.popOverOptions = {
     verticallyCentered:true,
     left:26,
     pinToViewPort: true
   };
-
-  BCPBC.instance.on('update', initData);
-
-  BCPBC.popoverData = {
-    instance: BCPBC.instance
-  };
-
-  var unPopoverClosed = $scope.$on('popover-closed', function () {
-    BCPBC.popoverOpen = false;
-  });
-
-  $scope.$on('$destroy', function () {
-    unPopoverClosed();
-  });
 
   function initData() {
     BCPBC.appCodeVersion = BCPBC.instance.contextVersion.getMainAppCodeVersion();
@@ -53,4 +37,17 @@ function BranchCommitPopoverButtonController(
       BCPBC.popOverOptions.left = 26;
     }
   }
+
+  var unPopoverClosed = $scope.$on('popover-closed', function () {
+    BCPBC.popoverOpen = false;
+  });
+
+  initData();
+  BCPBC.instance.on('update', initData);
+  BCPBC.popoverData = {
+    instance: BCPBC.instance
+  };
+  $scope.$on('$destroy', function () {
+    unPopoverClosed();
+  });
 }
