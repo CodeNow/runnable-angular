@@ -24,8 +24,9 @@ ul.list.margin-top-sm(
     ng-repeat = "commit in commits = (BTSC.branch.commits.models | filter: BTSC.hasTest | orderBy: '-attrs.commit.committer.date')"
   )
     a.grid-block.vertical(
-      ui-sref = "base.instances.instance-test-sha({instanceName: BTSC.instanceName, sha: commit.attrs.sha})"
+      data-event-name = "Selected Test Commit"
       ng-click = "BTSC.selectCommit(commit, $index === 0)"
+      ui-sref = "base.instances.instance-test-sha({instanceName: BTSC.instanceName, sha: commit.attrs.sha})"
     )
       p.p.text-overflow(
         ng-attr-title = "{{commit.attrs.commit.message}}"
