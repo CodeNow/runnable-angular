@@ -10,11 +10,6 @@ function BranchCommitPopoverButtonController(
 ) {
   var BCPBC = this;
   BCPBC.popoverOpen = false;
-  BCPBC.popOverOptions = {
-    verticallyCentered:true,
-    left:26,
-    pinToViewPort: true
-  };
 
   function initData() {
     BCPBC.appCodeVersion = BCPBC.instance.contextVersion.getMainAppCodeVersion();
@@ -30,11 +25,8 @@ function BranchCommitPopoverButtonController(
     var latestBranchCommitSha = keypather.get(BCPBC.branch, 'commits.models[0].attrs.sha');
     if (keypather.get(BCPBC.appCodeVersion, 'attrs.commit') !== latestBranchCommitSha) {
       BCPBC.sha = latestBranchCommitSha.substring(0,7);
-      // TODO: Get element width instead
-      BCPBC.popOverOptions.left = 74;
     } else {
       BCPBC.sha = '';
-      BCPBC.popOverOptions.left = 26;
     }
   }
 
