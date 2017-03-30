@@ -6,7 +6,7 @@
   .popover-content
     //- for non-repo containers and default branches of non-compose repos
     ul.list.popover-list(
-      ng-if = "INC.instance.attrs.masterPod && !INC.instance.attrs.inputClusterConfig._id"
+      ng-if = "INC.instance.attrs.masterPod && (!INC.instance.attrs.inputClusterConfig._id || !$root.featureFlags.composeNav)"
     )
       li.list-item.popover-list-item.multi-line(
         ng-click = "INC.setupAutoIsolation()"
@@ -38,7 +38,7 @@
 
     //- for non-default branches of non-compose repos
     ul.list.popover-list(
-      ng-if = "!INC.instance.attrs.masterPod && !INC.instance.attrs.inputClusterConfig._id"
+      ng-if = "!INC.instance.attrs.masterPod && (!INC.instance.attrs.inputClusterConfig._id || !$root.featureFlags.composeNav)"
     )
       .well.gray.padding-xs(
         ng-if = "!INC.instance.attrs.isolated"
