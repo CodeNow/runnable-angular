@@ -380,7 +380,7 @@ module.exports = [
     controllerAs: 'TIVC',
     templateUrl: 'viewTestInstance',
     resolve: {
-      testInstanceData: function (
+      testInstance: function (
         $stateParams,
         $state,
         fetchInstances,
@@ -397,6 +397,11 @@ module.exports = [
                     return containerHistory.commitSha === $stateParams.sha;
                   });
                   if (!containerHistory) {
+                    if (!selectedInstance) {
+                      return $state.go('base.instances', {
+                        userName: $stateParams.userName
+                      });
+                    }
                     return $state.go('base.instances.instance', {
                       instanceName: $stateParams.instanceName,
                       userName: $stateParams.userName
@@ -408,6 +413,6 @@ module.exports = [
             });
       }
     }
-  } // http://local.runnable-gamma.com:3000/SandboxDemo/node-starter-test-web/test/cfa7683bea0616cd5fc50ba1ea9aea4ed7dfdce7
+  }
 ];
 Object.freeze(module.exports);

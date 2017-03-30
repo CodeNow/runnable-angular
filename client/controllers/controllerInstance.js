@@ -97,7 +97,7 @@ function ControllerInstance(
             }
             if (currentCommit !== latestCommit) {
               instance.showCommitHash = true;
-              instance.attrs.shortCommit = currentCommit.slice(0, 6);
+              instance.shortCommit = currentCommit.slice(0, 6);
             }
           });
 

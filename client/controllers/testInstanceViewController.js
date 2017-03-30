@@ -7,17 +7,17 @@ require('app')
  * @ngInject
  */
 function TestInstanceViewController(
-  testInstanceData,
   fetchCommitData,
   keypather,
   OpenItems,
+  testInstance,
   updateInstanceWithNewAcvData
 ) {
   var TIVC = this;
-  TIVC.testInstanceData = testInstanceData;
-  TIVC.testInstanceData.attrs.shortCommit = TIVC.testInstanceData.containerHistory.commitSha.slice(0, 6);
-  keypather.set(TIVC, 'testInstanceData.containers.models[0].attrs.dockerContainer', TIVC.testInstanceData.containerHistory.application.containerId);
-  keypather.set(TIVC, 'testInstanceData.build.contextVersions.models[0].attrs.build.dockerContainer', TIVC.testInstanceData.containerHistory.build.containerId);
+  TIVC.testInstance = testInstance;
+  TIVC.testInstance.shortCommit = TIVC.testInstance.containerHistory.commitSha.slice(0, 6);
+  keypather.set(TIVC, 'testInstance.containers.models[0].attrs.dockerContainer', TIVC.testInstance.containerHistory.application.containerId);
+  keypather.set(TIVC, 'testInstance.build.contextVersions.models[0].attrs.build.dockerContainer', TIVC.testInstance.containerHistory.build.containerId);
   TIVC.openItems = new OpenItems();
   TIVC.openItems.removeAllButLogs();
   TIVC.openItems.models[1].attrs.name = 'Test Logs';
@@ -27,17 +27,17 @@ function TestInstanceViewController(
     1: 'crashed'
   }
 
-  var branch = fetchCommitData.activeBranch(keypather.get(TIVC, 'testInstanceData.build.contextVersions.models[0].appCodeVersions.models[0]'));
-  TIVC.testInstanceData.branch = branch;
-  TIVC.testInstanceData.status = function () {
+  var branch = fetchCommitData.activeBranch(keypather.get(TIVC, 'testInstance.build.contextVersions.models[0].appCodeVersions.models[0]'));
+  TIVC.testInstance.branch = branch;
+  TIVC.testInstance.status = function () {
     return exitCodes[this.containerHistory.application.exitCode] || 'crashed';
   }
 
   fetchCommitData.branchCommits(branch)
     .then(function(commits) {
-      TIVC.testInstanceData.commitHistory = commits;
-      if (TIVC.testInstanceData.containerHistory.commitSha !== keypather.get(commits, 'models[0].attrs.sha')) {
-        TIVC.testInstanceData.showCommitHash = true;
+      TIVC.testInstance.commitHistory = commits;
+      if (TIVC.testInstance.containerHistory.commitSha !== keypather.get(commits, 'models[0].attrs.sha')) {
+        TIVC.testInstance.showCommitHash = true;
       }
     });
 
