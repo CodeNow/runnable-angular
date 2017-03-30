@@ -15,6 +15,7 @@ function TestInstanceViewController(
 ) {
   var TIVC = this;
   TIVC.testInstanceData = testInstanceData;
+  TIVC.testInstanceData.containerHistory.shortCommit = TIVC.testInstanceData.containerHistory.commitSha.slice(0, 6);
   keypather.set(TIVC, 'testInstanceData.containers.models[0].attrs.dockerContainer', TIVC.testInstanceData.containerHistory.application.containerId);
   keypather.set(TIVC, 'testInstanceData.build.contextVersions.models[0].attrs.build.dockerContainer', TIVC.testInstanceData.containerHistory.build.containerId);
   TIVC.openItems = new OpenItems();
