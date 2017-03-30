@@ -396,6 +396,12 @@ module.exports = [
                   var containerHistory = history.find(function(containerHistory) {
                     return containerHistory.commitSha === $stateParams.sha;
                   });
+                  if (!containerHistory) {
+                    return $state.go('base.instances.instance', {
+                      instanceName: $stateParams.instanceName,
+                      userName: $stateParams.userName
+                    });
+                  }
                   selectedInstance.containerHistory = containerHistory;
                   return selectedInstance;
                 });
