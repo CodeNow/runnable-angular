@@ -751,8 +751,6 @@ function EventTracking(
       toggleType: type,
       isEnabled: toggledTo
     });
-
-    console.log(type + toggledTo);
     return ETS;
   };
 
