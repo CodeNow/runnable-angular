@@ -741,10 +741,10 @@ function EventTracking(
     var toggledTo;
 
     if (isEnabled) {
-      toggledTo = "To Enabled";
+      toggledTo = 'To Enabled';
     }
     if (!isEnabled) {
-      toggledTo = "To Disabled";
+      toggledTo = 'To Disabled';
     }
 
     ETS._mixpanel('track', eventName, {
