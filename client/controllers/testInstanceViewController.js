@@ -21,22 +21,14 @@ function TestInstanceViewController(
   TIVC.openItems.models[1].attrs.name = 'Test Logs';
 
   var exitCodes = {
-    0: 'stopped',
-    1: 'crashed'
+    0: 'Tests Passed',
+    1: 'Tests Failed'
   };
+
+  TIVC.testInstance.containerHistory.application.status = exitCodes[TIVC.testInstance.containerHistory.application.exitCode] || 'crashed';
 
   var branch = fetchCommitData.activeBranch(keypather.get(TIVC, 'testInstance.build.contextVersions.models[0].appCodeVersions.models[0]'));
   TIVC.testInstance.branch = branch;
-
-  var statusFunc = testInstance.status;
-
-  TIVC.testInstance.status = function () {
-    return exitCodes[this.containerHistory.application.exitCode] || 'crashed';
-  };
-
-  $scope.$on('$destroy', function () {
-    TIVC.testInstance.status = statusFunc;
-  });
 
   fetchCommitData.branchCommits(branch)
     .then(function(commits) {

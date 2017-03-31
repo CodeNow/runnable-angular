@@ -22,6 +22,9 @@ function containerStatusButton(
         if (keypather.get($scope.CSBC, 'instance.isMigrating()')) {
           return 'Migrating';
         }
+        if (keypather.get($scope.CSBC, 'instance.containerHistory')) {
+          return statusMap()
+        }
         var status = keypather.get($scope.CSBC, 'instance.status()');
         var statusMap = {
           starting: 'Starting',
@@ -58,6 +61,14 @@ function containerStatusButton(
           classes.push('red');
         }
         return classes;
+      };
+
+      $scope.getClassForTestInstance = function () {
+        var status = keypather.get($scope.CSBC, 'instance.containerHistory.application.exitCode') || keypather.get($scope.CSBC, 'instance.containerHistory.build.failed');
+        if (status) {
+          return ['red'];
+        }
+        return ['purple'];
       };
       $scope.isChanging = function () {
         if (keypather.get($scope.CSBC, 'instance.isMigrating()')) {

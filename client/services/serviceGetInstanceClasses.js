@@ -14,6 +14,13 @@ function getInstanceClasses(
     if (keypather.get(instance, 'isMigrating()')) {
       return 'orange';
     }
+    if (keypather.get(instance, 'containerHistory')) {
+      var failed = keypather.get(instance, 'containerHistory.application.exitCode') || keypather.get(instance, 'containerHistory.build.failed');
+      if (failed) {
+        return instance.attrs.isTestReporter ? 'failed' : 'red';
+      }
+      return instance.attrs.isTestReporter ? 'passed' : 'green';
+    }
     var instanceClasses = {};
     instanceClasses.active = (keypather.get(instance, 'attrs.name') === $state.params.instanceName);
 

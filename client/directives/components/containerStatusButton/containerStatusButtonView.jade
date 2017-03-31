@@ -1,5 +1,5 @@
 button.btn.btn-md.btn-status(
-  ng-class = "getClassForInstance()"
+  ng-class = "CSBC.instance.containerHistory ? getClassForTestInstance() : getClassForInstance()"
   ng-click = "CSBC.popoverActive = true"
 )
   status-icon.float-left(
@@ -12,7 +12,12 @@ button.btn.btn-md.btn-status(
     ng-include = "'spinner'"
   )
 
-  span.float-left {{getStatusText()}}
+  span.float-left(
+    ng-if = "!CSBC.instance.containerHistory"
+  ) {{getStatusText()}}
+  span.float-left(
+    ng-if = "CSBC.instance.containerHistory"
+  ) {{ CSBC.instance.containerHistory.application.status }}
 
   svg.iconnables.icons-arrow-down(
     pop-over
