@@ -1,3 +1,6 @@
 .p.weight-strong Test History
 small.small Select a previously run test to view.
-button.grid-block.shrink.margin-top-xxs.btn.btn-xs.orange Clear Selection
+button.grid-block.shrink.margin-top-xxs.btn.btn-xs.orange(
+  ng-disabled = "BTSC.isLatestCommit()"
+  ng-click = "BTSC.setToLatestCommit()"
+) Clear Selection

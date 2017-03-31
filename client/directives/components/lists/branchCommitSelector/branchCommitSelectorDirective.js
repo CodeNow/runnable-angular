@@ -22,7 +22,8 @@ function branchCommitSelector(
     scope: {
       data: '=', //Probably a containerFile,
       hideBranchSelector: '=',
-      updateInstance: '&'
+      updateInstance: '&',
+      instance: '='
     },
     link: function ($scope, element, attrs) {
       $scope.$watch('BCSC.data.branch', function (branch) {
