@@ -14,6 +14,7 @@ function ControllerInstances(
   $state,
   activeAccount,
   ahaGuide,
+  composeCardActive,
   currentOrg,
   demoFlowService,
   demoRepos,
@@ -517,4 +518,5 @@ function ControllerInstances(
   };
 
   this.isCardActive = isInstanceActive;
+  this.isComposeCardActive = composeCardActive;
 }
