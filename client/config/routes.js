@@ -383,32 +383,26 @@ module.exports = [
       testInstance: function (
         $stateParams,
         $state,
-        fetchInstances,
-        fetchInstanceTestHistory
+        fetchInstanceByName,
+        fetchInstanceTestHistoryBySha
         ) {
-          return fetchInstances()
-            .then(function(instances) {
-              var selectedInstance = instances.models.find(function(instance) {
-                return instance.getName() === $stateParams.instanceName;
-              });
-              if (!selectedInstance) {
+          return fetchInstanceByName($stateParams.instanceName)
+            .then(function(instance) {
+              if (!instance) {
                 return $state.go('base.instances', {
                   userName: $stateParams.userName
                });
               }
-              return fetchInstanceTestHistory(selectedInstance.id())
+              return fetchInstanceTestHistoryBySha(instance.id(), $stateParams.sha)
                 .then(function(history) {
-                  var containerHistory = history.find(function(containerHistory) {
-                    return containerHistory.commitSha === $stateParams.sha;
-                  });
-                  if (!containerHistory) {
+                  if (!history) {
                     return $state.go('base.instances.instance', {
                       instanceName: $stateParams.instanceName,
                       userName: $stateParams.userName
                     });
                   }
-                  selectedInstance.containerHistory = containerHistory;
-                  return selectedInstance;
+                  instance.containerHistory = history;
+                  return instance;
                 });
             });
       }

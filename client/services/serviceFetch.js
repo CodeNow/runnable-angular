@@ -22,8 +22,10 @@ require('app')
   // Containers
   .factory('fetchInstances', fetchInstances)
   .factory('fetchInstance', fetchInstance)
+  .factory('fetchInstanceByName', fetchInstanceByName)
   .factory('fetchInstancesByPod', fetchInstancesByPod)
   .factory('fetchInstancesByCompose', fetchInstancesByCompose)
+  .factory('fetchInstanceTestHistoryBySha', fetchInstanceTestHistoryBySha)
   .factory('fetchNonRepoInstances', fetchNonRepoInstances)
   .factory('fetchBuild', fetchBuild)
   .factory('fetchRepoBranches', fetchRepoBranches)
@@ -1227,6 +1229,32 @@ function fetchInstanceTestHistory(
     })
       .then(function (pullRequests) {
         return pullRequests.data;
+      });
+  };
+}
+
+function fetchInstanceByName (
+  fetchInstances
+) {
+  return function (name) {
+    return fetchInstances()
+      .then(function(instances) {
+        return instances.models.find(function(instance) {
+          return instance.getName() === name;
+        });
+      });
+  };
+}
+
+function fetchInstanceTestHistoryBySha (
+  fetchInstanceTestHistory
+) {
+  return function (instanceId, sha) {
+    return fetchInstanceTestHistory(instanceId)
+      .then(function(history) {
+        return history.find(function(containerHistory) {
+          return containerHistory.commitSha === sha;
+        });
       });
   };
 }

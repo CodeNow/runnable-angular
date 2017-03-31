@@ -135,9 +135,7 @@ function BuildLogsController(
   }
   function streamPersistedBuildLogs () {
     var build = {};
-    keypather.set(build, 'contextVersions.models[0].attrs.build.dockerContainer', BLC.instance.containerHistory.build.containerId);
-    var stream = primus.createBuildStream(build);
-    // first time running
+    var stream = primus.createBuildStreamFromContainerId(BLC.instance.containerHistory.build.containerId);
     BLC.instance.off('update', handleUpdate);
     connectListenersToStream(stream);
     handleUpdate();
