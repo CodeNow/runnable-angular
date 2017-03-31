@@ -3,6 +3,7 @@
 require('app')
   .controller('BranchCommitPopoverButtonController', BranchCommitPopoverButtonController);
 function BranchCommitPopoverButtonController(
+  $q,
   fetchCommitData,
   keypather,
   promisify
@@ -12,11 +13,15 @@ function BranchCommitPopoverButtonController(
   function initData() {
     BCPBC.appCodeVersion = BCPBC.instance.contextVersion.getMainAppCodeVersion();
     BCPBC.branch = fetchCommitData.activeBranch(BCPBC.appCodeVersion);
-    if (BCPBC.branch.commits.models.length === 0) {
-      promisify(BCPBC.branch.commits, 'fetch')().then(calculateSha);
-    } else {
-      calculateSha();
-    }
+
+    $q.when()
+      .then(function () {
+        if (BCPBC.branch.commits.models.length === 0) {
+          return promisify(BCPBC.branch.commits, 'fetch')();
+        }
+        return;
+      })
+      .then(calculateSha());
   }
 
   function calculateSha() {

@@ -3,6 +3,7 @@
 require('app')
   .controller('BranchTestPopoverButtonController', BranchTestPopoverButtonController);
 function BranchTestPopoverButtonController(
+  $q,
   fetchCommitData,
   promisify,
   keypather
@@ -18,11 +19,14 @@ function BranchTestPopoverButtonController(
       instance: BTPBC.instance
     };
 
-    if (BTPBC.branch.commits.models.length === 0) {
-      promisify(BTPBC.branch.commits, 'fetch')().then(calculateSha);
-    } else {
-      calculateSha();
-    }
+    $q.when()
+      .then(function () {
+        if (BTPBC.branch.commits.models.length === 0) {
+          return promisify(BTPBC.branch.commits, 'fetch')();
+        }
+        return;
+      })
+      .then(calculateSha());
   }
 
   function calculateSha() {
