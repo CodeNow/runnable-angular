@@ -3,7 +3,6 @@
 require('app')
   .controller('BranchCommitListController', BranchCommitListController);
 function BranchCommitListController(
-  $q,
   $scope,
   fetchCommitData,
   keypather,
