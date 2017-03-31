@@ -39,7 +39,7 @@ function instanceNavigation(
         if (instance.attrs.isolated && !instance.attrs.isIsolationGroupMaster) {
           // If it's isolated and not the master we should first try to show the repo and branch name
           if (branchName) {
-            return preamble + instance.getInstanceAndBranchName();
+            return preamble + instance.getMasterPodName();
           }
           // If this is a non-repo container just show the name
           return preamble + instance.getName();
