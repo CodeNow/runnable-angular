@@ -8,6 +8,9 @@ function isInstanceActive(
   getPathShortHash
 ) {
   return function (instance) {
+    if (!instance) {
+      return false;
+    }
     var isCurrentBaseInstance = $state.is('base.instances.instance', {
       userName: instance.attrs.owner.username,
       instanceName: instance.attrs.name

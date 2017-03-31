@@ -33,5 +33,5 @@ ul.nav-container-list
     active-account = "activeAccount"
     instance = "stagingInstance"
     instance-navigation
-    ng-repeat = "stagingInstance in CCC.getStagingInstances() | orderBy: ['attrs.name'] track by stagingInstance.attrs._id"
+    ng-repeat = "stagingInstance in CCC.getStagingInstances() track by stagingInstance.attrs._id"
   )
