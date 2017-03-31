@@ -3,41 +3,26 @@
 require('app')
   .controller('BranchTestPopoverButtonController', BranchTestPopoverButtonController);
 function BranchTestPopoverButtonController(
-  $q,
-  fetchCommitData,
-  promisify,
+  getLatestCommitShaForInstance,
   keypather
 ) {
   var BTPBC = this;
+  BTPBC.appCodeVersion = BTPBC.instance.contextVersion.getMainAppCodeVersion();
 
   function initData() {
-    BTPBC.appCodeVersion = BTPBC.instance.contextVersion.getMainAppCodeVersion();
-    BTPBC.branch = fetchCommitData.activeBranch(BTPBC.appCodeVersion);
-
     BTPBC.popoverData = {
-      branch: BTPBC.branch,
       instance: BTPBC.instance
     };
 
-    $q.when()
-      .then(function () {
-        if (BTPBC.branch.commits.models.length === 0) {
-          return promisify(BTPBC.branch.commits, 'fetch')();
-        }
-        return;
-      })
-      .then(calculateSha());
-  }
+    getLatestCommitShaForInstance(BTPBC.instance).then(function (latestSha) {
+      var currentSha = keypather.get(BTPBC.appCodeVersion, 'attrs.commit');
 
-  function calculateSha() {
-    var latestBranchCommitSha = keypather.get(BTPBC.branch, 'commits.models[0].attrs.sha');
-    var currentSha = keypather.get(BTPBC.appCodeVersion, 'attrs.commit');
-
-    if (latestBranchCommitSha && (currentSha !== latestBranchCommitSha)) {
-      BTPBC.sha = currentSha;
-    } else {
-      BTPBC.sha = '';
-    }
+      if (latestSha && (currentSha !== latestSha)) {
+        BTPBC.sha = currentSha;
+      } else {
+        BTPBC.sha = '';
+      }
+    });
   }
 
   initData();

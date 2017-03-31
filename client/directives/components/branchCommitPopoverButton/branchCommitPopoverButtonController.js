@@ -3,10 +3,9 @@
 require('app')
   .controller('BranchCommitPopoverButtonController', BranchCommitPopoverButtonController);
 function BranchCommitPopoverButtonController(
-  $q,
   fetchCommitData,
   keypather,
-  promisify
+  getLatestCommitShaForInstance
 ) {
   var BCPBC = this;
 
@@ -14,25 +13,15 @@ function BranchCommitPopoverButtonController(
     BCPBC.appCodeVersion = BCPBC.instance.contextVersion.getMainAppCodeVersion();
     BCPBC.branch = fetchCommitData.activeBranch(BCPBC.appCodeVersion);
 
-    $q.when()
-      .then(function () {
-        if (BCPBC.branch.commits.models.length === 0) {
-          return promisify(BCPBC.branch.commits, 'fetch')();
-        }
-        return;
-      })
-      .then(calculateSha());
-  }
+    getLatestCommitShaForInstance(BTPBC.instance).then(function (latestSha) {
+      var currentSha = keypather.get(BTPBC.appCodeVersion, 'attrs.commit');
 
-  function calculateSha() {
-    var latestBranchCommitSha = keypather.get(BCPBC.branch, 'commits.models[0].attrs.sha');
-    var currentSha = keypather.get(BCPBC.appCodeVersion, 'attrs.commit');
-
-    if (latestBranchCommitSha && (currentSha !== latestBranchCommitSha)) {
-      BCPBC.sha = currentSha;
-    } else {
-      BCPBC.sha = '';
-    }
+      if (latestSha && (currentSha !== latestSha)) {
+        BTPBC.sha = currentSha;
+      } else {
+        BTPBC.sha = '';
+      }
+    });
   }
 
   initData();
