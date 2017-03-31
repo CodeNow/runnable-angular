@@ -391,17 +391,17 @@ module.exports = [
               var selectedInstance = instances.models.find(function(instance) {
                 return instance.getName() === $stateParams.instanceName;
               });
+              if (!selectedInstance) {
+                return $state.go('base.instances', {
+                  userName: $stateParams.userName
+               });
+              }
               return fetchInstanceTestHistory(selectedInstance.id())
                 .then(function(history) {
                   var containerHistory = history.find(function(containerHistory) {
                     return containerHistory.commitSha === $stateParams.sha;
                   });
                   if (!containerHistory) {
-                    if (!selectedInstance) {
-                      return $state.go('base.instances', {
-                        userName: $stateParams.userName
-                      });
-                    }
                     return $state.go('base.instances.instance', {
                       instanceName: $stateParams.instanceName,
                       userName: $stateParams.userName

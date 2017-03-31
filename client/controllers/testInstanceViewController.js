@@ -39,7 +39,7 @@ function TestInstanceViewController(
   $scope.$on('$destroy', function (event) {
     TIVC.testInstance.status = statusFunc;
     delete testInstance.containerHistory;
-  })
+  });
 
   fetchCommitData.branchCommits(branch)
     .then(function(commits) {

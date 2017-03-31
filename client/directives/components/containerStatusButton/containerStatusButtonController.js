@@ -75,7 +75,7 @@ function ContainerStatusButtonController(
                 build,
                 true
               );
-            })
+            });
         })
         .catch(errs.handler)
         .finally(function () {
