@@ -40,11 +40,4 @@ function TestInstanceViewController(
         TIVC.testInstance.showCommitHash = true;
       }
     });
-
-    $scope.$on('instance::updated', function () {
-      return $state.go('base.instances.instance', {
-        instanceName: $state.params.instanceName,
-        userName: $state.params.userName
-      });
-    });
 }

@@ -30,9 +30,6 @@ function BoxLogController(
    * 2) Container stops naturally - Running === true
    */
   var stopInstanceUpdates = $scope.$watch('instance.containers.models[0].running()', function (isRunning, wasRunning) {
-    // if ($scope.instance.containerHistory) {
-    //   return streamTestLogs($scope.instance);
-    // }
     var container = keypather.get($scope, 'instance.containers.models[0]');
     if (!container) { return; }
     if (container.attrs.error || keypather.get(container, 'attrs.inspect.error')) {
@@ -115,7 +112,7 @@ function BoxLogController(
     if (container.attrs.dockerContainer) {
       $scope.stream = primus.createLogStream(container);
     } else {
-      report.warning('Attmpted to render box logs for an instance that doesn\'t have a container!', {
+      report.warning('Attmpted to render logs for an instance that doesn\'t have a container!', {
         instanceId: keypather.get($scope, 'instance.id()'),
         instanceStatus: keypather.get($scope, 'instance.status()')
       });

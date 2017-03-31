@@ -6,8 +6,10 @@ require('app')
  * @ngInject
  */
 function ContainerStatusButtonController(
+  $q,
   $rootScope,
   $scope,
+  $state,
   errs,
   keypather,
   loading,
@@ -58,24 +60,33 @@ function ContainerStatusButtonController(
       $rootScope.$broadcast('close-popovers');
       loading('main', true);
       var instance = CSBC.instance;
-      if (keypather.get(CSBC, 'instance.containerHistory')) {
-        return deployOldCommit();
-      }
-      if (keypather.get(CSBC, 'instance.isolation.groupMaster.attrs.isTesting')) {
-        instance = keypather.get(CSBC, 'instance.isolation.groupMaster');
-      }
-      return promisify(instance.build, 'deepCopy')()
-        .then(function (build) {
-          return updateInstanceWithNewBuild(
-            instance,
-            build,
-            true
-          );
+      return $q.when()
+        .then(function () {
+          if (keypather.get(CSBC, 'instance.containerHistory')) {
+            return deployOldCommit();
+          }
+          if (keypather.get(CSBC, 'instance.isolation.groupMaster.attrs.isTesting')) {
+            instance = keypather.get(CSBC, 'instance.isolation.groupMaster');
+          }
+          return promisify(instance.build, 'deepCopy')()
+            .then(function (build) {
+              return updateInstanceWithNewBuild(
+                instance,
+                build,
+                true
+              );
+            })
         })
-      .catch(errs.handler)
-      .finally(function () {
-        loading('main', false);
-      });
+        .catch(errs.handler)
+        .finally(function () {
+          loading('main', false);
+          if (instance.containerHistory) {
+            return $state.go('base.instances.instance', {
+              instanceName: $state.params.instanceName,
+              userName: $state.params.userName
+            });
+          }
+        });
     },
     updateConfigToMatchMaster: function () {
       // This function makes a copy the master's cv and build, then applies them to this instance
@@ -134,10 +145,6 @@ function ContainerStatusButtonController(
           sha: CSBC.instance.containerHistory.commitSha
         }
       }
-    })
-    .then(function () {
-      loading('main', false);
-      $rootScope.$broadcast('instance::updated');
     });
   }
 }
