@@ -22,15 +22,35 @@ function DemoAddBranchController(
   var DBC = this;
 
   function getBranchForPR (instance) {
-    var githubId = keypather.get(instance, 'attrs.contextVersion.owner.github') || currentOrg.github;
-    return promisify(githubId, 'fetchRepo')(instance.getRepoName())
-      .then(function (repo) {
-        return promisify(repo, 'fetchBranch')('dark-theme');
+    function getShaForBranch() {
+      var fetchError = new Error('Sorry, we were unable to automatically add the branch. Please click the add branch button.');
+      var repo = keypather.get(instance, 'contextVersion.getMainAppCodeVersion().repo');
+      if (!repo) {
+        return $q.reject(fetchError);
+      }
+      return promisify(repo, 'fetchBranch')('dark-theme')
+        .then(function (branch) {
+          var sha = branch.attrs.commit.sha;
+          if (!sha) {
+            return $q.reject(fetchError);
+          }
+          return sha;
+        });
+    }
+
+    return getShaForBranch()
+      .catch($timeout(getShaForBranch, 250))
+      .catch($timeout(getShaForBranch, 250))
+      .catch($timeout(getShaForBranch, 250))
+      .catch($timeout(getShaForBranch, 250))
+      .catch($timeout(getShaForBranch, 250))
+      .then(function (sha) {
+        return promisify(instance, 'fork')('dark-theme', sha);
       })
-      .then(function (branch) {
-        var sha = branch.attrs.commit.sha;
-        var branchName = branch.attrs.name;
-        return promisify(instance, 'fork')(branchName, sha);
+      .catch(function (err) {
+        var fetchError = new Error('Sorry, we were unable to automatically add the branch. Please click the add branch button.');
+        errs.reportError(err, 'DemoAddBranchController');
+        errs.handler(fetchError);
       });
   }
 
