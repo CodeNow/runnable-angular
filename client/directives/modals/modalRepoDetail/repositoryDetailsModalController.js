@@ -24,7 +24,6 @@ function RepositoryDetailsModalController(
   RDMC.instance = instance;
   RDMC.close = close;
 
-
   RDMC.data = {
     repo: RDMC.appCodeVersion.githubRepo,
     acv: RDMC.appCodeVersion,

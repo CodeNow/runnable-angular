@@ -29,7 +29,7 @@ function BoxLogController(
    * 1) User stops container      - Running === false
    * 2) Container stops naturally - Running === true
    */
-  $scope.$watch('instance.containers.models[0].running()', function (isRunning, wasRunning) {
+  var stopInstanceUpdates = $scope.$watch('instance.containers.models[0].running()', function (isRunning, wasRunning) {
     var container = keypather.get($scope, 'instance.containers.models[0]');
     if (!container) { return; }
     if (container.attrs.error || keypather.get(container, 'attrs.inspect.error')) {
@@ -100,7 +100,22 @@ function BoxLogController(
     });
     buffer.destroySoon();
   };
+
+  $scope.streamTestLogs = function () {
+    stopInstanceUpdates();
+    var container = {
+      attrs: {
+        dockerContainer: keypather.get($scope.instance, 'containerHistory.application.containerId'),
+        dockerHost: $scope.instance.containers.models[0].attrs.dockerHost
+      }
+    };
+    if (container.attrs.dockerContainer) {
+      $scope.stream = primus.createLogStream(container);
+    } else {
+      report.warning('Attmpted to render logs for an instance that doesn\'t have a container!', {
+        instanceId: keypather.get($scope, 'instance.id()'),
+        instanceStatus: keypather.get($scope, 'instance.status()')
+      });
+    }
+  };
 }
-
-
-
