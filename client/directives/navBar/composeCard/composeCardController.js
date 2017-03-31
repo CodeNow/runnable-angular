@@ -57,10 +57,13 @@ function ComposeCardController(
   }
 
   CCC.getStagingInstances = function () {
+    var instanceList;
     if (CCC.isChild) {
-      return keypather.get(CCC.composeCluster.master, 'isolation.instances.models').sort(sortInstancesByNavName);
+      instanceList = keypather.get(CCC.composeCluster.master, 'isolation.instances.models');
+    } else {
+      instanceList = CCC.composeCluster.staging;
     }
-    return CCC.composeCluster.staging.sort(sortInstancesByNavName);
+    return instanceList.sort(sortInstancesByNavName);
   };
 
   CCC.getTestingInstances = function () {
