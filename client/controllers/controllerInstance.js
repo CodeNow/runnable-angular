@@ -14,7 +14,9 @@ function ControllerInstance(
   $stateParams,
   $timeout,
   ahaGuide,
+  defaultContainerUrl,
   demoFlowService,
+  errs,
   eventTracking,
   favico,
   fetchCommitData,
@@ -28,8 +30,7 @@ function ControllerInstance(
   loading,
   OpenItems,
   pageName,
-  setLastInstance,
-  defaultContainerUrl
+  setLastInstance
 ) {
   var CI = this;
   CI.isInGuide = ahaGuide.isInGuide;
@@ -73,6 +74,10 @@ function ControllerInstance(
             .then(function (dockerfile) {
               instance.mirroredDockerfile = dockerfile;
               return results;
+            })
+            .catch(function (err) {
+              errs.handler(err);
+              return $q.reject(err);
             });
         }
         return results;
