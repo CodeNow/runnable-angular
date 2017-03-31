@@ -44,6 +44,7 @@ describe('controllerInstance'.bold.underline.blue, function () {
         models: [container]
       },
       contextVersion: {
+        getMainAppCodeVersion: sinon.stub().returns(true),
         appCodeVersions: {
           models: [
             {
@@ -95,6 +96,9 @@ describe('controllerInstance'.bold.underline.blue, function () {
       });
       $provide.factory('fetchCommitData', function () {
         return {
+          activeBranch: sinon.spy(function () {
+            return {};
+          }),
           activeCommit: sinon.spy(function () {
             return {
               attrs: {
@@ -102,6 +106,17 @@ describe('controllerInstance'.bold.underline.blue, function () {
                   message: 'hello',
                   html_url: 'asdasd'
                 }
+              }
+            };
+          }),
+          branchCommits: sinon.spy(function () {
+            return {
+              allCommits: {
+                models: [{
+                  attrs: {
+                    sha: 'abcabcabc'
+                  }
+                }]
               }
             };
           })

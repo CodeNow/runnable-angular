@@ -22,9 +22,10 @@ require('app')
   // Containers
   .factory('fetchInstances', fetchInstances)
   .factory('fetchInstance', fetchInstance)
+  .factory('fetchInstanceByName', fetchInstanceByName)
   .factory('fetchInstancesByPod', fetchInstancesByPod)
-  .factory('fetchInstanceTestHistory', fetchInstanceTestHistory)
   .factory('fetchInstancesByCompose', fetchInstancesByCompose)
+  .factory('fetchInstanceTestHistoryBySha', fetchInstanceTestHistoryBySha)
   .factory('fetchNonRepoInstances', fetchNonRepoInstances)
   .factory('fetchBuild', fetchBuild)
   .factory('fetchRepoBranches', fetchRepoBranches)
@@ -50,7 +51,8 @@ require('app')
   // Billing
   .factory('fetchPlan', fetchPlan)
   .factory('fetchInvoices', fetchInvoices)
-  .factory('fetchPaymentMethod', fetchPaymentMethod);
+  .factory('fetchPaymentMethod', fetchPaymentMethod)
+  .factory('fetchInstanceTestHistory', fetchInstanceTestHistory);
 
 function fetchUserUnCached(
   $q,
@@ -1229,6 +1231,32 @@ function fetchInstanceTestHistory(
     })
       .then(function (pullRequests) {
         return pullRequests.data;
+      });
+  };
+}
+
+function fetchInstanceByName (
+  fetchInstances
+) {
+  return function (name) {
+    return fetchInstances()
+      .then(function(instances) {
+        return instances.models.find(function(instance) {
+          return instance.getName() === name;
+        });
+      });
+  };
+}
+
+function fetchInstanceTestHistoryBySha (
+  fetchInstanceTestHistory
+) {
+  return function (instanceId, sha) {
+    return fetchInstanceTestHistory(instanceId)
+      .then(function(history) {
+        return history.find(function(containerHistory) {
+          return containerHistory.commitSha === sha;
+        });
       });
   };
 }
