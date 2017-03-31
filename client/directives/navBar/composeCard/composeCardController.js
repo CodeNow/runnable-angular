@@ -40,7 +40,7 @@ function ComposeCardController(
       (CCC.composeCluster.testing || []).forEach(fetchIsolationIfNotFetched);
       (CCC.composeCluster.staging || []).forEach(fetchIsolationIfNotFetched);
     }
-  }
+  };
 
   CCC.activeAccount = currentOrg.github.attrs.login;
 
