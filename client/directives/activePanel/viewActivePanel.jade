@@ -83,7 +83,7 @@
     instance = 'instance'
     tab-item = "item"
     log-term
-    ng-if = "item.state.type === 'Terminal' && !instance.isMigrating()"
+    ng-if = "item.state.type === 'Terminal' && !instance.containerHistory && !instance.isMigrating()"
   )
 
   //- files
@@ -91,11 +91,11 @@
     file = "item"
     file-editor
     instance = "instance"
-    ng-if = "item.state.type === 'File' && !instance.isMigrating()"
+    ng-if = "item.state.type === 'File' && !instance.isMigrating() && !instance.containerHistory"
     use-auto-update = "useAutoUpdate"
   )
   .blank-panel(
-    ng-if = "['LogView', 'Terminal', 'File'].includes(item.state.type) && instance.isMigrating()"
+    ng-if = "['LogView', 'Terminal', 'File'].includes(item.state.type) && !instance.containerHistory && instance.isMigrating()"
   )
     p.p Container Temporarily Unavailable
 
@@ -105,14 +105,14 @@
       'logs-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
       'logs-runnable-light': $root.featureFlags.imAfraidOfTheDark\
     }"
-    ng-if = "item.state.type === 'BackupStream'"
+    ng-if = "item.state.type === 'BackupStream' && !instance.containerHistory"
     ng-include = "'backupLogsView'"
   )
 
   div(
     current-model = "instance.attrs"
     env-vars
-    ng-if = "item.state.type === 'EnvVars'"
+    ng-if = "item.state.type === 'EnvVars' && !instance.containerHistory"
     state-model = "stateModel"
     validation = "validation.env"
   )

@@ -5,8 +5,7 @@ require('app')
 
 function composeCard(
   $rootScope,
-  keypather,
-  isInstanceActive
+  keypather
 ) {
   return {
     restrict: 'A',
@@ -31,19 +30,11 @@ function composeCard(
       };
 
       $scope.isActive = false;
-      function checkIfActive() {
-        if (!$scope.CCC.isChild) {
-          $scope.isActive = true;
-          return;
-        }
-        $scope.isActive = isInstanceActive($scope.CCC.composeCluster.master);
-      }
-
       var stopListening = $rootScope.$on('$stateChangeSuccess', function () {
-        checkIfActive();
+        $scope.CCC.checkIfActive();
       });
       $scope.$on('$destroy', stopListening);
-      checkIfActive();
+      $scope.CCC.checkIfActive();
     }
   };
 }

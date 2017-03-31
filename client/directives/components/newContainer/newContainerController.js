@@ -194,8 +194,10 @@ function NewContainerController(
 
   NCC.saveDockerfileMirroring = function () {
     if (NCC.state.configurationMethod === 'dockerComposeFile') {
+      loading('creatingDockerCompose', true);
       return NCC.createComposeCluster()
         .then(function () {
+          loading('creatingDockerCompose', false);
           NCC.close();
           return $state.go('base.instances');
         })
@@ -372,7 +374,7 @@ function NewContainerController(
 
   NCC.canCreateBuild = function () {
     return  keypather.get(NCC, 'state.instanceName.length') && !keypather.get(NCC, 'nameForm.$invalid') &&
-            !$rootScope.isLoading.newContainerSingleRepo && (NCC.state.templateSource || 
+            !$rootScope.isLoading.newContainerSingleRepo && !$rootScope.isLoading.creatingDockerCompose && (NCC.state.templateSource || 
             !$scope.$root.featureFlags.composeNewService || NCC.validateDockerComposeBuild());
   };
 

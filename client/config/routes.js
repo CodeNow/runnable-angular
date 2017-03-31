@@ -372,12 +372,41 @@ module.exports = [
     state: 'base.instances.instance-test',
     abstract: true,
     url: '^/:userName/:instanceName/test',
-    template: 'This page was returned in error'
   }, {
     state: 'base.instances.instance-test-sha',
     abstract: false,
     url: '^/:userName/:instanceName/test/:sha',
-    template: 'test sha'
+    controller: 'TestInstanceViewController',
+    controllerAs: 'TIVC',
+    templateUrl: 'viewTestInstance',
+    resolve: {
+      testInstance: function (
+        $stateParams,
+        $state,
+        fetchInstanceByName,
+        fetchInstanceTestHistoryBySha
+        ) {
+          return fetchInstanceByName($stateParams.instanceName)
+            .then(function(instance) {
+              if (!instance) {
+                return $state.go('base.instances', {
+                  userName: $stateParams.userName
+               });
+              }
+              return fetchInstanceTestHistoryBySha(instance.id(), $stateParams.sha)
+                .then(function(history) {
+                  if (!history) {
+                    return $state.go('base.instances.instance', {
+                      instanceName: $stateParams.instanceName,
+                      userName: $stateParams.userName
+                    });
+                  }
+                  instance.containerHistory = history;
+                  return instance;
+                });
+            });
+      }
+    }
   }
 ];
 Object.freeze(module.exports);

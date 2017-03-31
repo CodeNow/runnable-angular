@@ -55,11 +55,12 @@ footer.modal-footer.clearfix
     ng-click = "NCC.close()"
   ) Cancel
   button.btn.btn-md.green.float-right(
-    ng-disabled = "!NCC.canCreateBuild()"
+    data-event-name = "Clicked to Add Service"
     ng-click = "NCC.saveDockerfileMirroring()"
+    ng-disabled = "!NCC.canCreateBuild()"
   )
     .spinner-wrapper.spinner-white.spinner-sm.float-left(
-      ng-if = "$root.isLoading.newContainerSingleRepo"
+      ng-if = "$root.isLoading.newContainerSingleRepo || $root.isLoading.creatingDockerCompose"
       ng-include = "'spinner'"
     )
     span(
