@@ -21,7 +21,7 @@ ul.list.margin-top-sm(
     ng-class = "{\
       'active': BTSC.commit === commit\
     }"
-    ng-repeat = "commit in commits = (BTSC.branch.commits.models | filter: BTSC.hasTest | orderBy: '-attrs.commit.committer.date')"
+    ng-repeat = "commit in commits = (BTSC.branch.commits.models | orderBy: '-attrs.commit.committer.date')"
   )
     a.grid-block.vertical(
       data-event-name = "Selected Test Commit"

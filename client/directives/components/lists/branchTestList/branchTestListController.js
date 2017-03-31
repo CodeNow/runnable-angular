@@ -7,7 +7,6 @@ require('app')
  * @ngInject
  */
 function BranchTestListController(
-  $state,
   fetchCommitData,
   fetchInstanceTestHistory,
   calculateHistoricalTestResult,
@@ -17,6 +16,10 @@ function BranchTestListController(
 
   BTLC.appCodeVersion = BTLC.instance.contextVersion.getMainAppCodeVersion();
   BTLC.branch = fetchCommitData.activeBranch(BTLC.appCodeVersion);
+  fetchCommitData.activeCommit(BTLC.appCodeVersion)
+    .then(function (commit) {
+      BTLC.commit = commit;
+    });
 
   fetchInstanceTestHistory(BTLC.instance.attrs.id)
     .then(function(tests) {
@@ -28,19 +31,9 @@ function BranchTestListController(
         testHash[test.commitSha] = test;
       });
 
-      var sha = $state.params.sha;
-
       BTLC.branch.commits.models.forEach(function(commit) {
         commit.test = keypather.get(testHash[commit.attrs.sha], 'testState');
-
-        if (sha && sha === commit.attrs.sha) {
-          BTLC.commit = commit;
-        }
       });
-
-      if (!BTLC.commit) {
-        BTLC.commit = BTLC.branch.commits.models[0];
-      }
 
       return;
     });
