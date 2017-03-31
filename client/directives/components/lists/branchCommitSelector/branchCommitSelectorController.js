@@ -8,7 +8,6 @@ function BranchCommitSelectorController(
   $scope,
   eventTracking,
   keypather,
-  $rootScope,
   promisify
 ) {
   var BCSC = this;
