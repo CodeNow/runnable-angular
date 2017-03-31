@@ -1,6 +1,6 @@
 'use strict';
 
-describe.only('BranchCommitListController'.bold.underline.blue, function () {
+describe('BranchCommitListController'.bold.underline.blue, function () {
   var $scope;
   var $rootScope;
   var $controller;

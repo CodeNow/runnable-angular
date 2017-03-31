@@ -46,10 +46,4 @@ function BranchCommitListController(
         });
     }
   };
-
-  BCLC.onLockUpdate = function() {
-    return promisify(BCLC.instance, 'update')({
-      locked: BCLC.data.locked
-    });
-  };
 }
