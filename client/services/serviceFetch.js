@@ -389,9 +389,11 @@ function fetchInstancesByCompose(
                 };
                 return;
               }
-              composeMasterConfig.children[isolationId] = composeMasterConfig.children[isolationId] || {};
-              var composeMasterConfigIsolationChild = composeMasterConfig.children[isolationId];
-              if (instance.attrs.isIsolationGroupMaster) {
+
+              var branchName = instance.getBranchName();
+              composeMasterConfig.children[branchName] = composeMasterConfig.children[branchName] || {};
+              var composeMasterConfigIsolationChild = composeMasterConfig.children[branchName];
+              if (instance.attrs.isIsolationGroupMaster && !instance.attrs.inputClusterConfig.parentInputClusterConfigId) {
                 composeMasterConfigIsolationChild.master = instance;
                 return;
               }
@@ -408,8 +410,8 @@ function fetchInstancesByCompose(
             var newInstancesByCompose = Object.keys(composeMasters)
               .map(function (composeId) {
                 if (composeMasters[composeId].children) {
-                  composeMasters[composeId].children = Object.keys(composeMasters[composeId].children).map(function (isolationId) {
-                    return composeMasters[composeId].children[isolationId];
+                  composeMasters[composeId].children = Object.keys(composeMasters[composeId].children).map(function (branchName) {
+                    return composeMasters[composeId].children[branchName];
                   });
                 }
                 return composeMasters[composeId];
