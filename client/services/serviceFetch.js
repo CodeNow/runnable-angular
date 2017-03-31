@@ -403,14 +403,18 @@ function fetchInstancesByCompose(
               composeMasterConfigIsolationChild.staging.push(instance);
               return;
             });
-            var newInstancesByCompose = Object.keys(composeMasters).map(function (composeId) {
-              if (composeMasters[composeId].children) {
-                composeMasters[composeId].children = Object.keys(composeMasters[composeId].children).map(function (isolationId) {
-                  return composeMasters[composeId].children[isolationId];
-                });
-              }
-              return composeMasters[composeId];
-            });
+            var newInstancesByCompose = Object.keys(composeMasters)
+              .map(function (composeId) {
+                if (composeMasters[composeId].children) {
+                  composeMasters[composeId].children = Object.keys(composeMasters[composeId].children).map(function (isolationId) {
+                    return composeMasters[composeId].children[isolationId];
+                  });
+                }
+                return composeMasters[composeId];
+              })
+              .filter(function (composeCluster) {
+                return !!composeCluster.master;
+              });
 
             // We need to keep the original instancesByCompose reference so angular will update the array in later digests
             // http://stackoverflow.com/questions/23486687/short-way-to-replace-content-of-an-array
