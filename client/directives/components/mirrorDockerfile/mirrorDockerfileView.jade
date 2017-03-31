@@ -139,20 +139,20 @@
 
 //- input and settings for staging
 .grid-block.vertical.label(
-  ng-if = "$root.featureFlags.composeNewService && !MDC.fromTool && MDC.state.dockerFileTab === 'compose'"
+  branch-name = "MDC.branchName"
   compose-file-path
+  full-repo = "MDC.getFullRepo()"
+  ng-if = "$root.featureFlags.composeNewService && !MDC.fromTool && MDC.state.dockerFileTab === 'compose'"
   path-enabled = "true"
   type = "stage"
-  branch-name = "MDC.branchName"
-  full-repo = "MDC.getFullRepo()"
 )
 
 //- input and settings for testing
 .grid-block.vertical.label(
-  ng-if = "$root.featureFlags.composeNewService && !MDC.fromTool && MDC.state.dockerFileTab === 'compose'"
+  branch-name = "MDC.branchName"
   compose-file-path
+  full-repo = "MDC.getFullRepo()"
+  ng-if = "$root.featureFlags.composeNewService && !MDC.fromTool && MDC.state.dockerFileTab === 'compose'"
   path-enabled = "false"
   type = "test"
-  branch-name = "MDC.branchName"
-  full-repo = "MDC.getFullRepo()"
 )

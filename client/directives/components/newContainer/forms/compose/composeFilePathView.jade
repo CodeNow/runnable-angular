@@ -11,12 +11,12 @@
   .grid-block.vertical.label.views-dockerfile-setup(
     add-dockerfile
     branch-name = "branchName"
+    dockerfile = "dockerfile"
     file-type = "{{type === 'stage' ? 'Docker Compose' : 'Docker Compose Test'}}"
     full-repo = "fullRepo"
     ng-if = "pathEnabled"
     onload = "type = type"
     view-state = "viewState"
-    dockerfile = "dockerfile"
   )
 
   label.grid-block.vertical.label(
