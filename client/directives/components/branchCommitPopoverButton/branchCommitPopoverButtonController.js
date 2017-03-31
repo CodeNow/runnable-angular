@@ -13,13 +13,13 @@ function BranchCommitPopoverButtonController(
     BCPBC.appCodeVersion = BCPBC.instance.contextVersion.getMainAppCodeVersion();
     BCPBC.branch = fetchCommitData.activeBranch(BCPBC.appCodeVersion);
 
-    getLatestCommitShaForInstance(BTPBC.instance).then(function (latestSha) {
-      var currentSha = keypather.get(BTPBC.appCodeVersion, 'attrs.commit');
+    getLatestCommitShaForInstance(BCPBC.instance).then(function (latestSha) {
+      var currentSha = keypather.get(BCPBC.appCodeVersion, 'attrs.commit');
 
       if (latestSha && (currentSha !== latestSha)) {
-        BTPBC.sha = currentSha;
+        BCPBC.sha = currentSha;
       } else {
-        BTPBC.sha = '';
+        BCPBC.sha = '';
       }
     });
   }
