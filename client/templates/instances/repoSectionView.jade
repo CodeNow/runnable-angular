@@ -24,6 +24,7 @@ section.nav-card(
   is-child = "true"
   ng-repeat = "composeCluster in masterComposeCluster.children | orderBy: ['master.attrs.name'] track by composeCluster.master.attrs._id"
   ng-if = "!composeCluster.master.destroyed"
+  ng-show = "CIS.shouldShowBasic(composeCluster, 'master.getBranchName()')"
 )
 
 //- show after the URL has been visited
