@@ -8,12 +8,10 @@ require('app')
  */
 function TestInstanceViewController(
   $scope,
-  $state,
   fetchCommitData,
   keypather,
   OpenItems,
-  testInstance,
-  updateInstanceWithNewAcvData
+  testInstance
 ) {
   var TIVC = this;
   TIVC.testInstance = testInstance;
@@ -36,9 +34,8 @@ function TestInstanceViewController(
     return exitCodes[this.containerHistory.application.exitCode] || 'crashed';
   };
 
-  $scope.$on('$destroy', function (event) {
+  $scope.$on('$destroy', function () {
     TIVC.testInstance.status = statusFunc;
-    delete testInstance.containerHistory;
   });
 
   fetchCommitData.branchCommits(branch)

@@ -381,8 +381,10 @@ module.exports = [
     templateUrl: 'viewTestInstance',
     resolve: {
       testInstance: function (
-        $stateParams,
+        $rootScope,
         $state,
+        $stateParams,
+        $timeout,
         fetchInstanceByName,
         fetchInstanceTestHistoryBySha
         ) {
@@ -402,6 +404,12 @@ module.exports = [
                     });
                   }
                   instance.containerHistory = history;
+                  var stopListening = $rootScope.$on('$stateChangeStart', function (event, toState) {
+                    stopListening();
+                    if (toState.state !== 'base.instances.instance-test-sha') {
+                      delete instance.containerHistory;
+                    }
+                  });
                   return instance;
                 });
             });
