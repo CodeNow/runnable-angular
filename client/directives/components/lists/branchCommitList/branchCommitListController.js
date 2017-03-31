@@ -31,10 +31,6 @@ function BranchCommitListController(
     BCLC.updateInstance();
   });
 
-  $scope.$on('autodeploy::set', function (evt, autdodeploy) {
-    BCLC.updateLock();
-  });
-
   BCLC.hasCommitBeenUpdated = function () {
     var newCommitSha = keypather.get(BCLC, 'data.commit.attrs.sha');
     var oldCommitSha = keypather.get(BCLC, 'appCodeVersion.attrs.commit');
@@ -49,11 +45,5 @@ function BranchCommitListController(
           loading('main', false);
         });
     }
-  };
-
-  BCLC.updateLock = function() {
-    return promisify(BCLC.instance, 'update')({
-      locked: BCLC.data.locked
-    });
   };
 }

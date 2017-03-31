@@ -7,7 +7,9 @@ function BranchCommitSelectorController(
   $rootScope,
   $scope,
   eventTracking,
-  keypather
+  keypather,
+  $rootScope,
+  promisify
 ) {
   var BCSC = this;
   BCSC.isLatestCommitDeployed = true;
@@ -59,9 +61,12 @@ function BranchCommitSelectorController(
   BCSC.autoDeploy = function (isAutoDeployOn) {
     if (angular.isDefined(isAutoDeployOn)) {
       BCSC.data.locked = !isAutoDeployOn;
-      $scope.$emit('autodeploy::set', isAutoDeployOn);
+      if ($rootScope.featureFlags.composeHistory) {
+        return promisify(BCSC.instance, 'update')({
+          locked: BCSC.data.locked
+        });
+      }
     }
     return BCSC.isAutoDeployOn();
   };
-
 }

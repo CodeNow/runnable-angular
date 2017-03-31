@@ -21,8 +21,8 @@ function BranchCommitPopoverButtonController(
 
   function calculateSha() {
     var latestBranchCommitSha = keypather.get(BCPBC.branch, 'commits.models[0].attrs.sha');
-    if (keypather.get(BCPBC.appCodeVersion, 'attrs.commit') !== latestBranchCommitSha) {
-      BCPBC.sha = latestBranchCommitSha.substring(0,7);
+    if (latestBranchCommitSha && (keypather.get(BCPBC.appCodeVersion, 'attrs.commit') !== latestBranchCommitSha)) {
+      BCPBC.sha = latestBranchCommitSha;
     } else {
       BCPBC.sha = '';
     }
