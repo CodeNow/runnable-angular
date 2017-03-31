@@ -4,7 +4,8 @@ require('app').directive('instanceNavigation', instanceNavigation);
 
 function instanceNavigation(
   $state,
-  getNavigationName
+  getNavigationName,
+  isInstanceActive
 ) {
   return {
     restrict: 'A',
@@ -21,6 +22,14 @@ function instanceNavigation(
 
       $scope.getNavigationName = function () {
         return getNavigationName($scope.INC.instance);
+      };
+
+      $scope.isActive = function () {
+        if (isInstanceActive($scope.INC.instance)) {
+         return {
+           active: true
+         };
+        }
       };
     }
   };
