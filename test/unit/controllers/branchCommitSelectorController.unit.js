@@ -54,6 +54,10 @@ describe('branchCommitSelectorController'.bold.underline.blue, function () {
       $rootScope = _$rootScope_;
       $q = _$q_;
 
+      $rootScope.featureFlags = {
+        composeHistory: false
+      };
+
       $scope = $rootScope.$new();
 
       $scope.data = {};

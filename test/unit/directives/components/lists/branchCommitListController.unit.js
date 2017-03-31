@@ -1,6 +1,6 @@
 'use strict';
 
-describe('BranchCommitListController'.bold.underline.blue, function () {
+describe.only('BranchCommitListController'.bold.underline.blue, function () {
   var $scope;
   var $rootScope;
   var $controller;
@@ -108,14 +108,14 @@ describe('BranchCommitListController'.bold.underline.blue, function () {
     });
 
     it('should not update it hasnt changed', function () {
-      newCommit.attrs.sha = '1';
+      keypather.set(controller, 'data.commit.attrs.sha', '1');
       controller.updateInstance();
       $scope.$digest();
       sinon.assert.notCalled(updateInstanceWithNewAcvDataStub);
     });
 
     it('should update it has changed', function () {
-      newCommit.attrs.sha = '2';
+      keypather.set(controller, 'data.commit.attrs.sha', '2');
       controller.updateInstance();
       $scope.$digest();
       sinon.assert.calledOnce(updateInstanceWithNewAcvDataStub);
