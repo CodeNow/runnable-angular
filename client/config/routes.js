@@ -381,9 +381,9 @@ module.exports = [
     templateUrl: 'viewTestInstance',
     resolve: {
       testInstance: function (
-        $stateParams,
-        $state,
         $rootScope,
+        $state,
+        $stateParams,
         $timeout,
         fetchInstanceByName,
         fetchInstanceTestHistoryBySha
