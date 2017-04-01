@@ -9,11 +9,8 @@ function BranchTestSelectorController(
   $state,
   keypather,
   loading,
-  promisify,
   fetchCommitData,
-  updateInstanceWithNewBuild,
   updateInstanceWithNewAcvData
-
 ) {
   var BTSC = this;
   BTSC.appCodeVersion = BTSC.instance.contextVersion.getMainAppCodeVersion();
@@ -28,23 +25,13 @@ function BranchTestSelectorController(
   BTSC.updateInstance = function () {
     if (BTSC.hasCommitBeenUpdated()) {
       loading('main', true);
-      // promisify(BTSC.instance.build, 'deepCopy')()
-      //   .then(function (build) {
-      //     return updateInstanceWithNewBuild(
-      //       BTSC.instance,
-      //       build,
-      //       true
-      //     );
-      //   })
-      // return updateInstanceWithNewAcvData(BTSC.instance, BTSC.appCodeVersion, {
-      //   repo: BTSC.appCodeVersion.githubRepo,
-      //   acv: BTSC.appCodeVersion,
-      //   branch: fetchCommitData.activeBranch(BTSC.appCodeVersion),
-      //   useLatest: BTSC.appCodeVersion.attrs.useLatest
-      // })
-      //   .finally(function () {
-      //     loading('main', false);
-      //   });
+      return updateInstanceWithNewAcvData(BTSC.instance, BTSC.appCodeVersion, {
+        branch: BTSC.branch,
+        commit: BTSC.commit
+      })
+        .finally(function () {
+          loading('main', false);
+        });
     }
   };
 
