@@ -1,25 +1,13 @@
 header.noscroll.nav-environment-header
   span.grid-block Testing
-  //-
-    - add .gray and 7 character commit hash when set to previous commit
-    - the popover position needs to be adjusted when set to previous commit
-  button.grid-block.shrink.btn.btn-container-menu(
-    ng-class = "{\
-      'active': popoverShown,\
-      'orange': previousCommit\
-    }"
-    ng-if = "$root.featureFlags.composeHistory"
-    pop-over
-    pop-over-options = "{\"verticallyCentered\":true,\"left\":26,\"pinToViewPort\":true}"
-    pop-over-template = "branchCommitSelectorPopoverView"
+  branch-test-popover-button(
+    instance = "CCC.composeCluster.master"
+    ng-if = "CCC.composeCluster.master.attrs.isTesting"
   )
-    svg.iconnables
-      use(
-        xlink:href = "#icons-history"
-      )
-    span.span(
-      ng-if = "previousCommit"
-    ) 7c53d87
+  branch-test-popover-button(
+    instance = "CCC.getTestingInstances()[0]"
+    ng-if = "!CCC.composeCluster.master.attrs.isTesting"
+  )
 
 ul.nav-container-list
   li.li(

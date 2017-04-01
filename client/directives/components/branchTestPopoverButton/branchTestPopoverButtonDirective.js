@@ -5,7 +5,7 @@ require('app')
 
 function branchTestPopoverButton() {
   return {
-    restrict: 'A',
+    restrict: 'E',
     templateUrl: 'branchTestPopoverButtonView',
     controller: 'BranchTestPopoverButtonController',
     controllerAs: 'BTPBC',

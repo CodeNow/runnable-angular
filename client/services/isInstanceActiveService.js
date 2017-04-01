@@ -20,6 +20,19 @@ function isInstanceActive(
       return true;
     }
 
+    if (instance.containerHistory) {
+      var isCurrentBaseTest = $state.is('base.instances.instance-test-sha', {
+        userName: instance.attrs.owner.username,
+        instanceName: instance.attrs.name,
+        sha: instance.containerHistory.commitSha
+      });
+
+      if (isCurrentBaseTest) {
+        return true;
+      }
+    }
+
+
     // Determine if the instance name matches our shorthash?
     return getPathShortHash() === instance.attrs.shortHash;
   };

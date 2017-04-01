@@ -7,7 +7,6 @@ function BranchCommitListController(
   fetchCommitData,
   keypather,
   loading,
-  promisify,
   updateInstanceWithNewAcvData
 ) {
   var BCLC = this;

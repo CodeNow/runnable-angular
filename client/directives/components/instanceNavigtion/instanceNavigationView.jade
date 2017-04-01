@@ -10,7 +10,7 @@ a.grid-block.nav-container(
       base.instances.instance({userName: INC.instance.attrs.owner.username,\
       instanceName: INC.instance.attrs.name})\
     "
-  ui-sref-active = "active"
+  ng-class = "isActive()"
 )
   status-icon.grid-block.shrink(
     instance = "INC.instance"

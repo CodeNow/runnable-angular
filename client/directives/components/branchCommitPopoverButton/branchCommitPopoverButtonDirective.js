@@ -14,7 +14,7 @@ function branchCommitPopoverButton(
   promisify
 ) {
   return {
-    restrict: 'A',
+    restrict: 'E',
     templateUrl: 'branchCommitPopoverButtonView',
     controller: 'BranchCommitPopoverButtonController',
     controllerAs: 'BCPBC',
