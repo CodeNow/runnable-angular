@@ -3,5 +3,5 @@ small.small Select a previously run test to view.
 button.grid-block.shrink.margin-top-xxs.btn.btn-xs.orange(
   data-event-name = "Cleared Test History"
   ng-click = "BTSC.setToLatestCommit()"
-  ng-disabled = "BTSC.isLatestCommit()"
+  ng-if = "!BTSC.isLatestCommit()"
 ) Clear Selection
