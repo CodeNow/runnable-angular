@@ -21,7 +21,7 @@ ul.list.margin-top-sm(
     ng-class = "{\
       'active': BTSC.commit === commit\
     }"
-    ng-repeat = "commit in commits = (BTSC.branch.commits.models | orderBy: '-attrs.commit.committer.date')"
+    ng-repeat = "commit in BTSC.branch.commits.models | orderBy: '-attrs.commit.committer.date'"
   )
     a.grid-block.vertical(
       data-event-name = "Selected Test Commit"
@@ -45,7 +45,7 @@ ul.list.margin-top-sm(
 
   //- empty state if there are no tests
   li.text-center.text-gray.small.padding-lg(
-    ng-if = "commits.length === 0"
+    ng-if = "BTSC.branch.commits.models.length === 0"
   ) There are no tests to show.
 
 
