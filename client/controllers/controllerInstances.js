@@ -256,6 +256,10 @@ function ControllerInstances(
     if (!CIS.searchBranches) {
       return true;
     }
+    if (keypather.get(item, 'master.attrs.inputClusterConfig.clusterName')) {
+      return item.master.attrs.inputClusterConfig.clusterName.toLowerCase().includes(CIS.searchBranches.toLowerCase()) ||
+             (keypather.get(item, pathToName) || '').toLowerCase().includes(CIS.searchBranches.toLowerCase());
+    }
     return (keypather.get(item, pathToName) || '').toLowerCase().includes(CIS.searchBranches.toLowerCase());
   };
 
