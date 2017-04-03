@@ -7,12 +7,37 @@ function BranchTestSelectorController(
   $scope,
   $rootScope,
   $state,
-  keypather
+  keypather,
+  loading,
+  fetchCommitData,
+  updateInstanceWithNewAcvData
 ) {
   var BTSC = this;
+  BTSC.appCodeVersion = BTSC.instance.contextVersion.getMainAppCodeVersion();
+  BTSC.branch = fetchCommitData.activeBranch(BTSC.appCodeVersion);
+
+  BTSC.hasCommitBeenUpdated = function () {
+    var newCommitSha = keypather.get(BTSC, 'commit.attrs.sha');
+    var oldCommitSha = keypather.get(BTSC, 'appCodeVersion.attrs.commit');
+    return newCommitSha && newCommitSha !== oldCommitSha;
+  };
+
+  BTSC.updateInstance = function () {
+    if (BTSC.hasCommitBeenUpdated()) {
+      loading('main', true);
+      return updateInstanceWithNewAcvData(BTSC.instance, BTSC.appCodeVersion, {
+        branch: BTSC.branch,
+        commit: BTSC.commit
+      })
+        .finally(function () {
+          loading('main', false);
+        });
+    }
+  };
 
   BTSC.selectCommit = function (commit) {
     BTSC.commit = commit;
+    BTSC.updateInstance();
     $scope.$emit('test-commit::selected', commit);
     $rootScope.$broadcast('close-popovers');
   };
@@ -22,7 +47,7 @@ function BranchTestSelectorController(
     BTSC.commit = firstCommit;
     BTSC.selectCommit(firstCommit);
     $state.go('base.instances.instance-test-sha', {
-      instanceName: BTSC.instanceName,
+      instanceName: BTSC.instance.attrs.name,
       sha: firstCommit.attrs.sha
     });
     return;
