@@ -412,11 +412,20 @@ function fetchInstancesByCompose(
                 if (composeMasters[composeId].children) {
                   composeMasters[composeId].children = Object.keys(composeMasters[composeId].children).map(function (branchName) {
                     return composeMasters[composeId].children[branchName];
-                  });
+                  })
+                    .filter(function (childCompose) {
+                      if (!childCompose.master) {
+                        console.log('Child compose has no master', childCompose);
+                      }
+                      return !!childCompose.master;
+                    });
                 }
                 return composeMasters[composeId];
               })
               .filter(function (composeCluster) {
+                if (!composeCluster.master) {
+                  console.log('Main compose cluster has no master', composeCluster);
+                }
                 return !!composeCluster.master;
               });
 
