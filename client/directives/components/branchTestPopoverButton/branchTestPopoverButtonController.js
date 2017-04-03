@@ -16,8 +16,8 @@ function BranchTestPopoverButtonController(
 
     getLatestCommitShaForInstance(BTPBC.instance).then(function (latestSha) {
       BTPBC.latestSha = latestSha;
+      populateCurrentSha();
     });
-    populateCurrentSha();
   }
 
   function populateCurrentSha () {
