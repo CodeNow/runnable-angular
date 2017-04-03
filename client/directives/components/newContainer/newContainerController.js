@@ -197,12 +197,14 @@ function NewContainerController(
       loading('creatingDockerCompose', true);
       return NCC.createComposeCluster()
         .then(function () {
-          loading('creatingDockerCompose', false);
           NCC.close();
           return $state.go('base.instances');
         })
         .catch(function(promiseRejected) {
           errs.handler({ message: 'Error creating cluster!'});
+        })
+        .finally(function () {
+          loading('creatingDockerCompose', false);
         });
     }
 
