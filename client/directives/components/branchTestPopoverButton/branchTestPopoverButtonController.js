@@ -3,28 +3,37 @@
 require('app')
   .controller('BranchTestPopoverButtonController', BranchTestPopoverButtonController);
 function BranchTestPopoverButtonController(
+  $scope,
   getLatestCommitShaForInstance,
   keypather
 ) {
   var BTPBC = this;
-  BTPBC.appCodeVersion = BTPBC.instance.contextVersion.getMainAppCodeVersion();
 
-  function initData() {
+  function initData () {
     BTPBC.popoverData = {
       instance: BTPBC.instance
     };
 
     getLatestCommitShaForInstance(BTPBC.instance).then(function (latestSha) {
-      var currentSha = keypather.get(BTPBC.appCodeVersion, 'attrs.commit');
+      BTPBC.latestSha = latestSha;
+      populateCurrentSha();
+    });
+  }
 
-      if (latestSha && (currentSha !== latestSha)) {
-        BTPBC.sha = currentSha;
+  function populateCurrentSha () {
+    var testSha = keypather.get(BTPBC, 'instance.containerHistory.commitSha');
+      if (BTPBC.latestSha && testSha !== BTPBC.latestSha) {
+        BTPBC.sha = testSha;
       } else {
         BTPBC.sha = '';
       }
-    });
   }
 
   initData();
   BTPBC.instance.on('update', initData);
+  $scope.$watch(function () {
+    return BTPBC.instance.containerHistory;
+  }, function () {
+    populateCurrentSha();
+  });
 }

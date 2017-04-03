@@ -16,7 +16,8 @@ function BranchTestListController(
 
   BTLC.appCodeVersion = BTLC.instance.contextVersion.getMainAppCodeVersion();
   BTLC.branch = fetchCommitData.activeBranch(BTLC.appCodeVersion);
-  fetchCommitData.activeCommit(BTLC.appCodeVersion)
+  var testHistorySha = keypather.get(BTLC, 'instance.containerHistory.commitSha');
+  fetchCommitData.activeCommit(BTLC.appCodeVersion, testHistorySha)
     .then(function (commit) {
       BTLC.commit = commit;
     });
