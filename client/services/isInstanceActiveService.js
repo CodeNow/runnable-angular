@@ -31,9 +31,6 @@ function isInstanceActive(
         return true;
       }
     }
-
-
-    // Determine if the instance name matches our shorthash?
-    return getPathShortHash() === instance.attrs.shortHash;
+    return false;
   };
 }
