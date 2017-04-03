@@ -76,6 +76,14 @@ function ComposeCardController(
     return CCC.composeCluster.testing.sort(sortInstancesByNavName);
   };
 
+  function deleteCluster (cluster) {
+    var deletePromises = [cluster.master].concat(cluster.staging || [], cluster.testing || [])
+      .map(function (instance) {
+        return promisify(instance, 'destroy')();
+      });
+    return $q.all(deletePromises);
+  }
+
   CCC.deleteService = function () {
     $rootScope.$broadcast('close-popovers');
     return ModalService.showModal({
@@ -88,14 +96,7 @@ function ComposeCardController(
       })
       .then(function (confirmed) {
         if (confirmed) {
-          var allInstances = [CCC.composeCluster.master];
-          allInstances = allInstances.concat(CCC.composeCluster.staging || []);
-          allInstances = allInstances.concat(CCC.composeCluster.testing || []);
-          var deletePromises = allInstances.map(function (instance) {
-            return promisify(instance, 'destroy')();
-          });
-
-          return $q.all(deletePromises);
+          deleteCluster(CCC.composeCluster);
         }
         return confirmed;
       })
@@ -114,7 +115,7 @@ function ComposeCardController(
       })
       .then(function (confirmed) {
         if (confirmed) {
-          return promisify(CCC.composeCluster.master, 'destroy')();
+          return deleteCluster(CCC.composeCluster);
         }
         return confirmed;
       })
