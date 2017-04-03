@@ -66,6 +66,7 @@ function composeFilePath(
           }
           MDC.state.dockerComposeTestFile = null;
           delete MDC.state.types.test;
+          return;
         }
         if (fileType === 'Docker Compose') {
           if (dockerfile) {
