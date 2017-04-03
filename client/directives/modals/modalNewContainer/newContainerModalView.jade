@@ -2,7 +2,7 @@
   .grid-block.shrink.align-center.justify-center.padding-sm.aha-guide(
     aha-guide
     ng-class = "{'p-slide js-animate': AGC.state.subStepIndex > 0}"
-    ng-if = "NCMC.isAddingFirstRepo()"
+    ng-if = "!$root.featureFlags.composeNewService && NCMC.isAddingFirstRepo()"
     sub-step = "containerSelection"
     sub-step-index = 1
   )

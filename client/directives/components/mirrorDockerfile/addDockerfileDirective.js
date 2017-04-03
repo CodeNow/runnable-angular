@@ -25,7 +25,7 @@ function addDockerfile(
         MDC.state.types.stage = true;
         MDC.loadDefaultDockerfile($scope.fullRepo, $scope.branchName, '/docker-compose.yml', $scope.fileType);
       } else if ($scope.fileType === 'Docker Compose Test') {
-        $scope.fileName = 'compose-test.yml';
+        $scope.fileName = 'docker-compose.test.yml';
         $scope.fileLabel = 'Compose file';
         $scope.formLabel = 'Compose File Path';
         MDC.state.types.test = true;
