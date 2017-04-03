@@ -63,17 +63,17 @@ function ComposeCardController(
     } else {
       instanceList = CCC.composeCluster.staging;
     }
-    return instanceList.sort(sortInstancesByNavName);
+    return (instanceList || []).sort(sortInstancesByNavName);
   };
 
   CCC.getTestingInstances = function () {
     if (CCC.isChild) {
       if (CCC.composeCluster.master.attrs.isTesting) {
-        return keypather.get(CCC.composeCluster.master, 'isolation.instances.models').sort(sortInstancesByNavName);
+        return (keypather.get(CCC.composeCluster.master, 'isolation.instances.models') || []).sort(sortInstancesByNavName);
       }
       return [CCC.composeCluster.testing[0]].concat(keypather.get(CCC.composeCluster, 'testing[0].isolation.instances.models').sort(sortInstancesByNavName));
     }
-    return CCC.composeCluster.testing.sort(sortInstancesByNavName);
+    return (CCC.composeCluster.testing || []).sort(sortInstancesByNavName);
   };
 
   function deleteCluster (cluster) {
