@@ -26,7 +26,7 @@ ul.list.margin-top-sm(
     a.grid-block.vertical(
       data-event-name = "Selected Test Commit"
       ng-click = "BTSC.selectCommit(commit, $index === 0)"
-      ui-sref = "base.instances.instance-test-sha({instanceName: BTSC.instanceName, sha: commit.attrs.sha})"
+      ui-sref = "base.instances.instance-test-sha({instanceName: BTSC.instance.attrs.name, sha: commit.attrs.sha})"
     )
       p.p.text-overflow(
         ng-attr-title = "{{commit.attrs.commit.message}}"

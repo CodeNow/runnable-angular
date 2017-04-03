@@ -16,7 +16,7 @@ function branchTestSelector(
     scope: {
       branch: '=',
       commit: '=',
-      instanceName: '=',
+      instance: '=',
       hideBranchSelector: '='
     }
   };
