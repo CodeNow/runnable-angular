@@ -17,10 +17,10 @@ function BranchTestPopoverButtonController(
     getLatestCommitShaForInstance(BTPBC.instance).then(function (latestSha) {
       BTPBC.latestSha = latestSha;
     });
-    getCurrentSha();
+    populateCurrentSha();
   }
 
-  function getCurrentSha () {
+  function populateCurrentSha () {
     var testSha = keypather.get(BTPBC, 'instance.containerHistory.commitSha');
       if (BTPBC.latestSha && testSha !== BTPBC.latestSha) {
         BTPBC.sha = testSha;
@@ -34,6 +34,6 @@ function BranchTestPopoverButtonController(
   $scope.$watch(function () {
     return BTPBC.instance.containerHistory;
   }, function () {
-    getCurrentSha();
+    populateCurrentSha();
   });
 }
