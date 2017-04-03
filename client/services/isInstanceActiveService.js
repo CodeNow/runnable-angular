@@ -4,8 +4,7 @@ require('app')
   .factory('isInstanceActive', isInstanceActive);
 
 function isInstanceActive(
-  $state,
-  getPathShortHash
+  $state
 ) {
   return function (instance) {
     if (!instance) {
@@ -31,9 +30,6 @@ function isInstanceActive(
         return true;
       }
     }
-
-
-    // Determine if the instance name matches our shorthash?
-    return getPathShortHash() === instance.attrs.shortHash;
+    return false;
   };
 }
