@@ -77,12 +77,10 @@ function ComposeCardController(
   };
 
   function deleteCluster (cluster) {
-    var allInstances = [cluster.master];
-    allInstances = allInstances.concat(cluster.staging || []);
-    allInstances = allInstances.concat(cluster.testing || []);
-    var deletePromises = allInstances.map(function (instance) {
-      return promisify(instance, 'destroy')();
-    });
+    var deletePromises = [cluster.master].concat(cluster.staging || [], cluster.testing || [])
+      .map(function (instance) {
+        return promisify(instance, 'destroy')();
+      });
     return $q.all(deletePromises);
   }
 
@@ -117,7 +115,6 @@ function ComposeCardController(
       })
       .then(function (confirmed) {
         if (confirmed) {
-          console.log(CCC.cluster)
           return deleteCluster(CCC.composeCluster);
         }
         return confirmed;
