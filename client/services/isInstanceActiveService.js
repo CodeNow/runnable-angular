@@ -4,8 +4,7 @@ require('app')
   .factory('isInstanceActive', isInstanceActive);
 
 function isInstanceActive(
-  $state,
-  getPathShortHash
+  $state
 ) {
   return function (instance) {
     if (!instance) {
