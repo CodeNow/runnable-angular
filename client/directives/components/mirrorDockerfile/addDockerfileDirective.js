@@ -37,14 +37,19 @@ function addDockerfile(
       }
 
       $scope.$on('dockerfileExistsValidator', function ($event, path, fileType, dockerfile) {
-        if (fileType === 'Dockerfile' && dockerfile) {
-          $scope.dockerfile = dockerfile;
+        if (fileType === 'Dockerfile') {
+          if (!dockerfile) {
+            MDC.state.dockerfile = null;
+            $scope.dockerfile = null;
+            return;
+          }
           MDC.state.dockerComposeFile = null;
           MDC.state.dockerComposeTestFile = null;
           MDC.state.types = {};
+          $scope.dockerfile = dockerfile;
           MDC.state.dockerfile = dockerfile;
           return;
-        }
+        } 
       });
 
       $scope.closeDockerFileInput = function () {
