@@ -83,7 +83,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
       var fetchUserPromise = fetchUser();
       $rootScope.$digest();
       expect(fetchUserPromise, 'Returned err').to.eventually.rejectedWith(err);
-      expect(windowMock.location).to.equal('https://runnable.com');
+      expect(windowMock.location).to.equal('https://runnable.io');
     });
   });
 
@@ -333,7 +333,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
       $stateParams.userName = 'Myztiq';
       fetchInstances({name: 'MyModel'}, true)
         .then(function () { throw new Error('Should not return'); })
-        .catch(function (err) { return; })
+        .catch(function (err) {  })
         .then(done);
       $rootScope.$digest();
     });
@@ -1683,7 +1683,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
         $rootScope.$evalAsync(function () {
           cb(error, null);
         });
-        return;
+
       });
       var fetchGithubUserForCommitPromise = fetchGithubUserForCommit(commit);
       expect(fetchGithubUserForCommitPromise).to.eventually.be.rejected;
