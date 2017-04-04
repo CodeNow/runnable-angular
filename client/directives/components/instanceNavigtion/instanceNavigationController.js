@@ -149,7 +149,7 @@ function InstanceNavigationController(
       .catch(errs.handler);
   };
 
-  this.editInstance = function (event) {
+  INC.editInstance = function (event) {
     $rootScope.$broadcast('close-popovers');
     event.stopPropagation();
     event.preventDefault();
@@ -177,6 +177,8 @@ function InstanceNavigationController(
       }
     });
   };
+
+  INC.showCommitSelector = function (instance) {
+    return $rootScope.featureFlags.composeHistory && !instance.attrs.inputClusterConfig && instance.getRepoName();
+  };
 }
-
-

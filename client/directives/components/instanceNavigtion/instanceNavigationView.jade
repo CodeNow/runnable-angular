@@ -20,21 +20,26 @@ a.grid-block.nav-container(
   )
     //- repo names for repo containers in the master cluster / branch name or service name
     span.text-overflow {{getNavigationName()}}
+    
   //- show history button for branches of non-compose repos (including the default branch)
-  //- button.grid-block.shrink.btn.btn-container-menu(
-  //-   ng-class = "{\
-  //-     'active': popoverShown,\
-  //-     'orange': previousCommit\
-  //-   }"
-  //-   ng-if = "$root.featureFlags.composeHistory"
-  //-   pop-over
-  //-   pop-over-options = "{\"verticallyCentered\":true,\"left\":26,\"pinToViewPort\":true}"
-  //-   pop-over-template = "branchTestSelectorPopoverView"
-  //- )
-    svg.iconnables
-      use(
-        xlink:href = "#icons-history"
-      )
+  branch-commit-popover-button(
+    instance = "INC.instance"
+    ng-if = "INC.showCommitSelector(INC.instance)"
+  )
+    button.grid-block.shrink.btn.btn-container-menu(
+      ng-class = "{\
+        'active': popoverShown,\
+        'orange': previousCommit\
+      }"
+      pop-over
+      pop-over-options = "{\"verticallyCentered\":true,\"left\":26,\"pinToViewPort\":true}"
+      pop-over-template = "branchCommitSelectorPopoverView"
+    )
+      svg.iconnables
+        use(
+          xlink:href = "#icons-history"
+        )
+
   button.grid-block.shrink.btn-container-menu(
     ng-class = "{'active': INC.popoverShown}"
     ng-if = "!INC.currentOrg.isPersonalAccount() && !INC.isInDemoFlow() && !INC.instance.attrs.inputClusterConfig._id"
