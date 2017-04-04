@@ -13,6 +13,4 @@ RUN npm install
 
 ADD ./ /runnable-angular
 
-RUN node_modules/.bin/grunt autoBundleDependencies
-
 CMD npm run test
