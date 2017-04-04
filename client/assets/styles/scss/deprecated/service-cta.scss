@@ -1,12 +1,14 @@
 //- ************************
 //- deprecated file, delete with $root.featureFlags.demoPersonalOnly
-.service-cta .demo-progress {
-  width: calc(100% + 30px);
-}
+.service-cta {
 
-.popover-demo.service-cta {
-  margin-bottom: 9px;
-  margin-top: 5px;
+  &:not(.deprecated) {
+    margin-top: -4px;
+  }
+
+  &.deprecated {
+    margin-top: 4px;
+  }
 }
 //- end deprecated file
 //- ************************

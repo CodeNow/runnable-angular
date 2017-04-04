@@ -6,20 +6,31 @@
   .popover-content
     ul.list.popover-list
       li.list-item.popover-list-item.multi-line(
-        ng-click = "CCC.deleteService()"
-        ng-if = "!CCC.isChild"
+        ng-if = "!CCC.isChild && $root.featureFlags.composeEditing"
       )
         svg.iconnables.icons-gear
           use(
+            xlink:href = "#icons-gear"
+          )
+        | Edit Settings…
+      li.divider(
+        ng-if = "!CCC.isChild && $root.featureFlags.composeEditing"
+      )
+      li.list-item.popover-list-item.multi-line(
+        ng-click = "CCC.deleteService()"
+        ng-if = "!CCC.isChild"
+      )
+        svg.iconnables.icons-delete
+          use(
             xlink:href = "#icons-delete"
           )
-        | Delete Services
+        | Delete Services…
       li.list-item.popover-list-item.multi-line(
         ng-click = "CCC.deleteBranch()"
         ng-if = "CCC.isChild"
       )
-        svg.iconnables.icons-gear
+        svg.iconnables.icons-delete
           use(
             xlink:href = "#icons-delete"
           )
-        | Remove Branch
+        | Remove Branch…

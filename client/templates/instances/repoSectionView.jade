@@ -28,6 +28,7 @@ section.nav-card(
 )
 
 //- show after the URL has been visited
-//- .grid-block.vertical.padding-sm.popover.bottom.in.popover-demo.branch-step(
-//-   ng-include = "'popoverDemoBranchContainerView'"
-//- )
+.grid-block.vertical.padding-sm.popover.bottom.in.popover-demo.branch-step(
+  ng-if = "CIS.shouldShowAddBranchCTA(masterComposeCluster.master) && !$root.featureFlags.demoPersonalOnly"
+  ng-include = "'popoverDemoBranchContainerView'"
+)

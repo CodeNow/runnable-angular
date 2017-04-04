@@ -556,6 +556,8 @@ module.exports = function(grunt) {
   ]);
   grunt.registerTask('test:e2e', ['bgShell:e2e']);
   grunt.registerTask('test', [
+    'generateConfigs',
+    'autoBundleDependencies',
     'jade2js',
     'jshint:prod',
     'bgShell:karma'
