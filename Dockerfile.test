@@ -1,0 +1,16 @@
+FROM node:0.10.48
+
+ENV NPM_TOKEN=c76363e9-78e0-4667-82ac-e2ac01efcfe2
+ADD ./keys/runnable-deploy-bot.id_rsa /root/.ssh/id_rsa
+WORKDIR /root/.ssh/
+RUN chmod 0400 id_rsa && echo "IdentityFile /root/.ssh/id_rsa" >> /etc/ssh/ssh_config && ssh-keyscan -H github.com > /etc/ssh/ssh_known_hosts
+
+ADD ./package.json /runnable-angular/package.json
+WORKDIR /runnable-angular
+RUN echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > .npmrc
+
+RUN npm install
+
+ADD ./ /runnable-angular
+
+CMD npm run test
