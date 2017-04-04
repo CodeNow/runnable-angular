@@ -222,6 +222,16 @@
 
   &.orange {
     color: $white;
+    font-size: 11px;
+    height: $input-xxs;
+    line-height: $input-xxs - $input-border * 2;
+    padding: 0 3px;
+
+    .iconnables {
+      height: $xs;
+      margin-right: 3px;
+      width: $xs;
+    }
   }
 
   .iconnables {
