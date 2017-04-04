@@ -201,8 +201,9 @@ function NewContainerController(
           NCC.close();
           return $state.go('base.instances');
         })
-        .catch(function(promiseRejected) {
-          errs.handler({ message: 'Error creating cluster!'});
+        .catch(function(errorMsg) {
+          var userFriendlyError = NCC.populateComposeErrorMessage(errorMsg);
+          errs.handler({ message: userFriendlyError});
         });
     }
 
@@ -384,5 +385,13 @@ function NewContainerController(
             (NCC.state.configurationMethod === 'dockerComposeFile' &&
             ((NCC.state.types.test ? NCC.state.dockerComposeTestFile && NCC.state.testReporter : NCC.state.types.stage) &&
             (NCC.state.types.stage ? NCC.state.dockerComposeFile : NCC.state.types.test))));
+  };
+
+  NCC.populateComposeErrorMessage = function (errorMsg) {
+    var err = /ValidationError(.*)/.exec(errorMsg);
+    if (err) {
+      return 'There was an error parsing your Docker Compose file: ' + err[0];
+    }
+    return 'There was an error creating the Docker Compose cluster.';
   };
 }
