@@ -177,8 +177,4 @@ function InstanceNavigationController(
       }
     });
   };
-
-  INC.showCommitSelector = function (instance) {
-    return $rootScope.featureFlags.composeHistory && !instance.attrs.inputClusterConfig && instance.getRepoName();
-  };
 }
