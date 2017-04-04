@@ -1,26 +1,26 @@
 small.grid-block.noscroll.text-overflow(
-  ng-if = "$root.featureFlags.composeInstance || !!pr || commitHistory"
+  ng-if = "(!!pr || commitHistory) || ($root.featureFlags.composeInstance && instance.attrs.inputClusterConfig)"
   ng-init = "commitHistory = null"
   title = "{{instance.getMasterPodName()}}{{instance.getBranchName() ? ' / ' + instance.getBranchName() : ''}}"
 )
   //- hide this element if compose
   .grid-block.small.text-overflow(
-    ng-if = "$root.featureFlags.composeInstance"
-  ) {{instance.getMasterPodName()}} / {{instance.getBranchName()}}
+    ng-if = "$root.featureFlags.composeInstance && instance.attrs.inputClusterConfig"
+  ) {{instance.attrs.inputClusterConfig.clusterName}}/{{instance.getBranchName()}}
 
   //- should show either PR link OR commit status
     - prioritize commit status over PR link
   .grid-block.shrink.noscroll(
-    ng-if = "!!pr && !commitHistory"
+    ng-if = "!!pr && !instance.showCommitHash"
     ng-include = "'instanceHeaderPRLinkView'"
   )
   .grid-block.shrink.noscroll(
-    ng-if = "commitHistory"
+    ng-if = "instance.showCommitHash "
     ng-include = "'instanceHeaderPreviousCommitView'"
   )
 
 //- don't put these on separate lines (that creates an extra space)
-h1.p.text-overflow {{$root.featureFlags.composeInstance ? 'container-name' : ''}}{{!$root.featureFlags.composeInstance && instance.getMasterPodName() ? instance.getMasterPodName() : ''}}{{!$root.featureFlags.composeInstance && instance.getBranchName() ? ' / ' + instance.getBranchName() : ''}}
+h1.p.text-overflow {{$root.featureFlags.composeInstance ? instance.getName() : ''}}{{!$root.featureFlags.composeInstance && instance.getMasterPodName() ? instance.getMasterPodName() : ''}}{{!$root.featureFlags.composeInstance && instance.getBranchName() ? ' / ' + instance.getBranchName() : ''}}
 
 //- for debugging
 div(

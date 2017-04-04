@@ -1,0 +1,51 @@
+//- hide everything except the spinner when loading
+.padding-md.grid-block.align-center.justify-center(
+  ng-if = "fetchingCommits"
+)
+  .spinner-wrapper.spinner-gray.spinner-sm(
+    ng-include = "'spinner'"
+  )
+
+header.grid-block.vertical.shrink.align-start.header(
+  ng-include = "'testSelectorHeaderView'"
+)
+
+//- list of commits
+ul.list.margin-top-sm(
+  ng-if = "\
+    !fetchingCommits &&\
+     BTSC.branch.commits.models\
+  "
+)
+  li.grid-block.align-center.list-item(
+    ng-class = "{\
+      'active': BTSC.commit === commit\
+    }"
+    ng-repeat = "commit in BTSC.branch.commits.models | orderBy: '-attrs.commit.committer.date'"
+  )
+    a.grid-block.vertical(
+      data-event-name = "Selected Test Commit"
+      ng-click = "BTSC.selectCommit(commit, $index === 0)"
+      ui-sref = "base.instances.instance-test-sha({instanceName: BTSC.instance.attrs.name, sha: commit.attrs.sha})"
+    )
+      p.p.text-overflow(
+        ng-attr-title = "{{commit.attrs.commit.message}}"
+      ) {{commit.attrs.commit.message}}
+      .grid-block.align-center
+        .icons-status(
+          ng-class = "commit.test"
+          ng-if = "commit.test"
+        )
+        small.small.text-gray {{commit.attrs.sha | limitTo : 7}}
+    button.grid-block.shrink.margin-left-sm.btn.btn-xs.btn-icon.btn-add
+      svg.iconnables.icons-check
+        use(
+          xlink:href = "#icons-check"
+        )
+
+  //- empty state if there are no tests
+  li.text-center.text-gray.small.padding-lg(
+    ng-if = "BTSC.branch.commits.models.length === 0"
+  ) There are no tests to show.
+
+

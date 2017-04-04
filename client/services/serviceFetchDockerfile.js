@@ -83,7 +83,7 @@ function fetchDockerfileForContextVersion (
         .then(doesDockerfileExist)
         .then(function (dockerfile) {
           if (!dockerfile) {
-            return $q.reject(new Error('No Dockerfile in this repo'));
+            return $q.reject(new Error('No Dockerfile found in the ' + branchName + ' branch of the ' + repoFullName + ' repo at the path ' + buildDockerfilePath));
           }
           return fetchCommitsForFile(repoFullName, branchName, buildDockerfilePath)
             .then(function (commits) {

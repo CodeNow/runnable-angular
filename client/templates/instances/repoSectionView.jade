@@ -5,7 +5,7 @@ h2.grid-block.align-center.justify-justified.nav-section-header
 
   .grid-block.align-center.shrink.btn.btn-xs.white(
     data-event-name = "Clicked Add Branch button"
-    ng-click = "CIS.popInstanceOpen(masterComposeCluster.master)"
+    ng-click = "CIS.popClusterOpen(masterComposeCluster)"
     pop-over
     pop-over-controller = "CIS"
     pop-over-data = "'branchSelect'"
@@ -18,7 +18,7 @@ h2.grid-block.align-center.justify-justified.nav-section-header
       )
 
 section.nav-card(
-  ng-class = "{'active': CIS.isCardActive(composeCluster.master)}"
+  ng-class = "{'active': CIS.isComposeCardActive(composeCluster)}"
   compose-card
   compose-cluster = "composeCluster"
   is-child = "true"
