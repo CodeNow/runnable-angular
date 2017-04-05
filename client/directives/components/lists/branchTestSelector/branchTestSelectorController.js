@@ -10,7 +10,8 @@ function BranchTestSelectorController(
   keypather,
   loading,
   fetchCommitData,
-  updateInstanceWithNewAcvData
+  updateInstanceWithNewAcvData,
+  calculateHistoricalTestResult
 ) {
   var BTSC = this;
   BTSC.appCodeVersion = BTSC.instance.contextVersion.getMainAppCodeVersion();
@@ -37,7 +38,13 @@ function BranchTestSelectorController(
 
   BTSC.selectCommit = function (commit) {
     BTSC.commit = commit;
-    BTSC.updateInstance();
+
+    if (!calculateHistoricalTestResult.isPassed(BTSC.commit.test) &&
+        !calculateHistoricalTestResult.isFailed(BTSC.commit.test) &&
+        !calculateHistoricalTestResult.isUnknown(BTSC.commit.test)) {
+      BTSC.updateInstance();
+    }
+
     $scope.$emit('test-commit::selected', commit);
     $rootScope.$broadcast('close-popovers');
   };
