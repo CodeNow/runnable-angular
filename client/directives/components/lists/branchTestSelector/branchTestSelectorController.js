@@ -65,6 +65,7 @@ function BranchTestSelectorController(
   };
 
   BTSC.hasTest = function(commit) {
-    return commit.test === 'passed' || commit.test === 'failed';
+    return calculateHistoricalTestResult.isPassed(commit.test) ||
+      calculateHistoricalTestResult.isFailed(commit.test);
   };
 }
