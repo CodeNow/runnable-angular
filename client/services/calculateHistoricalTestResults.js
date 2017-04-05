@@ -22,11 +22,11 @@ function calculateHistoricalTestResult(
     },
     addResults: function (tests) {
       tests.forEach(function(test) {
-        if (test && keypather.get(test, 'build.stop.valueOf()') !== new Date(0).valueOf()) {
+        if (test && keypather.get(test, 'build.stop.valueOf()') !== 0) {
           if (keypather.get(test, 'build.failed') || keypather.get(test, 'application.exitCode') > 0) {
             test.testState = FAILED;
           } else if (keypather.get(test,'application.exitCode') === 0 &&
-              keypather.get(test,'application.stop.valueOf()') !== new Date(0).valueOf()) {
+              keypather.get(test,'application.stop.valueOf()') !== 0) {
             test.testState =  PASSED;
           }
         }
