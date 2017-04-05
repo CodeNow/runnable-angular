@@ -6,7 +6,8 @@ function getLatestCommitShaForInstance(
   $q,
   promisify,
   keypather,
-  fetchCommitData
+  fetchCommitData,
+  memoize
 ) {
   return function (instance) {
     var appCodeVersion = keypather.get(instance, 'contextVersion.getMainAppCodeVersion()');
@@ -14,10 +15,14 @@ function getLatestCommitShaForInstance(
 
     return $q.when()
       .then(function () {
-        if (branch.commits.models.length === 0) {
-          return promisify(branch.commits, 'fetch')();
-        }
-        return;
+        return memoize(
+          function () {
+            return promisify(branch.commits, 'fetch')();
+          },
+          function () {
+            return keypather.get(appCodeVersion, 'attrs.commit') + keypather.get(branch, 'commits.models[0].attrs.sha');
+          }
+        )();
       })
       .then(function () {
         return keypather.get(branch, 'commits.models[0].attrs.sha');
