@@ -1,0 +1,32 @@
+ul.tbody
+  li.tr
+    label.cell
+      input.input.monospace(
+        placeholder = "Key"
+      )
+    label.cell
+      input.input.monospace(
+        placeholder = "Value"
+      )
+    .grid-block.align-center.justify-right.cell.cell-action
+      button.grid-block.align-center.btn.btn-xs.gray
+        svg.grid-block.iconnables.icons-add
+          use(
+            xlink:href = "#icons-add"
+          )
+        | Add
+  //- tr.cell {{emptyText.description}}
+  li.tr.clearfix
+    .cell.monospace.text-overflow(
+      ng-attr-title = "LMAO"
+    ) LMAO
+    .cell.monospace.text-overflow ●●●
+
+    .grid-block.align-center.justify-right.cell.cell-action
+      svg.iconnables.icons-close(
+        tooltip = "Delete"
+        tooltip-options = "{\"class\":\"bottom center\",\"top\":33,\"right\":-23}"
+      )
+        use(
+          xlink:href = "#icons-close"
+        )

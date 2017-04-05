@@ -1,0 +1,47 @@
+.table-vars {
+  width: 100%;
+
+  .tr:first-child {
+    background: $gray-lightest;
+    height: 45px;
+    padding: 0;
+
+    .cell {
+      height: 100%;
+      line-height: 43px;
+    }
+
+    .input {
+      font-size: 13px;
+      height: 30px;
+      width: 100%;
+    }
+  }
+
+  .tr + .tr {
+    text-indent: 9px;
+  }
+
+  .tr:last-child {
+    padding-bottom: 0;
+  }
+
+  .cell:first-child {
+    border-right: 1px solid $gray-lighter;
+  }
+
+  .cell-action {
+    flex: 0 0 66px;
+    padding: 0 6px 0 0;
+
+    > .btn {
+      height: 30px;
+      justify-content: center;
+    }
+  }
+
+  .icons-add {
+    height: 100%;
+    max-width: 15px;
+  }
+}
