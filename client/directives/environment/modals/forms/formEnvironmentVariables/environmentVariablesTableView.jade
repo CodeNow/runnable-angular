@@ -17,12 +17,22 @@ ul.tbody(
         placeholder = "Value"
       )
     .grid-block.align-center.justify-right.cell.cell-action
-      button.grid-block.align-center.btn.btn-xs.white
-        svg.grid-block.iconnables.icons-add
+      button.grid-block.align-center.btn.btn-xs.white(
+        ng-init = "saving = null"
+      )
+        .spinner-wrapper.spinner-sm.spinner-gray.in(
+          ng-if = "saving"
+          ng-include = "'spinner'"
+        )
+        svg.grid-block.iconnables.icons-add(
+          ng-if = "!saving"
+        )
           use(
             xlink:href = "#icons-add"
           )
-        | Add
+        span(
+          ng-if = "!saving"
+        ) Add
   //- tr.cell {{emptyText.description}}
   li.tr.clearfix(
     ng-repeat = "var in vars"
@@ -34,7 +44,7 @@ ul.tbody(
       svg.grid-block.shrink.iconnables.icons-alert(
         ng-if = "var.duplicate"
         tooltip = "Duplicate Key"
-        tooltip-options = "{\"class\":\"bottom center\",\"top\":15,\"right\":-50}"
+        tooltip-options = "{\"class\":\"bottom center\",\"top\":15,\"right\":-49}"
       )
         use(
           xlink:href = "#icons-alert-alt"
