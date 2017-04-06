@@ -3,8 +3,10 @@
 )
   //- add .disabled class to the not selected item if loading
   label.grid-block.list-item(
-    ng-disabled = "$root.isLoading[MDC.name + 'SingleRepo']"
-    ng-class = "{'active': MDC.state.configurationMethod === 'new'}"
+    ng-class = "{\
+      'active': MDC.state.configurationMethod === 'new',\
+      'disabled': $root.isLoading[MDC.name + 'SingleRepo']\
+    }"
     ng-if = "!MDC.fromTool"
   )
     svg.grid-content.shrink.iconnables.icons-dockerfile
@@ -28,8 +30,10 @@
           xlink:href = "#icons-check"
         )
   label.grid-block.list-item(
-    ng-class = "{'active': MDC.state.dockerfile === 'blank'}"
-    ng-disabled = "$root.isLoading[MDC.name + 'SingleRepo']"
+    ng-class = "{\
+      'active': MDC.state.dockerfile === 'blank',\
+      'disabled': $root.isLoading[MDC.name + 'SingleRepo']\
+    }"
     ng-if = "!MDC.fromTool && MDC.state.dockerFileTab === 'dockerfile'"
   )
     svg.grid-content.shrink.iconnables.icons-dockerfile
@@ -54,8 +58,10 @@
   //- 'thisDockerfile' should be the name of the Dockerfile (ie. 'Dockerfile.prod', or 'Dockerfile.staging') to suppot multiple dockerfiles
   //- add .disabled class to the not selected item if loading
   label.grid-block.list-item(
-    ng-class="{'active': MDC.state.configurationMethod === 'dockerfile'}"
-    ng-disabled = "$root.isLoading[MDC.name + 'SingleRepo']"
+    ng-class="{\
+      'active': MDC.state.configurationMethod === 'dockerfile',\
+      'disabled': $root.isLoading[MDC.name + 'SingleRepo']\
+    }"
   )
     svg.grid-content.shrink.iconnables.icons-dockerfile
       use(
@@ -76,6 +82,7 @@
     //- if there is only one, [check] by default
     input.checkbox(
       name = "dockerfile"
+      ng-disabled = "$root.isLoading[MDC.name + 'SingleRepo']"
       ng-model = "MDC.state.configurationMethod"
       type = "radio"
       value = "dockerfile"
@@ -96,8 +103,10 @@
   )
 
   label.grid-block.list-item(
-    ng-class = "{'active': MDC.state.configurationMethod === 'dockerComposeFile'}"
-    ng-disabled = "$root.isLoading[MDC.name + 'SingleRepo']"
+    ng-class = "{\
+      'active': MDC.state.configurationMethod === 'dockerComposeFile',\
+      'disabled': $root.isLoading[MDC.name + 'SingleRepo']\
+    }"
     ng-if = "$root.featureFlags.dockerCompose && !$root.featureFlags.composeNewService && !MDC.fromTool"
   )
     svg.grid-content.shrink.iconnables.icons-dockerfile
