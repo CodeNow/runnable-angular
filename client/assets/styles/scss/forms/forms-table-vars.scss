@@ -15,6 +15,7 @@
       .input {
         font-size: 13px;
         height: 30px;
+        line-height: 30px - ($input-border * 2);
         width: 100%;
       }
     }
@@ -64,7 +65,7 @@
 
     > .btn {
       height: 30px;
-      justify-content: center;
+      line-height: 30px - ($input-border * 2);
     }
   }
 
