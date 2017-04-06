@@ -24,7 +24,7 @@
           use(
             xlink:href = "#icons-gear"
           )
-        | Configure Service
+        | Configure Service…
         .small Affects all non-isolated {{ INC.instance.attrs.name }} containers.
       li.divider
       li.list-item.popover-list-item(
@@ -34,7 +34,7 @@
           use(
             xlink:href = "#icons-delete"
           )
-        | Delete Service
+        | Delete Service…
 
     //- for non-default branches of non-compose repos
     ul.list.popover-list(
@@ -67,7 +67,7 @@
           use(
             xlink:href = "#icons-gear-modified"
           )
-        | Configure
+        | Configure…
         .small Affects only this container.
 
       li.divider
@@ -79,7 +79,7 @@
           use(
             xlink:href = "#icons-delete"
           )
-        | Disable Isolation
+        | Disable Isolation…
       li.list-item.popover-list-item(
         ng-click = "INC.deleteContainer()"
         ng-if = "INC.instance.attrs.isolated && !INC.instance.attrs.isIsolationGroupMaster"
@@ -88,7 +88,7 @@
           use(
             xlink:href = "#icons-isolation-disable"
           )
-        | Delete from Isolation
+        | Delete from Isolation…
       li.list-item.popover-list-item(
         ng-click = "INC.removeBranch()"
         ng-if = "!INC.instance.attrs.isolated"
@@ -97,7 +97,7 @@
           use(
             xlink:href = "#icons-delete"
           )
-        | Remove Branch
+        | Remove Branch…
       li.divider(
         ng-if = "$root.featureFlags.navListFilter"
       )

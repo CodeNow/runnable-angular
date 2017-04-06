@@ -8,6 +8,7 @@ require('app')
 function logTerm(
   $timeout,
   helperSetupTerminal,
+  keypather,
   primus
 ) {
   return {
@@ -156,7 +157,7 @@ function logTerm(
 
       function initializeStream(reconnecting) {
         killCurrentStream();
-        if (!$scope.instance.containerHistory) {
+        if (!keypather.get($scope, 'instance.containerHistory')) {
           $scope.createStream();
         } else {
           $scope.streamTestLogs();

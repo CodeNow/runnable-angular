@@ -149,7 +149,7 @@ function InstanceNavigationController(
       .catch(errs.handler);
   };
 
-  this.editInstance = function (event) {
+  INC.editInstance = function (event) {
     $rootScope.$broadcast('close-popovers');
     event.stopPropagation();
     event.preventDefault();
@@ -178,5 +178,3 @@ function InstanceNavigationController(
     });
   };
 }
-
-
