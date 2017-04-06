@@ -180,13 +180,13 @@ describe('BranchTestListController'.bold.underline.blue, function () {
       $scope.$digest();
       // No test found
       expect(branch.commits.models[0].test).to.equal(null);
-      // Test found but build exit time of jessus birthday
+      // Test found but build exit time of jesus birthday
       expect(branch.commits.models[1].test).to.equal('unknown');
       // Build failed is true
       expect(branch.commits.models[2].test).to.equal('failed');
       // // Build passed but exit code > 0
       expect(branch.commits.models[3].test).to.equal('failed');
-      // Application stop is jessus birthday
+      // Application stop is jesus birthday
       expect(branch.commits.models[4].test).to.equal('unknown');
       expect(branch.commits.models[5].test).to.equal('passed');
     });

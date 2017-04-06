@@ -39,9 +39,7 @@ function BranchTestSelectorController(
   BTSC.selectCommit = function (commit) {
     BTSC.commit = commit;
 
-    if (!calculateHistoricalTestResult.isPassed(BTSC.commit.test) &&
-        !calculateHistoricalTestResult.isFailed(BTSC.commit.test) &&
-        !calculateHistoricalTestResult.isUnknown(BTSC.commit.test)) {
+    if (!calculateHistoricalTestResult.isValidState(BTSC.commit.test)) {
       BTSC.updateInstance();
     }
 

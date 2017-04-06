@@ -32,7 +32,7 @@ describe('calculateHistoricalTestResult'.bold.underline.blue, function () {
       }];
       calculateHistoricalTestResult.addResults(tests);
 
-      expect(calculateHistoricalTestResult.isUnknown(tests[0].testState)).to.be.truthy;
+      expect(calculateHistoricalTestResult.isUnknown(tests[0].testState)).to.be.true;
     });
 
     it('addResults build failed', function () {
@@ -48,7 +48,7 @@ describe('calculateHistoricalTestResult'.bold.underline.blue, function () {
       }];
       calculateHistoricalTestResult.addResults(tests);
 
-      expect(calculateHistoricalTestResult.isFailed(tests[0].testState)).to.be.truthy;
+      expect(calculateHistoricalTestResult.isFailed(tests[0].testState)).to.be.true;
     });
 
     it('addResults exit code not 0', function () {
@@ -64,7 +64,7 @@ describe('calculateHistoricalTestResult'.bold.underline.blue, function () {
       }];
       calculateHistoricalTestResult.addResults(tests);
 
-      expect(calculateHistoricalTestResult.isFailed(tests[0].testState)).to.be.truthy;
+      expect(calculateHistoricalTestResult.isFailed(tests[0].testState)).to.be.true;
     });
 
     it('addResults application stop epoch', function () {
@@ -80,7 +80,7 @@ describe('calculateHistoricalTestResult'.bold.underline.blue, function () {
       }];
       calculateHistoricalTestResult.addResults(tests);
 
-      expect(calculateHistoricalTestResult.isUnknown(tests[0].testState)).to.be.truthy;
+      expect(calculateHistoricalTestResult.isUnknown(tests[0].testState)).to.be.true;
     });
 
     it('addResults passed', function () {
@@ -96,7 +96,7 @@ describe('calculateHistoricalTestResult'.bold.underline.blue, function () {
       }];
       calculateHistoricalTestResult.addResults(tests);
 
-      expect(calculateHistoricalTestResult.isUnknown(tests[0].testState)).to.be.truthy;
+      expect(calculateHistoricalTestResult.isPassed(tests[0].testState)).to.be.true;
     });
   });
 });

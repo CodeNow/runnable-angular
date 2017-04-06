@@ -21,6 +21,9 @@ function calculateHistoricalTestResult(
     isUnknown: function(state) {
       return state === UNKNOWN;
     },
+    isValidState: function(state) {
+      return state === PASSED || state === FAILED || state === UNKNOWN;
+    },
     addResults: function (tests) {
       tests.forEach(function(test) {
         if (test && keypather.get(test, 'build.stop') !== jesusBirthday) {
