@@ -36,6 +36,8 @@ function addDockerfile(
         MDC.loadDefaultDockerfile($scope.fullRepo, $scope.branchName, '/Dockerfile', $scope.fileType);
       }
 
+      $scope.newDockerfile = $scope.fileName;
+
       $scope.$on('dockerfileExistsValidator', function ($event, path, fileType, dockerfile) {
         if (fileType === $scope.fileType) {
           $scope.dockerfile = dockerfile;
