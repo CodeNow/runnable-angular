@@ -166,7 +166,9 @@
   &.failed {
     background: transparent;
     border: 0;
+    height: 11px;
     overflow: visible;
+    width: 11px;
 
     &::before {
       background-position: center;
