@@ -37,10 +37,10 @@ ul.tbody(
   li.tr.clearfix(
     ng-repeat = "var in vars"
   )
-    .grid-block.align-center.justify-justified.cell.monospace.text-overflow(
-      ng-attr-title = "var.key"
-    )
-      .grid-block {{var.key}}
+    .grid-block.align-center.justify-justified.cell.monospace
+      .text-overflow(
+        title = "{{var.key}}"
+      ) {{var.key}}
       svg.grid-block.shrink.iconnables.icons-alert(
         ng-if = "var.duplicate"
         tooltip = "Duplicate Key"
@@ -49,7 +49,7 @@ ul.tbody(
         use(
           xlink:href = "#icons-alert-alt"
         )
-    .grid-block.align-center.cell.monospace.text-overflow {{var.value}}
+    .cell.monospace.text-overflow {{var.value}}
 
     .grid-block.align-center.justify-right.cell.cell-action
       svg.iconnables.icons-close(
