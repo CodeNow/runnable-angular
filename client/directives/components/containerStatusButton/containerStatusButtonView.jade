@@ -1,4 +1,7 @@
-button.btn.btn-md.btn-status(
+//- if $root.featureFlags.composeTestingUpdate is true:
+  - gets class "disabled"
+  - gets tooltip "🙅 Tests can only be run on the latest commit."
+button.btn.btn-status(
   ng-class = "getClassForInstance()"
   ng-click = "CSBC.popoverActive = true"
 )
