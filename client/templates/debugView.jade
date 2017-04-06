@@ -15,7 +15,7 @@ header.grid-block.noscroll.justify-justified.align-center.instance-header
       save-open-items-button
     )
 
-.grid-block.instance-body
+.grid-block.instance-body.instance-wrapper
   button.grid-block.shrink.btn.btn-sm(
     ng-class = "{'active': !$root.featureFlags.hideExplorer}"
     ng-click = "$root.featureFlags.hideExplorer = !$root.featureFlags.hideExplorer"
