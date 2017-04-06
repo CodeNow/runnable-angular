@@ -18,6 +18,7 @@ button.btn.btn-md.btn-status(
   span.float-left {{getStatusText()}}
 
   svg.iconnables.icons-arrow-down(
+    ng-if = "!$root.featureFlags.composeTestingUpdate"
     pop-over
     pop-over-actions = "CSBC.actions"
     pop-over-active = "CSBC.popoverActive"
