@@ -3,7 +3,6 @@
 require('app')
   .controller('BranchCommitPopoverButtonController', BranchCommitPopoverButtonController);
 function BranchCommitPopoverButtonController(
-  fetchCommitData,
   keypather,
   getLatestCommitShaForInstance
 ) {
@@ -11,7 +10,6 @@ function BranchCommitPopoverButtonController(
 
   function initData() {
     BCPBC.appCodeVersion = BCPBC.instance.contextVersion.getMainAppCodeVersion();
-    BCPBC.branch = fetchCommitData.activeBranch(BCPBC.appCodeVersion);
 
     getLatestCommitShaForInstance(BCPBC.instance).then(function (latestSha) {
       var currentSha = keypather.get(BCPBC.appCodeVersion, 'attrs.commit');
