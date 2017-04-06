@@ -42,8 +42,8 @@
         ng-if = "$root.featureFlags.testMenu"
       )
         .icons-status.orange
-        | {{CSBC.isTesting() ? 'Redeploy Test' : 'Redeploy'}}
-        .small Deploy {{CSBC.isTesting() ? 'test ' : ''}}container{{$root.featureFlags.composeInstance ? 's' : ''}} from built image{{$root.featureFlags.composeInstance ? 's' : ''}}.
+        | Redeploy Test
+        .small Deploy test containers from built images.
 
       //- rebuild without cache when no new service exists for this container
       li.popover-list-item.multi-line(
