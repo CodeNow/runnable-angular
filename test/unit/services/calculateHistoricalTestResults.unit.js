@@ -3,6 +3,7 @@
 describe('calculateHistoricalTestResult'.bold.underline.blue, function () {
   var calculateHistoricalTestResult;
   var keypather;
+  var jesusBirthday = '0001-01-01T00:00:00Z';
 
   function setup() {
     angular.mock.module('app');
@@ -21,7 +22,7 @@ describe('calculateHistoricalTestResult'.bold.underline.blue, function () {
     it('addResults build stop epoch', function () {
       var tests = [{
         build: {
-          stop: new Date(0),
+          stop: jesusBirthday,
           failed: false
         },
         application: {
@@ -74,7 +75,7 @@ describe('calculateHistoricalTestResult'.bold.underline.blue, function () {
         },
         application: {
           exitCode: 0,
-          stop: new Date(0)
+          stop: jesusBirthday
         }
       }];
       calculateHistoricalTestResult.addResults(tests);
