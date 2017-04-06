@@ -1,33 +1,45 @@
 .table-vars {
   width: 100%;
 
-  .tr:first-child {
-    background: $gray-lightest;
-    height: 45px;
-    padding: 0;
+  .tr {
 
-    .cell {
-      height: 100%;
-      line-height: 43px;
+    &:first-child {
+      background: $gray-lightest;
+      height: 45px;
+      padding: 0;
+
+      .cell {
+        height: 100%;
+      }
+
+      .input {
+        font-size: 13px;
+        height: 30px;
+        width: 100%;
+      }
     }
 
-    .input {
-      font-size: 13px;
-      height: 30px;
-      width: 100%;
+    &:last-child {
+      padding-bottom: 0;
+    }
+
+    + .tr {
+      text-indent: 9px;
     }
   }
 
-  .tr + .tr {
-    text-indent: 9px;
-  }
+  .cell {
 
-  .tr:last-child {
-    padding-bottom: 0;
-  }
+    &:first-child {
+      border-right: 1px solid $gray-lighter;
+    }
 
-  .cell:first-child {
-    border-right: 1px solid $gray-lighter;
+    .icons-alert {
+      color: $orange;
+      height: 12px;
+      pointer-events: auto;
+      width: 12px;
+    }
   }
 
   .cell-action {

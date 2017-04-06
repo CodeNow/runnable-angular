@@ -1,10 +1,18 @@
-ul.tbody
+ul.tbody(
+  ng-init = "vars = [\
+    {key: 'hello', value: '●●●', duplicate: true},\
+    {key: 'hi', value: '●●●●●●', duplicate: false},\
+    {key: '‘sup', value: '●●●●●●●●●', duplicate: false},\
+    {key: 'hey', value: '●●●', duplicate: false},\
+    {key: 'hello', value: '●●●●●●', duplicate: true}\
+  ]"
+)
   li.tr
-    label.cell
+    label.grid-block.align-center.cell
       input.input.monospace(
         placeholder = "Key"
       )
-    label.cell
+    label.grid-block.align-center.cell
       input.input.monospace(
         placeholder = "Value"
       )
@@ -16,11 +24,22 @@ ul.tbody
           )
         | Add
   //- tr.cell {{emptyText.description}}
-  li.tr.clearfix
-    .cell.monospace.text-overflow(
-      ng-attr-title = "LMAO"
-    ) LMAO
-    .cell.monospace.text-overflow ●●●
+  li.tr.clearfix(
+    ng-repeat = "var in vars"
+  )
+    .grid-block.align-center.justify-justified.cell.monospace.text-overflow(
+      ng-attr-title = "var.key"
+    )
+      .grid-block {{var.key}}
+      svg.grid-block.shrink.iconnables.icons-alert(
+        ng-if = "var.duplicate"
+        tooltip = "Duplicate Key"
+        tooltip-options = "{\"class\":\"bottom center\",\"top\":15,\"right\":-50}"
+      )
+        use(
+          xlink:href = "#icons-alert-alt"
+        )
+    .grid-block.align-center.cell.monospace.text-overflow {{var.value}}
 
     .grid-block.align-center.justify-right.cell.cell-action
       svg.iconnables.icons-close(
