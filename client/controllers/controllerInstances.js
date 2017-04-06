@@ -265,7 +265,7 @@ function ControllerInstances(
     }
     return (keypather.get(item, 'master.attrs.inputClusterConfig.clusterName') || '').toLowerCase().includes(CIS.searchBranches.toLowerCase()) ||
            CIS.shouldShowBasic(item, pathToName);
-  }
+  };
 
   CIS.isShowingNonComposeMaster = function () {
     if (!CIS.searchBranches) {
