@@ -259,6 +259,14 @@ function ControllerInstances(
     return (keypather.get(item, pathToName) || '').toLowerCase().includes(CIS.searchBranches.toLowerCase());
   };
 
+  CIS.shouldShowCluster = function (item, pathToName) {
+    if (!CIS.searchBranches) {
+      return true;
+    }
+    return (keypather.get(item, 'master.attrs.inputClusterConfig.clusterName') || '').toLowerCase().includes(CIS.searchBranches.toLowerCase()) ||
+           CIS.shouldShowBasic(item, pathToName);
+  }
+
   CIS.isShowingNonComposeMaster = function () {
     if (!CIS.searchBranches) {
       return true;
@@ -285,7 +293,7 @@ function ControllerInstances(
       return false;
     }
     return composeCluster.children.some(function (childrenCompose) {
-      return CIS.shouldShowBasic(childrenCompose, 'master.getBranchName()');
+      return CIS.shouldShowCluster(childrenCompose, 'master.getBranchName()');
     });
   };
 
