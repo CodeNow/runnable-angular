@@ -42,8 +42,8 @@
         ng-if = "$root.featureFlags.testMenu"
       )
         .icons-status.orange
-        | Redeploy
-        .small Deploy test container{{$root.featureFlags.composeInstance ? 's' : ''}} from your previously built image{{$root.featureFlags.composeInstance ? 's' : ''}}.
+        | {{CSBC.isTesting() ? 'Redeploy Test' : 'Redeploy'}}
+        .small Deploy {{CSBC.isTesting() ? 'test ' : ''}}container{{$root.featureFlags.composeInstance ? 's' : ''}} from built image{{$root.featureFlags.composeInstance ? 's' : ''}}.
 
       //- rebuild without cache when no new service exists for this container
       li.popover-list-item.multi-line(
@@ -55,7 +55,7 @@
       )
         .icons-status.orange
         | {{CSBC.isTesting() ? 'Rebuild Test' : 'Rebuild'}}
-        .small Deploy {{CSBC.isTesting() ? 'test ' : ''}}container{{$root.featureFlags.composeInstance ? 's' : ''}} from rebuilt image{{$root.featureFlags.composeInstance ? 's' : ''}} (without cache).
+        .small Build and deploy {{CSBC.isTesting() ? 'test ' : ''}}container{{$root.featureFlags.composeInstance ? 's' : ''}} without cache.
 
       //- rebuild without cache when no new service exists for this container
       li.popover-list-item.multi-line(
