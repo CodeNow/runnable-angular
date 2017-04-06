@@ -33,8 +33,15 @@ ul.tbody(
         span(
           ng-if = "!saving"
         ) Add
-  //- tr.cell {{emptyText.description}}
-  li.tr.clearfix(
+  li.grid-block.vertical.align-center.justify-center.padding-md.tr.empty(
+    ng-if = "!vars.length"
+  )
+    svg.svg
+      use(
+        xlink:href = "#icons-environment-variables"
+      )
+    .small.text-center Use environment variables for sensitive information you need to build or run your code. Your variables are added at build and run time.
+  li.tr(
     ng-repeat = "var in vars"
   )
     .grid-block.align-center.justify-justified.cell.monospace

@@ -19,8 +19,24 @@
       }
     }
 
-    &:last-child {
+    &:last-child:not(.empty) {
       padding-bottom: 0;
+    }
+
+    &.empty {
+      padding-bottom: $md;
+
+      .svg {
+        filter: grayscale(1);
+        height: 60px;
+        opacity: .5;
+      }
+
+      .small {
+        color: $gray;
+        max-width: 330px;
+        text-indent: 0;
+      }
     }
 
     + .tr {
