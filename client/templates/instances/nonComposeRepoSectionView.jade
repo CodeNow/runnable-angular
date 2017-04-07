@@ -24,3 +24,8 @@ section.nav-card(
   ng-repeat = "instance in masterInstance.children.models | orderBy: ['getDisplayName().toLowerCase()'] track by instance.attrs._id"
   ng-show = "CIS.shouldShowBasic(instance, 'getBranchName()')"
 )
+//- show after the URL has been visited
+.grid-block.vertical.padding-sm.popover.bottom.in.popover-demo.branch-step(
+  ng-if = "CIS.shouldShowAddBranchCTA(masterInstance) && !$root.featureFlags.demoPersonalOnly"
+  ng-include = "'popoverDemoBranchContainerView'"
+)

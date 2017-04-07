@@ -4,6 +4,7 @@ require('app')
   .factory('currentOrg', currentOrg);
 
 function currentOrg(
+  featureFlags,
   keypather
 ) {
   var org = {
@@ -16,7 +17,7 @@ function currentOrg(
   };
 
   org.isPersonalAccount = function () {
-    return keypather.get(org, 'poppa.attrs.isPersonalAccount');
+    return featureFlags.flags.isPersonalAccount || keypather.get(org, 'poppa.attrs.isPersonalAccount');
   };
 
   org.willAcceptPayment = function () {
