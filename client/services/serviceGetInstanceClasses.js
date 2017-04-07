@@ -49,9 +49,13 @@ function getInstanceClasses(
         if (keypather.get(instance, 'isolation.groupMaster.attrs.isTestReporter')) {
           testReporter = instance.isolation.groupMaster;
         } else {
-          testReporter = instance.isolation.instances.find(function (instance) {
+          testReporter = (instance.isolation.instances || []).find(function (instance) {
             return keypather.get(instance, 'attrs.isTestReporter');
           });
+        }
+        // We didn't find a test reporter, that's weird. The isolation probably hasn't finished loading yet.
+        if (!testReporter) {
+          return instanceClasses;
         }
         /* Did the container stop based on our doing or did it happen while tests were running?
            To answer this question we compare our stop times, if we died before the reporter did it died during tests
