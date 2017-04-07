@@ -48,8 +48,8 @@ function getInstanceClasses(
         var testReporter;
         if (keypather.get(instance, 'isolation.groupMaster.attrs.isTestReporter')) {
           testReporter = instance.isolation.groupMaster;
-        } else {
-          testReporter = (instance.isolation.instances || []).find(function (instance) {
+        } else if (instance.isolation.instances) {
+          testReporter = instance.isolation.instances.find(function (instance) {
             return keypather.get(instance, 'attrs.isTestReporter');
           });
         }
