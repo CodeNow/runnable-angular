@@ -257,6 +257,7 @@ function NewContainerController(
           NCC.newRepositoryContainer(repoBuildAndBranch, false);
         }
       })
+      .catch(errs.handler)
       .finally(function () {
         loading('newContainerSingleRepo', false);
       });
@@ -377,7 +378,7 @@ function NewContainerController(
 
   NCC.canCreateBuild = function () {
     return  keypather.get(NCC, 'state.instanceName.length') && !keypather.get(NCC, 'nameForm.$invalid') &&
-            !$rootScope.isLoading.newContainerSingleRepo && !$rootScope.isLoading.creatingDockerCompose && (NCC.state.templateSource || 
+            !$rootScope.isLoading.newContainerSingleRepo && !$rootScope.isLoading.creatingDockerCompose && (NCC.state.templateSource ||
             !$scope.$root.featureFlags.composeNewService || NCC.validateDockerComposeBuild());
   };
 

@@ -105,10 +105,10 @@ describe('serviceCreateNewBuildAndFetchBranch'.bold.underline.blue, function () 
 
     var promise = createNewBuildAndFetchBranch({}, repo);
     $rootScope.$digest();
-    sinon.assert.calledOnce(errsStub.handler);
-    sinon.assert.calledWith(errsStub.handler, sinon.match({
+    expect(promise).to.be.rejected;
+    expect(promise).to.eventually.match({
       message: sinon.match(/failed.*to.*add.*webhooks/i)
-    }));
+    });
   });
 
   it('should throw the error there is any other error', function () {
@@ -116,10 +116,10 @@ describe('serviceCreateNewBuildAndFetchBranch'.bold.underline.blue, function () 
 
     var promise = createNewBuildAndFetchBranch({}, repo);
     $rootScope.$digest();
-    sinon.assert.calledOnce(errsStub.handler);
-    sinon.assert.calledWith(errsStub.handler, sinon.match({
+    expect(promise).to.be.rejected;
+    expect(promise).to.eventually.match({
       message: sinon.match(/normal.*error/i)
-    }));
+    });
   });
 
   it('createDockerfileFromSource', function () {
