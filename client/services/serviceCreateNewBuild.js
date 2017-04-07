@@ -79,6 +79,7 @@ function createNewBuild(
 }
 
 function createNewBuildAndFetchBranch(
+  $q,
   createDockerfileFromSource,
   createNewBuild,
   errs,
@@ -122,10 +123,13 @@ function createNewBuildAndFetchBranch(
       .catch(function (err) {
         if (err.message.match(/repo.*not.*found/ig)) {
           var message = 'Failed to add Webhooks. Please invite a member of this repository’s owners team to add it to Runnable for the first time';
-          errs.handler(new Error(message));
-        } else {
-          errs.handler(err);
+          return $q.reject(new Error(message));
         }
+        return $q.reject(err);
+      })
+      .catch(function (err) {
+        errs.handler(err);
+        return $q.reject(err);
       });
   };
 }
