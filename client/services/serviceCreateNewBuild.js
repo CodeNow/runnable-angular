@@ -82,7 +82,6 @@ function createNewBuildAndFetchBranch(
   $q,
   createDockerfileFromSource,
   createNewBuild,
-  errs,
   fetchStackData,
   promisify
 )  {
@@ -125,10 +124,6 @@ function createNewBuildAndFetchBranch(
           var message = 'Failed to add Webhooks. Please invite a member of this repository’s owners team to add it to Runnable for the first time';
           return $q.reject(new Error(message));
         }
-        return $q.reject(err);
-      })
-      .catch(function (err) {
-        errs.handler(err);
         return $q.reject(err);
       });
   };
