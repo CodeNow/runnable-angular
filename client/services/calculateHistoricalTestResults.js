@@ -26,15 +26,14 @@ function calculateHistoricalTestResult(
     },
     addResults: function (tests) {
       tests.forEach(function(test) {
+        test.testState = UNKNOWN;
+
         if (keypather.get(test, 'build.stop') !== jesusBirthday) {
           if (keypather.get(test, 'build.failed') || keypather.get(test, 'application.exitCode') > 0) {
             test.testState = FAILED;
           } else if (keypather.get(test,'application.exitCode') === 0 && keypather.get(test,'application.stop') !== jesusBirthday) {
             test.testState =  PASSED;
           }
-        }
-        if (!test.testState) {
-          test.testState = UNKNOWN;
         }
       });
 
