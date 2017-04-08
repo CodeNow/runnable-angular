@@ -114,6 +114,10 @@ function EventTracking(
    * @params [1..n] optional arguments passed to mixpanel SDK
    */
   ETS._mixpanel = function () {
+    if (!keypather.get($window, 'mixpanel')) {
+      return;
+    }
+
     if (!angular.isFunction(keypather.get($window, 'mixpanel.'+arguments[0]))) {
       return;
     }
