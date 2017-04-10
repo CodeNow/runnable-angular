@@ -4,12 +4,13 @@
   ng-if = "!$root.featureFlags.connections"
 )
   .label-col Environment Variables
-  .small.text-gray Use environment variables for sensitive information you need to build or run your code.&#32;
-    a.link(
-      href = "//runnable.com/docs"
-      target = "_blank"
-    ) Learn more
-    | .
+  .small.text-gray Use environment variables for sensitive information you need to build or run your code.
+    //- | &#32;
+    //- a.link(
+    //-   href = "//runnable.com/docs"
+    //-   target = "_blank"
+    //- ) Learn more
+    //- | .
 
 .clearfix(
   ng-hide = "$root.featureFlags.fullScreen"
