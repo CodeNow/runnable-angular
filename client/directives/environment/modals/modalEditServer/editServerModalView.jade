@@ -4,9 +4,9 @@
   form.modal-dialog.modal-edit(
     name = "SMC.serverForm"
     ng-class = "{\
-      'expand': (SMC.selectedTab === 'buildfiles' || SMC.selectedTab === 'env' || SMC.selectedTab === 'logs'),\
+      'expand': (SMC.selectedTab === 'buildfiles' || (!$root.featureFlags.envVars2 && SMC.selectedTab === 'env') || SMC.selectedTab === 'logs'),\
       'disabled': $root.isLoading.editServerModalIsBuilding || $root.isLoading.editServerModal,\
-      'xl': (SMC.selectedTab === 'buildfiles' || SMC.selectedTab === 'env' || SMC.selectedTab === 'logs')\
+      'xl': (SMC.selectedTab === 'buildfiles' || (!$root.featureFlags.envVars2 && SMC.selectedTab === 'env') || SMC.selectedTab === 'logs')\
     }"
     ng-include = "'serverModalView'"
   )
