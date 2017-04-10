@@ -19,6 +19,7 @@ function featureFlags(
     composeNav: true,
     composeNewService: true,
     composeHistory: true,
+    composeTestingUpdate: false,
     connections: false,
     contingencyPlan: false,
     demoAutoAddBranch: true,

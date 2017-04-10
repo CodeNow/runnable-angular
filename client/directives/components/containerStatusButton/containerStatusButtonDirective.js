@@ -57,6 +57,9 @@ function containerStatusButton(
         } else if (['crashed', 'buildFailed', 'neverStarted'].includes(status)) {
           classes.push('red');
         }
+        if ($rootScope.featureFlags.composeTestingUpdate) {
+          classes.push('disabled');
+        }
         return classes;
       };
       $scope.isChanging = function () {
