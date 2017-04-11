@@ -295,7 +295,7 @@ module.exports = function(grunt) {
               apiHost: require('./client/config/json/api.json').host,
               mixpanelProxyUrl: require('./client/config/json/api.json').mixpanelProxyUrl,
               disableMixpanel: require('./client/config/json/api.json').disableMixpanel,
-              disableAnalytics: require('./client/config/json/api.json').disableAnalytics,
+              disableAnalytics: require('./client/config/json/api.json').disableAnalytics
             };
             locals.rollbarEnv = locals.env;
             if (locals.apiHost.indexOf('runnable-beta.com') > -1) {
