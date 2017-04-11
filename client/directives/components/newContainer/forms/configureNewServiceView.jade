@@ -10,6 +10,22 @@ section.grid-block.vertical.modal-body
   .grid-block.vertical.modal-form.no-border
     .label-tabs.grid-block
       label.grid-block.align-center.btn.btn-radio(
+        ng-class = "{'active': NCC.state.dockerFileTab === 'kubernetes'}"
+        ng-click = "\
+          NCC.state.dockerFileTab = 'kubernetes';\
+          NCC.state.configurationMethod = 'dockerComposeFile'\
+        "
+        ng-if = "$root.featureFlags.gkeDemo"
+      )
+        svg.grid-block.shrink.btn.btn-xs.btn-icon.btn-add.iconnables.icons-check
+          use(
+            xlink:href = "#icons-check"
+          )
+        .grid-block.vertical.text-left
+          p.p.weight-strong Use Kubernetes
+          small.small Set up from Kubernetes files in your repo.
+
+      label.grid-block.align-center.btn.btn-radio(
         data-event-name = "Selected Compose Setup"
         ng-class = "{'active': NCC.state.dockerFileTab === 'compose'}"
         ng-click = "NCC.state.dockerFileTab = 'compose'; NCC.state.configurationMethod = 'dockerComposeFile'"
@@ -19,13 +35,14 @@ section.grid-block.vertical.modal-body
             xlink:href = "#icons-check"
           )
         .grid-block.vertical.text-left
-          p.p.weight-strong Use a Compose File
+          p.p.weight-strong Use Docker Compose
           small.small Set up from a Compose file in your repo.
 
       label.grid-block.align-center.btn.btn-radio(
         data-event-name = "Selected Dockerfile Setup"
         ng-class = "{'active': NCC.state.dockerFileTab === 'dockerfile'}"
         ng-click = "NCC.state.dockerFileTab = 'dockerfile'; NCC.state.configurationMethod = 'dockerfile'"
+        ng-if = "!$root.featureFlags.gkeDemo"
       )
         svg.grid-block.shrink.btn.btn-xs.btn-icon.btn-add.iconnables.icons-check
           use(
@@ -41,10 +58,15 @@ section.grid-block.vertical.modal-body
       ng-include = "'nameNewServiceView'"
     )
 
+    .grid-block.vertical.label.views-kubernetes-setup(
+      ng-include = "'kubernetesSetupView'"
+    )
+
     //- form for dockerfile setup
     .grid-block.vertical.label.views-dockerfile-setup(
       branch-name = "NCC.state.repo.attrs.default_branch"
       mirror-dockerfile
+      ng-if = "NCC.state.dockerFileTab !== 'kubernetes'"
       name = "'newContainer'"
       repo = "NCC.state.repo"
       state = "NCC.state"

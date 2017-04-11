@@ -34,7 +34,7 @@ function NewContainerController(
       panel: 'containerSelection',
       closed: false,
       tabName: 'repos',
-      dockerFileTab: $rootScope.featureFlags.composeNewService ? 'compose' : 'dockerfile',
+      dockerFileTab: $rootScope.featureFlags.gkeDemo ? 'kubernetes' : 'compose',
       dockerfile: null,
       configurationMethod: null,
       namesForAllInstances: [],

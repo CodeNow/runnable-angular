@@ -1,0 +1,18 @@
+.grid-content.shrink.list.list-bordered(
+  ng-init = "ymlFiles = [\
+    {path: 'k8/deployments/api.yml'},\
+    {path: 'k8/deployments/mongo.yml'},\
+    {path: 'k8/deployments/web.yml'},\
+    {path: 'k8/deployments/web-e2e.yml'},\
+    {path: 'k8/services/api.yml'},\
+    {path: 'k8/services/mongo.yml'},\
+    {path: 'k8/services/web.yml'}\
+  ]"
+)
+  label.grid-block.list-item(
+    ng-repeat = "file in ymlFiles"
+  )
+    .grid-content.small {{file.path}}
+    input.checkbox(
+      type = "checkbox"
+    )
