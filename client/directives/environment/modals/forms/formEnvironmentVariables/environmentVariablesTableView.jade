@@ -11,17 +11,28 @@ ul.tbody(
   li.tr
     label.grid-block.align-center.cell
       //- [disable] when loading
-      input.input.monospace(
+      input.input.input-validate.monospace(
+        name = "key"
+        ng-model = "key"
+        ng-required = "true"
+        ng-pattern = "/^([A-Za-z]|[0-9]|_)+$/"
         placeholder = "Key"
+        spellcheck = "false"
       )
     label.grid-block.align-center.cell
       //- [disable] when loading
-      input.input.monospace(
+      input.input.input-validate.monospace(
+        name = "value"
+        ng-model = "value"
+        ng-required = "true"
+        ng-pattern = "/^([A-Za-z]|[0-9]|_)+$/"
         placeholder = "Value"
+        spellcheck = "false"
       )
     .grid-block.align-center.justify-right.cell.cell-action
       //- [disable] when loading
       button.grid-block.align-center.justify-center.btn.btn-xs.white(
+        ng-disabled = "envVarForm.$invalid"
         ng-init = "saving = null"
       )
         //- show when loading
