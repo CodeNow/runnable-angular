@@ -41,7 +41,10 @@ function EventTracking(
     INTERCOM_APP_ID = 'xs5g95pd'; // test ID
   }
 
-  ETS.analytics = $window.analytics;
+  if ($window.analytics) {
+    ETS.analytics = $window.analytics;
+  }
+
   ETS._user = null;
 
   /**

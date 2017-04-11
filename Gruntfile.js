@@ -294,7 +294,8 @@ module.exports = function(grunt) {
               commitTime: require('./client/config/json/commit.json').commitTime,
               apiHost: require('./client/config/json/api.json').host,
               mixpanelProxyUrl: require('./client/config/json/api.json').mixpanelProxyUrl,
-              disableMixpanel: require('./client/config/json/api.json').disableMixpanel
+              disableMixpanel: require('./client/config/json/api.json').disableMixpanel,
+              disableAnalytics: require('./client/config/json/api.json').disableAnalytics,
             };
             locals.rollbarEnv = locals.env;
             if (locals.apiHost.indexOf('runnable-beta.com') > -1) {
@@ -448,6 +449,7 @@ module.exports = function(grunt) {
         configObj.siftApiKey = process.env.SIFT_API_KEY || 'eea9746dff';
         configObj.githubUrl = process.env.GITHUB_URL || 'https://api.github.com';
         configObj.disableMixpanel = process.env.DISABLE_MIXPANEL || false;
+        configObj.disableAnalytics = process.env.DISABLE_ANALYTICS || false;
 
         if (configObj.host.charAt(configObj.host.length - 1) === '/') {
           configObj.host = configObj.host.substr(0, configObj.host.length - 1);
