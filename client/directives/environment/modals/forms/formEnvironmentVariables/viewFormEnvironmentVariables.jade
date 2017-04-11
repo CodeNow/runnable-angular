@@ -4,7 +4,13 @@
   ng-if = "!$root.featureFlags.connections"
 )
   .label-col Environment Variables
-  .small.text-gray Connect to other containers by using their URLs in environment variables.
+  .small.text-gray Use environment variables for sensitive information you need to build or run your code.
+    //- | &#32;
+    //- a.link(
+    //-   href = "//runnable.com/docs"
+    //-   target = "_blank"
+    //- ) Learn more
+    //- | .
 
 .clearfix(
   ng-hide = "$root.featureFlags.fullScreen"
@@ -12,13 +18,19 @@
 )
   .label-col Environment Variables
 
+//- new env vars
+.table.table-vars(
+  ng-if = "$root.featureFlags.envVars2"
+  ng-include = "'environmentVariablesTableView'"
+)
+
 //- table actions
 .table-actions.table-actions-env-vars.clearfix(
   ng-class = "{\
     'deprecated': !$root.featureFlags.connections,\
     'in': SMC.state.showHostName\
   }"
-  ng-if = "(!SMC.instance && SMC.data.instances.models.length >= 1) || SMC.data.instances.models.length >= 2"
+  ng-if = "!$root.featureFlags.envVars2 && ((!SMC.instance && SMC.data.instances.models.length >= 1) || SMC.data.instances.models.length >= 2)"
   ng-include = "'viewEnvironmentVariableActions'"
 )
 
@@ -28,6 +40,7 @@
     'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
     'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
   }"
+  ng-if = "!$root.featureFlags.envVars2"
 )
 
   .ace_editor(
@@ -50,6 +63,7 @@
 //- detailed text
 label.label.label-help(
   ng-hide = "$root.featureFlags.fullScreen"
+  ng-if = "!$root.featureFlags.envVars2"
 )
   small.small.strong(
     ng-if = "SMC.instance.getBranchName()"

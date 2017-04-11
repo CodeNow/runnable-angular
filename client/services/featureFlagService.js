@@ -19,6 +19,7 @@ function featureFlags(
     composeNav: true,
     composeNewService: true,
     composeHistory: true,
+    composeTestingUpdate: false,
     connections: false,
     contingencyPlan: false,
     demoAutoAddBranch: true,
@@ -31,6 +32,7 @@ function featureFlags(
     dockerfileMirroringMultiple: false,
     editAnyInstance: false,
     emptyFolder: false, // shows empty folder markup
+    envVars2: false, // new env vars
     fullScreen: false, // toggles full screen
     fullScreenToggle: false, // toggles the button that toggles full screen
     hideExplorer: false,
