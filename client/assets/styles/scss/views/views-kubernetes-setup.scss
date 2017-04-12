@@ -23,6 +23,10 @@
     height: 39px;
     line-height: 38px;
 
+    &.text-overflow {
+      display: inline-block;
+    }
+
     &.shrink {
       flex: 0 0 66px;
     }

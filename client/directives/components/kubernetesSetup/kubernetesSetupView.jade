@@ -7,7 +7,9 @@
     .grid-block.tr(
       ng-repeat = "file in ymlFiles"
     )
-      .grid-block.cell {{file.path}}
+      .grid-block.cell.text-overflow(
+        title = "{{file.path}}"
+      ) {{file.path}}
       label.grid-block.align-center.justify-center.shrink.cell
         .toggle-wrapper
           input.toggle-input(
