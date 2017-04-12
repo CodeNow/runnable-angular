@@ -1,3 +1,30 @@
 .views-kubernetes-setup {
 
+  .table {
+    background: $white;
+    border: 1px solid $gray-lighter;
+    border-radius: $input-border-radius-lg;
+    width: 100%;
+  }
+
+  .thead {
+    border-bottom: 1px solid $gray-lighter;
+    color: $gray;
+    font-weight: $weight-normal;
+  }
+
+  .tr {
+    background: transparent;
+    color: $gray;
+    font-size: 13px;
+  }
+
+  .cell {
+    height: 39px;
+    line-height: 38px;
+
+    &.shrink {
+      flex: 0 0 66px;
+    }
+  }
 }

@@ -58,8 +58,18 @@ section.grid-block.vertical.modal-body
       ng-include = "'nameNewServiceView'"
     )
 
-    .grid-block.vertical.label.views-kubernetes-setup(
+    .grid-block.vertical.views-kubernetes-setup(
+      ng-if = "NCC.state.dockerFileTab === 'kubernetes'"
       ng-include = "'kubernetesSetupView'"
+      ng-init = "ymlFiles = [\
+        {path: 'k8/deployments/api.yml'},\
+        {path: 'k8/deployments/mongo.yml'},\
+        {path: 'k8/deployments/web.yml'},\
+        {path: 'k8/deployments/web-e2e.yml'},\
+        {path: 'k8/services/api.yml'},\
+        {path: 'k8/services/mongo.yml'},\
+        {path: 'k8/services/web.yml'}\
+      ]"
     )
 
     //- form for dockerfile setup
