@@ -44,6 +44,7 @@ function featureFlags(
     internalDebugging: false,
     inviteFlows: false,
     isPersonalAccount: false, // if account is a personal account
+    kubernetes: false,
     multilineFnR: false,
     multilineStartCmd: false,
     multipleRepositoryContainers: false, // for adding multiple containers with the same repository

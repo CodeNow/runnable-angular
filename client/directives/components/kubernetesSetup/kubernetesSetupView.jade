@@ -1,0 +1,40 @@
+.grid-block.vertical.label
+  .grid-block.tr
+    .grid-block.cell.small.label-sm Select Containers
+    .grid-block.shrink.cell Staging
+    .grid-block.shrink.cell Testing
+  .grid-block.vertical.label.table
+    .grid-block.tr(
+      ng-repeat = "file in ymlFiles"
+    )
+      .grid-block.cell.text-overflow(
+        title = "{{file.path}}"
+      ) {{file.path}}
+      label.grid-block.align-center.justify-center.shrink.cell
+        .toggle-wrapper
+          input.toggle-input(
+            type = "checkbox"
+          )
+          .toggle-group.toggle-xs
+      label.grid-block.align-center.justify-center.shrink.cell
+        .toggle-wrapper
+          input.toggle-input(
+            type = "checkbox"
+          )
+          .toggle-group.toggle-xs
+
+label.grid-block.vertical.label
+  .padding-xxs.small.label-sm Test Container
+  //- disabled if no test containers selected
+  //- required if >0 test containers selected
+  fancy-select.btn-md.white(
+    ng-disabled = "true"
+    ng-required = "false"
+  )
+    fancy-option Select Container
+
+  small.padding-xxs.small This is how we know which container’s status to report to your GitHub commits and pull requests.&#32;
+    a.link(
+      href = "//runnable.com/docs/integrations/notifications/github-pull-request-notifications"
+      target = "_blank"
+    ) Learn More
