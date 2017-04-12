@@ -15,7 +15,7 @@ section.grid-block.vertical.modal-body
           NCC.state.dockerFileTab = 'kubernetes';\
           NCC.state.configurationMethod = 'dockerComposeFile'\
         "
-        ng-if = "$root.featureFlags.gkeDemo"
+        ng-if = "$root.featureFlags.kubernetes"
       )
         svg.grid-block.shrink.btn.btn-xs.btn-icon.btn-add.iconnables.icons-check
           use(
@@ -42,7 +42,7 @@ section.grid-block.vertical.modal-body
         data-event-name = "Selected Dockerfile Setup"
         ng-class = "{'active': NCC.state.dockerFileTab === 'dockerfile'}"
         ng-click = "NCC.state.dockerFileTab = 'dockerfile'; NCC.state.configurationMethod = 'dockerfile'"
-        ng-if = "!$root.featureFlags.gkeDemo"
+        ng-if = "!$root.featureFlags.kubernetes"
       )
         svg.grid-block.shrink.btn.btn-xs.btn-icon.btn-add.iconnables.icons-check
           use(
