@@ -4,7 +4,10 @@
   ng-if = "!$root.featureFlags.connections"
 )
   .label-col Environment Variables
-  .small.text-gray Use environment variables for sensitive information you need to build or run your code.
+  .small.text-gray Use environment variables for sensitive information you need to build or run your code.&#32;
+    span(
+      ng-class = "{'text-red': envVarForm.$error.pattern}"
+    ) Keys and values may be alphanumeric characters or underscores, but may not start with a number.
     //- | &#32;
     //- a.link(
     //-   href = "//runnable.com/docs"
