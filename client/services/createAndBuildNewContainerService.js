@@ -61,14 +61,19 @@ function createAndBuildNewContainer(
       user: fetchUser()
     })
       .then(function (response) {
-        return fetchPlan()
-          .then(function (plan) {
-            oldPlanId = keypather.get(plan, 'next.id');
-          })
-          .catch(errs.report) // Report this error, but don't show a popup
-          .then(function () {
-            return response;
-          });
+
+        if (!keypather.get(currentOrg, 'poppa.isOnPrem') && !$rootScope.featureFlags.hideBilling) {
+          return fetchPlan()
+            .then(function (plan) {
+              oldPlanId = keypather.get(plan, 'next.id');
+            })
+            .catch(errs.report) // Report this error, but don't show a popup
+            .then(function () {
+              return response;
+            });
+        } else {
+          return response;
+        }
       })
       .then(function (response) {
         var instanceOptions = {
@@ -109,7 +114,11 @@ function createAndBuildNewContainer(
           var repoName = instance.getRepoName();
           invitePersonalRunnabot({githubUsername: githubUsername, repoName: repoName});
         }
-        alertContainerCreated(oldPlanId);
+
+        if (!keypather.get(currentOrg, 'poppa.isOnPrem') && !$rootScope.featureFlags.hideBilling) {
+          alertContainerCreated(oldPlanId);
+        }
+
         return instance;
       })
       .catch(function (err) {

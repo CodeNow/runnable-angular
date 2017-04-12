@@ -23,6 +23,7 @@
           )
             li.list-item.popover-list-item.small.disabled {{data.currentOrg.github.oauthName()}} Settings
             li.list-item.popover-list-item(
+              ng-if = "!data.currentOrg.poppa.isOnPrem && !$root.featureFlags.hideBilling"
               ng-click = "actions.openSettingsModal('billing')"
             )
               svg.iconnables
