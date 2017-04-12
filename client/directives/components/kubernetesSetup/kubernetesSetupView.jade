@@ -27,16 +27,12 @@ label.grid-block.vertical.label
   .padding-xxs.small.label-sm Test Container
   //- disabled if no test containers selected
   //- required if >0 test containers selected
-  select.btn.btn-md.white(
+  fancy-select.btn-md.white(
     ng-disabled = "true"
     ng-required = "false"
   )
-    option(
-      disabled
-      selected
-    ) Select Container
-    //- repeats for every test container selected
-    option
+    fancy-option Select Container
+
   small.padding-xxs.small This is how we know which container’s status to report to your GitHub commits and pull requests.&#32;
     a.link(
       href = "//runnable.com/docs/integrations/notifications/github-pull-request-notifications"
