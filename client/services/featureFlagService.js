@@ -14,10 +14,12 @@ function featureFlags(
     autoIsolationSetup: false,
     backup: false,
     cardStatus: false,
-    composeInstance: false,
-    composeNav: false,
-    composeNewService: false,
-    composeHistory: false,
+    composeEditing: false,
+    composeInstance: true,
+    composeNav: true,
+    composeNewService: true,
+    composeHistory: true,
+    composeTestingUpdate: false,
     connections: false,
     contingencyPlan: false,
     demoAutoAddBranch: true,
@@ -30,6 +32,7 @@ function featureFlags(
     dockerfileMirroringMultiple: false,
     editAnyInstance: false,
     emptyFolder: false, // shows empty folder markup
+    envVars2: false, // new env vars
     fullScreen: false, // toggles full screen
     fullScreenToggle: false, // toggles the button that toggles full screen
     hideExplorer: false,
@@ -41,6 +44,7 @@ function featureFlags(
     internalDebugging: false,
     inviteFlows: false,
     isPersonalAccount: false, // if account is a personal account
+    kubernetes: false,
     multilineFnR: false,
     multilineStartCmd: false,
     multipleRepositoryContainers: false, // for adding multiple containers with the same repository

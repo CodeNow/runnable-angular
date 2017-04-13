@@ -1,0 +1,25 @@
+//- spinner if instance is loading
+.spinner-wrapper.spinner-md.spinner-gray.spinner-backdrop.in(
+  ng-if = "isLoading.main"
+  ng-include = "'spinner'"
+)
+
+.grid-block.noscroll.vertical.instance(
+  ng-if = "!isLoading.main"
+)
+  .grid-block.noscroll.vertical
+
+    header.grid-block.noscroll.justify-justified.align-center.instance-header(
+      instance = "TIVC.testInstance"
+      instance-header
+    )
+
+    .grid-block.instance-body
+
+      //- in / out control presence of header-bar
+      section.views(
+        active-panel
+        open-items = "TIVC.openItems"
+        instance = "TIVC.testInstance"
+        ng-class = "{'full-screen': $root.featureFlags.fullScreen}"
+      )

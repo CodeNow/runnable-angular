@@ -42,6 +42,7 @@ describe('directiveLogTerm'.bold.underline.blue, function () {
       $provide.factory('fetchInstances', fixtures.mockFetchInstances.running);
       $provide.value('helperSetupTerminal', ctx.setupTermMock);
       $controllerProvider.register('TestController', function ($scope, primus, $timeout) {
+        $scope.instance = {};
         $scope.createStream = sinon.stub();
         $scope.connectStreams = sinon.spy();
         $scope.streamEnded = sinon.stub();

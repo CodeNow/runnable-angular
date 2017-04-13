@@ -6,6 +6,12 @@
   overflow: hidden;
   position: relative;
 
+  // debug view
+  &.instance-body {
+    height: auto;
+    max-width: 100vw;
+  }
+
   > .spinner-wrapper {
     background: $ace-bg;
 

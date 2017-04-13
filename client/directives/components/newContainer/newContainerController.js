@@ -29,12 +29,16 @@ function NewContainerController(
 ) {
   var NCC = this;
   var defaultState = this.state || {};
+  var defaultTab = 'dockerfile';
+  if ($rootScope.featureFlags.composeNewService) {
+    defaultTab = $rootScope.featureFlags.kubernetes ? 'kubernetes' : 'compose';
+  }
   angular.extend(NCC, {
     state: {
       panel: 'containerSelection',
       closed: false,
       tabName: 'repos',
-      dockerFileTab: $rootScope.featureFlags.composeNewService ? 'compose' : 'dockerfile',
+      dockerFileTab: defaultTab,
       dockerfile: null,
       configurationMethod: null,
       namesForAllInstances: [],
@@ -194,13 +198,18 @@ function NewContainerController(
 
   NCC.saveDockerfileMirroring = function () {
     if (NCC.state.configurationMethod === 'dockerComposeFile') {
+      loading('creatingDockerCompose', true);
       return NCC.createComposeCluster()
         .then(function () {
           NCC.close();
           return $state.go('base.instances');
         })
-        .catch(function(promiseRejected) {
-          errs.handler({ message: 'Error creating cluster!'});
+        .catch(function(errorMsg) {
+          var userFriendlyError = NCC.populateComposeErrorMessage(errorMsg);
+          errs.handler({ message: userFriendlyError});
+        })
+        .finally(function () {
+          loading('creatingDockerCompose', false);
         });
     }
 
@@ -252,6 +261,7 @@ function NewContainerController(
           NCC.newRepositoryContainer(repoBuildAndBranch, false);
         }
       })
+      .catch(errs.handler)
       .finally(function () {
         loading('newContainerSingleRepo', false);
       });
@@ -372,7 +382,7 @@ function NewContainerController(
 
   NCC.canCreateBuild = function () {
     return  keypather.get(NCC, 'state.instanceName.length') && !keypather.get(NCC, 'nameForm.$invalid') &&
-            !$rootScope.isLoading.newContainerSingleRepo && (NCC.state.templateSource || 
+            !$rootScope.isLoading.newContainerSingleRepo && !$rootScope.isLoading.creatingDockerCompose && (NCC.state.templateSource ||
             !$scope.$root.featureFlags.composeNewService || NCC.validateDockerComposeBuild());
   };
 
@@ -382,5 +392,13 @@ function NewContainerController(
             (NCC.state.configurationMethod === 'dockerComposeFile' &&
             ((NCC.state.types.test ? NCC.state.dockerComposeTestFile && NCC.state.testReporter : NCC.state.types.stage) &&
             (NCC.state.types.stage ? NCC.state.dockerComposeFile : NCC.state.types.test))));
+  };
+
+  NCC.populateComposeErrorMessage = function (errorMsg) {
+    var err = /ValidationError(.*)/.exec(errorMsg);
+    if (err) {
+      return 'There was an error parsing your Docker Compose file: ' + err[0];
+    }
+    return 'There was an error creating the Docker Compose cluster.';
   };
 }

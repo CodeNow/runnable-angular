@@ -41,7 +41,10 @@ function EventTracking(
     INTERCOM_APP_ID = 'xs5g95pd'; // test ID
   }
 
-  ETS.analytics = $window.analytics;
+  if ($window.analytics) {
+    ETS.analytics = $window.analytics;
+  }
+
   ETS._user = null;
 
   /**
@@ -114,6 +117,10 @@ function EventTracking(
    * @params [1..n] optional arguments passed to mixpanel SDK
    */
   ETS._mixpanel = function () {
+    if (!keypather.get($window, 'mixpanel')) {
+      return;
+    }
+
     if (!angular.isFunction(keypather.get($window, 'mixpanel.'+arguments[0]))) {
       return;
     }
@@ -716,7 +723,7 @@ function EventTracking(
   };
 
   /**
-   * An auto-deploy toggle event
+   * An changed path input
    * Reports to:
    *   - mixpanel
    * @return this
@@ -726,6 +733,30 @@ function EventTracking(
 
     ETS._mixpanel('track', eventName, {
       filepath: filepath
+    });
+    return ETS;
+  };
+
+  /**
+   * Toggled path input
+   * Reports to:
+   *   - mixpanel
+   * @return this
+   */
+  ETS.filePathToggled = function (type,isEnabled) {
+    var eventName = 'Toggled Dockerfile/Compose Path';
+    var toggledTo;
+
+    if (isEnabled) {
+      toggledTo = 'To Enabled';
+    }
+    if (!isEnabled) {
+      toggledTo = 'To Disabled';
+    }
+
+    ETS._mixpanel('track', eventName, {
+      toggleType: type,
+      isEnabled: toggledTo
     });
     return ETS;
   };

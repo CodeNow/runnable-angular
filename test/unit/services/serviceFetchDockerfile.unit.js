@@ -366,7 +366,7 @@ describe('serviceFetchDockerfile'.bold.underline.blue, function () {
       $rootScope.$digest();
       sinon.assert.calledOnce(fetchRepoDockerfileStub);
       sinon.assert.calledWithExactly(fetchRepoDockerfileStub, 'testRepo', 'testBranch', '/Dockerfile');
-      expect(error.message).to.equal('No Dockerfile in this repo');
+      expect(error.message).to.equal('No Dockerfile found in the testBranch branch of the testRepo repo at the path /Dockerfile');
     });
   });
 

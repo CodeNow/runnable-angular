@@ -7,7 +7,8 @@ require('app')
  * @ngInject
  */
 function composeFilePath(
-  parseDockerComposeFile
+  parseDockerComposeFile,
+  eventTracking
 ) {
   return {
     restrict: 'A',
@@ -24,16 +25,22 @@ function composeFilePath(
       $scope.dockerComposeState = MDC.state;
       $scope.dockerfile = {};
 
+      var hasRun = false;
+
       $scope.$watch(function () {
-          return $scope.pathEnabled;
-        }, function (isEnabled) {
+        return $scope.pathEnabled;
+      }, function (isEnabled) {
+        if (!hasRun) {
+          hasRun = true;
+        } else {
+          eventTracking.filePathToggled($scope.type,isEnabled);
+        }
         if (!isEnabled) {
           if ($scope.type === 'test') {
             MDC.state.dockerComposeTestFile = null;
             $scope.dockerComposeTestServices = null;
             MDC.state.testReporter = null;
             MDC.state.types.test = false;
-
           }
           if ($scope.type === 'stage') {
             MDC.state.dockerComposeFile = null;
@@ -46,27 +53,30 @@ function composeFilePath(
 
       $scope.$on('dockerfileExistsValidator', function ($event, path, fileType, dockerfile) {
         $scope.dockerfile = dockerfile;
-        if (fileType === 'Dockerfile') {
-          MDC.state.dockerComposeFile = null;
-          MDC.state.dockerfile = dockerfile;
-          return;
-        }
-        if (dockerfile && fileType === 'Docker Compose Test') {
-          var dockerfileContent = parseDockerComposeFile(dockerfile.content);
-          $scope.dockerComposeTestServices = Object.keys(dockerfileContent.services).map(function (serviceName) {
-            return { name: serviceName };
-          });
+        if (fileType === 'Docker Compose Test') {
+          if (dockerfile) {
+            var dockerfileContent = parseDockerComposeFile(dockerfile.content);
+            $scope.dockerComposeTestServices = Object.keys(dockerfileContent.services).map(function (serviceName) {
+              return { name: serviceName };
+            });
 
-          MDC.state.dockerComposeTestFile = dockerfile;
-          MDC.state.types.test = true;
-          return;
-        } else {
-          $scope.dockerComposeTestServices = null;
-          MDC.state.testReporter = null;
+            MDC.state.dockerComposeTestFile = dockerfile;
+            MDC.state.types.test = true;
+            return;
+          }
+          MDC.state.dockerComposeTestFile = null;
+          delete MDC.state.types.test;
           return;
         }
-        MDC.state.dockerComposeFile = dockerfile;
-        MDC.state.types.stage = true;
+        if (fileType === 'Docker Compose') {
+          if (dockerfile) {
+            MDC.state.dockerComposeFile = dockerfile;
+            MDC.state.types.stage = true;
+            return;
+          }
+          MDC.state.dockerComposeFile = null;
+          delete MDC.state.types.stage;
+        }
       });
     }
   };

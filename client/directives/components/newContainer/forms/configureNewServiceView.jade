@@ -10,6 +10,22 @@ section.grid-block.vertical.modal-body
   .grid-block.vertical.modal-form.no-border
     .label-tabs.grid-block
       label.grid-block.align-center.btn.btn-radio(
+        ng-class = "{'active': NCC.state.dockerFileTab === 'kubernetes'}"
+        ng-click = "\
+          NCC.state.dockerFileTab = 'kubernetes';\
+          NCC.state.configurationMethod = 'dockerComposeFile'\
+        "
+        ng-if = "$root.featureFlags.kubernetes"
+      )
+        svg.grid-block.shrink.btn.btn-xs.btn-icon.btn-add.iconnables.icons-check
+          use(
+            xlink:href = "#icons-check"
+          )
+        .grid-block.vertical.text-left
+          p.p.weight-strong Use Kubernetes
+          small.small Set up from Kubernetes files in your repo.
+
+      label.grid-block.align-center.btn.btn-radio(
         data-event-name = "Selected Compose Setup"
         ng-class = "{'active': NCC.state.dockerFileTab === 'compose'}"
         ng-click = "NCC.state.dockerFileTab = 'compose'; NCC.state.configurationMethod = 'dockerComposeFile'"
@@ -26,6 +42,7 @@ section.grid-block.vertical.modal-body
         data-event-name = "Selected Dockerfile Setup"
         ng-class = "{'active': NCC.state.dockerFileTab === 'dockerfile'}"
         ng-click = "NCC.state.dockerFileTab = 'dockerfile'; NCC.state.configurationMethod = 'dockerfile'"
+        ng-if = "!$root.featureFlags.kubernetes"
       )
         svg.grid-block.shrink.btn.btn-xs.btn-icon.btn-add.iconnables.icons-check
           use(
@@ -41,11 +58,26 @@ section.grid-block.vertical.modal-body
       ng-include = "'nameNewServiceView'"
     )
 
+    .grid-block.vertical.views-kubernetes-setup(
+      ng-if = "NCC.state.dockerFileTab === 'kubernetes'"
+      ng-include = "'kubernetesSetupView'"
+      ng-init = "ymlFiles = [\
+        {path: 'k8/deployments/api.yml'},\
+        {path: 'k8/deployments/mongo.yml'},\
+        {path: 'k8/deployments/web.yml'},\
+        {path: 'k8/deployments/web-e2e.yml'},\
+        {path: 'k8/services/api.yml'},\
+        {path: 'k8/services/mongo.yml'},\
+        {path: 'k8/services/web.yml'}\
+      ]"
+    )
+
     //- form for dockerfile setup
     .grid-block.vertical.label.views-dockerfile-setup(
       branch-name = "NCC.state.repo.attrs.default_branch"
       mirror-dockerfile
       name = "'newContainer'"
+      ng-if = "NCC.state.dockerFileTab !== 'kubernetes'"
       repo = "NCC.state.repo"
       state = "NCC.state"
     )
@@ -55,11 +87,12 @@ footer.modal-footer.clearfix
     ng-click = "NCC.close()"
   ) Cancel
   button.btn.btn-md.green.float-right(
-    ng-disabled = "!NCC.canCreateBuild()"
+    data-event-name = "Clicked to Add Service"
     ng-click = "NCC.saveDockerfileMirroring()"
+    ng-disabled = "!NCC.canCreateBuild()"
   )
     .spinner-wrapper.spinner-white.spinner-sm.float-left(
-      ng-if = "$root.isLoading.newContainerSingleRepo"
+      ng-if = "$root.isLoading.newContainerSingleRepo || $root.isLoading.creatingDockerCompose"
       ng-include = "'spinner'"
     )
     span(

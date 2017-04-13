@@ -4,9 +4,11 @@ require('app')
   .controller('BranchCommitSelectorController', BranchCommitSelectorController);
 
 function BranchCommitSelectorController(
+  $rootScope,
   $scope,
   eventTracking,
-  keypather
+  keypather,
+  promisify
 ) {
   var BCSC = this;
   BCSC.isLatestCommitDeployed = true;
@@ -36,9 +38,9 @@ function BranchCommitSelectorController(
 
   BCSC.selectCommit = function (commit, isLatestCommit) {
     eventTracking.selectCommit(isLatestCommit);
-    if (BCSC.isAutoDeployOn() || BCSC.isLatestCommit()) { return; }
     BCSC.data.commit = commit;
     $scope.$emit('commit::selected', commit);
+    $rootScope.$broadcast('close-popovers');
   };
 
   BCSC.deployLatestCommit = function () {
@@ -58,8 +60,12 @@ function BranchCommitSelectorController(
   BCSC.autoDeploy = function (isAutoDeployOn) {
     if (angular.isDefined(isAutoDeployOn)) {
       BCSC.data.locked = !isAutoDeployOn;
+      if ($rootScope.featureFlags.composeHistory) {
+        return promisify(BCSC.instance, 'update')({
+          locked: BCSC.data.locked
+        });
+      }
     }
     return BCSC.isAutoDeployOn();
   };
-
 }

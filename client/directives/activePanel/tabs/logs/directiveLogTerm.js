@@ -8,6 +8,7 @@ require('app')
 function logTerm(
   $timeout,
   helperSetupTerminal,
+  keypather,
   primus
 ) {
   return {
@@ -156,7 +157,11 @@ function logTerm(
 
       function initializeStream(reconnecting) {
         killCurrentStream();
-        $scope.createStream();
+        if (!keypather.get($scope, 'instance.containerHistory')) {
+          $scope.createStream();
+        } else {
+          $scope.streamTestLogs();
+        }
         // If we can't create a stream don't try again, let the user refresh to get it.
         // We should have reported the error already.
         if (!$scope.stream) {

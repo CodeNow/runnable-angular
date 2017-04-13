@@ -14,6 +14,7 @@ function ControllerInstances(
   $state,
   activeAccount,
   ahaGuide,
+  composeCardActive,
   currentOrg,
   demoFlowService,
   demoRepos,
@@ -258,6 +259,14 @@ function ControllerInstances(
     return (keypather.get(item, pathToName) || '').toLowerCase().includes(CIS.searchBranches.toLowerCase());
   };
 
+  CIS.shouldShowCluster = function (item, pathToName) {
+    if (!CIS.searchBranches) {
+      return true;
+    }
+    return (keypather.get(item, 'master.attrs.inputClusterConfig.clusterName') || '').toLowerCase().includes(CIS.searchBranches.toLowerCase()) ||
+           CIS.shouldShowBasic(item, pathToName);
+  };
+
   CIS.isShowingNonComposeMaster = function () {
     if (!CIS.searchBranches) {
       return true;
@@ -284,7 +293,7 @@ function ControllerInstances(
       return false;
     }
     return composeCluster.children.some(function (childrenCompose) {
-      return CIS.shouldShowBasic(childrenCompose, 'master.getBranchName()');
+      return CIS.shouldShowCluster(childrenCompose, 'master.getBranchName()');
     });
   };
 
@@ -387,7 +396,27 @@ function ControllerInstances(
     return unbuiltBranches;
   };
 
-  this.popInstanceOpen = function (instance, open) {
+  this.popClusterOpen = function (cluster) {
+    CIS.instanceBranches = null;
+    CIS.poppedInstance = cluster.master;
+    CIS.poppedCluster = cluster;
+    loading('fetchingBranches', true);
+    var acv = cluster.master.contextVersion.getMainAppCodeVersion();
+    if (!acv) {
+      return $q.reject(new Error('acv is required'));
+    }
+    var fullReponame = acv.attrs.repo.split('/');
+    var orgName = fullReponame[0];
+    var repoName = fullReponame[1];
+    return fetchGitHubRepoBranches(orgName, repoName)
+      .then(function (branches) {
+        CIS.totalInstanceBranches = branches.length;
+        CIS.instanceBranches = CIS.getUnbuiltBranches(cluster.master, branches);
+        loading('fetchingBranches', false);
+      });
+  };
+
+  this.popInstanceOpen = function (instance) {
     CIS.instanceBranches = null;
     CIS.poppedInstance = instance;
     loading('fetchingBranches', true);
@@ -418,10 +447,28 @@ function ControllerInstances(
     var branchName = branch.name;
     loading(branchName, true);
     loading('buildingForkedBranch', true);
-    promisify(CIS.poppedInstance, 'fork')(branchName, sha)
-      .then(function (instance) {
-        var newInstances = instance.children.models.filter(function(childInstance) {
-          return childInstance.attrs.name === branchName + '-' + instance.attrs.name;
+    var instancesToFork = [];
+    if (CIS.poppedCluster) {
+      instancesToFork.push(CIS.poppedCluster.master);
+      (CIS.poppedCluster.staging || []).forEach(function (instance) {
+        if (instance.attrs.inputClusterConfig.masterInstanceId === instance.id()) {
+          instancesToFork.push(instance);
+        }
+      });
+      (CIS.poppedCluster.testing || []).forEach(function (instance) {
+        if (instance.attrs.inputClusterConfig.masterInstanceId === instance.id()) {
+          instancesToFork.push(instance);
+        }
+      });
+    } else {
+      instancesToFork.push(CIS.poppedInstance);
+    }
+    $q.all(instancesToFork.map(function (instance) {
+      return promisify(instance, 'fork')(branchName, sha);
+    }))
+      .then(function (instances) {
+        var newInstances = CIS.poppedInstance.children.models.filter(function(childInstance) {
+          return childInstance.attrs.name === branchName + '-' + CIS.poppedInstance.attrs.name;
         });
         loading(branchName, false);
         loading('buildingForkedBranch', false);
@@ -479,4 +526,5 @@ function ControllerInstances(
   };
 
   this.isCardActive = isInstanceActive;
+  this.isComposeCardActive = composeCardActive;
 }

@@ -14,7 +14,9 @@ function ControllerInstance(
   $stateParams,
   $timeout,
   ahaGuide,
+  defaultContainerUrl,
   demoFlowService,
+  errs,
   eventTracking,
   favico,
   fetchCommitData,
@@ -28,8 +30,7 @@ function ControllerInstance(
   loading,
   OpenItems,
   pageName,
-  setLastInstance,
-  defaultContainerUrl
+  setLastInstance
 ) {
   var CI = this;
   CI.isInGuide = ahaGuide.isInGuide;
@@ -73,6 +74,10 @@ function ControllerInstance(
             .then(function (dockerfile) {
               instance.mirroredDockerfile = dockerfile;
               return results;
+            })
+            .catch(function (err) {
+              errs.handler(err);
+              return $q.reject(err);
             });
         }
         return results;
@@ -83,13 +88,25 @@ function ControllerInstance(
 
         // Check that current commit is not already building
         var currentCommit = keypather.get(instance, 'attrs.contextVersion.appCodeVersions[0].commit');
-        getCommitForCurrentlyBuildingBuild(instance)
-          .then(function (commit) {
-            if (commit && currentCommit !== commit) {
-              data.commit = commit;
-              data.showUpdatingMessage = true;
-            }
-          });
+        if (instance.contextVersion && instance.contextVersion.getMainAppCodeVersion()) {
+          var branch = fetchCommitData.activeBranch(instance.contextVersion.getMainAppCodeVersion());
+          $q.all({
+            currentlyBuildingCommit: getCommitForCurrentlyBuildingBuild(instance),
+            allCommits: fetchCommitData.branchCommits(branch)
+          })
+            .then(function(results) {
+              var commit = results.currentlyBuildingCommit;
+              var latestCommit = keypather.get(results, 'allCommits.models[0].attrs.sha');
+              if (commit && currentCommit !== commit) {
+                data.commit = commit;
+                data.showUpdatingMessage = true;
+              }
+              if (currentCommit !== latestCommit) {
+                instance.showCommitHash = true;
+                instance.shortCommit = currentCommit.slice(0, 6);
+              }
+            });
+        }
 
         pageName.setTitle(instance.attrs.name);
         data.instance.state = {};

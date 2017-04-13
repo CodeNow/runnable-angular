@@ -4,10 +4,12 @@ require('app')
   .factory('isInstanceActive', isInstanceActive);
 
 function isInstanceActive(
-  $state,
-  getPathShortHash
+  $state
 ) {
   return function (instance) {
+    if (!instance) {
+      return false;
+    }
     var isCurrentBaseInstance = $state.is('base.instances.instance', {
       userName: instance.attrs.owner.username,
       instanceName: instance.attrs.name
@@ -17,7 +19,17 @@ function isInstanceActive(
       return true;
     }
 
-    // Determine if the instance name matches our shorthash?
-    return getPathShortHash() === instance.attrs.shortHash;
+    if (instance.containerHistory) {
+      var isCurrentBaseTest = $state.is('base.instances.instance-test-sha', {
+        userName: instance.attrs.owner.username,
+        instanceName: instance.attrs.name,
+        sha: instance.containerHistory.commitSha
+      });
+
+      if (isCurrentBaseTest) {
+        return true;
+      }
+    }
+    return false;
   };
 }

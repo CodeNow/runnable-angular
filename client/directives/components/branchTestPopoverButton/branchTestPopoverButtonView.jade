@@ -1,0 +1,18 @@
+.grid-block.shrink.btn.btn-container-menu(
+  ng-class = "{\
+    'active': BTPBC.popoverActive,\
+    'orange': BTPBC.sha.length > 0\
+  }"
+  ng-if = "$root.featureFlags.composeHistory"
+  ng-click = "BTPBC.popoverOpen = true"
+  pop-over
+  pop-over-template = "branchTestSelectorPopoverView"
+  pop-over-data = "BTPBC.popoverData"
+  pop-over-options = "{\"verticallyCentered\":true,\"right\":-372,\"pinToViewPort\": true}"
+  pop-over-active = "BTPBC.popoverActive"
+)
+  svg.iconnables
+    use(
+      xlink:href = "#icons-history"
+    )
+  span.span {{BTPBC.sha | limitTo:7}}

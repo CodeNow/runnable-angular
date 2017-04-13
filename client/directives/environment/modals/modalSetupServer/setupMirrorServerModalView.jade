@@ -13,6 +13,6 @@
     ng-class = "{\
       'ace-active': (SMC.selectedTab === 'buildfiles' || SMC.selectedTab === 'env'),\
       'disabled': $root.isLoading[SMC.name] || $root.isLoading[SMC.name + 'IsBuilding'],\
-      'xl': (SMC.selectedTab === 'buildfiles' || SMC.selectedTab === 'env' || SMC.selectedTab === 'logs')\
+      'xl': (SMC.selectedTab === 'buildfiles' || (!$root.featureFlags.envVars2 && SMC.selectedTab === 'env') || SMC.selectedTab === 'logs')\
     }"
   )

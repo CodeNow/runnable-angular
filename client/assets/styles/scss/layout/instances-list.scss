@@ -35,10 +35,8 @@
 
   .failed,
   .passed {
-    height: 11px;
     margin-left: -1px;
     margin-right: $xxs - 1px; // normal .icons-status margin, -1px to accomodate larger size
-    width: 11px;
   }
 }
 
@@ -222,6 +220,16 @@
 
   &.orange {
     color: $white;
+    font-size: 11px;
+    height: $input-xxs;
+    line-height: $input-xxs - $input-border * 2;
+    padding: 0 3px;
+
+    .iconnables {
+      height: $xs;
+      margin-right: 3px;
+      width: $xs;
+    }
   }
 
   .iconnables {
