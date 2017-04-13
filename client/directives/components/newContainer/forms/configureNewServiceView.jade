@@ -62,13 +62,13 @@ section.grid-block.vertical.modal-body
       ng-if = "NCC.state.dockerFileTab === 'kubernetes'"
       ng-include = "'kubernetesSetupView'"
       ng-init = "ymlFiles = [\
-        {path: 'k8/deployments/api.yml'},\
-        {path: 'k8/deployments/mongo.yml'},\
-        {path: 'k8/deployments/web.yml'},\
-        {path: 'k8/deployments/web-e2e.yml'},\
-        {path: 'k8/services/api.yml'},\
-        {path: 'k8/services/mongo.yml'},\
-        {path: 'k8/services/web.yml'}\
+        {path: 'k8/deployments/api.yml', label: 'api', testOn: false},\
+        {path: 'k8/deployments/mongo.yml', label: 'mongo', testOn: false},\
+        {path: 'k8/deployments/web.yml', label: 'web', testOn: false},\
+        {path: 'k8/deployments/web-e2e.yml',label: 'web-e2e',  testOn: false},\
+        {path: 'k8/services/api.yml', label: 'api service', testOn: false},\
+        {path: 'k8/services/mongo.yml', label: 'mongo service',  testOn: false},\
+        {path: 'k8/services/web.yml', label: 'web service', testOn: false}\
       ]"
     )
 
@@ -90,6 +90,7 @@ footer.modal-footer.clearfix
     data-event-name = "Clicked to Add Service"
     ng-click = "NCC.saveDockerfileMirroring()"
     ng-disabled = "!NCC.canCreateBuild()"
+    ng-if = "!$root.featureFlags.kubernetes"
   )
     .spinner-wrapper.spinner-white.spinner-sm.float-left(
       ng-if = "$root.isLoading.newContainerSingleRepo || $root.isLoading.creatingDockerCompose"
@@ -101,3 +102,14 @@ footer.modal-footer.clearfix
     span(
       ng-if = "NCC.state.templateSource"
     ) Add Service
+  button.btn.btn-md.green.float-right(
+    data-event-name = "Clicked to Add Service"
+    ng-click = "NCC.saveDemo()"
+    ng-disabled = "!NCC.ymlValue.length"
+    ng-if = "$root.featureFlags.kubernetes"
+  )
+    .spinner-wrapper.spinner-white.spinner-sm.float-left(
+      ng-if = "$root.isLoading.newContainerSingleRepo || $root.isLoading.creatingDockerCompose"
+      ng-include = "'spinner'"
+    )
+    span Create Environments

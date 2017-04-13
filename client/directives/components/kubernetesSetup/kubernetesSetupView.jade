@@ -20,6 +20,7 @@
         .toggle-wrapper
           input.toggle-input(
             type = "checkbox"
+            ng-model = "file.testOn"
           )
           .toggle-group.toggle-xs
 
@@ -28,10 +29,14 @@ label.grid-block.vertical.label
   //- disabled if no test containers selected
   //- required if >0 test containers selected
   fancy-select.btn-md.white(
-    ng-disabled = "true"
+    ng-disabled = "!NCC.validateYML(ymlFiles)"
+    value = "NCC.ymlValue"
     ng-required = "false"
   )
-    fancy-option Select Container
+    fancy-option(
+      ng-repeat = "file in $parent.ymlFiles | filter:!file.testOn"
+      value = "file.label"
+    ) {{$parent.file.label}}
 
   small.padding-xxs.small This is how we know which container’s status to report to your GitHub commits and pull requests.&#32;
     a.link(
