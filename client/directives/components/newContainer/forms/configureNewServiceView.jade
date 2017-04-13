@@ -62,13 +62,13 @@ section.grid-block.vertical.modal-body
       ng-if = "NCC.state.dockerFileTab === 'kubernetes'"
       ng-include = "'kubernetesSetupView'"
       ng-init = "ymlFiles = [\
-        {path: 'k8/deployments/api.yml', label: 'api', testOn: false},\
-        {path: 'k8/deployments/mongo.yml', label: 'mongo', testOn: false},\
-        {path: 'k8/deployments/web.yml', label: 'web', testOn: false},\
-        {path: 'k8/deployments/web-e2e.yml',label: 'web-e2e',  testOn: false},\
-        {path: 'k8/services/api.yml', label: 'api service', testOn: false},\
-        {path: 'k8/services/mongo.yml', label: 'mongo service',  testOn: false},\
-        {path: 'k8/services/web.yml', label: 'web service', testOn: false}\
+        {path: 'k8/deployments/api.yml', label: 'api', testOn: true},\
+        {path: 'k8/deployments/mongo.yml', label: 'mongo', testOn: true},\
+        {path: 'k8/deployments/web.yml', label: 'web', testOn: true},\
+        {path: 'k8/deployments/web-e2e.yml',label: 'web-e2e',  testOn: true},\
+        {path: 'k8/services/api.yml', label: 'api service', testOn: true},\
+        {path: 'k8/services/mongo.yml', label: 'mongo service',  testOn: true},\
+        {path: 'k8/services/web.yml', label: 'web service', testOn: true}\
       ]"
     )
 
