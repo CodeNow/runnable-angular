@@ -35,6 +35,7 @@ function featureFlags(
     envVars2: false, // new env vars
     fullScreen: false, // toggles full screen
     fullScreenToggle: false, // toggles the button that toggles full screen
+    hideBilling: false,
     hideExplorer: false,
     hostnameNotifications: false,
     hostnameTool: false,

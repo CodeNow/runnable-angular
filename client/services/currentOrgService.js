@@ -34,5 +34,10 @@ function currentOrg(
     return org.poppa.attrs.isPermanentlyBanned || !org.poppa.attrs.isActive;
   };
 
+  org.isBillingVisible = function () {
+    // Hide when onPrem or when FF is on
+    return !(keypather.get(org, 'poppa.isOnPrem') || featureFlags.flags.hideBilling);
+  };
+
   return org;
 }

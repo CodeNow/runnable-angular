@@ -19,6 +19,7 @@
       .row.modal-tabs.tabs-all.grid-block.clearfix
         button.btn.btn-radio.grid-block.vertical(
           ng-attr-data-badge-count = "{{SEMC.currentOrg.poppa.isInTrial() && !SEMC.currentOrg.poppa.attrs.hasPaymentMethod ? SEMC.currentOrg.poppa.trialDaysRemaining() : ''}}"
+          ng-if = "SEMC.currentOrg.isBillingVisible()"
           ng-class = "{\
             'active': SEMC.currentTab === 'billing',\
             'badge': SEMC.currentOrg.poppa.isInTrial() && !SEMC.currentOrg.poppa.attrs.hasPaymentMethod,\
