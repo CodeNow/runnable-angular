@@ -90,7 +90,6 @@ footer.modal-footer.clearfix
     data-event-name = "Clicked to Add Service"
     ng-click = "NCC.saveDockerfileMirroring()"
     ng-disabled = "!NCC.canCreateBuild()"
-    ng-if = "!$root.featureFlags.kubernetes"
   )
     .spinner-wrapper.spinner-white.spinner-sm.float-left(
       ng-if = "$root.isLoading.newContainerSingleRepo || $root.isLoading.creatingDockerCompose"
@@ -102,14 +101,3 @@ footer.modal-footer.clearfix
     span(
       ng-if = "NCC.state.templateSource"
     ) Add Service
-  button.btn.btn-md.green.float-right(
-    data-event-name = "Clicked to Add Service"
-    ng-click = "NCC.saveDemo()"
-    ng-disabled = "!NCC.ymlValue.length"
-    ng-if = "$root.featureFlags.kubernetes"
-  )
-    .spinner-wrapper.spinner-white.spinner-sm.float-left(
-      ng-if = "$root.isLoading.newContainerSingleRepo || $root.isLoading.creatingDockerCompose"
-      ng-include = "'spinner'"
-    )
-    span Create Environments
