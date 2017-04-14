@@ -45,6 +45,7 @@
               | PR Bot
             li.list-item.popover-list-item(
               ng-click = "actions.openSettingsModal('privateRegistry')"
+              ng-if = "$root.featureFlags.privateRegistry"
             )
               svg.iconnables
                 use(

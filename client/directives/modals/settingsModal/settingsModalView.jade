@@ -43,6 +43,7 @@
         button.btn.btn-radio.grid-block.vertical(
           ng-class = "{'active': SEMC.currentTab === 'privateRegistry'}"
           ng-click = "SEMC.currentTab = 'privateRegistry'"
+          ng-if = "$root.featureFlags.privateRegistry"
         )
           svg.iconnables.grid-content
             use(
@@ -82,7 +83,7 @@
       )
 
       .modal-form.empty.grid-block.vertical.align-center.form-github(
-        ng-if = "SEMC.currentTab === 'privateRegistry'"
+        ng-if = "$root.featureFlags.privateRegistry && SEMC.currentTab === 'privateRegistry'"
         ng-include = "'privateRegistryFormView'"
       )
 
