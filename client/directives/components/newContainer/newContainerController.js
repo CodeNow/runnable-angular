@@ -420,7 +420,7 @@ function NewContainerController(
       fetchRepoDockerfile(getFullRepo(),'master','/docker-compose.yml').then(function(file) {
         NCC.state.dockerComposeFile = file;
       }),
-      fetchRepoDockerfile(getFullRepo(),'master','/compose-test.yml').then(function(file) {
+      fetchRepoDockerfile(getFullRepo(),'master','/docker-compose.test.yml').then(function(file) {
         NCC.state.dockerComposeTestFile = file;
       })
     ]).then(function () {
