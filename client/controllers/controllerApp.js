@@ -188,7 +188,7 @@ function ControllerApp(
   };
 
   if (currentOrg.isPaymentDue()) {
-    if (currentOrg.poppa.isOnPrem || $rootScope.featureFlags.hideBilling) {
+    if (!currentOrg.isBillingVisible()) {
       return $state.go('paused');
     }
     // Determine if it's a trial end or just a normal payment due

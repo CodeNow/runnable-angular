@@ -34,5 +34,9 @@ function currentOrg(
     return org.poppa.attrs.isPermanentlyBanned || !org.poppa.attrs.isActive;
   };
 
+  org.isBillingVisible = function () {
+    return !keypather.get(org, 'poppa.isOnPrem') && !featureFlags.flags.hideBilling;
+  };
+
   return org;
 }

@@ -61,19 +61,18 @@ function createAndBuildNewContainer(
       user: fetchUser()
     })
       .then(function (response) {
-
-        if (!keypather.get(currentOrg, 'poppa.isOnPrem') && !$rootScope.featureFlags.hideBilling) {
-          return fetchPlan()
-            .then(function (plan) {
-              oldPlanId = keypather.get(plan, 'next.id');
-            })
-            .catch(errs.report) // Report this error, but don't show a popup
-            .then(function () {
-              return response;
-            });
-        } else {
+        if (!currentOrg.isBillingVisible()) {
           return response;
         }
+
+        return fetchPlan()
+          .then(function (plan) {
+            oldPlanId = keypather.get(plan, 'next.id');
+          })
+          .catch(errs.report) // Report this error, but don't show a popup
+          .then(function () {
+            return response;
+          });
       })
       .then(function (response) {
         var instanceOptions = {
@@ -115,7 +114,7 @@ function createAndBuildNewContainer(
           invitePersonalRunnabot({githubUsername: githubUsername, repoName: repoName});
         }
 
-        if (!keypather.get(currentOrg, 'poppa.isOnPrem') && !$rootScope.featureFlags.hideBilling) {
+        if (currentOrg.isBillingVisible()) {
           alertContainerCreated(oldPlanId);
         }
 
