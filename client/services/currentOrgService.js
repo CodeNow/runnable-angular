@@ -35,7 +35,8 @@ function currentOrg(
   };
 
   org.isBillingVisible = function () {
-    return !keypather.get(org, 'poppa.isOnPrem') && !featureFlags.flags.hideBilling;
+    // Hide when onPrem or when FF is on
+    return !(keypather.get(org, 'poppa.isOnPrem') || featureFlags.flags.hideBilling);
   };
 
   return org;
