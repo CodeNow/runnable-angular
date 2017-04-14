@@ -32,6 +32,7 @@ function featureFlags(
     dockerfileMirroringMultiple: false,
     editAnyInstance: false,
     emptyFolder: false, // shows empty folder markup
+    envVars2: false, // new env vars
     fullScreen: false, // toggles full screen
     fullScreenToggle: false, // toggles the button that toggles full screen
     hideBilling: false,
@@ -44,6 +45,7 @@ function featureFlags(
     internalDebugging: false,
     inviteFlows: false,
     isPersonalAccount: false, // if account is a personal account
+    kubernetes: false,
     multilineFnR: false,
     multilineStartCmd: false,
     multipleRepositoryContainers: false, // for adding multiple containers with the same repository

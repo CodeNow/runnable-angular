@@ -29,12 +29,16 @@ function NewContainerController(
 ) {
   var NCC = this;
   var defaultState = this.state || {};
+  var defaultTab = 'dockerfile';
+  if ($rootScope.featureFlags.composeNewService) {
+    defaultTab = $rootScope.featureFlags.kubernetes ? 'kubernetes' : 'compose';
+  }
   angular.extend(NCC, {
     state: {
       panel: 'containerSelection',
       closed: false,
       tabName: 'repos',
-      dockerFileTab: $rootScope.featureFlags.composeNewService ? 'compose' : 'dockerfile',
+      dockerFileTab: defaultTab,
       dockerfile: null,
       configurationMethod: null,
       namesForAllInstances: [],
