@@ -42,6 +42,7 @@
           .btn-text.grid-content PR Bot
         button.btn.btn-radio.grid-block.vertical(
           ng-class = "{'active': SEMC.currentTab === 'privateRegistry'}"
+          ng-click = "SEMC.currentTab = 'privateRegistry'"
         )
           svg.iconnables.grid-content
             use(
@@ -75,17 +76,22 @@
         billing-form
       )
 
-      team-management-form(
-        ng-if = "SEMC.currentTab === 'teamManagement'"
-      )
-
       div(
         ng-if = "SEMC.currentTab === 'githubIntegration'"
         ng-include = "'gitHubForm'"
       )
 
+      .modal-form.empty.grid-block.vertical.align-center.form-github(
+        ng-if = "SEMC.currentTab === 'privateRegistry'"
+        ng-include = "'privateRegistryFormView'"
+      )
+
       slack-integration-form(
         ng-if = "SEMC.currentTab === 'slackIntegration'"
+      )
+
+      team-management-form(
+        ng-if = "SEMC.currentTab === 'teamManagement'"
       )
 
     footer.modal-footer.clearfix.js-animate(
