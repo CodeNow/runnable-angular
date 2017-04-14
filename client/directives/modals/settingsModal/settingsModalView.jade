@@ -32,15 +32,6 @@
             )
           .btn-text.grid-content Billing
         button.btn.btn-radio.grid-block.vertical(
-          ng-class = "{'active': SEMC.currentTab === 'teamManagement'}"
-          ng-click = "SEMC.currentTab = 'teamManagement'"
-        )
-          svg.iconnables.grid-content
-            use(
-              xlink:href = "#icons-team"
-            )
-          .btn-text.grid-content Teammates
-        button.btn.btn-radio.grid-block.vertical(
           ng-class = "{'active': SEMC.currentTab === 'githubIntegration'}"
           ng-click = "SEMC.currentTab = 'githubIntegration'"
         )
@@ -49,6 +40,14 @@
               xlink:href = "#icons-octicons-github-gray"
             )
           .btn-text.grid-content PR Bot
+        button.btn.btn-radio.grid-block.vertical(
+          ng-class = "{'active': SEMC.currentTab === 'privateRegistry'}"
+        )
+          svg.iconnables.grid-content
+            use(
+              xlink:href = "#icons-private-registry"
+            )
+          .btn-text.grid-content Private Registry
         button.btn.btn-radio.grid-block.vertical(
           ng-class = "{'active': SEMC.currentTab === 'slackIntegration'}"
           ng-click = "SEMC.currentTab = 'slackIntegration'"
@@ -59,6 +58,15 @@
             width = "24"
           )
           .btn-text.grid-content Slack Integration
+        button.btn.btn-radio.grid-block.vertical(
+          ng-class = "{'active': SEMC.currentTab === 'teamManagement'}"
+          ng-click = "SEMC.currentTab = 'teamManagement'"
+        )
+          svg.iconnables.grid-content
+            use(
+              xlink:href = "#icons-team"
+            )
+          .btn-text.grid-content Teammates
 
     section.modal-body.js-animate
 

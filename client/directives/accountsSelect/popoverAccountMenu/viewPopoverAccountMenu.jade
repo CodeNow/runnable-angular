@@ -36,14 +36,6 @@
               )
                 | {{data.currentOrg.poppa.trialDaysRemaining() + ' days left'}}
             li.list-item.popover-list-item(
-              ng-click = "actions.openSettingsModal('teamManagement')"
-            )
-              svg.iconnables
-                use(
-                  xlink:href = "#icons-team"
-                )
-              | Teammates
-            li.list-item.popover-list-item(
               ng-click = "actions.openSettingsModal('githubIntegration')"
             )
               svg.iconnables
@@ -51,6 +43,14 @@
                   xlink:href = "#icons-octicons-github-gray"
                 )
               | PR Bot
+            li.list-item.popover-list-item(
+              ng-click = "actions.openSettingsModal('privateRegistry')"
+            )
+              svg.iconnables
+                use(
+                  xlink:href = "#icons-private-registry"
+                )
+              | Private Registry
             li.list-item.popover-list-item(
               ng-click = "actions.openSettingsModal('slackIntegration')"
             )
@@ -60,6 +60,14 @@
                 width = "24"
               )
               | Slack Integration
+            li.list-item.popover-list-item(
+              ng-click = "actions.openSettingsModal('teamManagement')"
+            )
+              svg.iconnables
+                use(
+                  xlink:href = "#icons-team"
+                )
+              | Teammates
           ul.list.popover-list(
             ng-class = "{'list-secondary': !data.currentOrg.isPersonalAccount()}"
           )
