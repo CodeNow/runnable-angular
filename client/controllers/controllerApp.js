@@ -188,6 +188,9 @@ function ControllerApp(
   };
 
   if (currentOrg.isPaymentDue()) {
+    if (!currentOrg.isBillingVisible()) {
+      return $state.go('paused');
+    }
     // Determine if it's a trial end or just a normal payment due
     if (currentOrg.poppa.attrs.hasPaymentMethod) {
       ModalService.showModal({
