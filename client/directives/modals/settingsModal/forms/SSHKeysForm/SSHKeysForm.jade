@@ -1,11 +1,24 @@
-.modal-form.form-ssh
+.modal-form.form-ssh(
+  ng-init = "keys = [\
+    {username: 'Myztiq', fingerprint: '40:71:04:a8:3b:ea:a8:90:f6:99:6c:7a:22:f7:c0:15', avatar: 'https://avatars1.githubusercontent.com/u/495765'},\
+    {username: 'podviaznikov', fingerprint: 'e2:81:ae:03:43:1a:ba:cf:4e:e0:79:37:69:40:58:56', avatar: 'https://avatars1.githubusercontent.com/u/429706'}\
+  ]"
+)
   .text-gray.padding-left-sm.padding-right-sm.strong SSH Keys
   .text-gray.padding-left-sm.padding-right-sm.small All keys will be added to each container at build time. Keys can be deleted from&#32;
-    a.link your SSH key settings
+    a.link(
+      href = "#"
+      target = "_blank"
+    ) your SSH key settings
     | &#32;on GitHub.
   .list-bordered.margin-top-sm.padding-left-sm.padding-right-sm
+    //- if current user's key doesn't exist
     .grid-block.align-center.list-item
-      .avatar.grid-block.shrink
+      img.grid-block.shrink.avatar.unauthorized(
+        src = "https://avatars1.githubusercontent.com/u/7440805"
+        width = "24"
+        height = "24"
+      )
       .grid-block.vertical.padding-left-sm.padding-right-sm
         .text-gray.strong Add your user key
         .text-gray User keys let your project access its private dependencies on GitHub.
@@ -15,12 +28,19 @@
             xlink:href = "#icons-octicons-github"
           )
         | Authorize…
-    .grid-block.align-center.list-item.padding-top-sm.padding-bottom-sm
-      .avatar.grid-block.shrink
+    //- all user keys; if current user's key exists, list it at the top
+    .grid-block.align-center.list-item.padding-top-sm.padding-bottom-sm(
+      ng-repeat = "key in keys"
+    )
+      img.grid-block.shrink.avatar(
+        src = "{{key.avatar}}"
+        width = "24"
+        height = "24"
+      )
       .grid-block.vertical.padding-left-sm.padding-right-sm
-        .strong Myztiq user key (Runnable)
-        .monospace.text-gray.text-overflow 40:71:04:a8:3b:ea:a8:90:f6:99:6c:7a:22:f7:c0:15
-      .btn.btn-xs.grid-block.shrink.align-center.authorized
+        .strong {{key.username}} user key (Runnable)
+        .monospace.text-gray.text-overflow {{key.fingerprint}}
+      .btn.btn-xs.grid-block.shrink.align-center.btn-authorized
         svg.iconnables.icons-check
           use(
             xlink:href = "#icons-check"

@@ -144,15 +144,17 @@
   }
 
   .avatar {
-    background-color: $gray-lighter;
     border-radius: $input-border-radius;
-    height: 24px;
-    width: 24px;
+  }
+
+  // img.avatar.unauthorized
+  .unauthorized {
+    opacity: .5;
   }
 
   .btn {
     color: $gray-dark;
-    flex: 0 0 110px;
+    flex: 0 0 110px; // make all buttons the same width
 
     .iconnables {
       flex: 0 0 18px;
@@ -160,7 +162,7 @@
     }
   }
 
-  .authorized {
+  .btn-authorized {
     background-color: transparent;
     border-color: transparent;
     color: $gray;
