@@ -7,15 +7,19 @@ section.label-description
     ) Learn more
     | .
 
-form.grid-block.vertical.well.gray.ignore-margin
+form.grid-block.vertical.well.gray.ignore-margin(
+  name = "privateRegistryForm"
+)
   label.padding-sm.label
     .padding-xxs.small.label-sm Registry URL
     input.input.input-md.input-validate(
       name = "data.url"
       ng-disabled = "state.saving"
-      ng-required
+      ng-model = "data.url"
+      ng-required = "true"
       placeholder = "https://index.docker.io/v1/"
       spellcheck = "false"
+      type = "url"
     )
     small.grid-block.padding-xxs.small Add the URL for the registry you use. This could be from Docker Hub, AWS, Google Cloud, etc..&#32;
       a.link(
@@ -28,7 +32,8 @@ form.grid-block.vertical.well.gray.ignore-margin
     input.input.input-md.input-validate(
       name = "data.username"
       ng-disabled = "state.saving"
-      ng-required
+      ng-model = "data.username"
+      ng-required = "true"
       spellcheck = "false"
     )
   label.padding-sm.label
@@ -36,18 +41,19 @@ form.grid-block.vertical.well.gray.ignore-margin
     input.input.input-md.input-validate(
       name = "data.password"
       ng-disabled = "state.saving"
-      ng-required
+      ng-model = "data.password"
+      ng-required = "true"
       spellcheck = "false"
       type = "password"
     )
   footer.margin-top-sm.padding-sm.grid-block.justify-right.footer
-    //- ng-click = "state.saving = true"
-    button.grid-block.shrink.align-center.btn.btn-sm.green(
-      ng-disabled = "state.saving"
+    button.grid-block.shrink.align-center.btn.btn-md.green(
+      ng-click = "state.saving = true"
+      ng-disabled = "state.saving || privateRegistryForm.$invalid"
       ng-init = "state.saving = null"
     )
       .spinner-wrapper.spinner-sm.spinner-white(
         ng-if = "state.saving"
         ng-include = "'spinner'"
       )
-      span Save
+      span Verify & Save
