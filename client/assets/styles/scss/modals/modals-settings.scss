@@ -143,23 +143,23 @@
     height: 90px;
   }
 
-  .avatar {
+  .img {
     border-radius: $input-border-radius;
   }
 
   // img.avatar.unauthorized
-  .unauthorized {
+  .img-unauthorized {
     opacity: .5;
   }
 
-  .btn {
-    color: $gray-dark;
-    flex: 0 0 110px; // make all buttons the same width
+  .spinner-wrapper {
+    height: 24px;
+    width: 24px;
+  }
 
-    .iconnables {
-      flex: 0 0 18px;
-      margin-right: 2px;
-    }
+  // a.btn.gray
+  .gray {
+    color: $gray-dark;
   }
 
   .btn-authorized {
@@ -167,5 +167,10 @@
     border-color: transparent;
     color: $gray;
     pointer-events: none;
+  }
+
+  .iconnables {
+    flex: 0 0 18px;
+    margin-right: 2px;
   }
 }

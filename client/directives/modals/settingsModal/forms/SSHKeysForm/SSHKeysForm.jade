@@ -11,35 +11,58 @@
       target = "_blank"
     ) your SSH key settings
     | &#32;on GitHub.
-  .list-bordered.margin-top-sm.padding-left-sm.padding-right-sm
-    //- if current user's key doesn't exist
-    .grid-block.align-center.list-item
-      img.grid-block.shrink.avatar.unauthorized(
+  ol.list-bordered.margin-top-sm.padding-left-sm.padding-right-sm
+
+    //- if no key exists for the current user
+    li.grid-block.align-center.list-item(
+      ng-init = "listening = false"
+    )
+      //- normal state
+      img.grid-block.shrink.img.img-unauthorized(
+        height = "24"
+        ng-if = "!listening"
         src = "https://avatars1.githubusercontent.com/u/7440805"
         width = "24"
-        height = "24"
       )
-      .grid-block.vertical.padding-left-sm.padding-right-sm
-        .text-gray.strong Add your user key
-        .text-gray User keys let your project access its private dependencies on GitHub.
-      .btn.gray.btn-xs.grid-block.shrink.align-center
+      .grid-block.vertical.padding-left-sm.padding-right-sm(
+        ng-if = "!listening"
+      )
+        p.text-gray.strong Add your user key
+        p.text-gray User keys let your project access its private dependencies on GitHub.
+
+      //- listening state
+      .grid-block.shrink.align-center.justify-center.spinner-wrapper.spinner-sm.spinner-gray(
+        ng-if = "listening"
+        ng-include = "'spinner'"
+      )
+      p.grid-block.align-center.padding-left-sm.padding-right-sm.text-gray(
+        ng-if = "listening"
+      ) Listening for authorization…
+
+      a.btn.gray.btn-xs.grid-block.shrink.noscroll.align-center(
+        ng-click = "listening = !listening"
+      )
         svg.iconnables.icons-octicons-github
           use(
             xlink:href = "#icons-octicons-github"
           )
         | Authorize…
+
+      //- show if instead of "authorize…" button if user is authorized but no key exists
+      //- .btn.gray.btn-xs.grid-block.shrink Create Key
+
     //- all user keys; if current user's key exists, list it at the top
-    .grid-block.align-center.list-item.padding-top-sm.padding-bottom-sm(
+    li.grid-block.align-center.list-item.padding-top-sm.padding-bottom-sm(
       ng-repeat = "key in keys"
     )
-      img.grid-block.shrink.avatar(
+      img.grid-block.shrink.img(
+        height = "24"
         src = "{{key.avatar}}"
         width = "24"
-        height = "24"
       )
       .grid-block.vertical.padding-left-sm.padding-right-sm
-        .strong {{key.username}} user key (Runnable)
-        .monospace.text-gray.text-overflow {{key.fingerprint}}
+        p.strong {{key.username}} user key (Runnable)
+        p.monospace.text-gray.text-overflow {{key.fingerprint}}
       .btn.btn-xs.grid-block.shrink.align-center.btn-authorized
         svg.iconnables.icons-check
           use(
