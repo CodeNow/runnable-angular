@@ -1,1 +1,28 @@
-| SSH Keys
+.modal-form.form-ssh
+  .text-gray.padding-left-sm.padding-right-sm.strong SSH Keys
+  .text-gray.padding-left-sm.padding-right-sm.small All keys will be added to each container at build time. Keys can be deleted from&#32;
+    a.link your SSH key settings
+    | &#32;on GitHub.
+  .list-bordered.margin-top-sm.padding-left-sm.padding-right-sm
+    .grid-block.align-center.list-item
+      .avatar.grid-block.shrink
+      .grid-block.vertical.padding-left-sm.padding-right-sm
+        .text-gray.strong Add your user key
+        .text-gray User keys let your project access its private dependencies on GitHub.
+      .btn.gray.btn-xs.grid-block.shrink.align-center
+        svg.iconnables.icons-octicons-github
+          use(
+            xlink:href = "#icons-octicons-github"
+          )
+        | Authorize…
+    .grid-block.align-center.list-item.padding-top-sm.padding-bottom-sm
+      .avatar.grid-block.shrink
+      .grid-block.vertical.padding-left-sm.padding-right-sm
+        .strong Myztiq user key (Runnable)
+        .monospace.text-gray.text-overflow 40:71:04:a8:3b:ea:a8:90:f6:99:6c:7a:22:f7:c0:15
+      .btn.btn-xs.grid-block.shrink.align-center.authorized
+        svg.iconnables.icons-check
+          use(
+            xlink:href = "#icons-check"
+          )
+        | Authorized

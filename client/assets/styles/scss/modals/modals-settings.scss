@@ -135,3 +135,35 @@
     }
   }
 }
+
+.form-ssh {
+
+  .list-item {
+    font-size: 13px;
+    height: 90px;
+  }
+
+  .avatar {
+    background-color: $gray-lighter;
+    border-radius: $input-border-radius;
+    height: 24px;
+    width: 24px;
+  }
+
+  .btn {
+    color: $gray-dark;
+    flex: 0 0 110px;
+
+    .iconnables {
+      flex: 0 0 18px;
+      margin-right: 2px;
+    }
+  }
+
+  .authorized {
+    background-color: transparent;
+    border-color: transparent;
+    color: $gray;
+    pointer-events: none;
+  }
+}
