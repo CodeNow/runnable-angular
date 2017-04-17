@@ -9,6 +9,8 @@ section.label-description
 
 form.grid-block.vertical.well.gray.ignore-margin(
   name = "privateRegistryForm"
+  ng-if = "!state.authorized"
+  ng-init = "state.authorized = null"
 )
   label.padding-sm.label
     .padding-xxs.small.label-sm Registry URL
@@ -21,12 +23,7 @@ form.grid-block.vertical.well.gray.ignore-margin(
       spellcheck = "false"
       type = "url"
     )
-    small.grid-block.padding-xxs.small Add the URL for the registry you use. This could be from Docker Hub, AWS, Google Cloud, etc..&#32;
-      a.link(
-        href = "//runnable.com/docs"
-        target = "_blank"
-      ) Learn more
-      | .
+    small.grid-block.padding-xxs.small Add the URL for the registry you use. This could be from Docker Hub, AWS, Google Cloud, etc..
   label.padding-sm.label
     .padding-xxs.small.label-sm Username
     input.input.input-md.input-validate(
@@ -57,3 +54,17 @@ form.grid-block.vertical.well.gray.ignore-margin(
         ng-include = "'spinner'"
       )
       span Verify & Save
+
+section.padding-sm.grid-block.align-center.well.white.ignore-margin(
+  ng-init = "registryCredentials = [\
+    {username: 'dockerfan88', url: 'https://index.docker.io/v1/'}\
+  ]"
+  ng-if = "state.authorized"
+)
+  .grid-block.vertical
+    p.small.weight-strong Authorized {{registryCredentials[0].username}}
+    small.small.text-gray {{registryCredentials[0].url}}
+  button.btn.btn-xs.orange Deauthorize
+small.grid-block.padding-xxs.small.text-gray(
+  ng-if = "state.authorized"
+) Deauthorize your current registry to modify your credentials.
