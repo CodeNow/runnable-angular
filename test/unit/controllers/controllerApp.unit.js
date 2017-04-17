@@ -43,7 +43,8 @@ describe('controllerApp'.bold.underline.blue, function () {
         }
       },
       willAcceptPayment: sinon.stub().returns(true),
-      isPaymentDue: sinon.stub().returns(true)
+      isPaymentDue: sinon.stub().returns(true),
+      isBillingVisible: sinon.stub().returns(true)
     };
     ctx = {};
     ctx.fetchInstancesByPodMock = new (require('../fixtures/mockFetch'))();

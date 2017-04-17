@@ -41,7 +41,10 @@ function EventTracking(
     INTERCOM_APP_ID = 'xs5g95pd'; // test ID
   }
 
-  ETS.analytics = $window.analytics;
+  if ($window.analytics) {
+    ETS.analytics = $window.analytics;
+  }
+
   ETS._user = null;
 
   /**
@@ -114,6 +117,10 @@ function EventTracking(
    * @params [1..n] optional arguments passed to mixpanel SDK
    */
   ETS._mixpanel = function () {
+    if (!keypather.get($window, 'mixpanel')) {
+      return;
+    }
+
     if (!angular.isFunction(keypather.get($window, 'mixpanel.'+arguments[0]))) {
       return;
     }

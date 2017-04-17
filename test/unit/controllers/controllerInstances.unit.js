@@ -70,7 +70,7 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       org1: {
         models: [{
           attrs: angular.copy(apiMocks.instances.building)
-        }]
+        }],
       },
       org2: {
         models: []
@@ -103,7 +103,8 @@ describe('ControllerInstances'.bold.underline.blue, function () {
             hasCompletedDemo: true
           }
         }
-      }
+      },
+      isBillingVisible: sinon.stub().returns(true)
     };
     mockBranch = {
       name: 'mockBranch',

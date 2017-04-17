@@ -61,6 +61,10 @@ function createAndBuildNewContainer(
       user: fetchUser()
     })
       .then(function (response) {
+        if (!currentOrg.isBillingVisible()) {
+          return response;
+        }
+
         return fetchPlan()
           .then(function (plan) {
             oldPlanId = keypather.get(plan, 'next.id');
@@ -109,7 +113,11 @@ function createAndBuildNewContainer(
           var repoName = instance.getRepoName();
           invitePersonalRunnabot({githubUsername: githubUsername, repoName: repoName});
         }
-        alertContainerCreated(oldPlanId);
+
+        if (currentOrg.isBillingVisible()) {
+          alertContainerCreated(oldPlanId);
+        }
+
         return instance;
       })
       .catch(function (err) {

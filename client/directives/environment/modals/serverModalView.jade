@@ -183,6 +183,7 @@ section.modal-body(
     ports-form
   )
   .modal-form(
+    ng-form = "envVarForm"
     ng-include = "'viewFormEnvironmentVariables'"
     ng-if = "SMC.selectedTab === 'env'"
   )

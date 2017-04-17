@@ -4,13 +4,18 @@ h2.grid-block.align-center.justify-justified.nav-section-header Services
     ng-click = "CIS.shouldShowServicesCTA() && $emit('demo::end')"
     pop-over
     pop-over-active = "addService"
-    pop-over-options = "{\"top\":-30,\"left\":106}"
+    pop-over-options = "{\"top\":-30,\"left\":108}"
     pop-over-template = "templateMenuPopoverView"
   ) Add Services
     svg.iconnables.icons-arrow-forward
       use(
         xlink:href = "#icons-arrow-down"
       )
+
+.grid-block.vertical.padding-sm.popover.bottom.in.popover-demo.service-cta.margin-bottom-xs(
+  add-service-cta
+  ng-if = "CIS.shouldShowServicesCTA() && !$root.featureFlags.demoPersonalOnly"
+)
 
 .grid-block.align-center.padding-sm.popover.top.in.popover-demo(
   ng-if = "CIS.showInstanceRunningPopover() && !$root.featureFlags.demoPersonalOnly"
@@ -22,7 +27,7 @@ section.nav-card.active(
   compose-cluster = "composeCluster"
   ng-repeat = "composeCluster in CIS.instancesByCompose | orderBy: ['attrs.name'] track by composeCluster.master.attrs.name"
   ng-if = "!composeCluster.master.destroyed"
-  ng-show = "CIS.shouldShowBasic(composeCluster, 'master.attrs.name')"
+  ng-show = "CIS.shouldShowCluster(composeCluster, 'master.attrs.name')"
 )
 section.nav-card.active(
   ng-include = "'nonComposeCardView'"

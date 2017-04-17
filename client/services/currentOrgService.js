@@ -4,6 +4,7 @@ require('app')
   .factory('currentOrg', currentOrg);
 
 function currentOrg(
+  featureFlags,
   keypather
 ) {
   var org = {
@@ -16,7 +17,7 @@ function currentOrg(
   };
 
   org.isPersonalAccount = function () {
-    return keypather.get(org, 'poppa.attrs.isPersonalAccount');
+    return featureFlags.flags.isPersonalAccount || keypather.get(org, 'poppa.attrs.isPersonalAccount');
   };
 
   org.willAcceptPayment = function () {
@@ -31,6 +32,11 @@ function currentOrg(
 
   org.isPaused = function () {
     return org.poppa.attrs.isPermanentlyBanned || !org.poppa.attrs.isActive;
+  };
+
+  org.isBillingVisible = function () {
+    // Hide when onPrem or when FF is on
+    return !(keypather.get(org, 'poppa.attrs.isOnPrem') || featureFlags.flags.hideBilling);
   };
 
   return org;

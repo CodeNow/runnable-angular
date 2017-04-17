@@ -5,7 +5,9 @@ require('app')
 
 function addDockerfile(
   $q,
-  $timeout
+  $timeout,
+  fetchRepoDockerfile,
+  doesDockerfileExist
 ) {
   return {
     restrict: 'A',
@@ -18,23 +20,39 @@ function addDockerfile(
       fileType: '@'
     },
     link: function ($scope, elem, attrs, MDC) {
+      var COMPOSE_DEFAULT = 'docker-compose.yml';
+      var COMPOSE_TEST_DEFAULT = 'docker-compose.test.yml';
+      var DOCKER_DEFAULT = 'Dockerfile';
+      var path;
+
       if ($scope.fileType === 'Docker Compose') {
-        $scope.fileName = 'docker-compose.yml';
+        $scope.fileName = COMPOSE_DEFAULT;
         $scope.fileLabel = 'Compose file';
         $scope.formLabel = 'Compose File Path';
         MDC.state.types.stage = true;
-        MDC.loadDefaultDockerfile($scope.fullRepo, $scope.branchName, '/docker-compose.yml', $scope.fileType);
+        path = '/' + COMPOSE_DEFAULT;
+        MDC.loadDefaultDockerfile($scope.fullRepo, $scope.branchName, path, $scope.fileType);
       } else if ($scope.fileType === 'Docker Compose Test') {
-        $scope.fileName = 'docker-compose.test.yml';
+        $scope.fileName = COMPOSE_TEST_DEFAULT;
         $scope.fileLabel = 'Compose file';
         $scope.formLabel = 'Compose File Path';
         MDC.state.types.test = true;
+        path = '/' + COMPOSE_TEST_DEFAULT;
       } else if ($scope.fileType === 'Dockerfile') {
-        $scope.fileName = 'Dockerfile';
+        $scope.fileName = DOCKER_DEFAULT;
         $scope.fileLabel = 'Dockerfile';
         $scope.formLabel = 'Dockerfile Path';
-        MDC.loadDefaultDockerfile($scope.fullRepo, $scope.branchName, '/Dockerfile', $scope.fileType);
+        path = '/' + DOCKER_DEFAULT;
+        MDC.loadDefaultDockerfile($scope.fullRepo, $scope.branchName, path, $scope.fileType);
       }
+
+      fetchRepoDockerfile($scope.fullRepo, $scope.branchName, path)
+        .then(doesDockerfileExist)
+        .then(function (file) {
+          if (file) {
+            $scope.newDockerfile = $scope.fileName;
+          }
+        });
 
       $scope.$on('dockerfileExistsValidator', function ($event, path, fileType, dockerfile) {
         if (fileType === 'Dockerfile') {

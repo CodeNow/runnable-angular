@@ -20,6 +20,26 @@ describe('createAndBuildNewContainer'.bold.underline.blue, function () {
     var errsStub;
     var alertContainerCreatedStub;
 
+    var mockCurrentOrg = {
+      poppa: {
+        trialDaysRemaining: sinon.stub(),
+        isInTrial: sinon.stub(),
+        isInGrace: sinon.stub(),
+        isGraceExpired: sinon.stub(),
+        attrs: {
+          hasPaymentMethod: false
+        }
+      },
+      github: {
+        attrs: {
+          id: 'githubId1234'
+        }
+      },
+      willAcceptPayment: sinon.stub().returns(true),
+      isPaymentDue: sinon.stub().returns(true),
+      isBillingVisible: sinon.stub().returns(true)
+    };
+
     function createMasterPods() {
       ctx.masterPods = runnable.newInstances(
         [apiMocks.instances.building, apiMocks.instances.runningWithContainers[0]],
@@ -90,6 +110,7 @@ describe('createAndBuildNewContainer'.bold.underline.blue, function () {
           return mockFetchPlan;
         });
         $provide.value('errs', errsStub);
+        $provide.value('currentOrg', mockCurrentOrg);
       });
       angular.mock.inject(function (
         _$rootScope_,

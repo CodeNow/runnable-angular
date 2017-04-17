@@ -58,7 +58,7 @@
     ng-class = "{'building': !(BLC.headerContent.length && BLC.buildLogs.length > 0 && !BLC.buildLogsRunning)}"
   )
     div(
-      ng-repeat = "content in BLC.headerContent"
+      ng-repeat = "content in BLC.headerContent track by $index"
     ) {{content}}
 
   .log-spinner(

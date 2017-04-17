@@ -24,7 +24,8 @@
     transition: none;
   }
 
-  &[disabled] {
+  &[disabled],
+  &.disabled {
     cursor: not-allowed;
     opacity: .5;
   }
@@ -52,6 +53,11 @@
 
     &:last-child {
       margin-left: 5px;
+    }
+
+    &:only-child {
+      margin-left: auto;
+      margin-right: auto;
     }
   }
 
@@ -352,7 +358,7 @@
     border-color: $purple-darkest;
     color: $white;
 
-    &:not([disabled]) {
+    &:not([disabled]):not(.disabled) {
 
       &:hover,
       &.hover {
