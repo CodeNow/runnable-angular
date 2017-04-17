@@ -1,11 +1,20 @@
 .form-registry {
 
-  .well > .label {
-    margin-bottom: 0;
+  // error msg
+  .red {
+    padding: $sm $sm 0;
+  }
 
-    + .label {
-      margin-top: 0;
-      padding-top: 0;
+  .well {
+    border-radius: $input-border-radius-lg;
+
+    > .label {
+      margin-bottom: 0;
+
+      + .label {
+        margin-top: 0;
+        padding-top: 0;
+      }
     }
   }
 

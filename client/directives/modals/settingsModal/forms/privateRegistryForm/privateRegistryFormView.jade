@@ -8,10 +8,16 @@ section.label-description
     | .
 
 form.grid-block.vertical.well.gray.ignore-margin(
+  ng-class = "{'invalid': state.invalidCredentials}"
   name = "privateRegistryForm"
   ng-if = "!state.authorized"
   ng-init = "state.authorized = null"
 )
+  p.red.small.text-center(
+    ng-if = "state.invalidCredentials"
+  ) Your credentials were not valid.
+    br
+    | Please check them and try again.
   label.padding-sm.label
     .padding-xxs.small.label-sm Registry URL
     input.input.input-md.input-validate(
