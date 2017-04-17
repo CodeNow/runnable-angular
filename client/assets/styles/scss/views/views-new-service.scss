@@ -53,6 +53,10 @@
       border-top: 1px solid $gray-lighter;
     }
 
+    &:not(:first-child) + .label {
+      padding-top: 0;
+    }
+
     + .label {
       margin-top: 0;
     }
