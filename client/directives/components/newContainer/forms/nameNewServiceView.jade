@@ -12,6 +12,7 @@ label
       required
       spellcheck = "false"
       unique-validator = "NCC.state.namesForAllInstances"
+      ng-disabled = "NCC.isSaving()"
     )
     svg.iconnables.icons-check(
       ng-if = "NCC.nameForm.$valid"

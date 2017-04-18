@@ -5,6 +5,7 @@
       input.toggle-input(
         ng-model = "pathEnabled"
         type = "checkbox"
+        ng-disabled = "MDC.isSaving()"
       )
       .toggle-group.toggle-sm
 
@@ -40,7 +41,7 @@
       - Copy: "Select a Container"
     fancy-select.btn-md.white(
       disabled
-      ng-disabled = "loadingFile || !dockerComposeTestServices.length"
+      ng-disabled = "loadingFile || !dockerComposeTestServices.length || MDC.isSaving()"
       ng-required = "true"
       spinner-flag = "loadingFile"
       value = "dockerComposeState.testReporter"

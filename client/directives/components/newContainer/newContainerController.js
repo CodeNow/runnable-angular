@@ -394,6 +394,10 @@ function NewContainerController(
             (NCC.state.types.stage ? NCC.state.dockerComposeFile : NCC.state.types.test))));
   };
 
+  NCC.isSaving = function () {
+    return $rootScope.isLoading.newContainerSingleRepo || $rootScope.isLoading.creatingDockerCompose;
+  };
+
   NCC.populateComposeErrorMessage = function (errorMsg) {
     var err = /ValidationError(.*)/.exec(errorMsg);
     if (err) {
