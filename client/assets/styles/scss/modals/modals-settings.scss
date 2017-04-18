@@ -141,6 +141,11 @@
     font-size: 13px;
     min-height: 90px;
     padding: $sm 0;
+
+    > .spinner-wrapper {
+      height: 24px;
+      width: 24px;
+    }
   }
 
   .img {
@@ -151,14 +156,15 @@
     opacity: .5;
   }
 
-  .spinner-wrapper {
-    height: 24px;
-    width: 24px;
-  }
-
   // a.btn.gray
   .gray {
     color: $gray-dark;
+
+    .spinner-wrapper {
+      height: 12px;
+      width: 12px;
+      margin-right: 3px;
+    }
   }
 
   .btn-authorized {

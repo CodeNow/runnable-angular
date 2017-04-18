@@ -50,7 +50,17 @@
           | Authorize…
 
         //- show if instead of "authorize…" button if user is authorized but no key exists
-        //- .btn.gray.btn-xs.grid-block.shrink Create Key
+        //- .btn.gray.btn-xs.grid-block.align-center.shrink(
+        //-   ng-click = "creating = !creating"
+        //-   ng-disabled = "creating"
+        //-   ng-init = "creating = false"
+        //- )
+          .spinner-wrapper.spinner-sm.spinner-gray(
+            ng-include = "'spinner'"
+            ng-if = "creating"
+          )
+          | {{creating ? 'Creating…' : 'Create Key'}}
+
 
       //- all user keys; if current user's key exists, list it at the top
       li.grid-block.align-center.list-item(
