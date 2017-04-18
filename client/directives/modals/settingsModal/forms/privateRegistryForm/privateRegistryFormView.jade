@@ -15,7 +15,7 @@ form.grid-block.vertical.well.gray.ignore-margin(
 )
   p.red.small.text-center(
     ng-if = "state.invalidCredentials"
-  ) Your credentials were not valid.
+  ) We couldn’t validate your credentials.
     br
     | Please check them and try again.
   label.padding-sm.label
@@ -29,7 +29,7 @@ form.grid-block.vertical.well.gray.ignore-margin(
       spellcheck = "false"
       type = "url"
     )
-    small.grid-block.padding-xxs.small Add the URL for the registry you use. This could be from Docker Hub, AWS, Google Cloud, etc..
+    small.grid-block.padding-xxs.small Add the URL for the registry you use. This could be from Docker Hub, or a private registry.
   label.padding-sm.label
     .padding-xxs.small.label-sm Username
     input.input.input-md.input-validate(
@@ -62,15 +62,16 @@ form.grid-block.vertical.well.gray.ignore-margin(
       span Verify & Save
 
 section.padding-sm.grid-block.align-center.well.white.ignore-margin(
+  ng-if = "state.authorized"
   ng-init = "registryCredentials = [\
     {username: 'dockerfan88', url: 'https://index.docker.io/v1/'}\
   ]"
-  ng-if = "state.authorized"
 )
+  svg.grid-block.shrink.iconnables.icons-check.margin-right-xxs
+    use(
+      xlink:href = "#icons-check"
+    )
   .grid-block.vertical
-    p.small.weight-strong Authorized {{registryCredentials[0].username}}
-    small.small.text-gray {{registryCredentials[0].url}}
-  button.btn.btn-xs.orange Deauthorize
-small.grid-block.padding-xxs.small.text-gray(
-  ng-if = "state.authorized"
-) Deauthorize your current registry to modify your credentials.
+    p.small.weight-strong.text-overflow Authorized {{registryCredentials[0].username}}
+    small.small.text-gray.text-overflow {{registryCredentials[0].url}}
+  button.btn.btn-xs.gray.margin-left-xxs Change
