@@ -8,8 +8,8 @@ section.label-description
     | .
 
 form.grid-block.vertical.well.gray.ignore-margin(
-  ng-class = "{'invalid': state.invalidCredentials}"
   name = "privateRegistryForm"
+  ng-class = "{'invalid': state.invalidCredentials}"
   ng-if = "!state.authorized"
   ng-init = "state.authorized = null"
 )
