@@ -42,6 +42,7 @@ form.grid-block.vertical.well.gray.ignore-margin(
   label.padding-sm.label
     .padding-xxs.small.label-sm Password
     input.input.input-md.input-validate(
+      autocomplete = "new-password"
       name = "data.password"
       ng-disabled = "state.saving"
       ng-model = "data.password"
