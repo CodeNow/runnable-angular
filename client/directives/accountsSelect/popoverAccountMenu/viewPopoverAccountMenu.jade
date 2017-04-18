@@ -63,6 +63,7 @@
               | Slack Integration
             li.list-item.popover-list-item(
               ng-click = "actions.openSettingsModal('SSHKeys')"
+              ng-if = "$root.featureFlags.composeSSHKeys"
             )
               svg.iconnables
                 use(
