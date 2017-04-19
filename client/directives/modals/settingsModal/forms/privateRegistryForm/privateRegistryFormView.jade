@@ -1,6 +1,6 @@
 section.label-description
   .label-col Private Registry
-  .small.text-gray If you push your images to a private registry, you can safely store your credientials to use those images on Runnable.&#32;
+  .small.text-gray If you push your images to a private registry, you can safely store your credentials to use those images on Runnable.&#32;
     a.link(
       href = "//runnable.com/docs"
       target = "_blank"
@@ -29,7 +29,7 @@ form.grid-block.vertical.well.gray.ignore-margin(
       spellcheck = "false"
       type = "url"
     )
-    small.grid-block.padding-xxs.small Add the URL for the registry you use. This could be from Docker Hub, or a private registry.
+    small.grid-block.padding-xxs.small Add the URL for the registry you use. This could be from Docker Hub or a private registry.
   label.padding-sm.label
     .padding-xxs.small.label-sm Username
     input.input.input-md.input-validate(
@@ -50,7 +50,13 @@ form.grid-block.vertical.well.gray.ignore-margin(
       spellcheck = "false"
       type = "password"
     )
-  footer.margin-top-sm.padding-sm.grid-block.justify-right.footer
+  footer.margin-top-sm.padding-sm.grid-block.footer(
+    ng-class = "{\
+      'justify-justified': state.authorized,\
+      'justify-right': !state.authorized\
+    }"
+  )
+    button.btn.btn-md.gray.btn-cancel Back
     button.grid-block.shrink.align-center.btn.btn-md.green(
       ng-click = "state.saving = true"
       ng-disabled = "state.saving || privateRegistryForm.$invalid"
