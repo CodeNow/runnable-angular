@@ -158,17 +158,8 @@
     }
   }
 
-  .img {
-    border-radius: $input-border-radius;
-  }
-
-  .img-unauthorized {
-    opacity: .5;
-  }
-
-  .btn .iconnables {
-    flex: 0 0 18px;
-    margin-right: 2px;
+  .btn-xs {
+    padding: 0 3px;
   }
 
   // a.btn.gray
@@ -187,5 +178,18 @@
     border-color: transparent;
     color: $gray;
     pointer-events: none;
+  }
+
+  .icons-check,
+  .icons-octicons-github {
+    flex: 0 0 18px;
+    margin-right: 2px;
+  }
+
+  .icons-link-external-alt {
+    height: 9px;
+    margin-left: 3px;
+    top: 1px;
+    width: 9px;
   }
 }
