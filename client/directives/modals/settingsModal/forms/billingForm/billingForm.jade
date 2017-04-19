@@ -11,38 +11,37 @@
       name = "billingForm"
     )
       .grid-block.vertical.align-center.form-trial.padding-md.fade(
-        ng-class = "{'in': isActivePanel()}"
-        trial-form
         from-modal = 'true'
+        ng-class = "{'in': isActivePanel()}"
         ng-if = "currentOrg.poppa.isInTrial() && !currentOrg.poppa.attrs.hasPaymentMethod"
+        trial-form
       )
       .grid-block.vertical.form-plan.fade(
         ng-class = "{'in': isActivePanel()}"
-        ng-init = "state.hasDuration = false"
-        plan-status-form
-        ng-show = "!$root.isLoading.billingForm"
         ng-if = "currentOrg.poppa.isInTrial() && !currentOrg.poppa.attrs.hasPaymentMethod"
+        ng-init = "state.hasDuration = false"
+        ng-show = "!$root.isLoading.billingForm"
+        plan-status-form
       )
-
       .grid-block.vertical.form-plan.label.padding-sm.fade(
         ng-class = "{'in': isActivePanel()}"
+        ng-if = "!currentOrg.poppa.isInTrial() || (currentOrg.poppa.isInTrial() && currentOrg.poppa.attrs.hasPaymentMethod)"
         show-plan-form
-        ng-if = "!currentOrg.poppa.isInTrial() || (currentOrg.poppa.isInTrial() && currentOrg.poppa.attrs.hasPaymentMethod)"
       )
       .grid-block.vertical.label.padding-sm.fade(
         ng-class = "{'in': isActivePanel()}"
+        ng-if = "!currentOrg.poppa.isInTrial() || (currentOrg.poppa.isInTrial() && currentOrg.poppa.attrs.hasPaymentMethod)"
         show-payment-form
-        ng-if = "!currentOrg.poppa.isInTrial() || (currentOrg.poppa.isInTrial() && currentOrg.poppa.attrs.hasPaymentMethod)"
       )
       .grid-block.vertical.label.padding-sm.fade(
-        ng-class = "{'in': isActivePanel()}"
         billing-history-form
+        ng-class = "{'in': isActivePanel()}"
         ng-if = "!currentOrg.poppa.isInTrial() || (currentOrg.poppa.isInTrial() && currentOrg.poppa.attrs.hasPaymentMethod)"
       )
       .grid-block.vertical.label.padding-sm.fade(
         ng-class = "{'in': isActivePanel()}"
-        ng-include = "'disableOrgForm'"
         ng-if = "!currentOrg.poppa.isInTrial() || (currentOrg.poppa.isInTrial() && currentOrg.poppa.attrs.hasPaymentMethod)"
+        ng-include = "'disableOrgForm'"
       )
     animated-panel(
       name = "planStatusForm"

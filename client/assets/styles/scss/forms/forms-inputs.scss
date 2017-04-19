@@ -80,12 +80,13 @@ input {
 
   // placeholder
   &::placeholder {
-    color: $gray;
+    color: $gray-light;
   }
 }
 
 // sizes
 .input {
+  color: $gray-dark;
   height: $input-md;
   line-height: $input-line-height-md;
 
