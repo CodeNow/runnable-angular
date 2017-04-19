@@ -10,13 +10,18 @@
     min-height: 32px;
   }
 
-  .modal-header .orange {
-    border: 0;
-    border-radius: 15px;
-    font-size: 11px;
-    font-weight: $weight-normal;
-    height: 15px;
-    padding: 0 5px;
+  .modal-header {
+    padding-left: 0;
+    padding-right: 0;
+
+    .orange {
+      border: 0;
+      border-radius: 15px;
+      font-size: 11px;
+      font-weight: $weight-normal;
+      height: 15px;
+      padding: 0 5px;
+    }
   }
 
   .modal-body {
@@ -89,7 +94,6 @@
   }
 
   .list-teammates-pending {
-    background-image: repeating-linear-gradient(60deg, #f9f9f9, #f9f9f9 18px, transparent 18px, transparent 36px);
 
     + .list-teammates-pending {
       margin-top: 15px;
