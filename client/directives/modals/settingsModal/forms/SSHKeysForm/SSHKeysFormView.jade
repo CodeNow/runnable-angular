@@ -19,17 +19,14 @@ ol.list-bordered.padding-left-sm.padding-right-sm(
     ng-init = "listening = false"
   )
     //- normal state
-    img.grid-block.shrink.img.img-unauthorized(
-      height = "24"
-      ng-if = "!listening"
-      src = "https://avatars1.githubusercontent.com/u/7440805"
-      width = "24"
-    )
+    svg.grid-block.shrink.iconnables.icons-key-empty
+      use(
+        xlink:href = "#icons-key-empty"
+      )
     .grid-block.vertical.padding-left-sm.padding-right-sm(
       ng-if = "!listening"
     )
-      p.text-gray.strong Add your user key
-      p.text-gray User keys let your project access its private dependencies on GitHub.
+      p.text-gray Add your user key so your project can access private dependencies.
 
     //- listening state
     .grid-block.shrink.align-center.justify-center.spinner-wrapper.spinner-sm.spinner-gray(
@@ -66,11 +63,10 @@ ol.list-bordered.padding-left-sm.padding-right-sm(
   li.grid-block.align-center.list-item(
     ng-repeat = "key in keys"
   )
-    img.grid-block.shrink.img(
-      height = "24"
-      src = "{{key.avatar}}"
-      width = "24"
-    )
+    svg.grid-block.shrink.iconnables.icons-key
+      use(
+        xlink:href = "#icons-key"
+      )
     .grid-block.vertical.padding-left-sm.padding-right-sm
       p.strong {{key.username}} user key (Runnable)
       p.monospace.text-gray.text-overflow {{key.fingerprint}}
