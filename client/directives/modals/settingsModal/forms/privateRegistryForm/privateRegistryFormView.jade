@@ -56,7 +56,9 @@ form.grid-block.vertical.well.gray.ignore-margin(
       'justify-right': !state.authorized\
     }"
   )
-    button.btn.btn-md.gray.btn-cancel Back
+    button.btn.btn-md.gray.btn-cancel(
+      ng-if = "state.authorized"
+    ) Back
     button.grid-block.shrink.align-center.btn.btn-md.green(
       ng-click = "state.saving = true"
       ng-disabled = "state.saving || privateRegistryForm.$invalid"
