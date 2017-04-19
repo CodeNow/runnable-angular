@@ -29,7 +29,10 @@ function PlanStatusFormController(
       var plan = results[0];
       var instances = results[1];
       PSFC.plan = plan.next;
-      PSFC.configurations = instances.models.length;
+      PSFC.configurations = instances.models.filter(
+        function(instance) {
+          return !instance.attrs.isTesting
+        }).length;
       PSFC.discount = plan.discount;
     })
     .finally(function () {
