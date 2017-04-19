@@ -1,5 +1,9 @@
-section.grid-block.vertical.modal-body
-
+header.grid-block.vertical.align-center.modal-header(
+  ng-if = "$root.featureFlags.composeEditing"
+)
+  .container-title-wrapper
+    .server-status-card-pop-over.no-touching
+      .container-title {{NCC.state.instanceName}}
   svg.iconnables.icons-close(
     ng-click = "NCC.close()"
   )
@@ -7,8 +11,34 @@ section.grid-block.vertical.modal-body
       xlink:href = "#icons-close"
     )
 
+  .row.modal-tabs.tabs-all.grid-block.clearfix
+    button.btn.btn-radio.grid-block.vertical
+      svg.iconnables.grid-content
+        use(
+          xlink:href = "#icons-billing"
+        )
+      .btn-text.grid-content Compose
+    button.btn.btn-radio.grid-block.vertical
+      svg.iconnables.grid-content
+        use(
+          xlink:href = "#icons-environment-variable"
+        )
+      .btn-text.grid-content Environment Variables
+
+section.grid-block.vertical.modal-body
+
+  svg.iconnables.icons-close(
+    ng-click = "NCC.close()"
+    ng-if = "!$root.featureFlags.composeEditing"
+  )
+    use(
+      xlink:href = "#icons-close"
+    )
+
   .grid-block.vertical.modal-form.no-border
-    .label-tabs.grid-block
+    .label-tabs.grid-block(
+      ng-if = "!$root.featureFlags.composeEditing"
+    )
       label.grid-block.align-center.btn.btn-radio(
         ng-class = "{'active': NCC.state.dockerFileTab === 'kubernetes'}"
         ng-click = "\
