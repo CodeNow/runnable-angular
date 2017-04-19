@@ -91,9 +91,9 @@
         ng-if = "SEMC.currentTab === 'slackIntegration'"
       )
 
-      div(
+      .modal-form.form-ssh(
         ng-if = "SEMC.currentTab === 'SSHKeys'"
-        ng-include = "'SSHKeysForm'"
+        ng-include = "'SSHKeysFormView'"
       )
 
     footer.modal-footer.clearfix.js-animate(

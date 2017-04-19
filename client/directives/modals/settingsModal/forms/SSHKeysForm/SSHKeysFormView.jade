@@ -1,0 +1,82 @@
+section.label-description
+  .label-col SSH Keys
+  .small.text-gray All keys will be added to each container at build time. Keys can be deleted from&#32;
+    a.link(
+      href = "#"
+      target = "_blank"
+    ) your SSH key settings
+    | &#32;on GitHub.
+
+ol.list-bordered.padding-left-sm.padding-right-sm(
+  ng-init = "keys = [\
+    {username: 'Myztiq', fingerprint: '40:71:04:a8:3b:ea:a8:90:f6:99:6c:7a:22:f7:c0:15', avatar: 'https://avatars1.githubusercontent.com/u/495765'},\
+    {username: 'podviaznikov', fingerprint: 'e2:81:ae:03:43:1a:ba:cf:4e:e0:79:37:69:40:58:56', avatar: 'https://avatars1.githubusercontent.com/u/429706'}\
+  ]"
+)
+
+  //- if no key exists for the current user
+  li.grid-block.align-center.list-item(
+    ng-init = "listening = false"
+  )
+    //- normal state
+    img.grid-block.shrink.img.img-unauthorized(
+      height = "24"
+      ng-if = "!listening"
+      src = "https://avatars1.githubusercontent.com/u/7440805"
+      width = "24"
+    )
+    .grid-block.vertical.padding-left-sm.padding-right-sm(
+      ng-if = "!listening"
+    )
+      p.text-gray.strong Add your user key
+      p.text-gray User keys let your project access its private dependencies on GitHub.
+
+    //- listening state
+    .grid-block.shrink.align-center.justify-center.spinner-wrapper.spinner-sm.spinner-gray(
+      ng-if = "listening"
+      ng-include = "'spinner'"
+    )
+    p.grid-block.align-center.padding-left-sm.padding-right-sm.text-gray(
+      ng-if = "listening"
+    ) Listening for authorization…
+
+    a.btn.gray.btn-xs.grid-block.shrink.noscroll.align-center(
+      ng-click = "listening = !listening"
+    )
+      svg.iconnables.icons-octicons-github
+        use(
+          xlink:href = "#icons-octicons-github"
+        )
+      | Authorize…
+
+    //- show instead of "authorize…" button if user is authorized but no key exists (and not listening)
+    //- .btn.gray.btn-xs.grid-block.align-center.shrink(
+    //-   ng-click = "creating = !creating"
+    //-   ng-disabled = "creating"
+    //-   ng-init = "creating = false"
+    //- )
+      .spinner-wrapper.spinner-sm.spinner-gray(
+        ng-include = "'spinner'"
+        ng-if = "creating"
+      )
+      | {{creating ? 'Creating…' : 'Create Key'}}
+
+
+  //- all user keys; if current user's key exists, list it at the top
+  li.grid-block.align-center.list-item(
+    ng-repeat = "key in keys"
+  )
+    img.grid-block.shrink.img(
+      height = "24"
+      src = "{{key.avatar}}"
+      width = "24"
+    )
+    .grid-block.vertical.padding-left-sm.padding-right-sm
+      p.strong {{key.username}} user key (Runnable)
+      p.monospace.text-gray.text-overflow {{key.fingerprint}}
+    .btn.btn-xs.grid-block.shrink.align-center.btn-authorized
+      svg.iconnables.icons-check
+        use(
+          xlink:href = "#icons-check"
+        )
+      | Authorized
