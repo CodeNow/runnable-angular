@@ -146,20 +146,16 @@
     min-height: 90px;
     padding: $sm 0;
 
-    > .iconnables {
-      width: 24px;
-      height: 24px;
-      padding: 3px;
-    }
-
+    > .icons-key,
     > .spinner-wrapper {
       height: 24px;
+      padding: 3px;
       width: 24px;
     }
   }
 
   .btn-xs {
-    padding: 0 3px;
+    flex: 0 0 114px;
   }
 
   // a.btn.gray
@@ -188,8 +184,7 @@
 
   .icons-link-external-alt {
     height: 9px;
-    margin-left: 3px;
-    top: 1px;
+    margin-left: 4px;
     width: 9px;
   }
 }

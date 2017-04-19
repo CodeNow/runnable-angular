@@ -19,7 +19,9 @@ ol.list-bordered.padding-left-sm.padding-right-sm(
     ng-init = "listening = false"
   )
     //- normal state
-    svg.grid-block.shrink.iconnables.icons-key-empty
+    svg.grid-block.shrink.iconnables.icons-key(
+      ng-if = "!listening"
+    )
       use(
         xlink:href = "#icons-key-empty"
       )
