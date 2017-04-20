@@ -4,7 +4,7 @@
   &.padding-md,
   > .padding-md {
     @include media(xxs) {
-      padding: 15px;
+      padding: $sm;
     }
 
     @include media(xxxs) {
@@ -15,17 +15,12 @@
   .well-payment {
 
     // if server side error
-    &.invalid {
-      border-color: $red;
-      box-shadow: inset 0 0 0 1px $red;
-
-      > .red {
-        margin-bottom: 15px;
-      }
+    &.invalid > .red {
+      margin-bottom: $sm;
     }
 
     > .grid-block + .grid-block {
-      margin-top: 15px;
+      margin-top: $sm;
     }
 
     // payment summary
