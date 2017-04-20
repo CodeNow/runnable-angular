@@ -15,7 +15,7 @@ form(
         dockerfile-exists-validator = "{{fileType}}"
         full-repo = "fullRepo"
         id = "add-dockerfile-input"
-        ng-disabled = "state.dockerFileAdded"
+        ng-disabled = "state.dockerFileAdded || $root.featureFlags.composeEditing"
         ng-model = "newDockerfile"
         ng-model-options = "{ debounce: { 'default': 100, 'blur': 0 } }"
         placeholder = "{{ fileName }}"
