@@ -17,6 +17,7 @@ ol.list-bordered.padding-left-sm.padding-right-sm(
   //- if no key exists for the current user
   li.grid-block.align-center.list-item(
     ng-init = "listening = false"
+    ng-if = "!state.authorized"
   )
     //- normal state
     svg.grid-block.shrink.iconnables.icons-key(
@@ -25,10 +26,9 @@ ol.list-bordered.padding-left-sm.padding-right-sm(
       use(
         xlink:href = "#icons-key-empty"
       )
-    .grid-block.vertical.padding-left-sm.padding-right-sm(
+    p.text-gray.padding-left-sm.padding-right-sm(
       ng-if = "!listening"
-    )
-      p.text-gray Add your user key so your project can access private dependencies.
+    ) Add your user key so your project can access private dependencies.
 
     //- listening state
     .grid-block.shrink.align-center.justify-center.spinner-wrapper.spinner-sm.spinner-gray(
@@ -39,31 +39,17 @@ ol.list-bordered.padding-left-sm.padding-right-sm(
       ng-if = "listening"
     ) Listening for authorization…
 
-    a.btn.gray.btn-xs.grid-block.shrink.noscroll.align-center(
-      ng-click = "listening = !listening"
+    a.grid-block.shrink.noscroll.align-center.btn.gray.btn-xs(
+      ng-disabled = "state.authorized"
+      ng-if = "!state.everAuthorized"
+      ng-include = "'SSHAuthorizeButton'"
     )
-      svg.iconnables.icons-octicons-github
-        use(
-          xlink:href = "#icons-octicons-github"
-        )
-      | Authorize
-      svg.iconnables.icons-link-external-alt
-        use(
-          xlink:href = "#icons-link-external-alt"
-        )
 
-    //- show instead of "authorize…" button if user is authorized but no key exists (and not listening)
-    //- .btn.gray.btn-xs.grid-block.align-center.shrink(
-    //-   ng-click = "creating = !creating"
-    //-   ng-disabled = "creating"
-    //-   ng-init = "creating = false"
-    //- )
-      .spinner-wrapper.spinner-sm.spinner-gray(
-        ng-include = "'spinner'"
-        ng-if = "creating"
-      )
-      | {{creating ? 'Creating…' : 'Create Key'}}
-
+    a.grid-block.shrink.noscroll.align-center.btn.gray.btn-xs.btn-create-key(
+      ng-disabled = "state.creating"
+      ng-if = "state.everAuthorized && !state.authorized"
+      ng-include = "'SSHCreateButton'"
+    )
 
   //- all user keys; if current user's key exists, list it at the top
   li.grid-block.align-center.list-item(
@@ -76,9 +62,7 @@ ol.list-bordered.padding-left-sm.padding-right-sm(
     .grid-block.vertical.padding-left-sm.padding-right-sm
       p.strong {{key.username}} user key (Runnable)
       p.monospace.text-gray.text-overflow {{key.fingerprint}}
-    .btn.btn-xs.grid-block.shrink.align-center.btn-authorized
-      svg.iconnables.icons-check
-        use(
-          xlink:href = "#icons-check"
-        )
-      | Authorized
+    a.grid-block.shrink.noscroll.align-center.btn.gray.btn-xs.btn-authorized(
+      ng-include = "'SSHAuthorizeButton'"
+      ng-init = "state.authorized = true"
+    )

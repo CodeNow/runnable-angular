@@ -154,7 +154,7 @@
     }
   }
 
-  .btn-xs {
+  .btn-xs:not(.btn-create-key) {
     flex: 0 0 114px;
   }
 
