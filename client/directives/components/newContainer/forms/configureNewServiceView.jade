@@ -12,25 +12,23 @@ header.grid-block.vertical.align-center.modal-header(
       xlink:href = "#icons-close"
     )
 
-  .row.modal-tabs.tabs-all.grid-block.clearfix
+  .row.modal-tabs.tabs-all.grid-block.clearfix(
+    ng-init = "tabs = [\
+      {name: 'compose', iconName: 'icons-compose', label: 'Compose Files'},\
+      {name: 'env', iconName: 'icons-environment-variable', label: 'Environment Variables'}\
+    ];"
+  )
     button.btn.btn-radio.grid-block.vertical(
-      ng-class = "{'active': state.selectedTab === 'compose'}"
-      ng-click = "state.selectedTab = 'compose'"
+      ng-class = "{'active': state.selectedTab === '{{tab.name}}'}"
+      ng-click = "state.selectedTab = tab.name"
+      ng-repeat = "tab in tabs"
     )
       svg.iconnables.grid-content
         use(
-          xlink:href = "#icons-compose"
+          ng-attr-xlink:href = "{{'#' + $sce.trustAs($sce.HTML, tab.iconName)}}"
+          xlink:href = ""
         )
-      .btn-text.grid-content Compose Files
-    button.btn.btn-radio.grid-block.vertical(
-      ng-class = "{'active': state.selectedTab === 'env'}"
-      ng-click = "state.selectedTab = 'env'"
-    )
-      svg.iconnables.grid-content
-        use(
-          xlink:href = "#icons-environment-variable"
-        )
-      .btn-text.grid-content Environment Variables
+      .btn-text.grid-content {{tab.label}}
 
 section.grid-block.vertical.modal-body(
   ng-init = "state.selectedTab = 'compose'"
@@ -49,49 +47,8 @@ section.grid-block.vertical.modal-body(
   )
     .label-tabs.grid-block(
       ng-if = "!$root.featureFlags.composeEditing"
+      ng-include = "'setupMethodView'"
     )
-      label.grid-block.align-center.btn.btn-radio(
-        ng-class = "{'active': NCC.state.dockerFileTab === 'kubernetes'}"
-        ng-click = "\
-          NCC.state.dockerFileTab = 'kubernetes';\
-          NCC.state.configurationMethod = 'dockerComposeFile'\
-        "
-        ng-if = "$root.featureFlags.kubernetes"
-      )
-        svg.grid-block.shrink.btn.btn-xs.btn-icon.btn-add.iconnables.icons-check
-          use(
-            xlink:href = "#icons-check"
-          )
-        .grid-block.vertical.text-left
-          p.p.weight-strong Use Kubernetes
-          small.small Set up from Kubernetes files in your repo.
-
-      label.grid-block.align-center.btn.btn-radio(
-        data-event-name = "Selected Compose Setup"
-        ng-class = "{'active': NCC.state.dockerFileTab === 'compose'}"
-        ng-click = "NCC.state.dockerFileTab = 'compose'; NCC.state.configurationMethod = 'dockerComposeFile'"
-      )
-        svg.grid-block.shrink.btn.btn-xs.btn-icon.btn-add.iconnables.icons-check
-          use(
-            xlink:href = "#icons-check"
-          )
-        .grid-block.vertical.text-left
-          p.p.weight-strong Use a Compose File
-          small.small Set up from a Compose file in your repo.
-
-      label.grid-block.align-center.btn.btn-radio(
-        data-event-name = "Selected Dockerfile Setup"
-        ng-class = "{'active': NCC.state.dockerFileTab === 'dockerfile'}"
-        ng-click = "NCC.state.dockerFileTab = 'dockerfile'; NCC.state.configurationMethod = 'dockerfile'"
-        ng-if = "!$root.featureFlags.kubernetes"
-      )
-        svg.grid-block.shrink.btn.btn-xs.btn-icon.btn-add.iconnables.icons-check
-          use(
-            xlink:href = "#icons-check"
-          )
-        .grid-block.vertical.text-left
-          p.p.weight-strong No Compose File
-          small.small Set up from scratch or from a Dockerfile.
 
     //- form for naming the environment
     form.grid-block.vertical.label(
