@@ -101,7 +101,7 @@ footer.modal-footer.clearfix
     )
     span(
       ng-if = "$root.featureFlags.composeNewService && NCC.state.repo"
-    ) {{ NCC.getNextStepText() }}
+    ) {{$root.featureFlags.composeEditing ? 'Save Changes' : 'NCC.getNextStepText()'}}
     span(
       ng-if = "NCC.state.templateSource"
     ) Add Service
