@@ -31,7 +31,7 @@ function PlanStatusFormController(
       PSFC.plan = plan.next;
       PSFC.configurations = instances.models.filter(
         function(instance) {
-          return !instance.attrs.isTesting
+          return !keypather.get(instance, 'attrs.isTesting');
         }).length;
       PSFC.discount = plan.discount;
     })
