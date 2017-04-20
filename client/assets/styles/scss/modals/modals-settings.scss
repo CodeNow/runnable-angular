@@ -146,16 +146,42 @@
     min-height: 90px;
     padding: $sm 0;
 
+    @include media(xxs) {
+      align-items: flex-start;
+      flex-direction: column;
+      min-height: 0;
+    }
+
     > .icons-key,
     > .spinner-wrapper {
       height: 24px;
       padding: 3px;
       width: 24px;
+
+      @include media(xxs) {
+        bottom: 15px;
+        position: absolute;
+        right: 0;
+      }
+    }
+  }
+
+  .p {
+    padding: 0 15px;
+
+    @include media(xxs) {
+      max-width: 100%;
+      padding: 0;
     }
   }
 
   .btn-xs:not(.btn-create-key) {
     flex: 0 0 114px;
+
+    @include media(xxs) {
+      flex: 0 0 auto;
+      margin-top: 9px;
+    }
   }
 
   // a.btn.gray
@@ -174,6 +200,10 @@
     border-color: transparent;
     color: $gray;
     pointer-events: none;
+
+    @include media(xxs) {
+      padding: 0;
+    }
   }
 
   .icons-check,

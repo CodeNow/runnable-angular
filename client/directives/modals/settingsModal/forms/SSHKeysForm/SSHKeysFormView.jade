@@ -19,32 +19,22 @@ ol.list-bordered.padding-left-sm.padding-right-sm(
     ng-init = "listening = false"
     ng-if = "!state.authorized"
   )
-    //- normal state
     svg.grid-block.shrink.iconnables.icons-key(
       ng-if = "!listening"
     )
       use(
         xlink:href = "#icons-key-empty"
       )
-    p.text-gray.padding-left-sm.padding-right-sm(
-      ng-if = "!listening"
-    ) Add your user key so your project can access private dependencies.
-
-    //- listening state
     .grid-block.shrink.align-center.justify-center.spinner-wrapper.spinner-sm.spinner-gray(
       ng-if = "listening"
       ng-include = "'spinner'"
     )
-    p.grid-block.align-center.padding-left-sm.padding-right-sm.text-gray(
-      ng-if = "listening"
-    ) Listening for authorization…
-
+    p.grid-block.p.text-gray {{listening ? "Listening for authorization…" : "Add your user key so your project can access private dependencies."}}
     a.grid-block.shrink.noscroll.align-center.btn.gray.btn-xs(
       ng-disabled = "state.authorized"
       ng-if = "!state.everAuthorized"
       ng-include = "'SSHAuthorizeButton'"
     )
-
     a.grid-block.shrink.noscroll.align-center.btn.gray.btn-xs.btn-create-key(
       ng-disabled = "state.creating"
       ng-if = "state.everAuthorized && !state.authorized"
@@ -59,7 +49,7 @@ ol.list-bordered.padding-left-sm.padding-right-sm(
       use(
         xlink:href = "#icons-key"
       )
-    .grid-block.vertical.padding-left-sm.padding-right-sm
+    .grid-block.vertical.p
       p.strong {{key.username}} user key (Runnable)
       p.monospace.text-gray.text-overflow {{key.fingerprint}}
     a.grid-block.shrink.noscroll.align-center.btn.gray.btn-xs.btn-authorized(
