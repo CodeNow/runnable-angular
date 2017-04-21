@@ -152,6 +152,16 @@
       min-height: 0;
     }
 
+    &.recently-added {
+      background-color: $blue-lighter;
+      border-color: $blue-light;
+      box-shadow: inset 0 0 0 $input-border-lg $blue-light;
+      margin: -$input-border (-($sm + $input-border));
+      padding-left: $sm;
+      padding-right: $sm;
+      z-index: 1;
+    }
+
     > .icons-key,
     > .spinner-wrapper {
       height: 24px;
