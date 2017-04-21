@@ -38,14 +38,16 @@ ol.list-bordered(
       span.weight-strong runnabro
       | &#32;so your project can access private dependencies.
     a.grid-block.shrink.noscroll.align-center.btn.gray.btn-xs(
+      ng-click = "state.listening = !state.listening"
       ng-if = "!state.everAuthorized"
       ng-include = "'SSHAuthorizeButton'"
-      ng-click = "state.listening = !state.listening"
     )
     a.grid-block.shrink.noscroll.align-center.btn.gray.btn-xs.btn-create-key(
-      ng-disabled = "state.creating"
+      ng-click = "state.creatingKey = !state.creatingKey"
+      ng-disabled = "state.creatingKey"
       ng-if = "state.everAuthorized && !state.authorized"
       ng-include = "'SSHCreateButton'"
+      ng-init = "state.creatingKey = false"
     )
 
   //- all user keys; if current user's key exists, list it at the top

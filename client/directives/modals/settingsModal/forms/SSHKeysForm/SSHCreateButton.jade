@@ -1,5 +1,5 @@
 .spinner-wrapper.spinner-sm.spinner-gray(
-  ng-if = "state.creating"
+  ng-if = "state.creatingKey"
   ng-include = "'spinner'"
 )
-| {{creating ? 'Creating…' : 'Create Key'}}
+| {{state.creatingKey ? 'Creating…' : 'Create Key'}}
