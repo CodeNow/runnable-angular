@@ -156,9 +156,10 @@
       background-color: $blue-lighter;
       border-color: $blue-light;
       box-shadow: inset 0 0 0 $input-border-lg $blue-light;
+      height: 90px + $input-border * 2;
       margin: -$input-border (-($sm + $input-border));
-      padding-left: $sm;
-      padding-right: $sm;
+      padding-left: $sm + $input-border;
+      padding-right: $sm + $input-border;
       z-index: 1;
     }
 
