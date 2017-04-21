@@ -8,10 +8,13 @@ section.label-description
     | .
 
 ol.list-bordered(
-  ng-init = "keys = [\
-    {username: 'Myztiq', fingerprint: '40:71:04:a8:3b:ea:a8:90:f6:99:6c:7a:22:f7:c0:15', avatar: 'https://avatars1.githubusercontent.com/u/495765'},\
-    {username: 'podviaznikov', fingerprint: 'e2:81:ae:03:43:1a:ba:cf:4e:e0:79:37:69:40:58:56', avatar: 'https://avatars1.githubusercontent.com/u/429706'}\
-  ]"
+  ng-init = "\
+    keys = [\
+      {username: 'Myztiq', fingerprint: '40:71:04:a8:3b:ea:a8:90:f6:99:6c:7a:22:f7:c0:15', avatar: 'https://avatars1.githubusercontent.com/u/495765'},\
+      {username: 'podviaznikov', fingerprint: 'e2:81:ae:03:43:1a:ba:cf:4e:e0:79:37:69:40:58:56', avatar: 'https://avatars1.githubusercontent.com/u/429706'}\
+    ];\
+    currentOrg = 'CodeNow'\
+  "
 )
 
   //- if no key exists for the current user
@@ -59,7 +62,9 @@ ol.list-bordered(
         xlink:href = "#icons-key"
       )
     .grid-block.vertical.p
-      p.strong {{key.username}} User Key
+      p.strong.text-overflow(
+        title = "{{key.username}} User Key for {{currentOrg}}"
+      ) {{key.username}} User Key for {{currentOrg}}
       p.monospace.text-gray.text-overflow {{key.fingerprint}}
     a.grid-block.shrink.noscroll.align-center.btn.gray.btn-xs.btn-authorized(
       ng-include = "'SSHAuthorizeButton'"
