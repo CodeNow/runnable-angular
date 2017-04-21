@@ -16,24 +16,32 @@ ol.list-bordered.padding-left-sm.padding-right-sm(
 
   //- if no key exists for the current user
   li.grid-block.align-center.list-item(
-    ng-init = "listening = false"
+    ng-init = "state.listening = false"
     ng-if = "!state.authorized"
   )
     svg.grid-block.shrink.iconnables.icons-key(
-      ng-if = "!listening"
+      ng-if = "!state.listening"
     )
       use(
         xlink:href = "#icons-key-empty"
       )
     .grid-block.shrink.align-center.justify-center.spinner-wrapper.spinner-sm.spinner-gray(
-      ng-if = "listening"
+      ng-if = "state.listening"
       ng-include = "'spinner'"
     )
-    p.grid-block.p.text-gray {{listening ? "Listening for authorization…" : "Add your user key so your project can access private dependencies."}}
+    p.grid-block.p.text-gray(
+      ng-if = "state.listening"
+    ) Listening for authorization…
+    p.grid-block.p.text-gray(
+      ng-if = "!state.listening"
+    ) Add the user key for&#32;
+      span.weight-strong runnabro
+      | &#32;so your project can access private dependencies.
     a.grid-block.shrink.noscroll.align-center.btn.gray.btn-xs(
       ng-disabled = "state.authorized"
       ng-if = "!state.everAuthorized"
       ng-include = "'SSHAuthorizeButton'"
+      ng-click = "state.listening = !state.listening"
     )
     a.grid-block.shrink.noscroll.align-center.btn.gray.btn-xs.btn-create-key(
       ng-disabled = "state.creating"
@@ -50,7 +58,7 @@ ol.list-bordered.padding-left-sm.padding-right-sm(
         xlink:href = "#icons-key"
       )
     .grid-block.vertical.p
-      p.strong {{key.username}} user key (Runnable)
+      p.strong {{key.username}} user key
       p.monospace.text-gray.text-overflow {{key.fingerprint}}
     a.grid-block.shrink.noscroll.align-center.btn.gray.btn-xs.btn-authorized(
       ng-include = "'SSHAuthorizeButton'"
