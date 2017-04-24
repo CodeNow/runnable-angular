@@ -1,5 +1,10 @@
-section.grid-block.vertical.modal-body
-
+header.grid-block.vertical.align-center.modal-header(
+  ng-if = "$root.featureFlags.composeEditing"
+  ng-init = "state.selectedTab = 'compose'"
+)
+  .container-title-wrapper
+    .server-status-card-pop-over.no-touching
+      .container-title {{NCC.state.instanceName}}
   svg.iconnables.icons-close(
     ng-click = "NCC.close()"
   )
@@ -7,50 +12,43 @@ section.grid-block.vertical.modal-body
       xlink:href = "#icons-close"
     )
 
-  .grid-block.vertical.modal-form.no-border
-    .label-tabs.grid-block
-      label.grid-block.align-center.btn.btn-radio(
-        ng-class = "{'active': NCC.state.dockerFileTab === 'kubernetes'}"
-        ng-click = "\
-          NCC.state.dockerFileTab = 'kubernetes';\
-          NCC.state.configurationMethod = 'dockerComposeFile'\
-        "
-        ng-if = "$root.featureFlags.kubernetes"
-      )
-        svg.grid-block.shrink.btn.btn-xs.btn-icon.btn-add.iconnables.icons-check
-          use(
-            xlink:href = "#icons-check"
-          )
-        .grid-block.vertical.text-left
-          p.p.weight-strong Use Kubernetes
-          small.small Set up from Kubernetes files in your repo.
+  .row.modal-tabs.tabs-all.grid-block.clearfix(
+    ng-init = "tabs = [\
+      {name: 'compose', iconName: 'icons-compose', label: 'Compose Files'},\
+      {name: 'env', iconName: 'icons-environment-variable', label: 'Environment Variables'}\
+    ];"
+  )
+    button.btn.btn-radio.grid-block.vertical(
+      ng-class = "{'active': state.selectedTab === '{{tab.name}}'}"
+      ng-click = "state.selectedTab = tab.name"
+      ng-repeat = "tab in tabs"
+    )
+      svg.iconnables.grid-content
+        use(
+          ng-attr-xlink:href = "{{'#' + $sce.trustAs($sce.HTML, tab.iconName)}}"
+          xlink:href = ""
+        )
+      .btn-text.grid-content {{tab.label}}
 
-      label.grid-block.align-center.btn.btn-radio(
-        data-event-name = "Selected Compose Setup"
-        ng-class = "{'active': NCC.state.dockerFileTab === 'compose'}"
-        ng-click = "NCC.state.dockerFileTab = 'compose'; NCC.state.configurationMethod = 'dockerComposeFile'"
-      )
-        svg.grid-block.shrink.btn.btn-xs.btn-icon.btn-add.iconnables.icons-check
-          use(
-            xlink:href = "#icons-check"
-          )
-        .grid-block.vertical.text-left
-          p.p.weight-strong Use a Compose File
-          small.small Set up from a Compose file in your repo.
+section.grid-block.vertical.modal-body(
+  ng-init = "state.selectedTab = 'compose'"
+)
 
-      label.grid-block.align-center.btn.btn-radio(
-        data-event-name = "Selected Dockerfile Setup"
-        ng-class = "{'active': NCC.state.dockerFileTab === 'dockerfile'}"
-        ng-click = "NCC.state.dockerFileTab = 'dockerfile'; NCC.state.configurationMethod = 'dockerfile'"
-        ng-if = "!$root.featureFlags.kubernetes"
-      )
-        svg.grid-block.shrink.btn.btn-xs.btn-icon.btn-add.iconnables.icons-check
-          use(
-            xlink:href = "#icons-check"
-          )
-        .grid-block.vertical.text-left
-          p.p.weight-strong No Compose File
-          small.small Set up from scratch or from a Dockerfile.
+  svg.iconnables.icons-close(
+    ng-click = "NCC.close()"
+    ng-if = "!$root.featureFlags.composeEditing"
+  )
+    use(
+      xlink:href = "#icons-close"
+    )
+
+  .grid-block.vertical.modal-form.no-border(
+    ng-if = "state.selectedTab === 'compose'"
+  )
+    .label-tabs.grid-block(
+      ng-if = "!$root.featureFlags.composeEditing"
+      ng-include = "'setupMethodView'"
+    )
 
     //- form for naming the environment
     form.grid-block.vertical.label(
@@ -82,6 +80,12 @@ section.grid-block.vertical.modal-body
       state = "NCC.state"
     )
 
+  .modal-form(
+    ng-form = "envVarForm"
+    ng-include = "'viewFormEnvironmentVariables'"
+    ng-if = "state.selectedTab === 'env'"
+  )
+
 footer.modal-footer.clearfix
   button.btn.btn-md.gray.btn-cancel.float-left(
     ng-click = "NCC.close()"
@@ -97,7 +101,7 @@ footer.modal-footer.clearfix
     )
     span(
       ng-if = "$root.featureFlags.composeNewService && NCC.state.repo"
-    ) {{ NCC.getNextStepText() }}
+    ) {{$root.featureFlags.composeEditing ? 'Save Changes' : 'NCC.getNextStepText()'}}
     span(
       ng-if = "NCC.state.templateSource"
     ) Add Service
