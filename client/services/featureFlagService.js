@@ -19,6 +19,8 @@ function featureFlags(
     composeNav: true,
     composeNewService: true,
     composeHistory: true,
+    composeSSHKeys: false,
+    composeSSHAuthView: false,
     composeTestingUpdate: false,
     connections: false,
     contingencyPlan: false,

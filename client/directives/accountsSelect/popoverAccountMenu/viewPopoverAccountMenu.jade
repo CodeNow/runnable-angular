@@ -63,6 +63,15 @@
               )
               | Slack Integration
             li.list-item.popover-list-item(
+              ng-click = "actions.openSettingsModal('SSHKeys')"
+              ng-if = "$root.featureFlags.composeSSHKeys"
+            )
+              svg.iconnables
+                use(
+                  xlink:href = "#icons-key"
+                )
+              | SSH Keys
+            li.list-item.popover-list-item(
               ng-click = "actions.openSettingsModal('teamManagement')"
             )
               svg.iconnables
@@ -160,5 +169,10 @@
             button.btn.btn-xs.gray(
               internal-modal-helper = "gitHubScopeView"
               ng-if = "flag === 'gitHubScope'"
+              style = "position: absolute; right: 9px; top: 6px;"
+            ) Go
+            button.btn.btn-xs.gray(
+              internal-modal-helper = "composeSSHAuthView"
+              ng-if = "flag === 'composeSSHAuthView'"
               style = "position: absolute; right: 9px; top: 6px;"
             ) Go
