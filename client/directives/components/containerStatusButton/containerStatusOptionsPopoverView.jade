@@ -20,6 +20,13 @@
         | Restart
 
       li.popover-list-item(
+        ng-if = "!$root.featureFlags.testMenu && !CSBC.instance.isMigrating() && CSBC.isTesting()"
+        ng-click = "actions.restartCluster()"
+      )
+        .icons-status.green
+        | Rerun tests
+
+      li.popover-list-item(
         ng-if = "$root.featureFlags.internalDebugging"
         ng-click = "CSBC.instance.redeploy(angular.noop)"
       )
