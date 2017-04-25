@@ -45,6 +45,7 @@
                 )
               | PR Bot
             li.list-item.popover-list-item(
+              data-event-name = "Clicked to Open Private Registry Settings"
               ng-click = "actions.openSettingsModal('privateRegistry')"
               ng-if = "$root.featureFlags.privateRegistry"
             )
@@ -63,6 +64,7 @@
               )
               | Slack Integration
             li.list-item.popover-list-item(
+              data-event-name = "Clicked to Open SSH Keys Settings"
               ng-click = "actions.openSettingsModal('SSHKeys')"
               ng-if = "$root.featureFlags.composeSSHKeys"
             )
