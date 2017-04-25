@@ -393,7 +393,12 @@ function fetchInstancesByCompose(
               var branchName = instance.getBranchName();
               composeMasterConfig.children[branchName] = composeMasterConfig.children[branchName] || {};
               var composeMasterConfigIsolationChild = composeMasterConfig.children[branchName];
-              if (instance.attrs.isIsolationGroupMaster && !instance.attrs.inputClusterConfig.parentInputClusterConfigId) {
+              if (instance.attrs.isIsolationGroupMaster &&
+                (
+                  !instance.attrs.inputClusterConfig.parentInputClusterConfigId ||
+                  instance.attrs.inputClusterConfig.parentInputClusterConfigId !== instance.attrs.inputClusterConfig._id
+                )
+              ) {
                 composeMasterConfigIsolationChild.master = instance;
                 return;
               }
