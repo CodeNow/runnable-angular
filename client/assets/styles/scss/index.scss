@@ -107,6 +107,7 @@
 @import "forms/forms-github";
 @import "forms/forms-payment";
 @import "forms/forms-plan";
+@import "forms/forms-registry";
 @import "forms/forms-table-vars";
 @import "forms/forms-trial";
 @import "forms/forms-whitelist";
@@ -151,6 +152,7 @@
 @import "modals/modals-repository-details";
 @import "modals/modals-server-select";
 @import "modals/modals-settings";
+@import "modals/modals-ssh-auth";
 
 // popovers
 @import "popover/popover";
