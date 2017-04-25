@@ -21,7 +21,7 @@
 
       li.popover-list-item(
         ng-if = "!$root.featureFlags.testMenu && !CSBC.instance.isMigrating() && CSBC.isTesting()"
-        ng-click = "actions.restartCluster()"
+        ng-click = "actions.redeployCluster()"
       )
         .icons-status.green
         | Rerun tests

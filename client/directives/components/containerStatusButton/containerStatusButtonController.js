@@ -14,7 +14,7 @@ function ContainerStatusButtonController(
   keypather,
   loading,
   promisify,
-  restartClusterMasterInstance,
+  redeployClusterMasterInstance,
   updateInstanceWithNewAcvData,
   updateInstanceWithNewBuild
 ) {
@@ -57,14 +57,14 @@ function ContainerStatusButtonController(
     restartInstance: function () {
       modInstance('restart');
     },
-    restartCluster: function () {
+    redeployCluster: function () {
       $rootScope.$broadcast('close-popovers');
       loading('main', true);
       var instance = CSBC.instance;
       var instanceId = keypather.get(instance, 'attrs.id');
-      return restartClusterMasterInstance(instanceId)
+      return redeployClusterMasterInstance(instanceId)
         .catch(errs.handler)
-        .then(function (result) {
+        .then(function () {
           loading('main', false);
           return $state.go('base.instances.instance', {
             instanceName: $state.params.instanceName,

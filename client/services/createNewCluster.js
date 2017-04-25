@@ -2,7 +2,7 @@
 
 require('app')
   .factory('createNewCluster', createNewCluster)
-  .factory('restartClusterMasterInstance', restartClusterMasterInstance);
+  .factory('redeployClusterMasterInstance', redeployClusterMasterInstance);
 
 function createNewCluster(
   $http,
@@ -27,7 +27,7 @@ function createNewCluster(
   };
 }
 
-function restartClusterMasterInstance(
+function redeployClusterMasterInstance(
   $http,
   configAPIHost
 ) {
@@ -36,8 +36,8 @@ function restartClusterMasterInstance(
       instanceId: instanceId
     };
     return $http({
-      method: 'post',
-      url: configAPIHost + '/docker-compose-cluster/restart',
+      method: 'POST',
+      url: configAPIHost + '/docker-compose-cluster/redeploy',
       data: data
     });
   };

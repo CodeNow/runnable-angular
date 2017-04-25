@@ -7,6 +7,7 @@ var keypather;
 var $q;
 var CSBC;
 var apiMocks = require('./../../../apiMocks/index');
+var redeployClusterMasterInstanceStub;
 
 describe('containerStatusButtonController'.bold.underline.blue, function () {
   var ctx;
@@ -36,6 +37,10 @@ describe('containerStatusButtonController'.bold.underline.blue, function () {
           };
         });
         return promisifyMock;
+      });
+      $provide.factory('redeployClusterMasterInstance', function ($q) {
+        redeployClusterMasterInstanceStub = sinon.stub().returns($q.when({}));
+        return redeployClusterMasterInstanceStub
       });
     });
     angular.mock.inject(function (
@@ -158,6 +163,14 @@ describe('containerStatusButtonController'.bold.underline.blue, function () {
         sinon.assert.calledOnce(mockUpdateInstanceWithNewBuild);
         sinon.assert.calledOnce(closePopoversListener);
       });
+
+      it('should allow the user to redeploy a test cluster', function () {
+        keypather.set(CSBC.instance, 'attrs.id', 'runnable.rocks!');
+        var $state
+        CSBC.actions.redeployCluster();
+        sinon.assert.calledWith(redeployClusterMasterInstanceStub, 'runnable.rocks!');
+        sinon.assert.calledOnce(closePopoversListener);
+      })
 
       it('should allow the user to update the configuration to match master', function () {
         var mainAcv = {
