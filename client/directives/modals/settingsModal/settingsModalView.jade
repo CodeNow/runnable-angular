@@ -42,6 +42,7 @@
             )
           .btn-text.grid-content PR Bot
         button.btn.btn-radio.grid-block.vertical(
+          data-event-name = "Clicked Private Registry Tab"
           ng-class = "{'active': SEMC.currentTab === 'privateRegistry'}"
           ng-click = "SEMC.currentTab = 'privateRegistry'"
           ng-if = "$root.featureFlags.privateRegistry"
@@ -62,6 +63,7 @@
           )
           .btn-text.grid-content Slack Integration
         button.btn.btn-radio.grid-block.vertical(
+          data-event-name = "Clicked SSH Keys Tab"
           ng-class = "{'active': SEMC.currentTab === 'SSHKeys'}"
           ng-click = "SEMC.currentTab = 'SSHKeys'"
           ng-if = "$root.featureFlags.composeSSHKeys"
