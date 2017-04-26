@@ -57,9 +57,11 @@ form.grid-block.vertical.well.gray.ignore-margin(
     }"
   )
     button.btn.btn-md.gray.btn-cancel(
+      data-event-name = "Clicked 'Back' in Private Registry Settings"
       ng-if = "state.authorized"
     ) Back
     button.grid-block.shrink.align-center.btn.btn-md.green(
+      data-event-name = "Clicked to Add Private Registry"
       ng-click = "state.saving = true"
       ng-disabled = "state.saving || privateRegistryForm.$invalid"
       ng-init = "state.saving = null"
@@ -83,4 +85,6 @@ section.padding-sm.grid-block.align-center.well.white.ignore-margin(
   .grid-block.vertical
     p.small.weight-strong.text-overflow Authorized {{registryCredentials[0].username}}
     small.small.text-gray.text-overflow {{registryCredentials[0].url}}
-  button.btn.btn-xs.gray.margin-left-xxs Change
+  button.btn.btn-xs.gray.margin-left-xxs(
+    data-event-name = "Clicked to Change Private Registry"
+  ) Change
