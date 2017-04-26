@@ -1,0 +1,19 @@
+svg.iconnables.icons-octicons-github(
+  ng-if = "!state.authorized"
+)
+  use(
+    xlink:href = "#icons-octicons-github"
+  )
+svg.iconnables.icons-check(
+  ng-if = "state.authorized"
+)
+  use(
+    xlink:href = "#icons-check"
+  )
+| {{state.authorized ? 'Authorized' : "Authorize"}}
+svg.iconnables.icons-link-external-alt(
+  ng-if = "!state.authorized"
+)
+  use(
+    xlink:href = "#icons-link-external-alt"
+  )

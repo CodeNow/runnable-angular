@@ -3,6 +3,7 @@
     .padding-left-xxs.small.label-sm {{type === 'stage' ? 'Compose for Staging' : 'Compose for Testing'}}
     .toggle-wrapper
       input.toggle-input(
+        ng-disabled = "$root.featureFlags.composeEditing"
         ng-model = "pathEnabled"
         type = "checkbox"
         ng-disabled = "MDC.isSaving()"

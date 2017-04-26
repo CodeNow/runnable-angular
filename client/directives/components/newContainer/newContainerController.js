@@ -6,6 +6,7 @@ require('app')
 function NewContainerController(
   $q,
   $rootScope,
+  $sce,
   $scope,
   $state,
   $timeout,
@@ -27,6 +28,7 @@ function NewContainerController(
   loading,
   ModalService
 ) {
+  $scope.$sce = $sce;
   var NCC = this;
   var defaultState = this.state || {};
   var defaultTab = 'dockerfile';

@@ -6,6 +6,7 @@ label
       maxlength = "19"
       name = "instanceName"
       no-double-dash-validator
+      ng-disabled = "$root.featureFlags.composeEditing"
       ng-model = "NCC.state.instanceName"
       ng-pattern = "/^[a-zA-Z0-9-]*$/"
       ng-placeholder = "{{NCC.state.instanceName}}"
