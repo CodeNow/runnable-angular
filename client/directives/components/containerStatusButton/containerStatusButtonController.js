@@ -64,7 +64,7 @@ function ContainerStatusButtonController(
       var instanceId = keypather.get(instance, 'attrs.id');
       return redeployClusterMasterInstance(instanceId)
         .catch(errs.handler)
-        .then(function () {
+        .finally(function () {
           loading('main', false);
           return $state.go('base.instances.instance', {
             instanceName: $state.params.instanceName,
