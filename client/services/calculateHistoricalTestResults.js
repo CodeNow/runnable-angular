@@ -32,7 +32,9 @@ function calculateHistoricalTestResult(
           if (keypather.get(test, 'build.failed') || keypather.get(test, 'application.exitCode') > 0) {
             test.testState = FAILED;
             return;
-          } else if (keypather.get(test,'application.exitCode') === 0 && keypather.get(test,'application.stop') !== jesusBirthday) {
+          }
+
+          if (keypather.get(test,'application.exitCode') === 0 && keypather.get(test,'application.stop') !== jesusBirthday) {
             test.testState =  PASSED;
             return;
           }
