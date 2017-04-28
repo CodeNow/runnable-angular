@@ -403,7 +403,7 @@ function fetchInstancesByCompose(
                   if (instance.attrs.isTesting) {
                     composeMasterConfigIsolationChild.testing = composeMasterConfigIsolationChild.testing || [];
                     composeMasterConfigIsolationChild.testing.push(instance);
-                    return
+                    return;
                   }
                   composeMasterConfigIsolationChild.testing = composeMasterConfigIsolationChild.testing || [];
                   composeMasterConfigIsolationChild.testing.push(composeMasterConfigIsolationChild.master);
