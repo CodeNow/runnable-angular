@@ -46,11 +46,13 @@ ol.list-bordered(
       span.weight-strong runnabro
       | &#32;so your project can access private dependencies.
     a.grid-block.shrink.noscroll.align-center.btn.gray.btn-xs(
+      data-event-name = "Clicked to Authorize SSH with GitHub"
       ng-click = "state.listening = !state.listening"
       ng-if = "!state.everAuthorized"
       ng-include = "'SSHAuthorizeButton'"
     )
     a.grid-block.shrink.noscroll.align-center.btn.gray.btn-xs.btn-create-key(
+      data-event-name = "Clicked to Create SSH Key"
       ng-click = "state.creatingKey = !state.creatingKey"
       ng-disabled = "state.creatingKey"
       ng-if = "state.everAuthorized && !state.authorized"
