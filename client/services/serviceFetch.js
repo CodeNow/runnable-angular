@@ -399,6 +399,15 @@ function fetchInstancesByCompose(
                   instance.attrs.inputClusterConfig.parentInputClusterConfigId !== instance.attrs.inputClusterConfig._id
                 )
               ) {
+                if (composeMasterConfigIsolationChild.master) {
+                  if (instance.attrs.isTesting) {
+                    composeMasterConfigIsolationChild.testing = composeMasterConfigIsolationChild.testing || [];
+                    composeMasterConfigIsolationChild.testing.push(instance);
+                    return
+                  }
+                  composeMasterConfigIsolationChild.testing = composeMasterConfigIsolationChild.testing || [];
+                  composeMasterConfigIsolationChild.testing.push(composeMasterConfigIsolationChild.master);
+                }
                 composeMasterConfigIsolationChild.master = instance;
                 return;
               }
