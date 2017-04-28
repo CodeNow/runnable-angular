@@ -403,7 +403,7 @@ function fetchInstancesByCompose(
                   if (instance.attrs.isTesting) {
                     composeMasterConfigIsolationChild.testing = composeMasterConfigIsolationChild.testing || [];
                     composeMasterConfigIsolationChild.testing.push(instance);
-                    return
+                    return;
                   }
                   composeMasterConfigIsolationChild.testing = composeMasterConfigIsolationChild.testing || [];
                   composeMasterConfigIsolationChild.testing.push(composeMasterConfigIsolationChild.master);
@@ -419,7 +419,7 @@ function fetchInstancesByCompose(
               }
               composeMasterConfigIsolationChild.staging = composeMasterConfigIsolationChild.staging || [];
               composeMasterConfigIsolationChild.staging.push(instance);
-              return;
+
             });
             var newInstancesByCompose = Object.keys(composeMasters)
               .map(function (composeId) {
