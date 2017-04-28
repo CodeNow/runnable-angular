@@ -419,6 +419,7 @@ function fetchInstancesByCompose(
               }
               composeMasterConfigIsolationChild.staging = composeMasterConfigIsolationChild.staging || [];
               composeMasterConfigIsolationChild.staging.push(instance);
+
             });
             var newInstancesByCompose = Object.keys(composeMasters)
               .map(function (composeId) {
