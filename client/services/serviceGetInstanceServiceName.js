@@ -10,6 +10,9 @@ function getInstanceServiceName(
     if (!instance || !keypather.get(instance, 'attrs.inputClusterConfig._id')) {
       return '';
     }
+    if (keypather.get(instance, 'attrs.shortName')) {
+      return instance.attrs.shortName;
+    }
     var name = instance.attrs.name;
     if (name.indexOf('--') > 0) {
       name = name.split('--')[1];
