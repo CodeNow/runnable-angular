@@ -1,0 +1,42 @@
+label.grid-block.align-center.btn.btn-radio(
+  ng-class = "{'active': NCC.state.dockerFileTab === 'kubernetes'}"
+  ng-click = "\
+    NCC.state.dockerFileTab = 'kubernetes';\
+    NCC.state.configurationMethod = 'dockerComposeFile'\
+  "
+  ng-if = "$root.featureFlags.kubernetes"
+)
+  svg.grid-block.shrink.btn.btn-xs.btn-icon.btn-add.iconnables.icons-check
+    use(
+      xlink:href = "#icons-check"
+    )
+  .grid-block.vertical.text-left
+    p.p.weight-strong Use Kubernetes
+    small.small Set up from Kubernetes files in your repo.
+
+label.grid-block.align-center.btn.btn-radio(
+  data-event-name = "Selected Compose Setup"
+  ng-class = "{'active': NCC.state.dockerFileTab === 'compose'}"
+  ng-click = "NCC.setToComposeTab()"
+)
+  svg.grid-block.shrink.btn.btn-xs.btn-icon.btn-add.iconnables.icons-check
+    use(
+      xlink:href = "#icons-check"
+    )
+  .grid-block.vertical.text-left
+    p.p.weight-strong Use a Compose File
+    small.small Set up from a Compose file in your repo.
+
+label.grid-block.align-center.btn.btn-radio(
+  data-event-name = "Selected Dockerfile Setup"
+  ng-class = "{'active': NCC.state.dockerFileTab === 'dockerfile'}"
+  ng-click = "NCC.setToDockerTab()"
+  ng-if = "!$root.featureFlags.kubernetes"
+)
+  svg.grid-block.shrink.btn.btn-xs.btn-icon.btn-add.iconnables.icons-check
+    use(
+      xlink:href = "#icons-check"
+    )
+  .grid-block.vertical.text-left
+    p.p.weight-strong No Compose File
+    small.small Set up from scratch or from a Dockerfile.

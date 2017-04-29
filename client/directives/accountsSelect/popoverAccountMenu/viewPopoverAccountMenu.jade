@@ -23,8 +23,9 @@
           )
             li.list-item.popover-list-item.small.disabled {{data.currentOrg.github.oauthName()}} Settings
             li.list-item.popover-list-item(
-              ng-if = "data.currentOrg.isBillingVisible()"
+              data-event-name = "Clicked to Open Billing Settings"
               ng-click = "actions.openSettingsModal('billing')"
+              ng-if = "data.currentOrg.isBillingVisible()"
             )
               svg.iconnables
                 use(
@@ -37,14 +38,7 @@
               )
                 | {{data.currentOrg.poppa.trialDaysRemaining() + ' days left'}}
             li.list-item.popover-list-item(
-              ng-click = "actions.openSettingsModal('teamManagement')"
-            )
-              svg.iconnables
-                use(
-                  xlink:href = "#icons-team"
-                )
-              | Teammates
-            li.list-item.popover-list-item(
+              data-event-name = "Clicked to Open PR Bot Settings"
               ng-click = "actions.openSettingsModal('githubIntegration')"
             )
               svg.iconnables
@@ -53,6 +47,17 @@
                 )
               | PR Bot
             li.list-item.popover-list-item(
+              data-event-name = "Clicked to Open Private Registry Settings"
+              ng-click = "actions.openSettingsModal('privateRegistry')"
+              ng-if = "$root.featureFlags.privateRegistry"
+            )
+              svg.iconnables
+                use(
+                  xlink:href = "#icons-private-registry"
+                )
+              | Private Registry
+            li.list-item.popover-list-item(
+              data-event-name = "Clicked to Open Slack Integration Settings"
               ng-click = "actions.openSettingsModal('slackIntegration')"
             )
               img.iconnables(
@@ -61,6 +66,25 @@
                 width = "24"
               )
               | Slack Integration
+            li.list-item.popover-list-item(
+              data-event-name = "Clicked to Open SSH Keys Settings"
+              ng-click = "actions.openSettingsModal('SSHKeys')"
+              ng-if = "$root.featureFlags.composeSSHKeys"
+            )
+              svg.iconnables
+                use(
+                  xlink:href = "#icons-key"
+                )
+              | SSH Keys
+            li.list-item.popover-list-item(
+              data-event-name = "Clicked to Open Teammates Settings"
+              ng-click = "actions.openSettingsModal('teamManagement')"
+            )
+              svg.iconnables
+                use(
+                  xlink:href = "#icons-team"
+                )
+              | Teammates
           ul.list.popover-list(
             ng-class = "{'list-secondary': !data.currentOrg.isPersonalAccount()}"
           )
@@ -151,5 +175,10 @@
             button.btn.btn-xs.gray(
               internal-modal-helper = "gitHubScopeView"
               ng-if = "flag === 'gitHubScope'"
+              style = "position: absolute; right: 9px; top: 6px;"
+            ) Go
+            button.btn.btn-xs.gray(
+              internal-modal-helper = "composeSSHAuthView"
+              ng-if = "flag === 'composeSSHAuthView'"
               style = "position: absolute; right: 9px; top: 6px;"
             ) Go

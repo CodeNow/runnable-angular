@@ -4,8 +4,6 @@ require('app')
   .directive('addDockerfile', addDockerfile);
 
 function addDockerfile(
-  $q,
-  $timeout,
   fetchRepoDockerfile,
   doesDockerfileExist
 ) {
@@ -20,6 +18,8 @@ function addDockerfile(
       fileType: '@'
     },
     link: function ($scope, elem, attrs, MDC) {
+      $scope.MDC = MDC;
+
       var COMPOSE_DEFAULT = 'docker-compose.yml';
       var COMPOSE_TEST_DEFAULT = 'docker-compose.test.yml';
       var DOCKER_DEFAULT = 'Dockerfile';

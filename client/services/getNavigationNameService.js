@@ -13,6 +13,9 @@ function getNavigationName(
     if (keypather.get(instance, 'attrs.inputClusterConfig._id') && $rootScope.featureFlags.composeNav) {
       return getInstanceServiceName(instance);
     }
+    if (keypather.get(instance, 'attrs.shortName')) {
+      return instance.attrs.shortName;
+    }
 
     var branchName = instance.getBranchName();
     var preamble = '';

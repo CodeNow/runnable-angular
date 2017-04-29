@@ -6,6 +6,7 @@ require('app')
 function NewContainerController(
   $q,
   $rootScope,
+  $sce,
   $scope,
   $state,
   $timeout,
@@ -27,6 +28,7 @@ function NewContainerController(
   loading,
   ModalService
 ) {
+  $scope.$sce = $sce;
   var NCC = this;
   var defaultState = this.state || {};
   var defaultTab = 'dockerfile';
@@ -392,6 +394,24 @@ function NewContainerController(
             (NCC.state.configurationMethod === 'dockerComposeFile' &&
             ((NCC.state.types.test ? NCC.state.dockerComposeTestFile && NCC.state.testReporter : NCC.state.types.stage) &&
             (NCC.state.types.stage ? NCC.state.dockerComposeFile : NCC.state.types.test))));
+  };
+
+  NCC.isSaving = function () {
+    return $rootScope.isLoading.newContainerSingleRepo || $rootScope.isLoading.creatingDockerCompose;
+  };
+
+  NCC.setToComposeTab = function () {
+    if (!NCC.isSaving()) {
+      NCC.state.dockerFileTab = 'compose';
+      NCC.state.configurationMethod = 'dockerComposeFile';
+    }
+  };
+
+  NCC.setToDockerTab = function () {
+    if (!NCC.isSaving()) {
+      NCC.state.dockerFileTab = 'dockerfile';
+      NCC.state.configurationMethod = 'dockerfile';
+    }
   };
 
   NCC.populateComposeErrorMessage = function (errorMsg) {

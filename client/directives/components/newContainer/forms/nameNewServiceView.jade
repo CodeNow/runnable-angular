@@ -6,12 +6,14 @@ label
       maxlength = "19"
       name = "instanceName"
       no-double-dash-validator
+      ng-disabled = "$root.featureFlags.composeEditing"
       ng-model = "NCC.state.instanceName"
       ng-pattern = "/^[a-zA-Z0-9-]*$/"
       ng-placeholder = "{{NCC.state.instanceName}}"
       required
       spellcheck = "false"
       unique-validator = "NCC.state.namesForAllInstances"
+      ng-disabled = "NCC.isSaving()"
     )
     svg.iconnables.icons-check(
       ng-if = "NCC.nameForm.$valid"

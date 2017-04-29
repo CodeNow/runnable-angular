@@ -19,6 +19,8 @@ function featureFlags(
     composeNav: true,
     composeNewService: true,
     composeHistory: true,
+    composeSSHKeys: false,
+    composeSSHAuthView: false,
     composeTestingUpdate: false,
     connections: false,
     contingencyPlan: false,
@@ -52,6 +54,7 @@ function featureFlags(
     navListFilter: false,
     nextPayment: false, // show the next payment date under payment summary
     optionsInModal: false, // allows delete in modal
+    privateRegistry: false,
     renameContainer: false,
     saveToolbar: false,
     teamManagement: false,
