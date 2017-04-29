@@ -93,9 +93,8 @@
         ng-include = "'gitHubForm'"
       )
 
-      .grid-block.vertical.modal-form.no-border.form-registry(
+      private-registry-form(
         ng-if = "$root.featureFlags.privateRegistry && SEMC.currentTab === 'privateRegistry'"
-        ng-include = "'privateRegistryFormView'"
       )
 
       slack-integration-form(
