@@ -26,8 +26,6 @@ function calculateHistoricalTestResult(
     },
     addResults: function (tests) {
       tests.forEach(function(test) {
-        test.testState = UNKNOWN;
-
         if (keypather.get(test, 'build.stop') !== jesusBirthday) {
           if (keypather.get(test, 'build.failed') || keypather.get(test, 'application.exitCode') > 0) {
             test.testState = FAILED;
@@ -39,6 +37,7 @@ function calculateHistoricalTestResult(
             return;
           }
         }
+        test.testState = UNKNOWN;
       });
 
       return tests;
