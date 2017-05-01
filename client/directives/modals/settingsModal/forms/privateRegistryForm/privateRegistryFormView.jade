@@ -57,10 +57,12 @@
       }"
     )
       button.btn.btn-md.gray.btn-cancel(
+        data-event-name = "Clicked 'Back' in Private Registry Settings"
         ng-if = "PRFC.authorized && PRFC.formReset"
         ng-click = "PRFC.formReset = false"
       ) Back
       button.grid-block.shrink.align-center.btn.btn-md.green(
+        data-event-name = "Clicked to Add Private Registry"
         ng-click = "PRFC.verifyAndSave()"
         ng-disabled = "$root.isLoading.privateRegistry || privateRegistryForm.$invalid"
       )
@@ -81,5 +83,6 @@
       p.small.weight-strong.text-overflow Authorized {{PRFC.registryCredentials.username}}
       small.small.text-gray.text-overflow {{PRFC.registryCredentials.url}}
     button.btn.btn-xs.gray.margin-left-xxs(
+      data-event-name = "Clicked to Change Private Registry"
       ng-click = "PRFC.changeRegistry()"
     ) Change

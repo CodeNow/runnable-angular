@@ -23,8 +23,9 @@
           )
             li.list-item.popover-list-item.small.disabled {{data.currentOrg.github.oauthName()}} Settings
             li.list-item.popover-list-item(
-              ng-if = "data.currentOrg.isBillingVisible()"
+              data-event-name = "Clicked to Open Billing Settings"
               ng-click = "actions.openSettingsModal('billing')"
+              ng-if = "data.currentOrg.isBillingVisible()"
             )
               svg.iconnables
                 use(
@@ -37,6 +38,7 @@
               )
                 | {{data.currentOrg.poppa.trialDaysRemaining() + ' days left'}}
             li.list-item.popover-list-item(
+              data-event-name = "Clicked to Open PR Bot Settings"
               ng-click = "actions.openSettingsModal('githubIntegration')"
             )
               svg.iconnables
@@ -45,6 +47,7 @@
                 )
               | PR Bot
             li.list-item.popover-list-item(
+              data-event-name = "Clicked to Open Private Registry Settings"
               ng-click = "actions.openSettingsModal('privateRegistry')"
               ng-if = "$root.featureFlags.privateRegistry"
             )
@@ -54,6 +57,7 @@
                 )
               | Private Registry
             li.list-item.popover-list-item(
+              data-event-name = "Clicked to Open Slack Integration Settings"
               ng-click = "actions.openSettingsModal('slackIntegration')"
             )
               img.iconnables(
@@ -63,6 +67,7 @@
               )
               | Slack Integration
             li.list-item.popover-list-item(
+              data-event-name = "Clicked to Open SSH Keys Settings"
               ng-click = "actions.openSettingsModal('SSHKeys')"
               ng-if = "$root.featureFlags.composeSSHKeys"
             )
@@ -72,6 +77,7 @@
                 )
               | SSH Keys
             li.list-item.popover-list-item(
+              data-event-name = "Clicked to Open Teammates Settings"
               ng-click = "actions.openSettingsModal('teamManagement')"
             )
               svg.iconnables

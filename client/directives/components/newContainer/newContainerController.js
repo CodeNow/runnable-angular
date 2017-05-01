@@ -396,6 +396,24 @@ function NewContainerController(
             (NCC.state.types.stage ? NCC.state.dockerComposeFile : NCC.state.types.test))));
   };
 
+  NCC.isSaving = function () {
+    return $rootScope.isLoading.newContainerSingleRepo || $rootScope.isLoading.creatingDockerCompose;
+  };
+
+  NCC.setToComposeTab = function () {
+    if (!NCC.isSaving()) {
+      NCC.state.dockerFileTab = 'compose';
+      NCC.state.configurationMethod = 'dockerComposeFile';
+    }
+  };
+
+  NCC.setToDockerTab = function () {
+    if (!NCC.isSaving()) {
+      NCC.state.dockerFileTab = 'dockerfile';
+      NCC.state.configurationMethod = 'dockerfile';
+    }
+  };
+
   NCC.populateComposeErrorMessage = function (errorMsg) {
     var err = /ValidationError(.*)/.exec(errorMsg);
     if (err) {
