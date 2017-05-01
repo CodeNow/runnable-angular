@@ -18,6 +18,8 @@ describe('BranchTestListController'.bold.underline.blue, function () {
   var newCommit;
   var appCodeVersion;
 
+  var jesusBirthday = '0001-01-01T00:00:00Z';
+
   function initialize() {
     appCodeVersion = {
       attrs: {
@@ -74,7 +76,7 @@ describe('BranchTestListController'.bold.underline.blue, function () {
       {
         commitSha: '1',
         build: {
-          stop: new Date(0),
+          stop: jesusBirthday,
           failed: false
         }
       },
@@ -103,7 +105,7 @@ describe('BranchTestListController'.bold.underline.blue, function () {
         },
         application: {
           exitCode: 0,
-          stop: new Date(0)
+          stop: jesusBirthday
         }
       },
       {
@@ -178,13 +180,13 @@ describe('BranchTestListController'.bold.underline.blue, function () {
       $scope.$digest();
       // No test found
       expect(branch.commits.models[0].test).to.equal(null);
-      // Test found but build exit time of epoch
+      // Test found but build exit time of jesus birthday
       expect(branch.commits.models[1].test).to.equal('unknown');
       // Build failed is true
       expect(branch.commits.models[2].test).to.equal('failed');
       // // Build passed but exit code > 0
       expect(branch.commits.models[3].test).to.equal('failed');
-      // Application stop is epoch
+      // Application stop is jesus birthday
       expect(branch.commits.models[4].test).to.equal('unknown');
       expect(branch.commits.models[5].test).to.equal('passed');
     });
