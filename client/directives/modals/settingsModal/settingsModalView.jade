@@ -18,14 +18,15 @@
 
       .row.modal-tabs.tabs-all.grid-block.clearfix
         button.btn.btn-radio.grid-block.vertical(
+          data-event-name = "Clicked Billing Tab"
           ng-attr-data-badge-count = "{{SEMC.currentOrg.poppa.isInTrial() && !SEMC.currentOrg.poppa.attrs.hasPaymentMethod ? SEMC.currentOrg.poppa.trialDaysRemaining() : ''}}"
-          ng-if = "SEMC.currentOrg.isBillingVisible()"
           ng-class = "{\
             'active': SEMC.currentTab === 'billing',\
             'badge': SEMC.currentOrg.poppa.isInTrial() && !SEMC.currentOrg.poppa.attrs.hasPaymentMethod,\
             'badge-orange': SEMC.currentOrg.poppa.isInTrial() && !SEMC.currentOrg.poppa.attrs.hasPaymentMethod,\
           }"
           ng-click = "SEMC.currentTab = 'billing'"
+          ng-if = "SEMC.currentOrg.isBillingVisible()"
         )
           svg.iconnables.grid-content
             use(
@@ -33,6 +34,7 @@
             )
           .btn-text.grid-content Billing
         button.btn.btn-radio.grid-block.vertical(
+          data-event-name = "Clicked PR Bot Tab"
           ng-class = "{'active': SEMC.currentTab === 'githubIntegration'}"
           ng-click = "SEMC.currentTab = 'githubIntegration'"
         )
@@ -42,6 +44,7 @@
             )
           .btn-text.grid-content PR Bot
         button.btn.btn-radio.grid-block.vertical(
+          data-event-name = "Clicked Private Registry Tab"
           ng-class = "{'active': SEMC.currentTab === 'privateRegistry'}"
           ng-click = "SEMC.currentTab = 'privateRegistry'"
           ng-if = "$root.featureFlags.privateRegistry"
@@ -52,6 +55,7 @@
             )
           .btn-text.grid-content Private Registry
         button.btn.btn-radio.grid-block.vertical(
+          data-event-name = "Clicked Slack Integration Tab"
           ng-class = "{'active': SEMC.currentTab === 'slackIntegration'}"
           ng-click = "SEMC.currentTab = 'slackIntegration'"
         )
@@ -62,6 +66,7 @@
           )
           .btn-text.grid-content Slack Integration
         button.btn.btn-radio.grid-block.vertical(
+          data-event-name = "Clicked SSH Keys Tab"
           ng-class = "{'active': SEMC.currentTab === 'SSHKeys'}"
           ng-click = "SEMC.currentTab = 'SSHKeys'"
           ng-if = "$root.featureFlags.composeSSHKeys"
@@ -72,6 +77,7 @@
             )
           .btn-text.grid-content SSH Keys
         button.btn.btn-radio.grid-block.vertical(
+          data-event-name = "Clicked Teammates Tab"
           ng-class = "{'active': SEMC.currentTab === 'teamManagement'}"
           ng-click = "SEMC.currentTab = 'teamManagement'"
         )

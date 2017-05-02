@@ -21,6 +21,8 @@ function composeFilePath(
       fullRepo: '='
     },
     link: function ($scope, elem, attr, MDC) {
+      $scope.MDC = MDC;
+
       MDC.state.configurationMethod = 'dockerComposeFile';
       $scope.dockerComposeState = MDC.state;
       $scope.dockerfile = {};

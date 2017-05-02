@@ -6,7 +6,6 @@ require('app')
 function MirrorDockerfileController(
   $q,
   $rootScope,
-  $timeout,
   errs,
   doesDockerfileExist,
   fetchRepoDockerfile,
@@ -73,6 +72,10 @@ function MirrorDockerfileController(
           MDC.state.dockerfile = null;
         }
       });
+  };
+
+  MDC.isSaving = function () {
+    return $rootScope.isLoading.newContainerSingleRepo || $rootScope.isLoading.creatingDockerCompose;
   };
 }
 
