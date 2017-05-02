@@ -70,7 +70,7 @@ function ContainerStatusButtonController(
             instanceName: $state.params.instanceName,
             userName: $state.params.userName
           });
-        })
+        });
     },
     rebuildWithoutCache: function () {
       $rootScope.$broadcast('close-popovers');

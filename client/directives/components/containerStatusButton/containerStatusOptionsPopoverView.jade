@@ -20,7 +20,7 @@
         | Restart
 
       li.popover-list-item(
-        ng-if = "!$root.featureFlags.testMenu && !CSBC.instance.isMigrating() && CSBC.isTesting()"
+        ng-if = "!$root.featureFlags.testMenu && !CSBC.instance.attrs.masterPod && !CSBC.instance.isMigrating() && CSBC.isTesting()"
         ng-click = "actions.redeployCluster()"
       )
         .icons-status.green
