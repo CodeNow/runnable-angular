@@ -11,8 +11,6 @@ function PrivateRegistryFormController (
   keypather,
   loading
 ) {
-  console.log(privateRegistry.getRegistryDetails());
-
   var PRFC = this;
   PRFC.registryCredentials = privateRegistry.getRegistryDetails();
   PRFC.authorized = !!PRFC.registryCredentials;
