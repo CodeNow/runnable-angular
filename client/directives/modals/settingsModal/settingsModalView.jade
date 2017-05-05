@@ -99,7 +99,8 @@
         ng-include = "'gitHubForm'"
       )
 
-      private-registry-form(
+      .grid-block.vertical.modal-form.no-border.form-registry(
+        private-registry-form
         ng-if = "$root.featureFlags.privateRegistry && SEMC.currentTab === 'privateRegistry'"
       )
 

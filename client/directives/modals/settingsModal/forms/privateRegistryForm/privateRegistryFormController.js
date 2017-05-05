@@ -3,9 +3,6 @@
 require('app')
   .controller('PrivateRegistryFormController', PrivateRegistryFormController);
 
-/**
- * @ngInject
- */
 function PrivateRegistryFormController (
   privateRegistry,
   keypather,
@@ -22,25 +19,27 @@ function PrivateRegistryFormController (
 
     privateRegistry.addRegistry(PRFC.url, PRFC.username, PRFC.password)
       .then(function(response) {
-        if (response.status === 204) {
-          PRFC.invalidCredentials = false;
-          PRFC.authorized = true;
-          PRFC.formReset = false;
-
-          keypather.set(PRFC, 'registryCredentials.url', PRFC.url);
-          keypather.set(PRFC, 'registryCredentials.username', PRFC.username);
-
-          PRFC.url = null;
-          PRFC.username = null;
-          PRFC.password = null;
-        } else {
+        if (response.status !== 204) {
           PRFC.invalidCredentials = true;
+          return;
         }
+
+        PRFC.invalidCredentials = false;
+        PRFC.authorized = true;
+        PRFC.formReset = false;
+
+        keypather.set(PRFC, 'registryCredentials.url', PRFC.url);
+        keypather.set(PRFC, 'registryCredentials.username', PRFC.username);
+
+        PRFC.url = null;
+        PRFC.username = null;
+        PRFC.password = null;
       }).finally(function() {
         loading('privateRegistry',false);
       });
   };
 
+  // Set them back to a blank form, but leave the data in place since they may decide not to replace it.
   PRFC.changeRegistry = function () {
     PRFC.formReset = true;
   };

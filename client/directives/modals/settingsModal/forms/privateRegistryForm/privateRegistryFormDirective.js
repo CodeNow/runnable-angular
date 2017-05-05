@@ -5,7 +5,7 @@ require('app')
 
 function privateRegistryForm() {
   return {
-    restrict: 'E',
+    restrict: 'A',
     controller: 'PrivateRegistryFormController',
     controllerAs: 'PRFC',
     templateUrl: 'privateRegistryFormView'

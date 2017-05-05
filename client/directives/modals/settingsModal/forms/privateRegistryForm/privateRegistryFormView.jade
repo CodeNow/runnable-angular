@@ -1,88 +1,88 @@
-.grid-block.vertical.modal-form.no-border.form-registry
-  section.label-description
-    .label-col Private Registry
-    .small.text-gray If you push your images to a private registry, you can safely store your credentials to use those images on Runnable.&#32;
-      a.link(
-        href = "//runnable.com/docs"
-        target = "_blank"
-      ) Learn more
-      | .
 
-  form.grid-block.vertical.well.gray.ignore-margin(
-    name = "privateRegistryForm"
-    ng-class = "{'invalid': PRFC.invalidCredentials}"
-    ng-if = "!PRFC.authorized || PRFC.formReset"
-  )
-    p.red.small.text-center(
-      ng-if = "PRFC.invalidCredentials"
-    ) We couldn’t validate your credentials.
-      br
-      | Please check them and try again.
-    label.padding-sm.label
-      .padding-xxs.small.label-sm Registry URL
-      input.input.input-md.input-validate(
-        name = "PRFC.url"
-        ng-disabled = "$root.isLoading.privateRegistry"
-        ng-model = "PRFC.url"
-        ng-required = "true"
-        placeholder = "https://index.docker.io/v1/"
-        spellcheck = "false"
-        type = "url"
-      )
-      small.grid-block.padding-xxs.small Add the URL for the registry you use. This could be from Docker Hub or a private registry.
-    label.padding-sm.label
-      .padding-xxs.small.label-sm Username
-      input.input.input-md.input-validate(
-        name = "PRFC.username"
-        ng-disabled = "$root.isLoading.privateRegistry"
-        ng-model = "PRFC.username"
-        ng-required = "true"
-        spellcheck = "false"
-      )
-    label.padding-sm.label
-      .padding-xxs.small.label-sm Password
-      input.input.input-md.input-validate(
-        autocomplete = "new-password"
-        name = "PRFC.password"
-        ng-disabled = "$root.isLoading.privateRegistry"
-        ng-model = "PRFC.password"
-        ng-required = "true"
-        spellcheck = "false"
-        type = "password"
-      )
-    footer.margin-top-sm.padding-sm.grid-block.footer(
-      ng-class = "{\
-        'justify-justified': PRFC.authorized,\
-        'justify-right': !PRFC.authorized\
-      }"
+section.label-description
+  .label-col Private Registry
+  .small.text-gray If you push your images to a private registry, you can safely store your credentials to use those images on Runnable.&#32;
+    a.link(
+      href = "//runnable.com/docs"
+      target = "_blank"
+    ) Learn more
+    | .
+
+form.grid-block.vertical.well.gray.ignore-margin(
+  name = "privateRegistryForm"
+  ng-class = "{'invalid': PRFC.invalidCredentials}"
+  ng-if = "!PRFC.authorized || PRFC.formReset"
+)
+  p.red.small.text-center(
+    ng-if = "PRFC.invalidCredentials"
+  ) We couldn’t validate your credentials.
+    br
+    | Please check them and try again.
+  label.padding-sm.label
+    .padding-xxs.small.label-sm Registry URL
+    input.input.input-md.input-validate(
+      name = "PRFC.url"
+      ng-disabled = "$root.isLoading.privateRegistry"
+      ng-model = "PRFC.url"
+      ng-required = "true"
+      placeholder = "https://index.docker.io/v1/"
+      spellcheck = "false"
+      type = "url"
     )
-      button.btn.btn-md.gray.btn-cancel(
-        data-event-name = "Clicked 'Back' in Private Registry Settings"
-        ng-if = "PRFC.authorized && PRFC.formReset"
-        ng-click = "PRFC.formReset = false"
-      ) Back
-      button.grid-block.shrink.align-center.btn.btn-md.green(
-        data-event-name = "Clicked to Add Private Registry"
-        ng-click = "PRFC.verifyAndSave()"
-        ng-disabled = "$root.isLoading.privateRegistry || privateRegistryForm.$invalid"
-      )
-        .spinner-wrapper.spinner-sm.spinner-white(
-          ng-if = "$root.isLoading.privateRegistry"
-          ng-include = "'spinner'"
-        )
-        span Verify & Save
-
-  section.padding-sm.grid-block.align-center.well.white.ignore-margin(
-    ng-if = "PRFC.authorized && !PRFC.formReset"
+    small.grid-block.padding-xxs.small Add the URL for the registry you use. This could be from Docker Hub or a private registry.
+  label.padding-sm.label
+    .padding-xxs.small.label-sm Username
+    input.input.input-md.input-validate(
+      name = "PRFC.username"
+      ng-disabled = "$root.isLoading.privateRegistry"
+      ng-model = "PRFC.username"
+      ng-required = "true"
+      spellcheck = "false"
+    )
+  label.padding-sm.label
+    .padding-xxs.small.label-sm Password
+    input.input.input-md.input-validate(
+      autocomplete = "new-password"
+      name = "PRFC.password"
+      ng-disabled = "$root.isLoading.privateRegistry"
+      ng-model = "PRFC.password"
+      ng-required = "true"
+      spellcheck = "false"
+      type = "password"
+    )
+  footer.margin-top-sm.padding-sm.grid-block.footer(
+    ng-class = "{\
+      'justify-justified': PRFC.authorized,\
+      'justify-right': !PRFC.authorized\
+    }"
   )
-    svg.margin-right-xxs.text-green.grid-block.shrink.iconnables.icons-check
-      use(
-        xlink:href = "#icons-check"
+    button.btn.btn-md.gray.btn-cancel(
+      data-event-name = "Clicked 'Back' in Private Registry Settings"
+      ng-if = "PRFC.authorized && PRFC.formReset"
+      ng-click = "PRFC.formReset = false"
+    ) Back
+    button.grid-block.shrink.align-center.btn.btn-md.green(
+      data-event-name = "Clicked to Add Private Registry"
+      ng-click = "PRFC.verifyAndSave()"
+      ng-disabled = "$root.isLoading.privateRegistry || privateRegistryForm.$invalid"
+    )
+      .spinner-wrapper.spinner-sm.spinner-white(
+        ng-if = "$root.isLoading.privateRegistry"
+        ng-include = "'spinner'"
       )
-    .grid-block.vertical
-      p.small.weight-strong.text-overflow Authorized {{PRFC.registryCredentials.username}}
-      small.small.text-gray.text-overflow {{PRFC.registryCredentials.url}}
-    button.btn.btn-xs.gray.margin-left-xxs(
-      data-event-name = "Clicked to Change Private Registry"
-      ng-click = "PRFC.changeRegistry()"
-    ) Change
+      span Verify & Save
+
+section.padding-sm.grid-block.align-center.well.white.ignore-margin(
+  ng-if = "PRFC.authorized && !PRFC.formReset"
+)
+  svg.margin-right-xxs.text-green.grid-block.shrink.iconnables.icons-check
+    use(
+      xlink:href = "#icons-check"
+    )
+  .grid-block.vertical
+    p.small.weight-strong.text-overflow Authorized {{PRFC.registryCredentials.username}}
+    small.small.text-gray.text-overflow {{PRFC.registryCredentials.url}}
+  button.btn.btn-xs.gray.margin-left-xxs(
+    data-event-name = "Clicked to Change Private Registry"
+    ng-click = "PRFC.changeRegistry()"
+  ) Change

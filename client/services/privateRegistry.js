@@ -25,14 +25,14 @@ function privateRegistry(
       var username = keypather.get(currentOrg, 'poppa.attrs.privateRegistryUsername');
       var url = keypather.get(currentOrg, 'poppa.attrs.privateRegistryUrl');
 
-      if (username && url) {
-        return {
-          username: username,
-          url: url
-        };
+      if (!username || !url) {
+        return null;
       }
 
-      return null;
+      return {
+        username: username,
+        url: url
+      };
     }
   };
 }
