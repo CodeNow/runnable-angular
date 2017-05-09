@@ -1,7 +1,8 @@
 'use strict';
 
 require('app')
-  .factory('createNewCluster', createNewCluster);
+  .factory('createNewCluster', createNewCluster)
+  .factory('redeployClusterMasterInstance', redeployClusterMasterInstance);
 
 function createNewCluster(
   $http,
@@ -21,6 +22,22 @@ function createNewCluster(
     return $http({
       method: 'post',
       url: configAPIHost + '/docker-compose-cluster',
+      data: data
+    });
+  };
+}
+
+function redeployClusterMasterInstance(
+  $http,
+  configAPIHost
+) {
+  return function (instanceId) {
+    var data = {
+      instanceId: instanceId
+    };
+    return $http({
+      method: 'POST',
+      url: configAPIHost + '/docker-compose-cluster/redeploy',
       data: data
     });
   };
