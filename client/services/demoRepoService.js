@@ -10,7 +10,6 @@ var stacks = {
     repoOwner: 'RunnableDemo',
     branchName: 'master',
     icon: '/build/images/logos/logo-icon-nodejs.svg',
-    cmd: 'npm start',
     buildCommands: [
       'npm install'
     ],
@@ -33,7 +32,6 @@ var stacks = {
     repoOwner: 'RunnableDemo',
     branchName: 'master',
     icon: '/build/images/logos/logo-icon-rails.svg',
-    cmd: 'rake db:migrate && rails server -b 0.0.0.0 -p 80',
     buildCommands: [
       'bundle install'
     ],
@@ -55,7 +53,6 @@ var stacks = {
     repoOwner: 'RunnableDemo',
     branchName: 'master',
     icon: '/build/images/logos/logo-icon-django.svg',
-    cmd: 'python manage.py migrate && python manage.py runserver 0.0.0.0:80',
     packages: [
       'postgresql-client'
     ],
@@ -84,7 +81,6 @@ var stacks = {
     repoOwner: 'RunnableDemo',
     branchName: 'master',
     icon: '/build/images/logos/logo-icon-php.svg',
-    cmd: 'php artisan migrate && apache2-foreground',
     buildCommands: [
       'composer install',
       'rmdir /var/www/html/',
