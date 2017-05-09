@@ -9,21 +9,20 @@ section.label-description
 
 form.grid-block.vertical.well.gray.ignore-margin(
   name = "privateRegistryForm"
-  ng-class = "{'invalid': state.invalidCredentials}"
-  ng-if = "!state.authorized"
-  ng-init = "state.authorized = null"
+  ng-class = "{'invalid': PRFC.invalidCredentials}"
+  ng-if = "!PRFC.authorized || PRFC.formReset"
 )
   p.red.small.text-center(
-    ng-if = "state.invalidCredentials"
+    ng-if = "PRFC.invalidCredentials"
   ) We couldn’t validate your credentials.
     br
     | Please check them and try again.
   label.padding-sm.label
     .padding-xxs.small.label-sm Registry URL
     input.input.input-md.input-validate(
-      name = "data.url"
-      ng-disabled = "state.saving"
-      ng-model = "data.url"
+      name = "PRFC.url"
+      ng-disabled = "$root.isLoading.privateRegistry"
+      ng-model = "PRFC.url"
       ng-required = "true"
       placeholder = "https://index.docker.io/v1/"
       spellcheck = "false"
@@ -33,9 +32,9 @@ form.grid-block.vertical.well.gray.ignore-margin(
   label.padding-sm.label
     .padding-xxs.small.label-sm Username
     input.input.input-md.input-validate(
-      name = "data.username"
-      ng-disabled = "state.saving"
-      ng-model = "data.username"
+      name = "PRFC.username"
+      ng-disabled = "$root.isLoading.privateRegistry"
+      ng-model = "PRFC.username"
       ng-required = "true"
       spellcheck = "false"
     )
@@ -43,48 +42,46 @@ form.grid-block.vertical.well.gray.ignore-margin(
     .padding-xxs.small.label-sm Password
     input.input.input-md.input-validate(
       autocomplete = "new-password"
-      name = "data.password"
-      ng-disabled = "state.saving"
-      ng-model = "data.password"
+      name = "PRFC.password"
+      ng-disabled = "$root.isLoading.privateRegistry"
+      ng-model = "PRFC.password"
       ng-required = "true"
       spellcheck = "false"
       type = "password"
     )
   footer.margin-top-sm.padding-sm.grid-block.footer(
     ng-class = "{\
-      'justify-justified': state.authorized,\
-      'justify-right': !state.authorized\
+      'justify-justified': PRFC.authorized,\
+      'justify-right': !PRFC.authorized\
     }"
   )
     button.btn.btn-md.gray.btn-cancel(
       data-event-name = "Clicked 'Back' in Private Registry Settings"
-      ng-if = "state.authorized"
+      ng-click = "PRFC.formReset = false"
+      ng-if = "PRFC.authorized && PRFC.formReset"
     ) Back
     button.grid-block.shrink.align-center.btn.btn-md.green(
       data-event-name = "Clicked to Add Private Registry"
-      ng-click = "state.saving = true"
-      ng-disabled = "state.saving || privateRegistryForm.$invalid"
-      ng-init = "state.saving = null"
+      ng-click = "PRFC.verifyAndSave()"
+      ng-disabled = "$root.isLoading.privateRegistry || privateRegistryForm.$invalid"
     )
       .spinner-wrapper.spinner-sm.spinner-white(
-        ng-if = "state.saving"
+        ng-if = "$root.isLoading.privateRegistry"
         ng-include = "'spinner'"
       )
       span Verify & Save
 
 section.padding-sm.grid-block.align-center.well.white.ignore-margin(
-  ng-if = "state.authorized"
-  ng-init = "registryCredentials = [\
-    {username: 'dockerfan88', url: 'https://index.docker.io/v1/'}\
-  ]"
+  ng-if = "PRFC.authorized && !PRFC.formReset"
 )
   svg.margin-right-xxs.text-green.grid-block.shrink.iconnables.icons-check
     use(
       xlink:href = "#icons-check"
     )
   .grid-block.vertical
-    p.small.weight-strong.text-overflow Authorized {{registryCredentials[0].username}}
-    small.small.text-gray.text-overflow {{registryCredentials[0].url}}
+    p.small.weight-strong.text-overflow Authorized {{PRFC.registryCredentials.username}}
+    small.small.text-gray.text-overflow {{PRFC.registryCredentials.url}}
   button.btn.btn-xs.gray.margin-left-xxs(
     data-event-name = "Clicked to Change Private Registry"
+    ng-click = "PRFC.changeRegistry()"
   ) Change
