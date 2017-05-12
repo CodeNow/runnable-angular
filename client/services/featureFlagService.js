@@ -55,6 +55,7 @@ function featureFlags(
     nextPayment: false, // show the next payment date under payment summary
     optionsInModal: false, // allows delete in modal
     privateRegistry: false,
+    pushToRegistry: false,
     renameContainer: false,
     saveToolbar: false,
     teamManagement: false,

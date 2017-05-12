@@ -1,0 +1,10 @@
+svg.margin-right-xxs.text-green.grid-block.shrink.iconnables.icons-check
+  use(
+    xlink:href = "#icons-check"
+  )
+.grid-block.vertical
+  p.small.weight-strong.text-overflow Authorized {{registryCredentials[0].username}}
+  small.small.text-gray.text-overflow {{registryCredentials[0].url}}
+button.btn.btn-xs.gray.margin-left-xxs(
+  data-event-name = "Clicked to Change Private Registry"
+) Change
