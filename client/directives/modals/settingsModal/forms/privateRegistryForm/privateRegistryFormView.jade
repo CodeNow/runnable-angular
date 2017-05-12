@@ -15,10 +15,15 @@ form.grid-block.vertical.well.gray.ignore-margin(
   ng-init = "state.authorized = null"
 )
 
-section.padding-sm.grid-block.align-center.well.white.ignore-margin(
+section.padding-sm.grid-block.align-center.well.white(
   ng-if = "state.authorized || $root.featureFlags.pushToRegistry"
   ng-include = "'registryAuthorizedView'"
   ng-init = "registryCredentials = [\
     {username: 'dockerfan88', url: 'https://index.docker.io/v1/'}\
   ]"
+)
+
+section.padding-sm.grid-block.align-center.well.gray(
+  ng-if = "$root.featureFlags.pushToRegistry"
+  ng-include = "'pushToRegistryView'"
 )
