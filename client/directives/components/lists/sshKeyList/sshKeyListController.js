@@ -4,22 +4,16 @@ require('app')
   .controller('SshKeyListController', SshKeyListController);
 function SshKeyListController(
   $q,
-  currentOrg
+  currentOrg,
+  sshKey
 ) {
-  var keysStub = [
-    {username: 'Myztiq', fingerprint: '40:71:04:a8:3b:ea:a8:90:f6:99:6c:7a:22:f7:c0:15', avatar: 'https://avatars1.githubusercontent.com/u/495765'},
-    {username: 'GingerbreadMan', fingerprint: 'e2:81:ae:03:43:1a:ba:cf:4e:e0:79:37:69:40:58:56', avatar: 'https://avatars1.githubusercontent.com/u/429706'}
-  ];
-
-  var newKeyStub = {username: 'p4l-damien-20', fingerprint: 'e2:81:ae:03:43:1a:ba:cf:4e:e0:79:37:69:40:58:56', avatar: 'https://avatars1.githubusercontent.com/u/429706'}
 
   var SKLC = this;
   SKLC.hasKey = false;
   SKLC.keys = [];
   SKLC.githubLoading = false;
 
-  // TODO: Get keys call
-  $q.when(keysStub)
+  $q.when(sshKey.getSshKeys())
     .then(function (fetchedKeys) {
       var ind;
 
@@ -38,12 +32,25 @@ function SshKeyListController(
   SKLC.createKey = function () {
     SKLC.githubLoading = true;
 
-    // TODO: Create key call
-    $q.when(newKeyStub)
+    // TODO: Provide real scope check
+    $q.when(true)
+      .then(function(hasScope) {
+        if (!hasScope) {
+          // TODO: Replace with get new permissions
+          return $q.when()
+            .then(function () {
+              SKLC.githubLoading = false;
+            });
+        }
+
+        return;
+      })
+      .then(function() {
+        return sshKey.setSshKey()
+      })
       .then(function(newKey) {
         SKLC.keys.splice(0, 0, newKey);
         SKLC.hasKey = true;
-        SKLC.githubLoading = false;
       })
   }
 }
