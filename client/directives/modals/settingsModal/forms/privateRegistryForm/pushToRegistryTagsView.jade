@@ -1,0 +1,94 @@
+.padding-xxs.small.label-sm Image Tags
+
+section.grid-block.well.white(
+  ng-init = "\
+    model[0].state = true;\
+    model[4].state = true;\
+  "
+)
+  .grid-block.shrink.align-center(
+    ng-click = "model[0].state = !model[0].state"
+  )
+    button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add(
+      ng-class = "{'active': model[0].state}"
+    )
+      svg.iconnables.icons-check
+        use(
+          xlink:href = "#icons-check"
+        )
+    .grid-block.vertical
+      strong.strong.small Environment Type
+      .grid-block.small
+        code.monospace staging
+        | &#32;or&#32;
+        code.monospace testing
+  .grid-block.shrink.align-center(
+    ng-click = "model[1].state = !model[1].state"
+  )
+    button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add(
+      ng-class = "{'active': model[1].state}"
+    )
+      svg.iconnables.icons-check
+        use(
+          xlink:href = "#icons-check"
+        )
+    .grid-block.vertical
+      strong.strong.small Test Result
+      .grid-block.small
+        code.monospace passed
+        | &#32;or&#32;
+        code.monospace failed
+  .grid-block.shrink.align-center(
+    ng-click = "model[2].state = !model[2].state"
+  )
+    button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add(
+      ng-class = "{'active': model[2].state}"
+    )
+      svg.iconnables.icons-check
+        use(
+          xlink:href = "#icons-check"
+        )
+    .grid-block.vertical
+      strong.strong.small Repository Name
+      .grid-block.small Your GitHub repo name.
+  .grid-block.shrink.align-center(
+    ng-click = "model[3].state = !model[3].state"
+  )
+    button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add(
+      ng-class = "{'active': model[3].state}"
+    )
+      svg.iconnables.icons-check
+        use(
+          xlink:href = "#icons-check"
+        )
+    .grid-block.vertical
+      strong.strong.small Branch Name
+      .grid-block.small Your GitHub branch name.
+  .grid-block.shrink.align-center(
+    ng-click = "model[4].state = !model[4].state"
+  )
+    button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add(
+      ng-class = "{'active': model[4].state}"
+    )
+      svg.iconnables.icons-check
+        use(
+          xlink:href = "#icons-check"
+        )
+    .grid-block.vertical
+      strong.strong.small Commit Hash
+      .grid-block.small Your GitHub commit hash.
+  .grid-block.shrink.align-center(
+    ng-click = "model[5].state = !model[5].state"
+  )
+    button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add(
+      ng-class = "{'active': model[5].state}"
+    )
+      svg.iconnables.icons-check
+        use(
+          xlink:href = "#icons-check"
+        )
+    .grid-block.vertical
+      strong.strong.small Service Name
+      .grid-block.small Your chosen service name.
+
+small.padding-xxs.small You must select at least one tag.

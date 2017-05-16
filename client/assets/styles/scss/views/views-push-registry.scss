@@ -1,0 +1,51 @@
+.views-push-registry {
+  border-top: 1px solid $gray-lighter;
+
+  .well {
+    flex-wrap: wrap;
+
+    > .grid-block {
+      cursor: pointer;
+      flex: 0 0 50%;
+      height: 69px;
+      padding: $sm;
+
+      @include media(xs) {
+        flex: 0 0 100%;
+
+        &:nth-child(-n+5) {
+          border-bottom: 1px solid $gray-lighter;
+        }
+      }
+
+      &:nth-child(odd) {
+        border-right: 1px solid $gray-lighter;
+
+        @include media(xs) {
+          border-right: 0;
+        }
+      }
+
+      &:nth-child(-n+4) {
+        border-bottom: 1px solid $gray-lighter;
+      }
+    }
+
+    .btn-add {
+      border-radius: 50%;
+      margin-right: $sm;
+    }
+
+    .strong {
+      color: $gray-dark;
+    }
+
+    .monospace {
+      background: $gray-lighterest;
+      border: $input-border solid $gray-lighter;
+      border-radius: $input-border-radius;
+      font-size: 11px;
+      padding: 0 3px;
+    }
+  }
+}

@@ -1,4 +1,4 @@
-label.grid-block.align-center.justify-justified.label
+label.padding-sm.grid-block.align-center.justify-justified.label
   .padding-left-xxs.small.label-sm Push Images to Registry
   .toggle-wrapper
     input.toggle-input(
@@ -6,3 +6,34 @@ label.grid-block.align-center.justify-justified.label
       type = "checkbox"
     )
     .toggle-group.toggle-sm
+.padding-sm.grid-block.vertical.label.views-push-registry(
+  ng-include = "'pushToRegistryTagsView'"
+  ng-if = "state.pushToRegistry"
+)
+  .padding-xxs.small.label-sm Image Tags
+  section.grid-block.well.white
+    .grid-block.shrink.align-center
+      button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add
+        svg.iconnables.icons-check
+          use(
+            xlink:href = "#icons-check"
+          )
+      | Environment Type
+      code.small.monospace passed
+      | &#32;or&#32;
+      code.small.monospace failed
+    .grid-block.shrink.align-center
+      button.grid-content.shrink.btn.btn-xs.btn-icon.btn-add
+        svg.iconnables.icons-check
+          use(
+            xlink:href = "#icons-check"
+          )
+      | Environment Type
+      code.small.monospace passed
+      | &#32;or&#32;
+      code.small.monospace failed
+    .grid-block.shrink.align-center
+    .grid-block.shrink.align-center
+    .grid-block.shrink.align-center
+  //- pre.pre.small.
+    <serviceName>:<commit-hash>-<branch>
