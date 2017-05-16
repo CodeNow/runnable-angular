@@ -20,11 +20,11 @@ function sshKey() {
     },
 
     /**
-     * Sets the ssh key for the user and org combo. If the key exists it overrides it.
+     * Saves the ssh key for the user and org combo. If the key exists it overrides it.
      *
      * @returns {{username: string, fingerprint: string, avatar: string}}
      */
-    setSshKey: function() {
+    saveSshKey: function() {
       var newKeyStub = {username: 'p4l-damien-20', fingerprint: 'e2:81:ae:03:43:1a:ba:cf:4e:e0:79:37:69:40:58:56', avatar: 'https://avatars1.githubusercontent.com/u/429706'}
 
       return newKeyStub;

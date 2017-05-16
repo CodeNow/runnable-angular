@@ -5,7 +5,8 @@ require('app')
 function SshKeyListController(
   $q,
   currentOrg,
-  sshKey
+  sshKey/*,
+  handleSocketEvent*/
 ) {
 
   var SKLC = this;
@@ -38,7 +39,10 @@ function SshKeyListController(
         if (!hasScope) {
           // TODO: Replace with get new permissions
           return $q.when()
-            .then(function () {
+            // .then(function (res) {
+            //   return handleSocketEvent('todo-auth-update-event');
+            // })
+            .then(function() {
               SKLC.githubLoading = false;
             });
         }
@@ -46,8 +50,11 @@ function SshKeyListController(
         return;
       })
       .then(function() {
-        return sshKey.setSshKey()
+        return sshKey.saveSshKey()
       })
+      // .then(function (res) {
+      //   return handleSocketEvent('todo-key-created-event');
+      // })
       .then(function(newKey) {
         SKLC.keys.splice(0, 0, newKey);
         SKLC.hasKey = true;
