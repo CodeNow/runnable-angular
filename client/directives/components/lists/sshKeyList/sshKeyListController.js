@@ -5,36 +5,50 @@ require('app')
 function SshKeyListController(
   $q,
   currentOrg,
-  sshKey/*,
-  handleSocketEvent*/
+  sshKey,
+  handleSocketEvent,
+  github
 ) {
 
   var SKLC = this;
   SKLC.hasKey = false;
   SKLC.keys = [];
   SKLC.githubLoading = false;
+  SKLC.creatingKey = false;
+  SKLC.authorized = false;
 
-  $q.when(sshKey.getSshKeys())
-    .then(function (fetchedKeys) {
-      var ind;
+  github.getGhScopes().then(function(scopes) {
+    SKLC.authorized = scopes.indexOf('write:public_key') > -1 ;
+  });
 
-      SKLC.keys = fetchedKeys;
-      ind = SKLC.keys.findIndex(function (key) {
-        return key.username === currentOrg.github.oauthName();
+  function getSshKeys () {
+    return sshKey.getSshKeys()
+      .then(function (resp) {
+        var ind = -1;
+
+        SKLC.keys = resp.data.fetchedKeys;
+        if (SKLC.keys && SKLC.keys.length) {
+          ind = SKLC.keys.findIndex(function (key) {
+            return key.username === currentOrg.github.oauthName();
+          });
+        }
+
+        if (ind >= 0) {
+          SKLC.hasKey = true;
+          // move users key to front
+          SKLC.keys.splice(0, 0, SKLC.keys.splice(ind,1)[0]);
+        }
       });
+  }
 
-      if (ind >= 0) {
-        SKLC.hasKey = true;
-        // move users key to front
-        SKLC.keys.splice(0, 0, SKLC.keys.splice(ind,1)[0]);
-      }
-    });
+  getSshKeys();
+
 
   SKLC.createKey = function () {
     SKLC.githubLoading = true;
+    SKLC.creatingKey = true;
 
-    // TODO: Provide real scope check
-    $q.when(true)
+    $q.when(SKLC.authorized)
       .then(function(hasScope) {
         if (!hasScope) {
           // TODO: Replace with get new permissions
@@ -43,21 +57,20 @@ function SshKeyListController(
             //   return handleSocketEvent('todo-auth-update-event');
             // })
             .then(function() {
-              SKLC.githubLoading = false;
-            });
+              SKLC.authorized = true
+            })
         }
 
         return;
       })
-      .then(function() {
-        return sshKey.saveSshKey()
-      })
+      .then(sshKey.saveSshKey())
       // .then(function (res) {
       //   return handleSocketEvent('todo-key-created-event');
       // })
-      .then(function(newKey) {
-        SKLC.keys.splice(0, 0, newKey);
-        SKLC.hasKey = true;
+      .then(getSshKeys)
+      .finally(function() {
+        SKLC.githubLoading = false;
+        SKLC.creatingKey = false;
       })
   }
 }

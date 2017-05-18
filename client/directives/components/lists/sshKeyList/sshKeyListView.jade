@@ -24,16 +24,16 @@ ol.list-bordered
     a.grid-block.shrink.noscroll.align-center.btn.gray.btn-xs(
       data-event-name = "Clicked to Authorize SSH with GitHub"
       ng-click = "SKLC.createKey()"
-      ng-if = "!SKLC.hasKey"
+      ng-disabled = "SKLC.creatingKey"
+      ng-if = "!SKLC.hasKey && !SKLC.authorized"
       ng-include = "'SSHAuthorizeButton'"
     )
     a.grid-block.shrink.noscroll.align-center.btn.gray.btn-xs.btn-create-key(
       data-event-name = "Clicked to Create SSH Key"
-      ng-click = "state.creatingKey = !state.creatingKey"
-      ng-disabled = "state.creatingKey"
-      ng-if = "state.everAuthorized && !state.authorized"
+      ng-click = "SKLC.createKey()"
+      ng-disabled = "SKLC.creatingKey"
+      ng-if = "SKLC.authorized && !SKLC.hasKey"
       ng-include = "'SSHCreateButton'"
-      ng-init = "state.creatingKey = false"
     )
   //- all user keys; if current user's key exists, list it at the top
   li.grid-block.align-center.list-item(
@@ -50,5 +50,4 @@ ol.list-bordered
       p.monospace.text-gray.text-overflow {{key.fingerprint}}
     a.grid-block.shrink.noscroll.align-center.btn.gray.btn-xs.btn-authorized(
       ng-include = "'SSHAuthorizeButton'"
-      ng-init = "state.authorized = true"
     )

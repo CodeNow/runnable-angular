@@ -11,7 +11,7 @@ function github(
   configGithubUrl
 ) {
   var githubAPIUrl = configGithubUrl;
-  function makeGhRequest(options) {
+  function makeRawGhRequest(options) {
     return fetchUser()
       .then(function (user) {
         var ghToken = keypather.get(user, 'attrs.bigPoppaUser.accessToken');
@@ -26,12 +26,20 @@ function github(
         return $http(options)
           .then(function (response) {
             if (response.status > 300) {
-              return $q.reject(response.data);
+              return $q.reject(response);
             }
-            return response.data;
+            return response;
           });
       });
   }
+
+  function makeGhRequest(options) {
+    return makeRawGhRequest(options)
+      .then(function (response) {
+        return response.data;
+      });
+  }
+
   return {
     forkRepo: function (repoOwner, repoName, targetOrg, isPersonalAccount) {
       var ghRequest = {
@@ -69,6 +77,15 @@ function github(
         }
       };
       return makeGhRequest(ghRequest);
+    },
+
+    getGhScopes: function() {
+      return makeRawGhRequest({
+        method: 'get',
+        url:  'https://api.github.com/user'
+      }).then(function(resp) {
+        return (keypather.get(resp, 'headers().x-oauth-scopes') || '').split(', ');
+      });
     },
 
     makeGhRequest: makeGhRequest
