@@ -26,10 +26,12 @@ function SshKeyListController(
       .then(function (resp) {
         var ind = -1;
 
-        SKLC.keys = resp.data.fetchedKeys;
+        SKLC.keys = resp.json.keys;
         if (SKLC.keys && SKLC.keys.length) {
-          ind = SKLC.keys.findIndex(function (key) {
-            return key.username === currentOrg.github.oauthName();
+          SKLC.keys.forEach(function(key, i) {
+            if (key.username === currentOrg.github.oauthName()) {
+              ind = i;
+            }
           });
         }
 
@@ -42,7 +44,6 @@ function SshKeyListController(
   }
 
   getSshKeys();
-
 
   SKLC.createKey = function () {
     SKLC.githubLoading = true;
