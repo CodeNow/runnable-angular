@@ -57,8 +57,8 @@ function SshKeyListController(
             //   return handleSocketEvent('todo-auth-update-event');
             // })
             .then(function() {
-              SKLC.authorized = true
-            })
+              SKLC.authorized = true;
+            });
         }
 
         return;
@@ -71,6 +71,6 @@ function SshKeyListController(
       .finally(function() {
         SKLC.githubLoading = false;
         SKLC.creatingKey = false;
-      })
-  }
+      });
+  };
 }

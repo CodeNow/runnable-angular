@@ -32,5 +32,5 @@ function sshKey(
         url: configAPIHost + '/organizations/' + currentOrg.poppa.id() + '/ssh-key'
       });
     }
-  }
+  };
 }
