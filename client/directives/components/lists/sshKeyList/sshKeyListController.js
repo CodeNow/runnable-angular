@@ -64,9 +64,9 @@ function SshKeyListController(
         return;
       })
       .then(sshKey.saveSshKey())
-      // .then(function (res) {
-      //   return handleSocketEvent('todo-key-created-event');
-      // })
+      .then(function () {
+         return handleSocketEvent('org.user.private-key.secured');
+      })
       .then(getSshKeys)
       .finally(function() {
         SKLC.githubLoading = false;
