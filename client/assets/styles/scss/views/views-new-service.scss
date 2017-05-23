@@ -14,11 +14,6 @@
       max-width: 330px;
     }
 
-    // for "name" form
-    + .label {
-      margin-bottom: 0;
-    }
-
     .btn-radio {
       border-radius: $input-border-radius-lg;
       flex: 1 1 50%;
@@ -47,6 +42,10 @@
       border-radius: 50%;
       margin-right: $xs;
     }
+  }
+
+  .label-branch {
+    margin-top: -$sm;
   }
 
   // for branch selector
