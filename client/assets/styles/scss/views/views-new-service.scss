@@ -14,6 +14,11 @@
       max-width: 330px;
     }
 
+    // for "name" form
+    + .label {
+      margin-bottom: 0;
+    }
+
     .btn-radio {
       border-radius: $input-border-radius-lg;
       flex: 1 1 50%;
@@ -42,6 +47,15 @@
       border-radius: 50%;
       margin-right: $xs;
     }
+  }
+
+  // for branch selector
+  .btn-wrapped {
+    @extend %btn-md;
+    display: block;
+    font-weight: 400;
+    padding-left: 8px;
+    width: 100%;
   }
 
   // for the nested compose test file
