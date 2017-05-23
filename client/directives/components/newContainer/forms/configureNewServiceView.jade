@@ -56,7 +56,9 @@ section.grid-block.vertical.modal-body(
       ng-include = "'nameNewServiceView'"
     )
     
+    //- default branch selector
     form.grid-block.vertical.label(
+      ng-if = "NCC.state.dockerFileTab === 'compose'"
       ng-include = "'defaultBranchView'"
     )
 
