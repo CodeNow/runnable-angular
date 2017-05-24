@@ -44,17 +44,17 @@
     }
   }
 
-  .label-branch {
-    margin-top: -$sm;
-  }
-
   // for branch selector
   .btn-wrapped {
     @extend %btn-md;
-    display: block;
-    font-weight: 400;
+    display: flex;
+    flex: 1 1 auto;
+    justify-content: space-between;
     padding-left: 8px;
-    width: 100%;
+
+    .icons-branch {
+      top: 9px;
+    }
   }
 
   // for the nested compose test file
