@@ -157,6 +157,7 @@
     // max-width on buttons
     > .btn,
     .btn-wrapped {
+      @extend %btn-sm;
       display: block;
       font-size: 16px;
       max-width: 360px;
