@@ -249,7 +249,7 @@ describe('NewContainerController'.bold.underline.blue, function () {
       it('should create a mirror repository container when there is a dockerfile', function () {
         var repo = {};
         var dockerfile = {};
-        var configurationMethod = 'dockerfile'
+        var configurationMethod = 'dockerfile';
         sinon.stub(NCC, 'newRepositoryContainer');
         sinon.stub(NCC, 'newMirrorRepositoryContainer');
 
@@ -501,7 +501,6 @@ describe('NewContainerController'.bold.underline.blue, function () {
   });
 
   describe('docker compose single cluster creation', function () {
-    
     it('should create one cluster', function () {
       NCC.createComposeCluster();
       sinon.assert.calledOnce(createNewClusterStub);
@@ -522,17 +521,6 @@ describe('NewContainerController'.bold.underline.blue, function () {
       NCC.state.dockerComposeTestFile = {
         path: '/path'
       };
-      NCC.state.repo = {
-        attrs: {
-          full_name: 'repo1'
-        }
-      };
-      NCC.state.branch = {
-        attrs: {
-          name: branchName
-        }
-      };
-      NCC.state.instanceName = 'henry\'s instance';
       NCC.state.types.test = true;
       NCC.state.testReporter = {
         name: 'test reporter'
@@ -556,23 +544,9 @@ describe('NewContainerController'.bold.underline.blue, function () {
 
   describe('docker compose multiple cluster creation', function () {
     beforeEach(function () {
-      NCC.state.dockerComposeFile = {
-        path: '/path'
-      };
       NCC.state.dockerComposeTestFile = {
         path: '/path'
       };
-      NCC.state.repo = {
-        attrs: {
-          full_name: 'repo1'
-        }
-      };
-      NCC.state.branch = {
-        attrs: {
-          name: branchName
-        }
-      };
-      NCC.state.instanceName = 'henry\'s instance';
       NCC.state.types.test = true;
       NCC.state.types.stage = true;
       NCC.state.testReporter = {
@@ -616,5 +590,5 @@ describe('NewContainerController'.bold.underline.blue, function () {
       var text = NCC.getNextStepText();
       expect(text).to.equal('Create Environment');
     });
-  })
+  });
 });
