@@ -46,13 +46,21 @@ function addDockerfile(
         MDC.loadDefaultDockerfile($scope.fullRepo, $scope.branchName, path, $scope.fileType);
       }
 
-      fetchRepoDockerfile($scope.fullRepo, $scope.branchName, path)
-        .then(doesDockerfileExist)
-        .then(function (file) {
-          if (file) {
-            $scope.newDockerfile = $scope.fileName;
-          }
-        });
+
+      function populateNewDockerfile () {
+        return fetchRepoDockerfile($scope.fullRepo, $scope.branchName, path)
+          .then(doesDockerfileExist)
+          .then(function (file) {
+            if (file) {
+              $scope.newDockerfile = $scope.fileName;
+            } else {
+              // Account for files not found
+              $scope.newDockerfile = undefined;
+            }
+          });
+      }
+      $scope.$watch('branchName', populateNewDockerfile);
+      populateNewDockerfile();
 
       $scope.$on('dockerfileExistsValidator', function ($event, path, fileType, dockerfile) {
         if (fileType === 'Dockerfile') {
@@ -67,7 +75,7 @@ function addDockerfile(
           $scope.dockerfile = dockerfile;
           MDC.state.dockerfile = dockerfile;
           return;
-        } 
+        }
       });
 
       $scope.closeDockerFileInput = function () {
