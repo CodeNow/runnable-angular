@@ -27,6 +27,7 @@ describe('NewContainerController'.bold.underline.blue, function () {
 
   // Mocked Values
   var instanceName = 'instanceName';
+  var branchName = 'feature-1';
   var instances;
   var mockInstance;
   var repos;
@@ -193,6 +194,25 @@ describe('NewContainerController'.bold.underline.blue, function () {
   beforeEach(setupMockValues);
   beforeEach(initState);
 
+  beforeEach(function () {
+    NCC.state.dockerComposeFile = {
+      path: '/path'
+    };
+    NCC.state.branch = {
+      attrs: {
+        name: branchName
+      }
+    };
+    NCC.state.dockerComposeTestFile = null;
+    NCC.state.repo = {
+      attrs: {
+        full_name: 'repo1'
+      }
+    };
+    NCC.state.instanceName = 'henry\'s instance';
+  });
+
+
   describe('Init', function () {
     it('should fetch all user instances', function () {
       $scope.$digest();
@@ -272,23 +292,18 @@ describe('NewContainerController'.bold.underline.blue, function () {
       it('should set the repo', function () {
         var repo1 = {
           attrs: {
-            full_name: 'repo1',
-            default_branch: 'master'
+            full_name: 'repo1'
           }
         };
         var repo2 = {
           attrs: {
-            full_name: 'repo2',
-            default_branch: 'master'
+            full_name: 'repo2'
           }
         };
         var stub = sinon.stub();
-        NCC.setRepo(repo1, stub);
-        $scope.$digest();
-        expect(NCC.state.repo).to.equal(repo1);
         NCC.setRepo(repo2, stub);
         $scope.$digest();
-        expect(NCC.state.repo).to.equal(repo2);
+        expect(NCC.state.repo).to.deep.equal(repo2);
       });
 
       it('should call the callback even if there are no dockerfiles', function () {
@@ -486,26 +501,13 @@ describe('NewContainerController'.bold.underline.blue, function () {
   });
 
   describe('docker compose single cluster creation', function () {
-    beforeEach(function () {
-      NCC.state.dockerComposeFile = {
-        path: '/path'
-      };
-      NCC.state.dockerComposeTestFile = null;
-      NCC.state.repo = {
-        attrs: {
-          full_name: 'repo1',
-          default_branch: 'master'
-        }
-      };
-      NCC.state.instanceName = 'henry\'s instance';
-    });
-
+    
     it('should create one cluster', function () {
       NCC.createComposeCluster();
       sinon.assert.calledOnce(createNewClusterStub);
-      sinon.assert.calledWithExactly(createNewClusterStub, 
+      sinon.assert.calledWithExactly(createNewClusterStub,
         NCC.state.repo.attrs.full_name,
-        NCC.state.repo.attrs.default_branch,
+        branchName,
         NCC.state.dockerComposeFile.path,
         NCC.state.instanceName,
         mockCurrentOrg.github.attrs.id
@@ -522,8 +524,12 @@ describe('NewContainerController'.bold.underline.blue, function () {
       };
       NCC.state.repo = {
         attrs: {
-          full_name: 'repo1',
-          default_branch: 'master'
+          full_name: 'repo1'
+        }
+      };
+      NCC.state.branch = {
+        attrs: {
+          name: branchName
         }
       };
       NCC.state.instanceName = 'henry\'s instance';
@@ -536,9 +542,9 @@ describe('NewContainerController'.bold.underline.blue, function () {
     it('should create one test cluster', function () {
       NCC.createComposeCluster();
       sinon.assert.calledOnce(createNewClusterStub);
-      sinon.assert.calledWithExactly(createNewClusterStub, 
+      sinon.assert.calledWithExactly(createNewClusterStub,
         NCC.state.repo.attrs.full_name,
-        NCC.state.repo.attrs.default_branch,
+        branchName,
         NCC.state.dockerComposeTestFile.path,
         NCC.state.instanceName,
         mockCurrentOrg.github.attrs.id,
@@ -558,8 +564,12 @@ describe('NewContainerController'.bold.underline.blue, function () {
       };
       NCC.state.repo = {
         attrs: {
-          full_name: 'repo1',
-          default_branch: 'master'
+          full_name: 'repo1'
+        }
+      };
+      NCC.state.branch = {
+        attrs: {
+          name: branchName
         }
       };
       NCC.state.instanceName = 'henry\'s instance';
