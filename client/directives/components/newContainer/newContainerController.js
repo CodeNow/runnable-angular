@@ -399,7 +399,8 @@ function NewContainerController(
     var isValidDockerfile = NCC.state.configurationMethod === 'dockerfile' && NCC.state.dockerfile;
     var isValidComposeFile = false;
     if (NCC.state.configurationMethod === 'dockerComposeFile') {
-      var isValidTestCompose = true, isValidStagingCompose = true;
+      var isValidTestCompose = true;
+      var isValidStagingCompose = true;
       var hasTestOrStaging = NCC.state.types.test || NCC.state.types.stage;
       if (NCC.state.types.test) {
         isValidTestCompose = NCC.state.dockerComposeTestFile && NCC.state.testReporter;
