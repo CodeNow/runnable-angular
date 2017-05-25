@@ -45,6 +45,8 @@ require('app')
   .factory('fetchOwnerRepos', fetchOwnerRepos)
   .factory('fetchOwnerRepo', fetchOwnerRepo)
   .factory('fetchPullRequest', fetchPullRequest)
+  .factory('fetchOrganizationRepos', fetchOrganizationRepos)
+  .factory('searchOrganizationRepos', searchOrganizationRepos)
   // Settings
   .factory('verifySlackAPITokenAndFetchMembers', verifySlackAPITokenAndFetchMembers)
   .factory('fetchSettings', fetchSettings)
@@ -502,6 +504,33 @@ function fetchBuild(
     return fetchUser().then(function (user) {
       var pFetch = promisify(user, 'fetchBuild');
       return pFetch(buildId);
+    });
+  };
+}
+
+function fetchOrganizationRepos(
+  $http,
+  configAPIHost
+) {
+  return function (orgName) {
+    return $http({
+      method: 'get',
+      url: configAPIHost + '/github/orgs/' + orgName + '/repos?per_page=100'
+    });
+  };
+}
+
+function searchOrganizationRepos (
+  $http,
+  configAPIHost
+) {
+  return function (orgName, searchTerm) {
+    return $http({
+      method: 'get',
+      url: configAPIHost + '/github/search/repositories?q=' + searchTerm + '+in%3Aname+user%3A'+ orgName + '&per_page=100'
+    })
+    .then(function (response) {
+      return response.data.items;
     });
   };
 }
