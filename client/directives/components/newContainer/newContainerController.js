@@ -383,17 +383,33 @@ function NewContainerController(
   };
 
   NCC.canCreateBuild = function () {
-    return  keypather.get(NCC, 'state.instanceName.length') && !keypather.get(NCC, 'nameForm.$invalid') &&
-            !$rootScope.isLoading.newContainerSingleRepo && !$rootScope.isLoading.creatingDockerCompose && (NCC.state.templateSource ||
-            !$scope.$root.featureFlags.composeNewService || NCC.validateDockerComposeBuild());
+    var hasInstances = keypather.get(NCC, 'state.instanceName.length');
+    var isLoading = $rootScope.isLoading.newContainerSingleRepo || $rootScope.isLoading.creatingDockerCompose;
+    var isFormValid = !keypather.get(NCC, 'nameForm.$invalid');
+    var isTemplate = NCC.state.templateSource;
+    var isValidCompose = !$scope.$root.featureFlags.composeNewService || NCC.validateDockerComposeBuild();
+    return hasInstances &&
+           isFormValid &&
+           !isLoading &&
+           (isTemplate || isValidCompose);
   };
 
   NCC.validateDockerComposeBuild = function () {
-    return ((NCC.state.configurationMethod === 'new' || NCC.state.configurationMethod === 'blankDockerfile') ||
-            (NCC.state.configurationMethod === 'dockerfile' && NCC.state.dockerfile) ||
-            (NCC.state.configurationMethod === 'dockerComposeFile' &&
-            ((NCC.state.types.test ? NCC.state.dockerComposeTestFile && NCC.state.testReporter : NCC.state.types.stage) &&
-            (NCC.state.types.stage ? NCC.state.dockerComposeFile : NCC.state.types.test))));
+    var isNewBlankDockerfile = ['new', 'blankDockerfile'].includes(NCC.state.configurationMethod);
+    var isValidDockerfile = NCC.state.configurationMethod === 'dockerfile' && NCC.state.dockerfile;
+    var isValidComposeFile = false;
+    if (NCC.state.configurationMethod === 'dockerComposeFile') {
+      var isValidTestCompose = true, isValidStagingCompose = true;
+      var hasTestOrStaging = NCC.state.types.test || NCC.state.types.stage;
+      if (NCC.state.types.test) {
+        isValidTestCompose = NCC.state.dockerComposeTestFile && NCC.state.testReporter;
+      }
+      if (NCC.state.types.stage) {
+        isValidStagingCompose = NCC.state.dockerComposeFile;
+      }
+      isValidComposeFile = hasTestOrStaging && isValidTestCompose && isValidStagingCompose;
+    }
+    return isNewBlankDockerfile || isValidDockerfile || isValidComposeFile;
   };
 
   NCC.isSaving = function () {
