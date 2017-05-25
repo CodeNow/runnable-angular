@@ -332,7 +332,7 @@ function NewContainerController(
     if (NCC.state.dockerComposeFile && (!$rootScope.featureFlags.composeNewService || NCC.state.types.stage)) {
       return createNewCluster(
         NCC.state.repo.attrs.full_name,
-        NCC.state.repo.attrs.default_branch,
+        NCC.state.branch.attrs.name,
         NCC.state.dockerComposeFile.path,
         NCC.state.instanceName,
         currentOrg.github.attrs.id
@@ -348,7 +348,7 @@ function NewContainerController(
           var instanceName = NCC.state.instanceName + '-test';
           return createNewCluster(
             NCC.state.repo.attrs.full_name,
-            NCC.state.repo.attrs.default_branch,
+            NCC.state.branch.attrs.name,
             NCC.state.dockerComposeTestFile.path,
             instanceName,
             currentOrg.github.attrs.id,
@@ -363,7 +363,7 @@ function NewContainerController(
 
     return createNewCluster(
       NCC.state.repo.attrs.full_name,
-      NCC.state.repo.attrs.default_branch,
+      NCC.state.branch.attrs.name,
       NCC.state.dockerComposeTestFile.path,
       NCC.state.instanceName,
       currentOrg.github.attrs.id,
