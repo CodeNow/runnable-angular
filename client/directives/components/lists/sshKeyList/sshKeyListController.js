@@ -39,7 +39,6 @@ function SshKeyListController(
   }
 
   $scope.$on('GH_SCOPE_UPGRADED', function () {
-    console.log('i hear that');
     updateAuth.then(SKLC.validateCreateKey);
   })
 
@@ -53,7 +52,7 @@ function SshKeyListController(
 
         if (SKLC.keys.length) {
           SKLC.keys.forEach(function(key, i) {
-            if (key.userId === currentOrg.poppa.user.attrs.bigPoppaUser.id) {
+            if (key.userId === keypather.get(currentOrg, 'poppa.user.attrs.bigPoppaUser.id')) {
               ind = i;
             }
 

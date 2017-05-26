@@ -86,7 +86,6 @@ function github(
         method: 'get',
         url:  githubAPIUrl + '/user'
       }).then(function(resp) {
-        console.log(keypather.get(resp, 'headers().x-oauth-scopes'));
         return (keypather.get(resp, 'headers().x-oauth-scopes') || '').split(', ');
       });
     },

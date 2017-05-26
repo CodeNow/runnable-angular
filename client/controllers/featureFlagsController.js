@@ -4,7 +4,6 @@ require('app')
   .controller('FeatureFlagsController', FeatureFlagsController);
 
 function FeatureFlagsController(
-  $rootScope,
   $localStorage,
   $state,
   ahaGuide,
@@ -20,18 +19,11 @@ function FeatureFlagsController(
     }
   };
 
+  // Remove when you remove the composeSSHAuthView flag
   this.upgradeAuth = function () {
-    var w = customWindowService($state.href('githubAuthUpgrade'), {
+    customWindowService($state.href('githubAuthUpgrade'), {
       width: 1020, // match github minimum width
       height: 660
-    });
-
-    w.addEventListener('GH_SCOPE_UPGRADED', function() {
-      console.log('listen for the love of all')
-      $rootScope.$broadcast('GH_SCOPE_UPGRADED');
-    });
-    w.addEventListener('close', function() {
-      console.log('close event');
     });
   };
 }
