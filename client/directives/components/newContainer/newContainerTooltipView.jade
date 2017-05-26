@@ -42,7 +42,7 @@ div(
     input.input.input-xs.input-search(
       autofocus
       ng-disabled = "$root.isLoading.newContainerSingleRepo"
-      ng-if = "!$root.isLoading.newContainerRepos && NCC.githubRepos.length !== 0"
+      ng-if = "!$root.isLoading.newContainerRepos && NCC.githubRepos.models.length !== 0"
       ng-model = "NCC.repoFilter"
       placeholder = "Filter by name"
       required
@@ -51,20 +51,20 @@ div(
 
     //- if the account or org has no repositories
     .text-center.text-gray.small.padding-lg(
-      ng-if = "!$root.isLoading.newContainerRepos && NCC.githubRepos.length === 0"
+      ng-if = "!$root.isLoading.newContainerRepos && NCC.githubRepos.models.length === 0"
     ) There are no repositories to add.
 
     ul.list.list-actions(
       ng-if = "!$root.isLoading.newContainerRepos"
     )
       li.text-center.text-gray.small.padding-lg(
-        ng-if = "NCC.githubRepos.length && !noResults.length"
+        ng-if = "NCC.githubRepos.models.length && !noResults.length"
       ) No repos match this filter.
       li.grid-block.align-center.list-item.popover-list-item.multi-line(
         data-event-name = "Selected a Repository"
         ng-click = "!$root.isLoading.newContainerSingleRepo && NCC.setRepo(repo, NCC.openModalAtPanel)"
         ng-repeat = "\
-          repo in NCC.githubRepos | \
+          repo in NCC.githubRepos.models | \
           repos: NCC.repoFilter | \
           orderBy: '-attrs.pushed_at' as noResults\
         "
@@ -79,8 +79,8 @@ div(
           )
         .grid-block.vertical
           .grid-content.text-overflow(
-            title = "{{ repo.name }}"
-          ) {{ repo.name }}
+            title = "{{ repo.attrs.name }}"
+          ) {{ repo.attrs.name }}
           .grid-block(
             ng-if = "$root.featureFlags.inviteFlows"
           )
@@ -90,12 +90,12 @@ div(
             )
             span.small(
               ng-if = "$root.featureFlags.inviteFlows"
-            )  — {{repo.pushed_at | timeFrom}}
+            )  — {{repo.attrs.pushed_at | timeFrom}}
 
           //- else
           small.small(
             ng-if = "!$root.featureFlags.inviteFlows"
-          ) Updated {{repo.pushed_at | timeFrom}}
+          ) Updated {{repo.attrs.pushed_at | timeFrom}}
 
         button.grid-content.shrink.btn.btn-xs.btn-add(
           ng-if = "!repo.loading"
