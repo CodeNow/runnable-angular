@@ -20,7 +20,7 @@ function NewContainerController(
   eventTracking,
   fetchInstances,
   fetchInstancesByPod,
-  fetchOwnerRepos,
+  fetchOrganizationRepos,
   fetchRepoDockerfiles,
   getNewForkName,
   handleSocketEvent,
@@ -70,7 +70,7 @@ function NewContainerController(
   loading('newContainerRepos', true);
   $q.all({
     instances: fetchInstancesByPod(),
-    repoList: fetchOwnerRepos(currentOrg.github.oauthName())
+    repoList: fetchOrganizationRepos(currentOrg.github.oauthName())
   })
     .then(function (data) {
       NCC.instances = data.instances;
