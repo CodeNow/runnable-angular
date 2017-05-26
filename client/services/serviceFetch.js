@@ -512,11 +512,29 @@ function fetchOrganizationRepos(
   $http,
   configAPIHost
 ) {
-  return function (orgName) {
-    return $http({
-      method: 'get',
-      url: configAPIHost + '/github/orgs/' + orgName + '/repos?per_page=100'
-    });
+  return function (userName) {
+    return fetchUser()
+      .then(function (_user) {
+        if (userName === _user.oauthName()) {
+          return _user;
+        }
+        return _user.newGithubOrg(userName);
+      })
+      .then(function (user) {
+        var userType = user.isOrg ? 'org' : 'user'; // NOTE confirm how to identify is Org
+        return $http({
+          method: 'get',
+          url: configAPIHost + '/github/' + userType + '/' + user.oauthName() + '/repos?per_page=100'
+        })
+          .then(function (reposArr) {
+            // NOTE: Confirm this array actually makes a valid collection
+            var repos = user.newRepos(reposArr, { // NOTE: Confirm it works for personal accounts
+              noStore: true
+            });
+            repos.ownerUsername = userName;
+            return repos;
+          });
+      });
   };
 }
 
