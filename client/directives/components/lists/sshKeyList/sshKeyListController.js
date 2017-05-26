@@ -21,9 +21,10 @@ function SshKeyListController(
   SKLC.orgName = currentOrg.getDisplayName();
 
   function updateAuth() {
-    return github.getGhScopes().then(function(scopes) {
-      SKLC.authorized = scopes.indexOf('write:public_key') > -1 ;
-    });
+    return github.getGhScopes()
+      .then(function(scopes) {
+        SKLC.authorized = scopes.indexOf('write:public_key') > -1 ;
+      });
   }
 
   function createKey() {
@@ -42,25 +43,21 @@ function SshKeyListController(
     updateAuth.then(SKLC.validateCreateKey);
   })
 
-  updateAuth();
-
   function getSshKeys () {
     return sshKey.getSshKeys()
       .then(function (resp) {
         var ind = -1;
         SKLC.keys = keypather.get(resp, 'data.keys') || [];
 
-        if (SKLC.keys.length) {
-          SKLC.keys.forEach(function(key, i) {
-            if (key.userId === keypather.get(currentOrg, 'poppa.user.attrs.bigPoppaUser.id')) {
-              ind = i;
-            }
+        SKLC.keys.forEach(function(key, i) {
+          if (key.userId === keypather.get(currentOrg, 'poppa.user.attrs.bigPoppaUser.id')) {
+            ind = i;
+          }
 
-            fetchGitHubUserById(key.githubUserId).then(function (ghUser) {
-              key.userName = ghUser.login;
-            });
+          fetchGitHubUserById(key.githubUserId).then(function (ghUser) {
+            key.userName = ghUser.login;
           });
-        }
+        });
 
         if (ind >= 0) {
           SKLC.hasKey = true;
@@ -70,6 +67,7 @@ function SshKeyListController(
       });
   }
 
+  updateAuth();
   getSshKeys();
 
   SKLC.validateCreateKey = function () {
