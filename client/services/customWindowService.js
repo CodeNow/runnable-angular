@@ -4,8 +4,7 @@ require('app')
   .factory('customWindowService', customWindowService);
 
 function customWindowService(
-  keypather,
-  window
+  keypather
 ) {
   return function (targetUrl, options) {
     var topBar = window.outerHeight - window.innerHeight;
