@@ -121,6 +121,18 @@ module.exports = [
       }
     }
   }, {
+    state: 'githubAuthUpgrade',
+    abstract: false,
+    url: '^/githubAuthUpgrade',
+    templateUrl: 'composeSshAuthView',
+    controller: 'ComposeSshAuthController',
+    controllerAs: 'CSAC',
+    resolve: {
+      user: function (fetchUser, $rootScope, keypather) {
+        return setAppUser(fetchUser, $rootScope, keypather);
+      }
+    }
+  }, {
     state: 'paused',
     abstract: false,
     url: '^/paws’d',

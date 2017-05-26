@@ -23,14 +23,14 @@ ol.list-bordered
       | &#32;so your project can access private dependencies.
     a.grid-block.shrink.noscroll.align-center.btn.gray.btn-xs(
       data-event-name = "Clicked to Authorize SSH with GitHub"
-      ng-click = "SKLC.createKey()"
+      ng-click = "SKLC.validateCreateKey()"
       ng-disabled = "SKLC.creatingKey"
       ng-if = "!SKLC.hasKey && !SKLC.authorized"
       ng-include = "'SSHAuthorizeButton'"
     )
     a.grid-block.shrink.noscroll.align-center.btn.gray.btn-xs.btn-create-key(
       data-event-name = "Clicked to Create SSH Key"
-      ng-click = "SKLC.createKey()"
+      ng-click = "SKLC.validateCreateKey()"
       ng-disabled = "SKLC.creatingKey"
       ng-if = "SKLC.authorized && !SKLC.hasKey"
       ng-include = "'SSHCreateButton'"
@@ -46,8 +46,8 @@ ol.list-bordered
     .grid-block.vertical.p
       p.strong.text-overflow(
         title = "{{key.username}} User Key for {{currentOrg}}"
-      ) {{key.username}} User Key for {{currentOrg}}
-      p.monospace.text-gray.text-overflow {{key.fingerprint}}
+      ) {{key.userName}} User Key for {{SKLC.orgName}}
+      p.monospace.text-gray.text-overflow {{key.keyFingerprint}}
     a.grid-block.shrink.noscroll.align-center.btn.gray.btn-xs.btn-authorized(
       ng-include = "'SSHAuthorizeButton'"
     )

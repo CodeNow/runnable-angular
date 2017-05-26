@@ -3,11 +3,13 @@
 require('app')
   .controller('SshKeyListController', SshKeyListController);
 function SshKeyListController(
-  $q,
+  $scope,
   currentOrg,
   sshKey,
   handleSocketEvent,
-  github
+  github,
+  keypather,
+  fetchGitHubUserById
 ) {
 
   var SKLC = this;
@@ -16,22 +18,48 @@ function SshKeyListController(
   SKLC.githubLoading = false;
   SKLC.creatingKey = false;
   SKLC.authorized = false;
+  SKLC.orgName = currentOrg.getDisplayName();
 
-  github.getGhScopes().then(function(scopes) {
-    SKLC.authorized = scopes.indexOf('write:public_key') > -1 ;
-  });
+  function updateAuth() {
+    return github.getGhScopes().then(function(scopes) {
+      SKLC.authorized = scopes.indexOf('write:public_key') > -1 ;
+    });
+  }
+
+  function createKey() {
+    sshKey.saveSshKey()
+      .then(function () {
+        return handleSocketEvent('org.user.private-key.secured');
+      })
+      .then(getSshKeys)
+      .finally(function() {
+        SKLC.githubLoading = false;
+        SKLC.creatingKey = false;
+      });
+  }
+
+  $scope.$on('GH_SCOPE_UPGRADED', function () {
+    console.log('i hear that');
+    updateAuth.then(SKLC.validateCreateKey);
+  })
+
+  updateAuth();
 
   function getSshKeys () {
     return sshKey.getSshKeys()
       .then(function (resp) {
         var ind = -1;
+        SKLC.keys = keypather.get(resp, 'data.keys') || [];
 
-        SKLC.keys = resp.json.keys;
-        if (SKLC.keys && SKLC.keys.length) {
+        if (SKLC.keys.length) {
           SKLC.keys.forEach(function(key, i) {
-            if (key.username === currentOrg.github.oauthName()) {
+            if (key.userId === currentOrg.poppa.user.attrs.bigPoppaUser.id) {
               ind = i;
             }
+
+            fetchGitHubUserById(key.githubUserId).then(function (ghUser) {
+              key.userName = ghUser.login;
+            });
           });
         }
 
@@ -45,33 +73,13 @@ function SshKeyListController(
 
   getSshKeys();
 
-  SKLC.createKey = function () {
-    SKLC.githubLoading = true;
-    SKLC.creatingKey = true;
-
-    $q.when(SKLC.authorized)
-      .then(function(hasScope) {
-        if (!hasScope) {
-          // TODO: Replace with get new permissions
-          return $q.when()
-            // .then(function (res) {
-            //   return handleSocketEvent('todo-auth-update-event');
-            // })
-            .then(function() {
-              SKLC.authorized = true;
-            });
-        }
-
-        return;
-      })
-      .then(sshKey.saveSshKey())
-      .then(function () {
-         return handleSocketEvent('org.user.private-key.secured');
-      })
-      .then(getSshKeys)
-      .finally(function() {
-        SKLC.githubLoading = false;
-        SKLC.creatingKey = false;
-      });
+  SKLC.validateCreateKey = function () {
+    if (!SKLC.authorized) {
+      SKLC.githubLoading = true;
+      SKLC.creatingKey = true;
+      github.upgradeGhScope();
+    } else {
+      createKey();
+    }
   };
 }

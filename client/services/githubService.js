@@ -8,7 +8,9 @@ function github(
   $q,
   fetchUser,
   keypather,
-  configGithubUrl
+  configGithubUrl,
+  configAPIHost,
+  customWindowService
 ) {
   var githubAPIUrl = configGithubUrl;
   function makeRawGhRequest(options) {
@@ -82,9 +84,17 @@ function github(
     getGhScopes: function() {
       return makeRawGhRequest({
         method: 'get',
-        url:  'https://api.github.com/user'
+        url:  githubAPIUrl + '/user'
       }).then(function(resp) {
+        console.log(keypather.get(resp, 'headers().x-oauth-scopes'));
         return (keypather.get(resp, 'headers().x-oauth-scopes') || '').split(', ');
+      });
+    },
+
+    upgradeGhScope: function() {
+      customWindowService(configAPIHost + '/auth/github/upgrade', {
+        width: 1020, // match github minimum width
+        height: 660
       });
     },
 
