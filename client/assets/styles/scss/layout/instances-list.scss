@@ -6,9 +6,24 @@
   height: 100vh;
   min-width: $instance-list-width;
   overflow-y: auto;
-  padding: 0 $xs $lg;
+  padding: $sm $xs $lg;
   position: relative;
   width: $instance-list-width;
+
+  // add environment
+  .btn.green {
+    display: table;
+    margin: 0 auto;
+
+    .icons-add {
+      background: $white;
+      border-radius: $input-border-radius;
+      color: $green;
+      height: 18px;
+      top: 3px;
+      width: 18px;
+    }
+  }
 
   // search
   .label-search {

@@ -26,9 +26,22 @@
         )
 
   //- wraps everything that should transition in with the master cluster
-  .demo-transition.js-animate(
+  .grid-block.vertical.demo-transition.js-animate(
     ng-if = "!CIS.shouldShowDemoSelector() || $root.featureFlags.demoPersonalOnly"
   )
+
+    button.grid-block.align-center.justify-center.btn.btn-sm.green(
+      ng-if = "$root.featureFlags.multipleWebhooks"
+    )
+      svg.margin-right-xxs.iconnables.icons-add
+        use(
+          xlink:href = "#icons-add"
+        )
+      | Add Environment
+      svg.margin-left-xxs.iconnables.icons-arrow-down
+        use(
+          xlink:href = "#icons-arrow-down"
+        )
 
     //- search
     label.grid-block.align-center.shrink.label-search
