@@ -20,13 +20,14 @@ function NewContainerController(
   eventTracking,
   fetchInstances,
   fetchInstancesByPod,
-  fetchOwnerRepos,
+  fetchOrganizationRepos,
   fetchRepoDockerfiles,
   getNewForkName,
   handleSocketEvent,
   keypather,
   loading,
-  ModalService
+  ModalService,
+  searchOrganizationRepos
 ) {
   $scope.$sce = $sce;
   var NCC = this;
@@ -70,7 +71,7 @@ function NewContainerController(
   loading('newContainerRepos', true);
   $q.all({
     instances: fetchInstancesByPod(),
-    repoList: fetchOwnerRepos(currentOrg.github.oauthName())
+    repoList: fetchOrganizationRepos(currentOrg.github.oauthName()) // Fetches only first 100 repos
   })
     .then(function (data) {
       NCC.instances = data.instances;
@@ -83,6 +84,19 @@ function NewContainerController(
     .finally(function () {
       loading('newContainerRepos', false);
     });
+
+    NCC.fetchSearchTermsAndAppendToRepos = function () {
+      // Set as loading
+      console.log('fetchSearchTermsAndAppendToRepos');
+      loading('newContainerSingleRepo ', true);
+      return searchOrganizationRepos(currentOrg.github.oauthName(), NCC.repoFilter)
+        .then(function (repoCollection) {
+          console.log('repoCollection', repoCollection);
+          // Merge both collections together
+          loading('newContainerSingleRepo ', false);
+        });
+    };
+
 
   NCC.openedFirstAuthPrimer = function () {
     eventTracking.openedFirstAuthPrimer();

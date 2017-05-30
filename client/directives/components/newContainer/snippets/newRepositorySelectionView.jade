@@ -14,6 +14,7 @@
   input.input.input-xs.input-search(
     autofocus
     ng-model = "NCC.repoFilter"
+    ng-change = "NCC.fetchSearchTermsAndAppendToRepos()"
     ng-disabled = "$root.isLoading.newContainerSingleRepo"
     ng-keyup = "$digest"
     placeholder = "Search"
