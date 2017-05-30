@@ -41,7 +41,7 @@ function SshKeyListController(
 
   $scope.$on('GH_SCOPE_UPGRADED', function () {
     updateAuth.then(SKLC.validateCreateKey);
-  })
+  });
 
   function getSshKeys () {
     return sshKey.getSshKeys()

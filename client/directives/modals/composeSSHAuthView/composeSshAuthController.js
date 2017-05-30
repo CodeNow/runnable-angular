@@ -12,5 +12,5 @@ function ComposeSshAuthController(
 
   $timeout(function () {
     $window.close();
-  }, 3000)
+  }, 3000);
 }
