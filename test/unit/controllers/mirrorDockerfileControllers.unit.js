@@ -10,11 +10,8 @@ describe('MirrorDockerfileController'.bold.underline.blue, function () {
   var $q;
 
   var apiMocks = require('../apiMocks/index');
-  var fetchRepoDockerfilesStub;
   var closeModalStub;
   var showModalStub;
-  var dockerfile;
-  var dockerComposeFile;
   var repo;
   var branch;
   var branches;
@@ -27,10 +24,6 @@ describe('MirrorDockerfileController'.bold.underline.blue, function () {
 
     angular.mock.module('app');
     angular.mock.module(function ($provide) {
-      $provide.factory('fetchRepoDockerfile', function ($q) {
-        fetchRepoDockerfilesStub = sinon.stub().returns($q.when(dockerfile));
-        return fetchRepoDockerfilesStub;
-      });
       $provide.factory('ModalService', function ($q) {
         closeModalStub = {
           close: $q.when(true)
@@ -77,26 +70,6 @@ describe('MirrorDockerfileController'.bold.underline.blue, function () {
         commit: {
           sha: 'sha'
         }
-      }
-    };
-    dockerfile = {
-      state: {
-        type: 'File',
-        body: angular.copy(apiMocks.files.dockerfile)
-      },
-      path: '/Dockerfile',
-      attrs: {
-        body: angular.copy(apiMocks.files.dockerfile)
-      }
-    };
-    dockerComposeFile = {
-      state: {
-        type: 'File',
-        body: angular.copy(apiMocks.files.dockerfile)
-      },
-      path: '/Dockerfile',
-      attrs: {
-        body: angular.copy(apiMocks.files.dockerfile)
       }
     };
     branches = {
@@ -147,6 +120,7 @@ describe('MirrorDockerfileController'.bold.underline.blue, function () {
         }).to.throw();
       });
     });
+
     describe('Success with both repo and branch', function () {
       beforeEach(initState.bind(null, {}));
 
@@ -155,76 +129,5 @@ describe('MirrorDockerfileController'.bold.underline.blue, function () {
         expect(MDC.branchName).to.equal(branch.attrs.name);
       });
     });
-
-  });
-
-  describe('fetchRepoDockerfiles', function () {
-    describe('fetching with just repo', function () {
-      beforeEach(initState.bind(null, {branch: null}));
-
-      it('should get branch from repo if not provided', function () {
-        MDC.fetchRepoDockerfiles();
-        $scope.$digest();
-        sinon.assert.calledOnce(fetchRepoDockerfilesStub);
-        sinon.assert.calledWith(fetchRepoDockerfilesStub, repo.attrs.full_name, repo.attrs.default_branch);
-      });
-    });
-    describe('fetching with both branch and repo', function () {
-      beforeEach(initState.bind(null, {}));
-
-      it('should fetch the dockerfile', function () {
-        MDC.fetchRepoDockerfiles();
-        $scope.$digest();
-
-        sinon.assert.calledOnce(fetchRepoDockerfilesStub);
-        sinon.assert.calledWith(fetchRepoDockerfilesStub, repo.attrs.full_name, branch.attrs.name);
-      });
-
-      it('should fill the state.repo with the dockerfile', function () {
-        MDC.fetchRepoDockerfiles();
-        $scope.$digest();
-
-        expect(MDC.newDockerfilePaths).to.deep.equal([dockerfile.path]);
-        expect(MDC.repo.dockerfiles).to.deep.equal([dockerfile]);
-      });
-    });
-  });
-  describe('fetchRepoDockerComposefiles', function () {
-    describe('fetching with just repo', function () {
-      beforeEach(initState.bind(null, {branch: null}));
-
-      it('should get branch from repo if not provided', function () {
-        MDC.fetchRepoDockerComposeFiles();
-        $scope.$digest();
-        sinon.assert.calledOnce(fetchRepoDockerfilesStub);
-        sinon.assert.calledWith(fetchRepoDockerfilesStub, repo.attrs.full_name, repo.attrs.default_branch);
-      });
-    });
-  });
-  describe('addDockerfileFromPath', function () {
-    beforeEach(initState.bind(null, {}));
-    beforeEach(function () {
-      sinon.stub(MDC, 'fetchRepoDockerfiles').returns($q.when([dockerfile]));
-    });
-    
-  });
-  describe('fetchRepoDockerComposefiles', function () {
-    describe('fetching with just repo', function () {
-      beforeEach(initState.bind(null, {branch: null}));
-
-      it('should get branch from repo if not provided', function () {
-        MDC.fetchRepoDockerComposeFiles();
-        $scope.$digest();
-        sinon.assert.calledOnce(fetchRepoDockerfilesStub);
-        sinon.assert.calledWith(fetchRepoDockerfilesStub, repo.attrs.full_name, repo.attrs.default_branch);
-      });
-    });
-  });
-  describe('addDockerComposeFileFromPath', function () {
-    beforeEach(initState.bind(null, {}));
-    beforeEach(function () {
-      sinon.stub(MDC, 'fetchRepoDockerComposeFiles').returns($q.when([dockerfile]));
-    });
-    
   });
 });

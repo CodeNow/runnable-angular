@@ -32,31 +32,6 @@ function MirrorDockerfileController(
   MDC.branchName = MDC.branchName || keypather.get(MDC.repo, 'attrs.default_branch');
   MDC.state.configurationMethod = null;
 
-  MDC.fetchRepoDockerfiles = function () {
-    return fetchRepoDockerfiles(MDC.getFullRepo(), MDC.branchName, MDC.newDockerfilePaths)
-      .then(function (dockerfiles) {
-        // remove any dead paths by replacing them with the results
-        MDC.newDockerfilePaths = dockerfiles.map(function (dockerfile) {
-          return dockerfile.path;
-        });
-        MDC.repo.dockerfiles = dockerfiles;
-        return dockerfiles;
-      })
-      .catch(errs.handler);
-  };
-
-  MDC.fetchRepoDockerComposeFiles = function () {
-    return fetchRepoDockerfiles(MDC.getFullRepo(), MDC.branchName, MDC.newDockerComposeFilePaths)
-      .then(function (dockerfiles) {
-        MDC.newDockerComposeFilePaths = dockerfiles.map(function (dockerfile) {
-          return dockerfile.path;
-        });
-        MDC.repo.dockerComposeFiles = dockerfiles;
-        return dockerfiles;
-      })
-      .catch(errs.handler);
-  };
-
   MDC.loadDefaultDockerfile = function  (repo, branchName, filePath, fileType) {
     return fetchRepoDockerfile(repo, branchName, filePath)
       .then(doesDockerfileExist)

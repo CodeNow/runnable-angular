@@ -51,9 +51,15 @@ section.grid-block.vertical.modal-body(
     )
 
     //- form for naming the environment
-    form.grid-block.vertical.label(
+    form.grid-block.vertical.label.label-name(
       name = "NCC.nameForm"
       ng-include = "'nameNewServiceView'"
+    )
+
+    //- default branch selector
+    label.grid-block.vertical.label(
+      ng-if = "NCC.state.dockerFileTab === 'compose' && $root.featureFlags.composeDefaultBranch"
+      ng-include = "'defaultBranchView'"
     )
 
     .grid-block.vertical.views-kubernetes-setup(
@@ -72,7 +78,7 @@ section.grid-block.vertical.modal-body(
 
     //- form for dockerfile setup
     .grid-block.vertical.label.views-dockerfile-setup(
-      branch-name = "NCC.state.repo.attrs.default_branch"
+      branch-name = "NCC.state.branch.attrs.name"
       mirror-dockerfile
       name = "'newContainer'"
       ng-if = "NCC.state.dockerFileTab !== 'kubernetes'"

@@ -27,6 +27,7 @@ describe('NewContainerController'.bold.underline.blue, function () {
 
   // Mocked Values
   var instanceName = 'instanceName';
+  var branchName = 'feature-1';
   var instances;
   var mockInstance;
   var repos;
@@ -193,6 +194,25 @@ describe('NewContainerController'.bold.underline.blue, function () {
   beforeEach(setupMockValues);
   beforeEach(initState);
 
+  beforeEach(function () {
+    NCC.state.dockerComposeFile = {
+      path: '/path'
+    };
+    NCC.state.branch = {
+      attrs: {
+        name: branchName
+      }
+    };
+    NCC.state.dockerComposeTestFile = null;
+    NCC.state.repo = {
+      attrs: {
+        full_name: 'repo1'
+      }
+    };
+    NCC.state.instanceName = 'henry\'s instance';
+  });
+
+
   describe('Init', function () {
     it('should fetch all user instances', function () {
       $scope.$digest();
@@ -229,7 +249,7 @@ describe('NewContainerController'.bold.underline.blue, function () {
       it('should create a mirror repository container when there is a dockerfile', function () {
         var repo = {};
         var dockerfile = {};
-        var configurationMethod = 'dockerfile'
+        var configurationMethod = 'dockerfile';
         sinon.stub(NCC, 'newRepositoryContainer');
         sinon.stub(NCC, 'newMirrorRepositoryContainer');
 
@@ -272,23 +292,18 @@ describe('NewContainerController'.bold.underline.blue, function () {
       it('should set the repo', function () {
         var repo1 = {
           attrs: {
-            full_name: 'repo1',
-            default_branch: 'master'
+            full_name: 'repo1'
           }
         };
         var repo2 = {
           attrs: {
-            full_name: 'repo2',
-            default_branch: 'master'
+            full_name: 'repo2'
           }
         };
         var stub = sinon.stub();
-        NCC.setRepo(repo1, stub);
-        $scope.$digest();
-        expect(NCC.state.repo).to.equal(repo1);
         NCC.setRepo(repo2, stub);
         $scope.$digest();
-        expect(NCC.state.repo).to.equal(repo2);
+        expect(NCC.state.repo).to.deep.equal(repo2);
       });
 
       it('should call the callback even if there are no dockerfiles', function () {
@@ -486,26 +501,12 @@ describe('NewContainerController'.bold.underline.blue, function () {
   });
 
   describe('docker compose single cluster creation', function () {
-    beforeEach(function () {
-      NCC.state.dockerComposeFile = {
-        path: '/path'
-      };
-      NCC.state.dockerComposeTestFile = null;
-      NCC.state.repo = {
-        attrs: {
-          full_name: 'repo1',
-          default_branch: 'master'
-        }
-      };
-      NCC.state.instanceName = 'henry\'s instance';
-    });
-
     it('should create one cluster', function () {
       NCC.createComposeCluster();
       sinon.assert.calledOnce(createNewClusterStub);
-      sinon.assert.calledWithExactly(createNewClusterStub, 
+      sinon.assert.calledWithExactly(createNewClusterStub,
         NCC.state.repo.attrs.full_name,
-        NCC.state.repo.attrs.default_branch,
+        branchName,
         NCC.state.dockerComposeFile.path,
         NCC.state.instanceName,
         mockCurrentOrg.github.attrs.id
@@ -520,13 +521,6 @@ describe('NewContainerController'.bold.underline.blue, function () {
       NCC.state.dockerComposeTestFile = {
         path: '/path'
       };
-      NCC.state.repo = {
-        attrs: {
-          full_name: 'repo1',
-          default_branch: 'master'
-        }
-      };
-      NCC.state.instanceName = 'henry\'s instance';
       NCC.state.types.test = true;
       NCC.state.testReporter = {
         name: 'test reporter'
@@ -536,9 +530,9 @@ describe('NewContainerController'.bold.underline.blue, function () {
     it('should create one test cluster', function () {
       NCC.createComposeCluster();
       sinon.assert.calledOnce(createNewClusterStub);
-      sinon.assert.calledWithExactly(createNewClusterStub, 
+      sinon.assert.calledWithExactly(createNewClusterStub,
         NCC.state.repo.attrs.full_name,
-        NCC.state.repo.attrs.default_branch,
+        branchName,
         NCC.state.dockerComposeTestFile.path,
         NCC.state.instanceName,
         mockCurrentOrg.github.attrs.id,
@@ -550,19 +544,9 @@ describe('NewContainerController'.bold.underline.blue, function () {
 
   describe('docker compose multiple cluster creation', function () {
     beforeEach(function () {
-      NCC.state.dockerComposeFile = {
-        path: '/path'
-      };
       NCC.state.dockerComposeTestFile = {
         path: '/path'
       };
-      NCC.state.repo = {
-        attrs: {
-          full_name: 'repo1',
-          default_branch: 'master'
-        }
-      };
-      NCC.state.instanceName = 'henry\'s instance';
       NCC.state.types.test = true;
       NCC.state.types.stage = true;
       NCC.state.testReporter = {
@@ -606,5 +590,5 @@ describe('NewContainerController'.bold.underline.blue, function () {
       var text = NCC.getNextStepText();
       expect(text).to.equal('Create Environment');
     });
-  })
+  });
 });

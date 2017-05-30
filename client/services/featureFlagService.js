@@ -14,6 +14,7 @@ function featureFlags(
     autoIsolationSetup: false,
     backup: false,
     cardStatus: false,
+    composeDefaultBranch: true,
     composeEditing: false,
     composeInstance: true,
     composeNav: true,
@@ -54,7 +55,7 @@ function featureFlags(
     navListFilter: false,
     nextPayment: false, // show the next payment date under payment summary
     optionsInModal: false, // allows delete in modal
-    privateRegistry: false,
+    privateRegistry: true,
     renameContainer: false,
     saveToolbar: false,
     teamManagement: false,

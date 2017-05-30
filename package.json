@@ -1,6 +1,6 @@
 {
   "name": "runnable-angular",
-  "version": "5.20.3",
+  "version": "5.20.6",
   "private": true,
   "description": "Frontend for Runnable.io",
   "scripts": {
@@ -82,7 +82,7 @@
     "grunt-autoprefixer": "2.2.0",
     "grunt-aws": "^0.6.1",
     "grunt-bg-shell": "2.3.1",
-    "grunt-browserify": "4.0.0",
+    "grunt-browserify": "5.0.0",
     "grunt-cli": "0.1.13",
     "grunt-compile-handlebars": "git://github.com/Runnable/grunt-compile-handlebars.git#1f70886f5282086d0eac33d93fad2f2628654f32",
     "grunt-concurrent": "1.0.1",
@@ -135,7 +135,7 @@
     "grunt-newer": "1.1.1",
     "grunt-nodemon": "0.4.0",
     "karma": "0.12.37",
-    "karma-browserify": "4.2.1",
+    "karma-browserify": "5.1.1",
     "karma-chrome-launcher": "0.1.12",
     "karma-coverage": "0.2.6",
     "karma-jasmine": "0.3.6",
