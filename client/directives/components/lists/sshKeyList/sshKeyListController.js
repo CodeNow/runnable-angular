@@ -30,7 +30,7 @@ function SshKeyListController(
   function createKey() {
     sshKey.saveSshKey()
       .then(function () {
-        return handleSocketEvent('org.user.private-key.secured');
+        return handleSocketEvent('private-key-secured');
       })
       .then(getSshKeys)
       .finally(function() {
