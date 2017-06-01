@@ -232,6 +232,7 @@
 
 // li.popover-list-item
 .popover-list-item {
+  border: $input-border solid transparent;
   font-size: 15px;
   line-height: 36px;
   min-height: 36px;
@@ -245,7 +246,8 @@
 
   // states
   &:hover:not(.disabled) {
-    background: rgba($purple-lightest,.45);
+    background-color: $gray-lighterest;
+    border-color: rgba($gray-lighter,.6);
     cursor: pointer;
 
     // two types of icons-fat-check
@@ -257,7 +259,8 @@
 
   &:active:not(.disabled),
   &.active {
-    background: rgba($purple-lightest,.9);
+    background-color: lighten($purple-lightest,4);
+    border-color: rgba($purple-light,.1);
     color: $purple-light;
 
     .iconnables {

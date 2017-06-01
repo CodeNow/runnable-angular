@@ -238,14 +238,14 @@
     padding: 0 $sm;
 
     &:hover:not(.disabled) {
-      background: $gray-lighterest;
-      border-color: $gray-lighter;
+      background-color: $gray-lighterest;
+      border-color: rgba($gray-lighter,.6);
     }
 
     &:active:not(.disabled),
     &.active {
-      background: $white;
-      border-color: currentColor;
+      background-color: lighten($purple-lightest,4);
+      border-color: rgba($purple-light,.1);
       color: $purple-light;
 
       > .iconnables {
