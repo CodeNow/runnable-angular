@@ -12,6 +12,6 @@
 )
   svg.iconnables
     use(
-      xlink:href = "#icons-history"
+      xlink:href = "{{$root.featureFlags.multipleWebhooks ? '#icons-gear': '#icons-history'}}"
     )
   span.span {{BCPBC.sha | limitTo: 7}}

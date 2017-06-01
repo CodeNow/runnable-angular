@@ -9,8 +9,8 @@ a.nav-card-header(
 
 //- staging environment
 section.nav-card-section(
-  ng-include = "'viewStagingEnvironment'"
   ng-if = "isActive && (CCC.composeCluster.staging.length || !CCC.composeCluster.master.attrs.isTesting)"
+  ng-include = "'viewStagingEnvironment'"
 )
 //- testing environment
 section.nav-card-section(
