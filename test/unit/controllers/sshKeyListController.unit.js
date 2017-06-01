@@ -8,7 +8,7 @@ describe('sshKeyListController'.bold.underline.blue, function () {
   var fetchGitHubUserById;
   var sshKeyListController;
 
-  describe.only('base', function () {
+  describe('base', function () {
     describe('Check the construction fetches the keys', function () {
       beforeEach(function () {
         angular.mock.module('app');
