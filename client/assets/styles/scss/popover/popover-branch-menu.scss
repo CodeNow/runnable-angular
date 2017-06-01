@@ -9,7 +9,7 @@
     overflow-y: auto;
 
     @media (max-height: 750px) {
-      max-height: calc(100vh - 60px);
+      max-height: calc(100vh - 131px); // 60 (margin) + 71 (height of delete menu)
     }
 
     &:not(.padding-xs) {
@@ -62,6 +62,11 @@
     .p {
       font-size: 15px;
     }
+  }
+
+  // secondary actions
+  .section-secondary {
+    border-top: 1px solid $gray-lighter;
   }
 }
 

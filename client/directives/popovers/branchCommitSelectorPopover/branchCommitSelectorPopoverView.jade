@@ -10,3 +10,13 @@
     branch-commit-list
     instance = "data.instance"
   )
+  section.section-secondary.padding-xs(
+    ng-if = "$root.featureFlags.multipleWebhooks"
+  )
+    ul
+      li.list-item.popover-list-item
+        svg.iconnables.icons-delete
+          use(
+            xlink:href = "#icons-delete"
+          )
+        | Delete Environments…

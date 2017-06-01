@@ -42,7 +42,6 @@
     }
 
     .popover-list-item {
-      border-radius: $input-border-radius;
 
       // icon placement
       > .iconnables {
@@ -233,6 +232,7 @@
 // li.popover-list-item
 .popover-list-item {
   border: $input-border solid transparent;
+  border-radius: $input-border-radius;
   font-size: 15px;
   line-height: 36px;
   min-height: 36px;
