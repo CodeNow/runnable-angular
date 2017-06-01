@@ -4,12 +4,14 @@ require('app')
   .controller('SshKeyListController', SshKeyListController);
 function SshKeyListController(
   $scope,
+  $interval,
   currentOrg,
   sshKey,
   handleSocketEvent,
   github,
   keypather,
-  fetchGitHubUserById
+  fetchGitHubUserById,
+  watchOncePromise
 ) {
 
   var SKLC = this;
@@ -28,20 +30,17 @@ function SshKeyListController(
   }
 
   function createKey() {
+    SKLC.creatingKey = true;
+
     sshKey.saveSshKey()
       .then(function () {
         return handleSocketEvent('private-key-secured');
       })
       .then(getSshKeys)
-      .finally(function() {
-        SKLC.githubLoading = false;
+      .finally(function () {
         SKLC.creatingKey = false;
       });
   }
-
-  $scope.$on('GH_SCOPE_UPGRADED', function () {
-    updateAuth.then(SKLC.validateCreateKey);
-  });
 
   function getSshKeys () {
     return sshKey.getSshKeys()
@@ -73,8 +72,22 @@ function SshKeyListController(
   SKLC.validateCreateKey = function () {
     if (!SKLC.authorized) {
       SKLC.githubLoading = true;
-      SKLC.creatingKey = true;
-      github.upgradeGhScope();
+
+      var childWindow = github.upgradeGhScope();
+      SKLC.popupClosed = keypather.get(childWindow, 'closed');
+      var popupCheck = $interval( function () {
+        SKLC.popupClosed = keypather.get(childWindow, 'closed');
+      }, 1000, 30);
+
+      watchOncePromise($scope, 'SKLC.popupClosed', true)
+        .then(function() {
+          $interval.cancel(popupCheck);
+        } )
+        .then(updateAuth)
+        .then(SKLC.validateCreateKey)
+        .finally(function() {
+          SKLC.githubLoading = false;
+        });
     } else {
       createKey();
     }

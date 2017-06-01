@@ -5,11 +5,8 @@ require('app')
 
 function ComposeSshAuthController(
   $timeout,
-  $window,
-  $scope
+  $window
 ) {
-  $scope.$emit('GH_SCOPE_UPGRADED');
-
   $timeout(function () {
     $window.close();
   }, 3000);

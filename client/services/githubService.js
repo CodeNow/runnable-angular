@@ -91,7 +91,7 @@ function github(
     },
 
     upgradeGhScope: function() {
-      customWindowService(configAPIHost + '/auth/github/upgrade', {
+      return customWindowService(configAPIHost + '/auth/github/upgrade', {
         width: 1020, // match github minimum width
         height: 660
       });
