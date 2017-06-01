@@ -182,8 +182,8 @@
   .input-checkbox:checked + .label-checkbox {
 
     .btn-xs {
-      background: $green;
-      border-color: $green;
+      background: $purple-light;
+      border-color: $purple-light;
     }
 
     .icons-add {
@@ -246,7 +246,7 @@
     &.active {
       background: $white;
       border-color: currentColor;
-      color: $green;
+      color: $purple-light;
 
       > .iconnables {
         color: currentColor;
