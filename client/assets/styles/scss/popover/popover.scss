@@ -54,7 +54,7 @@
 
     .list-secondary {
       margin: 6px -6px -6px;
-      padding: 6px 0;
+      padding: 6px;
     }
 
     // badge placement
@@ -162,35 +162,25 @@
 
     .list-item {
       color: $gray;
-      font-size: 14px;
-      height: 30px;
-      line-height: 30px;
-      min-height: 30px;
+      font-size: 13px;
 
       // secondary hover state
       &:hover {
         background: $white;
       }
 
-      &:active,
       &:active .anchor-right {
         color: $purple-light;
       }
 
       .anchor-right {
-        height: 30px;
-        margin-left: 3px;
-        right: initial;
+        height: 100%;
         width: 21px;
       }
 
       .icons-arrow-forward,
       .icons-link-external {
-        color: $gray-light;
-      }
-
-      .icons-arrow-forward {
-        margin-left: -2px;
+        opacity: .75;
       }
     }
   }
