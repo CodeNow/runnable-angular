@@ -1,26 +1,12 @@
 a.nav-card-header(
   ng-attr-title = "{{getCardName()}}"
+  ng-include = "'viewComposeCardHeader'"
   ui-sref = "\
     base.instances.instance({userName: CCC.composeCluster.master.attrs.owner.username,\
     instanceName: CCC.composeCluster.master.attrs.name})\
   "
 )
-  span.grid-block
-    span.text-overflow {{getCardName()}}
-  //- only show for default branches
-  button.grid-block.shrink.btn-container-menu(
-    ng-class = "{'active': INC.popoverShown}"
-    ng-if = "!INC.currentOrg.isPersonalAccount() && !INC.isInDemoFlow()"
-    pop-over
-    pop-over-active = "INC.popoverShown"
-    pop-over-controller = "CCC"
-    pop-over-options = "{\"verticallyCentered\":true,\"left\":25}"
-    pop-over-template = "viewComposeCardServicePopover"
-  )
-    svg.iconnables
-      use(
-        xlink:href = "#icons-gear"
-      )
+
 //- staging environment
 section.nav-card-section(
   ng-include = "'viewStagingEnvironment'"

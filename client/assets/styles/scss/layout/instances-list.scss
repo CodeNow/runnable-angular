@@ -200,6 +200,20 @@
   padding: 4px;
   pointer-events: auto;
 
+  &.orange {
+    color: $white;
+    font-size: 11px;
+    height: $input-xxs;
+    line-height: $input-xxs - $input-border * 2;
+    padding: 0 3px;
+
+    .iconnables {
+      height: $xs;
+      margin-right: 3px;
+      width: $xs;
+    }
+  }
+
   &:not(.orange) {
     border: 0;
     width: $input-xs;
@@ -218,22 +232,13 @@
     margin-left: 6px;
   }
 
-  &.orange {
-    color: $white;
-    font-size: 11px;
-    height: $input-xxs;
-    line-height: $input-xxs - $input-border * 2;
-    padding: 0 3px;
-
-    .iconnables {
-      height: $xs;
-      margin-right: 3px;
-      width: $xs;
-    }
-  }
-
   .iconnables {
     height: 100%;
     width: 16px;
+  }
+
+  .icons-close {
+    border: $input-border solid currentColor;
+    border-radius: $input-border-radius;
   }
 }

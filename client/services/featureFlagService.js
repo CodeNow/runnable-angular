@@ -51,6 +51,7 @@ function featureFlags(
     kubernetes: false,
     multilineFnR: false,
     multilineStartCmd: false,
+    multipleWebhooks: false,
     multipleRepositoryContainers: false, // for adding multiple containers with the same repository
     navListFilter: false,
     nextPayment: false, // show the next payment date under payment summary
