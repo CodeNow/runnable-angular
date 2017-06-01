@@ -100,7 +100,7 @@ div(
         button.grid-content.shrink.btn.btn-xs.btn-add(
           ng-if = "!repo.loading"
         ) Select
-        .grid-content.shrink.spinner-wrapper.spinner-sm.spinner-green(
+        .grid-content.shrink.spinner-wrapper.spinner-sm.spinner-purple(
           ng-if = "repo.loading"
           ng-include = "'spinner'"
         )
@@ -152,7 +152,7 @@ div(
         button.grid-content.shrink.btn.btn-xs.btn-add(
           ng-if = "!$root.isLoading.newContainerTemplates"
         ) Select
-        .grid-content.shrink.spinner-wrapper.spinner-sm.spinner-green(
+        .grid-content.shrink.spinner-wrapper.spinner-sm.spinner-purple(
           ng-if = "$root.isLoading.newContainerTemplates"
           ng-include = "'spinner'"
         )
