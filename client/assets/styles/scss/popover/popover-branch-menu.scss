@@ -4,9 +4,13 @@
   width: 100%;
 
   .popover-content.popover-content {
-    max-height: 375px;
+    max-height: 690px;
     min-height: 105px;
     overflow-y: auto;
+
+    @media (max-height: 750px) {
+      max-height: calc(100vh - 60px);
+    }
 
     &:not(.padding-xs) {
       padding: 0;
