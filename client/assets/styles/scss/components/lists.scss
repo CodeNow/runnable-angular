@@ -234,8 +234,7 @@
     border: $input-border solid transparent;
     border-radius: $input-border-radius;
     cursor: pointer;
-    height: $input-lg;
-    padding: 0 $sm;
+    padding: $xxs;
 
     &:hover:not(.disabled) {
       background-color: $gray-lighterest;
@@ -277,6 +276,11 @@
     .btn-add:not(.btn-icon) {
       padding: 0 6px;
       width: auto;
+    }
+
+    .p {
+      font-size: 15px;
+      font-weight: $weight-bold;
     }
 
     .small {
