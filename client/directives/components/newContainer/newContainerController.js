@@ -26,7 +26,8 @@ function NewContainerController(
   handleSocketEvent,
   keypather,
   loading,
-  ModalService
+  ModalService,
+  fetchRepoDockerfile
 ) {
   $scope.$sce = $sce;
   var NCC = this;
@@ -83,7 +84,6 @@ function NewContainerController(
     .finally(function () {
       loading('newContainerRepos', false);
     });
-
   NCC.openedFirstAuthPrimer = function () {
     eventTracking.openedFirstAuthPrimer();
   };
@@ -437,5 +437,42 @@ function NewContainerController(
       return 'There was an error parsing your Docker Compose file: ' + err[0];
     }
     return 'There was an error creating the Docker Compose cluster.';
+  };
+
+  NCC.validateYML = function(ymlFiles) {
+    return ymlFiles.findIndex(function(file) {return file.testOn;}) > -1;
+  };
+
+  NCC.saveDemo = function() {
+    NCC.state.configurationMethod = 'dockerComposeFile';
+    NCC.state.types.test = true;
+    NCC.state.types.stage = true;
+
+    NCC.state.dockerComposeFile;
+    NCC.state.dockerComposeTestFile;
+    NCC.state.testReporter = {
+      name: 'web'
+    };
+    $q.all([
+      fetchRepoDockerfile(getFullRepo(),'master','/docker-compose.yml').then(function(file) {
+        NCC.state.dockerComposeFile = file;
+      }),
+      fetchRepoDockerfile(getFullRepo(),'master','/docker-compose.test.yml').then(function(file) {
+        NCC.state.dockerComposeTestFile = file;
+      })
+    ]).then(function () {
+      if (NCC.canCreateBuild()) {
+        return NCC.saveDockerfileMirroring();
+      }
+
+      return;
+    });
+  };
+
+  function getFullRepo() {
+    var oauthName = keypather.get($rootScope, 'dataApp.data.activeAccount.oauthName()');
+    var name = keypather.get(NCC.state.repo, 'attrs.name');
+
+    return keypather.get(NCC.state.repo, 'attrs.full_name') || (oauthName + '/' + name);
   };
 }
