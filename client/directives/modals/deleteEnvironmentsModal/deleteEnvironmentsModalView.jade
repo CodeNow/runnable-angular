@@ -1,0 +1,31 @@
+.modal-backdrop.in
+  .modal-dialog.modal-sm.modal-alert
+    section.modal-body
+      p.p.strong Are you sure you want to delete your environments?
+      p.p.margin-bottom-xs Any environments created with&#32;
+        a.link(
+          href = "#"
+          target = "_blank"
+        ) this Compose file
+        | &#32;will be permanently deleted from Runnable.
+
+      section.padding-xxs.grid-block.align-center.justify-justified.well.small.white.ignore-margin
+        .grid-block.align-center.justify-justified
+          .grid-block Environments Deleted: 18
+      section.padding-xxs.grid-block.vertical.well.small.white.ignore-margin
+        .grid-block.align-center.justify-justified
+          .grid-block Repos
+            span.hidden-xxs itories
+            | &nbsp;Affected: 2
+          button.btn.btn-xs.white(
+            ng-click = "model.reposAffected.state.expanded = !model.reposAffected.state.expanded"
+          ) {{model.reposAffected.state.expanded ? 'Collapse' : 'Show All'}}
+        ul.grid-block.vertical.small.list.margin-top-xxs(
+          ng-if = "model.reposAffected.state.expanded"
+        )
+          li api
+          li api-worker
+
+    footer.modal-footer.clearfix
+      button.btn.btn-sm.gray.float-left Cancel
+      button.btn.btn-sm.red.float-right Delete 18 Environments
