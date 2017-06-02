@@ -31,7 +31,7 @@
         )
           .grid-block.shrink.align-center.well.gray.padding-xxs
             .grid-content
-              .small Automatically add branches as they’re updated on GitHub.
+              .small Automatically add branches when a user pushes to GitHub.
               button.btn.btn-xs.btn-permissions(
                 internal-modal-helper = "inviteAdminModalView"
                 ng-if = "$root.featureFlags.webhooks"
@@ -84,7 +84,7 @@
           label.grid-block.shrink.align-center.padding-xxs.well.gray(
             ng-if = "!$root.isLoading.fetchingBranches"
           )
-            .grid-block.small Automatically add branches as they’re updated on GitHub.
+            .grid-block.small Automatically add branches when a user pushes to GitHub.
               button.btn.btn-xs.btn-permissions(
                 internal-modal-helper = "inviteAdminModalView"
                 ng-if = "$root.featureFlags.webhooks"
