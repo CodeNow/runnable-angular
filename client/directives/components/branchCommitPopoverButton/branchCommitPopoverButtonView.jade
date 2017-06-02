@@ -10,8 +10,8 @@
   pop-over-options = "{\"verticallyCentered\":true,\"right\":-372,\"pinToViewPort\": true}"
   pop-over-active = "BCPBC.popoverActive"
 )
+  span.span {{BCPBC.sha | limitTo: 7}}
   svg.iconnables
     use(
-      xlink:href = "#icons-history"
+      xlink:href = "{{$root.featureFlags.multipleWebhooks ? '#icons-gear': '#icons-history'}}"
     )
-  span.span {{BCPBC.sha | limitTo: 7}}

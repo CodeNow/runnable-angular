@@ -42,7 +42,6 @@
     }
 
     .popover-list-item {
-      border-radius: $input-border-radius;
 
       // icon placement
       > .iconnables {
@@ -55,7 +54,7 @@
 
     .list-secondary {
       margin: 6px -6px -6px;
-      padding: 6px 0;
+      padding: 6px;
     }
 
     // badge placement
@@ -163,35 +162,25 @@
 
     .list-item {
       color: $gray;
-      font-size: 14px;
-      height: 30px;
-      line-height: 30px;
-      min-height: 30px;
+      font-size: 13px;
 
       // secondary hover state
       &:hover {
         background: $white;
       }
 
-      &:active,
       &:active .anchor-right {
         color: $purple-light;
       }
 
       .anchor-right {
-        height: 30px;
-        margin-left: 3px;
-        right: initial;
+        height: 100%;
         width: 21px;
       }
 
       .icons-arrow-forward,
       .icons-link-external {
-        color: $gray-light;
-      }
-
-      .icons-arrow-forward {
-        margin-left: -2px;
+        opacity: .75;
       }
     }
   }
@@ -232,6 +221,8 @@
 
 // li.popover-list-item
 .popover-list-item {
+  border: $input-border solid transparent;
+  border-radius: $input-border-radius;
   font-size: 15px;
   line-height: 36px;
   min-height: 36px;
@@ -245,7 +236,8 @@
 
   // states
   &:hover:not(.disabled) {
-    background: rgba($purple-lightest,.45);
+    background-color: $gray-lighterest;
+    border-color: rgba($gray-lighter,.6);
     cursor: pointer;
 
     // two types of icons-fat-check
@@ -257,7 +249,8 @@
 
   &:active:not(.disabled),
   &.active {
-    background: rgba($purple-lightest,.9);
+    background-color: lighten($purple-lightest,4);
+    border-color: rgba($purple-light,.1);
     color: $purple-light;
 
     .iconnables {
@@ -282,8 +275,7 @@
   .gravatar,
   > .iconnables {
     color: $gray;
-    float: left;
-    margin: 6px 9px 0 0;
+    margin-right: 9px;
 
     &.gravatar {
       margin-top: 5px;

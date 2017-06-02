@@ -68,78 +68,78 @@
       default = "true"
       name = "addBranch"
     )
-      .padding-xs.popover-content.popover-view.fade(
+      .popover-content.popover-view.fade(
         ng-class = "{'in': isActivePanel()}"
       )
-
-        //- loading
-        .padding-md.grid-block.align-center.justify-center(
-          ng-if = "$root.isLoading.fetchingBranches"
-        )
-          .spinner-wrapper.spinner-sm.spinner-gray.in(
-            ng-include = "'spinner'"
+        .padding-xs
+          //- loading
+          .padding-md.grid-block.align-center.justify-center(
+            ng-if = "$root.isLoading.fetchingBranches"
           )
-
-        //- branch options
-        label.grid-block.shrink.align-center.padding-xxs.well.gray(
-          ng-if = "!$root.isLoading.fetchingBranches"
-        )
-          .grid-block.small Automatically add branches as they’re updated on GitHub.
-            button.btn.btn-xs.btn-permissions(
-              internal-modal-helper = "inviteAdminModalView"
-              ng-if = "$root.featureFlags.webhooks"
-              ng-include = "'permissionsButtonView'"
-            )
-          .grid-block.shrink.margin-left-sm.toggle-wrapper
-            input.toggle-input(
-              ng-click = "CIS.setAutofork()"
-              ng-disabled = "$root.featureFlags.webhooks"
-              ng-checked = "!CIS.poppedInstance.attrs.shouldNotAutofork"
-              type = "checkbox"
-            )
-            .toggle-group.toggle-sm
-
-        //- branch filter
-        input.input.input-xs.input-search(
-          ng-disabled = "$root.isLoading['buildingForkedBranch']"
-          ng-model = "CIS.branchQuery"
-          ng-if = "!$root.isLoading.fetchingBranches && CIS.instanceBranches.length"
-          placeholder = "Filter by name"
-          required
-          type = "search"
-        )
-
-        //- empty states
-        .text-center.text-gray.small.padding-lg(
-          ng-if = "CIS.instanceBranches && !CIS.instanceBranches.length"
-        ) There are no branches to add.
-
-        .text-center.text-gray.small.padding-lg(
-          ng-if = "CIS.instanceBranches && CIS.instanceBranches.length && CIS.totalInstanceBranches && !CIS.getFilteredBranches().length"
-        ) No branches match this filter.
-
-        ul.list.list-actions(
-          ng-if = "!$root.isLoading.fetchingBranches && CIS.instanceBranches.length"
-        )
-          li.grid-block.align-center.list-item.popover-list-item(
-            ng-class = "{\
-              'disabled': $root.isLoading['buildingForkedBranch'],\
-              'active': $root.isLoading['buildingForkedBranch'] && $root.isLoading[branch.name]\
-            }"
-            ng-repeat = "branch in CIS.getFilteredBranches()"
-            ng-click = "CIS.forkBranchFromInstance(branch, POC.closePopover);"
-          )
-            svg.grid-content.shrink.iconnables.icons-branch
-              use(
-                xlink:href = "#icons-branch-alt"
-              )
-            .grid-content.text-overflow(
-              title = "{{ branch.name }}"
-            ) {{ branch.name }}
-            button.grid-content.shrink.btn.btn-xs.btn-add(
-              ng-if = "!$root.isLoading[branch.name]"
-            ) Add
-            .grid-content.shrink.spinner-wrapper.spinner-sm.spinner-green(
-              ng-if = "$root.isLoading[branch.name]"
+            .spinner-wrapper.spinner-sm.spinner-gray.in(
               ng-include = "'spinner'"
             )
+
+          //- branch options
+          label.grid-block.shrink.align-center.padding-xxs.well.gray(
+            ng-if = "!$root.isLoading.fetchingBranches"
+          )
+            .grid-block.small Automatically add branches as they’re updated on GitHub.
+              button.btn.btn-xs.btn-permissions(
+                internal-modal-helper = "inviteAdminModalView"
+                ng-if = "$root.featureFlags.webhooks"
+                ng-include = "'permissionsButtonView'"
+              )
+            .grid-block.shrink.margin-left-sm.toggle-wrapper
+              input.toggle-input(
+                ng-click = "CIS.setAutofork()"
+                ng-disabled = "$root.featureFlags.webhooks"
+                ng-checked = "!CIS.poppedInstance.attrs.shouldNotAutofork"
+                type = "checkbox"
+              )
+              .toggle-group.toggle-sm
+
+          //- branch filter
+          input.input.input-xs.input-search(
+            ng-disabled = "$root.isLoading['buildingForkedBranch']"
+            ng-model = "CIS.branchQuery"
+            ng-if = "!$root.isLoading.fetchingBranches && CIS.instanceBranches.length"
+            placeholder = "Filter by name"
+            required
+            type = "search"
+          )
+
+          //- empty states
+          .text-center.text-gray.small.padding-lg(
+            ng-if = "CIS.instanceBranches && !CIS.instanceBranches.length"
+          ) There are no branches to add.
+
+          .text-center.text-gray.small.padding-lg(
+            ng-if = "CIS.instanceBranches && CIS.instanceBranches.length && CIS.totalInstanceBranches && !CIS.getFilteredBranches().length"
+          ) No branches match this filter.
+
+          ul.list.list-actions(
+            ng-if = "!$root.isLoading.fetchingBranches && CIS.instanceBranches.length"
+          )
+            li.grid-block.align-center.list-item.popover-list-item(
+              ng-class = "{\
+                'disabled': $root.isLoading['buildingForkedBranch'],\
+                'active': $root.isLoading['buildingForkedBranch'] && $root.isLoading[branch.name]\
+              }"
+              ng-repeat = "branch in CIS.getFilteredBranches()"
+              ng-click = "CIS.forkBranchFromInstance(branch, POC.closePopover);"
+            )
+              svg.grid-content.shrink.iconnables.icons-branch
+                use(
+                  xlink:href = "#icons-branch-alt"
+                )
+              p.grid-content.text-overflow.p(
+                title = "{{ branch.name }}"
+              ) {{ branch.name }}
+              button.grid-content.shrink.btn.btn-xs.btn-add(
+                ng-if = "!$root.isLoading[branch.name]"
+              ) Add
+              .grid-content.shrink.spinner-wrapper.spinner-sm.spinner-purple(
+                ng-if = "$root.isLoading[branch.name]"
+                ng-include = "'spinner'"
+              )

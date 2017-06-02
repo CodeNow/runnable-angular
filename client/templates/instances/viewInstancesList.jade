@@ -52,8 +52,8 @@
     //- master branch clusters and non-repo containers (post-compose)
     section.nav-section(
       ng-if = "$root.featureFlags.composeNav"
-      ng-show = "CIS.isShowingNonComposeMaster() || CIS.isShowingComposeService()"
       ng-include = "'servicesSectionView'"
+      ng-show = "CIS.isShowingNonComposeMaster() || CIS.isShowingComposeService()"
     )
 
     //- master cluster (pre-compose)

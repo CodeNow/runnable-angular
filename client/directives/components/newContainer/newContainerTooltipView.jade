@@ -78,7 +78,7 @@ div(
             xlink:href = "#icons-repository"
           )
         .grid-block.vertical
-          .grid-content.text-overflow(
+          p.grid-content.text-overflow.p(
             title = "{{ repo.attrs.name }}"
           ) {{ repo.attrs.name }}
           .grid-block(
@@ -100,7 +100,7 @@ div(
         button.grid-content.shrink.btn.btn-xs.btn-add(
           ng-if = "!repo.loading"
         ) Select
-        .grid-content.shrink.spinner-wrapper.spinner-sm.spinner-green(
+        .grid-content.shrink.spinner-wrapper.spinner-sm.spinner-purple(
           ng-if = "repo.loading"
           ng-include = "'spinner'"
         )
@@ -148,11 +148,11 @@ div(
           ng-src = "/build/images/logos/logo-icon-{{dependency.attrs.name.toLowerCase()}}.png"
           width = "24"
         )
-        .grid-content {{dependency.attrs.name}}
+        p.grid-content.p {{dependency.attrs.name}}
         button.grid-content.shrink.btn.btn-xs.btn-add(
           ng-if = "!$root.isLoading.newContainerTemplates"
         ) Select
-        .grid-content.shrink.spinner-wrapper.spinner-sm.spinner-green(
+        .grid-content.shrink.spinner-wrapper.spinner-sm.spinner-purple(
           ng-if = "$root.isLoading.newContainerTemplates"
           ng-include = "'spinner'"
         )
