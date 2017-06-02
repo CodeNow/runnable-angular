@@ -3,8 +3,8 @@
     'active': BTPBC.popoverActive,\
     'orange': BTPBC.sha.length > 0\
   }"
-  ng-if = "$root.featureFlags.composeHistory"
   ng-click = "BTPBC.popoverOpen = true"
+  ng-if = "$root.featureFlags.composeHistory"
   pop-over
   pop-over-template = "branchTestSelectorPopoverView"
   pop-over-data = "BTPBC.popoverData"
@@ -13,6 +13,6 @@
 )
   svg.iconnables
     use(
-      xlink:href = "#icons-history"
+      xlink:href = "{{$root.featureFlags.multipleWebhooks ? '#icons-gear': '#icons-history'}}"
     )
   span.span {{BTPBC.sha | limitTo:7}}

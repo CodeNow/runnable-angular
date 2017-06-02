@@ -12,19 +12,5 @@
   )
   section.section-secondary.padding-xs(
     ng-if = "$root.featureFlags.multipleWebhooks"
+    ng-include = "'deleteEnvironmentView'"
   )
-    .padding-left-xxs.padding-right-xxs.margin-bottom-xxs.text-gray.small Deleting removes environments created from the&#32;
-      //- should link to the Compose file in their default branch
-      a.link(
-        href = ""
-        target = "_blank"
-      ) Compose file
-      | &#32;in your default branch from Runnable.
-
-    ul
-      li.grid-block.align-center.list-item.popover-list-item
-        svg.iconnables.icons-delete
-          use(
-            xlink:href = "#icons-delete"
-          )
-        | Delete Environments…

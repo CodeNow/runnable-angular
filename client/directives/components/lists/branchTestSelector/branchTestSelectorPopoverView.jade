@@ -17,3 +17,7 @@
       .spinner-wrapper.spinner-gray.spinner-sm(
         ng-include = "'spinner'"
       )
+  section.section-secondary.padding-xs(
+    ng-if = "$root.featureFlags.multipleWebhooks"
+    ng-include = "'deleteEnvironmentView'"
+  )
