@@ -84,7 +84,7 @@ function SshKeyListController(
           $interval.cancel(popupCheck);
         } )
         .then(updateAuth)
-        .then(SKLC.validateCreateKey)
+        .then(SKLC.createKey)
         .finally(function() {
           SKLC.githubLoading = false;
         });
