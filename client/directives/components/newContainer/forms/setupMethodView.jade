@@ -25,7 +25,7 @@ label.grid-block.align-center.btn.btn-radio(
     )
   .grid-block.vertical.text-left
     p.p.weight-strong Use a Compose File
-    small.small Set up environments for the repos in your Compose file.
+    small.small {{!$root.featureFlags.multipleWebhooks ? 'Set up from a Compose file in your repo.' : 'Set up environments for the repos in your Compose file.'}}
 
 label.grid-block.align-center.btn.btn-radio(
   data-event-name = "Selected Dockerfile Setup"
