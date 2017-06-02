@@ -1,0 +1,23 @@
+span.grid-block
+  span.text-overflow {{getCardName()}}
+//- only show for default branches
+button.grid-block.shrink.btn-container-menu(
+  ng-class = "{'active': INC.popoverShown}"
+  ng-if = "!$root.featureFlags.multipleWebhooks && !INC.currentOrg.isPersonalAccount() && !INC.isInDemoFlow()"
+  pop-over
+  pop-over-active = "INC.popoverShown"
+  pop-over-controller = "CCC"
+  pop-over-options = "{\"verticallyCentered\":true,\"left\":25}"
+  pop-over-template = "viewComposeCardServicePopover"
+)
+  svg.iconnables
+    use(
+      xlink:href = "#icons-gear"
+    )
+button.grid-block.shrink.btn-container-menu(
+  ng-if = "$root.featureFlags.multipleWebhooks"
+)
+  svg.iconnables.icons-close
+    use(
+      xlink:href = "#icons-close"
+    )

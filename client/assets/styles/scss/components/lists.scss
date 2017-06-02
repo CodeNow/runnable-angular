@@ -182,8 +182,8 @@
   .input-checkbox:checked + .label-checkbox {
 
     .btn-xs {
-      background: $green;
-      border-color: $green;
+      background: $purple-light;
+      border-color: $purple-light;
     }
 
     .icons-add {
@@ -234,19 +234,18 @@
     border: $input-border solid transparent;
     border-radius: $input-border-radius;
     cursor: pointer;
-    height: $input-lg;
-    padding: 0 $sm;
+    padding: $xxs;
 
     &:hover:not(.disabled) {
-      background: $gray-lighterest;
-      border-color: $gray-lighter;
+      background-color: $gray-lighterest;
+      border-color: rgba($gray-lighter,.6);
     }
 
     &:active:not(.disabled),
     &.active {
-      background: $white;
-      border-color: currentColor;
-      color: $green;
+      background-color: lighten($purple-lightest,4);
+      border-color: rgba($purple-light,.1);
+      color: $purple-light;
 
       > .iconnables {
         color: currentColor;
@@ -277,6 +276,10 @@
     .btn-add:not(.btn-icon) {
       padding: 0 6px;
       width: auto;
+    }
+
+    .p {
+      font-size: 15px;
     }
 
     .small {
