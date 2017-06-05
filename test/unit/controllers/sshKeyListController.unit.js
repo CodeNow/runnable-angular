@@ -103,7 +103,6 @@ describe('sshKeyListController'.bold.underline.blue, function () {
       });
 
       it('constructor', function () {
-        console.log(sshKeyListController);
         expect(sshKeyListController.keys.length).to.equal(3);
         expect(sshKeyListController.keys[0].username).to.equal('Feynman');
       });

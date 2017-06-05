@@ -4,22 +4,22 @@ ol.list-bordered
     ng-if = "!SKLC.hasKey"
   )
     svg.grid-block.shrink.iconnables.icons-key(
-      ng-if = "!SKLC.githubLoading"
+      ng-if = "!$root.isLoading.upgradedGithubPermissions"
     )
       use(
         xlink:href = "#icons-key-empty"
       )
     .grid-block.shrink.align-center.justify-center.spinner-wrapper.spinner-sm.spinner-gray(
-      ng-if = "SKLC.githubLoading"
+      ng-if = "$root.isLoading.upgradedGithubPermissions"
       ng-include = "'spinner'"
     )
     p.grid-block.p.text-gray(
-      ng-if = "SKLC.githubLoading"
+      ng-if = "$root.isLoading.upgradedGithubPermissions"
     ) Listening for authorization…
     p.p.text-gray(
-      ng-if = "!SKLC.githubLoading"
+      ng-if = "!$root.isLoading.upgradedGithubPermissions"
     ) Add a user key for&#32;
-      span.weight-strong runnabro
+      span.weight-strong {{SKLC.userName}}
       | &#32;so your project can access private dependencies.
     a.grid-block.shrink.noscroll.align-center.btn.gray.btn-xs(
       data-event-name = "Clicked to Authorize SSH with GitHub"

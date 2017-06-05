@@ -11,16 +11,17 @@ function SshKeyListController(
   github,
   keypather,
   fetchGitHubUserById,
-  watchOncePromise
+  watchOncePromise,
+  loading
 ) {
 
   var SKLC = this;
   SKLC.hasKey = false;
   SKLC.keys = [];
-  SKLC.githubLoading = false;
   SKLC.creatingKey = false;
   SKLC.authorized = false;
   SKLC.orgName = currentOrg.getDisplayName();
+  SKLC.userName = keypather.get(currentOrg, 'poppa.user.attrs.accounts.github.username')
 
   function updateAuth() {
     return github.getGhScopes()
@@ -32,7 +33,7 @@ function SshKeyListController(
   function createKey() {
     SKLC.creatingKey = true;
 
-    sshKey.saveSshKey()
+    return sshKey.saveSshKey()
       .then(function () {
         return handleSocketEvent('private-key-secured');
       })
@@ -53,15 +54,17 @@ function SshKeyListController(
             ind = i;
           }
 
-          fetchGitHubUserById(key.githubUserId).then(function (ghUser) {
-            key.userName = ghUser.login;
-          });
+          fetchGitHubUserById(key.githubUserId)
+            .then(function (ghUser) {
+              key.userName = ghUser.login;
+            });
         });
 
         if (ind >= 0) {
           SKLC.hasKey = true;
           // move users key to front
-          SKLC.keys.splice(0, 0, SKLC.keys.splice(ind,1)[0]);
+          SKLC.keys.splice(0, 0,
+            SKLC.keys.splice(ind,1)[0]);
         }
       });
   }
@@ -71,25 +74,25 @@ function SshKeyListController(
 
   SKLC.validateCreateKey = function () {
     if (!SKLC.authorized) {
-      SKLC.githubLoading = true;
+      loading('upgradedGithubPermissions', true);
 
       var childWindow = github.upgradeGhScope();
       SKLC.popupClosed = keypather.get(childWindow, 'closed');
-      var popupCheck = $interval( function () {
+      var popupCheck = $interval(function () {
         SKLC.popupClosed = keypather.get(childWindow, 'closed');
       }, 1000, 30);
 
-      watchOncePromise($scope, 'SKLC.popupClosed', true)
+      return watchOncePromise($scope, 'SKLC.popupClosed', true)
         .then(function() {
           $interval.cancel(popupCheck);
         } )
         .then(updateAuth)
         .then(SKLC.createKey)
         .finally(function() {
-          SKLC.githubLoading = false;
+          loading('upgradedGithubPermissions', false);
         });
     } else {
-      createKey();
+      return createKey();
     }
   };
 }
