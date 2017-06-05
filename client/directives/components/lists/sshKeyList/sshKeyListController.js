@@ -48,6 +48,7 @@ function SshKeyListController(
   function getSshKeys () {
     return sshKey.getSshKeys()
       .then(function (resp) {
+        var entry;
         var ind = -1;
         SKLC.keys = keypather.get(resp, 'data.keys') || [];
 
@@ -64,9 +65,9 @@ function SshKeyListController(
 
         if (ind >= 0) {
           SKLC.hasKey = true;
-          // move users key to front
-          SKLC.keys.splice(0, 0,
-            SKLC.keys.splice(ind,1)[0]);
+
+          entry = SKLC.keys.splice(ind,1)[0];
+          SKLC.keys.unshift(entry);
         }
       });
   }
