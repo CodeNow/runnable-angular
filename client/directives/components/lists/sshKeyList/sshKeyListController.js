@@ -21,7 +21,7 @@ function SshKeyListController(
   SKLC.creatingKey = false;
   SKLC.authorized = false;
   SKLC.orgName = currentOrg.getDisplayName();
-  SKLC.userName = keypather.get(currentOrg, 'poppa.user.attrs.accounts.github.username')
+  SKLC.userName = keypather.get(currentOrg, 'poppa.user.attrs.accounts.github.username');
 
   function updateAuth() {
     return github.getGhScopes()
