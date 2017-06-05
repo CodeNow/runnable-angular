@@ -14,7 +14,6 @@ function SshKeyListController(
   watchOncePromise,
   loading
 ) {
-
   var SKLC = this;
   SKLC.hasKey = false;
   SKLC.keys = [];
@@ -22,6 +21,9 @@ function SshKeyListController(
   SKLC.authorized = false;
   SKLC.orgName = currentOrg.getDisplayName();
   SKLC.userName = keypather.get(currentOrg, 'poppa.user.attrs.accounts.github.username');
+
+  updateAuth();
+  getSshKeys();
 
   function updateAuth() {
     return github.getGhScopes()
@@ -68,9 +70,6 @@ function SshKeyListController(
         }
       });
   }
-
-  updateAuth();
-  getSshKeys();
 
   SKLC.validateCreateKey = function () {
     if (!SKLC.authorized) {
