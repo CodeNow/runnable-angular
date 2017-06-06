@@ -436,6 +436,6 @@ function NewContainerController(
     if (err) {
       return 'There was an error parsing your Docker Compose file: ' + err[0];
     }
-    return 'There was an error creating the Docker Compose cluster.';
+    return 'There was an error creating the Docker Compose cluster:' + errorMsg;
   };
 }
