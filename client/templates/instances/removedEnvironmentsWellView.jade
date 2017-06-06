@@ -6,9 +6,14 @@ heading.grid-block.align-center
       use(
         xlink:href = "#icons-close"
       )
+//- if compose file still exists
 p.margin-top-xxs To match&#32;
   a.link your latest Compose file
   | , we removed environments for the following repositories:
+//- if compose file doesn't exist
+//- p.margin-top-xxs It looks like you deleted&#32;
+  a.link your Compose file
+  | , so we removed environments for these repositories:
 ul.ul.margin-top-xxs
   li.li api
   li.li runnable-angular
