@@ -87,7 +87,7 @@ function SshKeyListController(
           $interval.cancel(popupCheck);
         } )
         .then(updateAuth)
-        .then(SKLC.createKey)
+        .then(createKey)
         .finally(function() {
           loading('upgradedGithubPermissions', false);
         });
