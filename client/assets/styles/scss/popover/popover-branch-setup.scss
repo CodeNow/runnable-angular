@@ -1,0 +1,11 @@
+.popover-branch-setup {
+  max-width: 600px - 90px; // .modal-lg width + (modal padding * 2)
+
+  @media (max-width: 630px) { // .modal-lg width + backdrop padding
+    max-width: calc(100% - 120px);
+  }
+
+  @include media(xs) {
+    max-width: calc(100% - 60px);
+  }
+}
