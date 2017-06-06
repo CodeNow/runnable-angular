@@ -85,9 +85,10 @@ function github(
       return makeRawGhRequest({
         method: 'get',
         url:  githubAPIUrl + '/user'
-      }).then(function(resp) {
-        return (keypather.get(resp, 'headers().x-oauth-scopes') || '').split(', ');
-      });
+      })
+        .then(function(resp) {
+          return (keypather.get(resp, 'headers().x-oauth-scopes') || '').split(', ');
+        });
     },
 
     upgradeGhScope: function() {

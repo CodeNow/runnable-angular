@@ -81,6 +81,10 @@ function SshKeyListController(
       var popupCheck = $interval(function () {
         SKLC.popupClosed = keypather.get(childWindow, 'closed');
       }, 1000, 30);
+      $scope.$on("$destroy", function() {
+          $interval.cancel(popupCheck);
+        }
+      );
 
       return watchOncePromise($scope, 'SKLC.popupClosed', true)
         .then(function() {
