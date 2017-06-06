@@ -39,6 +39,12 @@
         select-on = "showFilter"
         type = "search"
       )
+    
+    //- notification for deleted environments
+    .well.white.well-removed-environments(
+      ng-if = "$root.featureFlags.multipleWebhooks"
+      ng-include = "'removedEnvironmentsWellView'"
+    )
 
     p.grid-block.shrink.p.align-center.text-gray-light.padding-sm.nav-section.search-empty(
       ng-if = "!CIS.filterMatchedAnything()"
