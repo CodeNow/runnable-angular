@@ -408,7 +408,7 @@
   padding: 12px 15px;
   z-index: 1; // footer overlaps body
 
-  @include media(xxxs) {
+  @include media(xxs) {
     display: flex;
     flex-direction: column;
 
@@ -475,7 +475,7 @@
       padding-right: 6px;
       width: 86px;
 
-      @include media(xxxs) {
+      @include media(xxs) {
         width: auto;
       }
     }
