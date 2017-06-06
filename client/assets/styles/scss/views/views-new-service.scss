@@ -22,6 +22,10 @@
       padding-top: $xs;
       white-space: normal;
 
+      @include media(xs) {
+        flex: 0 0 auto;
+      }
+
       &.active .btn-add {
         background: rgba($purple-light,.1);
         border-color: $purple-light;

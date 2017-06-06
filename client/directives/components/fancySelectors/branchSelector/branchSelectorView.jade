@@ -20,7 +20,7 @@ fancy-select.white.btn-wrapped(
       )
     | {{$parent.branch.attrs.name}}
 
-button.btn.btn-sm.white.btn-wrapped(
+button.grid-block.btn.btn-sm.white.btn-wrapped(
   ng-class = "{'active': state.active}"
   ng-disabled = "branchFetching || !state.repo.branches.models.length"
   ng-if = "$root.featureFlags.multipleWebhooks"
@@ -28,8 +28,9 @@ button.btn.btn-sm.white.btn-wrapped(
   pop-over-active = "state.active"
   pop-over-options = "{\"top\":45}"
   pop-over-template = "branchSelectPopoverView"
-) master
-  svg.iconnables.icons-arrow-down
+)
+  .grid-block master
+  svg.grid-block.shrink.iconnables.icons-arrow-down
     use(
       xlink:href = "#icons-arrow-down"
     )
