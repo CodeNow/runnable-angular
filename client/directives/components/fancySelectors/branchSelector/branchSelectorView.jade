@@ -1,5 +1,6 @@
 fancy-select.white.btn-wrapped(
   ng-disabled = "branchFetching || !state.repo.branches.models.length"
+  ng-if = "!$root.featureFlags.multipleWebhooks"
   ng-required = "true"
   on-update = "onBranchChange"
   spinner-flag = "branchFetching || !state.repo.branches.models.length"
@@ -18,3 +19,17 @@ fancy-select.white.btn-wrapped(
         xlink:href = "#icons-branch"
       )
     | {{$parent.branch.attrs.name}}
+
+button.btn.btn-sm.white.btn-wrapped(
+  ng-class = "{'active': state.active}"
+  ng-disabled = "branchFetching || !state.repo.branches.models.length"
+  ng-if = "$root.featureFlags.multipleWebhooks"
+  pop-over
+  pop-over-active = "state.active"
+  pop-over-options = "{\"top\":45}"
+  pop-over-template = "branchSelectPopoverView"
+) master
+  svg.iconnables.icons-arrow-down
+    use(
+      xlink:href = "#icons-arrow-down"
+    )
