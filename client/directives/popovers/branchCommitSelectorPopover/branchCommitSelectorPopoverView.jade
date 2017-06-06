@@ -6,7 +6,11 @@
     ng-style = "popoverStyle.getArrowStyle()"
   )
 
-  section.padding-xs.popover-content.list-actions.list-commits(
+  section.popover-content.list-actions.list-commits(
     branch-commit-list
     instance = "data.instance"
+  )
+  section.section-secondary.padding-xs(
+    ng-if = "$root.featureFlags.multipleWebhooks"
+    ng-include = "'deleteEnvironmentView'"
   )

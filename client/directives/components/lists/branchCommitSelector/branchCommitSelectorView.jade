@@ -37,7 +37,7 @@ label.label(
 //- this element should appear in:
   - the setup popover for adding a repo to Container Files
   - the edit modal (in the Containers view) for modifying an additional repo on a specific Container
-label.margin-bottom-sm.grid-block.shrink.align-center.padding-xxs.well.gray(
+label.grid-block.shrink.align-center.padding-xxs.well.gray(
   ng-if = "\
     !fetchingCommits\
     && (\
@@ -61,7 +61,7 @@ label.grid-block.shrink.align-center.padding-xxs.well.gray(
 )
 
 //- list of commits
-ul.list.margin-top-sm(
+ul.list.margin-top-xxs(
   ng-if = "\
     !fetchingCommits\
     && BCSC.data.branch.commits.models\

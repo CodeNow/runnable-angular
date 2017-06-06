@@ -124,121 +124,12 @@
   }
 
   .list-item {
-    font-size: 18px;
-    height: 60px;
-  }
+    padding: $xxs $sm;
 
-  .btn-add {
-    padding: 0 9px;
-    width: auto;
-  }
-}
-
-// repository/template list
-.list-servers {
-
-  > .list-item {
-    border: $input-border solid transparent;
-    border-radius: $input-border-radius-lg;
-    cursor: pointer;
-    font-weight: $weight-bold;
-    padding: 6px 15px;
-    white-space: nowrap; // reset .multi-line default
-
-    &:hover:not(.disabled) {
-      background: $white;
-      border-color: $gray-lighter;
-    }
-
-    &.disabled {
-      cursor: default;
-
-      > .small,
-      .btn-icon {
-        opacity: .6;
-      }
-
-      .btn-icon {
-        cursor: default;
-      }
-    }
-
-    &:active:not(.disabled),
-    &.active:hover,
-    &.active {
-      background: $white;
-      border-color: currentColor;
-      color: $green;
-    }
-
-    + .list-item {
-      margin-top: 3px;
-    }
-  }
-
-  .row-author > .small:not(.monospace) {
-    flex: 1 1 auto; // pushes .monospace to the right
-    margin-right: 6px;
-  }
-
-  // empty state
-  .empty {
-    word-break: break-all;
-  }
-
-  // next arrow
-  .icons-arrow-down {
-    height: 36px;
-    padding: 6px;
-    transform: rotate3d(0,0,1,-90deg);
-    width: 36px;
-  }
-
-  // spinner
-  .spinner-wrapper {
-    padding: 10px;
-  }
-
-  // tiled view for template containers
-  &.list-tiled {
-    margin: 0 auto;
-    width: 378px;
-
-    @include media(xs) {
-      width: 252px;
-    }
-
-    .list-item {
-      background: $white;
-      border-color: $gray-lighter;
-      color: $gray-dark;
-      float: left;
-      font-size: 15px;
-      height: 99px;
-      margin: 3px;
-      padding: 0;
-      text-align: center;
-      width: 120px;
-
-      &:hover {
-        border-color: $gray-light;
-      }
-
-      &:active,
-      &.active {
-        border-color: currentColor;
-        color: $green;
-      }
-
-      &.btn-hint {
-        @extend %btn-hint;
-      }
-
-      // anchor image
-      .img {
-        display: block;
-        margin: 15px auto 6px;
-      }
+    .btn-add {
+      border-radius: $input-border-radius;
+      padding: 0 $xxs;
+      width: auto;
     }
   }
 }

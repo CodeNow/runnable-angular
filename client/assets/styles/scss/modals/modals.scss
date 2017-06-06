@@ -204,7 +204,6 @@
   margin-left: auto;
   margin-right: auto;
   overflow-x: auto;
-  padding: 6px 12px 12px;
   transition: max-width .15s ease-in-out;
 
   @include media(xxs) {
@@ -408,7 +407,7 @@
   padding: 12px 15px;
   z-index: 1; // footer overlaps body
 
-  @include media(xxxs) {
+  @include media(xxs) {
     display: flex;
     flex-direction: column;
 
@@ -475,7 +474,7 @@
       padding-right: 6px;
       width: 86px;
 
-      @include media(xxxs) {
+      @include media(xxs) {
         width: auto;
       }
     }

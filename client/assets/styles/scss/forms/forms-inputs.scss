@@ -227,7 +227,7 @@ input[type="radio"] {
   &:focus,
   &:valid {
     background-color: $white;
-    border-color: $green;
+    border-color: $purple-light;
     transition: all .15s ease-in;
   }
 }

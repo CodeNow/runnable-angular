@@ -1,16 +1,16 @@
 .grid-block.vertical.list-containers.text-overflow(
-  ng-if = "!$root.featureFlags.composeNav"
   ng-class = "{'open': INC.shouldExpand}"
+  ng-if = "!$root.featureFlags.composeNav"
   ng-include = "'instanceNavigationInternalsView'"
 )
 
 a.grid-block.nav-container(
+  ng-class = "isActive()"
   ng-if = "$root.featureFlags.composeNav"
   ui-sref = "\
-      base.instances.instance({userName: INC.instance.attrs.owner.username,\
-      instanceName: INC.instance.attrs.name})\
-    "
-  ng-class = "isActive()"
+    base.instances.instance({userName: INC.instance.attrs.owner.username,\
+    instanceName: INC.instance.attrs.name})\
+  "
 )
   status-icon.grid-block.shrink(
     instance = "INC.instance"
@@ -20,7 +20,7 @@ a.grid-block.nav-container(
   )
     //- repo names for repo containers in the master cluster / branch name or service name
     span.text-overflow {{getNavigationName()}}
-    
+
   //- show history button for branches of non-compose repos (including the default branch)
   branch-commit-popover-button(
     instance = "INC.instance"
