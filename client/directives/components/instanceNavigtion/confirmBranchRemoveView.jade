@@ -5,8 +5,10 @@
       p.p You can add this branch again later, but any changes you’ve made will not be saved.
     footer.modal-footer.clearfix
       button.btn.btn-sm.gray.float-left(
+        data-event-name = "Clicked to Delete Branch (Cancel)"
         ng-click = "CMC.actions.cancel()"
       ) Cancel
       button.btn.btn-sm.red.float-right(
+        data-event-name = "Clicked to Delete Branch (Confirm)"
         ng-click = "CMC.actions.confirm()"
       ) Remove Branch

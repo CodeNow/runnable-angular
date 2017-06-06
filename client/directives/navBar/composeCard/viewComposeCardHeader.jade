@@ -15,6 +15,7 @@ button.grid-block.shrink.btn-container-menu(
       xlink:href = "#icons-gear"
     )
 button.grid-block.shrink.btn-container-menu(
+  data-event-name = "Clicked to Delete Branch (Open Modal)"
   ng-click = "CCC.deleteBranch()"
   ng-if = "$root.featureFlags.multipleWebhooks"
   tooltip = "Remove Branch…"

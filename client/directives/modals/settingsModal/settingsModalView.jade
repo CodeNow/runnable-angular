@@ -16,76 +16,77 @@
           xlink:href = "#icons-close"
         )
 
-      .row.modal-tabs.tabs-all.grid-block.clearfix
-        button.btn.btn-radio.grid-block.vertical(
-          data-event-name = "Clicked Billing Tab"
-          ng-attr-data-badge-count = "{{SEMC.currentOrg.poppa.isInTrial() && !SEMC.currentOrg.poppa.attrs.hasPaymentMethod ? SEMC.currentOrg.poppa.trialDaysRemaining() : ''}}"
-          ng-class = "{\
-            'active': SEMC.currentTab === 'billing',\
-            'badge': SEMC.currentOrg.poppa.isInTrial() && !SEMC.currentOrg.poppa.attrs.hasPaymentMethod,\
-            'badge-orange': SEMC.currentOrg.poppa.isInTrial() && !SEMC.currentOrg.poppa.attrs.hasPaymentMethod,\
-          }"
-          ng-click = "SEMC.currentTab = 'billing'"
-          ng-if = "SEMC.currentOrg.isBillingVisible()"
-        )
-          svg.iconnables.grid-content
-            use(
-              xlink:href = "#icons-billing"
-            )
-          .btn-text.grid-content Billing
-        button.btn.btn-radio.grid-block.vertical(
-          data-event-name = "Clicked PR Bot Tab"
-          ng-class = "{'active': SEMC.currentTab === 'githubIntegration'}"
-          ng-click = "SEMC.currentTab = 'githubIntegration'"
-        )
-          svg.iconnables.grid-content
-            use(
-              xlink:href = "#icons-octicons-github-gray"
-            )
-          .btn-text.grid-content PR Bot
-        button.btn.btn-radio.grid-block.vertical(
-          data-event-name = "Clicked Private Registry Tab"
-          ng-class = "{'active': SEMC.currentTab === 'privateRegistry'}"
-          ng-click = "SEMC.currentTab = 'privateRegistry'"
-          ng-if = "$root.featureFlags.privateRegistry"
-        )
-          svg.iconnables.grid-content
-            use(
-              xlink:href = "#icons-private-registry"
-            )
-          .btn-text.grid-content Private Registry
-        button.btn.btn-radio.grid-block.vertical(
-          data-event-name = "Clicked Slack Integration Tab"
-          ng-class = "{'active': SEMC.currentTab === 'slackIntegration'}"
-          ng-click = "SEMC.currentTab = 'slackIntegration'"
-        )
-          img.img.iconnables.grid-content(
-            height = "24"
-            src = "/build/images/logos/logo-icon-slack.svg"
-            width = "24"
+      .row.modal-tabs.tabs-all.grid-block
+        .grid-block.noscroll.shrink.padding-xs
+          button.btn.btn-radio.grid-block.vertical(
+            data-event-name = "Clicked Billing Tab"
+            ng-attr-data-badge-count = "{{SEMC.currentOrg.poppa.isInTrial() && !SEMC.currentOrg.poppa.attrs.hasPaymentMethod ? SEMC.currentOrg.poppa.trialDaysRemaining() : ''}}"
+            ng-class = "{\
+              'active': SEMC.currentTab === 'billing',\
+              'badge': SEMC.currentOrg.poppa.isInTrial() && !SEMC.currentOrg.poppa.attrs.hasPaymentMethod,\
+              'badge-orange': SEMC.currentOrg.poppa.isInTrial() && !SEMC.currentOrg.poppa.attrs.hasPaymentMethod,\
+            }"
+            ng-click = "SEMC.currentTab = 'billing'"
+            ng-if = "SEMC.currentOrg.isBillingVisible()"
           )
-          .btn-text.grid-content Slack Integration
-        button.btn.btn-radio.grid-block.vertical(
-          data-event-name = "Clicked SSH Keys Tab"
-          ng-class = "{'active': SEMC.currentTab === 'SSHKeys'}"
-          ng-click = "SEMC.currentTab = 'SSHKeys'"
-          ng-if = "$root.featureFlags.composeSSHKeys"
-        )
-          svg.iconnables.grid-content
-            use(
-              xlink:href = "#icons-key"
+            svg.iconnables.grid-content
+              use(
+                xlink:href = "#icons-billing"
+              )
+            .btn-text.grid-content Billing
+          button.btn.btn-radio.grid-block.vertical(
+            data-event-name = "Clicked PR Bot Tab"
+            ng-class = "{'active': SEMC.currentTab === 'githubIntegration'}"
+            ng-click = "SEMC.currentTab = 'githubIntegration'"
+          )
+            svg.iconnables.grid-content
+              use(
+                xlink:href = "#icons-octicons-github-gray"
+              )
+            .btn-text.grid-content PR Bot
+          button.btn.btn-radio.grid-block.vertical(
+            data-event-name = "Clicked Private Registry Tab"
+            ng-class = "{'active': SEMC.currentTab === 'privateRegistry'}"
+            ng-click = "SEMC.currentTab = 'privateRegistry'"
+            ng-if = "$root.featureFlags.privateRegistry"
+          )
+            svg.iconnables.grid-content
+              use(
+                xlink:href = "#icons-private-registry"
+              )
+            .btn-text.grid-content Private Registry
+          button.btn.btn-radio.grid-block.vertical(
+            data-event-name = "Clicked Slack Integration Tab"
+            ng-class = "{'active': SEMC.currentTab === 'slackIntegration'}"
+            ng-click = "SEMC.currentTab = 'slackIntegration'"
+          )
+            img.img.iconnables.grid-content(
+              height = "24"
+              src = "/build/images/logos/logo-icon-slack.svg"
+              width = "24"
             )
-          .btn-text.grid-content SSH Keys
-        button.btn.btn-radio.grid-block.vertical(
-          data-event-name = "Clicked Teammates Tab"
-          ng-class = "{'active': SEMC.currentTab === 'teamManagement'}"
-          ng-click = "SEMC.currentTab = 'teamManagement'"
-        )
-          svg.iconnables.grid-content
-            use(
-              xlink:href = "#icons-team"
-            )
-          .btn-text.grid-content Teammates
+            .btn-text.grid-content Slack Integration
+          button.btn.btn-radio.grid-block.vertical(
+            data-event-name = "Clicked SSH Keys Tab"
+            ng-class = "{'active': SEMC.currentTab === 'SSHKeys'}"
+            ng-click = "SEMC.currentTab = 'SSHKeys'"
+            ng-if = "$root.featureFlags.composeSSHKeys"
+          )
+            svg.iconnables.grid-content
+              use(
+                xlink:href = "#icons-key"
+              )
+            .btn-text.grid-content SSH Keys
+          button.btn.btn-radio.grid-block.vertical(
+            data-event-name = "Clicked Teammates Tab"
+            ng-class = "{'active': SEMC.currentTab === 'teamManagement'}"
+            ng-click = "SEMC.currentTab = 'teamManagement'"
+          )
+            svg.iconnables.grid-content
+              use(
+                xlink:href = "#icons-team"
+              )
+            .btn-text.grid-content Teammates
 
     section.modal-body.js-animate
 
