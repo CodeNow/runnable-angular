@@ -51,7 +51,6 @@ function featureFlags(
     kubernetes: false,
     multilineFnR: false,
     multilineStartCmd: false,
-    multipleWebhooks: false,
     multipleRepositoryContainers: false, // for adding multiple containers with the same repository
     multipleWebhooks: false,
     navListFilter: false,
