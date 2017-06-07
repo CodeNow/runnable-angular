@@ -355,6 +355,7 @@ function fetchInstancesByCompose(
               if (instance.attrs.masterPod && isComposeMaster && !composeParent) {
                 composeMasters[clusterConfigId] = composeMasters[clusterConfigId] || {};
                 composeMasters[clusterConfigId].master = instance;
+                composeMasters[clusterConfigId].masterRepo = instance.contextVersion.getMainAppCodeVersion().attrs.lowerRepo;
                 return;
               }
 
@@ -378,12 +379,29 @@ function fetchInstancesByCompose(
                 return;
               }
 
+              // composeMasters[masterClusterConfigId] = composeMasters[masterClusterConfigId] || {};
+              // var composeMasterConfig = composeMasters[masterClusterConfigId];
+              // var clusterName = instance.attrs.inputClusterConfig.clusterName
+              // // If this belongs at the top level for a compose master
+              // if (instance.attrs.masterPod) {
+              //   if (instance.attrs.isTesting) {
+              //     composeMasterConfig.testing = composeMasterConfig.testing || {};
+              //     composeMasterConfig.testing[clusterName] = composeMasterConfig.testing[clusterName] || [];
+              //     composeMasterConfig.testing[clusterName].push(instance);
+              //     return;
+              //   }
+              //   composeMasterConfig.staging = composeMasterConfig.staging || {};
+              //   composeMasterConfig.staging[clusterName] = composeMasterConfig.staging[clusterName] || [];
+              //   composeMasterConfig.staging[clusterName].push(instance);
+              //   return;
+              // }
+
               // This is a branched compose. We should now group by isolation.
               composeMasterConfig.children = composeMasterConfig.children || {};
               var isolationId = instance.attrs.isolated;
 
               if (!isolationId) {
-                // They aren't isolated, so loney, so so lonely.
+                // They aren't isolated, so lonely, so so lonely.
                 composeMasterConfig.children[instance.attrs.id] = {
                   master: instance
                 };
@@ -450,8 +468,8 @@ function fetchInstancesByCompose(
             // 2. fill the first array with items from the second
             [].push.apply(instancesByCompose, newInstancesByCompose);
             instancesByCompose.sort(function (a, b) {
-              var compare1 = keypather.get(a, 'master.attrs.name');
-              var compare2 = keypather.get(b, 'master.attrs.name');
+              var compare1 = keypather.get(a, 'masterRepo');
+              var compare2 = keypather.get(b, 'masterRepo');
               if (compare1 < compare2) {
                 return -1;
               } else if (compare1 > compare2) {

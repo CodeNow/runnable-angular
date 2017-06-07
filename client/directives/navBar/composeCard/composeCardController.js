@@ -66,6 +66,30 @@ function ComposeCardController(
     return (instanceList || []).sort(sortInstancesByNavName);
   };
 
+  // CCC.getStagingInstances = function () {
+  //   var instanceList;
+  //   var clusterList;
+  //   if (CCC.isChild) {
+  //     instanceList = keypather.get(CCC.composeCluster.master, 'isolation.instances.models');
+  //   } else {
+  //     clusterList = CCC.composeCluster.staging;
+  //   }
+  //   if (instanceList) {
+  //     return (instanceList || []).sort(sortInstancesByNavName);
+  //   }
+  //   if (clusterList) {
+  //     var clusterNames = Object.keys(clusterList)
+  //     var sortedClusterList = clusterNames.reduce(function (clusters, clusterName) {
+  //       clusters[clusterName] = (clusterList[clusterName] || []).sort(sortInstancesByNavName);
+  //       return clusters;
+  //     }, []);
+  //     return clusterNames.map(function (clusterName) {
+  //       return sortedClusterList[clusterName];
+  //     })
+  //   }
+  //   return [];
+  // };
+
   CCC.getTestingInstances = function () {
     if (CCC.isChild) {
       if (CCC.composeCluster.master.attrs.isTesting) {

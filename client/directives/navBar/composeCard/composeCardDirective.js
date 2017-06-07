@@ -22,7 +22,7 @@ function composeCard(
         if ($scope.CCC.isChild) {
           return $scope.CCC.composeCluster.master.getBranchName();
         }
-        var preamble = keypather.get($scope.CCC, 'composeCluster.master.attrs.inputClusterConfig.clusterName');
+        var preamble = keypather.get($scope.CCC, 'composeCluster.masterRepo').split('/')[1];
         if (preamble) {
           preamble = preamble + '/';
         }
