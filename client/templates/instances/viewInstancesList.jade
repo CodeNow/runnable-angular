@@ -45,7 +45,7 @@
     ) No containers match this filter.
 
     //- notification for deleted environments
-    .popover.popover-demo.padding-sm.in.removed-environments(
+    .popover.popover-demo.padding-sm.in.popover-removed-environments(
       ng-if = "$root.featureFlags.multipleWebhooks"
       ng-include = "'popoverRemovedEnvironmentsView'"
       ng-init = "affectedRepos = ['api', 'runnable-angular', 'sauron']"
