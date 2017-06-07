@@ -19,7 +19,8 @@ ul.list.margin-top-sm(
 )
   li.grid-block.align-center.list-item(
     ng-class = "{\
-      'active': BTSC.commit === commit\
+      'active': BTSC.commit === commit,\
+      'disabled': BTSC.commit === commit\
     }"
     ng-repeat = "commit in BTSC.branch.commits.models | orderBy: '-attrs.commit.committer.date'"
     ng-if = "BTSC.hasTest(commit) || $first || BTSC.commit === commit"
