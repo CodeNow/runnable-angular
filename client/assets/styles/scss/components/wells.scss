@@ -77,29 +77,3 @@
     line-height: 36px;
   }
 }
-
-.well-removed-environments {
-  border-radius: $input-border-radius-lg;
-  box-shadow: 0 1px 3px rgba($black,.06);
-  color: $gray;
-  font-size: 13px;
-  font-weight: $weight-normal; // override .white
-  padding: 15px;
-
-  .emoji {
-    font-size: 15px;
-    margin-right: 6px;
-  }
-
-  .btn-container-menu {
-    margin-right: -4px; // align with other buttons
-  }
-
-  .ul {
-    list-style-type: disc;
-  }
-
-  .li {
-    margin-left: $sm;
-  }
-}

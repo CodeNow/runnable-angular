@@ -41,7 +41,7 @@
 }
 
 .nav-section:first-child,
-*:not(.popover):not(.well) + .nav-section {
+*:not(.popover) + .nav-section {
   border-top: $input-border solid $gray-lighter;
 }
 

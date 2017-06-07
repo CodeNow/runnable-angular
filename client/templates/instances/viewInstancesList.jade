@@ -40,16 +40,17 @@
         type = "search"
       )
     
-    //- notification for deleted environments
-    .well.white.well-removed-environments(
-      ng-if = "$root.featureFlags.multipleWebhooks"
-      ng-include = "'removedEnvironmentsWellView'"
-    )
 
     p.grid-block.shrink.p.align-center.text-gray-light.padding-sm.nav-section.search-empty(
       ng-if = "!CIS.filterMatchedAnything()"
     ) No containers match this filter.
 
+    //- notification for deleted environments
+    .popover.popover-demo.padding-sm.in.removed-environments(
+      ng-if = "$root.featureFlags.multipleWebhooks"
+      ng-include = "'popoverRemovedEnvironmentsView'"
+    )
+      
     .grid-block.vertical.padding-sm.popover.right.in.popover-demo.team-step(
       ng-if = "CA.shouldShowTeamCTA()"
       ng-include = "'popoverDemoAddTeamView'"

@@ -18,6 +18,23 @@
     width: 293px;
   }
 
+
+  // notification for deleted environments
+  &.removed-environments {
+
+    .small {
+      margin-top: 3px;
+    }
+
+    .ul {
+      list-style-type: disc;
+    }
+
+    .li {
+      margin-left: $sm;
+    }
+  }
+
   // specific to the url hidden popover
   &.top {
     margin-bottom: 6px;
