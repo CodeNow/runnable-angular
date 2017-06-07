@@ -16,7 +16,7 @@ p.small.text-gray To match&#32;
   ) your Compose file
   | , so we removed environments for these repositories:
 ul.ul.small.text-gray
-  li.li api
-  li.li runnable-angular
-  li.li sauron
+  li.li(
+    ng-repeat = "repo in affectedRepos"
+  ) {{repo}}
 button.btn.btn-sm.btn-block.gray.margin-top-xs 👌 Got it!

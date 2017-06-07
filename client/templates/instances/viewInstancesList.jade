@@ -49,6 +49,7 @@
     .popover.popover-demo.padding-sm.in.removed-environments(
       ng-if = "$root.featureFlags.multipleWebhooks"
       ng-include = "'popoverRemovedEnvironmentsView'"
+      ng-init = "affectedRepos = ['api', 'runnable-angular', 'sauron']"
     )
       
     .grid-block.vertical.padding-sm.popover.right.in.popover-demo.team-step(
