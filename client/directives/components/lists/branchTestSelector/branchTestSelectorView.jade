@@ -25,7 +25,7 @@ ul.list.margin-top-sm(
     ng-repeat = "commit in BTSC.branch.commits.models | orderBy: '-attrs.commit.committer.date'"
     ng-if = "BTSC.hasTest(commit) || $first || BTSC.commit === commit"
   )
-    a.grid-block.vertical(
+    .grid-block.vertical(
       data-event-name = "Selected Test Commit"
       ng-click = "BTSC.selectCommit(commit, $index === 0)"
       ui-sref = "base.instances.instance-test-sha({instanceName: BTSC.instance.attrs.name, sha: commit.attrs.sha})"
