@@ -1,20 +1,20 @@
 header.noscroll.nav-environment-header
   span.grid-block Staging
   branch-commit-popover-button(
-    instance = "CCC.composeCluster.master"
+    instance = "cluster.master"
   )
 
 ul.nav-container-list
   li.li(
     active-account = "activeAccount"
-    instance = "CCC.composeCluster.master"
+    instance = "cluster.master"
     instance-navigation
-    ng-if = "!CCC.composeCluster.master.attrs.isTesting"
+    ng-if = "!cluster.master.attrs.isTesting"
   )
 
   li.li(
     active-account = "activeAccount"
     instance = "stagingInstance"
     instance-navigation
-    ng-repeat = "stagingInstance in CCC.getStagingInstances() track by stagingInstance.attrs._id"
+    ng-repeat = "stagingInstance in CCC.getStagingInstances(cluster) track by stagingInstance.attrs._id"
   )

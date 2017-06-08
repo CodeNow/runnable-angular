@@ -25,16 +25,14 @@ h2.grid-block.align-center.justify-justified.nav-section-header Services
 section.nav-card.active(
   compose-card
   compose-cluster = "composeCluster"
-  ng-repeat = "composeCluster in CIS.instancesByCompose | orderBy: ['attrs.name'] track by composeCluster.master.attrs.name"
+  ng-repeat = "composeCluster in CIS.instancesByCompose | orderBy: ['repoName'] track by composeCluster.repoName"
   ng-if = "!composeCluster.master.destroyed && !$root.featureFlags.multiWebhookNav"
   ng-show = "CIS.shouldShowCluster(composeCluster, 'master.attrs.name')"
 )
 section.nav-card.active(
   compose-card
   compose-cluster = "composeCluster"
-  ng-repeat = "composeCluster in CIS.instancesByCompose | orderBy: ['attrs.name'] track by composeCluster.master.attrs.name"
-  ng-if = "!composeCluster.master.destroyed && $root.featureFlags.multiWebhookNav"
-  ng-show = "CIS.shouldShowCluster(composeCluster, 'master.attrs.name')"
+  ng-repeat = "composeCluster in CIS.instancesByCompose | orderBy: ['composeCluster.repoName'] track by composeCluster.repoName"
 )
 section.nav-card.active(
   ng-include = "'nonComposeCardView'"

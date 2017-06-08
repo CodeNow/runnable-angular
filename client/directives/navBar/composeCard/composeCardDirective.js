@@ -22,11 +22,12 @@ function composeCard(
         if ($scope.CCC.isChild) {
           return $scope.CCC.composeCluster.master.getBranchName();
         }
-        var preamble = keypather.get($scope.CCC, 'composeCluster.masterRepo').split('/')[1];
-        if (preamble) {
-          preamble = preamble + '/';
-        }
-        return preamble + $scope.CCC.composeCluster.master.getBranchName();
+        var preamble = keypather.get($scope.CCC, 'composeCluster.repoName').split('/')[1];
+        // if (preamble) {
+        //   preamble = preamble + '/';
+        // }
+        // return preamble + $scope.CCC.composeCluster.master.getBranchName();
+        return preamble
       };
 
       $scope.isActive = false;

@@ -56,48 +56,26 @@ function ComposeCardController(
     return 0;
   }
 
-  CCC.getStagingInstances = function () {
+  CCC.getStagingInstances = function (cluster) {
     var instanceList;
+    var clusterList = cluster.staging || CCC.composeCluster.staging;;
     if (CCC.isChild) {
       instanceList = keypather.get(CCC.composeCluster.master, 'isolation.instances.models');
+      return (instanceList || []).sort(sortInstancesByNavName);
     } else {
-      instanceList = CCC.composeCluster.staging;
+      return (clusterList || []).sort(sortInstancesByNavName);
     }
-    return (instanceList || []).sort(sortInstancesByNavName);
   };
 
-  // CCC.getStagingInstances = function () {
-  //   var instanceList;
-  //   var clusterList;
-  //   if (CCC.isChild) {
-  //     instanceList = keypather.get(CCC.composeCluster.master, 'isolation.instances.models');
-  //   } else {
-  //     clusterList = CCC.composeCluster.staging;
-  //   }
-  //   if (instanceList) {
-  //     return (instanceList || []).sort(sortInstancesByNavName);
-  //   }
-  //   if (clusterList) {
-  //     var clusterNames = Object.keys(clusterList)
-  //     var sortedClusterList = clusterNames.reduce(function (clusters, clusterName) {
-  //       clusters[clusterName] = (clusterList[clusterName] || []).sort(sortInstancesByNavName);
-  //       return clusters;
-  //     }, []);
-  //     return clusterNames.map(function (clusterName) {
-  //       return sortedClusterList[clusterName];
-  //     })
-  //   }
-  //   return [];
-  // };
-
-  CCC.getTestingInstances = function () {
+  CCC.getTestingInstances = function (cluster) {
+    var clusterList = cluster || CCC.composeCluster;
     if (CCC.isChild) {
       if (CCC.composeCluster.master.attrs.isTesting) {
         return (keypather.get(CCC.composeCluster.master, 'isolation.instances.models') || []).sort(sortInstancesByNavName);
       }
-      return [CCC.composeCluster.testing[0]].concat(keypather.get(CCC.composeCluster, 'testing[0].isolation.instances.models').sort(sortInstancesByNavName));
+      return [clusterList.testing[0]].concat(keypather.get(cluster, 'testing[0].isolation.instances.models').sort(sortInstancesByNavName));
     }
-    return (CCC.composeCluster.testing || []).sort(sortInstancesByNavName);
+    return (clusterList.testing || []).sort(sortInstancesByNavName);
   };
 
   function deleteCluster (cluster) {
