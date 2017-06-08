@@ -12,23 +12,24 @@ header.grid-block.vertical.align-center.modal-header(
       xlink:href = "#icons-close"
     )
 
-  .row.modal-tabs.tabs-all.grid-block.clearfix(
+  .row.modal-tabs.tabs-all.grid-block(
     ng-init = "tabs = [\
       {name: 'compose', iconName: 'icons-compose', label: 'Compose Files'},\
       {name: 'env', iconName: 'icons-environment-variable', label: 'Environment Variables'}\
     ];"
   )
-    button.btn.btn-radio.grid-block.vertical(
-      ng-class = "{'active': state.selectedTab === '{{tab.name}}'}"
-      ng-click = "state.selectedTab = tab.name"
-      ng-repeat = "tab in tabs"
-    )
-      svg.iconnables.grid-content
-        use(
-          ng-attr-xlink:href = "{{'#' + $sce.trustAs($sce.HTML, tab.iconName)}}"
-          xlink:href = ""
-        )
-      .btn-text.grid-content {{tab.label}}
+    .grid-block.noscroll.shrink.padding-xs
+      button.btn.btn-radio.grid-block.vertical(
+        ng-class = "{'active': state.selectedTab === '{{tab.name}}'}"
+        ng-click = "state.selectedTab = tab.name"
+        ng-repeat = "tab in tabs"
+      )
+        svg.iconnables.grid-content
+          use(
+            ng-attr-xlink:href = "{{'#' + $sce.trustAs($sce.HTML, tab.iconName)}}"
+            xlink:href = ""
+          )
+        .btn-text.grid-content {{tab.label}}
 
 section.grid-block.vertical.modal-body(
   ng-init = "state.selectedTab = 'compose'"
