@@ -6,20 +6,25 @@ fancy-select.white.btn-wrapped(
   track-by = "attrs.name"
   value = "state.branch"
 )
-  li.list-item.popover-list-item.small.disabled(
+  .list-item.popover-list-item.small.disabled(
     ng-click = "$event.stopPropagation(); $event.preventDefault();"
   ) Select branch
 
   fancy-option(
-    value = "$parent.$parent.masterBranch()"
     ng-if = "$root.featureFlags.multipleWebhooks && $parent.state.repo.branches.models.length && $parent.masterBranch()"
+    value = "$parent.masterBranch()"
   )
-    svg.iconnables
+    svg.iconnables.icons-branch
       use(
         xlink:href = "#icons-branch-default"
       )
-    | master
+    | default
 
+  //- for $root.featureFlags.multipleWebhooks:
+      hide everything below this comment when there is only one branch
+  .divider(
+    ng-if = "$root.featureFlags.multipleWebhooks"
+  )
   .padding-xxs.text-gray.small(
     ng-if = "$root.featureFlags.multipleWebhooks"
   )
