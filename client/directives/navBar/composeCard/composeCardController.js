@@ -68,14 +68,16 @@ function ComposeCardController(
   };
 
   CCC.getTestingInstances = function (cluster) {
-    var clusterList = cluster || CCC.composeCluster;
+    if (!cluster) {
+      return [CCC.composeCluster.testing[0].master]
+    }
     if (CCC.isChild) {
       if (CCC.composeCluster.master.attrs.isTesting) {
         return (keypather.get(CCC.composeCluster.master, 'isolation.instances.models') || []).sort(sortInstancesByNavName);
       }
-      return [clusterList.testing[0]].concat(keypather.get(cluster, 'testing[0].isolation.instances.models').sort(sortInstancesByNavName));
+      return [cluster.testing[0]].concat(keypather.get(cluster, 'testing[0].isolation.instances.models').sort(sortInstancesByNavName));
     }
-    return (clusterList.testing || []).sort(sortInstancesByNavName);
+    return (cluster.testing || []).sort(sortInstancesByNavName);
   };
 
   function deleteCluster (cluster) {
