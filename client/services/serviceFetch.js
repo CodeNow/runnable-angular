@@ -364,35 +364,18 @@ function fetchInstancesByCompose(
                 masterClusterConfigId = composeParent;
               }
 
-              // composeMasters[masterClusterConfigId] = composeMasters[masterClusterConfigId] || {};
-              // var composeMasterConfig = composeMasters[masterClusterConfigId];
-
-              // If this belongs at the top level for a compose master
-              // if (instance.attrs.masterPod) {
-              //   if (instance.attrs.isTesting) {
-              //     composeMasterConfig.testing = composeMasterConfig.testing || [];
-              //     composeMasterConfig.testing.push(instance);
-              //     return;
-              //   }
-              //   composeMasterConfig.staging = composeMasterConfig.staging || [];
-              //   composeMasterConfig.staging.push(instance);
-              //   return;
-              // }
-
-              // If this belongs at the top level for a compose master
               composeMasters[masterClusterConfigId] = composeMasters[masterClusterConfigId] || {};
               var composeMasterConfig = composeMasters[masterClusterConfigId];
-              var clusterName = instance.attrs.inputClusterConfig.clusterName
+
+              // If this belongs at the top level for a compose master
               if (instance.attrs.masterPod) {
                 if (instance.attrs.isTesting) {
-                  composeMasterConfig.testing = composeMasterConfig.testing || {};
-                  composeMasterConfig.testing[clusterName] = composeMasterConfig.testing[clusterName] || [];
-                  composeMasterConfig.testing[clusterName].push(instance);
+                  composeMasterConfig.testing = composeMasterConfig.testing || [];
+                  composeMasterConfig.testing.push(instance);
                   return;
                 }
-                composeMasterConfig.staging = composeMasterConfig.staging || {};
-                composeMasterConfig.staging[clusterName] = composeMasterConfig.staging[clusterName] || [];
-                composeMasterConfig.staging[clusterName].push(instance);
+                composeMasterConfig.staging = composeMasterConfig.staging || [];
+                composeMasterConfig.staging.push(instance);
                 return;
               }
 
@@ -461,42 +444,15 @@ function fetchInstancesByCompose(
                 return !!composeCluster.master;
               });
 
-            newInstancesByCompose = newInstancesByCompose.reduce(function (clusters, composeCluster) {
-              clusters[composeCluster.masterRepo] = clusters[composeCluster.masterRepo] = {}
-              var masterCluster = clusters[composeCluster.masterRepo]
-              var repoName = composeCluster.masterRepo
-              if (composeCluster.staging) {
-                masterCluster.staging = masterCluster.staging || [];
-                masterCluster.staging.push(composeCluster)
-                composeCluster.staging = Object.keys(composeCluster.staging).map(function (stagingClusterName) {
-                  return composeCluster.staging[stagingClusterName];
-                })[0]
-              }
-              if (composeCluster.testing) {
-                masterCluster.testing = masterCluster.testing || [];
-                masterCluster.testing.push(composeCluster)
-                composeCluster.testing = Object.keys(composeCluster.testing).map(function (testingClusterName) {
-                  return composeCluster.testing[testingClusterName];
-                })[0]
-              }
-              clusters[repoName] = masterCluster
-              clusters[repoName].repoName = repoName;
-              return clusters;
-            }, {});
-
-            var sortedInstancesByCompose = Object.keys(newInstancesByCompose).map(function (repoClusterName) {
-              return newInstancesByCompose[repoClusterName];
-            });
-
             // We need to keep the original instancesByCompose reference so angular will update the array in later digests
             // http://stackoverflow.com/questions/23486687/short-way-to-replace-content-of-an-array
             // 1. reset the array while keeping its reference
             instancesByCompose.length = 0;
             // 2. fill the first array with items from the second
-            [].push.apply(instancesByCompose, sortedInstancesByCompose);
+            [].push.apply(instancesByCompose, newInstancesByCompose);
             instancesByCompose.sort(function (a, b) {
-              var compare1 = keypather.get(a, 'masterRepo');
-              var compare2 = keypather.get(b, 'masterRepo');
+              var compare1 = keypather.get(a, 'master.attrs.name');
+              var compare2 = keypather.get(b, 'master.attrs.name');
               if (compare1 < compare2) {
                 return -1;
               } else if (compare1 > compare2) {

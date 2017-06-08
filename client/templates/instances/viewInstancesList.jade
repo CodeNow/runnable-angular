@@ -137,7 +137,7 @@
   section.nav-section(
     ng-if = "$root.featureFlags.composeNav"
     ng-include = "'repoSectionView'"
-    ng-repeat = "masterComposeCluster in CIS.instancesByCompose | orderBy: ['masterComposeCluster.repoName'] track by masterComposeCluster.repoName"
+    ng-repeat = "masterComposeCluster in CIS.instancesByCompose | orderBy: ['master.attrs.inputClusterConfig.clusterName'] track by masterComposeCluster.master.attrs.inputClusterConfig.clusterName"
     ng-show = "CIS.shouldShowComposeClusterChildren(masterComposeCluster)"
   )
 

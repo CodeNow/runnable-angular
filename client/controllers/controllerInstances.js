@@ -131,6 +131,7 @@ function ControllerInstances(
       }
       CIS.instancesByPod = instancesByPod;
       CIS.instancesByCompose = instancesByCompose;
+      CIS.sortedRepoClusters = CIS.sortClusterByRepo(instancesByCompose);
       CIS.activeAccount = activeAccount;
 
       setLastOrg(CIS.userName);
@@ -394,6 +395,30 @@ function ControllerInstances(
       return !childInstances[branchName];
     });
     return unbuiltBranches;
+  };
+
+  this.sortClusterByRepo = function (repoClusters) {
+    var newInstancesByCompose = repoClusters.reduce(function (clusters, composeCluster) {
+      var masterCluster = clusters[composeCluster.masterRepo] = clusters[composeCluster.masterRepo] || {};
+      var clusterName = keypather.get(composeCluster, 'master.attrs.inputClusterConfig.clusterName');
+      composeCluster.clusterName = clusterName
+      var repoName = composeCluster.masterRepo;
+      if (composeCluster.staging) {
+        masterCluster.staging = masterCluster.staging || [];
+        masterCluster.staging.push(composeCluster);
+      }
+      if (composeCluster.testing) {
+        masterCluster.testing = masterCluster.testing || [];
+        masterCluster.testing.push(composeCluster);
+      }
+      clusters[repoName] = masterCluster;
+      clusters[repoName].repoName = repoName;
+      return clusters;
+    }, {});
+
+    return Object.keys(newInstancesByCompose).map(function (repoClusterName) {
+      return newInstancesByCompose[repoClusterName];
+    });
   };
 
   this.popClusterOpen = function (cluster) {
