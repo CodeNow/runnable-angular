@@ -25,14 +25,18 @@ require('app')
         autoUpdate: '=?' // True if the acv should get automatically updated upon branch change
       },
       link: function ($scope, element, attrs) {
+        function populateDefaultBranch () {
+          if (!keypather.get($scope, 'state.branch.client') && keypather.get($scope, 'state.repo.branches.models.length')) {
+            var branchSeed = $scope.state.acv ? $scope.state.acv.attrs.branch : $scope.state.repo.attrs.default_branch;
+            $scope.state.branch = $scope.state.repo.branches.models.find(function (branch) {
+              return branch.attrs.name.toLowerCase() === branchSeed.toLowerCase();
+            });
+          }
+        }
         $scope.$watch('state.repo', function (repo) {
           if (repo) {
-            if (!$scope.state.branch) {
-              var branchSeed = $scope.state.acv ? $scope.state.acv.attrs.branch : repo.attrs.default_branch;
-              $scope.state.branch = repo.newBranch(branchSeed, {warn: false});
-            }
+            populateDefaultBranch();
             if (!keypather.get(repo, 'branches.models.length')) {
-              repo.branches.add($scope.state.branch);
               $scope.branchFetching = true;
               // Don't fetch until the next digest cycle so the fancy select has enough time to draw
               $scope.$applyAsync(function () {
@@ -40,11 +44,18 @@ require('app')
                   .catch(errs.handler)
                   .finally(function () {
                     $scope.branchFetching = false;
+                    populateDefaultBranch();
                   });
               });
             }
           }
         });
+
+        $scope.masterBranch = function () {
+          return $scope.state.repo.branches.models.find(function (branch) {
+            return branch.attrs.name === 'master';
+          });
+        };
 
         $scope.onBranchChange = function (newBranch) {
           if ($scope.autoUpdate && $scope.state.acv) {
