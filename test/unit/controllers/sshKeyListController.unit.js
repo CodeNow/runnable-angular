@@ -10,7 +10,7 @@ describe('sshKeyListController'.bold.underline.blue, function () {
   var watchOncePromiseStub;
   var handleSocketEventStub;
 
-  describe.only('base', function () {
+  describe('base', function () {
     describe('Fetch keys', function () {
       beforeEach(function () {
         angular.mock.module('app');
