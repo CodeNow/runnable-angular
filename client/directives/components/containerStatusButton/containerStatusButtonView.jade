@@ -1,21 +1,23 @@
-button.btn.btn-md.btn-status(
+button.grid-block.align-center.btn.btn-md.btn-status(
   ng-class = "getClassForInstance()"
   ng-click = "CSBC.popoverActive = true"
   tooltip = "💁 Tests can only be run on the latest commit."
   tooltip-disabled = "!$root.featureFlags.composeTestingUpdate"
   tooltip-options = "{\"class\":\"bottom\",\"left\":0,\"top\":36}"
 )
-  status-icon.float-left(
+  status-icon(
     instance = "CSBC.instance"
     ng-if = "!isChanging()"
   )
   //- if stopping, starting, restarting
-  .spinner-wrapper.spinner-white.spinner-sm.float-left.in(
+  .spinner-wrapper.spinner-white.spinner-sm.in(
     ng-if = "isChanging()"
     ng-include = "'spinner'"
   )
 
-  span.float-left {{getStatusText()}}
+  .grid-block.vertical.noscroll
+    .small Status
+    .span {{getStatusText()}}
 
   svg.iconnables.icons-arrow-down(
     ng-if = "!$root.featureFlags.composeTestingUpdate"

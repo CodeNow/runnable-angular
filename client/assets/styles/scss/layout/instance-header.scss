@@ -132,7 +132,10 @@
 
 // status button
 .btn-status {
+  font-size: 14px;
+  line-height: 1.1;
   padding: 0 9px;
+  text-align: left;
 
   &.red,
   &.red:active:not([disabled]) {
@@ -143,9 +146,30 @@
     }
   }
 
+  .small {
+    font-size: 10px;
+    font-weight: $weight-normal;
+    opacity: .75;
+  }
+
   .icons-status {
-    margin-right: 6px;
-    top: 12px;
+    margin-right: 9px;
+  }
+
+  .noscroll {
+    position: relative;
+    top: -1px;
+  }
+
+  .icons-branch {
+    margin-right: 9px;
+    opacity: .5;
+    width: 9px;
+  }
+
+  .icons-arrow-down {
+    margin-left: 3px;
+    width: 21px;
   }
 
   .icons-alert {
@@ -153,11 +177,5 @@
     margin-left: 6px;
     opacity: .5;
     width: 15px;
-  }
-
-  .icons-branch {
-    margin-right: 6px;
-    opacity: .5;
-    width: 12px;
   }
 }
