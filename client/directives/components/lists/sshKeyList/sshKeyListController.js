@@ -73,30 +73,29 @@ function SshKeyListController(
   }
 
   SKLC.validateCreateKey = function () {
-    if (!SKLC.authorized) {
-      loading('upgradedGithubPermissions', true);
-
-      var childWindow = github.upgradeGhScope();
-      SKLC.popupClosed = keypather.get(childWindow, 'closed');
-      var popupCheck = $interval(function () {
-        SKLC.popupClosed = keypather.get(childWindow, 'closed');
-      }, 1000, 30);
-      $scope.$on('$destroy', function() {
-          $interval.cancel(popupCheck);
-        }
-      );
-
-      return watchOncePromise($scope, 'SKLC.popupClosed', true)
-        .then(function() {
-          $interval.cancel(popupCheck);
-        } )
-        .then(updateAuth)
-        .then(createKey)
-        .finally(function() {
-          loading('upgradedGithubPermissions', false);
-        });
-    } else {
+    if (SKLC.authorized) {
       return createKey();
     }
+
+    loading('upgradedGithubPermissions', true);
+
+    var childWindow = github.upgradeGhScope();
+    SKLC.popupClosed = keypather.get(childWindow, 'closed');
+    var popupCheck = $interval(function () {
+      SKLC.popupClosed = keypather.get(childWindow, 'closed');
+    }, 1000, 30);
+    $scope.$on('$destroy', function() {
+      $interval.cancel(popupCheck);
+    });
+
+    return watchOncePromise($scope, 'SKLC.popupClosed', true)
+      .then(function() {
+        $interval.cancel(popupCheck);
+      })
+      .then(updateAuth)
+      .then(createKey)
+      .finally(function() {
+        loading('upgradedGithubPermissions', false);
+      });
   };
 }

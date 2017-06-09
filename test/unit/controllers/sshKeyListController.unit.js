@@ -7,9 +7,11 @@ describe('sshKeyListController'.bold.underline.blue, function () {
   var keypather;
   var fetchGitHubUserById;
   var sshKeyListController;
+  var watchOncePromiseStub;
+  var handleSocketEventStub;
 
-  describe('base', function () {
-    describe('Check the construction fetches the keys', function () {
+  describe.only('base', function () {
+    describe('Fetch keys', function () {
       beforeEach(function () {
         angular.mock.module('app');
         angular.mock.module(function ($provide) {
@@ -41,8 +43,13 @@ describe('sshKeyListController'.bold.underline.blue, function () {
               });
             };
 
+            var mockSaveSshKey = function () {
+              return $q.when();
+            };
+
             return {
-              getSshKeys: mockGetSshKeys
+              getSshKeys: mockGetSshKeys,
+              saveSshKey: mockSaveSshKey
             };
           });
 
@@ -53,8 +60,15 @@ describe('sshKeyListController'.bold.underline.blue, function () {
               ]);
             };
 
+            var mockUpgradeGhScope = function() {
+              return {
+                closed: true
+              }
+            };
+
             return {
-              getGhScopes: mockGetGhScopes
+              getGhScopes: mockGetGhScopes,
+              upgradeGhScope: mockUpgradeGhScope
             };
           });
 
@@ -79,6 +93,18 @@ describe('sshKeyListController'.bold.underline.blue, function () {
               });
             };
           });
+
+          $provide.factory('watchOncePromise', function ($q) {
+            watchOncePromiseStub = sinon.stub().returns($q.when('yo'));
+            return watchOncePromiseStub;
+          });
+
+
+          $provide.factory('handleSocketEvent', function ($q) {
+            handleSocketEventStub = sinon.stub().returns($q.when({ clusterName: 'henry\'s instance' }));
+            return handleSocketEventStub;
+          });
+
         });
 
         angular.mock.inject(function (
@@ -91,7 +117,6 @@ describe('sshKeyListController'.bold.underline.blue, function () {
           $rootScope = _$rootScope_;
           keypather = _keypather_;
           fetchGitHubUserById = _fetchGitHubUserById_;
-
 
           $scope = $rootScope.$new();
 
@@ -106,6 +131,18 @@ describe('sshKeyListController'.bold.underline.blue, function () {
         expect(sshKeyListController.keys.length).to.equal(3);
         expect(sshKeyListController.keys[0].username).to.equal('Feynman');
       });
+
+      it('validateCreateKey', function () {
+        sshKeyListController.keys = [];
+
+        expect(sshKeyListController.keys.length).to.equal(0);
+
+        sshKeyListController.validateCreateKey()
+          .then(function() {
+            expect(sshKeyListController.keys.length).to.equal(3);
+          })
+        $scope.$digest();
+      })
     });
   });
 });
