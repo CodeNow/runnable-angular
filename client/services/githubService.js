@@ -71,6 +71,14 @@ function github(
       return makeGhRequest(ghRequest);
     },
 
+    getRepoInfo: function (repoOwner, repoName) {
+      var ghRequest = {
+        method: 'get',
+        url: githubAPIUrl + '/repos/' + repoOwner + '/' + repoName
+      };
+      return makeGhRequest(ghRequest);
+    },
+
     makeGhRequest: makeGhRequest
   };
 }
