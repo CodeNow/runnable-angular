@@ -19,12 +19,13 @@ ul.list.margin-top-sm(
 )
   li.grid-block.align-center.list-item(
     ng-class = "{\
-      'active': BTSC.commit === commit\
+      'active': BTSC.commit === commit,\
+      'disabled': BTSC.commit === commit\
     }"
     ng-repeat = "commit in BTSC.branch.commits.models | orderBy: '-attrs.commit.committer.date'"
     ng-if = "BTSC.hasTest(commit) || $first || BTSC.commit === commit"
   )
-    a.grid-block.vertical(
+    .grid-block.vertical(
       data-event-name = "Selected Test Commit"
       ng-click = "BTSC.selectCommit(commit, $index === 0)"
       ui-sref = "base.instances.instance-test-sha({instanceName: BTSC.instance.attrs.name, sha: commit.attrs.sha})"

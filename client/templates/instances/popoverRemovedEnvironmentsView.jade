@@ -1,0 +1,22 @@
+p.weight-strong Environments Updated
+//- if compose file still exists
+p.small.text-gray To match&#32;
+  //- link to latest compose file
+  a.link(
+    href = "#"
+    target = "_blank"
+  ) your latest Compose file
+  | , we removed environments for these repositories:
+//- if compose file doesn't exist
+//- p.small.text-gray It looks like you deleted&#32;
+  //- link to last existing compose file
+  a.link(
+    href = "#"
+    target = "_blank"
+  ) your Compose file
+  | , so we removed environments for these repositories:
+ul.list-bulleted.small.text-gray
+  li.list-item(
+    ng-repeat = "repo in affectedRepos"
+  ) {{repo}}
+button.btn.btn-sm.btn-block.gray.margin-top-xs 👌 Got it!
