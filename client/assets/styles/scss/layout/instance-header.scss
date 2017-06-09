@@ -137,7 +137,7 @@
   &.red,
   &.red:active:not([disabled]) {
 
-    .icons-status {
+    .icons-status:not(.failed) {
       background: none;
       border: 1px solid $red-lighter;
     }

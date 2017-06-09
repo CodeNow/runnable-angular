@@ -20,13 +20,6 @@
         | Restart
 
       li.popover-list-item(
-        ng-if = "!$root.featureFlags.testMenu && !CSBC.instance.attrs.masterPod && !CSBC.instance.isMigrating() && CSBC.isTesting()"
-        ng-click = "actions.redeployCluster()"
-      )
-        .icons-status.green
-        | Rerun tests
-
-      li.popover-list-item(
         ng-if = "$root.featureFlags.internalDebugging"
         ng-click = "CSBC.instance.redeploy(angular.noop)"
       )
@@ -46,7 +39,8 @@
 
       //- Use plural containers and images when running with compose
       li.popover-list-item.multi-line(
-        ng-if = "$root.featureFlags.testMenu"
+        ng-click = "actions.redeployCluster()"
+        ng-if = "!CSBC.instance.attrs.masterPod && !CSBC.instance.isMigrating() && CSBC.isTesting()"
       )
         .icons-status.orange
         | Redeploy Test
