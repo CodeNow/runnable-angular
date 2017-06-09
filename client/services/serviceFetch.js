@@ -36,6 +36,7 @@ require('app')
   // Github API
   .factory('fetchGithubUserIsAdminOfOrg', fetchGithubUserIsAdminOfOrg)
   .factory('fetchGitHubUser', fetchGitHubUser)
+  .factory('fetchGitHubUserById', fetchGitHubUserById)
   .factory('fetchGitHubMembers', fetchGitHubMembers)
   .factory('fetchGitHubAdminsByRepo', fetchGitHubAdminsByRepo)
   .factory('fetchGitHubTeamsByRepo', fetchGitHubTeamsByRepo)
@@ -924,6 +925,21 @@ function fetchGitHubUser(
     return $http({
       method: 'get',
       url: configAPIHost + '/github/users/' + memberName
+    }).then(function (user) {
+      return user.data;
+    });
+  });
+}
+
+function fetchGitHubUserById(
+  $http,
+  configAPIHost,
+  memoize
+) {
+  return memoize(function (gitHubId) {
+    return $http({
+      method: 'get',
+      url: configAPIHost + '/github/user/' + gitHubId
     }).then(function (user) {
       return user.data;
     });
