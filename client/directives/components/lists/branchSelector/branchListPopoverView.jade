@@ -3,19 +3,20 @@
   ng-style = "popoverStyle.getStyle()"
 )
   .arrow.white
-  .popover-content.padding-xs(
-    ng-include = "'branchListView'"
-    ng-init = "\
-      branches = [\
-        {name: 'SAN-6362-add-repo-and-branch-to-icc'},\
-        {name: 'SAN-6200-add-ssh-keys'},\
-        {name: 'SAN-6390-use-icc-repo-branch'},\
-        {name: 'SAN-6200-test'},\
-        {name: 'SAN-6423-update-image-builder-env'},\
-        {name: 'SAN-6413-dangling-containers'},\
-        {name: 'deployments-model'}\
-      ];\
-      data.branch = 'SAN-6362-add-repo-and-branch-to-icc';\
-      data.repoName = 'api';\
-    "
-  )
+  .popover-content
+    .padding-xs(
+      ng-include = "'branchListView'"
+      ng-init = "\
+        branches = [\
+          {name: 'SAN-6362-add-repo-and-branch-to-icc'},\
+          {name: 'SAN-6200-add-ssh-keys'},\
+          {name: 'SAN-6390-use-icc-repo-branch'},\
+          {name: 'SAN-6200-test'},\
+          {name: 'SAN-6423-update-image-builder-env'},\
+          {name: 'SAN-6413-dangling-containers'},\
+          {name: 'deployments-model'}\
+        ];\
+        data.branch = 'SAN-6362-add-repo-and-branch-to-icc';\
+        data.repoName = 'api';\
+      "
+    )
