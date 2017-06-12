@@ -6,10 +6,15 @@
     ng-include = "'spinner'"
   )
 
-ul.list.list-actions(
+header.grid-block.vertical.shrink.align-start.header(
   ng-if = "!loading"
 )
-  li.grid-block.align-center.list-item.popover-list-item.small {{data.repoName}} branches
+  .p.weight-strong {{data.repoName}} Branches
+  small.small This environment will be redeployed to reflect your changes.
+
+ul.margin-top-sm.list.list-actions(
+  ng-if = "!loading"
+)
   li.grid-block.align-center.list-item.popover-list-item(
     ng-class = "{\
       'disabled': branch.name === data.branch,\
