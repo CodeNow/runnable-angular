@@ -155,7 +155,7 @@
     }
   }
 
-  .small {
+  .vertical > .small {
     font-size: 10px;
     font-weight: $weight-normal;
     opacity: .75;
@@ -182,12 +182,17 @@
   }
 }
 
+.btn-group-branch {
+  position: static; // for pr popover visibility
+}
+
 // .btn-status.btn-pr-wrapper
-.btn-pr-wrapper {
+.btn.btn-pr-wrapper {
   padding: 0 5px; // even on all sides
+  position: static; // for pr popover visibility
 
   // "open pr" button
-  .green {
+  > .green {
     border-color: $purple-darkest;
     font-size: 13px;
   }

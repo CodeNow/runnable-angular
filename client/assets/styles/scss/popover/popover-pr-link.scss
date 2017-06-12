@@ -1,7 +1,7 @@
 .popover-pr-link {
   // a few of these are only for overriding the button style (its parent)
   color: $gray-dark;
-  left: 24px;
+  left: 12px;
   line-height: 1.4;
   max-width: calc(100vw - 24px);
   right: auto;
@@ -18,7 +18,7 @@
   }
 
   &.bottom .arrow {
-    left: 24px;
+    left: 36px;
 
     @include media(sm) {
       display: none;
