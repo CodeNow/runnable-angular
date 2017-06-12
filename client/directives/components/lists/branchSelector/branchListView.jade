@@ -1,0 +1,35 @@
+//- hide everything except the spinner when loading
+.padding-md.grid-block.align-center.justify-center(
+  ng-if = "loading"
+)
+  .spinner-wrapper.spinner-gray.spinner-sm(
+    ng-include = "'spinner'"
+  )
+
+ul.list.list-actions(
+  ng-if = "!loading"
+)
+  li.grid-block.align-center.list-item.popover-list-item.small {{data.repoName}} branches
+  li.grid-block.align-center.list-item.popover-list-item(
+    ng-class = "{\
+      'disabled': branch.name === data.branch,\
+      'active': branch.name === data.branch\
+    }"
+    ng-repeat = "branch in branches"
+  )
+    svg.grid-content.shrink.iconnables.icons-branch
+      use(
+        xlink:href = "#icons-branch-alt"
+      )
+    p.grid-content.text-overflow.p(
+      title = "{{ branch.name }}"
+    ) {{ branch.name }}
+    button.grid-block.shrink.margin-left-sm.btn.btn-xs.btn-icon.btn-add
+      svg.iconnables.icons-check
+        use(
+          xlink:href = "#icons-check"
+        )
+    .grid-content.shrink.spinner-wrapper.spinner-sm.spinner-purple(
+      ng-if = "settingBranch"
+      ng-include = "'spinner'"
+    )
