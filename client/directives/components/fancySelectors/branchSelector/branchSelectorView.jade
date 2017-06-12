@@ -6,11 +6,34 @@ fancy-select.white.btn-wrapped.btn-sm(
   track-by = "attrs.name"
   value = "state.branch"
 )
-  li.list-item.popover-list-item.small.disabled(
+  .list-item.popover-list-item.small.disabled(
     ng-click = "$event.stopPropagation(); $event.preventDefault();"
   ) Select branch
+
+  fancy-option(
+    ng-if = "$root.featureFlags.multipleWebhooks && $parent.state.repo.branches.models.length && $parent.masterBranch()"
+    value = "$parent.masterBranch()"
+  )
+    svg.iconnables.icons-branch
+      use(
+        xlink:href = "#icons-branch-default"
+      )
+    | default
+
+  //- for $root.featureFlags.multipleWebhooks:
+      hide everything below this comment when there is only one branch
+  .divider(
+    ng-if = "$root.featureFlags.multipleWebhooks"
+  )
+  .padding-xxs.text-gray.small(
+    ng-if = "$root.featureFlags.multipleWebhooks"
+  )
+    strong.weight-bold Note:
+    | &#32;When using a branch other than your default, we won’t launch environments for other repositories in your Compose file.
+
   fancy-option(
     ng-repeat = "branch in $parent.state.repo.branches.models"
+    ng-if = "!$root.featureFlags.multipleWebhooks || branch.attrs.name !== 'master'"
     value = "branch"
   )
     svg.iconnables.icons-branch

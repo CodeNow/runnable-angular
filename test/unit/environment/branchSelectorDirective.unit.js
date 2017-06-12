@@ -139,10 +139,6 @@ describe('branchSelectorDirective'.bold.underline.blue, function () {
       $scope.$digest();
       $rootScope.$apply();
 
-      sinon.assert.calledWith(ctx.repo1.newBranch, ctx.acv.attrs.branch, {warn: false});
-      expect($scope.state.branch, 'branch').to.be.ok;
-      $scope.$digest();
-
       sinon.assert.called(ctx.repo1.branches.fetch);
       $scope.$digest();
       expect($scope.state.branch.attrs.name, 'branch name').to.equal('master');
@@ -204,13 +200,20 @@ describe('branchSelectorDirective'.bold.underline.blue, function () {
       };
       setup(scope);
       $scope.state.repo = ctx.repo1;
+      $scope.state.repo.attrs.default_branch = 'test_branch';
+      var defaultBranch = {
+        attrs: {
+          name: $scope.state.repo.attrs.default_branch
+        }
+      }
+      $scope.state.repo.branches.models.push({
+        attrs: {
+          name: 'master'
+        }
+      })
+      $scope.state.repo.branches.models.push(defaultBranch)
       $scope.$digest();
-      $elScope = ctx.element.isolateScope();
-      $scope.$digest();
-
-      sinon.assert.called(ctx.repo1.newBranch, ctx.repo1.attrs.default_branch, {warn: false});
-      expect($scope.state.branch, 'branch').to.be.ok;
-      $scope.$digest();
+      expect($scope.state.branch, 'branch').to.deep.equal(defaultBranch);
       $rootScope.$destroy();
     });
 
