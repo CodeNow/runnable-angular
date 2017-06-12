@@ -5,7 +5,9 @@ svg.iconnables.icons-branch.margin-right-xxs
 .grid-block.vertical.noscroll.padding-right-xxs
   .small Branch
   | feature-branch
-svg.iconnables.icons-arrow-down
+svg.iconnables.icons-arrow-down(
+  ng-if = "!repoMatchesEnvironment"
+)
   use(
     xlink:href = "#icons-arrow-down"
   )
