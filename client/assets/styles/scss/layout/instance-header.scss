@@ -50,8 +50,8 @@
       width: 14px;
 
       &.icons-pull-request {
-        height: 15px;
-        width: 15px;
+        height: 16px;
+        width: 16px;
       }
     }
   }
@@ -133,9 +133,18 @@
 // status button
 .btn-status {
   font-size: 14px;
-  line-height: 1.1;
-  padding: 0 9px;
+  line-height: 1;
+  padding: 0 $xxs;
   text-align: left;
+
+  &.disabled {
+    background: none;
+    opacity: 1;
+
+    .icons-arrow-down {
+      display: none;
+    }
+  }
 
   &.red,
   &.red:active:not([disabled]) {
@@ -150,32 +159,38 @@
     font-size: 10px;
     font-weight: $weight-normal;
     opacity: .75;
-  }
-
-  .icons-status {
-    margin-right: 9px;
-  }
-
-  .noscroll {
     position: relative;
     top: -1px;
   }
 
-  .icons-branch {
-    margin-right: 9px;
-    opacity: .5;
-    width: 9px;
+  .iconnables {
+    opacity: .75;
   }
 
-  .icons-arrow-down {
-    margin-left: 3px;
-    width: 21px;
+  .icons-branch {
+    width: 9px;
   }
 
   .icons-alert {
     height: 100%;
     margin-left: 6px;
-    opacity: .5;
     width: 15px;
+  }
+}
+
+// .btn-status.btn-pr-wrapper
+.btn-pr-wrapper {
+  padding: 0 5px; // even on all sides
+
+  // "open pr" button
+  .green {
+    border-color: $purple-darkest;
+    font-size: 13px;
+  }
+
+  .icons-pull-request {
+    height: 16px;
+    margin-right: 3px;
+    width: 16px;
   }
 }

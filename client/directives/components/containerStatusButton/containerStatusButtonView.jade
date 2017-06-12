@@ -5,7 +5,7 @@ button.grid-block.align-center.btn.btn-md.btn-status(
   tooltip-disabled = "!$root.featureFlags.composeTestingUpdate"
   tooltip-options = "{\"class\":\"bottom\",\"left\":0,\"top\":36}"
 )
-  status-icon(
+  status-icon.margin-right-xxs(
     instance = "CSBC.instance"
     ng-if = "!isChanging()"
   )
@@ -15,9 +15,9 @@ button.grid-block.align-center.btn.btn-md.btn-status(
     ng-include = "'spinner'"
   )
 
-  .grid-block.vertical.noscroll
+  .grid-block.vertical.noscroll.padding-right-xxs
     .small Status
-    .span {{getStatusText()}}
+    | {{getStatusText()}}
 
   svg.iconnables.icons-arrow-down(
     ng-if = "!$root.featureFlags.composeTestingUpdate"

@@ -1,17 +1,21 @@
-.grid-block.btn.btn-sm.btn-status.purple.align-center(
-  ng-include = "'branchButtonView'"
-)
+.btn-group
+  
+  //- branch button
+  .grid-block.align-center.btn.btn-sm.purple.btn-status(
+    ng-class = "{'disabled': true}"
+    ng-include = "'branchButtonView'"
+  )
+  //- PR button wrapper
+  .grid-block.align-center.btn.btn-sm.purple.btn-status.btn-pr-wrapper.disabled(
+    ng-if = "!!pr && !instance.showCommitHash"
+    ng-include = "'instanceHeaderPRLinkView'"
+  )
 
+//- status button
 .btn-sm(
   container-status-button
   instance = "instance"
 )
-
-//- PR link
-//- .grid-block.shrink.noscroll(
-//-   ng-if = "!!pr && !instance.showCommitHash"
-//-   ng-include = "'instanceHeaderPRLinkView'"
-//- )
 
 //- dns button
 label.btn.btn-sm.btn-connections(
