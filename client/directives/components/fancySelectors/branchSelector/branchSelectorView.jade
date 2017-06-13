@@ -14,9 +14,9 @@ fancy-select.white.btn-wrapped.btn-sm(
     ng-if = "$root.featureFlags.multipleWebhooks && $parent.state.repo.branches.models.length && $parent.masterBranch()"
     value = "$parent.masterBranch()"
   )
-    svg.iconnables.icons-branch
+    svg.iconnables
       use(
-        xlink:href = "#icons-branch-default"
+        xlink:href = "#icons-default"
       )
     | default
 

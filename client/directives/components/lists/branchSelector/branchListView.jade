@@ -32,11 +32,11 @@ ul.margin-top-sm.list.list-actions(
     }"
     ng-repeat = "branch in branches | filter:search:strict"
   )
-    svg.grid-content.shrink.iconnables.icons-branch
+    svg.grid-block.shrink.iconnables.icons-branch
       use(
-        xlink:href = "#icons-branch-alt"
+        xlink:href = "#icons-branch"
       )
-    p.grid-content.text-overflow.p(
+    .margin-left-xxs.grid-block.text-overflow.p(
       title = "{{ branch.name }}"
     ) {{ branch.name }}
     button.grid-block.shrink.margin-left-sm.btn.btn-xs.btn-icon.btn-add
@@ -44,7 +44,7 @@ ul.margin-top-sm.list.list-actions(
         use(
           xlink:href = "#icons-check"
         )
-    .grid-content.shrink.spinner-wrapper.spinner-sm.spinner-purple(
+    .margin-left-sm.grid-block.shrink.spinner-wrapper.spinner-sm.spinner-purple(
       ng-if = "settingBranch"
       ng-include = "'spinner'"
     )

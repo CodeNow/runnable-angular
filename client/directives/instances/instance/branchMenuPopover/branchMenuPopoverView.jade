@@ -129,17 +129,17 @@
               ng-repeat = "branch in CIS.getFilteredBranches()"
               ng-click = "CIS.forkBranchFromInstance(branch, POC.closePopover);"
             )
-              svg.grid-content.shrink.iconnables.icons-branch
+              svg.grid-block.shrink.iconnables.icons-branch
                 use(
-                  xlink:href = "#icons-branch-alt"
+                  xlink:href = "#icons-branch"
                 )
-              p.grid-content.text-overflow.p(
+              p.margin-left-xxs.grid-block.text-overflow.p(
                 title = "{{ branch.name }}"
               ) {{ branch.name }}
-              button.grid-content.shrink.btn.btn-xs.btn-add(
+              button.margin-left-sm.grid-block.shrink.btn.btn-xs.btn-add(
                 ng-if = "!$root.isLoading[branch.name]"
               ) Add
-              .grid-content.shrink.spinner-wrapper.spinner-sm.spinner-purple(
+              .margin-left-sm.grid-block.shrink.spinner-wrapper.spinner-sm.spinner-purple(
                 ng-if = "$root.isLoading[branch.name]"
                 ng-include = "'spinner'"
               )
