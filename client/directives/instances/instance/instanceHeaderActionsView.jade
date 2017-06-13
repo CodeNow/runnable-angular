@@ -1,15 +1,16 @@
-.grid-block.shrink.btn-group-branch
+.grid-block.shrink.btn-group-branch(
+  ng-if = "$root.featureFlags.mixAndMatchBranches"
+)
   //- branch button
   .grid-block.align-center.btn.btn-sm.purple.btn-status(
     ng-class = "{'disabled': repoMatchesEnvironment}"
-    ng-if = "$root.featureFlags.mixAndMatchBranches"
     ng-include = "'branchButtonView'"
-    ng-init = "repoMatchesEnvironment = true"
+    ng-init = "repoMatchesEnvironment = false"
     title = "feature-branch"
   )
   //- PR button wrapper
-    ng-if = "!!pr"
   .grid-block.align-center.pr-link-wrapper(
+    ng-if = "!!pr"
     ng-include = "'instanceHeaderPRLinkView'"
   )
 
