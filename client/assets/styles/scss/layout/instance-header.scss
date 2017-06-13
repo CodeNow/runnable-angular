@@ -54,7 +54,8 @@
 
   // container url
   > .input-group {
-    flex: 0 1 600px;
+    flex: 1 1 auto;
+    max-width: 600px;
 
     .input {
       font-size: 13px;

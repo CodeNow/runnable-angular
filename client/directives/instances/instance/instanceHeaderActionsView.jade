@@ -15,7 +15,7 @@
   )
 
 //- status button
-.btn-sm.btn-status-container(
+.btn-sm(
   container-status-button
   instance = "instance"
 )
@@ -31,6 +31,7 @@ label.btn.btn-sm.btn-connections(
 label.input-group.input-group-sm.purple(
   container-url
   instance = "instance"
+  ng-class = "{'deprecated': !$root.featureFlags.mixAndMatchBranches}"
   ng-if = "instance.attrs.name"
 )
 
