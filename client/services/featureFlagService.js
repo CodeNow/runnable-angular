@@ -20,7 +20,7 @@ function featureFlags(
     composeNav: true,
     composeNewService: true,
     composeHistory: true,
-    composeSSHKeys: false,
+    composeSSHKeys: true,
     composeSSHAuthView: false,
     composeTestingUpdate: false,
     connections: false,
