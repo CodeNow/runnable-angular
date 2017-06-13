@@ -1,0 +1,31 @@
+//- ************************
+//- deprecated file, delete with $root.featureFlags.mixAndMatchBranches
+
+// pr badge
+.instance-header-name .btn-xxs {
+  background: transparent;
+  color: rgba($white,.5);
+  margin-right: 1px;
+  padding-left: 0;
+  top: 2px;
+
+  &:hover,
+  &:active {
+    border-color: rgba($white,.5);
+    color: rgba($white,.75);
+  }
+
+  > .iconnables {
+    height: 14px;
+    margin-right: 2px;
+    width: 14px;
+
+    &.icons-pull-request {
+      height: 15px;
+      width: 15px;
+    }
+  }
+}
+
+//- end deprecated file
+//- ************************

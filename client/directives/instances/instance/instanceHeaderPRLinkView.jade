@@ -1,5 +1,9 @@
 //- pull request link
-a.grid-block.align-center.btn.btn-xs.green(
+a.grid-block.align-center.btn(
+  ng-class = "{\
+    'btn-xs green': $root.featureFlags.mixAndMatchBranches,\
+    'btn-xxs': !$root.featureFlags.mixAndMatchBranches,\
+  }"
   ng-click = "$emit('demo::prLinkClicked'); openedPRUrl()"
   ng-href = "{{pr.html_url}}"
   target = "_blank"

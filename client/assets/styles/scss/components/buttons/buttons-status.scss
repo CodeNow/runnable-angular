@@ -53,6 +53,11 @@
 
   > .btn {
     border: 0;
+    height: $input-sm - $input-border * 2;
+
+    &:first-child:not(:only-child) {
+      border-radius: $input-border-radius 0 0 $input-border-radius;
+    }
   }
 }
 
