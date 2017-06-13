@@ -5,8 +5,10 @@ require('app')
 
 function FeatureFlagsController(
   $localStorage,
+  $state,
   ahaGuide,
-  demoFlowService
+  demoFlowService,
+  customWindowService
 ) {
   this.$localStorage = $localStorage;
   this.resetAha = function() {
@@ -15,5 +17,13 @@ function FeatureFlagsController(
       demoFlowService.resetFlags();
       demoFlowService.internalResetFlags();
     }
+  };
+
+  // Remove when you remove the composeSSHAuthView flag
+  this.upgradeAuth = function () {
+    customWindowService($state.href('githubAuthUpgrade'), {
+      width: 1020, // match github minimum width
+      height: 660
+    });
   };
 }
