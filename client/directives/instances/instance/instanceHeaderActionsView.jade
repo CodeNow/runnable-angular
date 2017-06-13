@@ -1,4 +1,4 @@
-.btn-group.btn-group-branch
+.grid-block.shrink.btn-group-branch
   //- branch button
   .grid-block.align-center.btn.btn-sm.purple.btn-status(
     ng-class = "{'disabled': repoMatchesEnvironment}"
@@ -8,8 +8,8 @@
     title = "feature-branch"
   )
   //- PR button wrapper
-  .grid-block.align-center.btn.btn-sm.purple.btn-status.btn-pr-wrapper.disabled(
     ng-if = "!!pr"
+  .grid-block.align-center.pr-link-wrapper(
     ng-include = "'instanceHeaderPRLinkView'"
   )
 

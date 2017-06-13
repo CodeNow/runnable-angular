@@ -19,41 +19,11 @@
     display: inline-block;
     flex: 0 1 auto;
     opacity: .5;
-
-    + .btn-xxs {
-      margin-left: 3px;
-    }
   }
 
   .p {
     font-size: 16px;
     font-weight: $weight-bold;
-  }
-
-  // pr badge
-  .btn-xxs {
-    background: transparent;
-    color: rgba($white,.5);
-    margin-right: 1px;
-    padding-left: 0;
-    top: 2px;
-
-    &:hover,
-    &:active {
-      border-color: rgba($white,.5);
-      color: rgba($white,.75);
-    }
-
-    > .iconnables {
-      height: 14px;
-      margin-right: 2px;
-      width: 14px;
-
-      &.icons-pull-request {
-        height: 16px;
-        width: 16px;
-      }
-    }
   }
 }
 
@@ -127,79 +97,5 @@
       top: 0;
       width: auto;
     }
-  }
-}
-
-// status button
-.btn-status {
-  font-size: 14px;
-  line-height: 1;
-  padding: 0 $xxs;
-  text-align: left;
-
-  &.disabled {
-    background: none;
-    opacity: 1;
-
-    .icons-arrow-down {
-      display: none;
-    }
-  }
-
-  &.red,
-  &.red:active:not([disabled]) {
-
-    .icons-status:not(.failed) {
-      background: none;
-      border: 1px solid $red-lighter;
-    }
-  }
-
-  .vertical > .small {
-    font-size: 10px;
-    font-weight: $weight-normal;
-    opacity: .75;
-    position: relative;
-    top: -1px;
-  }
-
-  .text-overflow {
-    max-width: 150px;
-  }
-
-  .iconnables {
-    opacity: .75;
-  }
-
-  .icons-branch {
-    width: 9px;
-  }
-
-  .icons-alert {
-    height: 100%;
-    margin-left: 6px;
-    width: 15px;
-  }
-}
-
-.btn-group-branch {
-  position: static; // for pr popover visibility
-}
-
-// .btn-status.btn-pr-wrapper
-.btn.btn-pr-wrapper {
-  padding: 0 5px; // even on all sides
-  position: static; // for pr popover visibility
-
-  // "open pr" button
-  > .green {
-    border-color: $purple-darkest;
-    font-size: 13px;
-  }
-
-  .icons-pull-request {
-    height: 16px;
-    margin-right: 3px;
-    width: 16px;
   }
 }

@@ -1,0 +1,74 @@
+// status button
+.btn-status {
+  font-size: 14px;
+  line-height: 1;
+  padding: 0 $xxs;
+  text-align: left;
+
+  &.disabled {
+    background: none;
+    opacity: 1;
+  }
+
+  &.red,
+  &.red:active:not([disabled]) {
+
+    .icons-status:not(.failed) {
+      background: none;
+      border: 1px solid $red-lighter;
+    }
+  }
+
+  .btn-status-label {
+    font-size: 10px;
+    font-weight: $weight-normal;
+    opacity: .75;
+    position: relative;
+    top: -2px;
+  }
+
+  .text-overflow {
+    max-width: 150px;
+  }
+
+  .iconnables {
+    opacity: .75;
+  }
+
+  .icons-branch {
+    width: 9px;
+  }
+
+  .icons-alert {
+    height: 100%;
+    margin-left: 6px;
+    width: 15px;
+  }
+}
+
+// wraps branch button and PR link
+.btn-group-branch {
+  border: $input-border solid $purple-darkest;
+  border-radius: $input-border-radius;
+
+  > .btn {
+    border: 0;
+  }
+}
+
+.pr-link-wrapper {
+  border-left: $input-border solid $purple-darkest;
+  padding: 0 5px; // even on all sides
+
+  // "open pr" button
+  .btn-xs {
+    border-color: $purple-darkest;
+    font-size: 13px;
+  }
+
+  .icons-pull-request {
+    height: 16px;
+    margin-right: 3px;
+    width: 16px;
+  }
+}
