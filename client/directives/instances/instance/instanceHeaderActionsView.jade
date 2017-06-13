@@ -2,7 +2,7 @@
   ng-if = "$root.featureFlags.mixAndMatchBranches"
 )
   //- branch button
-  .grid-block.align-center.btn.btn-sm.purple.btn-status(
+  .grid-block.align-center.btn.btn-sm.purple.btn-status.btn-status-branch(
     ng-class = "{'disabled': repoMatchesEnvironment}"
     ng-include = "'branchButtonView'"
     ng-init = "repoMatchesEnvironment = false"

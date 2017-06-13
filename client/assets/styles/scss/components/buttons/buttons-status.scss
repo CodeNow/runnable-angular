@@ -5,10 +5,22 @@
   padding: 0 $xxs;
   text-align: left;
 
-  &.disabled {
-    background: none;
-    opacity: 1;
+  .btn-status-label {
+    font-size: 10px;
+    font-weight: $weight-normal;
+    opacity: .75;
+    position: relative;
+    top: -2px;
   }
+
+  .iconnables {
+    opacity: .75;
+  }
+}
+
+// container status
+.btn-status-container {
+  margin-right: auto;
 
   &.red,
   &.red:active:not([disabled]) {
@@ -19,30 +31,27 @@
     }
   }
 
-  .btn-status-label {
-    font-size: 10px;
-    font-weight: $weight-normal;
-    opacity: .75;
-    position: relative;
-    top: -2px;
+  .icons-alert {
+    height: 100%;
+    margin-left: 6px;
+    width: 15px;
   }
+}
 
-  .text-overflow {
-    max-width: 150px;
-  }
+// branch status
+.btn-status-branch {
 
-  .iconnables {
-    opacity: .75;
+  &.disabled {
+    background: none;
+    opacity: 1;
   }
 
   .icons-branch {
     width: 9px;
   }
 
-  .icons-alert {
-    height: 100%;
-    margin-left: 6px;
-    width: 15px;
+  .text-overflow {
+    max-width: 150px;
   }
 }
 
@@ -61,6 +70,7 @@
   }
 }
 
+// wraps pr link
 .pr-link-wrapper {
   border-left: $input-border solid $purple-darkest;
   padding: 0 5px; // even on all sides
@@ -76,8 +86,4 @@
     margin-right: 3px;
     width: 16px;
   }
-}
-
-.btn-status-container {
-  margin-right: auto;
 }
