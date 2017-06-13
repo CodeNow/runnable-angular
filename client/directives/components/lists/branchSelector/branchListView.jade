@@ -15,12 +15,22 @@ header.grid-block.vertical.shrink.align-start.header(
 ul.margin-top-sm.list.list-actions(
   ng-if = "!loading"
 )
+  li.margin-bottom-sm
+    input.input.input-xs.input-search(
+      ng-model = "search.name"
+      placeholder = "Search"
+      required
+      type = "search"
+    )
+  li.text-center.text-gray.small.padding-lg(
+    ng-if = "(branches | filter:search:strict).length === 0"
+  ) No results found.
   li.grid-block.align-center.list-item.popover-list-item(
     ng-class = "{\
       'disabled': branch.name === data.branch,\
       'active': branch.name === data.branch\
     }"
-    ng-repeat = "branch in branches"
+    ng-repeat = "branch in branches | filter:search:strict"
   )
     svg.grid-content.shrink.iconnables.icons-branch
       use(
