@@ -3,6 +3,13 @@
   instance = "instance"
 )
 
+.btn.orange.btn-sm(
+  ng-if = "$root.featureFlags.mixAndMatchBranches"
+  pop-over
+  pop-over-options = "{\"centered\":true,\"top\":46}"
+  pop-over-template = "branchListPopoverView"
+) Branch Popover
+
 //- dns button
 label.btn.btn-sm.btn-connections(
   dns-configuration
