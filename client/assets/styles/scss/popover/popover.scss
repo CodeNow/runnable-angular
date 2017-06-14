@@ -383,6 +383,11 @@
   padding: 6px;
   position: relative;
   z-index: $z-popover-content;
+
+  .header {
+    border-bottom: 1px solid $gray-lighter;
+    padding: $xxs $xxs $sm;
+  }
 }
 
 //- footer.popover-footer
