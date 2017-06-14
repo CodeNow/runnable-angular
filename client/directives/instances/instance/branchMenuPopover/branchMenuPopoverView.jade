@@ -118,7 +118,9 @@
             ng-if = "CIS.instanceBranches && CIS.instanceBranches.length && CIS.totalInstanceBranches && !CIS.getFilteredBranches().length"
           ) No branches match this filter.
 
+          //- .margin-bottom-sm should only be applied if number of branches exceed 100
           ul.list.list-actions(
+            ng-class = "{'margin-bottom-sm': $root.featureFlags.limitBranches}"
             ng-if = "!$root.isLoading.fetchingBranches && CIS.instanceBranches.length"
           )
             li.grid-block.align-center.list-item.popover-list-item(
@@ -143,3 +145,12 @@
                 ng-if = "$root.isLoading[branch.name]"
                 ng-include = "'spinner'"
               )
+
+          //- should only appear if more than 100 branches listed
+          .divider(
+            ng-if = "$root.featureFlags.limitBranches"
+          )
+          small.padding-xxs.grid-block.vertical.small.text-gray(
+            ng-if = "$root.featureFlags.limitBranches"
+            ng-include = "'branchLimitView'"
+          )

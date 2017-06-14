@@ -12,7 +12,9 @@ header.grid-block.vertical.shrink.align-start.header(
   .p.weight-strong {{data.repoName}} Branches
   small.small This environment will be redeployed to reflect your changes.
 
+//- .margin-bottom-sm should only be applied if number of branches exceed 100
 ul.margin-top-sm.list.list-actions(
+  ng-class = "{'margin-bottom-sm': $root.featureFlags.limitBranches}"
   ng-if = "!loading"
 )
   li.margin-bottom-sm
@@ -48,3 +50,12 @@ ul.margin-top-sm.list.list-actions(
       ng-if = "settingBranch"
       ng-include = "'spinner'"
     )
+
+//- should only appear if more than 100 branches listed
+.divider(
+  ng-if = "$root.featureFlags.limitBranches"
+)
+small.padding-xxs.grid-block.vertical.small.text-gray(
+  ng-if = "$root.featureFlags.limitBranches"
+  ng-include = "'branchLimitView'"
+)
