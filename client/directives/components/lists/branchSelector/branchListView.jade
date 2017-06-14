@@ -12,21 +12,36 @@ header.grid-block.vertical.shrink.align-start.header(
   .p.weight-strong {{data.repoName}} Branches
   small.small This environment will be redeployed to reflect your changes.
 
+//- .margin-bottom-sm should only be applied if number of branches exceed 100
 ul.margin-top-sm.list.list-actions(
+  ng-class = "{'margin-bottom-sm': $root.featureFlags.limitBranches}"
   ng-if = "!loading"
 )
+  li.margin-bottom-sm
+    input.input.input-xs.input-search(
+      ng-model = "search.name"
+      placeholder = "Search"
+      required
+      type = "search"
+    )
+  li.text-center.text-gray.small.padding-lg(
+    ng-if = "(branches | filter:search:strict).length === 0"
+  ) No results found.
+  li.text-center.text-gray.small.padding-lg(
+    ng-if = "!branches.length"
+  ) There are no branches to add.
   li.grid-block.align-center.list-item.popover-list-item(
     ng-class = "{\
       'disabled': branch.name === data.branch,\
       'active': branch.name === data.branch\
     }"
-    ng-repeat = "branch in branches"
+    ng-repeat = "branch in branches | filter:search:strict"
   )
-    svg.grid-content.shrink.iconnables.icons-branch
+    svg.grid-block.shrink.iconnables.icons-branch
       use(
-        xlink:href = "#icons-branch-alt"
+        xlink:href = "#icons-branch"
       )
-    p.grid-content.text-overflow.p(
+    .margin-left-xxs.grid-block.text-overflow.p(
       title = "{{ branch.name }}"
     ) {{ branch.name }}
     button.grid-block.shrink.margin-left-sm.btn.btn-xs.btn-icon.btn-add
@@ -34,7 +49,16 @@ ul.margin-top-sm.list.list-actions(
         use(
           xlink:href = "#icons-check"
         )
-    .grid-content.shrink.spinner-wrapper.spinner-sm.spinner-purple(
+    .margin-left-sm.grid-block.shrink.spinner-wrapper.spinner-sm.spinner-purple(
       ng-if = "settingBranch"
       ng-include = "'spinner'"
     )
+
+//- should only appear if more than 100 branches listed
+.divider(
+  ng-if = "$root.featureFlags.limitBranches"
+)
+small.padding-xxs.grid-block.vertical.small.text-gray(
+  ng-if = "$root.featureFlags.limitBranches"
+  ng-include = "'branchLimitView'"
+)
