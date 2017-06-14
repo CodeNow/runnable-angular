@@ -27,6 +27,9 @@ ul.margin-top-sm.list.list-actions(
   li.text-center.text-gray.small.padding-lg(
     ng-if = "(branches | filter:search:strict).length === 0"
   ) No results found.
+  li.text-center.text-gray.small.padding-lg(
+    ng-if = "!branches.length"
+  ) There are no branches to add.
   li.grid-block.align-center.list-item.popover-list-item(
     ng-class = "{\
       'disabled': branch.name === data.branch,\
