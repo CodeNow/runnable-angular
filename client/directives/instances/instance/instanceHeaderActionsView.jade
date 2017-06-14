@@ -4,8 +4,12 @@
   //- branch button
   .grid-block.align-center.btn.btn-sm.purple.btn-status.btn-status-branch(
     ng-class = "{'disabled': repoMatchesEnvironment}"
+    ng-click = "state.popoverActive = true"
     ng-include = "'branchButtonView'"
-    ng-init = "repoMatchesEnvironment = false"
+    ng-init = "\
+      repoMatchesEnvironment = false;\
+      state.popoverActive = null;\
+    "
     title = "feature-branch"
   )
   //- PR button wrapper
@@ -19,13 +23,6 @@
   container-status-button
   instance = "instance"
 )
-
-.btn.orange.btn-sm(
-  ng-if = "$root.featureFlags.mixAndMatchBranches"
-  pop-over
-  pop-over-options = "{\"centered\":true,\"top\":46}"
-  pop-over-template = "branchListPopoverView"
-) Branch Popover
 
 //- dns button
 label.btn.btn-sm.btn-connections(
