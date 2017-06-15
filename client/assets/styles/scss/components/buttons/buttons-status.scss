@@ -1,12 +1,12 @@
 // status button
 .btn-status {
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1;
-  padding: 0 $xxs;
+  padding: 0 $xs;
   text-align: left;
 
   .btn-status-label {
-    font-size: 10px;
+    font-size: 11px;
     font-weight: $weight-normal;
     opacity: .75;
     position: relative;
@@ -62,7 +62,7 @@
 
   > .btn {
     border: 0;
-    height: $input-sm - $input-border * 2;
+    height: $input-md - $input-border * 2;
 
     &:first-child:not(:only-child) {
       border-radius: $input-border-radius 0 0 $input-border-radius;
@@ -73,7 +73,7 @@
 // wraps pr link
 .pr-link-wrapper {
   border-left: $input-border solid $purple-darkest;
-  padding: 0 5px; // even on all sides
+  padding: 0 8px; // even on all sides
 
   // "open pr" button
   .btn-xs {

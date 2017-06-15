@@ -2,7 +2,7 @@
   ng-if = "$root.featureFlags.mixAndMatchBranches"
 )
   //- branch button
-  .grid-block.align-center.btn.btn-sm.purple.btn-status.btn-status-branch(
+  .grid-block.align-center.btn.btn-md.purple.btn-status.btn-status-branch(
     ng-class = "{'disabled': repoMatchesEnvironment}"
     ng-click = "state.popoverActive = true"
     ng-include = "'branchButtonView'"
@@ -19,20 +19,20 @@
   )
 
 //- status button
-.btn-sm(
+.btn-md(
   container-status-button
   instance = "instance"
 )
 
 //- dns button
-label.btn.btn-sm.btn-connections(
+label.btn.btn-md.btn-connections(
   dns-configuration
   instance = "instance"
   ng-class = "{'deprecated': !$root.featureFlags.connections}"
   ng-if = "!$root.featureFlags.composeInstance"
 )
 
-label.input-group.input-group-sm.purple(
+label.input-group.input-group-md.purple(
   container-url
   instance = "instance"
   ng-class = "{'deprecated': !$root.featureFlags.mixAndMatchBranches}"
