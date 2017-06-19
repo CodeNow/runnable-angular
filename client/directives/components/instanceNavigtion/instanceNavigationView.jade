@@ -20,7 +20,10 @@ a.grid-block.nav-container(
   )
     //- repo names for repo containers in the master cluster / branch name or service name
     span.text-overflow {{getNavigationName()}}
-      //- show if the branch has been changed by the user
+      //- show only if:
+        - this is a repo container
+        - the repo doesn't match the environment (parent) repo
+        - this container's branch isn't the github default branch
       span.span-branch(
         ng-if = "$root.featureFlags.mixAndMatchBranches"
       ) /{{INC.instance.getBranchName()}}
