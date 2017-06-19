@@ -20,6 +20,10 @@ a.grid-block.nav-container(
   )
     //- repo names for repo containers in the master cluster / branch name or service name
     span.text-overflow {{getNavigationName()}}
+      //- show if the branch has been changed by the user
+      span.branch-name(
+        ng-if = "$root.featureFlags.mixAndMatchBranches"
+      ) /{{INC.instance.getBranchName()}}
 
   //- show history button for branches of non-compose repos (including the default branch)
   branch-commit-popover-button(
