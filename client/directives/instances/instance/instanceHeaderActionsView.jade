@@ -3,6 +3,7 @@
 )
   //- branch button
   .grid-block.align-center.btn.btn-md.purple.btn-status.btn-status-branch(
+    data-event-name = "Clicked to Open Branch Select"
     ng-class = "{'disabled': repoMatchesEnvironment}"
     ng-click = "state.popoverActive = true"
     ng-include = "'branchButtonView'"
