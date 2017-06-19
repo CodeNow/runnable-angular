@@ -1,19 +1,41 @@
-.btn-sm(
+.grid-block.shrink.btn-group-branch(
+  ng-if = "$root.featureFlags.mixAndMatchBranches"
+)
+  //- branch button
+  .grid-block.align-center.btn.btn-md.purple.btn-status.btn-status-branch(
+    ng-class = "{'disabled': repoMatchesEnvironment}"
+    ng-click = "state.popoverActive = true"
+    ng-include = "'branchButtonView'"
+    ng-init = "\
+      repoMatchesEnvironment = false;\
+      state.popoverActive = null;\
+    "
+    title = "feature-branch"
+  )
+  //- PR button wrapper
+  .grid-block.align-center.pr-link-wrapper(
+    ng-if = "!!pr"
+    ng-include = "'instanceHeaderPRLinkView'"
+  )
+
+//- status button
+.btn-md(
   container-status-button
   instance = "instance"
 )
 
 //- dns button
-label.btn.btn-sm.btn-connections(
+label.btn.btn-md.btn-connections(
   dns-configuration
   instance = "instance"
   ng-class = "{'deprecated': !$root.featureFlags.connections}"
   ng-if = "!$root.featureFlags.composeInstance"
 )
 
-label.input-group.input-group-sm.purple(
+label.input-group.input-group-md.purple(
   container-url
   instance = "instance"
+  ng-class = "{'deprecated': !$root.featureFlags.mixAndMatchBranches}"
   ng-if = "instance.attrs.name"
 )
 

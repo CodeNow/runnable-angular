@@ -20,7 +20,7 @@ function featureFlags(
     composeNav: true,
     composeNewService: true,
     composeHistory: true,
-    composeSSHKeys: false,
+    composeSSHKeys: true,
     composeSSHAuthView: false,
     composeTestingUpdate: false,
     connections: false,
@@ -49,6 +49,10 @@ function featureFlags(
     inviteFlows: false,
     isPersonalAccount: false, // if account is a personal account
     kubernetes: false,
+<<<<<<< HEAD
+=======
+    limitBranches: false,
+>>>>>>> 30b18f7c887d2f6b554a04429ec89cfb84e6286d
     mixAndMatchBranches: false,
     multilineFnR: false,
     multilineStartCmd: false,

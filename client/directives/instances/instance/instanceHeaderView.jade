@@ -1,4 +1,5 @@
 .grid-block.vertical.justify-center.instance-header-name(
+  ng-if = "!$root.featureFlags.mixAndMatchBranches"
   ng-include = "'instanceHeaderNameView'"
 )
 
