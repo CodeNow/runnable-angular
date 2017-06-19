@@ -1,21 +1,23 @@
-button.btn.btn-md.btn-status(
+.grid-block.align-center.btn.btn-status.btn-status-container(
   ng-class = "getClassForInstance()"
   ng-click = "CSBC.popoverActive = true"
   tooltip = "💁 Tests can only be run on the latest commit."
   tooltip-disabled = "!$root.featureFlags.composeTestingUpdate"
   tooltip-options = "{\"class\":\"bottom\",\"left\":0,\"top\":36}"
 )
-  status-icon.float-left(
+  status-icon.margin-right-xxs(
     instance = "CSBC.instance"
     ng-if = "!isChanging()"
   )
   //- if stopping, starting, restarting
-  .spinner-wrapper.spinner-white.spinner-sm.float-left.in(
+  .spinner-wrapper.spinner-white.spinner-sm.in(
     ng-if = "isChanging()"
     ng-include = "'spinner'"
   )
 
-  span.float-left {{getStatusText()}}
+  .grid-block.vertical.noscroll.padding-right-xxs
+    small.btn-status-label Status
+    | {{getStatusText()}}
 
   svg.iconnables.icons-arrow-down(
     ng-if = "!$root.featureFlags.composeTestingUpdate"
@@ -23,7 +25,7 @@ button.btn.btn-md.btn-status(
     pop-over-actions = "CSBC.actions"
     pop-over-active = "CSBC.popoverActive"
     pop-over-controller = "CSBC"
-    pop-over-options = "{\"centered\":true,\"top\":46}"
+    pop-over-options = "{\"centered\":true,\"top\":52}"
     pop-over-template = "containerStatusOptionsPopoverView"
     pop-over-trigger = "activeAttr"
   )

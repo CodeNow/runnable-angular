@@ -6,6 +6,7 @@ fancy-select.white.btn-wrapped.btn-sm(
   track-by = "attrs.name"
   value = "state.branch"
 )
+
   .list-item.popover-list-item.small.disabled(
     ng-click = "$event.stopPropagation(); $event.preventDefault();"
   ) Select branch
@@ -14,9 +15,9 @@ fancy-select.white.btn-wrapped.btn-sm(
     ng-if = "$root.featureFlags.multipleWebhooks && $parent.state.repo.branches.models.length && $parent.masterBranch()"
     value = "$parent.masterBranch()"
   )
-    svg.iconnables.icons-branch
+    svg.iconnables
       use(
-        xlink:href = "#icons-branch-default"
+        xlink:href = "#icons-default"
       )
     | default
 
@@ -25,15 +26,26 @@ fancy-select.white.btn-wrapped.btn-sm(
   .divider(
     ng-if = "$root.featureFlags.multipleWebhooks"
   )
+
   .padding-xxs.text-gray.small(
     ng-if = "$root.featureFlags.multipleWebhooks"
   )
     strong.weight-bold Note:
     | &#32;When using a branch other than your default, we won’t launch environments for other repositories in your Compose file.
 
+    input.margin-top-xxs.input.input-xs.input-search(
+      ng-if = "$root.featureFlags.limitBranches"
+      placeholder = "Search"
+      required
+      type = "search"
+    )
+
+  //- Empty state:
+  //- .text-center.text-gray.small.padding-lg No results found.
+
   fancy-option(
-    ng-repeat = "branch in $parent.state.repo.branches.models"
     ng-if = "!$root.featureFlags.multipleWebhooks || branch.attrs.name !== 'master'"
+    ng-repeat = "branch in $parent.state.repo.branches.models"
     value = "branch"
   )
     svg.iconnables.icons-branch
@@ -41,3 +53,12 @@ fancy-select.white.btn-wrapped.btn-sm(
         xlink:href = "#icons-branch"
       )
     | {{$parent.branch.attrs.name}}
+
+  //- should only appear if more than 100 branches listed
+  .divider(
+    ng-if = "$root.featureFlags.limitBranches"
+  )
+  small.padding-xs.grid-block.vertical.small.text-gray(
+    ng-if = "$root.featureFlags.limitBranches"
+    ng-include = "'branchLimitView'"
+  )

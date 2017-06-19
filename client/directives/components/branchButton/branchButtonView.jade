@@ -1,0 +1,18 @@
+svg.iconnables.icons-branch.margin-right-xxs
+  use(
+    xlink:href = "#icons-branch-alt"
+  )
+.grid-block.vertical.noscroll.padding-right-xxs
+  small.btn-status-label Branch
+  span.text-overflow feature-branch
+svg.iconnables.icons-arrow-down(
+  ng-if = "!repoMatchesEnvironment"
+  pop-over
+  pop-over-active = "state.popoverActive"
+  pop-over-options = "{\"centered\":true,\"top\":52}"
+  pop-over-template = "branchListPopoverView"
+  pop-over-trigger = "activeAttr"
+)
+  use(
+    xlink:href = "#icons-arrow-down"
+  )
