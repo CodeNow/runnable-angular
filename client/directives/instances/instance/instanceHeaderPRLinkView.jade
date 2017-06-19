@@ -2,8 +2,8 @@
 a.grid-block.align-center.btn(
   ng-class = "{\
     'btn-xs': $root.featureFlags.mixAndMatchBranches,\
-    'green': $root.featureFlags.mixAndMatchBranches,\
-    'btn-xxs': !$root.featureFlags.mixAndMatchBranches\
+    'btn-xxs': !$root.featureFlags.mixAndMatchBranches,\
+    'green': $root.featureFlags.mixAndMatchBranches\
   }"
   ng-click = "$emit('demo::prLinkClicked'); openedPRUrl()"
   ng-href = "{{pr.html_url}}"
