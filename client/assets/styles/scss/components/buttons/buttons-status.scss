@@ -1,0 +1,89 @@
+// status button
+.btn-status {
+  font-size: 15px;
+  line-height: 1;
+  padding: 0 $xs;
+  text-align: left;
+
+  .btn-status-label {
+    font-size: 11px;
+    font-weight: $weight-normal;
+    opacity: .75;
+    position: relative;
+    top: -2px;
+  }
+
+  .iconnables {
+    opacity: .75;
+  }
+}
+
+// container status
+.btn-status-container {
+  margin-right: auto;
+
+  &.red,
+  &.red:active:not([disabled]) {
+
+    .icons-status:not(.failed) {
+      background: none;
+      border: 1px solid $red-lighter;
+    }
+  }
+
+  .icons-alert {
+    height: 100%;
+    margin-left: 6px;
+    width: 15px;
+  }
+}
+
+// branch status
+.btn-status-branch {
+
+  &.disabled {
+    background: none;
+    opacity: 1;
+  }
+
+  .icons-branch {
+    width: 9px;
+  }
+
+  .text-overflow {
+    max-width: 150px;
+  }
+}
+
+// wraps branch button and PR link
+.btn-group-branch {
+  border: $input-border solid $purple-darkest;
+  border-radius: $input-border-radius;
+
+  > .btn {
+    border: 0;
+    height: $input-md - $input-border * 2;
+
+    &:first-child:not(:only-child) {
+      border-radius: $input-border-radius 0 0 $input-border-radius;
+    }
+  }
+}
+
+// wraps pr link
+.pr-link-wrapper {
+  border-left: $input-border solid $purple-darkest;
+  padding: 0 8px; // even on all sides
+
+  // "open pr" button
+  .btn-xs {
+    border-color: $purple-darkest;
+    font-size: 13px;
+  }
+
+  .icons-pull-request {
+    height: 16px;
+    margin-right: 3px;
+    width: 16px;
+  }
+}
