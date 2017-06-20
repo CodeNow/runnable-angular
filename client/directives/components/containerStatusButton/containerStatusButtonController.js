@@ -10,6 +10,7 @@ function ContainerStatusButtonController(
   $rootScope,
   $scope,
   $state,
+  currentOrg,
   errs,
   keypather,
   loading,
@@ -19,6 +20,7 @@ function ContainerStatusButtonController(
   updateInstanceWithNewBuild
 ) {
   var CSBC = this;
+  CSBC.currentOrg = currentOrg;
   CSBC.doesMatchMasterPod = function () {
     if (!CSBC.instance.doesMatchMasterPod().isFulfilled()) {
       CSBC.instance.doesMatchMasterPod()

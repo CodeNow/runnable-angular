@@ -46,14 +46,14 @@
           actions.updateConfigToMatchMaster() : \
           actions.rebuildWithoutCache()\
         "
-        ng-if = "!currentOrg.isPersonalAccount()"
+        ng-if = "!CSBC.currentOrg.isPersonalAccount()"
       )
         .icons-status.orange
         | {{CSBC.isTesting() ? 'Rebuild Test' : 'Rebuild'}}
         .small Build and deploy {{CSBC.isTesting() ? 'test ' : ''}}container{{$root.featureFlags.composeInstance ? 's' : ''}} without cache.
 
       li.popover-list-item.multi-line(
-        ng-if = "$root.featureFlags.internalDebugging || currentOrg.isPersonalAccount()"
+        ng-if = "$root.featureFlags.internalDebugging || CSBC.currentOrg.isPersonalAccount()"
         ng-click = "CSBC.instance.redeploy(angular.noop)"
       )
         .icons-status.orange
