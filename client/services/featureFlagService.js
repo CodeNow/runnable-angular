@@ -20,7 +20,7 @@ function featureFlags(
     composeNav: true,
     composeNewService: true,
     composeHistory: true,
-    composeSSHKeys: false,
+    composeSSHKeys: true,
     composeSSHAuthView: false,
     composeTestingUpdate: false,
     connections: false,
@@ -50,6 +50,8 @@ function featureFlags(
     isPersonalAccount: false, // if account is a personal account
     kubernetes: false,
     multiWebhookNav: false,
+    limitBranches: false,
+    mixAndMatchBranches: false,
     multilineFnR: false,
     multilineStartCmd: false,
     multipleRepositoryContainers: false, // for adding multiple containers with the same repository

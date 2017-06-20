@@ -52,6 +52,7 @@
 @import "components/buttons/buttons";
 @import "components/buttons/buttons-badge";
 @import "components/buttons/buttons-group";
+@import "components/buttons/buttons-status";
 
 // specific buttons
 @import "components/buttons/buttons-debug";
@@ -83,7 +84,6 @@
 // components specific
 @import "components/lists-commits";
 @import "components/lists-teammates";
-@import "components/lists-tests";
 @import "components/notifications-trial";
 
 // external components
@@ -184,6 +184,7 @@
 @import "popover/popover-permissions";
 @import "popover/popover-primary-options";
 @import "popover/popover-pr-link";
+@import "popover/popover-removed-environments";
 @import "popover/popover-rename";
 @import "popover/popover-rules";
 @import "popover/popover-team-management";
@@ -218,6 +219,7 @@
 @import "deprecated/deleted-commit";
 @import "deprecated/demo-org-select";
 @import "deprecated/service-cta";
+@import "deprecated/instance-header";
 @import "deprecated/instance-sidebar";
 @import "deprecated/popover-container-menu";
 

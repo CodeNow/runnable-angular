@@ -104,7 +104,7 @@
             ng-disabled = "$root.isLoading['buildingForkedBranch']"
             ng-model = "CIS.branchQuery"
             ng-if = "!$root.isLoading.fetchingBranches && CIS.instanceBranches.length"
-            placeholder = "Filter by name"
+            placeholder = "Search"
             required
             type = "search"
           )
@@ -118,7 +118,9 @@
             ng-if = "CIS.instanceBranches && CIS.instanceBranches.length && CIS.totalInstanceBranches && !CIS.getFilteredBranches().length"
           ) No branches match this filter.
 
+          //- .margin-bottom-sm should only be applied if number of branches exceed 100
           ul.list.list-actions(
+            ng-class = "{'margin-bottom-sm': $root.featureFlags.limitBranches}"
             ng-if = "!$root.isLoading.fetchingBranches && CIS.instanceBranches.length"
           )
             li.grid-block.align-center.list-item.popover-list-item(
@@ -129,17 +131,26 @@
               ng-repeat = "branch in CIS.getFilteredBranches()"
               ng-click = "CIS.forkBranchFromInstance(branch, POC.closePopover);"
             )
-              svg.grid-content.shrink.iconnables.icons-branch
+              svg.grid-block.shrink.iconnables.icons-branch
                 use(
-                  xlink:href = "#icons-branch-alt"
+                  xlink:href = "#icons-branch"
                 )
-              p.grid-content.text-overflow.p(
+              p.margin-left-xxs.grid-block.text-overflow.p(
                 title = "{{ branch.name }}"
               ) {{ branch.name }}
-              button.grid-content.shrink.btn.btn-xs.btn-add(
+              button.margin-left-sm.grid-block.shrink.btn.btn-xs.btn-add(
                 ng-if = "!$root.isLoading[branch.name]"
               ) Add
-              .grid-content.shrink.spinner-wrapper.spinner-sm.spinner-purple(
+              .margin-left-sm.grid-block.shrink.spinner-wrapper.spinner-sm.spinner-purple(
                 ng-if = "$root.isLoading[branch.name]"
                 ng-include = "'spinner'"
               )
+
+          //- should only appear if more than 100 branches listed
+          .divider(
+            ng-if = "$root.featureFlags.limitBranches"
+          )
+          small.padding-xxs.grid-block.vertical.small.text-gray(
+            ng-if = "$root.featureFlags.limitBranches"
+            ng-include = "'branchLimitView'"
+          )

@@ -1,11 +1,16 @@
 //- pull request link
-a.grid-block.shrink.btn.btn-xxs(
+a.grid-block.align-center.btn(
+  ng-class = "{\
+    'btn-xs': $root.featureFlags.mixAndMatchBranches,\
+    'btn-xxs': !$root.featureFlags.mixAndMatchBranches,\
+    'green': $root.featureFlags.mixAndMatchBranches\
+  }"
   ng-click = "$emit('demo::prLinkClicked'); openedPRUrl()"
   ng-href = "{{pr.html_url}}"
   target = "_blank"
   title = "view pull request on GitHub"
 )
-  svg.iconnables.icons-pull-request.float-left
+  svg.iconnables.icons-pull-request
     use(
       xlink:href = "#icons-pull-request"
     )

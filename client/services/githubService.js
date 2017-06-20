@@ -8,10 +8,12 @@ function github(
   $q,
   fetchUser,
   keypather,
-  configGithubUrl
+  configGithubUrl,
+  configAPIHost,
+  customWindowService
 ) {
   var githubAPIUrl = configGithubUrl;
-  function makeGhRequest(options) {
+  function makeRawGhRequest(options) {
     return fetchUser()
       .then(function (user) {
         var ghToken = keypather.get(user, 'attrs.bigPoppaUser.accessToken');
@@ -26,12 +28,20 @@ function github(
         return $http(options)
           .then(function (response) {
             if (response.status > 300) {
-              return $q.reject(response.data);
+              return $q.reject(response);
             }
-            return response.data;
+            return response;
           });
       });
   }
+
+  function makeGhRequest(options) {
+    return makeRawGhRequest(options)
+      .then(function (response) {
+        return response.data;
+      });
+  }
+
   return {
     forkRepo: function (repoOwner, repoName, targetOrg, isPersonalAccount) {
       var ghRequest = {
@@ -77,6 +87,23 @@ function github(
         url: githubAPIUrl + '/repos/' + repoOwner + '/' + repoName
       };
       return makeGhRequest(ghRequest);
+    },
+
+    getGhScopes: function() {
+      return makeRawGhRequest({
+        method: 'get',
+        url:  githubAPIUrl + '/user'
+      })
+        .then(function(resp) {
+          return (keypather.get(resp, 'headers().x-oauth-scopes') || '').split(', ');
+        });
+    },
+
+    upgradeGhScope: function() {
+      return customWindowService(configAPIHost + '/auth/github/upgrade', {
+        width: 1020, // match github minimum width
+        height: 660
+      });
     },
 
     makeGhRequest: makeGhRequest

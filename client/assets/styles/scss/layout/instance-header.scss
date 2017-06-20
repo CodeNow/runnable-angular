@@ -5,7 +5,7 @@
   color: $white;
   flex: 0 0 auto;
   min-width: 768px; // matches body
-  padding: $xs;
+  padding: $xxs $xs;
 }
 
 .instance-header-name {
@@ -19,41 +19,11 @@
     display: inline-block;
     flex: 0 1 auto;
     opacity: .5;
-
-    + .btn-xxs {
-      margin-left: 3px;
-    }
   }
 
   .p {
     font-size: 16px;
     font-weight: $weight-bold;
-  }
-
-  // pr badge
-  .btn-xxs {
-    background: transparent;
-    color: rgba($white,.5);
-    margin-right: 1px;
-    padding-left: 0;
-    top: 2px;
-
-    &:hover,
-    &:active {
-      border-color: rgba($white,.5);
-      color: rgba($white,.75);
-    }
-
-    > .iconnables {
-      height: 14px;
-      margin-right: 2px;
-      width: 14px;
-
-      &.icons-pull-request {
-        height: 15px;
-        width: 15px;
-      }
-    }
   }
 }
 
@@ -85,6 +55,7 @@
   // container url
   > .input-group {
     flex: 1 1 auto;
+    max-width: 600px;
 
     .input {
       font-size: 13px;
@@ -127,31 +98,5 @@
       top: 0;
       width: auto;
     }
-  }
-}
-
-// status button
-.btn-status {
-  padding: 0 9px;
-
-  &.red,
-  &.red:active:not([disabled]) {
-
-    .icons-status {
-      background: none;
-      border: 1px solid $red-lighter;
-    }
-  }
-
-  .icons-status {
-    margin-right: 6px;
-    top: 12px;
-  }
-
-  .icons-alert {
-    height: 100%;
-    margin-left: 6px;
-    opacity: .5;
-    width: 15px;
   }
 }

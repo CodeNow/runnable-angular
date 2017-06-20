@@ -59,8 +59,8 @@ section.grid-block.vertical.modal-body(
     )
 
     //- default branch selector
-    label.grid-block.vertical.label(
-      ng-if = "NCC.state.dockerFileTab === 'compose' && $root.featureFlags.composeDefaultBranch && !$root.featureFlags.multipleWebhooks"
+    .grid-block.vertical.label(
+      ng-if = "NCC.state.dockerFileTab === 'compose' && $root.featureFlags.composeDefaultBranch"
       ng-include = "'defaultBranchView'"
     )
 
