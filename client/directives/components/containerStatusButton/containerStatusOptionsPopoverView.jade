@@ -20,13 +20,6 @@
         | Restart
 
       li.popover-list-item(
-        ng-if = "$root.featureFlags.internalDebugging"
-        ng-click = "CSBC.instance.redeploy(angular.noop)"
-      )
-        .icons-status.green
-        | (I) Redeploy
-
-      li.popover-list-item(
         ng-if = "!$root.featureFlags.testMenu && !CSBC.instance.isMigrating() && !CSBC.isTesting() && ['running'].includes(CSBC.instance.status())"
         ng-click = "actions.stopInstance()"
       )
@@ -53,10 +46,19 @@
           actions.updateConfigToMatchMaster() : \
           actions.rebuildWithoutCache()\
         "
+        ng-if = "!currentOrg.isPersonalAccount()"
       )
         .icons-status.orange
         | {{CSBC.isTesting() ? 'Rebuild Test' : 'Rebuild'}}
         .small Build and deploy {{CSBC.isTesting() ? 'test ' : ''}}container{{$root.featureFlags.composeInstance ? 's' : ''}} without cache.
+
+      li.popover-list-item.multi-line(
+        ng-if = "$root.featureFlags.internalDebugging || currentOrg.isPersonalAccount()"
+        ng-click = "CSBC.instance.redeploy(angular.noop)"
+      )
+        .icons-status.orange
+        | Redeploy
+        .small Deploy container back to original state.
 
       //- rebuild without cache when no new service exists for this container
       li.popover-list-item.multi-line(
