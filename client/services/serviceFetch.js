@@ -342,7 +342,7 @@ function fetchInstancesByCompose(
       })
         .then(function (allInstances) {
           var instancesByCompose = [];
-          var repoInfo = {};
+          var defaultBranches = {};
           var repos = allInstances.reduce(function (acc, instance) {
             var repo = keypather.get(instance, 'contextVersion.getMainAppCodeVersion().attrs.repo')
             if (repo) {               
@@ -358,8 +358,8 @@ function fetchInstancesByCompose(
             var repoTitle;
             return $q.all(Object.keys(repos).map(function (repoName) {
               repoOwner = repos[repoName][0];
-              repoTitle = repos[repoName][1];
-              if (repoInfo[repoTitle]) {
+              repoTitle = repos[repoName][1].toLowerCase();
+              if (defaultBranches[repoTitle]) {
                 return $q.when();
               }
               return github.getRepoInfo(repoOwner, repoTitle);
@@ -369,11 +369,12 @@ function fetchInstancesByCompose(
                 if (!repo) {
                   return;
                 }                
-                repoInfo[repo.name] = repo.default_branch.toLowerCase();
+                defaultBranches[repo.name.toLowerCase()] = repo.default_branch.toLowerCase();
               });
 
               allInstances.models.forEach(function (instance) {
                 var clusterConfigId = keypather.get(instance, 'attrs.inputClusterConfig._id');
+
                 // If this isn't in a cluster, we don't actually care since it'll use the old instancesByPod navigation
                 if (!clusterConfigId) {
                   return;
@@ -381,22 +382,25 @@ function fetchInstancesByCompose(
 
                 var isComposeMaster = keypather.get(instance, 'attrs.inputClusterConfig.masterInstanceId') === instance.id();
                 var composeParent = keypather.get(instance, 'attrs.inputClusterConfig.parentInputClusterConfigId');
-                if (instance.attrs.masterPod && isComposeMaster && !composeParent) {
-                  composeMasters[clusterConfigId] = composeMasters[clusterConfigId] || {};
-                  composeMasters[clusterConfigId].master = instance;
-                  composeMasters[clusterConfigId].masterRepo = instance.contextVersion.getMainAppCodeVersion().attrs.lowerRepo;
+                // var repoName = keypather.get(instance, 'contextVersion.getMainAppCodeVersion().githubRepo.attrs.name')
+                var repoName = instance.attrs.inputClusterConfig.lowerRepo.split('/')[1];
+                var clusterName = instance.attrs.inputClusterConfig.clusterName;
+                var branchName = instance.getBranchName();
+                if (instance.attrs.masterPod && isComposeMaster) {
+                  composeMasters[repoName] = composeMasters[repoName] || {};
+                  composeMasters[repoName][clusterConfigId] = composeMasters[repoName][clusterConfigId] || {};
+                  composeMasters[repoName][clusterConfigId].master = instance;
+                  composeMasters[repoName][clusterConfigId].masterRepo = instance.contextVersion.getMainAppCodeVersion().attrs.lowerRepo;
+                  composeMasters[repoName][clusterConfigId].isDefaultBranch = defaultBranches[repoName] === branchName;
                   return;
                 }
 
                 var masterClusterConfigId = clusterConfigId;
-                if (composeParent) {
-                  masterClusterConfigId = composeParent;
-                }
 
-                composeMasters[masterClusterConfigId] = composeMasters[masterClusterConfigId] || {};
-                var composeMasterConfig = composeMasters[masterClusterConfigId];
+                composeMasters[repoName] = composeMasters[repoName] || {};
+                composeMasters[repoName][clusterConfigId] = composeMasters[repoName][clusterConfigId] || {};
+                var composeMasterConfig = composeMasters[repoName][clusterConfigId];
 
-                // If this belongs at the top level for a compose master
                 if (instance.attrs.masterPod) {
                   if (instance.attrs.isTesting) {
                     composeMasterConfig.testing = composeMasterConfig.testing || [];
@@ -453,48 +457,50 @@ function fetchInstancesByCompose(
               });
 
               var newInstancesByCompose = Object.keys(composeMasters)
-                .map(function (composeId) {
-                  if (composeMasters[composeId].children) {
-                    composeMasters[composeId].children = Object.keys(composeMasters[composeId].children).map(function (branchName) {
-                      return composeMasters[composeId].children[branchName];
-                    })
-                      .filter(function (childCompose) {
-                        if (!childCompose.master) {
-                          console.log('Child compose has no master', childCompose);
-                        }
-                        return !!childCompose.master;
-                      });
-                  }
-                  return composeMasters[composeId];
-                })
-                .filter(function (composeCluster) {
-                  if (!composeCluster.master) {
-                    console.log('Main compose cluster has no master', composeCluster);
-                  }
-                  return !!composeCluster.master;
+                .map(function (composeMasterRepo) {
+                  return Object.keys(composeMasters[composeMasterRepo]).map(function (composeId) {
+                    if (composeMasters[composeMasterRepo][composeId].children) {
+                      composeMasters[composeMasterRepo][composeId].children = Object.keys(composeMasters[composeMasterRepo][composeId].children).map(function (branchName) {
+                        return composeMasters[composeMasterRepo][composeId].children[branchName];
+                      })
+                        .filter(function (childCompose) {
+                          if (!childCompose.master) {
+                            console.log('Child compose has no master', childCompose);
+                          }
+                          return !!childCompose.master;
+                        });
+                    }
+                    return composeMasters[composeMasterRepo][composeId];
+                  })
+                  .filter(function (composeCluster) {
+                    if (!composeCluster.master) {
+                      console.log('Main compose cluster has no master', composeCluster);
+                    }
+                    return !!composeCluster.master;
+                  });
                 });
 
-              var newestInstancesByCompose = newInstancesByCompose.reduce(function (clusters, composeCluster) {
-                var masterCluster = clusters[composeCluster.masterRepo] = clusters[composeCluster.masterRepo] || {};
-                var clusterName = keypather.get(composeCluster, 'master.attrs.inputClusterConfig.clusterName');
-                composeCluster.clusterName = clusterName
-                var repoName = composeCluster.masterRepo;
-                if (composeCluster.staging) {
-                  masterCluster.staging = masterCluster.staging || [];
-                  masterCluster.staging.push(composeCluster);
-                }
-                if (composeCluster.testing) {
-                  masterCluster.testing = masterCluster.testing || [];
-                  masterCluster.testing.push(composeCluster);
-                }
-                clusters[repoName] = masterCluster;
-                clusters[repoName].repoName = repoName;
-                  return clusters;
-                }, {});
+              // var newestInstancesByCompose = newInstancesByCompose.reduce(function (clusters, composeCluster) {
+              //   var masterCluster = clusters[composeCluster.masterRepo] = clusters[composeCluster.masterRepo] || {};
+              //   var clusterName = keypather.get(composeCluster, 'master.attrs.inputClusterConfig.clusterName');
+              //   composeCluster.clusterName = clusterName
+              //   var repoName = composeCluster.masterRepo;
+              //   if (composeCluster.staging) {
+              //     masterCluster.staging = masterCluster.staging || [];
+              //     masterCluster.staging.push(composeCluster);
+              //   }
+              //   if (composeCluster.testing) {
+              //     masterCluster.testing = masterCluster.testing || [];
+              //     masterCluster.testing.push(composeCluster);
+              //   }
+              //   clusters[repoName] = masterCluster;
+              //   clusters[repoName].repoName = repoName;
+              //     return clusters;
+              //   }, {});
            
-              var newInstancesByCompose = Object.keys(newestInstancesByCompose).map(function (repoClusterName) {
-                return newestInstancesByCompose[repoClusterName];
-              });
+              // var newInstancesByCompose = Object.keys(newestInstancesByCompose).map(function (repoClusterName) {
+              //   return newestInstancesByCompose[repoClusterName];
+              // });
 
               // We need to keep the original instancesByCompose reference so angular will update the array in later digests
               // http://stackoverflow.com/questions/23486687/short-way-to-replace-content-of-an-array
@@ -521,7 +527,7 @@ function fetchInstancesByCompose(
           allInstances.on('remove', populateInstancesByCompose);
           allInstances.refreshOnDisconnect = true;
           modelStore.on('model:update:socket', populateInstancesByCompose);
-          populateInstancesByCompose()
+          return populateInstancesByCompose()
             .then(function () {
               return instancesByCompose;
             })
