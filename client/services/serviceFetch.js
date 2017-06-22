@@ -325,6 +325,7 @@ function fetchInstancesByCompose(
   $q,
   $state,
   fetchInstances,
+  github,
   keypather,
   memoize,
   modelStore
@@ -341,126 +342,177 @@ function fetchInstancesByCompose(
       })
         .then(function (allInstances) {
           var instancesByCompose = [];
+          var repoInfo = {};
+          var repos = allInstances.reduce(function (acc, instance) {
+            var repo = keypather.get(instance, 'contextVersion.getMainAppCodeVersion().attrs.repo')
+            if (repo) {               
+              var repoPath = repo.split('/');
+              acc[repo] = repoPath;
+            }
+            return acc;
+          }, {});
 
           function populateInstancesByCompose () {
             var composeMasters = {};
-            allInstances.models.forEach(function (instance) {
-              var clusterConfigId = keypather.get(instance, 'attrs.inputClusterConfig._id');
-              // If this isn't in a cluster, we don't actually care since it'll use the old instancesByPod navigation
-              if (!clusterConfigId) {
-                return;
+            var repoOwner;
+            var repoTitle;
+            return $q.all(Object.keys(repos).map(function (repoName) {
+              repoOwner = repos[repoName][0];
+              repoTitle = repos[repoName][1];
+              if (repoInfo[repoTitle]) {
+                return $q.when();
               }
-
-              var isComposeMaster = keypather.get(instance, 'attrs.inputClusterConfig.masterInstanceId') === instance.id();
-              var composeParent = keypather.get(instance, 'attrs.inputClusterConfig.parentInputClusterConfigId');
-              if (instance.attrs.masterPod && isComposeMaster && !composeParent) {
-                composeMasters[clusterConfigId] = composeMasters[clusterConfigId] || {};
-                composeMasters[clusterConfigId].master = instance;
-                composeMasters[clusterConfigId].masterRepo = instance.contextVersion.getMainAppCodeVersion().attrs.lowerRepo;
-                return;
-              }
-
-              var masterClusterConfigId = clusterConfigId;
-              if (composeParent) {
-                masterClusterConfigId = composeParent;
-              }
-
-              composeMasters[masterClusterConfigId] = composeMasters[masterClusterConfigId] || {};
-              var composeMasterConfig = composeMasters[masterClusterConfigId];
-
-              // If this belongs at the top level for a compose master
-              if (instance.attrs.masterPod) {
-                if (instance.attrs.isTesting) {
-                  composeMasterConfig.testing = composeMasterConfig.testing || [];
-                  composeMasterConfig.testing.push(instance);
+              return github.getRepoInfo(repoOwner, repoTitle);
+            }))
+            .then(function (result) {
+              result.forEach(function (repo) {
+                if (!repo) {
                   return;
-                }
-                composeMasterConfig.staging = composeMasterConfig.staging || [];
-                composeMasterConfig.staging.push(instance);
-                return;
-              }
-
-              // This is a branched compose. We should now group by isolation.
-              composeMasterConfig.children = composeMasterConfig.children || {};
-              var isolationId = instance.attrs.isolated;
-
-              if (!isolationId) {
-                // They aren't isolated, so lonely, so so lonely.
-                composeMasterConfig.children[instance.attrs.id] = {
-                  master: instance
-                };
-                return;
-              }
-
-              var branchName = instance.getBranchName();
-              composeMasterConfig.children[branchName] = composeMasterConfig.children[branchName] || {};
-              var composeMasterConfigIsolationChild = composeMasterConfig.children[branchName];
-              if (instance.attrs.isIsolationGroupMaster &&
-                (
-                  !instance.attrs.inputClusterConfig.parentInputClusterConfigId ||
-                  instance.attrs.inputClusterConfig.parentInputClusterConfigId !== instance.attrs.inputClusterConfig._id
-                )
-              ) {
-                if (composeMasterConfigIsolationChild.master) {
-                  if (instance.attrs.isTesting) {
-                    composeMasterConfigIsolationChild.testing = composeMasterConfigIsolationChild.testing || [];
-                    composeMasterConfigIsolationChild.testing.push(instance);
-                    return;
-                  }
-                  composeMasterConfigIsolationChild.testing = composeMasterConfigIsolationChild.testing || [];
-                  composeMasterConfigIsolationChild.testing.push(composeMasterConfigIsolationChild.master);
-                }
-                composeMasterConfigIsolationChild.master = instance;
-                return;
-              }
-
-              if (instance.attrs.isTesting) {
-                composeMasterConfigIsolationChild.testing = composeMasterConfigIsolationChild.testing || [];
-                composeMasterConfigIsolationChild.testing.push(instance);
-                return;
-              }
-              composeMasterConfigIsolationChild.staging = composeMasterConfigIsolationChild.staging || [];
-              composeMasterConfigIsolationChild.staging.push(instance);
-              return;
-            });
-            var newInstancesByCompose = Object.keys(composeMasters)
-              .map(function (composeId) {
-                if (composeMasters[composeId].children) {
-                  composeMasters[composeId].children = Object.keys(composeMasters[composeId].children).map(function (branchName) {
-                    return composeMasters[composeId].children[branchName];
-                  })
-                    .filter(function (childCompose) {
-                      if (!childCompose.master) {
-                        console.log('Child compose has no master', childCompose);
-                      }
-                      return !!childCompose.master;
-                    });
-                }
-                return composeMasters[composeId];
-              })
-              .filter(function (composeCluster) {
-                if (!composeCluster.master) {
-                  console.log('Main compose cluster has no master', composeCluster);
-                }
-                return !!composeCluster.master;
+                }                
+                repoInfo[repo.name] = repo.default_branch.toLowerCase();
               });
 
-            // We need to keep the original instancesByCompose reference so angular will update the array in later digests
-            // http://stackoverflow.com/questions/23486687/short-way-to-replace-content-of-an-array
-            // 1. reset the array while keeping its reference
-            instancesByCompose.length = 0;
-            // 2. fill the first array with items from the second
-            [].push.apply(instancesByCompose, newInstancesByCompose);
-            instancesByCompose.sort(function (a, b) {
-              var compare1 = keypather.get(a, 'master.attrs.name');
-              var compare2 = keypather.get(b, 'master.attrs.name');
-              if (compare1 < compare2) {
-                return -1;
-              } else if (compare1 > compare2) {
-                return 1;
-              } else {
-                return 0;
-              }
+              allInstances.models.forEach(function (instance) {
+                var clusterConfigId = keypather.get(instance, 'attrs.inputClusterConfig._id');
+                // If this isn't in a cluster, we don't actually care since it'll use the old instancesByPod navigation
+                if (!clusterConfigId) {
+                  return;
+                }
+
+                var isComposeMaster = keypather.get(instance, 'attrs.inputClusterConfig.masterInstanceId') === instance.id();
+                var composeParent = keypather.get(instance, 'attrs.inputClusterConfig.parentInputClusterConfigId');
+                if (instance.attrs.masterPod && isComposeMaster && !composeParent) {
+                  composeMasters[clusterConfigId] = composeMasters[clusterConfigId] || {};
+                  composeMasters[clusterConfigId].master = instance;
+                  composeMasters[clusterConfigId].masterRepo = instance.contextVersion.getMainAppCodeVersion().attrs.lowerRepo;
+                  return;
+                }
+
+                var masterClusterConfigId = clusterConfigId;
+                if (composeParent) {
+                  masterClusterConfigId = composeParent;
+                }
+
+                composeMasters[masterClusterConfigId] = composeMasters[masterClusterConfigId] || {};
+                var composeMasterConfig = composeMasters[masterClusterConfigId];
+
+                // If this belongs at the top level for a compose master
+                if (instance.attrs.masterPod) {
+                  if (instance.attrs.isTesting) {
+                    composeMasterConfig.testing = composeMasterConfig.testing || [];
+                    composeMasterConfig.testing.push(instance);
+                    return;
+                  }
+                  composeMasterConfig.staging = composeMasterConfig.staging || [];
+                  composeMasterConfig.staging.push(instance);
+                  return;
+                }
+
+                // This is a branched compose. We should now group by isolation.
+                composeMasterConfig.children = composeMasterConfig.children || {};
+                var isolationId = instance.attrs.isolated;
+
+                if (!isolationId) {
+                  // They aren't isolated, so lonely, so so lonely.
+                  composeMasterConfig.children[instance.attrs.id] = {
+                    master: instance
+                  };
+                  return;
+                }
+
+                var branchName = instance.getBranchName();
+                composeMasterConfig.children[branchName] = composeMasterConfig.children[branchName] || {};
+                var composeMasterConfigIsolationChild = composeMasterConfig.children[branchName];
+                if (instance.attrs.isIsolationGroupMaster &&
+                  (
+                    !instance.attrs.inputClusterConfig.parentInputClusterConfigId ||
+                    instance.attrs.inputClusterConfig.parentInputClusterConfigId !== instance.attrs.inputClusterConfig._id
+                  )
+                ) {
+                  if (composeMasterConfigIsolationChild.master) {
+                    if (instance.attrs.isTesting) {
+                      composeMasterConfigIsolationChild.testing = composeMasterConfigIsolationChild.testing || [];
+                      composeMasterConfigIsolationChild.testing.push(instance);
+                      return;
+                    }
+                    composeMasterConfigIsolationChild.testing = composeMasterConfigIsolationChild.testing || [];
+                    composeMasterConfigIsolationChild.testing.push(composeMasterConfigIsolationChild.master);
+                  }
+                  composeMasterConfigIsolationChild.master = instance;
+                  return;
+                }
+
+                if (instance.attrs.isTesting) {
+                  composeMasterConfigIsolationChild.testing = composeMasterConfigIsolationChild.testing || [];
+                  composeMasterConfigIsolationChild.testing.push(instance);
+                  return;
+                }
+                composeMasterConfigIsolationChild.staging = composeMasterConfigIsolationChild.staging || [];
+                composeMasterConfigIsolationChild.staging.push(instance);
+                return;
+              });
+
+              var newInstancesByCompose = Object.keys(composeMasters)
+                .map(function (composeId) {
+                  if (composeMasters[composeId].children) {
+                    composeMasters[composeId].children = Object.keys(composeMasters[composeId].children).map(function (branchName) {
+                      return composeMasters[composeId].children[branchName];
+                    })
+                      .filter(function (childCompose) {
+                        if (!childCompose.master) {
+                          console.log('Child compose has no master', childCompose);
+                        }
+                        return !!childCompose.master;
+                      });
+                  }
+                  return composeMasters[composeId];
+                })
+                .filter(function (composeCluster) {
+                  if (!composeCluster.master) {
+                    console.log('Main compose cluster has no master', composeCluster);
+                  }
+                  return !!composeCluster.master;
+                });
+
+              var newestInstancesByCompose = newInstancesByCompose.reduce(function (clusters, composeCluster) {
+                var masterCluster = clusters[composeCluster.masterRepo] = clusters[composeCluster.masterRepo] || {};
+                var clusterName = keypather.get(composeCluster, 'master.attrs.inputClusterConfig.clusterName');
+                composeCluster.clusterName = clusterName
+                var repoName = composeCluster.masterRepo;
+                if (composeCluster.staging) {
+                  masterCluster.staging = masterCluster.staging || [];
+                  masterCluster.staging.push(composeCluster);
+                }
+                if (composeCluster.testing) {
+                  masterCluster.testing = masterCluster.testing || [];
+                  masterCluster.testing.push(composeCluster);
+                }
+                clusters[repoName] = masterCluster;
+                clusters[repoName].repoName = repoName;
+                  return clusters;
+                }, {});
+           
+              var newInstancesByCompose = Object.keys(newestInstancesByCompose).map(function (repoClusterName) {
+                return newestInstancesByCompose[repoClusterName];
+              });
+
+              // We need to keep the original instancesByCompose reference so angular will update the array in later digests
+              // http://stackoverflow.com/questions/23486687/short-way-to-replace-content-of-an-array
+              // 1. reset the array while keeping its reference
+              instancesByCompose.length = 0;
+              // 2. fill the first array with items from the second
+              [].push.apply(instancesByCompose, newInstancesByCompose);
+              instancesByCompose.sort(function (a, b) {
+                var compare1 = keypather.get(a, 'master.attrs.name');
+                var compare2 = keypather.get(b, 'master.attrs.name');
+                if (compare1 < compare2) {
+                  return -1;
+                } else if (compare1 > compare2) {
+                  return 1;
+                } else {
+                  return 0;
+                }
+              });
             });
           }
 
@@ -469,8 +521,10 @@ function fetchInstancesByCompose(
           allInstances.on('remove', populateInstancesByCompose);
           allInstances.refreshOnDisconnect = true;
           modelStore.on('model:update:socket', populateInstancesByCompose);
-          populateInstancesByCompose();
-          return instancesByCompose;
+          populateInstancesByCompose()
+            .then(function () {
+              return instancesByCompose;
+            })
         });
     })(username);
   };
