@@ -1,5 +1,5 @@
 a.nav-card-header(
-  ng-attr-title = "{{getCardName()}}"
+  ng-attr-title = "{{cardName}}"
   ng-include = "'viewComposeCardHeader'"
   ui-sref = "\
     base.instances.instance({userName: CCC.composeCluster.master.attrs.owner.username,\
@@ -7,13 +7,19 @@ a.nav-card-header(
   "
 )
 
-//- staging environment
-section.nav-card-section(
-  ng-if = "isActive && (CCC.composeCluster.staging.length || !CCC.composeCluster.master.attrs.isTesting)"
-  ng-include = "'viewStagingEnvironment'"
+.cluster-containers(
+  ng-repeat = "cluster in CCC.composeCluster.staging"
 )
-//- testing environment
-section.nav-card-section(
-  ng-if = "isActive && (CCC.composeCluster.testing.length || CCC.composeCluster.master.attrs.isTesting)"
-  ng-include = "'viewTestingEnvironment'"
+  //- staging environment
+  section.nav-card-section(
+    ng-include = "'viewStagingEnvironment'"
+  )
+
+.cluster-containers(
+  ng-repeat = "cluster in CCC.composeCluster.testing"
 )
+  //- testing environment
+  section.nav-card-section(
+    ng-if = "isActive"
+    ng-include = "'viewTestingEnvironment'"
+  )

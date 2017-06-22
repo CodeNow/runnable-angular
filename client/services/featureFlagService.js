@@ -49,6 +49,7 @@ function featureFlags(
     inviteFlows: false,
     isPersonalAccount: false, // if account is a personal account
     kubernetes: false,
+    multiWebhookNav: false,
     limitBranches: false,
     mixAndMatchBranches: false,
     multilineFnR: false,
