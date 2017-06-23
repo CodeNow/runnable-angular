@@ -37,7 +37,6 @@ function createNewMultiClusters(
       repo: repo,
       branch: branch,
       filePath: filePath,
-      name: name,
       githubId: githubId,
       isTesting: isTesting,
       testReporters: testReporters
