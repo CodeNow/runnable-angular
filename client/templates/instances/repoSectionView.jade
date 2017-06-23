@@ -1,11 +1,11 @@
 h2.grid-block.align-center.justify-justified.nav-section-header
   span.text-overflow.padding-right-xxs(
-    title = "{{clusters.repoName}}"
-  ) {{clusters.repoName}}
+    title = "{{composeClusters.repoName}}"
+  ) {{composeClusters.repoName}}
 
   .grid-block.align-center.shrink.btn.btn-xs.white(
     data-event-name = "Clicked Add Branch button"
-    ng-click = "CIS.popClusterOpen(cluster)"
+    ng-click = "$parent.CIS.popClusterOpen(composeClusters)"
     pop-over
     pop-over-controller = "CIS"
     pop-over-data = "'branchSelect'"
@@ -22,7 +22,7 @@ section.nav-card(
   compose-cluster = "composeCluster"
   is-child = "!composeCluster.master.attrs.masterPod"
   ng-class = "{'active': CIS.isComposeCardActive(composeCluster)}"
-  ng-repeat = "composeCluster in clusters.clusters track by $index"
+  ng-repeat = "composeCluster in composeClusters.clusters track by $index"
 )
 
 //- show after the URL has been visited

@@ -407,20 +407,12 @@ function ControllerInstances(
 
   this.popClusterOpen = function (cluster) {
     CIS.instanceBranches = null;
-    CIS.poppedInstance = cluster.master;
     CIS.poppedCluster = cluster;
     loading('fetchingBranches', true);
-    var acv = cluster.master.contextVersion.getMainAppCodeVersion();
-    if (!acv) {
-      return $q.reject(new Error('acv is required'));
-    }
-    var fullReponame = acv.attrs.repo.split('/');
-    var orgName = fullReponame[0];
-    var repoName = fullReponame[1];
-    return fetchGitHubRepoBranches(orgName, repoName)
+    return fetchGitHubRepoBranches(cluster.githubOrg, cluster.repoName)
       .then(function (branches) {
         CIS.totalInstanceBranches = branches.length;
-        CIS.instanceBranches = CIS.getUnbuiltBranches(cluster.master, branches);
+        CIS.instanceBranches = branches // CIS.getUnbuiltBranches(cluster.master, branches);
         loading('fetchingBranches', false);
       });
   };

@@ -140,15 +140,13 @@
   ng-if = "!CIS.isInDemoFlow() || CIS.shouldShowBranchView() || $root.featureFlags.demoPersonalOnly"
 )
 
-  .all-non-default-compose-clusters(
+  //- branch environments (post-compose)
+  section.nav-section(
+    ng-include = "'repoSectionView'"
+    ng-if = "$root.featureFlags.composeNav"
+    clusters = "composeClusters"
     ng-repeat = "composeClusters in CIS.featureInstancesByCompose track by $index"
   )
-    //- branch environments (post-compose)
-    section.nav-section(
-      repo-section-view
-      ng-if = "$root.featureFlags.composeNav"
-      clusters = "composeClusters"
-    )
 
   section.nav-section(
     ng-if = "$root.featureFlags.composeNav"

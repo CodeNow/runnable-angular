@@ -387,10 +387,12 @@ function fetchInstancesByCompose(
                 var branchName = instance.getBranchName();
                 var isDefaultBranch = defaultBranches[repoName] === branchName;
                 if (instance.attrs.masterPod && isComposeMaster && !composeParent) {
+                  var fullRepo = instance.contextVersion.getMainAppCodeVersion().attrs.lowerRepo.split('/');
                   composeMasters[repoName] = composeMasters[repoName] || {};
                   composeMasters[repoName][clusterConfigId] = composeMasters[repoName][clusterConfigId] || {};
                   composeMasters[repoName][clusterConfigId].master = instance;
-                  composeMasters[repoName][clusterConfigId].masterRepo = instance.contextVersion.getMainAppCodeVersion().attrs.lowerRepo.split('/')[1];
+                  composeMasters[repoName][clusterConfigId].githubOrg = fullRepo[0]
+                  composeMasters[repoName][clusterConfigId].masterRepo = fullRepo[1];
                   composeMasters[repoName][clusterConfigId].isDefaultBranch = isDefaultBranch;
                   return;
                 }
@@ -488,8 +490,10 @@ function fetchInstancesByCompose(
                   var defaultBranchClusters = [];
                   var featureBranchClusters = [];
                   var repoName;
+                  var githubOrg;
                   clusters.forEach(function (cluster) {
                     repoName = cluster.masterRepo;
+                    githubOrg = cluster.githubOrg;
                     if (cluster.isDefaultBranch) {
                       defaultBranchClusters.push(cluster);
                       return;
@@ -498,10 +502,12 @@ function fetchInstancesByCompose(
                   });
                   repoClusters.defaultBranches.push({
                     repoName: repoName,
+                    githubOrg: githubOrg,
                     clusters: defaultBranchClusters
                   });
                   repoClusters.featureBranches.push({
                     repoName: repoName,
+                    githubOrg: githubOrg,
                     clusters: featureBranchClusters
                   });
                   return repoClusters;
