@@ -13,6 +13,7 @@ function NewContainerController(
   ahaGuide,
   createNewBuildAndFetchBranch,
   createNewCluster,
+  createNewMultiCluster,
   createNonRepoInstance,
   currentOrg,
   demoFlowService,
@@ -328,40 +329,63 @@ function NewContainerController(
     });
   };
 
+  NCC.chooseWhichComposeCreate = function (repo, branch, filePath, name, githubId, isTesting, testReporters, parentInputClusterConfigId) {
+    if (NCC.state.branch.attrs.name === NCC.state.repo.attrs.default_branch) {
+      // if the branch is the default, then we need to do the multi, otherwise, do the old way
+      return createNewMultiCluster(
+        repo,
+        branch,
+        filePath,
+        githubId,
+        isTesting,
+        testReporters
+      );
+    }
+    return createNewCluster(
+      repo,
+      branch,
+      filePath,
+      name,
+      githubId,
+      isTesting,
+      testReporters,
+      parentInputClusterConfigId
+    );
+  };
+
   NCC.createComposeCluster = function () {
     if (NCC.state.dockerComposeFile && (!$rootScope.featureFlags.composeNewService || NCC.state.types.stage)) {
-      return createNewCluster(
+      return NCC.chooseWhichComposeCreate(
         NCC.state.repo.attrs.full_name,
         NCC.state.branch.attrs.name,
         NCC.state.dockerComposeFile.path,
         NCC.state.instanceName,
         currentOrg.github.attrs.id
       )
-      .then(function(res) {
-        if (!$rootScope.featureFlags.composeNewService) {
-          return;
-        }
-        return handleSocketEvent('compose-cluster-created');
-      })
-      .then(function(parentCluster) {
-        if (NCC.state.dockerComposeTestFile && parentCluster.clusterName === NCC.state.instanceName) {
-          var instanceName = NCC.state.instanceName + '-test';
-          return createNewCluster(
-            NCC.state.repo.attrs.full_name,
-            NCC.state.branch.attrs.name,
-            NCC.state.dockerComposeTestFile.path,
-            instanceName,
-            currentOrg.github.attrs.id,
-            !!NCC.state.dockerComposeTestFile,
-            [ NCC.state.testReporter.name ],
-            parentCluster.parentInputClusterConfigId
-          );
-        }
-        return;
-      });
+        .then(function (res) {
+          if (!$rootScope.featureFlags.composeNewService) {
+            return;
+          }
+          return handleSocketEvent('compose-cluster-created');
+        })
+        .then(function (parentCluster) {
+          if (NCC.state.dockerComposeTestFile && parentCluster.clusterName === NCC.state.instanceName) {
+            var instanceName = NCC.state.instanceName + '-test';
+            return NCC.chooseWhichComposeCreate(
+              NCC.state.repo.attrs.full_name,
+              NCC.state.branch.attrs.name,
+              NCC.state.dockerComposeTestFile.path,
+              instanceName,
+              currentOrg.github.attrs.id,
+              !!NCC.state.dockerComposeTestFile,
+              [ NCC.state.testReporter.name ],
+              parentCluster.parentInputClusterConfigId
+            );
+          }
+        });
     }
 
-    return createNewCluster(
+    return NCC.chooseWhichComposeCreate(
       NCC.state.repo.attrs.full_name,
       NCC.state.branch.attrs.name,
       NCC.state.dockerComposeTestFile.path,
