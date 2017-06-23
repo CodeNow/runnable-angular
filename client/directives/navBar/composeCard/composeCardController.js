@@ -30,10 +30,6 @@ function ComposeCardController(
   }
 
   CCC.checkIfActive = function () {
-    if (!CCC.isChild) {
-      $scope.isActive = true;
-      return;
-    }
     $scope.isActive = composeCardActive(CCC.composeCluster);
     if ($scope.isActive) {
       fetchIsolationIfNotFetched(CCC.composeCluster.master);

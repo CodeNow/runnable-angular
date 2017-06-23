@@ -23,7 +23,7 @@ function composeCard(
         return $scope.CCC.composeRepo || $scope.CCC.composeCluster.master.getBranchName();
       };
 
-      $scope.isActive = false;
+      $scope.isActive = true;
       var stopListening = $rootScope.$on('$stateChangeSuccess', function () {
         $scope.CCC.checkIfActive();
       });
