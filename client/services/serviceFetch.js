@@ -404,7 +404,9 @@ function fetchInstancesByCompose(
                 composeMasters[repoName][masterClusterConfigId] = composeMasters[repoName][masterClusterConfigId] || {};
                 var composeMasterConfig = composeMasters[repoName][masterClusterConfigId];
 
-                if (instance.attrs.masterPod) {
+                var isOfNote = instance.attrs.inputClusterConfig.masterInstanceId === instance.attrs._id && !isDefaultBranch;
+
+                if (instance.attrs.masterPod && !isOfNote) {
                   if (instance.attrs.isTesting) {
                     composeMasterConfig.testing = composeMasterConfig.testing || [];
                     composeMasterConfig.testing.push(instance);

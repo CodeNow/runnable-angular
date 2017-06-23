@@ -20,7 +20,7 @@ function composeCard(
     },
     link: function ($scope) {
       $scope.getCardName = function () {
-        return $scope.CCC.composeRepo;
+        return $scope.CCC.composeRepo || $scope.CCC.composeCluster.master.getBranchName();
       };
 
       $scope.isActive = false;

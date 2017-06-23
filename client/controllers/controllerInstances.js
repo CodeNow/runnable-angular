@@ -131,7 +131,12 @@ function ControllerInstances(
       }
       CIS.instancesByPod = instancesByPod;
       CIS.defaultInstancesByCompose = instancesByCompose.defaultBranches;
-      CIS.featureInstancesByCompose = instancesByCompose.featureBranches;
+      CIS.featureInstancesByCompose = instancesByCompose.featureBranches.map(function (composeCluster) {
+        composeCluster.clusters = composeCluster.clusters.reduce(function (featureClusters, branchClusters) {
+          return featureClusters.concat(branchClusters.children || []);
+        }, []);
+        return composeCluster;
+      });
       CIS.activeAccount = activeAccount;
 
       setLastOrg(CIS.userName);

@@ -9,16 +9,18 @@ header.noscroll.nav-environment-header
     ng-if = "!CCC.composeCluster.master.attrs.isTesting"
   )
 
-ul.nav-container-list
+ul.nav-container-list(
+  ng-repeat = "testingCluster in CCC.composeCluster.clusters track by $index"
+)
   li.li(
     active-account = "activeAccount"
-    instance = "CCC.composeCluster.master"
+    instance = "testingCluster.master"
     instance-navigation
-    ng-if = "CCC.composeCluster.master.attrs.isTesting"
+    ng-if = "testingCluster.master.attrs.isTesting"
   )
 
   li.li(
     instance = "testingInstance"
     instance-navigation
-    ng-repeat = "testingInstance in CCC.getTestingInstances() track by testingInstance.attrs._id"
+    ng-repeat = "testingInstance in CCC.getTestingInstances(testingCluster) track by testingInstance.attrs._id"
   )
