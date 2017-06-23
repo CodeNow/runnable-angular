@@ -528,7 +528,7 @@ describe('NewContainerController'.bold.underline.blue, function () {
     });
   });
 
-  describe('docker compose test cluster creation', function () {
+  describe.only('docker compose test cluster creation', function () {
     beforeEach(function () {
       featureFlagsMock.composeNewService = true;
       NCC.state.dockerComposeFile = null;
@@ -550,14 +550,14 @@ describe('NewContainerController'.bold.underline.blue, function () {
     it('should create one test cluster', function () {
       NCC.createComposeCluster();
       sinon.assert.calledOnce(createNewClusterStub);
-      // sinon.assert.calledWithMatch(createNewClusterStub,
-      //   NCC.state.repo.attrs.full_name,
-      //   branchName,
-      //   NCC.state.dockerComposeTestFile.path,
-      //   NCC.state.instanceName,
-      //   mockCurrentOrg.github.attrs.id,
-      //   clusterOpts
-      // );
+      sinon.assert.calledWithMatch(createNewClusterStub,
+        NCC.state.repo.attrs.full_name,
+        branchName,
+        NCC.state.dockerComposeTestFile.path,
+        NCC.state.instanceName,
+        mockCurrentOrg.github.attrs.id,
+        clusterOpts
+      );
     });
   });
 
