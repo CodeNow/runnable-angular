@@ -140,13 +140,15 @@
   ng-if = "!CIS.isInDemoFlow() || CIS.shouldShowBranchView() || $root.featureFlags.demoPersonalOnly"
 )
 
-  //- //- branch environments (post-compose)
-  //- section.nav-section(
-  //-   ng-if = "$root.featureFlags.composeNav"
-  //-   ng-include = "'repoSectionView'"
-  //-   ng-repeat = "masterComposeCluster in CIS.instancesByCompose | orderBy: ['master.attrs.inputClusterConfig.clusterName'] track by masterComposeCluster.master.attrs.inputClusterConfig.clusterName"
-  //-   ng-show = "CIS.shouldShowComposeClusterChildren(masterComposeCluster)"
-  //- )
+  .all-non-default-compose-clusters(
+    ng-repeat = "composeClusters in CIS.featureInstancesByCompose track by $index"
+  )
+    //- branch environments (post-compose)
+    section.nav-section(
+      repo-section-view
+      ng-if = "$root.featureFlags.composeNav"
+      clusters = "composeClusters"
+    )
 
   section.nav-section(
     ng-if = "$root.featureFlags.composeNav"

@@ -1,11 +1,3 @@
-a.nav-card-header(
-  ng-attr-title = "{{getCardName()}}"
-  ng-include = "'viewComposeCardHeader'"
-  ui-sref = "\
-    base.instances.instance({userName: CCC.composeCluster.master.attrs.owner.username,\
-    instanceName: CCC.composeCluster.master.attrs.name})\
-  "
-)
 
 //- staging environment
 section.nav-card-section(
