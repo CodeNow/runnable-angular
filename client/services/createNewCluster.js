@@ -32,7 +32,7 @@ function createNewMultiClusters(
   $http,
   configAPIHost
 ) {
-  return function (repo, branch, filePath, name, githubId, isTesting, testReporters) {
+  return function (repo, branch, filePath, githubId, isTesting, testReporters) {
     var data = {
       repo: repo,
       branch: branch,
