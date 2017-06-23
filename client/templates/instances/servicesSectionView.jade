@@ -22,25 +22,11 @@ h2.grid-block.align-center.justify-justified.nav-section-header Services
   ng-include = "'popoverDemoUrlHiddenView'"
 )
 
-.all-clusters(
+section.nav-card.active(
+  compose-card
+  compose-cluster = "composeClusters"
   ng-repeat = "composeClusters in CIS.defaultInstancesByCompose track by $index"
 )
-  a.nav-card-header(
-    ng-attr-title = "{{composeClusters.repoName}}"
-    ng-include = "'viewComposeCardHeader'"
-    ui-sref = "\
-      base.instances.instance({userName: CCC.composeCluster.master.attrs.owner.username,\
-      instanceName: CCC.composeCluster.master.attrs.name})\
-    "
-  )
-  section.nav-card.active(
-    compose-card
-    compose-cluster = "cluster"
-    ng-repeat = "cluster in composeClusters.clusters | orderBy: ['attrs.name'] track by $index"
-    ng-if = "!cluster.master.destroyed"
-    ng-show = "CIS.shouldShowCluster(cluster, 'master.attrs.name')"
-  )
-
 section.nav-card.active(
   ng-include = "'nonComposeCardView'"
   ng-show = "CIS.isShowingNonComposeMaster()"
