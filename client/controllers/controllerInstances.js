@@ -132,8 +132,11 @@ function ControllerInstances(
       CIS.instancesByPod = instancesByPod;
       CIS.defaultInstancesByCompose = instancesByCompose.defaultBranches;
       CIS.featureInstancesByCompose = instancesByCompose.featureBranches.map(function (composeCluster) {
-        composeCluster.clusters = composeCluster.clusters.reduce(function (featureClusters, branchClusters) {
-          return featureClusters.concat(branchClusters.children || []);
+        composeCluster.clusters = composeCluster.clusters.reduce(function (featureClusters, branchCluster) {
+           featureClusters = featureClusters.concat(branchCluster.children || []);
+           delete branchCluster.children;
+           featureClusters.push(branchCluster);
+           return featureClusters;
         }, []);
         return composeCluster;
       });

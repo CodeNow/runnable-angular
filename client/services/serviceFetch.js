@@ -406,7 +406,7 @@ function fetchInstancesByCompose(
 
                 var isOfNote = instance.attrs.inputClusterConfig.masterInstanceId === instance.attrs._id && !isDefaultBranch;
 
-                if (instance.attrs.masterPod && !isOfNote) {
+                if (instance.attrs.masterPod) {
                   if (instance.attrs.isTesting) {
                     composeMasterConfig.testing = composeMasterConfig.testing || [];
                     composeMasterConfig.testing.push(instance);

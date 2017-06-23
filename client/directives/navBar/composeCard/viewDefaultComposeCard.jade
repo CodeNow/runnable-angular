@@ -1,0 +1,18 @@
+a.nav-card-header(
+  ng-attr-title = "{{CCC.composeCluster.repoName}}"
+  ng-include = "'viewComposeCardHeader'"
+  ui-sref = "\
+    base.instances.instance({userName: CCC.composeCluster.master.attrs.owner.username,\
+    instanceName: CCC.composeCluster.master.attrs.name})\
+  "
+)
+//- staging environment
+section.nav-card-section(
+  ng-if = "isActive && (CCC.composeCluster.staging.length || !defaultCluster.master.attrs.isTesting)"
+  ng-include = "'viewDefaultStagingEnvironment'"
+)
+//- testing environment
+section.nav-card-section(
+  ng-if = "isActive && (CCC.composeCluster.testing.length || defaultCluster.master.attrs.isTesting)"
+  ng-include = "'viewDefaultTestingEnvironment'"
+)
