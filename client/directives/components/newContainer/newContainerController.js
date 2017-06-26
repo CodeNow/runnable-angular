@@ -341,16 +341,7 @@ function NewContainerController(
         testReporters
       );
     }
-    return createNewCluster(
-      repo,
-      branch,
-      filePath,
-      name,
-      githubId,
-      isTesting,
-      testReporters,
-      parentInputClusterConfigId
-    );
+    return createNewCluster.apply(this, arguments);
   };
 
   NCC.createComposeCluster = function () {
