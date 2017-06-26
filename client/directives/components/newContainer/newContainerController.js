@@ -13,7 +13,7 @@ function NewContainerController(
   ahaGuide,
   createNewBuildAndFetchBranch,
   createNewCluster,
-  createNewMultiCluster,
+  createNewMultiClusters,
   createNonRepoInstance,
   currentOrg,
   demoFlowService,
@@ -332,7 +332,7 @@ function NewContainerController(
   NCC.chooseWhichComposeCreate = function (repo, branch, filePath, name, githubId, isTesting, testReporters, parentInputClusterConfigId) {
     if (NCC.state.branch.attrs.name === NCC.state.repo.attrs.default_branch) {
       // if the branch is the default, then we need to do the multi, otherwise, do the old way
-      return createNewMultiCluster(
+      return createNewMultiClusters(
         repo,
         branch,
         filePath,
