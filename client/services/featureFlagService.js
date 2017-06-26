@@ -11,7 +11,6 @@ function featureFlags(
     allowIsolatedUpdate: true,
     autoDeployError: false,
     autoIsolation: false,
-    autoIsolationSetup: false,
     backup: false,
     cardStatus: false,
     composeDefaultBranch: true,
