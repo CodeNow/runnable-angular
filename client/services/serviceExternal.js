@@ -42,6 +42,9 @@ require('app')
   .factory('memoize', function () {
     return require('lodash/memoize');
   })
+  .factory('throttle', function () {
+    return require('lodash/throttle');
+  })
   .factory('jsYaml', function () {
     return require('js-yaml');
   })

@@ -510,28 +510,31 @@ function fetchBuild(
 
 function fetchOrganizationRepos(
   $http,
+  $q,
+  fetchUser,
   configAPIHost
 ) {
   return function (userName) {
     return fetchUser()
       .then(function (_user) {
         if (userName === _user.oauthName()) {
-          return _user;
+          return $q.all([_user, false ]);
         }
-        return _user.newGithubOrg(userName);
+        return $q.all([ _user.newGithubOrg(userName), true ]);
       })
-      .then(function (user) {
-        var userType = user.isOrg ? 'org' : 'user'; // NOTE confirm how to identify is Org
+      .then(function (res) {
+        var user = res[0];
+        var isOrg = res[1];
+        var userType = isOrg ? 'orgs' : 'user';
         return $http({
           method: 'get',
           url: configAPIHost + '/github/' + userType + '/' + user.oauthName() + '/repos?per_page=100'
         })
           .then(function (reposArr) {
             // NOTE: Confirm this array actually makes a valid collection
-            var repos = user.newRepos(reposArr, { // NOTE: Confirm it works for personal accounts
-              noStore: true
-            });
+            var repos = user.newRepos([], { noStore: true });
             repos.ownerUsername = userName;
+            repos.reset(reposArr.data);
             return repos;
           });
       });
@@ -540,9 +543,10 @@ function fetchOrganizationRepos(
 
 function searchOrganizationRepos (
   $http,
-  configAPIHost
+  configAPIHost,
+  throttle
 ) {
-  return function (orgName, searchTerm) {
+  return throttle(function (orgName, searchTerm) {
     return $http({
       method: 'get',
       url: configAPIHost + '/github/search/repositories?q=' + searchTerm + '+in%3Aname+user%3A'+ orgName + '&per_page=100'
@@ -550,7 +554,7 @@ function searchOrganizationRepos (
     .then(function (response) {
       return response.data.items;
     });
-  };
+  }, 500, { 'trailing': false });
 }
 
 function fetchOwnerRepos(fetchUser, promisify) {

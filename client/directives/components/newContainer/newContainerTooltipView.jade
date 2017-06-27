@@ -30,6 +30,17 @@ div(
     ng-if = "NCC.state.tabName === 'repos'"
   )
 
+    //- branch filter
+    input.input.input-xs.input-search(
+      autofocus
+      ng-if = "NCC.githubRepos.models.length !== 0"
+      ng-model = "NCC.repoFilter"
+      ng-change = "NCC.fetchSearchTermsAndAppendToRepos()"
+      placeholder = "Search"
+      required
+      type = "search"
+    )
+
     //- loading
     .padding-md.grid-block.align-center.justify-center(
       ng-if = "$root.isLoading.newContainerRepos"
@@ -37,17 +48,6 @@ div(
       .spinner-wrapper.spinner-sm.spinner-gray.in(
         ng-include = "'spinner'"
       )
-
-    //- branch filter
-    input.input.input-xs.input-search(
-      autofocus
-      ng-disabled = "$root.isLoading.newContainerSingleRepo"
-      ng-if = "!$root.isLoading.newContainerRepos && NCC.githubRepos.models.length !== 0"
-      ng-model = "NCC.repoFilter"
-      placeholder = "Filter by name"
-      required
-      type = "search"
-    )
 
     //- if the account or org has no repositories
     .text-center.text-gray.small.padding-lg(
@@ -78,7 +78,7 @@ div(
             xlink:href = "#icons-repository"
           )
         .grid-block.vertical
-          .grid-content.text-overflow(
+          p.grid-content.text-overflow.p(
             title = "{{ repo.attrs.name }}"
           ) {{ repo.attrs.name }}
           .grid-block(

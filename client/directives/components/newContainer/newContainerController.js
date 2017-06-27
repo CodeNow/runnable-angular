@@ -87,13 +87,16 @@ function NewContainerController(
 
     NCC.fetchSearchTermsAndAppendToRepos = function () {
       // Set as loading
-      console.log('fetchSearchTermsAndAppendToRepos');
-      loading('newContainerSingleRepo ', true);
+      loading('newContainerRepos', true);
       return searchOrganizationRepos(currentOrg.github.oauthName(), NCC.repoFilter)
         .then(function (repoCollection) {
-          console.log('repoCollection', repoCollection);
           // Merge both collections together
-          loading('newContainerSingleRepo ', false);
+          if (repoCollection && repoCollection.length > 1) {
+            repoCollection.forEach(function (repo) {
+              NCC.githubRepos.add(repo);
+            });
+          }
+          loading('newContainerRepos', false);
         });
     };
 
