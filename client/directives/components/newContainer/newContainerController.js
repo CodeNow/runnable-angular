@@ -90,7 +90,7 @@ function NewContainerController(
       return searchOrganizationRepos(currentOrg.github.oauthName(), NCC.repoFilter)
         .then(function (repoCollection) {
           // Merge both collections together
-          if (repoCollection && repoCollection.length > 1) {
+          if (repoCollection && repoCollection.length > 0) {
             repoCollection.forEach(function (repo) {
               NCC.githubRepos.add(repo);
             });
