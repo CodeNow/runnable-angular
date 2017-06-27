@@ -526,7 +526,7 @@ function fetchOrganizationRepos(
         var user = res[0];
         var isOrg = res[1];
         var userType = isOrg ? 'orgs' : 'user';
-        numberOfRepos = typeof numberOfRepos === 'number' ? numberOfRepos : 5;
+        numberOfRepos = typeof numberOfRepos === 'number' ? numberOfRepos : 20;
         return $http({
           method: 'get',
           url: configAPIHost + '/github/' + userType + '/' + user.oauthName() + '/repos?per_page=' + numberOfRepos

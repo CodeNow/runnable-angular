@@ -71,7 +71,7 @@ function NewContainerController(
   loading('newContainerRepos', true);
   $q.all({
     instances: fetchInstancesByPod(),
-    repoList: fetchOrganizationRepos(currentOrg.github.oauthName()) // Fetches only first 100 repos
+    repoList: fetchOrganizationRepos(currentOrg.github.oauthName())
   })
     .then(function (data) {
       NCC.instances = data.instances;
