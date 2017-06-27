@@ -414,7 +414,7 @@ function ControllerInstances(
     return fetchGitHubRepoBranches(cluster.githubOrg, cluster.repoName)
       .then(function (branches) {
         CIS.totalInstanceBranches = branches.length;
-        CIS.instanceBranches = branches; // CIS.getUnbuiltBranches(cluster.master, branches);
+        CIS.instanceBranches = branches;
         loading('fetchingBranches', false);
       });
   };

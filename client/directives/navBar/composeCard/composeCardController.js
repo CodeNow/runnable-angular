@@ -21,10 +21,10 @@ function ComposeCardController(
     if (!hasContainers) {
       if (keypather.get(instance, 'isolation')) {
         if (!keypather.get(instance, 'isolation.instances')) {
-        // For some reason we haven't populated the isolation's instances param yet, let's just force it.
-        // For the record, I dislike this a TON, but it's the best way of getting this done easily.
-        instance.isolation.parse(instance.isolation.attrs);
-      }
+          // For some reason we haven't populated the isolation's instances param yet, let's just force it.
+          // For the record, I dislike this a TON, but it's the best way of getting this done easily.
+          instance.isolation.parse(instance.isolation.attrs);
+        }
         promisify(instance.isolation.instances, 'fetch')()
           .catch(errs.handler);
       }

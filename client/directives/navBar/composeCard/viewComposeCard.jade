@@ -21,3 +21,15 @@ a.nav-card-header(
     ng-if = "isActive && (defaultCluster.testing.length || defaultCluster.master.attrs.isTesting)"
     ng-include = "'viewTestingEnvironment'"
   )
+
+.feature-compose-clusters(
+  ng-if = "!defaultCluster.isDefaultBranch"
+)
+  section.nav-card-section(
+    ng-if = "isActive && (CCC.composeCluster.staging.length || !defaultCluster.master.attrs.isTesting)"
+    ng-include = "'viewDefaultStagingEnvironment'"
+  )
+  section.nav-card-section(
+    ng-if = "isActive && (CCC.composeCluster.testing.length || defaultCluster.master.attrs.isTesting)"
+    ng-include = "'viewDefaultTestingEnvironment'"
+  )

@@ -15,7 +15,7 @@ function composeCard(
     bindToController: true,
     scope: {
       composeCluster: '=',
-      composeRepo: '@',
+      composeRepo: '@?',
       isChild: '=?'
     },
     link: function ($scope) {
