@@ -3,13 +3,19 @@
   max-width: 360px;
   width: 100%;
 
-  .popover-content.popover-content {
+  .popover-content {
     max-height: 600px;
     min-height: 105px;
     overflow-y: auto;
 
     @media (max-height: 750px) {
-      max-height: calc(100vh - 168px); // 60 (margin) + 108 (height of delete menu)
+      max-height: calc(100vh - 60px); // 60 (margin)
+    }
+
+    &.with-menu {
+      @media (max-height: 750px) {
+        max-height: calc(100vh - 168px); // 60 (margin) + 108 (height of delete menu)
+      }
     }
 
     &:not(.padding-xs) {
@@ -113,7 +119,12 @@
   }
 
   // the empty state
+  .list > .empty {
+    min-height: 120px - $xs; // padding-top from list
+  }
+
   .empty {
+    min-height: 120px;
 
     .img {
       border-bottom: 1px solid $gray-lighter;
