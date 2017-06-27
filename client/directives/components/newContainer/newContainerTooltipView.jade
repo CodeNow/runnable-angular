@@ -33,9 +33,9 @@ div(
     //- branch filter
     input.input.input-xs.input-search(
       autofocus
+      ng-change = "NCC.fetchSearchTermsAndAppendToRepos()"
       ng-if = "NCC.githubRepos.models.length !== 0"
       ng-model = "NCC.repoFilter"
-      ng-change = "NCC.fetchSearchTermsAndAppendToRepos()"
       placeholder = "Search"
       required
       type = "search"
@@ -108,10 +108,10 @@ div(
     
     //- should only appear if more repos exist than are listed
     .divider(
-      ng-if = "NCC.githubRepos.models.length && !$root.isLoading.newContainerRepos"
+      ng-if = "NCC.githubRepos.models.length && !$root.isLoading.newContainerRepos && !NCC.repoFilter"
     )
     small.padding-xxs.grid-block.vertical.small.text-gray(
-      ng-if = "NCC.githubRepos.models.length && !$root.isLoading.newContainerRepos"
+      ng-if = "NCC.githubRepos.models.length && !$root.isLoading.newContainerRepos && !NCC.repoFilter"
       ng-include = "'searchLimitView'"
       ng-init = "searchType = 'repo'"
     )
