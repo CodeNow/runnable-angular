@@ -113,7 +113,12 @@
   }
 
   // the empty state
+  .list > .empty {
+    min-height: 120px - $xs; // padding-top from list
+  }
+
   .empty {
+    min-height: 120px;
 
     .img {
       border-bottom: 1px solid $gray-lighter;
