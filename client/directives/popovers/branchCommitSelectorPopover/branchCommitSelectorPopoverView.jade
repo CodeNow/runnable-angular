@@ -9,6 +9,7 @@
   section.popover-content.list-actions.list-commits(
     branch-commit-list
     instance = "data.instance"
+    ng-class = "{'with-menu': $root.featureFlags.multipleWebhooks}"
   )
   section.section-secondary.padding-xs(
     ng-if = "$root.featureFlags.multipleWebhooks"
