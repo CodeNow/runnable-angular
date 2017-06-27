@@ -22,7 +22,9 @@ describe('NewContainerController'.bold.underline.blue, function () {
   var fetchOwnerRepoStub;
   var fetchInstancesStub;
   var fetchRepoDockerfilesStub;
+  var fetchOrganizationReposStub;
   var handleSocketEventStub;
+  var searchOrganizationReposStub;
   var createNewClusterStub;
 
   // Mocked Values
@@ -34,6 +36,7 @@ describe('NewContainerController'.bold.underline.blue, function () {
   var repoBuildAndBranch;
   var mockSourceInstance;
   var mockCurrentOrg;
+  var mockCurrentOrgName = 'myOauthName';
   var featureFlagsMock = {
     composeNewService: false,
   };
@@ -49,7 +52,7 @@ describe('NewContainerController'.bold.underline.blue, function () {
         }
       },
       github: {
-        oauthName: sinon.stub().returns('myOauthName'),
+        oauthName: sinon.stub().returns(mockCurrentOrgName),
         attrs: {
           id: 999
         }
@@ -73,6 +76,17 @@ describe('NewContainerController'.bold.underline.blue, function () {
         fetchInstancesStub = sinon.stub().returns($q.when(instances));
         return fetchInstancesStub;
       });
+      $provide.factory('fetchOrganizationRepos', function ($q) {
+        runnable.reset(mocks.user);
+        repos = runnable.newGithubRepos(
+          mocks.repoList, {
+            noStore: true
+          }
+        );
+        fetchOrganizationReposStub = sinon.stub().returns($q.when(repos));
+        return fetchOrganizationReposStub;
+      });
+
       $provide.factory('fetchRepoDockerfiles', function ($q) {
         fetchRepoDockerfilesStub = sinon.stub().returns($q.when([]));
         return fetchRepoDockerfilesStub;
@@ -97,6 +111,14 @@ describe('NewContainerController'.bold.underline.blue, function () {
           return $q.when(cb());
         };
       });
+      $provide.factory('searchOrganizationRepos', function ($q) {
+        var repos = [
+          { id: Math.random(), name: 'hello1', url: 'https://github.com/Runnable/hello1', full_name: 'Runnable/hello1', owner: { login: 'Runnable' } },
+          { id: Math.random(), name: 'hello2', url: 'https://github.com/Runnable/hello2', full_name: 'Runnable/hello1', owner: { login: 'Runnable' } }
+        ];
+        searchOrganizationReposStub = sinon.stub().returns($q.when(repos));
+        return searchOrganizationReposStub;
+      });
       $provide.factory('createNewBuildAndFetchBranch', function ($q) {
         repoBuildAndBranch = {
           repo: {},
@@ -119,16 +141,6 @@ describe('NewContainerController'.bold.underline.blue, function () {
         };
       });
       $provide.value('currentOrg', mockCurrentOrg);
-      $provide.factory('fetchOwnerRepos', function ($q) {
-        runnable.reset(mocks.user);
-        repos = runnable.newGithubRepos(
-          mocks.repoList, {
-            noStore: true
-          }
-        );
-        fetchOwnerRepoStub = sinon.stub().returns($q.when(repos));
-        return fetchOwnerRepoStub;
-      });
     });
 
     angular.mock.inject(function (
@@ -216,9 +228,9 @@ describe('NewContainerController'.bold.underline.blue, function () {
   describe('Init', function () {
     it('should fetch all user instances', function () {
       $scope.$digest();
+      sinon.assert.calledOnce(fetchOrganizationReposStub);
+      sinon.assert.calledWith(fetchOrganizationReposStub, 'myOauthName');
       sinon.assert.calledOnce(fetchInstancesByPodStub);
-      sinon.assert.calledOnce(fetchOwnerRepoStub);
-      sinon.assert.calledWith(fetchOwnerRepoStub, 'myOauthName');
       expect(NCC.githubRepos).to.equal(repos);
       expect(NCC.instances).to.equal(instances);
     });
@@ -448,6 +460,39 @@ describe('NewContainerController'.bold.underline.blue, function () {
           controllerAs: 'MC',
           templateUrl: 'nameNonRepoContainerView'
         });
+      });
+    });
+
+    describe('fetchSearchTermsAndAppendToRepos', function () {
+      var repoFilter = 'hello';
+      beforeEach(function () {
+        $scope.$digest();
+        NCC.repoFilter = repoFilter;
+        NCC.githubRepos = runnable.newGithubRepos(
+          [], { noStore: true }
+        );
+      });
+
+      it('should search organizations repos', function () {
+        NCC.fetchSearchTermsAndAppendToRepos();
+        $scope.$digest();
+        sinon.assert.calledOnce(searchOrganizationReposStub);
+        sinon.assert.calledWith(searchOrganizationReposStub, mockCurrentOrgName, repoFilter);
+      });
+
+      it('should add all repos found', function () {
+        NCC.fetchSearchTermsAndAppendToRepos();
+        $scope.$digest();
+        var reposJSONNames = NCC.githubRepos.map(function (x) { return x.attrs.name; });
+        expect(reposJSONNames).to.deep.equal(['hello1', 'hello2']);
+      });
+
+      it('should not add any repos if none were found', function () {
+        searchOrganizationReposStub.returns($q.when([]));
+        NCC.fetchSearchTermsAndAppendToRepos();
+        $scope.$digest();
+        var reposJSONNames = NCC.githubRepos.map(function (x) { return x.attrs.name; });
+        expect(reposJSONNames).to.deep.equal([]);
       });
     });
   });

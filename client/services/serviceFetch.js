@@ -45,6 +45,8 @@ require('app')
   .factory('fetchOwnerRepos', fetchOwnerRepos)
   .factory('fetchOwnerRepo', fetchOwnerRepo)
   .factory('fetchPullRequest', fetchPullRequest)
+  .factory('fetchOrganizationRepos', fetchOrganizationRepos)
+  .factory('searchOrganizationRepos', searchOrganizationRepos)
   // Settings
   .factory('verifySlackAPITokenAndFetchMembers', verifySlackAPITokenAndFetchMembers)
   .factory('fetchSettings', fetchSettings)
@@ -504,6 +506,55 @@ function fetchBuild(
       return pFetch(buildId);
     });
   };
+}
+
+function fetchOrganizationRepos(
+  $http,
+  $q,
+  fetchUser,
+  configAPIHost
+) {
+  return function (userName, numberOfRepos) {
+    return fetchUser()
+      .then(function (_user) {
+        if (userName === _user.oauthName()) {
+          return $q.all([_user, false ]);
+        }
+        return $q.all([ _user.newGithubOrg(userName), true ]);
+      })
+      .then(function (res) {
+        var user = res[0];
+        var isOrg = res[1];
+        var userType = isOrg ? 'orgs' : 'user';
+        numberOfRepos = typeof numberOfRepos === 'number' ? numberOfRepos : 20;
+        return $http({
+          method: 'get',
+          url: configAPIHost + '/github/' + userType + '/' + user.oauthName() + '/repos?per_page=' + numberOfRepos
+        })
+          .then(function (reposArr) {
+            var repos = user.newRepos([], { noStore: true });
+            repos.ownerUsername = userName;
+            repos.reset(reposArr.data);
+            return repos;
+          });
+      });
+  };
+}
+
+function searchOrganizationRepos (
+  $http,
+  configAPIHost,
+  throttle
+) {
+  return throttle(function (orgName, searchTerm) {
+    return $http({
+      method: 'get',
+      url: configAPIHost + '/github/search/repositories?q=' + searchTerm + '+in%3Aname+user%3A'+ orgName + '&per_page=100'
+    })
+    .then(function (response) {
+      return response.data.items;
+    });
+  }, 500, { 'trailing': false });
 }
 
 function fetchOwnerRepos(fetchUser, promisify) {
