@@ -105,6 +105,16 @@ div(
           ng-if = "repo.loading"
           ng-include = "'spinner'"
         )
+    
+    //- should only appear if more repos exist than are listed
+    .divider(
+      ng-if = "NCC.githubRepos.models.length && !$root.isLoading.newContainerRepos"
+    )
+    small.padding-xxs.grid-block.vertical.small.text-gray(
+      ng-if = "NCC.githubRepos.models.length && !$root.isLoading.newContainerRepos"
+      ng-include = "'searchLimitView'"
+      ng-init = "searchType = 'repo'"
+    )
 
   .padding-xs(
     ng-if = "NCC.state.tabName === 'services'"
