@@ -145,7 +145,7 @@
     ng-include = "'repoSectionView'"
     ng-if = "$root.featureFlags.composeNav"
     clusters = "composeClusters"
-    ng-repeat = "composeClusters in CIS.featureInstancesByCompose track by $index"
+    ng-repeat = "composeClusters in CIS.featureInstancesByCompose"
   )
 
   section.nav-section(

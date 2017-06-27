@@ -1,5 +1,5 @@
 header.noscroll.nav-environment-header(
-  ng-repeat = "composeCluster in CCC.composeCluster.clusters track by $index"
+  ng-repeat = "composeCluster in CCC.composeCluster.clusters"
 )
   span.grid-block Testing
   branch-test-popover-button(
@@ -12,7 +12,7 @@ header.noscroll.nav-environment-header(
   )
 
 ul.nav-container-list(
-  ng-repeat = "testingCluster in CCC.composeCluster.clusters track by $index"
+  ng-repeat = "testingCluster in CCC.composeCluster.clusters"
 )
   li.li(
     active-account = "activeAccount"

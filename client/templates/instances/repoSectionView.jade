@@ -22,7 +22,7 @@ section.nav-card(
   compose-cluster = "composeCluster"
   is-child = "!composeCluster.master.attrs.masterPod"
   ng-class = "{'active': CIS.isComposeCardActive(composeCluster)}"
-  ng-repeat = "composeCluster in composeClusters.clusters track by $index"
+  ng-repeat = "composeCluster in composeClusters.clusters"
 )
 
 //- show after the URL has been visited

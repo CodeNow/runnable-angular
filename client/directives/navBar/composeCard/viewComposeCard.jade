@@ -23,7 +23,7 @@ a.nav-card-header(
   )
 
 .feature-compose-clusters(
-  ng-if = "!defaultCluster.isDefaultBranch"
+  ng-if = "!CCC.composeCluster.clusters"
 )
   section.nav-card-section(
     ng-if = "isActive && (CCC.composeCluster.staging.length || !defaultCluster.master.attrs.isTesting)"
