@@ -4,16 +4,10 @@
       h1.modal-heading(
         ng-if = "!AMC.isSettingUpRunnabot()"
       ) Let’s get running! 👋
+      //- During aha 4:
       h1.modal-heading(
-        ng-if = "AMC.isSettingUpRunnabot() && !$root.featureFlags.ahaBranchUrlStep"
-      )
-        //- During aha 4:
-        | You did it! 👏
-      h1.modal-heading(
-        ng-if = "AMC.isSettingUpRunnabot() && $root.featureFlags.ahaBranchUrlStep"
-      )
-        //- During aha 4:
-        | One more thing…
+        ng-if = "AMC.isSettingUpRunnabot()"
+      ) You did it! 👏
 
       //- close buttons
       svg.grid-content.shrink.iconnables.icons-close(
