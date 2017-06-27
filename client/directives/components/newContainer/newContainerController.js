@@ -330,7 +330,7 @@ function NewContainerController(
   };
 
   NCC.chooseWhichComposeCreate = function (repo, branch, filePath, name, githubId, isTesting, testReporters, parentInputClusterConfigId) {
-    if (NCC.state.branch.attrs.name === NCC.state.repo.attrs.default_branch) {
+    if ($rootScope.featureFlags.multipleWebhooks && NCC.state.branch.attrs.name === NCC.state.repo.attrs.default_branch) {
       // if the branch is the default, then we need to do the multi, otherwise, do the old way
       return createNewMultiClusters(
         repo,
@@ -360,7 +360,8 @@ function NewContainerController(
           return handleSocketEvent('compose-cluster-created');
         })
         .then(function (parentCluster) {
-          if (NCC.state.dockerComposeTestFile && parentCluster.clusterName === NCC.state.instanceName) {
+          if (NCC.state.dockerComposeTestFile && ($rootScope.featureFlags.multipleWebhooks ||
+              parentCluster.clusterName === NCC.state.instanceName)) {
             var instanceName = NCC.state.instanceName + '-test';
             return NCC.chooseWhichComposeCreate(
               NCC.state.repo.attrs.full_name,
