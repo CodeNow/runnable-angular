@@ -133,10 +133,12 @@ function ControllerInstances(
       CIS.defaultInstancesByCompose = instancesByCompose.defaultBranches;
       CIS.featureInstancesByCompose = instancesByCompose.featureBranches.map(function (composeCluster) {
         composeCluster.clusters = composeCluster.clusters.reduce(function (featureClusters, branchCluster) {
-           featureClusters = featureClusters.concat(branchCluster.children || []);
-           delete branchCluster.children;
-           featureClusters.push(branchCluster);
-           return featureClusters;
+          featureClusters = featureClusters.concat(branchCluster.children || []);
+          delete branchCluster.children;
+          if (branchCluster.master) {
+            featureClusters.push(branchCluster);
+          }
+          return featureClusters;
         }, []);
         return composeCluster;
       });
