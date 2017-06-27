@@ -91,11 +91,15 @@ function NewContainerController(
       return searchOrganizationRepos(currentOrg.github.oauthName(), NCC.repoFilter)
         .then(function (repoCollection) {
           // Merge both collections together
+          console.log('LENGTH', NCC.githubRepos.models.length);
           if (repoCollection && repoCollection.length > 1) {
             repoCollection.forEach(function (repo) {
               NCC.githubRepos.add(repo);
             });
           }
+          console.log('LENGTH 2', NCC.githubRepos.models.length);
+          var reposJSONNames = NCC.githubRepos.map(function (x) { console.log(x.attrs.name); return x.attrs.name; });
+          console.log('reposJSONNames', reposJSONNames);
           loading('newContainerRepos', false);
         });
     };
