@@ -26,7 +26,7 @@ section.nav-card.active(
   compose-card
   compose-cluster = "composeClusters"
   compose-repo = "{{ composeClusters.repoName }}"
-  ng-repeat = "composeClusters in CIS.defaultInstancesByCompose track by $index"
+  ng-repeat = "composeClusters in CIS.defaultComposeClusters track by $index"
   ng-if = "composeClusters.clusters.length"
 )
 section.nav-card.active(

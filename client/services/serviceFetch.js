@@ -344,7 +344,7 @@ function fetchInstancesByCompose(
           var instancesByCompose = [];
           var defaultBranches = {};
           var repos = allInstances.reduce(function (acc, instance) {
-            var repo = keypather.get(instance, 'contextVersion.getMainAppCodeVersion().attrs.repo')
+            var repo = keypather.get(instance, 'contextVersion.getMainAppCodeVersion().attrs.repo');
             if (repo) {               
               var repoPath = repo.split('/');
               acc[repo] = repoPath;
@@ -380,20 +380,20 @@ function fetchInstancesByCompose(
                   return;
                 }
 
+              
                 var isComposeMaster = keypather.get(instance, 'attrs.inputClusterConfig.masterInstanceId') === instance.id();
                 var composeParent = keypather.get(instance, 'attrs.inputClusterConfig.parentInputClusterConfigId');
                 var repoName = instance.attrs.inputClusterConfig.lowerRepo.split('/')[1];
                 var clusterName = instance.attrs.inputClusterConfig.clusterName;
                 var branchName = instance.getBranchName();
-                var isDefaultBranch = defaultBranches[repoName] === branchName;
                 if (instance.attrs.masterPod && isComposeMaster && !composeParent) {
                   var fullRepo = instance.contextVersion.getMainAppCodeVersion().attrs.lowerRepo.split('/');
                   composeMasters[repoName] = composeMasters[repoName] || {};
                   composeMasters[repoName][clusterConfigId] = composeMasters[repoName][clusterConfigId] || {};
                   composeMasters[repoName][clusterConfigId].master = instance;
-                  composeMasters[repoName][clusterConfigId].githubOrg = fullRepo[0]
+                  composeMasters[repoName][clusterConfigId].githubOrg = fullRepo[0];
                   composeMasters[repoName][clusterConfigId].masterRepo = fullRepo[1];
-                  composeMasters[repoName][clusterConfigId].isDefaultBranch = isDefaultBranch;
+                  composeMasters[repoName][clusterConfigId].isDefaultBranch = defaultBranches[repoName] === branchName;
                   return;
                 }
 
@@ -405,8 +405,6 @@ function fetchInstancesByCompose(
                 composeMasters[repoName] = composeMasters[repoName] || {};
                 composeMasters[repoName][masterClusterConfigId] = composeMasters[repoName][masterClusterConfigId] || {};
                 var composeMasterConfig = composeMasters[repoName][masterClusterConfigId];
-
-                var isOfNote = instance.attrs.inputClusterConfig.masterInstanceId === instance.attrs._id && !isDefaultBranch;
 
                 if (instance.attrs.masterPod) {
                   if (instance.attrs.isTesting) {
@@ -431,7 +429,6 @@ function fetchInstancesByCompose(
                   return;
                 }
 
-                var branchName = instance.getBranchName();
                 composeMasterConfig.children[branchName] = composeMasterConfig.children[branchName] || {};
                 var composeMasterConfigIsolationChild = composeMasterConfig.children[branchName];
                 if (instance.attrs.isIsolationGroupMaster &&
@@ -484,11 +481,12 @@ function fetchInstancesByCompose(
                       console.log('Main compose cluster has no master', composeCluster);
                     }
                     return !!composeCluster.master;
-                  })
+                  });
                 })
                 .reduce(function (repoClusters, clusters) {
                   var defaultBranchClusters = [];
                   var featureBranchClusters = [];
+                  var childClusters = {};
                   var repoName;
                   var githubOrg;
                   clusters.forEach(function (cluster) {
@@ -496,6 +494,13 @@ function fetchInstancesByCompose(
                     githubOrg = cluster.githubOrg;
                     if (cluster.isDefaultBranch) {
                       defaultBranchClusters.push(cluster);
+                      if (cluster.children) {
+                        featureBranchClusters.push({
+                          githubOrg: githubOrg,
+                          masterRepo: repoName,
+                          children: cluster.children
+                        });
+                      }
                       return;
                     }
                     featureBranchClusters.push(cluster);
@@ -513,23 +518,8 @@ function fetchInstancesByCompose(
                   return repoClusters;
                 }, { defaultBranches: [], featureBranches: [] });
 
-              // We need to keep the original instancesByCompose reference so angular will update the object in later digests
-              // http://stackoverflow.com/questions/23486687/short-way-to-replace-content-of-an-array
-              // 1. reset the array while keeping its reference
               instancesByCompose = {};
-              // 2. fill the first array with items from the second
               instancesByCompose = Object.assign({}, newInstancesByCompose);
-              // instancesByCompose.sort(function (a, b) {
-              //   var compare1 = keypather.get(a, 'master.attrs.name');
-              //   var compare2 = keypather.get(b, 'master.attrs.name');
-              //   if (compare1 < compare2) {
-              //     return -1;
-              //   } else if (compare1 > compare2) {
-              //     return 1;
-              //   } else {
-              //     return 0;
-              //   }
-              // });
             });
           }
 
@@ -541,7 +531,7 @@ function fetchInstancesByCompose(
           return populateInstancesByCompose()
             .then(function () {
               return instancesByCompose;
-            })
+            });
         });
     })(username);
   };
