@@ -99,19 +99,6 @@ header.grid-block.vertical.align-center.modal-header
           )
         .btn-text.grid-content Find & Replace
       button.btn.btn-radio.grid-block.vertical.js-animate(
-        ng-class = "{'active': SMC.selectedTab === 'backup'}"
-        ng-click = "SMC.changeTab('backup')"
-        ng-if = "SMC.isTabVisible('backup') && $root.featureFlags.backup"
-        type = "{{SMC.serverForm.$invalid ? 'submit' : 'button'}}"
-      )
-        svg.iconnables.grid-content
-          use(
-            xlink:href = "#icons-translation"
-          )
-        .btn-text.grid-content Backup
-          br
-          | & Restore
-      button.btn.btn-radio.grid-block.vertical.js-animate(
         ng-class = "{'active': SMC.selectedTab === 'buildfiles'}"
         ng-click = "SMC.changeTab('buildfiles')"
         ng-if = "SMC.isTabVisible('buildfiles')"
@@ -199,14 +186,6 @@ section.modal-body(
     ng-if = "SMC.selectedTab === 'translation'"
     state = "SMC.state"
     translation-rules
-  )
-  .modal-form.modal-backup(
-    ng-class = "{\
-      'ace-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
-      'ace-runnable-light': $root.featureFlags.imAfraidOfTheDark\
-    }"
-    ng-include = "'backupFormView'"
-    ng-if = "SMC.selectedTab === 'backup'"
   )
   .modal-form.modal-dockerfile(
     ng-include = "'viewFormBuildfiles'"

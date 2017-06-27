@@ -46,12 +46,6 @@
     ng-include = "'debugToolbarView'"
   )
 
-  //- backup toolbar
-  .views-toolbar(
-    ng-if = "$root.featureFlags.backup"
-    ng-include = "'backupToolbarView'"
-  )
-
   //- test toolbar
   .views-toolbar(
     ng-class = "{\
@@ -98,16 +92,6 @@
     ng-if = "['LogView', 'Terminal', 'File'].includes(item.state.type) && !instance.containerHistory && instance.isMigrating()"
   )
     p.p Container Temporarily Unavailable
-
-  //- backup
-  .build-log-wrapper(
-    ng-class = "{\
-      'logs-runnable-dark': !$root.featureFlags.imAfraidOfTheDark,\
-      'logs-runnable-light': $root.featureFlags.imAfraidOfTheDark\
-    }"
-    ng-if = "item.state.type === 'BackupStream' && !instance.containerHistory"
-    ng-include = "'backupLogsView'"
-  )
 
   div(
     current-model = "instance.attrs"

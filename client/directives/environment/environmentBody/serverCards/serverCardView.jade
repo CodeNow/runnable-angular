@@ -129,26 +129,6 @@ ul.card-body.load(
       use(
         xlink:href = "#icons-arrow-down"
       )
-  //- backup & restore
-  li.btn.white(
-    ng-click = "openEditServerModal('backup')"
-    ng-if = "\
-      server.repo && \
-      !server.instance.hasDockerfileMirroring() && \
-      $root.featureFlags.backup \
-    "
-  )
-    svg.iconnables
-      use(
-        xlink:href = "#icons-translation"
-      )
-    h3.h3.text-overflow Backup & Restore
-    //- small text can also say "Not backed up" or "Backup failed"
-    small.small.text-overflow Backed up 12 hours ago
-    svg.iconnables.icons-arrow-down
-      use(
-        xlink:href = "#icons-arrow-down"
-      )
   li.btn.white.btn-dockerfile(
     ng-click = "openEditServerModal('buildfiles')"
   )

@@ -17,16 +17,3 @@
             xlink:href = "#icons-start-cmd"
           )
         | New Terminal Tab
-      //- only for testing backup tab
-      li.list-item.popover-list-item(
-        ng-click = "\
-          actions.addBackupStream();\
-          POC.closePopover();\
-        "
-        ng-if = "data.options.server && $root.featureFlags.backup"
-      )
-        svg.iconnables
-          use(
-            xlink:href = "#icons-cmd-logs"
-          )
-        | Backup (for test only)
