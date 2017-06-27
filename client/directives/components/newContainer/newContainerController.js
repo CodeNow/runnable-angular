@@ -86,7 +86,6 @@ function NewContainerController(
     });
 
     NCC.fetchSearchTermsAndAppendToRepos = function () {
-      // Set as loading
       loading('newContainerRepos', true);
       return searchOrganizationRepos(currentOrg.github.oauthName(), NCC.repoFilter)
         .then(function (repoCollection) {
