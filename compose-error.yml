@@ -2,8 +2,8 @@ version: '2'
 services:
   test:
     build:
-      context: .
-      dockerfile: Dockerfile.test
+      context: git@github.com:CodeNow/runnable-angular.git
+      dockerfile: Dockerfile-error.test
     blerp:
 entrypoint:
     - php
