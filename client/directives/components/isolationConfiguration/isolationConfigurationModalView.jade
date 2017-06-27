@@ -70,8 +70,6 @@
               ng-repeat = "child in $parent.instance.children.models"
               value = "child"
             ) {{$parent.child.getBranchName()}}
-        //- this element should only appear if the selected branch uses a modified configuration
-        //- small.small Branch uses a modified configuration
 
       h4.grid-block.shrink.h4.text-gray.small.padding-xs(
         ng-if = "ICMC.nonRepoInstances.length"

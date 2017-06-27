@@ -31,11 +31,6 @@ require('app')
       nonRepo: true,
       step: 3
     },
-    backup: {
-      featureFlagName: 'backup',
-      nonRepo: true,
-      step: 3
-    },
     files:  {
       basic: true,
       step: 3
@@ -75,5 +70,3 @@ function isTabNameValid (
     return true;
   };
 }
-
-
