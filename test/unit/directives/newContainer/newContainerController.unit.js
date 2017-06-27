@@ -231,8 +231,8 @@ describe('NewContainerController'.bold.underline.blue, function () {
       sinon.assert.calledOnce(fetchOrganizationReposStub);
       sinon.assert.calledWith(fetchOrganizationReposStub, 'myOauthName');
       sinon.assert.calledOnce(fetchInstancesByPodStub);
-      // expect(NCC.githubRepos).to.equal(repos);
-      // expect(NCC.instances).to.equal(instances);
+      expect(NCC.githubRepos).to.equal(repos);
+      expect(NCC.instances).to.equal(instances);
     });
 
     it('should not fetch all templates instances', function () {
