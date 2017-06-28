@@ -2,6 +2,7 @@
 
 require('app')
   .factory('createNewCluster', createNewCluster)
+  .factory('createNewMultiClusters', createNewMultiClusters)
   .factory('redeployClusterMasterInstance', redeployClusterMasterInstance);
 
 function createNewCluster(
@@ -22,6 +23,27 @@ function createNewCluster(
     return $http({
       method: 'post',
       url: configAPIHost + '/docker-compose-cluster',
+      data: data
+    });
+  };
+}
+
+function createNewMultiClusters(
+  $http,
+  configAPIHost
+) {
+  return function (repo, branch, filePath, githubId, isTesting, testReporters) {
+    var data = {
+      repo: repo,
+      branch: branch,
+      filePath: filePath,
+      githubId: githubId,
+      isTesting: isTesting,
+      testReporters: testReporters
+    };
+    return $http({
+      method: 'post',
+      url: configAPIHost + '/docker-compose-cluster/multi',
       data: data
     });
   };
