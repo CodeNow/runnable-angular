@@ -14,7 +14,7 @@ function deleteEnvironment(
     restrict: 'A',
     templateUrl: 'deleteEnvironmentView',
     scope: {
-      autoIsolationConfigId: '='
+      instance: '='
     },
     link: function ($scope, element, attrs) {
       $scope.openDeleteEnvironmentModal = function () {
@@ -24,7 +24,7 @@ function deleteEnvironment(
           controller: 'DeleteEnvironmentsModalController',
           controllerAs: 'DEMC',
           inputs: {
-            autoIsolationConfigId: $scope.autoIsolationConfigId
+            autoIsolationConfigId: $scope.instance.attrs.inputClusterConfig.autoIsolationConfigId
           }
         })
           .catch(errs.handler);

@@ -4,14 +4,14 @@ require('app')
   .controller('DeleteEnvironmentsModalController', DeleteEnvironmentsModalController);
 
 function DeleteEnvironmentsModalController(
-  fetchMultiClusterRelations,
-  loading,
-  autoIsolationConfigId,
-  fetchInstancesByCompose,
-  deleteMultiCluster,
   $q,
+  $timeout,
+  autoIsolationConfigId,
   close,
-  $timeout
+  deleteMultiCluster,
+  fetchInstancesByCompose,
+  fetchMultiClusterRelations,
+  loading
 ) {
   var DEMC = this;
   DEMC.actions = {
