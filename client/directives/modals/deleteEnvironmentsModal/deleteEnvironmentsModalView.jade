@@ -53,7 +53,7 @@
         )
         span(
           ng-if = "!$root.isLoading.deleteMultiCluster"
-        ) Delete {{DEMC.affectedEnvironments.length}} Environments
+        ) Delete {{DEMC.affectedEnvironments.length}} {{DEMC.affectedEnvironments.length === 1 ? "Environment" : "Environments"}}
         span(
           ng-if = "$root.isLoading.deleteMultiCluster"
         ) Deleting
