@@ -11,17 +11,17 @@
 
       section.padding-xxs.grid-block.vertical.well.small.white.ignore-margin
         .grid-block.align-center.justify-justified
-          .grid-block Repos
+          .grid-block.align-center Repos
             span.hidden-xxs itories
             | &nbsp;Affected: {{DEMC.relations.length}}
+            .spinner-wrapper.spinner-gray.spinner-sm.margin-left-xxs(
+              ng-if = "$root.isLoading.deleteEnvironmentRelations"
+              ng-include = "'spinner'"
+            )
           button.btn.btn-xs.white(
             ng-click = "model.reposAffected.state.expanded = !model.reposAffected.state.expanded"
-            ng-show = "!$root.isLoading.deleteEnvironmentRelations"
+            ng-disabled = "$root.isLoading.deleteEnvironmentRelations"
           ) {{model.reposAffected.state.expanded ? 'Collapse' : 'Show All'}}
-          .spinner-wrapper.spinner-gray.spinner-sm(
-            ng-if = "$root.isLoading.deleteEnvironmentRelations"
-            ng-include = "'spinner'"
-          )
         ul.grid-block.vertical.small.list.margin-top-xxs(
           ng-if = "model.reposAffected.state.expanded"
         )
@@ -30,8 +30,11 @@
           ) {{cluster}}
 
       section.padding-xxs.grid-block.vertical.well.small.white.ignore-margin
-        .grid-block.align-center.justify-justified
-          .grid-block Environments Deleted: {{DEMC.affectedEnvironments.length}}
+        .grid-block.align-center Environments Deleted: {{DEMC.affectedEnvironments.length}}
+          .spinner-wrapper.spinner-gray.spinner-sm.margin-left-xxs(
+            ng-if = "$root.isLoading.deleteEnvironmentRelations"
+            ng-include = "'spinner'"
+          )
 
     footer.modal-footer.clearfix
       button.btn.btn-sm.gray.float-left(
@@ -50,7 +53,7 @@
         )
         span(
           ng-if = "!$root.isLoading.deleteMultiCluster"
-        ) Delete {{DEMC.affectedEnvironments.length}} Environments
+        ) Delete {{DEMC.affectedEnvironments.length}} {{DEMC.affectedEnvironments.length === 1 ? "Environment" : "Environments"}}
         span(
           ng-if = "$root.isLoading.deleteMultiCluster"
         ) Deleting
