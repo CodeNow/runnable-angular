@@ -17,7 +17,7 @@
         ng-include = "'spinner'"
       )
   section.section-secondary.padding-xs(
-    ng-if = "$root.featureFlags.multipleWebhooks"
     delete-environment
     instance = "data.instance"
+    ng-if = "$root.featureFlags.multipleWebhooks"
   )
