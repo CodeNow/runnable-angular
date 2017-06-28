@@ -5,7 +5,6 @@ require('app')
 
 function DeleteEnvironmentsModalController(
   $q,
-  $timeout,
   autoIsolationConfigId,
   close,
   deleteMultiCluster,
@@ -20,16 +19,13 @@ function DeleteEnvironmentsModalController(
     },
     confirm: function () {
       loading('deleteMultiCluster', true);
-      $timeout(function () {
-        loading('deleteMultiCluster', false);
-      }, 5000);
-      // deleteMultiCluster(autoIsolationConfigId)
-      //   .then(function () {
-      //     close(true);
-      //   })
-      //   .finally(function () {
-      //     loading('deleteMultiCluster', false);
-      //   });
+      deleteMultiCluster(autoIsolationConfigId)
+        .then(function () {
+          close(true);
+        })
+        .finally(function () {
+          loading('deleteMultiCluster', false);
+        });
     }
   };
   loading('deleteEnvironmentRelations', true);
