@@ -9,7 +9,7 @@
 ul
   li.grid-block.align-center.list-item.popover-list-item(
     data-event-name = "Clicked to Delete Environment (Open Modal)"
-    internal-modal-helper = "deleteEnvironmentsModalView"
+    ng-click = "openDeleteEnvironmentModal()"
   )
     svg.iconnables.icons-delete
       use(

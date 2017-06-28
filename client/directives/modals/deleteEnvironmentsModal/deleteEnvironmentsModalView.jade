@@ -9,28 +9,53 @@
         ) this Compose file
         | &#32;will be permanently deleted from Runnable.
 
-      section.padding-xxs.grid-block.vertical.well.small.white.ignore-margin
+
+      .spinner-wrapper.spinner-gray.spinner-sm.in(
+        ng-if = "$root.isLoading.deleteEnvironmentRelations"
+        ng-include = "'spinner'"
+      )
+
+      section.padding-xxs.grid-block.vertical.well.small.white.ignore-margin(
+        ng-if = "!$root.isLoading.deleteEnvironmentRelations"
+      )
         .grid-block.align-center.justify-justified
           .grid-block Repos
             span.hidden-xxs itories
-            | &nbsp;Affected: 2
+            | &nbsp;Affected: {{DEMC.relations.length}}
           button.btn.btn-xs.white(
             ng-click = "model.reposAffected.state.expanded = !model.reposAffected.state.expanded"
           ) {{model.reposAffected.state.expanded ? 'Collapse' : 'Show All'}}
         ul.grid-block.vertical.small.list.margin-top-xxs(
           ng-if = "model.reposAffected.state.expanded"
         )
-          li api
-          li api-worker
+          li(
+            ng-repeat = "cluster in DEMC.relations"
+          ) {{cluster}}
 
-      section.padding-xxs.grid-block.vertical.well.small.white.ignore-margin
+      section.padding-xxs.grid-block.vertical.well.small.white.ignore-margin(
+        ng-if = "!$root.isLoading.deleteEnvironmentRelations"
+      )
         .grid-block.align-center.justify-justified
-          .grid-block Environments Deleted: 18
+          .grid-block Environments Deleted: {{DEMC.affectedEnvironments.length}}
 
     footer.modal-footer.clearfix
       button.btn.btn-sm.gray.float-left(
         data-event-name = "Clicked to Delete Environment (Cancel)"
+        ng-click = "DEMC.actions.cancel()"
+        ng-disabled = "$root.isLoading.deleteMultiCluster"
       ) Cancel
       button.btn.btn-sm.red.float-right(
         data-event-name = "Clicked to Delete Environment (Confirm)"
-      ) Delete 18 Environments
+        ng-click = "DEMC.actions.confirm()"
+        ng-disabled = "$root.isLoading.deleteMultiCluster"
+      )
+        .spinner-wrapper.spinner-white.spinner-sm.float-left(
+          ng-if = "$root.isLoading.deleteMultiCluster"
+          ng-include = "'spinner'"
+        )
+        span(
+          ng-if = "!$root.isLoading.deleteMultiCluster"
+        ) Delete {{DEMC.affectedEnvironments.length}} Environments
+        span(
+          ng-if = "$root.isLoading.deleteMultiCluster"
+        ) Deleting

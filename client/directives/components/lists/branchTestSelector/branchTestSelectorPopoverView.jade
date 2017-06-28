@@ -18,5 +18,6 @@
       )
   section.section-secondary.padding-xs(
     ng-if = "$root.featureFlags.multipleWebhooks"
-    ng-include = "'deleteEnvironmentView'"
+    delete-environment
+    auto-isolation-config-id = "data.instance.attrs.inputClusterConfig.autoIsolationConfigId"
   )
