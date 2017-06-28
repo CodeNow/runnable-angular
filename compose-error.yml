@@ -1,8 +1,5 @@
 version: '2'
 services:
-  build:
-  image:
   test:
-    blerp:
-    dns:
-      - 172.2.1.254
+    image: docker/hub:3000
+    build: .
