@@ -9,22 +9,19 @@
         ) this Compose file
         | &#32;will be permanently deleted from Runnable.
 
-
-      .spinner-wrapper.spinner-gray.spinner-sm.in(
-        ng-if = "$root.isLoading.deleteEnvironmentRelations"
-        ng-include = "'spinner'"
-      )
-
-      section.padding-xxs.grid-block.vertical.well.small.white.ignore-margin(
-        ng-if = "!$root.isLoading.deleteEnvironmentRelations"
-      )
+      section.padding-xxs.grid-block.vertical.well.small.white.ignore-margin
         .grid-block.align-center.justify-justified
           .grid-block Repos
             span.hidden-xxs itories
             | &nbsp;Affected: {{DEMC.relations.length}}
           button.btn.btn-xs.white(
             ng-click = "model.reposAffected.state.expanded = !model.reposAffected.state.expanded"
+            ng-show = "!$root.isLoading.deleteEnvironmentRelations"
           ) {{model.reposAffected.state.expanded ? 'Collapse' : 'Show All'}}
+          .spinner-wrapper.spinner-gray.spinner-sm(
+            ng-if = "$root.isLoading.deleteEnvironmentRelations"
+            ng-include = "'spinner'"
+          )
         ul.grid-block.vertical.small.list.margin-top-xxs(
           ng-if = "model.reposAffected.state.expanded"
         )
@@ -32,9 +29,7 @@
             ng-repeat = "cluster in DEMC.relations"
           ) {{cluster}}
 
-      section.padding-xxs.grid-block.vertical.well.small.white.ignore-margin(
-        ng-if = "!$root.isLoading.deleteEnvironmentRelations"
-      )
+      section.padding-xxs.grid-block.vertical.well.small.white.ignore-margin
         .grid-block.align-center.justify-justified
           .grid-block Environments Deleted: {{DEMC.affectedEnvironments.length}}
 
