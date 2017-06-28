@@ -3,4 +3,8 @@ services:
   test:
     build:
       context: git@github.com:CodeNow/runnable-angular.git
-      Dockerfile: Dockerfile.tes
+      Dockerfile: Dockerfile.test
+      args:
+        buildno: 1
+        password: secret
+
