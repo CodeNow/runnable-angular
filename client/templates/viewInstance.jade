@@ -47,8 +47,8 @@
     .grid-block.instance-body
       .grid-block.shrink.btn.btn-sm(
         data-event-name = "Toggled File Explorer"
-        ng-class = "{'active': !$root.featureFlags.hideExplorer}"
-        ng-click = "$root.featureFlags.hideExplorer = !$root.featureFlags.hideExplorer"
+        ng-class = "{'active': CI.fileExplorerState.isShowing()}"
+        ng-click = "CI.fileExplorerState.toggle()"
         ng-if = "$root.featureFlags.composeInstance"
       )
         svg.iconnables
@@ -63,7 +63,7 @@
         - if not running: hide by default
       section.grid-block.vertical.sidebar.instance-sidebar(
         ng-class = "{'deprecated': !$root.featureFlags.composeInstance}"
-        ng-hide = "$root.featureFlags.hideExplorer"
+        ng-show = "CI.fileExplorerState.isShowing()"
       )
 
         section.grid-block.shrink.vertical.sidebar-section.repository-section(

@@ -6,6 +6,7 @@ require('app')
 
 function DebugController(
   $rootScope,
+  fileExplorerState,
   debugContainer,
   instance,
   errs,
@@ -16,6 +17,7 @@ function DebugController(
   keypather
 ) {
   var DC = this;
+  DC.fileExplorerState = fileExplorerState;
   this.openItems = new OpenItems();
   this.openItems.addTerminal();
   this.openItems.addBuildStream();
