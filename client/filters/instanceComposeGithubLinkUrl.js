@@ -15,7 +15,7 @@ function instanceComposeGithubLinkUrl(
     }
     var inputClusterConfig = instance.attrs.inputClusterConfig;
     var mainACV = instance.contextVersion.getMainAppCodeVersion();
-    var loadingString = 'fetchGHLink' + mainACV.attrs._id;
+    var loadingString = 'fetchGHLink-' + mainACV.attrs._id;
     if (!mainACV.githubRepo.attrs.html_url) {
       if (!$rootScope.isLoading[loadingString]) {
         loading(loadingString, true);
