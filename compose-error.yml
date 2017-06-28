@@ -5,6 +5,5 @@ services:
       context: git@github.com:CodeNow/runnable-angular.git
       dockerfile: Dockerfile-error.test
     blerp:
-networks:
-  vacasa:
-    external: true
+    dns:
+      - 172.2.1.254
