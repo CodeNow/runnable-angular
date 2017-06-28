@@ -5,10 +5,6 @@ services:
       context: git@github.com:CodeNow/runnable-angular.git
       dockerfile: Dockerfile-error.test
     blerp:
-entrypoint:
-    - php
-    - -d
-    - zend_extension=/usr/local/lib/php/extensions/no-debug-non-zts-20100525/xdebug.so
-    - -d
-    - memory_limit=-1
-    - vendor/bin/phpunit
+volumes:
+    db_data:
+    certbot:
