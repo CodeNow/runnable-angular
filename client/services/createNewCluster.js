@@ -18,7 +18,7 @@ function createNewCluster(
       isTesting: clusterOpts.isTesting,
       testReporters: clusterOpts.testReporters,
       parentInputClusterConfigId: clusterOpts.parentInputClusterConfigId,
-      shouldNotAutoFork: clusterOpts.shouldNotAutofork
+      shouldNotAutoFork: clusterOpts.shouldNotAutoFork
     };
     return $http({
       method: 'post',
