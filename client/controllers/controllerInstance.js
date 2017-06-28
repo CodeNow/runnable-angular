@@ -24,6 +24,7 @@ function ControllerInstance(
   fetchInstances,
   fetchSettings,
   fetchUser,
+  fileExplorerState,
   getCommitForCurrentlyBuildingBuild,
   instancesByPod,
   keypather,
@@ -41,6 +42,7 @@ function ControllerInstance(
     },
     actions: {}
   };
+  CI.fileExplorerState = fileExplorerState;
   var data = dataInstance.data;
 
   $scope.$storage = $localStorage;

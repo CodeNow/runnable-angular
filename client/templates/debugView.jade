@@ -17,8 +17,8 @@ header.grid-block.noscroll.justify-justified.align-center.instance-header
 
 .grid-block.instance-body.instance-wrapper
   button.grid-block.shrink.btn.btn-sm(
-    ng-class = "{'active': !$root.featureFlags.hideExplorer}"
-    ng-click = "$root.featureFlags.hideExplorer = !$root.featureFlags.hideExplorer"
+    ng-class = "{'active': DC.fileExplorerState.isShowing()}"
+    ng-click = "DC.fileExplorerState.toggle()"
     ng-if = "$root.featureFlags.composeInstance"
   )
     svg.iconnables
@@ -29,7 +29,7 @@ header.grid-block.noscroll.justify-justified.align-center.instance-header
 
   section.grid-block.vertical.sidebar.instance-sidebar.full-height(
     ng-class = "{'deprecated': !$root.featureFlags.composeInstance}"
-    ng-hide = "$root.featureFlags.hideExplorer"
+    ng-show = "DC.fileExplorerState.isShowing()"
   )
     .spinner-wrapper.spinner-md.spinner-purple.spinner-backdrop.in(
       ng-if = "!DC.debugContainer.rootDir"
