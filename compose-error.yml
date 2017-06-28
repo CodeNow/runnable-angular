@@ -1,9 +1,6 @@
 version: '2'
 services:
   test:
-    build:
-      context: git@github.com:CodeNow/runnable-angular.git
-      dockerfile: Dockerfile-error.test
     blerp:
     dns:
       - 172.2.1.254
