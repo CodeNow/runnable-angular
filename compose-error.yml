@@ -1,5 +1,6 @@
 version: '2'
 services:
   test:
-    image: docker/hub:3000
-    build: .
+    build:
+      context: git@github.com:CodeNow/runnable-angular.git
+      Dockerfile: Dockerfile.test
