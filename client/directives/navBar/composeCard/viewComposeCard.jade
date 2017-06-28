@@ -14,12 +14,12 @@ a.nav-card-header(
   //- staging environment
   section.nav-card-section(
     ng-if = "isActive && (defaultCluster.staging.length || !defaultCluster.master.attrs.isTesting)"
-    ng-include = "'viewStagingEnvironment'"
+    ng-include = "'viewDefaultStagingEnvironment'"
   )
   //- testing environment
   section.nav-card-section(
     ng-if = "isActive && (defaultCluster.testing.length || defaultCluster.master.attrs.isTesting)"
-    ng-include = "'viewTestingEnvironment'"
+    ng-include = "'viewDefaultTestingEnvironment'"
   )
 
 .feature-compose-clusters(
@@ -27,9 +27,9 @@ a.nav-card-header(
 )
   section.nav-card-section(
     ng-if = "isActive && (CCC.composeCluster.staging.length || !defaultCluster.master.attrs.isTesting)"
-    ng-include = "'viewDefaultStagingEnvironment'"
+    ng-include = "'viewStagingEnvironment'"
   )
   section.nav-card-section(
     ng-if = "isActive && (CCC.composeCluster.testing.length || defaultCluster.master.attrs.isTesting)"
-    ng-include = "'viewDefaultTestingEnvironment'"
+    ng-include = "'viewTestingEnvironment'"
   )

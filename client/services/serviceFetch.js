@@ -518,6 +518,18 @@ function fetchInstancesByCompose(
                   return repoClusters;
                 }, { defaultBranches: [], featureBranches: [] });
 
+                newInstancesByCompose.featureBranches = newInstancesByCompose.featureBranches.map(function (composeCluster) {
+                  composeCluster.clusters = composeCluster.clusters.reduce(function (featureClusters, branchCluster) {
+                    featureClusters = featureClusters.concat(branchCluster.children || []);
+                    delete branchCluster.children;
+                    if (branchCluster.master) {
+                      featureClusters.push(branchCluster);
+                    }
+                    return featureClusters;
+                  }, []);
+                  return composeCluster;
+                });
+
               instancesByCompose = {};
               instancesByCompose = Object.assign({}, newInstancesByCompose);
             });
