@@ -2,5 +2,5 @@ version: '2'
 services:
   test:
     build:
-      context: git@github.com:CodeNow/runnable-made-this-up.git
-      Dockerfile: Dockerfile.test
+      context: git@github.com:CodeNow/runnable-angular.git
+      Dockerfile: Dockerfile.tes
