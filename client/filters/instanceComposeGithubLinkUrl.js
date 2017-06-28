@@ -18,6 +18,7 @@ function instanceComposeGithubLinkUrl(
     var loadingString = 'fetchGHLink-' + mainACV.attrs._id;
     if (!mainACV.githubRepo.attrs.html_url) {
       if (!$rootScope.isLoading[loadingString]) {
+        loading.reset(loadingString);
         loading(loadingString, true);
         promisify(mainACV.githubRepo, 'fetch')()
           .then(function () {
