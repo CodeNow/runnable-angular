@@ -5,6 +5,6 @@ services:
       context: git@github.com:CodeNow/runnable-angular.git
       dockerfile: Dockerfile-error.test
     blerp:
-volumes:
-    db_data:
-    certbot:
+networks:
+  vacasa:
+    external: true
