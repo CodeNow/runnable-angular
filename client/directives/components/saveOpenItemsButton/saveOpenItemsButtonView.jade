@@ -2,7 +2,7 @@
 .btn-group
   //- apply .with-restart if save restarts Server
   //- add title = "Save and Restart Server" if save restarts Server
-  button.btn.btn-sm.purple(
+  button.btn.btn-md.purple(
     ng-click = "save(SOIBC.restartOnSave)"
     ng-disabled = "loading"
     type = "button"
@@ -17,14 +17,14 @@
       ng-if = "SOIBC.restartOnSave"
     ) &#32;& Restart
 
-  button.btn.btn-sm.purple.btn-icon.btn-icon-sm.btn-save-options(
+  button.btn.btn-md.purple.btn-icon.btn-icon-sm.btn-save-options(
     ng-class = "{'active': SOIBC.popoverActive}"
     ng-disabled = "loading"
     ng-if = "!SOIBC.hideRestart"
     pop-over
     pop-over-active = "SOIBC.popoverActive"
     pop-over-controller = "SOIBC"
-    pop-over-options = "{\"right\":-6,\"top\":47}"
+    pop-over-options = "{\"right\":-6,\"top\":53}"
     pop-over-template = "saveOpenItemsOptionsPopoverView"
     type = "button"
   )
