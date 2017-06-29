@@ -1988,7 +1988,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
         });
         $provide.factory('fetchUser', function ($q, $rootScope) {
           var user = {
-            newRepos: runnable.newGithubRepos.bind(runnable),
+            newGithubRepos: runnable.newGithubRepos.bind(runnable),
             newGithubOrg: runnable.newGithubOrg.bind(runnable),
             oauthName: sinon.stub().returns('user-name')
           };
