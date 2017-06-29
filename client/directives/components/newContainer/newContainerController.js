@@ -345,47 +345,63 @@ function NewContainerController(
   };
 
   NCC.createComposeCluster = function () {
-    if (NCC.state.dockerComposeFile && (!$rootScope.featureFlags.composeNewService || NCC.state.types.stage)) {
+    var clusterOpts;
+    if (NCC.state.dockerComposeFile && NCC.state.types.stage) {
+      clusterOpts = {
+        isTesting: false,
+        testReporters: [],
+        parentInputClusterConfigId: '',
+        shouldNotAutoFork: !!$rootScope.featureFlags.multipleWebhooks
+      };
       return createNewCluster(
         NCC.state.repo.attrs.full_name,
         NCC.state.branch.attrs.name,
         NCC.state.dockerComposeFile.path,
         NCC.state.instanceName,
-        currentOrg.github.attrs.id
+        currentOrg.github.attrs.id,
+        clusterOpts
       )
-      .then(function(res) {
-        if (!$rootScope.featureFlags.composeNewService) {
-          return;
-        }
-        return handleSocketEvent('compose-cluster-created');
-      })
-      .then(function(parentCluster) {
-        if (NCC.state.dockerComposeTestFile && parentCluster.clusterName === NCC.state.instanceName) {
-          var instanceName = NCC.state.instanceName + '-test';
-          return createNewCluster(
-            NCC.state.repo.attrs.full_name,
-            NCC.state.branch.attrs.name,
-            NCC.state.dockerComposeTestFile.path,
-            instanceName,
-            currentOrg.github.attrs.id,
-            !!NCC.state.dockerComposeTestFile,
-            [ NCC.state.testReporter.name ],
-            parentCluster.parentInputClusterConfigId
-          );
-        }
-        return;
-      });
+        .then(function (res) {
+          return handleSocketEvent('compose-cluster-created');
+        })
+        .then(function (parentCluster) {
+          if (NCC.state.dockerComposeTestFile && parentCluster.clusterName === NCC.state.instanceName) {
+            var instanceName = NCC.state.instanceName + '-test';
+            clusterOpts = {
+              isTesting: !!NCC.state.dockerComposeTestFile,
+              testReporters: [ NCC.state.testReporter.name ],
+              parentInputClusterConfigId: parentCluster.parentInputClusterConfigId,
+              shouldNotAutoFork: !!$rootScope.featureFlags.multipleWebhooks
+            };
+            return createNewCluster(
+              NCC.state.repo.attrs.full_name,
+              NCC.state.branch.attrs.name,
+              NCC.state.dockerComposeTestFile.path,
+              instanceName,
+              currentOrg.github.attrs.id,
+              clusterOpts
+            );
+          }
+        });
     }
-
+    // test cluster only
+    clusterOpts = {
+      isTesting: !!NCC.state.dockerComposeTestFile,
+      testReporters: [ NCC.state.testReporter.name ],
+      parentInputClusterConfigId: '',
+      shouldNotAutoFork: !!$rootScope.featureFlags.multipleWebhooks
+    };
     return createNewCluster(
       NCC.state.repo.attrs.full_name,
       NCC.state.branch.attrs.name,
       NCC.state.dockerComposeTestFile.path,
       NCC.state.instanceName,
       currentOrg.github.attrs.id,
-      !!NCC.state.dockerComposeTestFile,
-      [ NCC.state.testReporter.name ]
-    );
+      clusterOpts
+    )
+      .then(function () {
+        return handleSocketEvent('compose-cluster-created');
+      });
   };
 
   NCC.getNextStepText = function () {

@@ -30,6 +30,8 @@ describe('NewContainerController'.bold.underline.blue, function () {
   // Mocked Values
   var instanceName = 'instanceName';
   var branchName = 'feature-1';
+  var shouldNotAutofork = true;
+  var clusterOpts;
   var instances;
   var mockInstance;
   var repos;
@@ -546,6 +548,18 @@ describe('NewContainerController'.bold.underline.blue, function () {
   });
 
   describe('docker compose single cluster creation', function () {
+    beforeEach(function () {
+      featureFlagsMock.multipleWebhooks = true;
+      NCC.state.dockerComposeTestFile = false;
+      NCC.state.dockerComposeFile = true
+      NCC.state.types.stage = true
+      clusterOpts = {
+        isTesting: false,
+        testReporters: [],
+        parentInputClusterConfigId: '',
+        shouldNotAutoFork: true
+      }
+    });
     it('should create one cluster', function () {
       NCC.createComposeCluster();
       sinon.assert.calledOnce(createNewClusterStub);
@@ -554,7 +568,8 @@ describe('NewContainerController'.bold.underline.blue, function () {
         branchName,
         NCC.state.dockerComposeFile.path,
         NCC.state.instanceName,
-        mockCurrentOrg.github.attrs.id
+        mockCurrentOrg.github.attrs.id,
+        clusterOpts
       );
     });
   });
@@ -570,19 +585,23 @@ describe('NewContainerController'.bold.underline.blue, function () {
       NCC.state.testReporter = {
         name: 'test reporter'
       };
+      clusterOpts = {
+        isTesting: !!NCC.state.dockerComposeTestFile,
+        testReporters: [ NCC.state.testReporter.name ],
+        parentInputClusterConfigId: '',
+        shouldNotAutofork: true
+      };
     });
 
     it('should create one test cluster', function () {
       NCC.createComposeCluster();
       sinon.assert.calledOnce(createNewClusterStub);
-      sinon.assert.calledWithExactly(createNewClusterStub,
+      sinon.assert.calledWith(createNewClusterStub,
         NCC.state.repo.attrs.full_name,
         branchName,
         NCC.state.dockerComposeTestFile.path,
         NCC.state.instanceName,
-        mockCurrentOrg.github.attrs.id,
-        !!NCC.state.dockerComposeTestFile,
-        [ NCC.state.testReporter.name ]
+        mockCurrentOrg.github.attrs.id
       );
     });
   });
