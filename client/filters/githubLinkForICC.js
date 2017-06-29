@@ -10,7 +10,6 @@ function githubLinkForICC(
     if (!inputClusterConfig) {
       return '';
     }
-    console.log(inputClusterConfig)
     return configGithubHttpUrl + '/' + inputClusterConfig.repo + '/blob/' + inputClusterConfig.branch + inputClusterConfig.filePath;
   };
 }
