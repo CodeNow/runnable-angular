@@ -67,7 +67,7 @@ function demoFlowService(
           })
             .then(function (updatedOrg) {
               resetFlags();
-              currentOrg.poppa.attrs.metadata = updatedOrg.model.metadata;
+              currentOrg.poppa.attrs.metadata = updatedOrg.metadata;
             });
         }
        });
