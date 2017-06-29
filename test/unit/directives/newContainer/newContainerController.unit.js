@@ -504,6 +504,7 @@ describe('NewContainerController'.bold.underline.blue, function () {
 
   describe('docker compose single cluster creation', function () {
     beforeEach(function () {
+      featureFlagsMock.multipleWebhooks = true;
       NCC.state.dockerComposeTestFile = false;
       NCC.state.dockerComposeFile = true
       NCC.state.types.stage = true
