@@ -335,7 +335,7 @@ function NewContainerController(
         isTesting: false,
         testReporters: [],
         parentInputClusterConfigId: '',
-        shouldNotAutoFork: true
+        shouldNotAutoFork: $scope.$root.featureFlags.multipleWebhooks ? false : true
       };
       return createNewCluster(
         NCC.state.repo.attrs.full_name,
@@ -355,7 +355,7 @@ function NewContainerController(
               isTesting: !!NCC.state.dockerComposeTestFile,
               testReporters: [ NCC.state.testReporter.name ],
               parentInputClusterConfigId: parentCluster.parentInputClusterConfigId,
-              shouldNotAutoFork: true
+              shouldNotAutoFork: $scope.$root.featureFlags.multipleWebhooks ? false : true
             };
             return createNewCluster(
               NCC.state.repo.attrs.full_name,
@@ -373,7 +373,7 @@ function NewContainerController(
       isTesting: !!NCC.state.dockerComposeTestFile,
       testReporters: [ NCC.state.testReporter.name ],
       parentInputClusterConfigId: '',
-      shouldNotAutoFork: true
+      shouldNotAutoFork: $scope.$root.featureFlags.multipleWebhooks ? false : true
     };
     return createNewCluster(
       NCC.state.repo.attrs.full_name,
@@ -382,7 +382,10 @@ function NewContainerController(
       NCC.state.instanceName,
       currentOrg.github.attrs.id,
       clusterOpts
-    );
+    )
+    .then(function () {
+      return handleSocketEvent('compose-cluster-created');
+    })
   };
 
   NCC.getNextStepText = function () {
