@@ -24,6 +24,7 @@ function NewContainerController(
   fetchOrganizationRepos,
   fetchRepoDockerfiles,
   getNewForkName,
+  handleMultiClusterCreateEvent,
   handleSocketEvent,
   keypather,
   loading,
@@ -345,41 +346,60 @@ function NewContainerController(
     });
   };
 
-  NCC.chooseWhichComposeCreate = function (repo, branch, filePath, name, githubId, isTesting, testReporters, parentInputClusterConfigId) {
-    if ($rootScope.featureFlags.multipleWebhooks && NCC.state.branch.attrs.name === NCC.state.repo.attrs.default_branch) {
-      // if the branch is the default, then we need to do the multi, otherwise, do the old way
+  NCC.createMultipleComposeCluster = function () {
+    if (NCC.state.dockerComposeFile && NCC.state.types.stage) {
       return createNewMultiClusters(
-        repo,
-        branch,
-        filePath,
-        githubId,
-        isTesting,
-        testReporters
-      );
+        NCC.state.repo.attrs.full_name,
+        NCC.state.branch.attrs.name,
+        NCC.state.dockerComposeFile.path,
+        currentOrg.github.attrs.id
+      )
+        .then(handleMultiClusterCreateEvent)
+        .then(function () {
+          if (!NCC.state.dockerComposeTestFile) {
+            return;
+          }
+          return createNewMultiClusters(
+            NCC.state.repo.attrs.full_name,
+            NCC.state.branch.attrs.name,
+            NCC.state.dockerComposeTestFile.path,
+            currentOrg.github.attrs.id,
+            !!NCC.state.dockerComposeTestFile,
+            [NCC.state.testReporter.name]
+          )
+            .then(handleMultiClusterCreateEvent);
+        });
     }
-    return createNewCluster.apply(this, arguments);
+
+    return createNewMultiClusters(
+      NCC.state.repo.attrs.full_name,
+      NCC.state.branch.attrs.name,
+      NCC.state.dockerComposeTestFile.path,
+      NCC.state.instanceName,
+      currentOrg.github.attrs.id,
+      !!NCC.state.dockerComposeTestFile,
+      [ NCC.state.testReporter.name ]
+    )
+      .then(handleMultiClusterCreateEvent);
   };
 
-  NCC.createComposeCluster = function () {
-    if (NCC.state.dockerComposeFile && (!$rootScope.featureFlags.composeNewService || NCC.state.types.stage)) {
-      return NCC.chooseWhichComposeCreate(
+  NCC.createBranchComposeCluster = function () {
+    console.log('NCC.state.dockerComposeFile', NCC.state.dockerComposeFile);
+    if (NCC.state.dockerComposeFile && NCC.state.types.stage) {
+      return createNewCluster(
         NCC.state.repo.attrs.full_name,
         NCC.state.branch.attrs.name,
         NCC.state.dockerComposeFile.path,
         NCC.state.instanceName,
         currentOrg.github.attrs.id
       )
-        .then(function (res) {
-          if (!$rootScope.featureFlags.composeNewService) {
-            return;
-          }
+        .then(function () {
           return handleSocketEvent('compose-cluster-created');
         })
         .then(function (parentCluster) {
-          if (NCC.state.dockerComposeTestFile && ($rootScope.featureFlags.multipleWebhooks ||
-              parentCluster.clusterName === NCC.state.instanceName)) {
+          if (NCC.state.dockerComposeTestFile && parentCluster.clusterName === NCC.state.instanceName) {
             var instanceName = NCC.state.instanceName + '-test';
-            return NCC.chooseWhichComposeCreate(
+            return createNewCluster(
               NCC.state.repo.attrs.full_name,
               NCC.state.branch.attrs.name,
               NCC.state.dockerComposeTestFile.path,
@@ -393,7 +413,7 @@ function NewContainerController(
         });
     }
 
-    return NCC.chooseWhichComposeCreate(
+    return createNewCluster(
       NCC.state.repo.attrs.full_name,
       NCC.state.branch.attrs.name,
       NCC.state.dockerComposeTestFile.path,
@@ -402,6 +422,13 @@ function NewContainerController(
       !!NCC.state.dockerComposeTestFile,
       [ NCC.state.testReporter.name ]
     );
+  };
+
+  NCC.createComposeCluster = function () {
+    if ($rootScope.featureFlags.multipleWebhooks && NCC.state.branch.attrs.name === NCC.state.repo.attrs.default_branch) {
+      return NCC.createMultipleComposeCluster();
+    }
+    return NCC.createBranchComposeCluster();
   };
 
   NCC.getNextStepText = function () {

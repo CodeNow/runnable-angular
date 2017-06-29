@@ -553,6 +553,7 @@ describe('NewContainerController'.bold.underline.blue, function () {
 
   describe('docker compose single cluster creation', function () {
     it('should create one cluster', function () {
+      NCC.state.types.stage = true;
       NCC.createComposeCluster();
       sinon.assert.calledOnce(createNewClusterStub);
       sinon.assert.calledWithExactly(createNewClusterStub,
@@ -590,9 +591,7 @@ describe('NewContainerController'.bold.underline.blue, function () {
         NCC.state.repo.attrs.full_name,
         masterBranch,
         NCC.state.dockerComposeFile.path,
-        mockCurrentOrg.github.attrs.id,
-        undefined,
-        undefined
+        mockCurrentOrg.github.attrs.id
       );
       sinon.assert.calledWithExactly(createNewMultiClustersStub,
         NCC.state.repo.attrs.full_name,
