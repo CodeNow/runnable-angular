@@ -562,8 +562,8 @@ describe('NewContainerController'.bold.underline.blue, function () {
     beforeEach(function () {
       featureFlagsMock.multipleWebhooks = true;
       NCC.state.dockerComposeTestFile = false;
-      NCC.state.dockerComposeFile = true
-      NCC.state.types.stage = true
+      NCC.state.dockerComposeFile = true;
+      NCC.state.types.stage = true;
       clusterOpts = {
         isTesting: false,
         testReporters: [],
@@ -630,6 +630,7 @@ describe('NewContainerController'.bold.underline.blue, function () {
         parentInputClusterConfigId: parentClusterConfigId
       }));
       NCC.createComposeCluster();
+      $scope.$digest();
       $scope.$digest();
       sinon.assert.calledTwice(createNewClusterStub);
       sinon.assert.calledWithExactly(createNewClusterStub,
