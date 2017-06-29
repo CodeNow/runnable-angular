@@ -370,7 +370,7 @@ function demoRepos(
           isTesting: false,
           testReporters: [],
           parentInputClusterConfigId: '',
-          shouldNotAutoFork: true
+          shouldNotAutoFork: false
         });
       });
   }
