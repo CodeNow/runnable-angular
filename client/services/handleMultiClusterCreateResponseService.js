@@ -1,9 +1,9 @@
 'use strict';
 
 require('app')
-  .factory('handleMultiClusterCreateEvent', handleMultiClusterCreateEvent);
+  .factory('handleMultiClusterCreateResponse', handleMultiClusterCreateResponse);
 
-function handleMultiClusterCreateEvent(
+function handleMultiClusterCreateResponse(
   $q,
   handleSocketEvent,
   keypather
@@ -11,7 +11,7 @@ function handleMultiClusterCreateEvent(
   return function (response) {
     var results = keypather.get(response, 'data.created');
     if (!results) {
-      return;
+      return $q.when();
     }
     var externals = results.externals;
     var builds = results.builds;
@@ -22,9 +22,15 @@ function handleMultiClusterCreateEvent(
       return handleSocketEvent('compose-cluster-created');
     }))
       .then(function (socketResponse) {
-        socketResponse.filter(function (response) {
-          return allHashes.contains(response.clusterName);
+        var clustersCreated = socketResponse.map(function (response) {
+          return response.clusterName;
         });
+        var leftovers = allHashes.filter(function (hash) {
+          return !clustersCreated.includes(hash);
+        });
+        if (leftovers.length) {
+          return $q.reject(new Error('Not all of the requested repositories could be created.'));
+        }
       });
 
   };

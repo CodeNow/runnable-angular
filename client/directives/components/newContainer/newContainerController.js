@@ -24,7 +24,7 @@ function NewContainerController(
   fetchOrganizationRepos,
   fetchRepoDockerfiles,
   getNewForkName,
-  handleMultiClusterCreateEvent,
+  handleMultiClusterCreateResponse,
   handleSocketEvent,
   keypather,
   loading,
@@ -347,40 +347,31 @@ function NewContainerController(
   };
 
   NCC.createMultipleComposeCluster = function () {
-    if (NCC.state.dockerComposeFile && NCC.state.types.stage) {
-      return createNewMultiClusters(
-        NCC.state.repo.attrs.full_name,
-        NCC.state.branch.attrs.name,
-        NCC.state.dockerComposeFile.path,
-        currentOrg.github.attrs.id
-      )
-        .then(handleMultiClusterCreateEvent)
-        .then(function () {
-          if (!NCC.state.dockerComposeTestFile) {
-            return;
-          }
-          return createNewMultiClusters(
-            NCC.state.repo.attrs.full_name,
-            NCC.state.branch.attrs.name,
-            NCC.state.dockerComposeTestFile.path,
-            currentOrg.github.attrs.id,
-            !!NCC.state.dockerComposeTestFile,
-            [NCC.state.testReporter.name]
-          )
-            .then(handleMultiClusterCreateEvent);
-        });
-    }
-
-    return createNewMultiClusters(
-      NCC.state.repo.attrs.full_name,
-      NCC.state.branch.attrs.name,
-      NCC.state.dockerComposeTestFile.path,
-      NCC.state.instanceName,
-      currentOrg.github.attrs.id,
-      !!NCC.state.dockerComposeTestFile,
-      [ NCC.state.testReporter.name ]
-    )
-      .then(handleMultiClusterCreateEvent);
+    return $q.when(function () {
+      if (NCC.state.dockerComposeFile && NCC.state.types.stage) {
+        return createNewMultiClusters(
+          NCC.state.repo.attrs.full_name,
+          NCC.state.branch.attrs.name,
+          NCC.state.dockerComposeFile.path,
+          currentOrg.github.attrs.id
+        )
+          .then(handleMultiClusterCreateResponse);
+      }
+    })
+      .then(function () {
+        if (!NCC.state.dockerComposeTestFile) {
+          return;
+        }
+        return createNewMultiClusters(
+          NCC.state.repo.attrs.full_name,
+          NCC.state.branch.attrs.name,
+          NCC.state.dockerComposeTestFile.path,
+          currentOrg.github.attrs.id,
+          !!NCC.state.dockerComposeTestFile,
+          [NCC.state.testReporter.name]
+        )
+          .then(handleMultiClusterCreateResponse);
+      });
   };
 
   NCC.createBranchComposeCluster = function () {

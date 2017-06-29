@@ -27,6 +27,7 @@ describe('NewContainerController'.bold.underline.blue, function () {
   var searchOrganizationReposStub;
   var createNewClusterStub;
   var createNewMultiClustersStub;
+  var handleMultiClusterCreateResponseStub;
 
   // Mocked Values
   var instanceName = 'instanceName';
@@ -107,6 +108,10 @@ describe('NewContainerController'.bold.underline.blue, function () {
       $provide.factory('handleSocketEvent', function ($q) {
         handleSocketEventStub = sinon.stub().returns($q.when({ clusterName: 'henry\'s instance' }));
         return handleSocketEventStub;
+      });
+      $provide.factory('handleMultiClusterCreateResponse', function ($q) {
+        handleMultiClusterCreateResponseStub = sinon.stub().returns($q.when());
+        return handleMultiClusterCreateResponseStub;
       });
       $provide.factory('createNonRepoInstance', function ($q) {
         createNonRepoInstanceStub = sinon.stub().returns($q.when(true));
