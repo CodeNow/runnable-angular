@@ -366,7 +366,12 @@ function demoRepos(
           .then(_findNewRepoOnRepeat.bind(this, stack));
       })
       .then(function (repoModel) {
-        return createNewCluster(repoModel.attrs.full_name, 'master', stack.dockerComposePath, stack.repoName);
+        return createNewCluster(repoModel.attrs.full_name, 'master', stack.dockerComposePath, stack.repoName, 1, {
+          isTesting: false,
+          testReporters: [],
+          parentInputClusterConfigId: '',
+          shouldNotAutoFork: false
+        });
       });
   }
 
