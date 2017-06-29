@@ -1,5 +1,13 @@
 .modal-compose-errors {
 
+  .well {
+    height: 62px;
+
+    &.in {
+      height: auto;
+    }
+  }
+
   .btn + .btn {
     margin-left: 6px;
   }
