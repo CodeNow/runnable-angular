@@ -384,7 +384,6 @@ function NewContainerController(
   };
 
   NCC.createBranchComposeCluster = function () {
-    console.log('NCC.state.dockerComposeFile', NCC.state.dockerComposeFile);
     if (NCC.state.dockerComposeFile && NCC.state.types.stage) {
       return createNewCluster(
         NCC.state.repo.attrs.full_name,
