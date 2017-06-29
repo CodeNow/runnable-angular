@@ -534,7 +534,7 @@ function fetchOrganizationRepos(
           url: configAPIHost + '/github/' + userType + '/' + user.oauthName() + '/repos?per_page=' + numberOfRepos
         })
           .then(function (reposArr) {
-            var repos = user.newRepos([], { noStore: true });
+            var repos = user.newGithubRepos([], { noStore: true });
             repos.ownerUsername = userName;
             repos.reset(reposArr.data);
             return repos;
