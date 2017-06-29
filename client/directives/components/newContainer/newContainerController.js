@@ -347,17 +347,18 @@ function NewContainerController(
   };
 
   NCC.createMultipleComposeCluster = function () {
-    return $q.when(function () {
-      if (NCC.state.dockerComposeFile && NCC.state.types.stage) {
-        return createNewMultiClusters(
-          NCC.state.repo.attrs.full_name,
-          NCC.state.branch.attrs.name,
-          NCC.state.dockerComposeFile.path,
-          currentOrg.github.attrs.id
-        )
-          .then(handleMultiClusterCreateResponse);
-      }
-    })
+    return $q.when()
+      .then(function () {
+        if (NCC.state.dockerComposeFile && NCC.state.types.stage) {
+          return createNewMultiClusters(
+            NCC.state.repo.attrs.full_name,
+            NCC.state.branch.attrs.name,
+            NCC.state.dockerComposeFile.path,
+            currentOrg.github.attrs.id
+          )
+            .then(handleMultiClusterCreateResponse);
+        }
+      })
       .then(function () {
         if (!NCC.state.dockerComposeTestFile) {
           return;
