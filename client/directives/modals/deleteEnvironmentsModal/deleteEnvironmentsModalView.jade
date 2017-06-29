@@ -4,7 +4,7 @@
       p.p.strong Are you sure you want to delete your environments?
       p.p.margin-bottom-xs Any environments created from&#32;
         a.link(
-          ng-href = "{{ DEMC.affectedEnvironments[0] | instanceComposeGithubLinkUrl}}"
+          ng-href = "{{ DEMC.affectedEnvironments[0].attrs.inputClusterConfig | githubLinkForICC}}"
           target = "_blank"
         ) this Compose file
         | &#32;will be permanently deleted from Runnable.
