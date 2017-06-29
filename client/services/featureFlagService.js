@@ -14,6 +14,7 @@ function featureFlags(
     cardStatus: false,
     composeDefaultBranch: true,
     composeEditing: false,
+    composeErrors: false,
     composeInstance: true,
     composeNav: true,
     composeNewService: true,

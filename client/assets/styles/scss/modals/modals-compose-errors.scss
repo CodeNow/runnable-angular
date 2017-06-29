@@ -1,0 +1,15 @@
+.modal-compose-errors {
+
+  .btn + .btn {
+    margin-left: 6px;
+  }
+
+  .btn-icon {
+    padding: 5px;
+    width: $input-xs;
+
+    .iconnables {
+      opacity: .75;
+    }
+  }
+}

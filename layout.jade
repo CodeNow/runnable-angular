@@ -181,7 +181,7 @@ html(
             )
         section.modal-body.clearfix
           .modal-description.well.well-code.monospace(
-          ng-repeat = "error in dataApp.data.modalError.data.errors track by $index"
+            ng-repeat = "error in dataApp.data.modalError.data.errors track by $index"
           ) {{error.message}}
         footer.modal-footer
           button.btn.btn-md.white.btn-block(

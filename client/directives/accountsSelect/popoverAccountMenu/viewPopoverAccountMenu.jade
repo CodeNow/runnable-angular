@@ -173,6 +173,11 @@
               )
               .toggle-group.toggle-xs
             button.btn.btn-xs.gray(
+              internal-modal-helper = "newContainerErrorsView"
+              ng-if = "flag === 'composeErrors'"
+              style = "position: absolute; right: 9px; top: 6px;"
+            ) Go
+            button.btn.btn-xs.gray(
               internal-modal-helper = "gitHubScopeView"
               ng-if = "flag === 'gitHubScope'"
               style = "position: absolute; right: 9px; top: 6px;"

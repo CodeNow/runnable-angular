@@ -1,0 +1,60 @@
+.modal-backdrop
+  .modal-dialog.modal-lg.modal-compose-errors(
+    ng-init = "\
+      files = [\
+        {\
+          name: 'docker-compose.yml',\
+          errors: 1,\
+          warnings: 0\
+        },\
+        {\
+          name: 'docker-compose.test.yml',\
+          errors: 0,\
+          warnings: 2\
+        }\
+      ];\
+    "
+  )
+    header.modal-header
+      h1.modal-heading Compose Issues
+      svg.iconnables.icons-close(
+        ng-click = "defaultActions.cancel()"
+      )
+        use(
+          xlink:href = "#icons-close"
+        )
+    .modal-body
+      .modal-form
+        section.grid-block.align-center.padding-xs.well.gray(
+          ng-repeat = "file in files"
+        )
+          svg.grid-block.shrink.iconnables.margin-right-xs
+            use(
+              ng-if = "file.errors > 0"
+              xlink:href = "#icons-error"
+            )
+            use(
+              ng-if = "!file.errors && file.warnings > 0"
+              xlink:href = "#icons-warning"
+            )
+          .padding-right-sm.grid-block.vertical
+            .small.text-gray-dark.weight-strong {{file.name}}
+            .small
+              | {{file.errors === 1 ? 'There is ' + file.errors + ' error that you will need to resolve.' : ''}}
+              | {{file.errors > 1 ? 'There are ' + file.errors + ' errors that you will need to resolve.' : ''}}
+              | {{!file.errors && file.warnings === 1 ? 'Your file has ' + file.warnings + ' warning.' : ''}}
+              | {{!file.errors && file.warnings > 1 ? 'Your file has ' + file.warnings + ' warnings.' : ''}}
+          button.grid-block.shrink.btn.btn-icon.btn-xs.white
+            svg.iconnables
+              use(
+                xlink:href = "#icons-sync-alt"
+              )
+          button.grid-block.shrink.btn.btn-xs.white Expand
+
+    footer.modal-footer.clearfix
+      button.btn.btn-md.white.float-left(
+        ng-click = "defaultActions.close()"
+      ) Cancel
+      button.btn.btn-md.green.float-right(
+        ng-disabled = "state.error"
+      ) Create Environment
