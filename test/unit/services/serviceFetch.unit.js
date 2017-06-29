@@ -1988,6 +1988,7 @@ describe('serviceFetch'.bold.underline.blue, function () {
         });
         $provide.factory('fetchUser', function ($q, $rootScope) {
           var user = {
+            newRepos: runnable.newGithubRepos.bind(runnable),
             newGithubRepos: runnable.newGithubRepos.bind(runnable),
             newGithubOrg: runnable.newGithubOrg.bind(runnable),
             oauthName: sinon.stub().returns('user-name')
@@ -2009,6 +2010,12 @@ describe('serviceFetch'.bold.underline.blue, function () {
 
     it('should fetch the user', function () {
       fetchOrganizationRepos('hello');
+      $rootScope.$digest();
+      sinon.assert.calledOnce(fetchUserStub);
+    });
+
+    it('should fetch the user repos', function () {
+      fetchOrganizationRepos('user-name');
       $rootScope.$digest();
       sinon.assert.calledOnce(fetchUserStub);
     });
