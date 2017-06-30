@@ -12,14 +12,14 @@ fancy-select.white.btn-wrapped.btn-sm(
   ) Select branch
 
   fancy-option(
-    ng-if = "$root.featureFlags.multipleWebhooks && $parent.state.repo.branches.models.length && $parent.masterBranch()"
-    value = "$parent.masterBranch()"
+    ng-if = "$root.featureFlags.multipleWebhooks && $parent.state.repo.branches.models.length && $parent.defaultBranch"
+    value = "$parent.$parent.defaultBranch"
   )
     svg.iconnables
       use(
         xlink:href = "#icons-default"
       )
-    | default
+    | {{ value.attrs.name }}
 
   //- for $root.featureFlags.multipleWebhooks:
       hide everything below this comment when there is only one branch

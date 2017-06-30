@@ -5,17 +5,17 @@ var GithubOrgCollection = require('@runnable/api-client/lib/collections/github-o
 
 require('app')
   // User + Orgs
-  .factory('fetchUser', fetchUser)
-  .factory('fetchUserUnCached', fetchUserUnCached)
-  .factory('fetchWhitelistForDockCreated', fetchWhitelistForDockCreated)
-  .factory('fetchWhitelistedOrgs', fetchWhitelistedOrgs)
-  .factory('fetchWhitelists', fetchWhitelists)
   .factory('fetchGithubOrgId', fetchGithubOrgId)
   .factory('fetchGitHubRepoBranches', fetchGitHubRepoBranches)
-  .factory('fetchOrgRegisteredMembers', fetchOrgRegisteredMembers)
-  .factory('fetchOrgMembers', fetchOrgMembers)
   .factory('fetchGrantedGithubOrgs', fetchGrantedGithubOrgs)
+  .factory('fetchOrgMembers', fetchOrgMembers)
+  .factory('fetchOrgRegisteredMembers', fetchOrgRegisteredMembers)
   .factory('fetchOrgTeammateInvitations', fetchOrgTeammateInvitations)
+  .factory('fetchUser', fetchUser)
+  .factory('fetchUserUnCached', fetchUserUnCached)
+  .factory('fetchWhitelistedOrgs', fetchWhitelistedOrgs)
+  .factory('fetchWhitelistForDockCreated', fetchWhitelistForDockCreated)
+  .factory('fetchWhitelists', fetchWhitelists)
   .factory('waitForWhitelistExist', waitForWhitelistExist)
   // All whitelisted usernames must be in lowercase
   .value('manuallyWhitelistedUsers', ['jdloft', 'hellorunnable', 'evandrozanatta', 'rsandor'])
@@ -45,6 +45,8 @@ require('app')
   .factory('fetchOwnerRepos', fetchOwnerRepos)
   .factory('fetchOwnerRepo', fetchOwnerRepo)
   .factory('fetchPullRequest', fetchPullRequest)
+  .factory('fetchOrganizationRepos', fetchOrganizationRepos)
+  .factory('searchOrganizationRepos', searchOrganizationRepos)
   // Settings
   .factory('verifySlackAPITokenAndFetchMembers', verifySlackAPITokenAndFetchMembers)
   .factory('fetchSettings', fetchSettings)
@@ -53,7 +55,9 @@ require('app')
   .factory('fetchPlan', fetchPlan)
   .factory('fetchInvoices', fetchInvoices)
   .factory('fetchPaymentMethod', fetchPaymentMethod)
-  .factory('fetchInstanceTestHistory', fetchInstanceTestHistory);
+  .factory('fetchInstanceTestHistory', fetchInstanceTestHistory)
+  // Clusters
+  .factory('fetchMultiClusterRelations', fetchMultiClusterRelations);
 
 function fetchUserUnCached(
   $q,
@@ -578,6 +582,61 @@ function fetchBuild(
       return pFetch(buildId);
     });
   };
+}
+
+function fetchOrganizationRepos(
+  $http,
+  $q,
+  fetchUser,
+  configAPIHost
+) {
+  return function (userName, numberOfRepos) {
+    return fetchUser()
+      .then(function (_user) {
+        if (userName === _user.oauthName()) {
+          return $q.all([_user, false ]);
+        }
+        return $q.all([ _user.newGithubOrg(userName), true ]);
+      })
+      .then(function (res) {
+        var user = res[0];
+        var isOrg = res[1];
+        var userType = isOrg ? 'orgs' : 'user';
+        numberOfRepos = typeof numberOfRepos === 'number' ? numberOfRepos : 20;
+        return $http({
+          method: 'get',
+          url: configAPIHost + '/github/' + userType + '/' + user.oauthName() + '/repos?per_page=' + numberOfRepos
+        })
+          .then(function (reposArr) {
+            var repoType = '';
+            if (!isOrg) {
+              repoType = 'GithubRepos';
+            } else {
+              repoType = 'Repos';
+            }
+            var repos = user['new' + repoType]([], { noStore: true });
+            repos.ownerUsername = userName;
+            repos.reset(reposArr.data);
+            return repos;
+          });
+      });
+  };
+}
+
+function searchOrganizationRepos (
+  $http,
+  configAPIHost,
+  throttle
+) {
+  return throttle(function (orgName, searchTerm) {
+    return $http({
+      method: 'get',
+      url: configAPIHost + '/github/search/repositories?q=' + searchTerm + '+in%3Aname+user%3A'+ orgName + '&per_page=100'
+    })
+    .then(function (response) {
+      return response.data.items;
+    });
+  }, 500, { 'trailing': false });
 }
 
 function fetchOwnerRepos(fetchUser, promisify) {
@@ -1371,5 +1430,21 @@ function fetchInstanceTestHistoryBySha (
           return containerHistory.commitSha === sha;
         });
       });
+  };
+}
+
+function fetchMultiClusterRelations (
+  $http,
+  configAPIHost,
+  errs,
+  keypather
+) {
+  return function (autoIsolationConfigId) {
+    return $http({
+      method: 'get',
+      url: configAPIHost + '/docker-compose-cluster/' + autoIsolationConfigId + '/related'
+    })
+      .then(handleHTTPResponse(keypather))
+      .catch(errs.handler);
   };
 }

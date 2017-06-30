@@ -8,6 +8,7 @@
   section.popover-content.list-actions.list-tests.list-commits(
     branch-test-list
     instance = "data.instance"
+    ng-class = "{'with-menu': $root.featureFlags.multipleWebhooks}"
   )
     .padding-md.grid-block.align-center.justify-center(
       ng-click = "state.loading = false"
@@ -17,6 +18,7 @@
         ng-include = "'spinner'"
       )
   section.section-secondary.padding-xs(
+    delete-environment
+    instance = "data.instance"
     ng-if = "$root.featureFlags.multipleWebhooks"
-    ng-include = "'deleteEnvironmentView'"
   )

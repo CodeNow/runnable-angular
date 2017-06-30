@@ -19,7 +19,7 @@
   .arrow.white
 
   animated-panel-container.popover-views(
-    ng-if = "!$root.featureFlags.autoIsolationSetup && $root.isLoading.fetchingBranches"
+    ng-if = "$root.isLoading.fetchingBranches"
   )
     animated-panel(
       default = "true"

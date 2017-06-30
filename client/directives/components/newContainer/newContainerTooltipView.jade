@@ -30,36 +30,37 @@ div(
     ng-if = "NCC.state.tabName === 'repos'"
   )
 
-    //- loading
-    .padding-md.grid-block.align-center.justify-center(
-      ng-if = "$root.isLoading.newContainerRepos"
-    )
-      .spinner-wrapper.spinner-sm.spinner-gray.in(
-        ng-include = "'spinner'"
-      )
-
     //- branch filter
     input.input.input-xs.input-search(
       autofocus
-      ng-disabled = "$root.isLoading.newContainerSingleRepo"
-      ng-if = "!$root.isLoading.newContainerRepos && NCC.githubRepos.models.length !== 0"
+      ng-if = "NCC.githubRepos.models.length !== 0"
       ng-model = "NCC.repoFilter"
-      placeholder = "Filter by name"
+      ng-change = "NCC.fetchSearchTermsAndAppendToRepos()"
+      placeholder = "Search"
       required
       type = "search"
     )
 
+    //- loading
+    .grid-block.align-center.justify-center.empty(
+      ng-if = "$root.isLoading.newContainerRepos"
+    )
+      .spinner-wrapper.spinner-sm.spinner-gray(
+        ng-include = "'spinner'"
+      )
+
     //- if the account or org has no repositories
-    .text-center.text-gray.small.padding-lg(
+    .grid-block.align-center.justify-center.text-center.text-gray.small.empty(
       ng-if = "!$root.isLoading.newContainerRepos && NCC.githubRepos.models.length === 0"
-    ) There are no repositories to add.
+    ) There are no repos to add.
 
     ul.list.list-actions(
       ng-if = "!$root.isLoading.newContainerRepos"
     )
-      li.text-center.text-gray.small.padding-lg(
+      li.grid-block.align-center.justify-center.text-center.text-gray.small.empty(
         ng-if = "NCC.githubRepos.models.length && !noResults.length"
-      ) No repos match this filter.
+        style = "height: 108px;"
+      ) No repos match your search.
       li.grid-block.align-center.list-item.popover-list-item.multi-line(
         data-event-name = "Selected a Repository"
         ng-click = "!$root.isLoading.newContainerSingleRepo && NCC.setRepo(repo, NCC.openModalAtPanel)"
@@ -109,10 +110,10 @@ div(
     ng-if = "NCC.state.tabName === 'services'"
   )
     //- loading
-    .padding-md.grid-block.align-center.justify-center(
+    .grid-block.align-center.justify-center.empty(
       ng-if = "$root.isLoading.newContainerTemplates"
     )
-      .spinner-wrapper.spinner-sm.spinner-gray.in(
+      .spinner-wrapper.spinner-sm.spinner-gray(
         ng-include = "'spinner'"
       )
 
@@ -122,7 +123,7 @@ div(
       ng-if = "!$root.isLoading.newContainerTemplates"
       ng-keyup = "$digest"
       ng-model = "NCC.serviceFilter"
-      placeholder = "Filter by name"
+      placeholder = "Search"
       required
       type = "search"
     )
@@ -130,7 +131,7 @@ div(
     ul.list.list-actions(
       ng-if = "!$root.isLoading.newContainerTemplates"
     )
-      li.text-center.text-gray.small.padding-lg(
+      li.grid-block.align-center.justify-center.text-center.text-gray.small.empty(
         ng-if = "!noTemplateResults.length"
       ) No services match this filter.
       li.grid-block.align-center.list-item.popover-list-item.multi-line(

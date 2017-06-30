@@ -1711,10 +1711,10 @@ describe('serviceFetch'.bold.underline.blue, function () {
         $provide.factory('fetchUser', function ($q, $rootScope) {
           user = {
             createTeammateInvitation: sinon.spy(function (invitationObject, cb) {
-            $rootScope.$evalAsync(function () {
-              cb(null, user);
-            });
-            return user;
+              $rootScope.$evalAsync(function () {
+                cb(null, user);
+              });
+              return user;
             })
           };
           fetchUserStub = sinon.stub().returns($q.when(user));
@@ -1965,6 +1965,113 @@ describe('serviceFetch'.bold.underline.blue, function () {
       $rootScope.$digest();
 
       sinon.assert.calledTwice(fetchWhitelistForDockCreatedStub);
+    });
+  });
+
+  describe('fetchOrganizationRepos', function () {
+    var fetchOrganizationRepos;
+    var $rootScope;
+    var reposArr;
+    var configAPIHost;
+    var $httpStub;
+    var repos = [];
+    var fetchUserStub;
+    beforeEach(function () {
+      reposArr = [];
+      angular.mock.module('app');
+      angular.mock.module(function ($provide) {
+        $provide.factory('$http', function ($q) {
+          $httpStub = sinon.stub().returns($q.when({
+            data: repos
+          }));
+          return $httpStub;
+        });
+        $provide.factory('fetchUser', function ($q, $rootScope) {
+          var user = {
+            newRepos: runnable.newGithubRepos.bind(runnable),
+            newGithubRepos: runnable.newGithubRepos.bind(runnable),
+            newGithubOrg: runnable.newGithubOrg.bind(runnable),
+            oauthName: sinon.stub().returns('user-name')
+          };
+          fetchUserStub = sinon.stub().returns($q.when(user));
+          return fetchUserStub;
+        });
+      });
+      angular.mock.inject(function (
+        _fetchOrganizationRepos_,
+        _configAPIHost_,
+        _$rootScope_
+      ) {
+        fetchOrganizationRepos = _fetchOrganizationRepos_;
+        $rootScope = _$rootScope_;
+        configAPIHost = _configAPIHost_;
+      });
+    });
+
+    it('should fetch the user', function () {
+      fetchOrganizationRepos('hello');
+      $rootScope.$digest();
+      sinon.assert.calledOnce(fetchUserStub);
+    });
+
+    it('should fetch the user repos', function () {
+      fetchOrganizationRepos('user-name');
+      $rootScope.$digest();
+      sinon.assert.calledOnce(fetchUserStub);
+    });
+
+    it('should make the HTTP request', function () {
+      httpQueue.push(reposArr);
+      fetchOrganizationRepos('hello');
+      $rootScope.$digest();
+      sinon.assert.calledOnce($httpStub);
+    });
+  });
+
+  describe('searchOrganizationRepos', function () {
+    var searchOrganizationRepos;
+    var $rootScope;
+    var reposArr;
+    var configAPIHost;
+    var $httpStub;
+    var repos = [];
+    var fetchUserStub;
+    beforeEach(function () {
+      reposArr = [];
+      angular.mock.module('app');
+      angular.mock.module(function ($provide) {
+        $provide.factory('$http', function ($q) {
+          $httpStub = sinon.stub().returns($q.when({
+            data: repos
+          }));
+          return $httpStub;
+        });
+        $provide.factory('fetchUser', function ($q, $rootScope) {
+          var user = {
+            newRepos: runnable.newGithubRepos.bind(runnable),
+            newGithubOrg: runnable.newGithubOrg.bind(runnable),
+            oauthName: sinon.stub().returns('user-name')
+          };
+          fetchUserStub = sinon.stub().returns($q.when(user));
+          return fetchUserStub;
+        });
+      });
+      angular.mock.inject(function (
+        _searchOrganizationRepos_,
+        _configAPIHost_,
+        _$rootScope_
+      ) {
+        searchOrganizationRepos = _searchOrganizationRepos_;
+        $rootScope = _$rootScope_;
+        configAPIHost = _configAPIHost_;
+      });
+    });
+
+    it('should make the HTTP request', function () {
+      httpQueue.push(reposArr);
+      searchOrganizationRepos('hello-node-rethinkdb');
+      $rootScope.$digest();
+      sinon.assert.calledOnce($httpStub);
     });
   });
 });

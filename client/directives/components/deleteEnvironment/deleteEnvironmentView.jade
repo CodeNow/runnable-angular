@@ -1,7 +1,7 @@
 .padding-left-xxs.padding-right-xxs.margin-bottom-xxs.text-gray.small Deleting removes all environments created from&#32;
   //- should link to the Compose file in their default branch
   a.link(
-    href = ""
+    ng-href = "{{ instance.attrs.inputClusterConfig | githubLinkForICC}}"
     target = "_blank"
   ) this Compose file
   | &#32;from Runnable.
@@ -9,7 +9,7 @@
 ul
   li.grid-block.align-center.list-item.popover-list-item(
     data-event-name = "Clicked to Delete Environment (Open Modal)"
-    internal-modal-helper = "deleteEnvironmentsModalView"
+    ng-click = "openDeleteEnvironmentModal()"
   )
     svg.iconnables.icons-delete
       use(

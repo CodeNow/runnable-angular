@@ -13,6 +13,7 @@ function NewContainerController(
   ahaGuide,
   createNewBuildAndFetchBranch,
   createNewCluster,
+  createNewMultiClusters,
   createNonRepoInstance,
   currentOrg,
   demoFlowService,
@@ -20,13 +21,15 @@ function NewContainerController(
   eventTracking,
   fetchInstances,
   fetchInstancesByPod,
-  fetchOwnerRepos,
+  fetchOrganizationRepos,
   fetchRepoDockerfiles,
   getNewForkName,
+  handleMultiClusterCreateResponse,
   handleSocketEvent,
   keypather,
   loading,
-  ModalService
+  ModalService,
+  searchOrganizationRepos
 ) {
   $scope.$sce = $sce;
   var NCC = this;
@@ -70,7 +73,7 @@ function NewContainerController(
   loading('newContainerRepos', true);
   $q.all({
     instances: fetchInstancesByPod(),
-    repoList: fetchOwnerRepos(currentOrg.github.oauthName())
+    repoList: fetchOrganizationRepos(currentOrg.github.oauthName())
   })
     .then(function (data) {
       NCC.instances = data.instances;
@@ -83,6 +86,21 @@ function NewContainerController(
     .finally(function () {
       loading('newContainerRepos', false);
     });
+
+    NCC.fetchSearchTermsAndAppendToRepos = function () {
+      loading('newContainerRepos', true);
+      return searchOrganizationRepos(currentOrg.github.oauthName(), NCC.repoFilter)
+        .then(function (repoCollection) {
+          // Merge both collections together
+          if (repoCollection && repoCollection.length > 0) {
+            repoCollection.forEach(function (repo) {
+              NCC.githubRepos.add(repo);
+            });
+          }
+          loading('newContainerRepos', false);
+        });
+    };
+
 
   NCC.openedFirstAuthPrimer = function () {
     eventTracking.openedFirstAuthPrimer();
@@ -328,48 +346,100 @@ function NewContainerController(
     });
   };
 
-  NCC.createComposeCluster = function () {
-    if (NCC.state.dockerComposeFile && (!$rootScope.featureFlags.composeNewService || NCC.state.types.stage)) {
+  NCC.createMultipleComposeCluster = function () {
+    return $q.when()
+      .then(function () {
+        if (NCC.state.dockerComposeFile && NCC.state.types.stage) {
+          return createNewMultiClusters(
+            NCC.state.repo.attrs.full_name,
+            NCC.state.branch.attrs.name,
+            NCC.state.dockerComposeFile.path,
+            currentOrg.github.attrs.id
+          )
+            .then(handleMultiClusterCreateResponse);
+        }
+      })
+      .then(function () {
+        if (!NCC.state.dockerComposeTestFile) {
+          return;
+        }
+        return createNewMultiClusters(
+          NCC.state.repo.attrs.full_name,
+          NCC.state.branch.attrs.name,
+          NCC.state.dockerComposeTestFile.path,
+          currentOrg.github.attrs.id,
+          !!NCC.state.dockerComposeTestFile,
+          [NCC.state.testReporter.name]
+        )
+          .then(handleMultiClusterCreateResponse);
+      });
+  };
+
+  NCC.createBranchComposeCluster = function () {
+    var clusterOpts;
+    if (NCC.state.dockerComposeFile && NCC.state.types.stage) {
+      clusterOpts = {
+        isTesting: false,
+        testReporters: [],
+        parentInputClusterConfigId: '',
+        shouldNotAutoFork: !!$rootScope.featureFlags.multipleWebhooks
+      };
       return createNewCluster(
         NCC.state.repo.attrs.full_name,
         NCC.state.branch.attrs.name,
         NCC.state.dockerComposeFile.path,
         NCC.state.instanceName,
-        currentOrg.github.attrs.id
+        currentOrg.github.attrs.id,
+        clusterOpts
       )
-      .then(function(res) {
-        if (!$rootScope.featureFlags.composeNewService) {
-          return;
-        }
-        return handleSocketEvent('compose-cluster-created');
-      })
-      .then(function(parentCluster) {
-        if (NCC.state.dockerComposeTestFile && parentCluster.clusterName === NCC.state.instanceName) {
-          var instanceName = NCC.state.instanceName + '-test';
-          return createNewCluster(
-            NCC.state.repo.attrs.full_name,
-            NCC.state.branch.attrs.name,
-            NCC.state.dockerComposeTestFile.path,
-            instanceName,
-            currentOrg.github.attrs.id,
-            !!NCC.state.dockerComposeTestFile,
-            [ NCC.state.testReporter.name ],
-            parentCluster.parentInputClusterConfigId
-          );
-        }
-        return;
-      });
+        .then(function () {
+          return handleSocketEvent('compose-cluster-created');
+        })
+        .then(function (parentCluster) {
+          if (NCC.state.dockerComposeTestFile && parentCluster.clusterName === NCC.state.instanceName) {
+            var instanceName = NCC.state.instanceName + '-test';
+            clusterOpts = {
+              isTesting: !!NCC.state.dockerComposeTestFile,
+              testReporters: [ NCC.state.testReporter.name ],
+              parentInputClusterConfigId: parentCluster.parentInputClusterConfigId,
+              shouldNotAutoFork: !!$rootScope.featureFlags.multipleWebhooks
+            };
+            return createNewCluster(
+              NCC.state.repo.attrs.full_name,
+              NCC.state.branch.attrs.name,
+              NCC.state.dockerComposeTestFile.path,
+              instanceName,
+              currentOrg.github.attrs.id,
+              clusterOpts
+            );
+          }
+        });
     }
-
+    // test cluster only
+    clusterOpts = {
+      isTesting: !!NCC.state.dockerComposeTestFile,
+      testReporters: [ NCC.state.testReporter.name ],
+      parentInputClusterConfigId: '',
+      shouldNotAutoFork: !!$rootScope.featureFlags.multipleWebhooks
+    };
     return createNewCluster(
       NCC.state.repo.attrs.full_name,
       NCC.state.branch.attrs.name,
       NCC.state.dockerComposeTestFile.path,
       NCC.state.instanceName,
       currentOrg.github.attrs.id,
-      !!NCC.state.dockerComposeTestFile,
-      [ NCC.state.testReporter.name ]
-    );
+      clusterOpts
+    )
+      .then(function () {
+        return handleSocketEvent('compose-cluster-created');
+      });
+  };
+
+  NCC.createComposeCluster = function () {
+    if ($rootScope.featureFlags.multipleWebhooks && NCC.state.branch.attrs.name === NCC.state.repo.attrs.default_branch) {
+      return NCC.createMultipleComposeCluster();
+    }
+    return NCC.createBranchComposeCluster();
   };
 
   NCC.getNextStepText = function () {

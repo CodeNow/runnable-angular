@@ -448,6 +448,7 @@ module.exports = function(grunt) {
         configObj.stripeToken = process.env.STRIPE_TOKEN || 'pk_test_sHr5tQaPtgwiE2cpW6dQkzi8';
         configObj.siftApiKey = process.env.SIFT_API_KEY || 'eea9746dff';
         configObj.githubUrl = process.env.GITHUB_URL || 'https://api.github.com';
+        configObj.githubHttpUrl = process.env.GITHUB_HTTP_URL || 'https://github.com';
         configObj.disableMixpanel = process.env.DISABLE_MIXPANEL || false;
         configObj.disableAnalytics = process.env.DISABLE_ANALYTICS || false;
 
@@ -618,7 +619,7 @@ module.exports = function(grunt) {
   ]);
   grunt.registerTask('deploy:prod', [
     'copy',
-    'sass:dev',
+    'sass:compile',
     'autoprefixer',
     'jade2js',
     'autoBundleDependencies',

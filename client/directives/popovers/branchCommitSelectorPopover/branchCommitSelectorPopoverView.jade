@@ -9,8 +9,10 @@
   section.popover-content.list-actions.list-commits(
     branch-commit-list
     instance = "data.instance"
+    ng-class = "{'with-menu': $root.featureFlags.multipleWebhooks}"
   )
   section.section-secondary.padding-xs(
+    delete-environment
+    instance = "data.instance"
     ng-if = "$root.featureFlags.multipleWebhooks"
-    ng-include = "'deleteEnvironmentView'"
   )

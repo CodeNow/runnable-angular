@@ -22,18 +22,26 @@ describe('NewContainerController'.bold.underline.blue, function () {
   var fetchOwnerRepoStub;
   var fetchInstancesStub;
   var fetchRepoDockerfilesStub;
+  var fetchOrganizationReposStub;
   var handleSocketEventStub;
+  var searchOrganizationReposStub;
   var createNewClusterStub;
+  var createNewMultiClustersStub;
+  var handleMultiClusterCreateResponseStub;
 
   // Mocked Values
   var instanceName = 'instanceName';
   var branchName = 'feature-1';
+  var shouldNotAutofork = true;
+  var clusterOpts;
+  var masterBranch = 'master';
   var instances;
   var mockInstance;
   var repos;
   var repoBuildAndBranch;
   var mockSourceInstance;
   var mockCurrentOrg;
+  var mockCurrentOrgName = 'myOauthName';
   var featureFlagsMock = {
     composeNewService: false,
   };
@@ -49,7 +57,7 @@ describe('NewContainerController'.bold.underline.blue, function () {
         }
       },
       github: {
-        oauthName: sinon.stub().returns('myOauthName'),
+        oauthName: sinon.stub().returns(mockCurrentOrgName),
         attrs: {
           id: 999
         }
@@ -73,6 +81,17 @@ describe('NewContainerController'.bold.underline.blue, function () {
         fetchInstancesStub = sinon.stub().returns($q.when(instances));
         return fetchInstancesStub;
       });
+      $provide.factory('fetchOrganizationRepos', function ($q) {
+        runnable.reset(mocks.user);
+        repos = runnable.newGithubRepos(
+          mocks.repoList, {
+            noStore: true
+          }
+        );
+        fetchOrganizationReposStub = sinon.stub().returns($q.when(repos));
+        return fetchOrganizationReposStub;
+      });
+
       $provide.factory('fetchRepoDockerfiles', function ($q) {
         fetchRepoDockerfilesStub = sinon.stub().returns($q.when([]));
         return fetchRepoDockerfilesStub;
@@ -84,9 +103,17 @@ describe('NewContainerController'.bold.underline.blue, function () {
         createNewClusterStub = sinon.stub().returns($q.when({}));
         return createNewClusterStub;
       });
+      $provide.factory('createNewMultiClusters', function () {
+        createNewMultiClustersStub = sinon.stub().returns($q.when({}));
+        return createNewMultiClustersStub;
+      });
       $provide.factory('handleSocketEvent', function ($q) {
         handleSocketEventStub = sinon.stub().returns($q.when({ clusterName: 'henry\'s instance' }));
         return handleSocketEventStub;
+      });
+      $provide.factory('handleMultiClusterCreateResponse', function ($q) {
+        handleMultiClusterCreateResponseStub = sinon.stub().returns($q.when());
+        return handleMultiClusterCreateResponseStub;
       });
       $provide.factory('createNonRepoInstance', function ($q) {
         createNonRepoInstanceStub = sinon.stub().returns($q.when(true));
@@ -96,6 +123,14 @@ describe('NewContainerController'.bold.underline.blue, function () {
         return function (cb) {
           return $q.when(cb());
         };
+      });
+      $provide.factory('searchOrganizationRepos', function ($q) {
+        var repos = [
+          { id: Math.random(), name: 'hello1', url: 'https://github.com/Runnable/hello1', full_name: 'Runnable/hello1', owner: { login: 'Runnable' } },
+          { id: Math.random(), name: 'hello2', url: 'https://github.com/Runnable/hello2', full_name: 'Runnable/hello1', owner: { login: 'Runnable' } }
+        ];
+        searchOrganizationReposStub = sinon.stub().returns($q.when(repos));
+        return searchOrganizationReposStub;
       });
       $provide.factory('createNewBuildAndFetchBranch', function ($q) {
         repoBuildAndBranch = {
@@ -119,16 +154,6 @@ describe('NewContainerController'.bold.underline.blue, function () {
         };
       });
       $provide.value('currentOrg', mockCurrentOrg);
-      $provide.factory('fetchOwnerRepos', function ($q) {
-        runnable.reset(mocks.user);
-        repos = runnable.newGithubRepos(
-          mocks.repoList, {
-            noStore: true
-          }
-        );
-        fetchOwnerRepoStub = sinon.stub().returns($q.when(repos));
-        return fetchOwnerRepoStub;
-      });
     });
 
     angular.mock.inject(function (
@@ -216,9 +241,9 @@ describe('NewContainerController'.bold.underline.blue, function () {
   describe('Init', function () {
     it('should fetch all user instances', function () {
       $scope.$digest();
+      sinon.assert.calledOnce(fetchOrganizationReposStub);
+      sinon.assert.calledWith(fetchOrganizationReposStub, 'myOauthName');
       sinon.assert.calledOnce(fetchInstancesByPodStub);
-      sinon.assert.calledOnce(fetchOwnerRepoStub);
-      sinon.assert.calledWith(fetchOwnerRepoStub, 'myOauthName');
       expect(NCC.githubRepos).to.equal(repos);
       expect(NCC.instances).to.equal(instances);
     });
@@ -450,6 +475,39 @@ describe('NewContainerController'.bold.underline.blue, function () {
         });
       });
     });
+
+    describe('fetchSearchTermsAndAppendToRepos', function () {
+      var repoFilter = 'hello';
+      beforeEach(function () {
+        $scope.$digest();
+        NCC.repoFilter = repoFilter;
+        NCC.githubRepos = runnable.newGithubRepos(
+          [], { noStore: true }
+        );
+      });
+
+      it('should search organizations repos', function () {
+        NCC.fetchSearchTermsAndAppendToRepos();
+        $scope.$digest();
+        sinon.assert.calledOnce(searchOrganizationReposStub);
+        sinon.assert.calledWith(searchOrganizationReposStub, mockCurrentOrgName, repoFilter);
+      });
+
+      it('should add all repos found', function () {
+        NCC.fetchSearchTermsAndAppendToRepos();
+        $scope.$digest();
+        var reposJSONNames = NCC.githubRepos.map(function (x) { return x.attrs.name; });
+        expect(reposJSONNames).to.deep.equal(['hello1', 'hello2']);
+      });
+
+      it('should not add any repos if none were found', function () {
+        searchOrganizationReposStub.returns($q.when([]));
+        NCC.fetchSearchTermsAndAppendToRepos();
+        $scope.$digest();
+        var reposJSONNames = NCC.githubRepos.map(function (x) { return x.attrs.name; });
+        expect(reposJSONNames).to.deep.equal([]);
+      });
+    });
   });
 
   describe('fetchTemplateServers', function () {
@@ -501,7 +559,20 @@ describe('NewContainerController'.bold.underline.blue, function () {
   });
 
   describe('docker compose single cluster creation', function () {
+    beforeEach(function () {
+      featureFlagsMock.multipleWebhooks = true;
+      NCC.state.dockerComposeTestFile = false;
+      NCC.state.dockerComposeFile = true;
+      NCC.state.types.stage = true;
+      clusterOpts = {
+        isTesting: false,
+        testReporters: [],
+        parentInputClusterConfigId: '',
+        shouldNotAutoFork: true
+      };
+    });
     it('should create one cluster', function () {
+      NCC.state.types.stage = true;
       NCC.createComposeCluster();
       sinon.assert.calledOnce(createNewClusterStub);
       sinon.assert.calledWithExactly(createNewClusterStub,
@@ -509,7 +580,89 @@ describe('NewContainerController'.bold.underline.blue, function () {
         branchName,
         NCC.state.dockerComposeFile.path,
         NCC.state.instanceName,
-        mockCurrentOrg.github.attrs.id
+        mockCurrentOrg.github.attrs.id,
+        clusterOpts
+      );
+    });
+  });
+
+  describe('docker compose multi-cluster creation', function () {
+    beforeEach(function () {
+      featureFlagsMock.multipleWebhooks = true;
+      featureFlagsMock.composeNewService = true;
+      NCC.state.dockerComposeTestFile = {
+        path: '/path'
+      };
+      NCC.state.types.test = true;
+      NCC.state.types.stage = true;
+      NCC.state.testReporter = {
+        name: 'test reporter'
+      };
+      NCC.state.repo.attrs.default_branch = masterBranch;
+      clusterOpts = {
+        isTesting: false,
+        testReporters: [],
+        parentInputClusterConfigId: '',
+        shouldNotAutoFork: true
+      };
+    });
+
+    it('should call createNewMultiClustersStub when the branch is the default', function (done) {
+      NCC.state.branch.attrs.name = masterBranch;
+      NCC.state.instanceName = 'nothingSpecial';
+      NCC.createComposeCluster()
+        .then(function () {
+          sinon.assert.calledTwice(createNewMultiClustersStub);
+          sinon.assert.calledWithExactly(createNewMultiClustersStub,
+            NCC.state.repo.attrs.full_name,
+            masterBranch,
+            NCC.state.dockerComposeFile.path,
+            mockCurrentOrg.github.attrs.id
+          );
+          sinon.assert.calledWithExactly(createNewMultiClustersStub,
+            NCC.state.repo.attrs.full_name,
+            masterBranch,
+            NCC.state.dockerComposeTestFile.path,
+            mockCurrentOrg.github.attrs.id,
+            !!NCC.state.dockerComposeTestFile,
+            [ NCC.state.testReporter.name ]
+          );
+          done();
+        });
+      $scope.$digest();
+      $scope.$digest();
+    });
+    it('should call createNewClustersStub when the branch is not the default', function () {
+      NCC.state.branch.attrs.name = branchName;
+      var parentClusterConfigId = 'asdasdasd';
+      handleSocketEventStub.returns($q.when({
+        clusterName: 'henry\'s instance',
+        parentInputClusterConfigId: parentClusterConfigId
+      }));
+      NCC.createComposeCluster();
+      $scope.$digest();
+      $scope.$digest();
+      sinon.assert.calledTwice(createNewClusterStub);
+      sinon.assert.calledWithExactly(createNewClusterStub,
+        NCC.state.repo.attrs.full_name,
+        branchName,
+        NCC.state.dockerComposeFile.path,
+        NCC.state.instanceName,
+        mockCurrentOrg.github.attrs.id,
+        clusterOpts
+      );
+      sinon.assert.calledWithExactly(createNewClusterStub,
+        NCC.state.repo.attrs.full_name,
+        branchName,
+        NCC.state.dockerComposeTestFile.path,
+        NCC.state.instanceName + '-test',
+        mockCurrentOrg.github.attrs.id,
+        {
+          isTesting: true,
+          testReporters: [ NCC.state.testReporter.name ],
+          parentInputClusterConfigId: parentClusterConfigId,
+          shouldNotAutoFork: true
+        }
       );
     });
   });
@@ -525,19 +678,23 @@ describe('NewContainerController'.bold.underline.blue, function () {
       NCC.state.testReporter = {
         name: 'test reporter'
       };
+      clusterOpts = {
+        isTesting: !!NCC.state.dockerComposeTestFile,
+        testReporters: [ NCC.state.testReporter.name ],
+        parentInputClusterConfigId: '',
+        shouldNotAutofork: true
+      };
     });
 
     it('should create one test cluster', function () {
       NCC.createComposeCluster();
       sinon.assert.calledOnce(createNewClusterStub);
-      sinon.assert.calledWithExactly(createNewClusterStub,
+      sinon.assert.calledWith(createNewClusterStub,
         NCC.state.repo.attrs.full_name,
         branchName,
         NCC.state.dockerComposeTestFile.path,
         NCC.state.instanceName,
-        mockCurrentOrg.github.attrs.id,
-        !!NCC.state.dockerComposeTestFile,
-        [ NCC.state.testReporter.name ]
+        mockCurrentOrg.github.attrs.id
       );
     });
   });
