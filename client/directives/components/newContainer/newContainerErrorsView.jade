@@ -33,7 +33,7 @@
         )
     .modal-body
       .modal-form
-        section.grid-block.vertical(
+        section.grid-block.vertical.section(
           ng-repeat = "file in files"
         )
           .padding-xxs.small.label-sm {{file.name}}
@@ -53,7 +53,7 @@
                   | {{file.errors.length > 1 ? 'There are ' + file.errors.length + ' errors to resolve.' : ''}}
                   | {{!file.errors.length && file.warnings.length === 1 ? 'Your file has ' + file.warnings.length + ' warning.' : ''}}
                   | {{!file.errors.length && file.warnings.length > 1 ? 'Your file has ' + file.warnings.length + ' warnings.' : ''}}
-              button.grid-block.align-center.shrink.btn.btn-xs.white
+              .grid-block.align-center.shrink.btn.btn-xs.white
                 svg.iconnables
                   use(
                     xlink:href = "#icons-sync-alt"
