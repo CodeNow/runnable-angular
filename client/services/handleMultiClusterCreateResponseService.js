@@ -1,11 +1,12 @@
 'use strict';
 
 require('app')
-  .factory('handleMultiClusterCreateResponse', handleMultiClusterCreateResponse);
+  .factory('handleMultiClusterCreateResponse', handleMultiClusterCreateResponse)
+  .factory('handleMultiSocketEvent', handleMultiSocketEvent);
 
 function handleMultiClusterCreateResponse(
   $q,
-  handleSocketEvent,
+  handleMultiSocketEvent,
   keypather
 ) {
   return function (response) {
@@ -19,7 +20,7 @@ function handleMultiClusterCreateResponse(
       return clusterResults.hash;
     });
     return $q.all(allHashes.map(function () {
-      return handleSocketEvent('compose-cluster-created');
+      return handleMultiSocketEvent('compose-cluster-created', 'data.clusterName', allHashes);
     }))
       .then(function (socketResponse) {
         var clustersCreated = socketResponse.map(function (response) {
@@ -33,5 +34,27 @@ function handleMultiClusterCreateResponse(
         }
       });
 
+  };
+}
+
+function handleMultiSocketEvent(
+  $q,
+  $rootScope,
+  keypather
+) {
+  return function (event, pathToValueToCheck, valuesToFind) {
+    var deferred = $q.defer();
+    var unregisterSocketEventHandler = $rootScope.$on(event, function (evt, data) {
+      var valueToCheck = keypather.get(data, pathToValueToCheck);
+      if (valuesToFind.includes(valueToCheck)) {
+        unregisterSocketEventHandler();
+        if (data.data.err) {
+          deferred.reject(data.data.err);
+          return;
+        }
+        deferred.resolve(data.data);
+      }
+    });
+    return deferred.promise;
   };
 }
