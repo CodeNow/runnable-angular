@@ -67,16 +67,16 @@
             ul.grid-block.vertical.ul.ul-errors(
               ng-if = "file.errors.length || file.warnings.length"
             )
-              li.grid-block.shrink.li(
+              li.li(
                 ng-repeat = "error in file.errors"
               )
                 code.code.small.code-error {{error.type}}
-                .small {{error.message}}
-              li.grid-block.shrink.li(
+                span.small {{error.message}}
+              li.li(
                 ng-repeat = "warning in file.warnings"
               )
                 code.code.small.code-warning {{warning.type}}
-                .small {{warning.message}}
+                span.small {{warning.message}}
 
         small.padding-xs.text-gray.small All errors must be resolved before we can create your environment. You may continue without resolving warnings, but those instructions may be ignored. &#32;
           a.link Learn More
