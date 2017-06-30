@@ -23,7 +23,7 @@ describe('handleMultiClusterCreateResponse'.bold.underline.blue, function () {
     beforeEach(function () {
       angular.mock.module('app');
       angular.mock.module(function ($provide) {
-        $provide.factory('handleSocketEvent', function ($q) {
+        $provide.factory('handleMultiSocketEvent', function ($q) {
           handleSocketEventStub = sinon.stub().returns($q.when(socketResponse[0]));
           handleSocketEventStub.onFirstCall().returns($q.when(socketResponse[0]));
           handleSocketEventStub.onSecondCall().returns($q.when(socketResponse[1]));

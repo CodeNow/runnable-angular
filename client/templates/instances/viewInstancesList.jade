@@ -46,7 +46,7 @@
 
     //- notification for deleted environments
     .popover.popover-demo.padding-sm.in.popover-removed-environments(
-      ng-if = "$root.featureFlags.multipleWebhooks"
+      ng-if = "$root.featureFlags.multipleWebhooksRemovedPopover"
       ng-include = "'popoverRemovedEnvironmentsView'"
       ng-init = "affectedRepos = ['api', 'runnable-angular', 'sauron']"
     )
