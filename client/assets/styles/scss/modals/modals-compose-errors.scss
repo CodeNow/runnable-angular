@@ -1,31 +1,28 @@
 .modal-compose-errors {
 
+  .section + .section {
+    margin-top: $sm;
+  }
+
+  .label-sm {
+    color: $gray-dark;
+    font-weight: $weight-bold;
+  }
+
   .well {
     color: $gray-dark;
-    height: 62px;
 
-    &.in {
-      height: auto;
-    }
-  }
-
-  .btn + .btn {
-    flex: 0 0 72px;
-    justify-content: center;
-    margin-left: 6px;
-  }
-
-  .btn-icon {
-    padding: 5px;
-    width: $input-xs;
-
-    .iconnables {
+    .btn .iconnables {
+      height: 12px;
+      margin-right: 3px;
       opacity: .75;
+      width: 12px;
     }
   }
 
   .ul {
     border-top: 1px solid $gray-lighter;
+    color: $gray;
   }
 
   .li {
