@@ -1,6 +1,7 @@
 .modal-compose-errors {
 
   .well {
+    color: $gray-dark;
     height: 62px;
 
     &.in {
@@ -9,6 +10,8 @@
   }
 
   .btn + .btn {
+    flex: 0 0 72px;
+    justify-content: center;
     margin-left: 6px;
   }
 
@@ -18,6 +21,36 @@
 
     .iconnables {
       opacity: .75;
+    }
+  }
+
+  .ul {
+    border-top: 1px solid $gray-lighter;
+  }
+
+  .li {
+    padding: $xs;
+
+    + .li {
+      border-top: 1px solid $gray-lighter;
+    }
+  }
+
+  .code {
+    border-radius: $input-border-radius;
+    font-weight: $weight-bold;
+    height: 18px;
+    margin-right: $xxs;
+    padding: 0 3px;
+
+    &.code-error {
+      background: $red-lighter;
+      color: $red;
+    }
+
+    &.code-warning {
+      background: $orange-lightest;
+      color: $orange;
     }
   }
 }

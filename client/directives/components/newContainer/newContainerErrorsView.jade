@@ -4,19 +4,26 @@
       files = [\
         {\
           name: 'docker-compose.yml',\
-          errors: 1,\
-          warnings: 0\
+          errors: [\
+            {type: 'ports', message: 'You’ve specified an invalid port entry.'}\
+          ],\
+          warnings: [\
+            {type: 'entrypoint', message: 'Entrypoint is not supported; use `run` instead.'}\
+          ]\
         },\
         {\
           name: 'docker-compose.test.yml',\
-          errors: 0,\
-          warnings: 2\
+          errors: [],\
+          warnings: [\
+            {type: 'entrypoint', message: 'Entrypoint is not supported; use `run` instead.'},\
+            {type: 'dns', message: 'DNS is not supported.'}\
+          ]\
         }\
       ];\
     "
   )
     header.modal-header
-      h1.modal-heading Compose Issues
+      h1.modal-heading Issues Found
       svg.iconnables.icons-close(
         ng-click = "defaultActions.cancel()"
       )
@@ -25,31 +32,51 @@
         )
     .modal-body
       .modal-form
-        section.grid-block.align-center.padding-xs.well.gray(
+        section.grid-block.vertical.well.gray(
+          ng-class = "{'in': file.expanded}"
           ng-repeat = "file in files"
         )
-          svg.grid-block.shrink.iconnables.margin-right-xs
-            use(
-              ng-if = "file.errors > 0"
-              xlink:href = "#icons-error"
-            )
-            use(
-              ng-if = "!file.errors && file.warnings > 0"
-              xlink:href = "#icons-warning"
-            )
-          .padding-right-sm.grid-block.vertical
-            .small.text-gray-dark.weight-strong {{file.name}}
-            .small
-              | {{file.errors === 1 ? 'There is ' + file.errors + ' error that you will need to resolve.' : ''}}
-              | {{file.errors > 1 ? 'There are ' + file.errors + ' errors that you will need to resolve.' : ''}}
-              | {{!file.errors && file.warnings === 1 ? 'Your file has ' + file.warnings + ' warning.' : ''}}
-              | {{!file.errors && file.warnings > 1 ? 'Your file has ' + file.warnings + ' warnings.' : ''}}
-          button.grid-block.shrink.btn.btn-icon.btn-xs.white
-            svg.iconnables
+          header.padding-xs.grid-block.shrink.align-center
+            svg.grid-block.shrink.iconnables.margin-right-xs
               use(
-                xlink:href = "#icons-sync-alt"
+                ng-if = "file.errors.length > 0"
+                xlink:href = "#icons-error"
               )
-          button.grid-block.shrink.btn.btn-xs.white Expand
+              use(
+                ng-if = "!file.errors.length && file.warnings.length > 0"
+                xlink:href = "#icons-warning"
+              )
+            .padding-right-sm.grid-block.vertical
+              .small
+                | {{file.errors.length === 1 ? 'There is ' + file.errors.length + ' error that you will need to resolve.' : ''}}
+                | {{file.errors.length > 1 ? 'There are ' + file.errors.length + ' errors that you will need to resolve.' : ''}}
+                | {{!file.errors.length && file.warnings.length === 1 ? 'Your file has ' + file.warnings.length + ' warning.' : ''}}
+                | {{!file.errors.length && file.warnings.length > 1 ? 'Your file has ' + file.warnings.length + ' warnings.' : ''}}
+              .small {{file.name}}
+            button.grid-block.shrink.btn.btn-icon.btn-xs.white
+              svg.iconnables
+                use(
+                  xlink:href = "#icons-sync-alt"
+                )
+            button.grid-block.shrink.btn.btn-xs.white(
+              ng-click = "file.expanded = !file.expanded"
+            ) {{file.expanded ? 'Collapse' : 'Show Me'}}
+          ul.grid-block.vertical.ul.ul-errors(
+            ng-if = "file.errors.length || file.warnings.length"
+          )
+            li.grid-block.shrink.li(
+              ng-repeat = "error in file.errors"
+            )
+              code.code.small.code-error {{error.type}}
+              .small {{error.message}}
+            li.grid-block.shrink.li(
+              ng-repeat = "warning in file.warnings"
+            )
+              code.code.small.code-warning {{warning.type}}
+              .small {{warning.message}}
+
+        small.padding-xs.text-gray.small All errors must be resolved before we can create your environment. You may continue without resolving warnings, but those instructions may be ignored. &#32;
+          a.link Learn More
 
     footer.modal-footer.clearfix
       button.btn.btn-md.white.float-left(

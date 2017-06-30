@@ -104,6 +104,11 @@ h4 {
   white-space: pre;
 }
 
+// code
+code {
+  font-family: $monospace;
+}
+
 // monospace
 %monospace,
 .monospace {
