@@ -19,8 +19,8 @@ function handleMultiClusterCreateResponse(
     var allHashes = [].concat(externals, builds).map(function (clusterResults) {
       return clusterResults.hash;
     });
-    return $q.all(allHashes.map(function () {
-      return handleMultiSocketEvent('compose-cluster-created', 'data.clusterName', allHashes);
+    return $q.all(allHashes.map(function (hash) {
+      return handleMultiSocketEvent('compose-cluster-created', 'data.clusterName', hash);
     }))
       .then(function (socketResponse) {
         var clustersCreated = socketResponse.map(function (response) {
@@ -42,15 +42,12 @@ function handleMultiSocketEvent(
   $rootScope,
   keypather
 ) {
-  return function (event, pathToValueToCheck, valuesToFindOriginal) {
-    // Copy the array since we're going to destroy it
-    var valuesToFind = [].concat(valuesToFindOriginal);
+  return function (event, pathToValueToCheck, hashToFind) {
     var deferred = $q.defer();
     var unregisterSocketEventHandler = $rootScope.$on(event, function (evt, data) {
       var valueToCheck = keypather.get(data, pathToValueToCheck);
-      var index = valuesToFind.indexOf(valueToCheck);
-      if (index !== -1) {
-        valuesToFind.splice(index, 1);
+
+      if (valueToCheck === hashToFind) {
         unregisterSocketEventHandler();
         if (data.data.err) {
           deferred.reject(data.data.err);

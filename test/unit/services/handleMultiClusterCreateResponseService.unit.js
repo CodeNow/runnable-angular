@@ -18,7 +18,6 @@ describe('handleMultiClusterCreateResponse'.bold.underline.blue, function () {
   }, {
     clusterName: hashes[2]
   }];
-
   describe('base', function () {
     beforeEach(function () {
       angular.mock.module('app');
