@@ -53,8 +53,13 @@
                   | {{file.errors.length > 1 ? 'There are ' + file.errors.length + ' errors to resolve.' : ''}}
                   | {{!file.errors.length && file.warnings.length === 1 ? 'Your file has ' + file.warnings.length + ' warning.' : ''}}
                   | {{!file.errors.length && file.warnings.length > 1 ? 'Your file has ' + file.warnings.length + ' warnings.' : ''}}
-              .grid-block.align-center.shrink.btn.btn-xs.white
-                svg.iconnables
+              .grid-block.align-center.shrink.btn.btn-xs.white(
+                ng-click = "file.loading = !file.loading"
+                ng-disabled = "file.loading"
+              )
+                svg.iconnables.animate-spin(
+                  ng-class = "{'in': file.loading}"
+                )
                   use(
                     xlink:href = "#icons-sync-alt"
                   )
