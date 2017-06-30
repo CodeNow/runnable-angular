@@ -1,0 +1,96 @@
+.modal-backdrop
+  .modal-dialog.modal-lg.modal-compose-errors(
+    ng-init = "\
+      files = [\
+        {\
+          name: 'docker-compose.yml',\
+          errors: [\
+            {type: 'build.context', message: 'You don’t have permission to the specified repository.'},\
+            {type: 'ports', message: 'You’ve specified an invalid port entry.'}\
+          ],\
+          warnings: [\
+            {type: 'entrypoint', message: 'Entrypoint is not supported; use `run` instead.'}\
+          ]\
+        },\
+        {\
+          name: 'docker-compose.test.yml',\
+          errors: [],\
+          warnings: [\
+            {type: 'entrypoint', message: 'Entrypoint is not supported; use `run` instead.'},\
+            {type: 'dns', message: 'DNS is not supported.'}\
+          ]\
+        }\
+      ];\
+    "
+  )
+    header.modal-header
+      h1.modal-heading Issues Found
+      svg.iconnables.icons-close(
+        ng-click = "defaultActions.cancel()"
+      )
+        use(
+          xlink:href = "#icons-close"
+        )
+    .modal-body
+      .modal-form
+        section.grid-block.vertical.section(
+          ng-repeat = "file in files"
+        )
+          .padding-xxs.small.label-sm {{file.name}}
+          .grid-block.vertical.well.gray.ignore-margin
+            header.padding-xs.grid-block.shrink.align-center
+              svg.grid-block.shrink.iconnables.margin-right-xs
+                use(
+                  ng-if = "file.errors.length > 0"
+                  xlink:href = "#icons-error"
+                )
+                use(
+                  ng-if = "!file.errors.length && file.warnings.length > 0"
+                  xlink:href = "#icons-warning"
+                )
+              .grid-block.padding-right-sm.small
+                  | {{file.errors.length === 1 ? 'There is ' + file.errors.length + ' error to resolve.' : ''}}
+                  | {{file.errors.length > 1 ? 'There are ' + file.errors.length + ' errors to resolve.' : ''}}
+                  | {{!file.errors.length && file.warnings.length === 1 ? 'Your file has ' + file.warnings.length + ' warning.' : ''}}
+                  | {{!file.errors.length && file.warnings.length > 1 ? 'Your file has ' + file.warnings.length + ' warnings.' : ''}}
+              .grid-block.align-center.shrink.btn.btn-xs.white(
+                ng-click = "file.loading = !file.loading"
+                ng-disabled = "file.loading"
+              )
+                svg.iconnables.animate-spin(
+                  ng-class = "{'in': file.loading}"
+                )
+                  use(
+                    xlink:href = "#icons-sync-alt"
+                  )
+                | Refresh
+            ul.grid-block.vertical.ul.ul-errors(
+              ng-if = "file.errors.length || file.warnings.length"
+            )
+              li.li(
+                ng-repeat = "error in file.errors"
+              )
+                code.code.small.code-error {{error.type}}
+                span.small {{error.message}}
+              li.li(
+                ng-repeat = "warning in file.warnings"
+              )
+                code.code.small.code-warning {{warning.type}}
+                span.small {{warning.message}}
+
+        small.padding-xs.text-gray.small All errors must be resolved before we can create your environment. You may continue without resolving warnings, but those instructions may be ignored. &#32;
+          a.link Learn More
+
+    footer.modal-footer.clearfix
+      button.btn.btn-md.white.float-left(
+        ng-click = "defaultActions.close()"
+      ) Cancel
+      button.btn.btn-md.green.float-right(
+        ng-disabled = "state.error || state.loading"
+      )
+        //- .float-left.spinner-wrapper.spinner-sm.spinner-white(
+        //-   ng-include = "'spinner'"
+        //- )
+
+        //- this copy should be the same as the setup modal, should be the plural _environments_ if multiple environments are created
+        span Create Environment
