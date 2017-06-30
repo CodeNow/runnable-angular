@@ -81,5 +81,9 @@
         ng-click = "defaultActions.close()"
       ) Cancel
       button.btn.btn-md.green.float-right(
-        ng-disabled = "state.error"
-      ) Create Environment
+        ng-disabled = "state.error || state.loading"
+      )
+        //- .spinner-wrapper.spinner-sm.spinner-white(
+        //-   ng-include = "'spinner'"
+        //- )
+        | Create Environment
