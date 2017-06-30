@@ -28,9 +28,10 @@ require('app')
         function populateDefaultBranch () {
           if (!keypather.get($scope, 'state.branch.client') && keypather.get($scope, 'state.repo.branches.models.length')) {
             var branchSeed = $scope.state.acv ? $scope.state.acv.attrs.branch : $scope.state.repo.attrs.default_branch;
-            $scope.state.branch = $scope.state.repo.branches.models.find(function (branch) {
+            $scope.defaultBranch = $scope.state.repo.branches.models.find(function (branch) {
               return branch.attrs.name.toLowerCase() === branchSeed.toLowerCase();
             });
+            $scope.state.branch = $scope.defaultBranch;
           }
         }
         $scope.$watch('state.repo', function (repo) {
@@ -50,12 +51,6 @@ require('app')
             }
           }
         });
-
-        $scope.masterBranch = function () {
-          return $scope.state.repo.branches.models.find(function (branch) {
-            return branch.attrs.name === 'master';
-          });
-        };
 
         $scope.onBranchChange = function (newBranch) {
           if ($scope.autoUpdate && $scope.state.acv) {

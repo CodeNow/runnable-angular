@@ -13,6 +13,7 @@ function NewContainerController(
   ahaGuide,
   createNewBuildAndFetchBranch,
   createNewCluster,
+  createNewMultiClusters,
   createNonRepoInstance,
   currentOrg,
   demoFlowService,
@@ -23,6 +24,7 @@ function NewContainerController(
   fetchOrganizationRepos,
   fetchRepoDockerfiles,
   getNewForkName,
+  handleMultiClusterCreateResponse,
   handleSocketEvent,
   keypather,
   loading,
@@ -344,7 +346,36 @@ function NewContainerController(
     });
   };
 
-  NCC.createComposeCluster = function () {
+  NCC.createMultipleComposeCluster = function () {
+    return $q.when()
+      .then(function () {
+        if (NCC.state.dockerComposeFile && NCC.state.types.stage) {
+          return createNewMultiClusters(
+            NCC.state.repo.attrs.full_name,
+            NCC.state.branch.attrs.name,
+            NCC.state.dockerComposeFile.path,
+            currentOrg.github.attrs.id
+          )
+            .then(handleMultiClusterCreateResponse);
+        }
+      })
+      .then(function () {
+        if (!NCC.state.dockerComposeTestFile) {
+          return;
+        }
+        return createNewMultiClusters(
+          NCC.state.repo.attrs.full_name,
+          NCC.state.branch.attrs.name,
+          NCC.state.dockerComposeTestFile.path,
+          currentOrg.github.attrs.id,
+          !!NCC.state.dockerComposeTestFile,
+          [NCC.state.testReporter.name]
+        )
+          .then(handleMultiClusterCreateResponse);
+      });
+  };
+
+  NCC.createBranchComposeCluster = function () {
     var clusterOpts;
     if (NCC.state.dockerComposeFile && NCC.state.types.stage) {
       clusterOpts = {
@@ -361,7 +392,7 @@ function NewContainerController(
         currentOrg.github.attrs.id,
         clusterOpts
       )
-        .then(function (res) {
+        .then(function () {
           return handleSocketEvent('compose-cluster-created');
         })
         .then(function (parentCluster) {
@@ -402,6 +433,13 @@ function NewContainerController(
       .then(function () {
         return handleSocketEvent('compose-cluster-created');
       });
+  };
+
+  NCC.createComposeCluster = function () {
+    if ($rootScope.featureFlags.multipleWebhooks && NCC.state.branch.attrs.name === NCC.state.repo.attrs.default_branch) {
+      return NCC.createMultipleComposeCluster();
+    }
+    return NCC.createBranchComposeCluster();
   };
 
   NCC.getNextStepText = function () {
