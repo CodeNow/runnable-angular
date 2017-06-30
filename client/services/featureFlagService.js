@@ -53,6 +53,7 @@ function featureFlags(
     multilineStartCmd: false,
     multipleRepositoryContainers: false, // for adding multiple containers with the same repository
     multipleWebhooks: false,
+    multipleWebhooksRemovedPopover: false,
     navListFilter: false,
     nextPayment: false, // show the next payment date under payment summary
     optionsInModal: false, // allows delete in modal
