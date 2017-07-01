@@ -18,7 +18,8 @@ function isInstanceActive(
     if (isCurrentBaseInstance) {
       return true;
     }
-    if (cluster) {
+
+    if (!instance.isolation && cluster) {
       var repoName = instance.attrs.inputClusterConfig.clusterName;
       if ($state.params.instanceName.match(repoName)) {
         return true;
