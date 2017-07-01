@@ -76,10 +76,18 @@ function ComposeCardController(
   };
 
   function deleteCluster (cluster) {
-    var deletePromises = [cluster.master].concat(cluster.staging || [], cluster.testing || [])
-      .map(function (instance) {
-        return promisify(instance, 'destroy')();
-      });
+    var clusters = [];
+    if (!cluster.clusters) {
+      clusters.push(cluster);
+    } else {
+      clusters = cluster.clusters;
+    }
+    var deletePromises = clusters.map(function (cluster) {
+      return [cluster.master].concat(cluster.staging || [], cluster.testing || [])
+        .map(function (instance) {
+          return promisify(instance, 'destroy')();
+        });
+    });
     return $q.all(deletePromises);
   }
 
