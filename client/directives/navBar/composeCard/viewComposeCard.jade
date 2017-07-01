@@ -7,9 +7,9 @@ a.nav-card-header(
   "
 )
 
-.default-compose-clusters(
-  ng-repeat = "defaultCluster in CCC.composeCluster.clusters"
+div(
   ng-if = "defaultCluster.isDefaultBranch"
+  ng-repeat = "defaultCluster in CCC.composeCluster.clusters"
 )
   //- staging environment
   section.nav-card-section(
@@ -22,7 +22,7 @@ a.nav-card-header(
     ng-include = "'viewDefaultTestingEnvironment'"
   )
 
-.feature-compose-clusters(
+div(
   ng-if = "!CCC.composeCluster.clusters"
 )
   section.nav-card-section(
