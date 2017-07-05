@@ -2,26 +2,25 @@ header.noscroll.nav-environment-header
 
   span.grid-block Testing
   branch-test-popover-button(
-    instance = "composeCluster.master"
-    ng-if = "composeCluster.master.attrs.isTesting"
+    instance = "defaultCluster.master"
+    ng-if = "defaultCluster.master.attrs.isTesting"
   )
   branch-test-popover-button(
-    instance = "CCC.getTestingInstances(composeCluster)[0]"
-    ng-if = "!composeCluster.master.attrs.isTesting"
+    instance = "CCC.getTestingInstances(defaultCluster)[0]"
+    ng-if = "!defaultCluster.master.attrs.isTesting"
   )
 
 ul.nav-container-list(
-  ng-repeat = "testingCluster in CCC.composeCluster.clusters"
 )
   li.li(
     active-account = "activeAccount"
-    instance = "testingCluster.master"
+    instance = "defaultCluster.master"
     instance-navigation
-    ng-if = "testingCluster.master.attrs.isTesting"
+    ng-if = "defaultCluster.master.attrs.isTesting"
   )
 
   li.li(
     instance = "testingInstance"
     instance-navigation
-    ng-repeat = "testingInstance in CCC.getTestingInstances(testingCluster) track by testingInstance.attrs._id"
+    ng-repeat = "testingInstance in CCC.getTestingInstances(defaultCluster) track by testingInstance.attrs._id"
   )
