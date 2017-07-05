@@ -2,12 +2,12 @@ header.noscroll.nav-environment-header
 
   span.grid-block Testing
   branch-test-popover-button(
-    instance = "composeCluster.master"
-    ng-if = "composeCluster.master.attrs.isTesting"
+    instance = "defaultCluster.master"
+    ng-if = "defaultCluster.master.attrs.isTesting"
   )
   branch-test-popover-button(
-    instance = "CCC.getTestingInstances(composeCluster)[0]"
-    ng-if = "!composeCluster.master.attrs.isTesting"
+    instance = "CCC.getTestingInstances(defaultCluster)[0]"
+    ng-if = "!defaultCluster.master.attrs.isTesting"
   )
 
 ul.nav-container-list(
