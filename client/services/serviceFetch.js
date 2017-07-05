@@ -488,8 +488,8 @@ function fetchInstancesByCompose(
                   });
                 })
                 .reduce(function (repoClusters, clusters) {
-                  var defaultBranchClusters = [];
-                  var featureBranchClusters = [];
+                  var defaultBranchClusters = {};
+                  var featureBranchClusters = {};
                   var childClusters = {};
                   var repoName;
                   var githubOrg;
@@ -497,28 +497,41 @@ function fetchInstancesByCompose(
                     repoName = cluster.masterRepo;
                     githubOrg = cluster.githubOrg;
                     if (cluster.isDefaultBranch) {
-                      defaultBranchClusters.push(cluster);
+                      defaultBranchClusters[repoName] = defaultBranchClusters[repoName] || [];
+                      defaultBranchClusters[repoName].push(cluster);
                       if (cluster.children) {
-                        featureBranchClusters.push({
+                        featureBranchClusters[repoName] = featureBranchClusters[repoName] || [];
+                        featureBranchClusters[repoName].push({
                           githubOrg: githubOrg,
                           masterRepo: repoName,
                           children: cluster.children
                         });
                       }
-                      return;
                     }
-                    featureBranchClusters.push(cluster);
+                    featureBranchClusters[repoName] = featureBranchClusters[repoName] || [];
+                    featureBranchClusters[repoName].push({
+                      githubOrg: githubOrg,
+                      masterRepo: repoName,
+                      children: cluster.children
+                    });
                   });
-                  repoClusters.defaultBranches.push({
-                    repoName: repoName,
-                    githubOrg: githubOrg,
-                    clusters: defaultBranchClusters
+
+                  Object.keys(defaultBranchClusters).map(function (masterRepo) {
+                    repoClusters.defaultBranches.push({
+                      repoName: masterRepo,
+                      githubOrg: githubOrg,
+                      clusters: defaultBranchClusters[masterRepo]
+                    });
                   });
-                  repoClusters.featureBranches.push({
-                    repoName: repoName,
-                    githubOrg: githubOrg,
-                    clusters: featureBranchClusters
-                  });
+
+                  Object.keys(featureBranchClusters).map(function (masterRepo) {
+                    repoClusters.featureBranches.push({
+                      repoName: masterRepo,
+                      githubOrg: githubOrg,
+                      clusters: featureBranchClusters[masterRepo]
+                    });
+                  })
+
                   return repoClusters;
                 }, { defaultBranches: [], featureBranches: [] });
 
