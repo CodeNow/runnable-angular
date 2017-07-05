@@ -67,6 +67,14 @@
   display: flex;
   flex-direction: column;
 
+  &:hover,
+  &.active {
+
+    .btn-delete-branch {
+      opacity: 1;
+    }
+  }
+
   &.active {
     background-color: $white;
     border: $input-border solid $gray-lighter;
@@ -113,6 +121,10 @@
 
   &:active:not(.active) {
     color: $gray-dark;
+  }
+
+  .btn-delete-branch {
+    opacity: 0;
   }
 }
 
