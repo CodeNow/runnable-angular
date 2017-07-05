@@ -1,5 +1,5 @@
 fancy-select.white.btn-wrapped.btn-sm(
-  ng-disabled = "branchFetching || !state.repo.branches.models.length"
+  ng-disabled = "branchFetching || !state.repo.branches.models.length || $root.isLoading.creatingDockerCompose"
   ng-required = "true"
   on-update = "onBranchChange"
   spinner-flag = "branchFetching || !state.repo.branches.models.length"
@@ -15,7 +15,7 @@ fancy-select.white.btn-wrapped.btn-sm(
     ng-if = "$root.featureFlags.multipleWebhooks && $parent.state.repo.branches.models.length && $parent.defaultBranch"
     value = "$parent.$parent.defaultBranch"
   )
-    svg.iconnables
+    svg.iconnables.icons-branch
       use(
         xlink:href = "#icons-default"
       )
