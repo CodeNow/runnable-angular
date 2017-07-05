@@ -40,15 +40,25 @@ function DeleteEnvironmentsModalController(
         return cluster.repo.split('/')[1];
       });
       DEMC.affectedEnvironments = [];
+      var allClustersByCompose = [].concat(instancesByCompose.defaultBranches, instancesByCompose.featureBranches);
+      allClustersByCompose = allClustersByCompose.reduce(function (allClusters, compose) {
+        compose.clusters.reduce(function (allClusters, cluster) {
+          allClusters.push(cluster);
+          return allClusters;
+        }, allClusters);
+        return allClusters;
+      }, []);
       relations.clusters.forEach(function (cluster) {
         var AIC = cluster.autoIsolationConfigId;
-        var instanceGroup = instancesByCompose.find(function (compose) {
-          return compose.master.attrs.inputClusterConfig.autoIsolationConfigId === AIC;
+        var instanceGroup = allClustersByCompose.find(function (compose) {
+          return compose.master && compose.master.attrs.inputClusterConfig.autoIsolationConfigId === AIC;
         });
-        DEMC.affectedEnvironments.push(instanceGroup.master);
-        instanceGroup.children.forEach(function (childGroup) {
-          DEMC.affectedEnvironments.push(childGroup.master);
-        });
+        if (instanceGroup) {
+          DEMC.affectedEnvironments.push(instanceGroup.master);
+          instanceGroup.children.forEach(function (childGroup) {
+            DEMC.affectedEnvironments.push(childGroup.master);
+          });
+        }
       });
     })
     .finally(function () {
