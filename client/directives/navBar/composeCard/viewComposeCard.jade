@@ -8,28 +8,28 @@ a.nav-card-header(
 )
 
 .nav-card-wrapper(
-  ng-if = "defaultCluster.isDefaultBranch"
+  ng-if = "defaultCluster.isDefaultBranch && isActive"
   ng-repeat = "defaultCluster in CCC.composeCluster.clusters"
 )
   //- staging environment
   section.nav-card-section(
-    ng-if = "isActive && (defaultCluster.staging.length || !defaultCluster.master.attrs.isTesting)"
+    ng-if = "defaultCluster.staging.length || !defaultCluster.master.attrs.isTesting"
     ng-include = "'viewDefaultStagingEnvironment'"
   )
   //- testing environment
   section.nav-card-section(
-    ng-if = "isActive && (defaultCluster.testing.length || defaultCluster.master.attrs.isTesting)"
+    ng-if = "defaultCluster.testing.length || defaultCluster.master.attrs.isTesting"
     ng-include = "'viewDefaultTestingEnvironment'"
   )
 
 .nav-card-wrapper(
-  ng-if = "!CCC.composeCluster.clusters"
+  ng-if = "!CCC.composeCluster.clusters && isActive"
 )
   section.nav-card-section(
-    ng-if = "isActive && (CCC.composeCluster.staging.length || !defaultCluster.master.attrs.isTesting)"
+    ng-if = "CCC.composeCluster.staging.length || !defaultCluster.master.attrs.isTesting"
     ng-include = "'viewStagingEnvironment'"
   )
   section.nav-card-section(
-    ng-if = "isActive && (CCC.composeCluster.testing.length || defaultCluster.master.attrs.isTesting)"
+    ng-if = "CCC.composeCluster.testing.length || defaultCluster.master.attrs.isTesting"
     ng-include = "'viewTestingEnvironment'"
   )
