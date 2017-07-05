@@ -17,7 +17,7 @@ button.grid-block.shrink.btn-container-menu(
 button.grid-block.shrink.btn-container-menu(
   data-event-name = "Clicked to Delete Branch (Open Modal)"
   ng-click = "CCC.deleteBranch()"
-  ng-if = "$root.featureFlags.multipleWebhooks"
+  ng-if = "$root.featureFlags.multipleWebhooks && showDeleteButton()"
   tooltip = "Remove Branch…"
   tooltip-options = "{\"class\":\"right\",\"left\":21,\"top\":-6}"
 )

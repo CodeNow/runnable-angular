@@ -15,12 +15,15 @@ function composeCard(
     bindToController: true,
     scope: {
       composeCluster: '=',
-      composeRepo: '@?',
-      isChild: '=?'
+      composeRepo: '@?'
     },
     link: function ($scope) {
       $scope.getCardName = function () {
         return $scope.CCC.composeRepo || $scope.CCC.composeCluster.master.getBranchName();
+      };
+
+      $scope.showDeleteButton = function () {
+        return !$scope.CCC.composeCluster.master.attrs.masterPod;
       };
 
       $scope.isActive = true;

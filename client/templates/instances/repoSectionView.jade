@@ -20,7 +20,6 @@ h2.grid-block.align-center.justify-justified.nav-section-header
 section.nav-card(
   compose-card
   compose-cluster = "composeCluster"
-  is-child = "!composeCluster.master.attrs.masterPod"
   ng-class = "{'active': CIS.isComposeCardActive(composeCluster)}"
   ng-repeat = "composeCluster in composeClusters.clusters"
 )
