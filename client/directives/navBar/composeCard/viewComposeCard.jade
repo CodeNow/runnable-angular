@@ -26,10 +26,10 @@ a.nav-card-header(
   ng-if = "!CCC.composeCluster.clusters"
 )
   section.nav-card-section(
-    ng-if = "isActive && (CCC.composeCluster.staging.length || !defaultCluster.master.attrs.isTesting)"
+    ng-if = "isActive && (CCC.composeCluster.staging.length || !CCC.composeCluster.master.attrs.isTesting)"
     ng-include = "'viewStagingEnvironment'"
   )
   section.nav-card-section(
-    ng-if = "isActive && (CCC.composeCluster.testing.length || defaultCluster.master.attrs.isTesting)"
+    ng-if = "isActive && (CCC.composeCluster.testing.length || CCC.composeCluster.master.attrs.isTesting)"
     ng-include = "'viewTestingEnvironment'"
   )
