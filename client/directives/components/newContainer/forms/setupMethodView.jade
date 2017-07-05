@@ -4,6 +4,7 @@ label.grid-block.align-center.btn.btn-radio(
     NCC.state.dockerFileTab = 'kubernetes';\
     NCC.state.configurationMethod = 'dockerComposeFile'\
   "
+  ng-disabled = "NCC.state.dockerFileTab !== 'kubernetes' && $root.isLoading.creatingDockerCompose"
   ng-if = "$root.featureFlags.kubernetes"
 )
   svg.grid-block.shrink.btn.btn-xs.btn-icon.btn-add.iconnables.icons-check
@@ -18,6 +19,7 @@ label.grid-block.align-center.btn.btn-radio(
   data-event-name = "Selected Compose Setup"
   ng-class = "{'active': NCC.state.dockerFileTab === 'compose'}"
   ng-click = "NCC.setToComposeTab()"
+  ng-disabled = "NCC.state.dockerFileTab !== 'compose' && $root.isLoading.creatingDockerCompose"
 )
   svg.grid-block.shrink.btn.btn-xs.btn-icon.btn-add.iconnables.icons-check
     use(
@@ -31,6 +33,7 @@ label.grid-block.align-center.btn.btn-radio(
   data-event-name = "Selected Dockerfile Setup"
   ng-class = "{'active': NCC.state.dockerFileTab === 'dockerfile'}"
   ng-click = "NCC.setToDockerTab()"
+  ng-disabled = "NCC.state.dockerFileTab !== 'dockerfile' && $root.isLoading.creatingDockerCompose"
   ng-if = "!$root.featureFlags.kubernetes"
 )
   svg.grid-block.shrink.btn.btn-xs.btn-icon.btn-add.iconnables.icons-check
