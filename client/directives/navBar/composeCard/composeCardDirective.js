@@ -23,7 +23,7 @@ function composeCard(
       };
 
       $scope.showDeleteButton = function () {
-        return !$scope.CCC.composeCluster.master.attrs.masterPod;
+        return keypather.get($scope, 'CCC.composeCluster.master.attrs.masterPod') === false;
       };
 
       $scope.isActive = true;
