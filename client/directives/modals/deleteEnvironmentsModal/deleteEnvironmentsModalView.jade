@@ -26,8 +26,8 @@
           ng-if = "model.reposAffected.state.expanded"
         )
           li(
-            ng-repeat = "cluster in DEMC.relations"
-          ) {{cluster}}
+            ng-repeat = "cluster in DEMC.relations track by cluster.clusterName"
+          ) {{cluster.masterInstanceRepo}}
 
       section.padding-xxs.grid-block.vertical.well.small.white.ignore-margin
         .grid-block.align-center Environments Deleted: {{DEMC.affectedEnvironments.length}}
