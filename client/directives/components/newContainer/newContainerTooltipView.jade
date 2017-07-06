@@ -32,12 +32,14 @@ div(
 
     //- branch filter
     input.input.input-xs.input-search(
+      autocomplete = "off"
       autofocus
+      ng-change = "NCC.fetchSearchTermsAndAppendToRepos()"
       ng-if = "NCC.githubRepos.models.length !== 0"
       ng-model = "NCC.repoFilter"
-      ng-change = "NCC.fetchSearchTermsAndAppendToRepos()"
       placeholder = "Search"
       required
+      spellcheck = "false"
       type = "search"
     )
 
@@ -106,6 +108,16 @@ div(
           ng-include = "'spinner'"
         )
 
+    //- should only appear if more repos exist than are listed
+    .divider(
+      ng-if = "NCC.githubRepos.models.length >= 20 && !$root.isLoading.newContainerRepos && !NCC.repoFilter"
+    )
+    small.padding-xxs.grid-block.vertical.small.text-gray(
+      ng-if = "NCC.githubRepos.models.length >= 20 && !$root.isLoading.newContainerRepos && !NCC.repoFilter"
+      ng-include = "'searchLimitView'"
+      ng-init = "searchType = 'repo'"
+    )
+
   .padding-xs(
     ng-if = "NCC.state.tabName === 'services'"
   )
@@ -118,6 +130,7 @@ div(
       )
 
     input.input.input-xs.input-search(
+      autocomplete = "off"
       autofocus
       ng-disabled = "$root.isLoading.newContainerTemplates"
       ng-if = "!$root.isLoading.newContainerTemplates"
@@ -125,6 +138,7 @@ div(
       ng-model = "NCC.serviceFilter"
       placeholder = "Search"
       required
+      spellcheck = "false"
       type = "search"
     )
 
