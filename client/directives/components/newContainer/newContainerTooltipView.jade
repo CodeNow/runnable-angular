@@ -110,10 +110,10 @@ div(
 
     //- should only appear if more repos exist than are listed
     .divider(
-      ng-if = "NCC.githubRepos.models.length >= 20 && !$root.isLoading.newContainerRepos && !NCC.repoFilter"
+      ng-if = "NCC.githubRepos.models.length >= NCC.numberOfReposToQuery && !$root.isLoading.newContainerRepos && !NCC.repoFilter"
     )
     small.padding-xxs.grid-block.vertical.small.text-gray(
-      ng-if = "NCC.githubRepos.models.length >= 20 && !$root.isLoading.newContainerRepos && !NCC.repoFilter"
+      ng-if = "NCC.githubRepos.models.length >= NCC.numberOfReposToQuery && !$root.isLoading.newContainerRepos && !NCC.repoFilter"
       ng-include = "'searchLimitView'"
       ng-init = "searchType = 'repo'"
     )
