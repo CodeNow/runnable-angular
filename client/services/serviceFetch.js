@@ -502,14 +502,12 @@ function fetchInstancesByCompose(
                       cluster.isDefaultBranch = true;
                       defaultBranchClusters[repoName] = defaultBranchClusters[repoName] || [];
                       defaultBranchClusters[repoName].push(cluster);
-                      if (cluster.children) {
-                        featureBranchClusters[repoName] = featureBranchClusters[repoName] || [];
-                        featureBranchClusters[repoName].push({
-                          githubOrg: githubOrg,
-                          masterRepo: repoName,
-                          children: cluster.children
-                        });
-                      }
+                      featureBranchClusters[repoName] = featureBranchClusters[repoName] || [];
+                      featureBranchClusters[repoName].push({
+                        githubOrg: githubOrg,
+                        masterRepo: repoName,
+                        children: cluster.children
+                      });
                       return;
                     }
                     featureBranchClusters[repoName] = featureBranchClusters[repoName] || [];
