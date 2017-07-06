@@ -130,7 +130,8 @@ function ControllerInstances(
         return;
       }
       CIS.instancesByPod = instancesByPod;
-      CIS.instancesByCompose = instancesByCompose;
+      CIS.defaultComposeClusters = instancesByCompose[0];
+      CIS.featureInstancesByCompose = instancesByCompose[1];
       CIS.activeAccount = activeAccount;
 
       setLastOrg(CIS.userName);
@@ -396,22 +397,29 @@ function ControllerInstances(
     return unbuiltBranches;
   };
 
-  this.popClusterOpen = function (cluster) {
+  this.popClusterOpen = function (featureBranchCluster) {
+    var shouldAutofork = [];
+    var shouldNotAutofork = [];
+    CIS.defaultComposeClusters.forEach(function (defaultClusters) {
+      if (defaultClusters.repoName === featureBranchCluster.repoName) {
+        defaultClusters.clusters.forEach(function (cluster) {
+          if (cluster.master.attrs.shouldNotAutofork) {
+            shouldNotAutofork.push(cluster.master);
+            return;
+          }
+          shouldAutofork.push(cluster.master);
+        });
+      }
+    });
     CIS.instanceBranches = null;
-    CIS.poppedInstance = cluster.master;
-    CIS.poppedCluster = cluster;
+    CIS.poppedCluster = featureBranchCluster;
+    CIS.poppedCluster.shouldNotAutofork = shouldNotAutofork.length > shouldAutofork.length;
+    CIS.poppedCluster.clustersToToggleAutofork = CIS.poppedCluster.shouldNotAutofork ? shouldNotAutofork : shouldAutofork;
     loading('fetchingBranches', true);
-    var acv = cluster.master.contextVersion.getMainAppCodeVersion();
-    if (!acv) {
-      return $q.reject(new Error('acv is required'));
-    }
-    var fullReponame = acv.attrs.repo.split('/');
-    var orgName = fullReponame[0];
-    var repoName = fullReponame[1];
-    return fetchGitHubRepoBranches(orgName, repoName)
+    return fetchGitHubRepoBranches(featureBranchCluster.githubOrg, featureBranchCluster.repoName)
       .then(function (branches) {
         CIS.totalInstanceBranches = branches.length;
-        CIS.instanceBranches = CIS.getUnbuiltBranches(cluster.master, branches);
+        CIS.instanceBranches = branches;
         loading('fetchingBranches', false);
       });
   };
@@ -443,21 +451,23 @@ function ControllerInstances(
   };
 
   this.forkBranchFromInstance = function (branch, closePopover) {
+    var instancesToFork = [];
     var sha = branch.commit.sha;
     var branchName = branch.name;
     loading(branchName, true);
     loading('buildingForkedBranch', true);
-    var instancesToFork = [];
     if (CIS.poppedCluster) {
-      instancesToFork.push(CIS.poppedCluster.master);
-      (CIS.poppedCluster.staging || []).forEach(function (instance) {
-        if (instance.attrs.inputClusterConfig.masterInstanceId === instance.id()) {
-          instancesToFork.push(instance);
-        }
+      var defaultCluster = CIS.defaultComposeClusters.find(function (cluster) {
+        return cluster.repoName === keypather.get(CIS, 'poppedCluster.repoName');
       });
-      (CIS.poppedCluster.testing || []).forEach(function (instance) {
-        if (instance.attrs.inputClusterConfig.masterInstanceId === instance.id()) {
-          instancesToFork.push(instance);
+      defaultCluster.clusters.forEach(function (defaultCluster) {
+        instancesToFork.push(defaultCluster.master);
+        if (defaultCluster.testing) {
+          defaultCluster.testing.forEach(function (instance) {
+            if (instance.attrs.inputClusterConfig.masterInstanceId === instance.id()) {
+              instancesToFork.push(instance);
+            }
+          });
         }
       });
     } else {
@@ -467,17 +477,9 @@ function ControllerInstances(
       return promisify(instance, 'fork')(branchName, sha);
     }))
       .then(function (instances) {
-        var newInstances = CIS.poppedInstance.children.models.filter(function(childInstance) {
-          return childInstance.attrs.name === branchName + '-' + CIS.poppedInstance.attrs.name;
-        });
         loading(branchName, false);
         loading('buildingForkedBranch', false);
         closePopover();
-        if (newInstances.length) {
-          $state.go('base.instances.instance', {
-            instanceName: newInstances[0].attrs.name
-          });
-        }
       })
       .catch(errs.handler);
   };
@@ -497,6 +499,15 @@ function ControllerInstances(
   };
 
   this.setAutofork = function () {
+    if (CIS.poppedCluster) {
+      CIS.poppedCluster.shouldNotAutofork = !CIS.poppedCluster.shouldNotAutofork;
+      return CIS.poppedCluster.clustersToToggleAutofork.map(function (instanceToToggleAutofork) {
+        return promisify(instanceToToggleAutofork, 'update')({ shouldNotAutofork: CIS.poppedCluster.shouldNotAutofork })
+          .catch(function () {
+            instanceToToggleAutofork.attrs.shouldNotAutofork = !instanceToToggleAutofork.attrs.shouldNotAutofork;
+          });
+      });
+    }
     CIS.poppedInstance.attrs.shouldNotAutofork = !CIS.poppedInstance.attrs.shouldNotAutofork;
     if (!CIS.poppedInstance.attrs.shouldNotAutofork) {
       eventTracking.enabledAutoLaunch();

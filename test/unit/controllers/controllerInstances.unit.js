@@ -16,6 +16,7 @@ var $controller,
 var isRunnabotPartOfOrgStub;
 var fetchRepoBranchesStub;
 var fetchGitHubRepoBranchesStub;
+var fetchInstancesByComposeStub;
 var ahaGuideStub;
 var featureFlags = {
   flags: {}
@@ -142,6 +143,10 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       $provide.factory('fetchGitHubRepoBranches', function ($q) {
         fetchGitHubRepoBranchesStub = sinon.stub().returns($q.when([ mockBranch ]));
         return fetchGitHubRepoBranchesStub;
+      });
+      $provide.factory('fetchInstancesByCompose', function ($q) {
+        fetchInstancesByComposeStub = sinon.stub().returns($q.when({ defaultBranches: [], featureBranches: []}));
+        return fetchInstancesByComposeStub;
       });
       $provide.value('currentOrg', mockOrg);
       $provide.value('favico', {
@@ -393,9 +398,6 @@ describe('ControllerInstances'.bold.underline.blue, function () {
       sinon.assert.calledOnce(masterInstance2.fork);
       sinon.assert.calledWithExactly(masterInstance2.fork, mockBranch.name, mockBranch.commit.sha);
       sinon.assert.calledOnce(closePopoverStub);
-      sinon.assert.calledWithExactly(ctx.fakeGo, 'base.instances.instance', {
-        instanceName: childInstance3.attrs.name
-      });
     });
 
     it('should set the instance\'s autofork property', function () {

@@ -9,7 +9,7 @@ function BranchCommitPopoverButtonController(
   var BCPBC = this;
 
   function initData() {
-    BCPBC.appCodeVersion = BCPBC.instance.contextVersion.getMainAppCodeVersion();
+    BCPBC.appCodeVersion = keypather.get(BCPBC, 'instance.contextVersion.getMainAppCodeVersion()');
 
     getLatestCommitShaForInstance(BCPBC.instance).then(function (latestSha) {
       var currentSha = keypather.get(BCPBC.appCodeVersion, 'attrs.commit');

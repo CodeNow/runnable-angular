@@ -19,21 +19,19 @@ function ComposeCardController(
   function fetchIsolationIfNotFetched (instance) {
     var hasContainers = keypather.get(instance, 'isolation.instances.models.length') > 0;
     if (!hasContainers) {
-      if (!instance.isolation.instances) {
-        // For some reason we haven't populated the isolation's instances param yet, let's just force it.
-        // For the record, I dislike this a TON, but it's the best way of getting this done easily.
-        instance.isolation.parse(instance.isolation.attrs);
+      if (keypather.get(instance, 'isolation')) {
+        if (!keypather.get(instance, 'isolation.instances')) {
+          // For some reason we haven't populated the isolation's instances param yet, let's just force it.
+          // For the record, I dislike this a TON, but it's the best way of getting this done easily.
+          instance.isolation.parse(instance.isolation.attrs);
+        }
+        promisify(instance.isolation.instances, 'fetch')()
+          .catch(errs.handler);
       }
-      promisify(instance.isolation.instances, 'fetch')()
-        .catch(errs.handler);
     }
   }
 
   CCC.checkIfActive = function () {
-    if (!CCC.isChild) {
-      $scope.isActive = true;
-      return;
-    }
     $scope.isActive = composeCardActive(CCC.composeCluster);
     if ($scope.isActive) {
       fetchIsolationIfNotFetched(CCC.composeCluster.master);
@@ -57,30 +55,33 @@ function ComposeCardController(
   }
 
   CCC.getStagingInstances = function () {
-    var instanceList;
-    if (CCC.isChild) {
-      instanceList = keypather.get(CCC.composeCluster.master, 'isolation.instances.models');
-    } else {
-      instanceList = CCC.composeCluster.staging;
-    }
+    var instanceList = keypather.get(CCC.composeCluster.master, 'isolation.instances.models') || CCC.composeCluster.staging;
     return (instanceList || []).sort(sortInstancesByNavName);
   };
 
-  CCC.getTestingInstances = function () {
-    if (CCC.isChild) {
+  CCC.getTestingInstances = function (testingCluster) {
+    if (CCC.isChild || !testingCluster) {
       if (CCC.composeCluster.master.attrs.isTesting) {
         return (keypather.get(CCC.composeCluster.master, 'isolation.instances.models') || []).sort(sortInstancesByNavName);
       }
       return [CCC.composeCluster.testing[0]].concat(keypather.get(CCC.composeCluster, 'testing[0].isolation.instances.models').sort(sortInstancesByNavName));
     }
-    return (CCC.composeCluster.testing || []).sort(sortInstancesByNavName);
+    return (testingCluster.testing || []).sort(sortInstancesByNavName);
   };
 
   function deleteCluster (cluster) {
-    var deletePromises = [cluster.master].concat(cluster.staging || [], cluster.testing || [])
-      .map(function (instance) {
-        return promisify(instance, 'destroy')();
-      });
+    var clusters = [];
+    if (!cluster.clusters) {
+      clusters.push(cluster);
+    } else {
+      clusters = cluster.clusters;
+    }
+    var deletePromises = clusters.map(function (cluster) {
+      return [cluster.master].concat(cluster.staging || [], cluster.testing || [])
+        .map(function (instance) {
+          return promisify(instance, 'destroy')();
+        });
+    });
     return $q.all(deletePromises);
   }
 

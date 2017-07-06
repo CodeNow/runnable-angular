@@ -6,7 +6,7 @@ require('app')
 function isInstanceActive(
   $state
 ) {
-  return function (instance) {
+  return function (instance, cluster) {
     if (!instance) {
       return false;
     }
@@ -17,6 +17,13 @@ function isInstanceActive(
 
     if (isCurrentBaseInstance) {
       return true;
+    }
+
+    if (!instance.isolation && cluster) {
+      var repoName = instance.attrs.inputClusterConfig.clusterName;
+      if ($state.params.instanceName.match(repoName)) {
+        return true;
+      }
     }
 
     if (instance.containerHistory) {

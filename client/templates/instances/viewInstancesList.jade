@@ -142,10 +142,10 @@
 
   //- branch environments (post-compose)
   section.nav-section(
-    ng-if = "$root.featureFlags.composeNav"
     ng-include = "'repoSectionView'"
-    ng-repeat = "masterComposeCluster in CIS.instancesByCompose | orderBy: ['master.attrs.inputClusterConfig.clusterName'] track by masterComposeCluster.master.attrs.inputClusterConfig.clusterName"
-    ng-show = "CIS.shouldShowComposeClusterChildren(masterComposeCluster)"
+    ng-if = "$root.featureFlags.composeNav"
+    clusters = "composeClusters"
+    ng-repeat = "composeClusters in CIS.featureInstancesByCompose"
   )
 
   section.nav-section(

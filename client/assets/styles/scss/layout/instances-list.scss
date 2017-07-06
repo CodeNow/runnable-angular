@@ -126,9 +126,11 @@
   padding: 0 ($xxs + $input-border);
 }
 
+.nav-card-wrapper,
 .nav-card-header,
 .nav-card-section {
 
+  + .nav-card-wrapper,
   + .nav-card-section {
     border-top: $input-border solid $gray-lightest;
     margin-top: $xxs;

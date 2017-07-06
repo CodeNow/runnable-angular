@@ -1,11 +1,11 @@
 h2.grid-block.align-center.justify-justified.nav-section-header
   span.text-overflow.padding-right-xxs(
-    title = "{{masterComposeCluster.master.attrs.inputClusterConfig.clusterName}}"
-  ) {{masterComposeCluster.master.attrs.inputClusterConfig.clusterName}}
+    title = "{{composeClusters.repoName}}"
+  ) {{composeClusters.repoName}}
 
   .grid-block.align-center.shrink.btn.btn-xs.white(
     data-event-name = "Clicked Add Branch button"
-    ng-click = "CIS.popClusterOpen(masterComposeCluster)"
+    ng-click = "$parent.CIS.popClusterOpen(composeClusters)"
     pop-over
     pop-over-controller = "CIS"
     pop-over-data = "'branchSelect'"
@@ -20,11 +20,8 @@ h2.grid-block.align-center.justify-justified.nav-section-header
 section.nav-card(
   compose-card
   compose-cluster = "composeCluster"
-  is-child = "true"
   ng-class = "{'active': CIS.isComposeCardActive(composeCluster)}"
-  ng-if = "!composeCluster.master.destroyed"
-  ng-repeat = "composeCluster in masterComposeCluster.children | orderBy: ['master.attrs.name'] track by composeCluster.master.attrs._id"
-  ng-show = "CIS.shouldShowCluster(composeCluster, 'master.getBranchName()')"
+  ng-repeat = "composeCluster in composeClusters.clusters track by composeCluster.master.attrs._id"
 )
 
 //- show after the URL has been visited

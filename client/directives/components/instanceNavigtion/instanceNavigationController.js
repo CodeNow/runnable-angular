@@ -22,11 +22,13 @@ function InstanceNavigationController(
   INC.isInDemoFlow = demoFlowService.isInDemoFlow;
   INC.shouldExpand = false;
   function processContainers() {
-    if (!INC.instance.attrs.isolated ||
-        !INC.instance.attrs.isIsolationGroupMaster ||
+    var instance = INC.instance;
+    if (!instance ||
+        !instance.attrs.isolated ||
+        !instance.attrs.isIsolationGroupMaster ||
       getPathShortHash() !== INC.instance.attrs.shortHash &&
         $state.params.instanceName !== INC.instance.attrs.name) {
-      INC.shouldExpand = $state.params.instanceName === INC.instance.attrs.name && INC.instance.attrs.isIsolationGroupMaster !== false;
+      INC.shouldExpand = $state.params.instanceName === keypather.get(INC, 'instance.attrs.name') && keypather.get(INC, 'instance.attrs.isIsolationGroupMaster') !== false;
       return;
     }
     if (!keypather.get(INC, 'instance.isolation.instances')) {

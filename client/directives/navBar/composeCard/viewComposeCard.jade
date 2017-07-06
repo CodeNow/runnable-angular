@@ -1,5 +1,5 @@
 a.nav-card-header(
-  ng-attr-title = "{{getCardName()}}"
+  ng-attr-title = "{{CCC.composeCluster.repoName}}"
   ng-include = "'viewComposeCardHeader'"
   ui-sref = "\
     base.instances.instance({userName: CCC.composeCluster.master.attrs.owner.username,\
@@ -7,13 +7,29 @@ a.nav-card-header(
   "
 )
 
-//- staging environment
-section.nav-card-section(
-  ng-if = "isActive && (CCC.composeCluster.staging.length || !CCC.composeCluster.master.attrs.isTesting)"
-  ng-include = "'viewStagingEnvironment'"
+.nav-card-wrapper(
+  ng-if = "defaultCluster.isDefaultBranch && isActive"
+  ng-repeat = "defaultCluster in CCC.composeCluster.clusters"
 )
-//- testing environment
-section.nav-card-section(
-  ng-if = "isActive && (CCC.composeCluster.testing.length || CCC.composeCluster.master.attrs.isTesting)"
-  ng-include = "'viewTestingEnvironment'"
+  //- staging environment
+  section.nav-card-section(
+    ng-if = "defaultCluster.staging.length || !defaultCluster.master.attrs.isTesting"
+    ng-include = "'viewDefaultStagingEnvironment'"
+  )
+  //- testing environment
+  section.nav-card-section(
+    ng-if = "defaultCluster.testing.length || defaultCluster.master.attrs.isTesting"
+    ng-include = "'viewDefaultTestingEnvironment'"
+  )
+
+.nav-card-wrapper(
+  ng-if = "!CCC.composeCluster.clusters && isActive"
 )
+  section.nav-card-section(
+    ng-if = "CCC.composeCluster.staging.length || !CCC.composeCluster.master.attrs.isTesting"
+    ng-include = "'viewStagingEnvironment'"
+  )
+  section.nav-card-section(
+    ng-if = "CCC.composeCluster.testing.length || CCC.composeCluster.master.attrs.isTesting"
+    ng-include = "'viewTestingEnvironment'"
+  )

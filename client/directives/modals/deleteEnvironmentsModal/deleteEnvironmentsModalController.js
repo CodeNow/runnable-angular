@@ -36,19 +36,30 @@ function DeleteEnvironmentsModalController(
     .then(function (results) {
       var instancesByCompose = results[0];
       var relations = results[1];
-      DEMC.relations = relations.clusters.map(function (cluster) {
-        return cluster.repo.split('/')[1];
-      });
       DEMC.affectedEnvironments = [];
+      var allClustersByCompose = [].concat(instancesByCompose[0], instancesByCompose[1]);
+      allClustersByCompose = allClustersByCompose.reduce(function (allClusters, compose) {
+        compose.clusters.reduce(function (allClusters, cluster) {
+          allClusters.push(cluster);
+          return allClusters;
+        }, allClusters);
+        return allClusters;
+      }, []);
+      DEMC.relations = relations.clusters;
       relations.clusters.forEach(function (cluster) {
         var AIC = cluster.autoIsolationConfigId;
-        var instanceGroup = instancesByCompose.find(function (compose) {
-          return compose.master.attrs.inputClusterConfig.autoIsolationConfigId === AIC;
+        var instanceGroup = allClustersByCompose.find(function (compose) {
+          return compose.master && compose.master.attrs.inputClusterConfig.autoIsolationConfigId === AIC;
         });
-        DEMC.affectedEnvironments.push(instanceGroup.master);
-        instanceGroup.children.forEach(function (childGroup) {
-          DEMC.affectedEnvironments.push(childGroup.master);
-        });
+        if (instanceGroup && instanceGroup.master) {
+          cluster.masterInstanceRepo = instanceGroup.master.getRepoName();
+        }
+        if (instanceGroup && instanceGroup.children) {
+          DEMC.affectedEnvironments.push(instanceGroup.master);
+          instanceGroup.children.forEach(function (childGroup) {
+            DEMC.affectedEnvironments.push(childGroup.master);
+          });
+        }
       });
     })
     .finally(function () {
