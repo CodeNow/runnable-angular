@@ -82,7 +82,7 @@
               input.toggle-input(
                 ng-click = "CIS.setAutofork()"
                 ng-disabled = "$root.featureFlags.webhooks"
-                ng-checked = "!CIS.poppedInstance.attrs.shouldNotAutofork"
+                ng-checked = "CIS.poppedCluster ? !CIS.poppedCluster.shouldNotAutofork : !CIS.poppedInstance.attrs.shouldNotAutofork"
                 type = "checkbox"
               )
               .toggle-group.toggle-sm

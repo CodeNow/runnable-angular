@@ -397,11 +397,22 @@ function ControllerInstances(
     return unbuiltBranches;
   };
 
-  this.popClusterOpen = function (cluster) {
+  this.popClusterOpen = function (featureBranchCluster) {
+    var shouldAutofork = [];
+    var shouldNotAutofork = [];
+    CIS.defaultComposeClusters.forEach(function (defaultClusters) {
+      if (defaultClusters.repoName === featureBranchCluster.repoName) {
+        defaultClusters.clusters.forEach(function (cluster) {
+          cluster.master.attrs.shouldNotAutofork ? shouldNotAutofork.push(cluster.master) : shouldAutofork.push(cluster.master);
+        })
+      }
+    });
     CIS.instanceBranches = null;
-    CIS.poppedCluster = cluster;
+    CIS.poppedCluster = featureBranchCluster;
+    CIS.poppedCluster.shouldNotAutofork = shouldNotAutofork.length > shouldAutofork.length;
+    CIS.poppedCluster.shouldNotAutofork ? CIS.poppedCluster.clustersToToggleAutofork = shouldNotAutofork : CIS.poppedCluster.clustersToToggleAutofork = shouldAutofork;
     loading('fetchingBranches', true);
-    return fetchGitHubRepoBranches(cluster.githubOrg, cluster.repoName)
+    return fetchGitHubRepoBranches(featureBranchCluster.githubOrg, featureBranchCluster.repoName)
       .then(function (branches) {
         CIS.totalInstanceBranches = branches.length;
         CIS.instanceBranches = branches;
@@ -484,6 +495,15 @@ function ControllerInstances(
   };
 
   this.setAutofork = function () {
+    if (CIS.poppedCluster) {
+      CIS.poppedCluster.shouldNotAutofork = !CIS.poppedCluster.shouldNotAutofork;
+      return CIS.poppedCluster.clustersToToggleAutofork.map(function (instanceToToggleAutofork) {
+        return promisify(instanceToToggleAutofork, 'update')({ shouldNotAutofork: CIS.poppedCluster.shouldNotAutofork })
+          .catch(function () {
+            instanceToToggleAutofork.attrs.shouldNotAutofork = !instanceToToggleAutofork.attrs.shouldNotAutofork;
+          });
+      })
+    }
     CIS.poppedInstance.attrs.shouldNotAutofork = !CIS.poppedInstance.attrs.shouldNotAutofork;
     if (!CIS.poppedInstance.attrs.shouldNotAutofork) {
       eventTracking.enabledAutoLaunch();
