@@ -506,14 +506,14 @@ function fetchInstancesByCompose(
                           masterRepo: repoName,
                           children: cluster.children
                         });
-                        return;
                       }
+                      return;
                     }
                     featureBranchClusters[repoName] = featureBranchClusters[repoName] || [];
                     featureBranchClusters[repoName].push({
                       githubOrg: githubOrg,
                       masterRepo: repoName,
-                      children: cluster.children
+                      children: cluster.children || [ cluster ]
                     });
                   });
 
