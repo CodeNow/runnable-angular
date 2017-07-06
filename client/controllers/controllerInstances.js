@@ -403,14 +403,18 @@ function ControllerInstances(
     CIS.defaultComposeClusters.forEach(function (defaultClusters) {
       if (defaultClusters.repoName === featureBranchCluster.repoName) {
         defaultClusters.clusters.forEach(function (cluster) {
-          cluster.master.attrs.shouldNotAutofork ? shouldNotAutofork.push(cluster.master) : shouldAutofork.push(cluster.master);
-        })
+          if (cluster.master.attrs.shouldNotAutofork) {
+            shouldNotAutofork.push(cluster.master);
+            return;
+          }
+          shouldAutofork.push(cluster.master);
+        });
       }
     });
     CIS.instanceBranches = null;
     CIS.poppedCluster = featureBranchCluster;
     CIS.poppedCluster.shouldNotAutofork = shouldNotAutofork.length > shouldAutofork.length;
-    CIS.poppedCluster.shouldNotAutofork ? CIS.poppedCluster.clustersToToggleAutofork = shouldNotAutofork : CIS.poppedCluster.clustersToToggleAutofork = shouldAutofork;
+    CIS.poppedCluster.clustersToToggleAutofork = CIS.poppedCluster.shouldNotAutofork ? shouldNotAutofork : shouldAutofork;
     loading('fetchingBranches', true);
     return fetchGitHubRepoBranches(featureBranchCluster.githubOrg, featureBranchCluster.repoName)
       .then(function (branches) {
@@ -502,7 +506,7 @@ function ControllerInstances(
           .catch(function () {
             instanceToToggleAutofork.attrs.shouldNotAutofork = !instanceToToggleAutofork.attrs.shouldNotAutofork;
           });
-      })
+      });
     }
     CIS.poppedInstance.attrs.shouldNotAutofork = !CIS.poppedInstance.attrs.shouldNotAutofork;
     if (!CIS.poppedInstance.attrs.shouldNotAutofork) {
