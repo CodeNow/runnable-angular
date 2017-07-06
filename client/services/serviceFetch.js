@@ -384,7 +384,6 @@ function fetchInstancesByCompose(
                   return;
                 }
 
-              
                 var isComposeMaster = keypather.get(instance, 'attrs.inputClusterConfig.masterInstanceId') === instance.id();
                 var composeParent = keypather.get(instance, 'attrs.inputClusterConfig.parentInputClusterConfigId');
                 var repoName = instance.attrs.inputClusterConfig.lowerRepo.split('/')[1];
