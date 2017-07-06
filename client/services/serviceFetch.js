@@ -349,7 +349,7 @@ function fetchInstancesByCompose(
           var defaultBranches = {};
           var repos = allInstances.reduce(function (acc, instance) {
             var repo = keypather.get(instance, 'contextVersion.getMainAppCodeVersion().attrs.repo');
-            if (repo) {               
+            if (repo) {
               var repoPath = repo.split('/');
               acc[repo] = repoPath;
             }
@@ -375,7 +375,7 @@ function fetchInstancesByCompose(
                 }                
                 defaultBranches[repo.name.toLowerCase()] = repo.default_branch.toLowerCase();
               });
-
+              composeMasters.defaultBranches = defaultBranches;
               allInstances.models.forEach(function (instance) {
                 var clusterConfigId = keypather.get(instance, 'attrs.inputClusterConfig._id');
 
@@ -396,7 +396,7 @@ function fetchInstancesByCompose(
                   composeMasters[repoName][clusterConfigId].master = instance;
                   composeMasters[repoName][clusterConfigId].githubOrg = fullRepo[0];
                   composeMasters[repoName][clusterConfigId].masterRepo = fullRepo[1];
-                  composeMasters[repoName][clusterConfigId].isDefaultBranch = defaultBranches[repoName] === branchName;
+                  composeMasters[repoName][clusterConfigId].branch = branchName;
                   return;
                 }
 
@@ -495,7 +495,8 @@ function fetchInstancesByCompose(
                   clusters.forEach(function (cluster) {
                     repoName = cluster.masterRepo;
                     githubOrg = cluster.githubOrg;
-                    if (cluster.isDefaultBranch) {
+                    if (cluster.branch === composeMasters.defaultBranches[repoName]) {
+                      cluster.isDefaultBranch = true;
                       defaultBranchClusters[repoName] = defaultBranchClusters[repoName] || [];
                       defaultBranchClusters[repoName].push(cluster);
                       if (cluster.children) {
