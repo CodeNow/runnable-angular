@@ -460,7 +460,7 @@ function fetchInstancesByCompose(
                 }
                 composeMasterConfigIsolationChild.staging = composeMasterConfigIsolationChild.staging || [];
                 composeMasterConfigIsolationChild.staging.push(instance);
-                return;
+
               });
 
               var newInstancesByCompose = Object.keys(composeMasters)
@@ -531,7 +531,7 @@ function fetchInstancesByCompose(
                       githubOrg: githubOrg,
                       clusters: featureBranchClusters[masterRepo]
                     });
-                  })
+                  });
 
                   return repoClusters;
                 }, { defaultBranches: [], featureBranches: [] });
