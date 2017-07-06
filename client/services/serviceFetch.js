@@ -389,7 +389,7 @@ function fetchInstancesByCompose(
                 var composeParent = keypather.get(instance, 'attrs.inputClusterConfig.parentInputClusterConfigId');
                 var repoName = instance.attrs.inputClusterConfig.lowerRepo.split('/')[1];
                 var clusterName = instance.attrs.inputClusterConfig.clusterName;
-                var branchName = instance.getBranchName();
+                var branchName = keypather.get(instance, 'getBranchName().toLowerCase()');
                 if (instance.attrs.masterPod && isComposeMaster && !composeParent) {
                   var fullRepo = instance.contextVersion.getMainAppCodeVersion().attrs.lowerRepo.split('/');
                   composeMasters[repoName] = composeMasters[repoName] || {};
@@ -506,6 +506,7 @@ function fetchInstancesByCompose(
                           masterRepo: repoName,
                           children: cluster.children
                         });
+                        return;
                       }
                     }
                     featureBranchClusters[repoName] = featureBranchClusters[repoName] || [];
@@ -547,8 +548,9 @@ function fetchInstancesByCompose(
                   return composeCluster;
                 });
 
-              instancesByCompose = {};
-              instancesByCompose = Object.assign({}, newInstancesByCompose);
+              instancesByCompose.length = 0;
+              [].push.apply(instancesByCompose, [ newInstancesByCompose.defaultBranches ]);
+              instancesByCompose.push(newInstancesByCompose.featureBranches);
             });
           }
 

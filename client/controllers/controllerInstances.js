@@ -130,8 +130,8 @@ function ControllerInstances(
         return;
       }
       CIS.instancesByPod = instancesByPod;
-      CIS.defaultComposeClusters = instancesByCompose.defaultBranches;
-      CIS.featureInstancesByCompose = instancesByCompose.featureBranches;
+      CIS.defaultComposeClusters = instancesByCompose[0];
+      CIS.featureInstancesByCompose = instancesByCompose[1];
       CIS.activeAccount = activeAccount;
 
       setLastOrg(CIS.userName);

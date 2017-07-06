@@ -40,7 +40,7 @@ function DeleteEnvironmentsModalController(
         return cluster.repo.split('/')[1];
       });
       DEMC.affectedEnvironments = [];
-      var allClustersByCompose = [].concat(instancesByCompose.defaultBranches, instancesByCompose.featureBranches);
+      var allClustersByCompose = [].concat(instancesByCompose[0], instancesByCompose[1]);
       allClustersByCompose = allClustersByCompose.reduce(function (allClusters, compose) {
         compose.clusters.reduce(function (allClusters, cluster) {
           allClusters.push(cluster);
@@ -53,7 +53,7 @@ function DeleteEnvironmentsModalController(
         var instanceGroup = allClustersByCompose.find(function (compose) {
           return compose.master && compose.master.attrs.inputClusterConfig.autoIsolationConfigId === AIC;
         });
-        if (instanceGroup) {
+        if (instanceGroup && instanceGroup.children) {
           DEMC.affectedEnvironments.push(instanceGroup.master);
           instanceGroup.children.forEach(function (childGroup) {
             DEMC.affectedEnvironments.push(childGroup.master);
