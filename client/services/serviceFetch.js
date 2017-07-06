@@ -464,6 +464,9 @@ function fetchInstancesByCompose(
               });
 
               var newInstancesByCompose = Object.keys(composeMasters)
+                .filter(function (branch) {
+                  return branch !== 'defaultBranches';
+                })
                 .map(function (composeMasterRepo) {
                   return Object.keys(composeMasters[composeMasterRepo]).map(function (composeId) {
                     if (composeMasters[composeMasterRepo][composeId].children) {
