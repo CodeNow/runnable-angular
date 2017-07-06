@@ -132,6 +132,7 @@ function ControllerInstances(
       CIS.instancesByPod = instancesByPod;
       CIS.defaultComposeClusters = instancesByCompose[0];
       CIS.featureInstancesByCompose = instancesByCompose[1];
+      CIS.featureBranchComposeClusters = CIS.featureInstancesByCompose;
       CIS.activeAccount = activeAccount;
 
       setLastOrg(CIS.userName);
@@ -224,7 +225,6 @@ function ControllerInstances(
     });
   };
 
-
   this.filterMatchedAnything = function () {
     if (!CIS.searchBranches) {
       return true;
@@ -233,20 +233,15 @@ function ControllerInstances(
       return true;
     }
 
-    if ($rootScope.featureFlags.composeNav) {
-      if (CIS.isShowingComposeService() || CIS.isShowingNonComposeMaster()) {
-        return true;
-      }
-      var showInstanceByCompose = CIS.instancesByCompose.some(function (composeMaster) {
-        return CIS.shouldShowComposeClusterChildren(composeMaster);
-      });
-      if (showInstanceByCompose) {
-        return true;
-      }
-      return CIS.getNonComposeMasters().some(function (masterInstance) {
-        return CIS.shouldShowRepoChildren(masterInstance);
-      });
+    CIS.featureBranchComposeClusters = CIS.featureInstancesByCompose.filter(function (cluster) {
+      return CIS.filterFeatureComposeClusters(cluster);
+    });
+    if (CIS.isShowingComposeService() || CIS.isShowingNonComposeMaster() || CIS.featureBranchComposeClusters.length) {
+      return true;
     }
+    return CIS.getNonComposeMasters().some(function (masterInstance) {
+      return CIS.shouldShowRepoChildren(masterInstance);
+    });
 
     return CIS.instancesByPod.models.some(function (masterPod) {
       return CIS.filterMasterInstance(masterPod) || CIS.shouldShowParent(masterPod);
@@ -281,21 +276,16 @@ function ControllerInstances(
     if (!CIS.searchBranches) {
       return true;
     }
-    return CIS.instancesByCompose.some(function (instance) {
-      return CIS.shouldShowBasic(instance, 'master.attrs.name');
+    return CIS.defaultComposeClusters.concat(CIS.featureInstancesByCompose).some(function (cluster) {
+      return CIS.shouldShowBasic(cluster, 'repoName');
     });
   };
 
-  CIS.shouldShowComposeClusterChildren = function (composeCluster) {
+  CIS.filterFeatureComposeClusters = function (composeCluster) {
     if (!CIS.searchBranches) {
       return true;
     }
-    if (!composeCluster.children) {
-      return false;
-    }
-    return composeCluster.children.some(function (childrenCompose) {
-      return CIS.shouldShowCluster(childrenCompose, 'master.getBranchName()');
-    });
+    return CIS.shouldShowCluster(composeCluster, 'repoName');
   };
 
   CIS.shouldShowRepoChildren = function (masterInstance) {
@@ -309,7 +299,6 @@ function ControllerInstances(
       return CIS.shouldShowBasic(childInstance, 'getBranchName()');
     });
   };
-
 
   this.filterMasterInstance = function (masterPod) {
     if (!CIS.searchBranches) {
