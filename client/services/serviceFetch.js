@@ -498,8 +498,8 @@ function fetchTemplateServers(
   fetchInstances
 ) {
   return function() {
-    return fetchInstances({ githubUsername: configSuperUser })
-  }
+    return fetchInstances({ githubUsername: configSuperUser });
+  };
 }
 
 function fetchBuild(
