@@ -451,6 +451,7 @@ module.exports = function(grunt) {
         configObj.githubHttpUrl = process.env.GITHUB_HTTP_URL || 'https://github.com';
         configObj.disableMixpanel = process.env.DISABLE_MIXPANEL || false;
         configObj.disableAnalytics = process.env.DISABLE_ANALYTICS || false;
+        configObj.superUser = process.env.SUPER_USER || 'HelloRunnable';
 
         if (configObj.host.charAt(configObj.host.length - 1) === '/') {
           configObj.host = configObj.host.substr(0, configObj.host.length - 1);

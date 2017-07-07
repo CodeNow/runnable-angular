@@ -13,6 +13,7 @@ require('app')
 function SetupTemplateModalController(
   errs,
   fetchInstances,
+  fetchTemplateServers,
   getNewForkName,
   promisify,
   ModalService,
@@ -20,7 +21,7 @@ function SetupTemplateModalController(
   isolation
 ) {
   var STMC = this;
-  fetchInstances({ githubUsername: 'HelloRunnable' })
+  fetchTemplateServers()
     .then(function (servers) {
       STMC.templateServers = servers;
     })

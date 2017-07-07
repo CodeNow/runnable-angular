@@ -27,6 +27,7 @@ require('app')
   .factory('fetchInstancesByCompose', fetchInstancesByCompose)
   .factory('fetchInstanceTestHistoryBySha', fetchInstanceTestHistoryBySha)
   .factory('fetchNonRepoInstances', fetchNonRepoInstances)
+  .factory('fetchTemplateServers', fetchTemplateServers)
   .factory('fetchBuild', fetchBuild)
   .factory('fetchRepoBranches', fetchRepoBranches)
   .factory('fetchContexts', fetchContexts)
@@ -480,16 +481,25 @@ function fetchInstancesByCompose(
 }
 
 function fetchNonRepoInstances(
-  fetchInstances
+  fetchTemplateServers
 ) {
   return function () {
-    return fetchInstances({ githubUsername: 'HelloRunnable' })
+    return fetchTemplateServers()
       .then(function (templates) {
         return templates.filter(function (templateInstance) {
           return !(/^TEMPLATE\-/).test(templateInstance.attrs.name);
         });
       });
   };
+}
+
+function fetchTemplateServers(
+  configSuperUser,
+  fetchInstances
+) {
+  return function() {
+    return fetchInstances({ githubUsername: configSuperUser })
+  }
 }
 
 function fetchBuild(

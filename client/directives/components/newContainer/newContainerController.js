@@ -20,6 +20,7 @@ function NewContainerController(
   errs,
   eventTracking,
   fetchInstances,
+  fetchTemplateServers,
   fetchInstancesByPod,
   fetchOrganizationRepos,
   fetchRepoDockerfiles,
@@ -109,7 +110,7 @@ function NewContainerController(
   NCC.fetchTemplateServers = function () {
     loading('newContainerTemplates', true);
     // Fetch all non-repo containres
-    return fetchInstances({ githubUsername: 'HelloRunnable' })
+    return fetchTemplateServers()
       .then(function (servers) {
         NCC.templateServers = servers;
         loading('newContainerTemplates', false);
