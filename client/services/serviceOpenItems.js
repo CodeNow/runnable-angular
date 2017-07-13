@@ -214,6 +214,11 @@ function openItemsFactory(
     this.models.splice(0, this.models.length);
     this.activeHistory.reset();
     this.add(models);
+    // if we have the 3 default tabs open
+    if (Object.keys(defaultTabs).length === 3 && !this.hasOpen('ContainerFileModel')) {
+      // select the log tab
+      this.addLogs();
+    }
   };
 
   OpenItems.prototype.addTerminal = function (data) {
