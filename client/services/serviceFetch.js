@@ -326,6 +326,7 @@ function fetchInstancesByPod(
   };
 }
 
+
 function fetchInstancesByCompose(
   $q,
   $state,
@@ -336,237 +337,179 @@ function fetchInstancesByCompose(
   modelStore
 ) {
   return function (username) {
+    function createModel(instance, defaultBranch) {
+      var repoAndUser = keypather.get(instance.contextVersion, 'getMainAppCodeVersion().attrs.repo').split('/');
+      var repo = repoAndUser[1];
+      var config = instance.attrs.inputClusterConfig;
+      var configBranch = config.branch;
+      var branchName = keypather.get(instance, 'getBranchName().toLowerCase()'); //: configBranch;
+      var model = {
+        master: instance,
+        staging: [],
+        testing: [],
+        children: [],
+        githubOrg: repoAndUser[0],
+        masterRepo: repo,
+        repo: repo,
+        branch: branchName,
+        isFeatureBranch: !instance.attrs.isolated,
+        isDefaultBranch: defaultBranch,
+        displayName: (instance.attrs.isolated || defaultBranch) ? branchName : configBranch
+      };
+      if (!instance.attrs.isolated && !defaultBranch) {
+        model.composeRepo = config.repo.split('/')[1];
+      }
+      return model;
+    }
+
     username = username || $state.params.userName;
     if (!username) {
       return $q.when([]);
     }
+    return fetchInstances({
+      githubUsername: username
+    })
+      .then(function (allInstances) {
+        var instancesByCompose = [];
+        var defaultBranches = {};
+        var featureBranches = {};
+        var branchesBranches = {};
+        var newInstancesByCompose = {
+          defaultBranches: [],
+          featureBranches: []
+        };
 
-    return memoize(function (username) {
-      return fetchInstances({
-        githubUsername: username
-      })
-        .then(function (allInstances) {
-          var instancesByCompose = [];
-          var defaultBranches = {};
-          var repos = allInstances.reduce(function (acc, instance) {
-            var repo = keypather.get(instance, 'contextVersion.getMainAppCodeVersion().attrs.repo');
-            if (repo) {
-              var repoPath = repo.split('/');
-              acc[repo] = repoPath;
+        function populateInstancesByCompose() {
+          newInstancesByCompose = {
+            defaultBranches: [],
+            featureBranches: []
+          };
+          var defaultInstances = allInstances.models.filter(function (instance) {
+            return !keypather.get(instance, 'attrs.inputClusterConfig.parentInputClusterConfigId');
+          });
+          var nonDefaultInstances = allInstances.models.filter(function (instance) {
+            return keypather.get(instance, 'attrs.inputClusterConfig.parentInputClusterConfigId');
+          });
+          var defaultMasterInstances = defaultInstances.filter(function (instance) {
+            var config = instance.attrs.inputClusterConfig;
+            var aic = config.autoIsolation;
+            return aic.instance.toString() === instance.attrs._id.toString() && config.clusterName !== config.repo.split('/')[1];
+          });
+          var branchDefaultMasters = defaultInstances.filter(function (instance) {
+            var config = instance.attrs.inputClusterConfig;
+            var aic = config.autoIsolation;
+            return aic.instance.toString() === instance.attrs._id.toString() && config.clusterName === config.repo.split('/')[1];
+          });
+
+          var composeMasters = defaultMasterInstances.reduce(function (masters, instance) {
+            var model = createModel(instance, true);
+            if (!defaultBranches[model.repo]) {
+              defaultBranches[model.repo] = [];
             }
-            return acc;
+            var config = instance.attrs.inputClusterConfig;
+            masters[config._id] = model;
+            defaultBranches[model.repo].push(model);
+            return masters;
           }, {});
-
-          function populateInstancesByCompose () {
-            var composeMasters = {};
-            var repoOwner;
-            var repoTitle;
-            return $q.all(Object.keys(repos).map(function (repoName) {
-              repoOwner = repos[repoName][0];
-              repoTitle = repos[repoName][1].toLowerCase();
-              if (defaultBranches[repoTitle]) {
-                return $q.when();
+          defaultInstances.forEach(function (instance) {
+            var config = instance.attrs.inputClusterConfig;
+            var aic = instance.attrs.inputClusterConfig.autoIsolation;
+            // If this isn't in a cluster, we don't actually care since it'll use the old instancesByPod navigation
+            if (aic.instance.toString() === instance.attrs._id.toString()) {
+              return;
+            }
+            var model = composeMasters[config._id];
+            if (!model) {
+              return;
+            }
+            if (config.isTesting) {
+              return model.testing.push(instance);
+            }
+            return model.staging.push(instance);
+          });
+          var isolatedMasterInstances = nonDefaultInstances
+            .filter(function (instance) {
+              return instance.attrs.isIsolationGroupMaster;
+            });
+          var isolatedChildren = nonDefaultInstances
+            .filter(function (instance) {
+              return instance.attrs.isolated && !instance.attrs.isIsolationGroupMaster;
+            });
+          var isolatedMasters = isolatedMasterInstances.reduce(function (masters, instance) {
+            var model = createModel(instance);
+            if (!featureBranches[model.repo]) {
+              featureBranches[model.repo] = [];
+            }
+            if (instance.attrs.isolated) {
+              masters[instance.attrs.isolated] = model;
+            }
+            var composeMaster = composeMasters[model.repo];
+            if (composeMaster) {
+              composeMaster.children.push(model);
+            }
+            featureBranches[model.repo].push(model);
+            return masters;
+          }, {});
+          branchDefaultMasters.forEach(function (instance) {
+            var model = createModel(instance);
+            if (!branchesBranches[model.composeRepo]) {
+              branchesBranches[model.composeRepo] = [];
+            }
+            branchesBranches[model.composeRepo].push(model);
+          });
+          isolatedChildren
+            .forEach(function (instance) {
+              var model = isolatedMasters[instance.attrs.isolated];
+              if (!model) {
+                return;
               }
-              return github.getRepoInfo(repoOwner, repoTitle);
-            }))
-            .then(function (result) {
-              result.forEach(function (repo) {
-                if (!repo) {
-                  return;
-                }                
-                defaultBranches[repo.name.toLowerCase()] = repo.default_branch.toLowerCase();
-              });
-              composeMasters.defaultBranches = defaultBranches;
-              allInstances.models.forEach(function (instance) {
-                var clusterConfigId = keypather.get(instance, 'attrs.inputClusterConfig._id');
-
-                // If this isn't in a cluster, we don't actually care since it'll use the old instancesByPod navigation
-                if (!clusterConfigId) {
-                  return;
-                }
-
-                var isComposeMaster = keypather.get(instance, 'attrs.inputClusterConfig.masterInstanceId') === instance.id();
-                var composeParent = keypather.get(instance, 'attrs.inputClusterConfig.parentInputClusterConfigId');
-                var repoName = instance.attrs.inputClusterConfig.lowerRepo.split('/')[1];
-                var clusterName = instance.attrs.inputClusterConfig.clusterName;
-                var branchName = keypather.get(instance, 'getBranchName().toLowerCase()');
-                if (instance.attrs.masterPod && isComposeMaster && !composeParent) {
-                  var fullRepo = instance.contextVersion.getMainAppCodeVersion().attrs.lowerRepo.split('/');
-                  composeMasters[repoName] = composeMasters[repoName] || {};
-                  composeMasters[repoName][clusterConfigId] = composeMasters[repoName][clusterConfigId] || {};
-                  composeMasters[repoName][clusterConfigId].master = instance;
-                  composeMasters[repoName][clusterConfigId].githubOrg = fullRepo[0];
-                  composeMasters[repoName][clusterConfigId].masterRepo = fullRepo[1];
-                  composeMasters[repoName][clusterConfigId].branch = branchName;
-                  return;
-                }
-
-                var masterClusterConfigId = clusterConfigId;
-                if (composeParent) {
-                  masterClusterConfigId = composeParent;
-                }
-
-                composeMasters[repoName] = composeMasters[repoName] || {};
-                composeMasters[repoName][masterClusterConfigId] = composeMasters[repoName][masterClusterConfigId] || {};
-                var composeMasterConfig = composeMasters[repoName][masterClusterConfigId];
-
-                if (instance.attrs.masterPod) {
-                  if (instance.attrs.isTesting) {
-                    composeMasterConfig.testing = composeMasterConfig.testing || [];
-                    composeMasterConfig.testing.push(instance);
-                    return;
-                  }
-                  composeMasterConfig.staging = composeMasterConfig.staging || [];
-                  composeMasterConfig.staging.push(instance);
-                  return;
-                }
-
-                // This is a branched compose. We should now group by isolation.
-                composeMasterConfig.children = composeMasterConfig.children || {};
-                var isolationId = instance.attrs.isolated;
-
-                if (!isolationId) {
-                  // They aren't isolated, so lonely, so so lonely.
-                  composeMasterConfig.children[instance.attrs.id] = {
-                    master: instance
-                  };
-                  return;
-                }
-
-                composeMasterConfig.children[branchName] = composeMasterConfig.children[branchName] || {};
-                var composeMasterConfigIsolationChild = composeMasterConfig.children[branchName];
-                if (instance.attrs.isIsolationGroupMaster &&
-                  (
-                    !instance.attrs.inputClusterConfig.parentInputClusterConfigId ||
-                    instance.attrs.inputClusterConfig.parentInputClusterConfigId !== instance.attrs.inputClusterConfig._id
-                  )
-                ) {
-                  if (composeMasterConfigIsolationChild.master) {
-                    if (instance.attrs.isTesting) {
-                      composeMasterConfigIsolationChild.testing = composeMasterConfigIsolationChild.testing || [];
-                      composeMasterConfigIsolationChild.testing.push(instance);
-                      return;
-                    }
-                    composeMasterConfigIsolationChild.testing = composeMasterConfigIsolationChild.testing || [];
-                    composeMasterConfigIsolationChild.testing.push(composeMasterConfigIsolationChild.master);
-                  }
-                  composeMasterConfigIsolationChild.master = instance;
-                  return;
-                }
-
-                if (instance.attrs.isTesting) {
-                  composeMasterConfigIsolationChild.testing = composeMasterConfigIsolationChild.testing || [];
-                  composeMasterConfigIsolationChild.testing.push(instance);
-                  return;
-                }
-                composeMasterConfigIsolationChild.staging = composeMasterConfigIsolationChild.staging || [];
-                composeMasterConfigIsolationChild.staging.push(instance);
-
-              });
-
-              var newInstancesByCompose = Object.keys(composeMasters)
-                .filter(function (branch) {
-                  return branch !== 'defaultBranches';
-                })
-                .map(function (composeMasterRepo) {
-                  return Object.keys(composeMasters[composeMasterRepo]).map(function (composeId) {
-                    if (composeMasters[composeMasterRepo][composeId].children) {
-                      composeMasters[composeMasterRepo][composeId].children = Object.keys(composeMasters[composeMasterRepo][composeId].children).map(function (branchName) {
-                        return composeMasters[composeMasterRepo][composeId].children[branchName];
-                      })
-                        .filter(function (childCompose) {
-                          if (!childCompose.master) {
-                            console.log('Child compose has no master', childCompose);
-                          }
-                          return !!childCompose.master;
-                        });
-                    }
-                    return composeMasters[composeMasterRepo][composeId];
-                  })
-                  .filter(function (composeCluster) {
-                    if (!composeCluster.master) {
-                      console.log('Main compose cluster has no master', composeCluster);
-                    }
-                    return !!composeCluster.master;
-                  });
-                })
-                .reduce(function (repoClusters, clusters) {
-                  var defaultBranchClusters = {};
-                  var featureBranchClusters = {};
-                  var childClusters = {};
-                  var repoName;
-                  var githubOrg;
-                  clusters.forEach(function (cluster) {
-                    repoName = cluster.masterRepo;
-                    githubOrg = cluster.githubOrg;
-                    if (cluster.branch === composeMasters.defaultBranches[repoName]) {
-                      cluster.isDefaultBranch = true;
-                      defaultBranchClusters[repoName] = defaultBranchClusters[repoName] || [];
-                      defaultBranchClusters[repoName].push(cluster);
-                      featureBranchClusters[repoName] = featureBranchClusters[repoName] || [];
-                      featureBranchClusters[repoName].push({
-                        githubOrg: githubOrg,
-                        masterRepo: repoName,
-                        children: cluster.children
-                      });
-                      return;
-                    }
-                    featureBranchClusters[repoName] = featureBranchClusters[repoName] || [];
-                    featureBranchClusters[repoName].push({
-                      githubOrg: githubOrg,
-                      masterRepo: repoName,
-                      children: cluster.children || [ cluster ]
-                    });
-                  });
-
-                  Object.keys(defaultBranchClusters).map(function (masterRepo) {
-                    repoClusters.defaultBranches.push({
-                      repoName: masterRepo,
-                      githubOrg: githubOrg,
-                      clusters: defaultBranchClusters[masterRepo]
-                    });
-                  });
-
-                  Object.keys(featureBranchClusters).map(function (masterRepo) {
-                    repoClusters.featureBranches.push({
-                      repoName: masterRepo,
-                      githubOrg: githubOrg,
-                      clusters: featureBranchClusters[masterRepo]
-                    });
-                  });
-
-                  return repoClusters;
-                }, { defaultBranches: [], featureBranches: [] });
-
-                newInstancesByCompose.featureBranches = newInstancesByCompose.featureBranches.map(function (composeCluster) {
-                  composeCluster.clusters = composeCluster.clusters.reduce(function (featureClusters, branchCluster) {
-                    featureClusters = featureClusters.concat(branchCluster.children || []);
-                    delete branchCluster.children;
-                    if (branchCluster.master) {
-                      featureClusters.push(branchCluster);
-                    }
-                    return featureClusters;
-                  }, []);
-                  return composeCluster;
-                });
-
-              instancesByCompose.length = 0;
-              [].push.apply(instancesByCompose, [ newInstancesByCompose.defaultBranches ]);
-              instancesByCompose.push(newInstancesByCompose.featureBranches);
+              if (model.isTesting) {
+                return model.testing.push(instance);
+              }
+              return model.staging.push(instance);
             });
-          }
+          newInstancesByCompose.defaultBranches = Object.keys(defaultBranches).map(function (repo) {
+            return {
+              isDefaultBranch: true,
+              clusters: defaultBranches[repo],
+              repoName: repo,
+              githubOrg: username
+            };
+          });
+          newInstancesByCompose.featureBranches = Object.keys(featureBranches).map(function (repo) {
+            return {
+              isDefaultBranch: false,
+              clusters: featureBranches[repo],
+              repoName: repo,
+              githubOrg: username
+            };
+          });
+          Object.keys(branchesBranches).map(function (repo) {
+            var model = {
+              isDefaultBranch: false,
+              clusters: branchesBranches[repo],
+              repoName: repo,
+              isFeatureBranch: true,
+              githubOrg: username
+            };
+            newInstancesByCompose.featureBranches.push(model);
+          });
+          instancesByCompose.length = 0;
+          [].push.apply(instancesByCompose, [newInstancesByCompose.defaultBranches]);
+          instancesByCompose.push(newInstancesByCompose.featureBranches);
+          return $q.when();
+        }
 
-          allInstances.on('add', populateInstancesByCompose);
-          allInstances.on('reconnection', populateInstancesByCompose);
-          allInstances.on('remove', populateInstancesByCompose);
-          allInstances.refreshOnDisconnect = true;
-          modelStore.on('model:update:socket', populateInstancesByCompose);
-          return populateInstancesByCompose()
-            .then(function () {
-              return instancesByCompose;
-            });
-        });
-    })(username);
+        allInstances.on('add', populateInstancesByCompose);
+        allInstances.on('reconnection', populateInstancesByCompose);
+        allInstances.on('remove', populateInstancesByCompose);
+        allInstances.refreshOnDisconnect = true;
+        modelStore.on('model:update:socket', populateInstancesByCompose);
+        return populateInstancesByCompose()
+          .then(function () {
+            return instancesByCompose;
+          });
+      });
   };
 }
 
