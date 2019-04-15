@@ -99,7 +99,7 @@ describe('environmentController'.bold.underline.blue, function () {
       $provide.factory('fetchOrgMembers', function ($q) {
         ctx.uninvitedUsersArray = [1, 2, 999];
         ctx.fetchOrgMembersStub = sinon.stub().returns($q.when({
-          uninvited: ctx.uninvitedUsersArray
+          uninvited: ctx.uninvitedUsersArray,
         }));
         return ctx.fetchOrgMembersStub;
       });
@@ -164,7 +164,7 @@ describe('environmentController'.bold.underline.blue, function () {
     });
 
     it('should not show the invite button by default', function () {
-      expect(EC.showInviteButton).to.equal(false);
+      expect(EC.showInviteButton).to.not.equal(true);
     });
 
     it('should show the invite button if the user is an org', function () {
@@ -174,6 +174,7 @@ describe('environmentController'.bold.underline.blue, function () {
 
     it('should not show the user is equal to userName', function () {
       ctx.state.params.userName = 'thejsj';
+      EC.isPersonalAccount = false;
       $rootScope.$digest();
       expect(EC.showInviteButton).to.equal(false);
     });
@@ -210,6 +211,8 @@ describe('environmentController'.bold.underline.blue, function () {
         });
 
         it('should invoke the modal with the username and uninvited members', function () {
+          EC.isPersonalAccount = false;
+          EC.orgMembers = [1, 2, 999];
           EC.triggerModal.inviteTeammate();
           $scope.$digest();
           sinon.assert.calledOnce(ctx.showModalStub);
@@ -219,7 +222,9 @@ describe('environmentController'.bold.underline.blue, function () {
               templateUrl: 'inviteModalView',
               inputs: {
                 teamName: ctx.state.params.userName,
-                unInvitedMembers: null
+                unInvitedMembers: null,
+                orgMembers: ctx.uninvitedUsersArray,
+                isPersonalAccount: false
               }
           });
         });

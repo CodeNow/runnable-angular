@@ -89,7 +89,7 @@
     )
 
   footer.environment-footer.small.text-center(
-    ng-if = "EC.showInviteButton || $root.featureFlags.isPersonalAccount"
+    ng-if = "EC.showInviteButton"
   )
     a.link(
       ng-click = "EC.triggerModal.inviteTeammate()"
